@@ -1,0 +1,21 @@
+<project name="Genex" default="jarfile">
+	<target name="compile" description="Compiles the code">
+		<javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="Makes executable jar">
+		<jar destfile="bin/genex.jar">
+		    <manifest>
+			    <attribute name="Main-Class" value="Genex"/>
+            </manifest>
+            <fileset dir="bin/"/>
+            <fileset dir="resources/"/>
+        </jar>
+		<move file="bin/genex.jar" todir="web/"/>
+	</target>
+	
+	<target name="run" depends="jarfile" description="Runs as application">
+		<java jar="web/genex.jar" fork="true"/>
+	</target>
+
+</project>
