@@ -1,0 +1,23 @@
+<project name="VGL13" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/VGL.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="VGLMain"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    	    <fileset dir="lib/"/>
+	    	    <fileset dir="resources/"/>
+	    </jar>
+        <move file="bin/VGL.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run VGL">
+		<java jar="VGL.jar" fork="true"/>
+	</target>
+
+</project>
