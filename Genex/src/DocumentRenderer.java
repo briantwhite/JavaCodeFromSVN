@@ -5,7 +5,9 @@
     Ludlow, MA  01056
 */
 
-//modified by Brian White - only change is to comment out the line below
+//modified by Brian White - 
+//comment out the line below
+//modify so that page setup is not required (set to landscape)
 //package myRenderer;
 
 import java.awt.Graphics;
@@ -74,6 +76,7 @@ public class DocumentRenderer implements Printable {
 */
   public DocumentRenderer() {
     pFormat = new PageFormat();
+    pFormat.setOrientation(PageFormat.LANDSCAPE);
     pJob = PrinterJob.getPrinterJob();
   }
 
