@@ -1,4 +1,4 @@
-<project name="VGL13" default="run">
+<project name="VGL" default="run">
 	
     <target name="compile" description="Compiles the code">
     	    <javac srcdir="src/" destdir="bin/"/>
