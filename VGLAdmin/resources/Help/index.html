@@ -1,0 +1,357 @@
+<html>
+<head>
+<title> Help for VGL Administration Program </title>
+</head>
+<body>
+<h1 align="center">VGLAdmin1_1 - Virtual Genetics Lab Maintenance Release 1.1 (Evaluation Version)</h1>
+<a href="#Running%20VGL%20-%20Virtual%20Genetics%20Lab">Running VGL - Virtual Genetics Lab</a>
+<br>
+<a href="#How%20To%20Open%20an%20Existing%20Problem">How To Open an Existing Problem</a>
+<br>
+<a href="#How%20To%20Save%20the%20Problem">How To Save the Problem</a>
+<br>
+<a href="#How%20to%20Set%20the%20values%20to%20default">How to Set the values to default</a>
+<br>
+<a href="#How%20to%20set%20limits%20on%20the%20problem">How to set limits on the problem</a>
+<br>
+<a href="#Practice%20Mode">Practice Mode</a>
+<br>
+<hr>
+<br>
+<a name="Running%20VGL%20-%20Virtual%20Genetics%20Lab"></a><b><i>Running VGL - Virtual Genetics Lab</i></b>
+<br>
+<p align="justify">To run VGL Admin simply double-click on the VGLAdmin.exe file.
+		Note: Be sure to have the images and Help folder in the same 
+		path as the VGLAdmin.exe file.<br>
+		When VGL Admin launches, you will see this window:<br>
+		<img src=help1.gif width="319" height="404">
+		</p>
+<br>
+<a name="How%20To%20Open%20an%20Existing%20Problem"></a><b><i>How To Open an Existing Problem</i></b>
+<br>
+<p align="justify">You can use this feature to load up previously saved problems that you might
+have been created. To open a problem you can either select "Open Problem"
+from the drop-down "File" menu or simply click on the "Open Problem" button 
+on the toolbar. A dialog box will open up to assist you in selecting a file. 
+Browse to the directory in which the problem file is stored. Select the file 
+and click on the "Open" button. VGL will read the file and will open up the 
+problem and bring all the values you last left it in before you saved and 
+closed the problem.
+		</p>
+<br>
+<a name="How%20To%20Save%20the%20Problem"></a><b><i>How To Save the Problem</i></b>
+<br>
+<p align="justify">You can use this feature to save your current work to a file. To save your 
+work you can either select "Save" from the drop-down "File" menu or simply 
+click on the "Save" button on the toolbar. A dialog box will open up to assist 
+you in saving your work to a file in the directory of your choice. Browse
+to the directory in which you want to save your work. In the "File Name" 
+field enter the name of the file you want you want to save your work as. 
+Then click on the "Save" button. This will create and save a file with the
+name as specified in the field and will store your current work in it.
+		</p>
+<br>
+<a name="How%20to%20Set%20the%20values%20to%20default"></a><b><i>How to Set the values to default</i></b>
+<br>
+<p align="justify">You can set all the value back to default setting by select "Clear" from
+the drop-down Edit menu or simply click on the "Clear" button on the 
+toolbar. It will set the chance of simple dominance to 50, chance of autosomal 
+to 50, chance of XX (male) and XY (female) to 50, uncheck the "Practice Mode"
+and disable the email function.
+		</p>
+<br>
+<a name="How%20to%20set%20limits%20on%20the%20problem"><b><i>How to Set limits on the
+problem:</i></b>
+<br>
+<p align="justify">The three sliders set the limits on the genetic models that can appear
+ in a problem.  Once a problem is set, the model, phenotypes, and genotypes of the 
+ starting population are generated randomly for each run.<br>
+ 
+ 	All the problems in VGL involve genetic models with one gene that has two alleles.  Based on 
+	this, there are several features that can vary:<br>
+	<ul>
+		<li>The interaction between the alleles; this can be either:</li>
+			<ul>
+				<li><u>Simple Dominance</u>: (Models 1, 3, &amp 5) The heterozygote has the same 
+					phenotype as the dominant homozygote.  That is, with two alleles A and a:</li>
+					<ul>
+						<li>AA = tall</li>
+						<li>Aa = tall</li>
+						<li>aa = short</li>
+					</ul>
+				<li><u>Incomplete Dominance</u>: (Models 2, 4, &amp 6) The heterozygote has a 
+					different phenotype than either homozygote.  In nature, this is usually 
+					intermediate; in VGL it need not be.</li>
+						<ul>
+							<li>AA = tall</li>
+							<li>Aa = medium</li>
+							<li>aa = short</li>
+						</ul>
+			</ul>
+		<li>Whether the character is sex-linked or not; this can be either:</li>
+			<ul>
+				<li><u>Not sex-linked</u> - the gene for the character is carried on an autosome
+					so it is inherited identically in both sexes. (Models 1 &amp 2)</li>
+				<li><u>Sex-linked</u> - the gene for the character is located on a sex-chromosome
+					so it is inherited differently in different sexes. This has two forms:</li>
+					<ul>
+						<li><u>XX/XY</u> Females are XX; males are XY (Models 3 &amp 4).
+							Here, Y carries no genes except those needed to make the organism male.</li>
+						<li><u>ZZ/ZW</u> Females are ZW; males are ZZ (Models 5 &amp 6).
+							Here, W carries no genes except those needed to make the organism female.</li>
+					</ul>
+			</ul>
+		</ul>
+	</p>
+<p align="justify">
+	This leads to six possible genetic models.<br><br>
+	<b>Model 1:</b> Simple Dominance; Autosomal.  For example:<br>
+	<table border=1>
+		<tr>
+			<td><b>Genotype</b></td>
+			<td><b>Phenotype</b></td>
+		</tr>
+		<tr>
+			<td>Green; Green</td>
+			<td>Green Body</td>
+		</tr>
+		<tr>
+			<td>Green; Red</td>
+			<td><font color=blue>Green Body</font></td>
+		</tr>
+		<tr>
+			<td>Red; Red</td>
+			<td>Red Body</td>
+		</tr>
+	</table>
+	
+	<br>
+	<b>Model 2:</b> Incomplete Dominance; Autosomal.  For example:<br>
+	<table border=1>
+		<tr>
+			<td><b>Genotype</b></td>
+			<td><b>Phenotype</b></td>
+		</tr>
+		<tr>
+			<td>Green; Green</td>
+			<td>Green Body</td>
+		</tr>
+		<tr>
+			<td>Green; Red</td>
+			<td><font color=blue>Purple Body</font></td>
+		</tr>
+		<tr>
+			<td>Red; Red</td>
+			<td>Red Body</td>
+		</tr>
+	</table>
+	<br>
+
+	<b>Model 3:</b> Simple Dominance; XX/XY Sex-linked.  For example:<br>
+	<table border=1>
+		<tr>
+			<td><b>Genotype</b></td>
+			<td><b>Phenotype</b></td>
+		</tr>
+		<tr>
+			<td>X-Green; X-Green</td>
+			<td>Green Body <b>Female</b></td>
+		</tr>
+		<tr>
+			<td>X-Green; X-Red</td>
+			<td><font color=blue>Green Body</font> <b>Female</b></td>
+		</tr>
+		<tr>
+			<td>X-Red; X-Red</td>
+			<td>Red Body <b>Female</b></td>
+		</tr>
+		<tr>
+			<td>X-Green; Y</td>
+			<td>Green Body <b>Male</b></td>
+		</tr>
+		<tr>
+			<td>X-Red; Y</td>
+			<td>Red Body <b>Male</b></td>
+		</tr>
+	</table>
+	<br>
+	
+	<b>Model 4:</b> Incomplete Dominance; XX/XY Sex-linked.  For example:<br>
+	<table border=1>
+		<tr>
+			<td><b>Genotype</b></td>
+			<td><b>Phenotype</b></td>
+		</tr>
+		<tr>
+			<td>X-Green; X-Green</td>
+			<td>Green Body <b>Female</b></td>
+		</tr>
+		<tr>
+			<td>X-Green; X-Red</td>
+			<td><font color=blue>Purple Body</font> <b>Female</b></td>
+		</tr>
+		<tr>
+			<td>X-Red; X-Red</td>
+			<td>Red Body <b>Female</b></td>
+		</tr>
+		<tr>
+			<td>X-Green; Y</td>
+			<td>Green Body <b>Male</b></td>
+		</tr>
+		<tr>
+			<td>X-Red; Y</td>
+			<td>Red Body <b>Male</b></td>
+		</tr>
+	</table>
+	<br>
+	
+	<b>Model 5:</b> Simple Dominance; ZZ/ZW Sex-linked.  For example:<br>
+	<table border=1>
+		<tr>
+			<td><b>Genotype</b></td>
+			<td><b>Phenotype</b></td>
+		</tr>
+		<tr>
+			<td>Z-Green; Z-Green</td>
+			<td>Green Body <b>Male</b></td>
+		</tr>
+		<tr>
+			<td>Z-Green; Z-Red</td>
+			<td><font color=blue>Green Body</font> <b>Male</b></td>
+		</tr>
+		<tr>
+			<td>Z-Red; Z-Red</td>
+			<td>Red Body <b>Male</b></td>
+		</tr>
+		<tr>
+			<td>Z-Green; W</td>
+			<td>Green Body <b>Female</b></td>
+		</tr>
+		<tr>
+			<td>Z-Red; W</td>
+			<td>Red Body <b>Female</b></td>
+		</tr>
+	</table>
+	<br>
+		
+	<b>Model 6:</b> Incomplete Dominance; ZZ/ZW Sex-linked.  For example:<br>
+	<table border=1>
+		<tr>
+			<td><b>Genotype</b></td>
+			<td><b>Phenotype</b></td>
+		</tr>
+		<tr>
+			<td>Z-Green; Z-Green</td>
+			<td>Green Body <b>Male</b></td>
+		</tr>
+		<tr>
+			<td>Z-Green; Z-Red</td>
+			<td><font color=blue>Purple Body</font> <b>Male</b></td>
+		</tr>
+		<tr>
+			<td>Z-Red; Z-Red</td>
+			<td>Red Body <b>Male</b></td>
+		</tr>
+		<tr>
+			<td>Z-Green; W</td>
+			<td>Green Body <b>Female</b></td>
+		</tr>
+		<tr>
+			<td>Z-Red; W</td>
+			<td>Red Body <b>Female</b></td>
+		</tr>
+	</table>
+	<br>
+<b><u>Slider #1:</b></u> Controls the chance that the student will get a model based
+on simple or incomplete dominance.<br>
+	<ul>
+		<li><u>All the way to the <font color=red>left</font> (0%)</u> means that 
+			all the problems will involve incomplete dominance. Models 2, 4, and 6.</li>
+		<li><u>All the way to the <font color=red>right</font> (100%)</u> means that
+			all the problems will involve simple dominance. Models 1, 3, and 5.</li>
+		<li><u>In between</u> means that some problems will involve simple dominance
+			while others will involve incomplete dominance.</li>
+	</ul>
+<b><u>Slider #2:</b></u> Controls the chance that the student will get a model based
+on sex linkage or not.<br>
+	<ul>
+		<li><u>All the way to the <font color=red>left</font> (0%)</u> means that 
+			all the problems will involve sex-linkage. Models 3, 4, 5, and 6.</li>
+		<li><u>All the way to the <font color=red>right</font> (100%)</u> means that
+			all the problems will involve autosomal inheritance. Models 1 and 2. 
+			Note that, in this setting, the mode of sex linkage is irrelvant so
+			slider 3 is grayed out.</li>
+		<li><u>In between</u> means that some problems will involve sex-linkage
+			while others will not.</li>
+	</ul>
+<b><u>Slider #3:</b></u> Controls the chance that <b>if the model involves sex-linkage,</b>
+	the student will get a model based on XX/XY or ZW/ZZ sex-linkage.<br>
+	<ul>
+		<li><u>All the way to the <font color=red>left</font> (0%)</u> means that 
+			all the problems will involve ZZ/ZW sex-linkage. Models 4 and 6.</li>
+		<li><u>All the way to the <font color=red>right</font> (100%)</u> means that
+			all the problems will involve XX/XY sex-linkage. Models 3 and 5.</li>
+		<li><u>In between</u> means that some problems will involve XX/XY sex-linkage
+			while others will involve ZZ/ZW sex-linkage.</li>
+	</ul>
+<br>
+Here are some examples:<br>
+<table border=1>
+	<tr>
+		<td><u>Possible Models</u></td>
+		<td><u>Slider #1</u></td>
+		<td><u>Slider #2</u></td>
+		<td><u>Slider #3</u></td>
+	</tr>
+	
+	<tr>
+		<td>Only autosomal with simple dominance.</td>
+		<td>100%</td>
+		<td>100%</td>
+		<td>NA</td>
+	</tr>
+	
+	<tr>
+		<td>Simple or incomplete dominance; autosomal only.</td>
+		<td>50%</td>
+		<td>100%</td>
+		<td>NA</td>
+	</tr>
+
+	<tr>
+		<td>Simple dominance; autsomal or sex-linked (only XX/XY)</td>
+		<td>100%</td>
+		<td>50%</td>
+		<td>100%</td>
+	</tr>
+
+	<tr>
+		<td>Simple or incomplete dominance; autsomal or sex-linked (only XX/XY).</td>
+		<td>50%</td>
+		<td>50%</td>
+		<td>100%</td>
+	</tr>
+
+	<tr>
+		<td>All possible models.</td>
+		<td>50%</td>
+		<td>50%</td>
+		<td>50%</td>
+	</tr>
+
+</table>
+	</p>
+
+<a name="Practice%20Mode"><b><i>Practice Mode</b></i>
+<p align="justify">If you check the "Practice Mode" box at the bottom of the window,
+Practice mode will be available to the students.<br>
+In Practice mode, the students can choose to see the underlying genetic model and the 
+genotypes of all the organisms in their problem.  This is useful for students who
+are learning to use the program.  In Practice mode, students can also choose not to 
+see the model and genotypes by clicking a button when they open their problem.<br>
+If you do not check the Practice Mode box, the students will not be able to
+see the model and genotypes under any circumstances.  This is the mode the program
+is supposed to be run in.<br>
+		</p>
+</body>
+</html>

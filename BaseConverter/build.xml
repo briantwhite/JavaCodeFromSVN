@@ -1,0 +1,21 @@
+<project name="BaseConverter" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/BaseConverter.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="Converter"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    </jar>
+        <move file="bin/BaseConverter.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run Base36Converter">
+		<java jar="BaseConverter.jar" fork="true"/>
+	</target>
+
+</project>

@@ -1,0 +1,21 @@
+<project name="PRSAnalyzer" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/PRSAnalyzer.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="Analyzer"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    </jar>
+        <move file="bin/PRSAnalyzer.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run PRSAnalzer">
+		<java jar="PRSAnalyzer.jar" fork="true"/>
+	</target>
+
+</project>

@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>Test survey form</title>
+</head>
+<body>
+<missingdatareport>
+Here is a line with some "quoted text" as a test.
+Let's see how apostrophes work.
+<form>
+1) Select your TA's name.<br>
+<select name="taname" synopsis="the ta's name" errorname="Your TA's Name">
+<option value="JS">Jamie
+<option value="BW">Brian
+<option value="NW">Nicole
+</select>
+<br>
+<hr>
+2) Type a short phrase here:<br>
+<input type="text" length="20" name="Q2" synopsis="a short phrase" errorname="Question 2">
+<hr>
+3) Which of these best suits your mood?<br>
+<ul>
+<li><input type="checkbox" name="Q3H" value="Y" synopsis="mood is happy" errorname="Question 3">
+Happy</li>
+<li><input type="checkbox" name="Q3S" value="Y" synopsis="mood is sad">
+Sad</li>
+<li><input type="checkbox" name="Q3G" value="Y" synopsis="mood is grumpy">
+Grumpy</li>
+</ul>
+<endOfCheckBoxSet>
+<br>
+<hr>
+4) Which of these best suits your mood?<br>
+<ul>
+<li><input type="checkbox" errorname="Question 4" name="Q4H" value="Y" synopsis="mood is happy">
+Happy</li>
+<li><input type="checkbox" name="Q4S" value="Y" synopsis="mood is sad">
+Sad</li>
+<li><input type="checkbox" name="Q4G" value="Y" synopsis="mood is grumpy">
+Grumpy</li>
+</ul>
+<endOfCheckBoxSet>
+<br>
+<hr>5) Type another short phrase here:
+<input type="text" length="20" name="Q5" synopsis="another shortie">
+<br>
+<hr>
+6) Type a longer story here:<br>
+<textarea name="Q6" rows="20" cols="20" synopsis="a big one">
+</textarea>
+<br>
+<hr>
+7) select one of these:<br>
+<ul>
+<li><input type="radio" NAME="Q7" value="One" synopsis="number">
+1</li>
+<li><input type="radio" NAME="Q7" value="Two">
+2</li>
+<li><input type="radio" NAME="Q7" value="Three">
+3</li>
+<li><input type="radio" NAME="Q7" value="Four">
+4</li>
+</ul>
+8) select one of these:<br>
+<ul>
+<li><input type="radio" NAME="Q8" value="One" synopsis="second number">
+1</li>
+<li><input type="radio" NAME="Q8" value="Two">
+2</li>
+<li><input type="radio" NAME="Q8" value="Three">
+3</li>
+<li><input type="radio" NAME="Q8" value="Four">
+4</li>
+</ul>
+<input type="submit" value="SAVE">
+</body>
+</html>
