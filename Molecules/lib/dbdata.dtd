@@ -1,0 +1,9 @@
+<!ELEMENT dbdata       (record+)>
+<!ELEMENT record       (availinfo*)>  
+<!ELEMENT availinfo    (EMTPY)>
+
+<!ATTLIST record
+            id           CDATA  #REQUIRED
+            dbid         CDATA  #IMPLIED>
+<!ATTLIST availinfo
+            fieldname    CDATA  #REQUIRED>

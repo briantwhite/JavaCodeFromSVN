@@ -1,0 +1,51 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapitre 2. Options de la Ligne de Commande</title><meta name="generator" content="DocBook XSL Stylesheets V1.61.2"><link rel="home" href="index.html" title="Documentation Jmol"><link rel="up" href="index.html" title="Documentation Jmol"><link rel="previous" href="ch01.html" title="Chapitre 1. Introduction"><link rel="next" href="ch02s02.html" title="Options pour D&eacute;veloppeurs/D&eacute;bug"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapitre 2. Options de la Ligne de Commande</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01.html">Pr&eacute;c&eacute;dent</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s02.html">Suivant</a></td></tr></table><hr></div><div class="chapter" lang="fr"><div class="titlepage"><div><div><h2 class="title"><a name="commandlineoptions"></a>Chapitre 2. Options de la Ligne de Commande</h2></div></div><div></div></div><div class="toc"><p><b>Table des mati&egrave;res</b></p><dl><dt><a href="ch02.html#d0e55">Autres options utilisateur</a></dt><dd><dl><dt><a href="ch02.html#d0e58">-Duser.language</a></dt><dt><a href="ch02.html#d0e90">-Ddisplay.speed</a></dt><dt><a href="ch02.html#d0e102">-Xmx</a></dt></dl></dd><dt><a href="ch02s02.html">Options pour D&eacute;veloppeurs/D&eacute;bug</a></dt><dd><dl><dt><a href="ch02s02.html#d0e117">-Dcdk.debugging</a></dt><dt><a href="ch02s02.html#d0e126">-Dcdk.debug.stdout</a></dt><dt><a href="ch02s02.html#d0e135">-DJmolConsole</a></dt></dl></dd></dl></div><p>
+    Avant de commencer &agrave; expliquer les divers options de ligne de
+    commande, je voudrais attirer votre attention sur cette commande
+    </p><div class="cmdsynopsis"><p><tt class="command">jmol</tt>  [-h]</p></div><p>.
+  </p><p>
+  Le programme Jmol a une option de la ligne de commander pour ex&eacute;cuter
+  des scripts:
+  </p><div class="cmdsynopsis"><p>[--script]</p></div><p>. La syntaxe courante est:
+    </p><div class="cmdsynopsis"><p><tt class="command">jmol</tt>  [--script  {<i class="replaceable"><tt>rasmol.script</tt></i>}]</p></div><p>
+    Ceci permet de lancer jmol avec un script Rasmol.
+    La syntaxe de ces scripts est expliqu&eacute;e dans
+    <a href="ch04.html" title="Chapitre 4. Scripts RasMol/Chime">Scripts RasMol/Chime</a>.
+  </p><p>
+    Alternativement, Jmol peut &ecirc;tre lanc&eacute; avec un argument
+    &eacute;tant un nom de fichier:
+    </p><div class="cmdsynopsis"><p><tt class="command">jmol</tt>  {<i class="replaceable"><tt>file</tt></i>}</p></div><p>
+  </p><div class="section" lang="fr"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e55"></a>Autres options utilisateur</h2></div></div><div></div></div><div class="section" lang="fr"><div class="titlepage"><div><div><h3 class="title"><a name="d0e58"></a>-Duser.language</h3></div></div><div></div></div><p>
+        En plus des options ci-dessus, il y a une option Java importante:
+        </p><div class="cmdsynopsis"><p>[-Duser.language]</p></div><p>.
+        Avec cette option la langue de l'IHM peut &ecirc;tre choisie.
+        Actuellement, les langages suivant sont support&eacute;s:
+        <tt class="literal">de</tt>,
+        <tt class="literal">en</tt>,
+        <tt class="literal">es</tt>,
+        <tt class="literal">fr</tt>,
+        <tt class="literal">nl</tt> et
+        <tt class="literal">pl</tt>.
+      </p><p>
+        Alternativement, vous pouvez aussi utiliser la variable d'environnement
+        <tt class="envar">LANG</tt> pour choisir la langue pr&eacute;f&eacute;r&eacute;e.
+        C'est habituel dans beaucoup de syst&egrave;mes UNIX, comme Linux.
+        Toutefois, il est connu que cel&agrave; ne marche pas sous Solaris
+        et l'option ci-dessus de la ligne de commande doit &ecirc;tre
+        utilis&eacute;e.
+      </p></div><div class="section" lang="fr"><div class="titlepage"><div><div><h3 class="title"><a name="d0e90"></a>-Ddisplay.speed</h3></div></div><div></div></div><p>
+        L'option </p><div class="cmdsynopsis"><p>[-Ddisplay.speed=fps]</p></div><p>
+        peut &ecirc;tre utilis&eacute;e pour rendre compte de la vitesse
+        d'affichage en <span class="emphasis"><em>images par seconde</em></span> au lieu d'en
+		millisecondes par image.
+      </p></div><div class="section" lang="fr"><div class="titlepage"><div><div><h3 class="title"><a name="d0e102"></a>-Xmx</h3></div></div><div></div></div><p>
+        Avec cette option vous pouvez changer la taille maximum du tas que la
+        machine virtuelle Java peut adresser dans les syst&egrave;mes Java 1.4.
+        Par d&eacute;faut, elle est de 64 Mo. Pour de gros fichiers ce peut
+        &ecirc;tre insuffisant. En utilisant
+        </p><div class="cmdsynopsis"><p>[-Xm512]</p></div><p> la taille du tas est
+        agrandie &agrave; un demi gigaoctet. Sur des syst&egrave;mes Java plus
+        anciens la syntaxe de cette option est diff&eacute;rente
+        (cf. <b class="command">java --help</b>).
+      </p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01.html">Pr&eacute;c&eacute;dent</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="index.html">Niveau sup&eacute;rieur</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s02.html">Suivant</a></td></tr><tr><td width="40%" align="left" valign="top">Chapitre 1. Introduction&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Sommaire</a></td><td width="40%" align="right" valign="top">&nbsp;Options pour D&eacute;veloppeurs/D&eacute;bug</td></tr></table></div></body></html>

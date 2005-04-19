@@ -1,0 +1,23 @@
+<project name="Molecules" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/Molecules.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="Molecules"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    		<fileset dir="lib/"/>
+  	     	    <fileset dir="resources/"/>
+	    </jar>
+        <move file="bin/Molecules.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run Lysozyme">
+		<java jar="Molecules.jar" fork="true"/>
+	</target>
+
+</project>

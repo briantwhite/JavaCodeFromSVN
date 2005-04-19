@@ -1,0 +1,421 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;4.&nbsp;RasMol/Chime Scripts</title><meta name="generator" content="DocBook XSL Stylesheets V1.61.2"><link rel="home" href="index.html" title="Jmol Documentation"><link rel="up" href="index.html" title="Jmol Documentation"><link rel="previous" href="ch03s05.html" title="The Help menu"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;4.&nbsp;RasMol/Chime Scripts</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s05.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;</td></tr></table><hr></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="rasmol"></a>Chapter&nbsp;4.&nbsp;RasMol/Chime Scripts</h2></div></div><div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><a href="ch04.html#d0e302">RasMol/Chime commands</a></dt><dd><dl><dt><a href="ch04.html#d0e307">animation or anim
+</a></dt><dt><a href="ch04.html#d0e416">backbone
+</a></dt><dt><a href="ch04.html#d0e446">background
+</a></dt><dt><a href="ch04.html#d0e484">cartoon or cartoons
+</a></dt><dt><a href="ch04.html#d0e514">center or centre
+</a></dt><dt><a href="ch04.html#d0e538">color or colour
+</a></dt><dt><a href="ch04.html#d0e647">cpk or spacefill
+</a></dt><dt><a href="ch04.html#d0e717">define
+</a></dt><dt><a href="ch04.html#d0e748">delay
+</a></dt><dt><a href="ch04.html#d0e778">depth
+</a></dt><dt><a href="ch04.html#d0e802">dots
+</a></dt><dt><a href="ch04.html#d0e816">echo
+</a></dt><dt><a href="ch04.html#d0e830">exit
+</a></dt><dt><a href="ch04.html#d0e838">font
+</a></dt><dt><a href="ch04.html#d0e883">frame or model
+</a></dt><dt><a href="ch04.html#d0e907">hbonds
+</a></dt><dt><a href="ch04.html#d0e956">hover
+</a></dt><dt><a href="ch04.html#d0e980">label or labels
+</a></dt><dt><a href="ch04.html#d0e1004">load
+</a></dt><dt><a href="ch04.html#d0e1041">loop
+</a></dt><dt><a href="ch04.html#d0e1071">mesh
+</a></dt><dt><a href="ch04.html#d0e1101">monitor or measure
+</a></dt><dt><a href="ch04.html#d0e1146">moveto
+</a></dt><dt><a href="ch04.html#d0e1184">move
+</a></dt><dt><a href="ch04.html#d0e1278">quit
+</a></dt><dt><a href="ch04.html#d0e1286">refresh
+</a></dt><dt><a href="ch04.html#d0e1294">reset
+</a></dt><dt><a href="ch04.html#d0e1302">restrict
+</a></dt><dt><a href="ch04.html#d0e1326">ribbon or ribbons
+</a></dt><dt><a href="ch04.html#d0e1357">rocket or rockets
+</a></dt><dt><a href="ch04.html#d0e1377">rotate
+</a></dt><dt><a href="ch04.html#d0e1408">script or source
+</a></dt><dt><a href="ch04.html#d0e1432">select
+</a></dt><dt><a href="ch04.html#d0e1456">set (bond styles)
+</a></dt><dt><a href="ch04.html#d0e1523">set (default color scheme)
+</a></dt><dt><a href="ch04.html#d0e1543">set (highlights)
+</a></dt><dt><a href="ch04.html#d0e1645">set (lighting and perspective)
+</a></dt><dt><a href="ch04.html#d0e1773">set (picking)
+</a></dt><dt><a href="ch04.html#d0e1844">set (visibility)
+</a></dt><dt><a href="ch04.html#d0e1966">show
+</a></dt><dt><a href="ch04.html#d0e2037">slab
+</a></dt><dt><a href="ch04.html#d0e2067">spin
+</a></dt><dt><a href="ch04.html#d0e2075">ssbonds
+</a></dt><dt><a href="ch04.html#d0e2118">strands
+</a></dt><dt><a href="ch04.html#d0e2149">trace
+</a></dt><dt><a href="ch04.html#d0e2179">translate
+</a></dt><dt><a href="ch04.html#d0e2210">vector or vectors
+</a></dt><dt><a href="ch04.html#d0e2267">vibration
+</a></dt><dt><a href="ch04.html#d0e2291">wireframe
+</a></dt><dt><a href="ch04.html#d0e2334">zap
+</a></dt><dt><a href="ch04.html#d0e2342">zoom
+</a></dt></dl></dd></dl></div><p>
+  </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">New Scripting Engine</h3><p>
+      The scripting engine has been completely rewritten for Jmol Release
+      6. As of this writing it should be considered *alpha test* code. Please
+      supply feedback in case of bugs and/or unexpected behavior and/or
+      with feature requests. You can do this through the jmol home page
+      <a href="http://jmol.sourceforge.net" target="_top">jmol.sourceforge.net</a>
+    </p></div><p>
+</p><p>
+  Jmol supports the RasMol scripting language defined by RasMol. 
+  Information about RasMol can be found at 
+  <a href="http://www.openrasmol.org/" target="_top">www.openrasmol.org</a>
+  The current URL for full RasMol documentation is:
+  <a href="http://www.openrasmol.org/doc/rasmol.htm" target="_top">
+         www.openrasmol.org/doc/rasmol.htm</a>.
+</p><p>
+  The Chime web browser plug-in was based upon the RasMol source code.
+  Various extensions were added, including additional scripting
+  commands. Information about Chime can be found at
+  <a href="http://www.mdlchime.com/" target="_top">www.mdlchime.com</a>
+  The current URL for extended chime scripting commands is:
+  <a href="http://www.mdlchime.com/chime/chimerasmol.html" target="_top">
+         www.mdlchime.com/chime/chimerasmol.html</a>.
+</p><p>
+  Jmol currently supports many of RasMol/Chime scripting commands. Our
+  goal is to eventually provide full script support. This will provide
+  a migration path for those who wish to move to an open source solution
+  that supports a larger number of file formats on a wider variety of
+  hardware platforms. 
+</p><p>
+  In this release most movement, selection, atom expression and
+  color commands are operational. 
+</p><p>
+  Things that explicitly do *not* work are protein rendering formats such
+  as ribbons, cartoons, strands, etc. Jmol does not perform lighting
+  and surface rendering on the fly, so settings such as ambient, shadows,
+  specular and specpower are not available. Finally, Jmol does not have
+  a true 3D graphics engine, so renderings of intersecting surfaces
+  are not handled properly. This occurs when Atoms are rendered with
+  larger vanderWaals percentages (such as 50% or more).
+</p><p>
+  Please give us feedback on what features you would use and would like to
+  see. This will help us prioritize future development.
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d0e302"></a>RasMol/Chime commands</h2></div></div><div></div></div><p>
+    This documentation is autogenerated form the content on this website:
+    http://www.stolaf.edu/people/hansonr/jmol/docs/.
+  </p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e307"></a>animation or anim
+</h3></div></div><div></div></div><p>Sets selected animation parameters or turns animation on or off. Note that there are four distinct animation types that can be employed using Jmol: (1) files may contain multiple stuctures that are "played" sequencially, (2) Gaussian output files may contain vibrational modes that can be animated, (3) scripts may be run through with delays and loops, and (4) the model may spin or move in a predefined way. The "animation" command only refers to method (1). 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">animation direction +1
+</b></span></dt><dd><p>Sets the animation direction to be first frame to last frame.
+</p></dd><dt><span class="term"><b class="command">animation direction -1
+</b></span></dt><dd><p>Sets the animation direction to be from last frame to first frame.
+</p></dd><dt><span class="term"><b class="command">animation fps [frames-per-second]
+</b></span></dt><dd><p>Sets the animation frames per second.
+</p></dd><dt><span class="term"><b class="command">animation frame [frame-option]
+</b></span></dt><dd><p>Specifies which frame to go to.
+</p></dd><dt><span class="term"><b class="command">animation mode loop
+</b></span></dt><dd><p>Sets the animation mode to restart the sequence automatically when the last frame has played.
+</p></dd><dt><span class="term"><b class="command">animation mode loop [time-delay1] [time-delay2]
+</b></span></dt><dd><p>Allows for a time delay at the start and end of the loop.
+</p></dd><dt><span class="term"><b class="command">animation mode once
+</b></span></dt><dd><p>Sets the animation to play once through and then stop (the default mode).
+</p></dd><dt><span class="term"><b class="command">animation mode palindrome
+</b></span></dt><dd><p>Sets the animation to play forward and back endlessly.
+</p></dd><dt><span class="term"><b class="command">animation mode palindrome [time-delay1] [time-delay2]
+</b></span></dt><dd><p>Allows for a time delay at the start and end of the palindrome.
+</p></dd><dt><span class="term"><b class="command">animation on/off
+</b></span></dt><dd><p>Turns on or off animation.
+</p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[frames-per-second]</tt></span></dt><dd><p>is the animation rate -- (integer)</p></dd><dt><span class="term"><tt class="option">[frame-option]</tt></span></dt><dd><p>is a frame option: -- (integer), "next", "nextwrap", "none", "play", "prev", "prevwrap", "revplay", "rewind"</p></dd><dt><span class="term"><tt class="option">[time-delay1]</tt></span></dt><dd><p>is the time in seconds to pause on the first frame -- (integer|decimal)[&gt;=0]</p></dd><dt><span class="term"><tt class="option">[time-delay2]</tt></span></dt><dd><p>is the time in seconds to pause on the last frame -- (integer|decimal)[&gt;=0]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e416"></a>backbone
+</h3></div></div><div></div></div><p>Shows the backbone of a protein or nucleic acid macromolecule by connecting the alpha carbons. Backbone radius can be specified in angstroms using a decimal number (1.0, 2.0, etc.)
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">backbone [backbone-radius]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">backbone on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[backbone-radius]</tt></span></dt><dd><p>is the radius of the backbone -- (decimal)[&lt;=40]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e446"></a>background
+</h3></div></div><div></div></div><p>Sets color of the background. See Color Specification.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">background HOVER [RGB-color]
+</b></span></dt><dd><p>Sets the background for the pop-up label box that appears when the mouse "hovers" over an atom.
+</p></dd><dt><span class="term"><b class="command">background LABELS [RGB-color]
+</b></span></dt><dd><p>Sets the background of the atom labels that appear with the "label" command
+</p></dd><dt><span class="term"><b class="command">background [RGB-color]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[RGB-color]</tt></span></dt><dd><p>is a name of a color or a color triple, eg [255,0,255] -- (color)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e484"></a>cartoon or cartoons
+</h3></div></div><div></div></div><p>"Cartoons" are the classic shapes the are used to depict alpha helices and beta-pleated sheets.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">cartoon [cartoon-radius]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">cartoon on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[cartoon-radius]</tt></span></dt><dd><p>is the radius of the cartoon elements -- (decimal)[&lt;=40]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e514"></a>center or centre
+</h3></div></div><div></div></div><p>Sets the center of rotation to be the center of the set of atoms defined by the expression. This is calculated as the mean value of the coordinates of the selected atoms along each of the respective axes. If no atoms are selected then the center is set to the center of the bounding box (the default).
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">center [atom-expression]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[atom-expression]</tt></span></dt><dd><p>is any expression that evaluates to a set of atoms -- (atom-expression)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e538"></a>color or colour
+</h3></div></div><div></div></div><p>Colors the object with the specified color. If no object is given then atom is assumed, and the currently selected atoms are colored. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">color [Rasmol-structure] [color-scheme]
+</b></span></dt><dd><p>Sets the color of the specified Rasmol object based on a color scheme.
+</p></dd><dt><span class="term"><b class="command">color [atom-associated-object] [color-scheme]
+</b></span></dt><dd><p>Sets the color of atom-related objects based on a previously selected atom set to a specific color, a color scheme, or back to its default color (NONE).
+</p></dd><dt><span class="term"><b class="command">color [atom-associated-object] [temperature-mode]
+</b></span></dt><dd><p>Color atoms based on a crystallographic B-factor or "temperature" scale. Colors range from blue (least positional variability within the crystal) through white to red (most positional variability). Using a fixed scale (parameter "fixedTemperature") allows direct comparison between two structures. Using a relative scale (parameter "temperture" or "relativeTemperature") sets the blue-red range to match the range of varibility in the model itself.
+</p></dd><dt><span class="term"><b class="command">color [color-scheme]
+</b></span></dt><dd><p>Sets the selected atom set to a color based on a particular color scheme.
+</p></dd><dt><span class="term"><b class="command">color [object-with-text] [RGB-color]
+</b></span></dt><dd><p>Sets the color of various objects.
+</p></dd><dt><span class="term"><b class="command">color atoms CPK
+</b></span></dt><dd><p>Sets selected atom colors to the default "cpk" color scheme (either Jmol or Rasmol).
+</p></dd><dt><span class="term"><b class="command">color dots [RGB-color]
+</b></span></dt><dd><p>Sets the color of the molecular surface dots.
+</p></dd><dt><span class="term"><b class="command">color hbonds TYPE
+</b></span></dt><dd><p>Colors hydrogen bonds specifically in proteins based on how many residues one end is from the other. Note that to get this effect, one must first execute "hbonds ON" and then issue "color hbonds TYPE". The colors assigned are based on the number of basepairs between the interacting H atoms. This TENDS to indicate secondary structure, but is not perfect.The correlation between color and offset are as follows:ColorOffsetgreen-4cyan-3white+2magenta+3 (turns)red+4 (alpha-helix)orange+5yellowother (e.g. beta-pleated sheet)
+</p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[atom-associated-object]</tt></span></dt><dd><p>is an object related to an atom -- atom, bond, label, hbonds, monitor, ssbonds, vectors</p></dd><dt><span class="term"><tt class="option">[color-scheme]</tt></span></dt><dd><p>is to color based on a scheme -- (color), amino, chain, formalCharge, partialCharge, monomer, shapely, structure, NONE</p></dd><dt><span class="term"><tt class="option">[Rasmol-structure]</tt></span></dt><dd><p>is atom, backbone, cartoon, mesh, ribbon, rocket, strands, trace</p></dd><dt><span class="term"><tt class="option">[RGB-color]</tt></span></dt><dd><p>is a name of a color or a color triple, eg [255,0,255] -- (color)</p></dd><dt><span class="term"><tt class="option">[object-with-text]</tt></span></dt><dd><p>is axes, echo, hover, label, monitor, unitcell</p></dd><dt><span class="term"><tt class="option">[temperature-mode]</tt></span></dt><dd><p>is "fixedTemperature" or "relativeTemperature"</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e647"></a>cpk or spacefill
+</h3></div></div><div></div></div><p>Renders selected atoms as shaded spheres. A boolean value renders the spheres with the vanderWaals radius. A decimal value specifies the sphere radius in Angstroms. An integer followed by "%" specifies sphere radius as a percentage of the Van der Waals radius. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">cpk IONIC
+</b></span></dt><dd><p>Generates a sphere for each atom according to an approximation of its ionic radius.
+</p></dd><dt><span class="term"><b class="command">cpk TEMPERATURE
+</b></span></dt><dd><p>Generates a sphere for eah atom according to its crystallographic B-factor
+</p></dd><dt><span class="term"><b class="command">cpk [radius-Rasmol]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">cpk [radius-in-angstroms]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">cpk [radius-percent-vdw]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">cpk on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[radius-in-angstroms]</tt></span></dt><dd><p>is a (decimal)[&lt;=3]</p></dd><dt><span class="term"><tt class="option">[radius-percent-vdw]</tt></span></dt><dd><p>is as a percent of the Van der Waals radius -- (integer)[-100 to -1]</p></dd><dt><span class="term"><tt class="option">[radius-Rasmol]</tt></span></dt><dd><p>is in 1/250ths of an Angstrom (deprecated) -- (integer)[1 to 749]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e717"></a>define
+</h3></div></div><div></div></div><p>Defines the specified variable to the the atoms selected by the expression/
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">define [variable-name] [atom-expression]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[variable-name]</tt></span></dt><dd><p>is a (string)</p></dd><dt><span class="term"><tt class="option">[atom-expression]</tt></span></dt><dd><p>is any expression that evaluates to a set of atoms -- (atom-expression)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e748"></a>delay
+</h3></div></div><div></div></div><p>Causes the screen to refresh and the script to stop executing for the specified number of seconds. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">delay [time-delay]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">delay on
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[time-delay]</tt></span></dt><dd><p>is in seconds -- (integer|decimal)[&gt;=0]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e778"></a>depth
+</h3></div></div><div></div></div><p> Slab and Depth together control the percentage of the molecule to be displayed based on clipping planes. "slab on" turns slab/depth on. "depth 50" shows the front 50% of the molecule. "depth 25" show the front 25% of the molecule.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">depth [slab-percent]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[slab-percent]</tt></span></dt><dd><p>is an (integer)[0 to 100]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e802"></a>dots
+</h3></div></div><div></div></div><p>Turns Van der Waals radii dotted surface on/off. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">dots on/off
+</b></span></dt><dd><p></p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e816"></a>echo
+</h3></div></div><div></div></div><p>Echos a string of text to the window at the location predefined by the "set echo" command as well as to the Java Console. "echo" by itself deletes the text at the selected position (top, middle, or bottom).
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">echo (string)
+</b></span></dt><dd><p></p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e830"></a>exit
+</h3></div></div><div></div></div><p> Stops execution of the script current script. In the case of a script that is running as a "child" (for example, from a "source" command, execution continues with the parent.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e838"></a>font
+</h3></div></div><div></div></div><p>Sets font size and information in labels and other text-bearing elements.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">font [object-with-text] [font size] [font face]{default: SansSerif} [font style]{default: Plain}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[object-with-text]</tt></span></dt><dd><p>is axes, echo, hover, label, monitor, unitcell</p></dd><dt><span class="term"><tt class="option">[font size]</tt></span></dt><dd><p>is approximately the same as Rasmol -- (integer)[6 to 63]</p></dd><dt><span class="term"><tt class="option">[font face]</tt></span></dt><dd><p>is SERIF, SANSSERIF, or MONOSPACED </p></dd><dt><span class="term"><tt class="option">[font style]</tt></span></dt><dd><p>is PLAIN, BOLD, ITALIC, or BOLDITALIC</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e883"></a>frame or model
+</h3></div></div><div></div></div><p>Sets the current animation frame.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">frame [frame-option]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[frame-option]</tt></span></dt><dd><p>is a frame option: -- (integer), "next", "nextwrap", "none", "play", "prev", "prevwrap", "revplay", "rewind"</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e907"></a>hbonds
+</h3></div></div><div></div></div><p>Hydrogen bonds can be turned on or off, colored, and given custom width in angstroms.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">hbonds
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">hbonds [width-by-Rasmol]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">hbonds [width-in-angstroms]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">hbonds on/off
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[width-in-angstroms]</tt></span></dt><dd><p>is a (decimal)[&lt;2]</p></dd><dt><span class="term"><tt class="option">[width-by-Rasmol]</tt></span></dt><dd><p>is in 1/250ths of an Angstrom (deprecated) -- (integer)[&lt;500]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e956"></a>hover
+</h3></div></div><div></div></div><p>Turns on and off pop-up labels that appear when the user "hovers" the mouse over the atom. If a string is given, it is used as the label. Special characters include: %a (atom name), %b (protein B-Factor), %c %s (protein chain and residue), %e (element symbol), %i (sequential number), %m (single letter amino acid code), %n (3-letter residue name), %r (PDB residue number), %U (same as %e %i). For a full list, see the example HTML page.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">hover [on/off or a string ]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[on/off or a string ]</tt></span></dt><dd><p>is on, off, or a string -- on, off, (string)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e980"></a>label or labels
+</h3></div></div><div></div></div><p>Turns on and off atom labels based on a previous selection. If a string is given, it is used as the label. Special characters include: %a (atom name), %b (protein B-Factor), %c %s (protein chain and residue), %e (element symbol), %i (sequential number), %m (single letter amino acid code), %n (3-letter residue name), %r (PDB residue number), %U (same as %e %i). For a full list, see the example HTML page.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">label [on/off or a string ]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[on/off or a string ]</tt></span></dt><dd><p>is on, off, or a string -- on, off, (string)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1004"></a>load
+</h3></div></div><div></div></div><p> Loads the specified file or URL. Jmol automatically determines file type based upon the contents of the file. Therefore, the format parameter is ignored. It is allowed for backward compatibility with RasMol/Chime. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">load [file name]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">load [param-ignored] [file name]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[file name]</tt></span></dt><dd><p>is a model filename or URL -- (string)</p></dd><dt><span class="term"><tt class="option">[param-ignored]</tt></span></dt><dd><p>is for Rasmol/chime compatibility; ignored -- (string)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1041"></a>loop
+</h3></div></div><div></div></div><p>Causes the script to restart at the beginning, with an optional time delay.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">loop [time-delay]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">loop on
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[time-delay]</tt></span></dt><dd><p>is in seconds -- (integer|decimal)[&gt;=0]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1071"></a>mesh
+</h3></div></div><div></div></div><p>A mesh is similar to a strand, but is more the quality of a loosely woven fabric. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">mesh [mesh-radius]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">mesh on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[mesh-radius]</tt></span></dt><dd><p>is the overall radius of the mesh -- (decimal)[&lt;=40]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1101"></a>monitor or measure
+</h3></div></div><div></div></div><p> Renders a measurement between the specified atoms. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">monitor [atom-number] [atom-number]
+</b></span></dt><dd><p>Two atoms specify a distance measurement.
+</p></dd><dt><span class="term"><b class="command">monitor [atom-number] [atom-number] [atom-number]
+</b></span></dt><dd><p>Three atoms specify an angle measurement.
+</p></dd><dt><span class="term"><b class="command">monitor [atom-number] [atom-number] [atom-number] [atom-number]
+</b></span></dt><dd><p>Four atoms specify a dihedral angle measurement. 
+</p></dd><dt><span class="term"><b class="command">monitor on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[atom-number]</tt></span></dt><dd><p>is the sequential number assigned to the atom -- (integer)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1146"></a>moveto
+</h3></div></div><div></div></div><p>The moveto command rotates the molecule to a predefined orientation. The first parameter specifies the number of seconds during which the molecule should rotate smoothly from the current orientation to the new orientation. A 0 for this first parameter specifies an instantaneous reorientation. The next three parameters (x, y, and z) define the axis relative to the default orientation about which the molecule should be rotated. The fifth parameter defines the counterclockwise (right-hand) rotation in degrees about this axis. "moveto 0 0 0 0 0" rotates the model to the default orientation (equivalent to "reset"). If the fifth parameter is 0 but any one of x, y, or z is nonzero, then no reorientation occurs (because the axis has been specified, but the rotation is 0 degrees). In conjunction with "show orientation" this command allows reading and restoring specific user-specified orientations.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">moveto [time-in-seconds] [coord-value] [coord-value] [coord-value] [cw-rotation-deg]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[time-in-seconds]</tt></span></dt><dd><p>is in (seconds)</p></dd><dt><span class="term"><tt class="option">[coord-value]</tt></span></dt><dd><p>is a (decimal)</p></dd><dt><span class="term"><tt class="option">[cw-rotation-deg]</tt></span></dt><dd><p>is a (decimal)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1184"></a>move
+</h3></div></div><div></div></div><p>The move command provides powerful animation capabilities. It allows you to specify rotations, zooming, and translations to be performed in a specified period of time. xRot, yRot, and zRot are rotations about the cartesian axes in degrees. Zoom specifies a zoom factor (there is a good chance this is not currently implemented properly) xTrans, yTrans, and zTrans are translations in the range -100 to 100. If you do not know what slab is, just put in a zero. see the slab command for more information. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">move [x-rotation] [y-rotation] [z-rotation] [zoom-factor] [x-translation] [y-translation] [z-translation] [slab-cutoff] [seconds-total] [move-frames-per-second]{default: 30} [maximum-acceleration]{default: 5}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[x-rotation]</tt></span></dt><dd><p>is the degrees of rotation about x -- (integer)</p></dd><dt><span class="term"><tt class="option">[y-rotation]</tt></span></dt><dd><p>is the degrees of rotation about y -- (integer)</p></dd><dt><span class="term"><tt class="option">[z-rotation]</tt></span></dt><dd><p>is the degrees of rotation about z -- (integer)</p></dd><dt><span class="term"><tt class="option">[zoom-factor]</tt></span></dt><dd><p>is a scaling factor -- (integer)</p></dd><dt><span class="term"><tt class="option">[x-translation]</tt></span></dt><dd><p>is the distance offset along x -- (integer)</p></dd><dt><span class="term"><tt class="option">[y-translation]</tt></span></dt><dd><p>is the distance offset along y -- (integer)</p></dd><dt><span class="term"><tt class="option">[z-translation]</tt></span></dt><dd><p>is the distance offset along z -- (integer)</p></dd><dt><span class="term"><tt class="option">[slab-cutoff]</tt></span></dt><dd><p>is the cutoff for the slab display -- (integer)</p></dd><dt><span class="term"><tt class="option">[seconds-total]</tt></span></dt><dd><p>is the amount of time to wait -- (decimal)</p></dd><dt><span class="term"><tt class="option">[move-frames-per-second]</tt></span></dt><dd><p>is the frames per second to move -- (integer)</p></dd><dt><span class="term"><tt class="option">[maximum-acceleration]</tt></span></dt><dd><p>is the maximum acceleration -- (integer)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1278"></a>quit
+</h3></div></div><div></div></div><p> In the current release of Jmol, quit is synonymous with exit. This is inconsistent with RasMol, where quit means to exit the program. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1286"></a>refresh
+</h3></div></div><div></div></div><p> Forces a screen repaint during script execution. (Unnecessary, and thus deprecated.)
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1294"></a>reset
+</h3></div></div><div></div></div><p>Resets molecule to its original position: zoom 100; center; translate x 0; translate y 0;
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1302"></a>restrict
+</h3></div></div><div></div></div><p> Selects the atoms identified by expression and hides all atoms and bonds which are outside the selection set.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">restrict [atom-expression]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[atom-expression]</tt></span></dt><dd><p>is any expression that evaluates to a set of atoms -- (atom-expression)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1326"></a>ribbon or ribbons
+</h3></div></div><div></div></div><p> Ribbons offer a representation the protein backbone or nucleic acid helix using a flat band that smoothly traces the midpoints of adjacent alpha carbon atoms (or phosphorus atoms in nucleotide chains). The ribbon is perpendicular to the peptide plane. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">ribbon [ribbon-radius]
+</b></span></dt><dd><p>Normally, ribbons vary in width according to the amino acid atom positions. This command sets the width of the ribbon to be a connstant value (a decimal, in Angstroms).
+</p></dd><dt><span class="term"><b class="command">ribbon on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[ribbon-radius]</tt></span></dt><dd><p>is half of the overall width of the ribbon -- (decimal)[&lt;=40]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1357"></a>rocket or rockets
+</h3></div></div><div></div></div><p>Creates a "rocket" cartoon.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">rocket _rocket_radius
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">rocket on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1377"></a>rotate
+</h3></div></div><div></div></div><p>Rotates the model the specified angle about the specified axis. Integer values specify degrees.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">rotate [x or y or z] [number-of-degrees]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[x or y or z]</tt></span></dt><dd><p>is x, y, z</p></dd><dt><span class="term"><tt class="option">[number-of-degrees]</tt></span></dt><dd><p>is the number of degrees -- (integer)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1408"></a>script or source
+</h3></div></div><div></div></div><p> Loads and executes the specified script file/url. The hash/pound/sharp character (#) character marks a comment to the end of the line. The semicolon character (;) separates multiple statements on the same line. A script file may load another script file, up to 10 deep.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">script [file-name]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[file-name]</tt></span></dt><dd><p>is any valid filename or URL -- (string)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1432"></a>select
+</h3></div></div><div></div></div><p> Selects the atoms identified by the expression. If no expression is given then all atoms are selected. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">select [atom-expression]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[atom-expression]</tt></span></dt><dd><p>is any expression that evaluates to a set of atoms -- (atom-expression)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1456"></a>set (bond styles)
+</h3></div></div><div></div></div><p>This group of commands sets the appearance of various optional bond effects for the model.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">set bondmode AND
+</b></span></dt><dd><p>When script commands affect a set of atoms, BOTH atoms must be in the set for the bonds between them to also be affected. 
+</p></dd><dt><span class="term"><b class="command">set bondmode OR
+</b></span></dt><dd><p>When script commands affect a set of atoms, EITHER atom may be in the set for the bonds also to be affected. 
+</p></dd><dt><span class="term"><b class="command">set bonds on/off
+</b></span></dt><dd><p>In some file formats (.mol files, for example) the connection data may indicate the bond type--single, double, triple, or quadruple. The bonds flag determines whether or not multiple bonds are displayed. Set this flag off if you want all bonds to appear as single bonds. 
+</p></dd><dt><span class="term"><b class="command">set hbonds
+</b></span></dt><dd><p>Hydrogen bonds between protein amino acid residues or nucleic acid base pairs are displayed as lines. These lines can be displayed whether or not the H atoms are present in the file, and can be drawn either between the two non-hydrogen atoms involved in the bond (O or N, typically, the default) or, alternatively, between the two backbone alpha-carbon atoms, depending upon the desired effect.
+</p></dd><dt><span class="term"><b class="command">set hbonds BACKBONE
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">set hbonds SIDECHAIN
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">set ssbonds
+</b></span></dt><dd><p>Sulfur-sulfur bonds in cysteine bridges of proteins are displayed as lines. These lines can either be between the two sidechain sulfur atoms (the default) or between the two backbone alpha-carbon atoms, depending upon the desired effect.
+</p></dd><dt><span class="term"><b class="command">set ssbonds BACKBONE
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">set ssbonds SIDECHAIN
+</b></span></dt><dd><p></p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1523"></a>set (default color scheme)
+</h3></div></div><div></div></div><p>Sets the default color scheme to be the traditional Rasmol scheme or the newer, more subtle, Jmol scheme. This command does not actually change the display unless the default color scheme ("CPK") is currently displayed.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">set defaultColors JMOL
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">set defaultColors RASMOL
+</b></span></dt><dd><p></p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1543"></a>set (highlights)
+</h3></div></div><div></div></div><p>This command group allows for annotation and highlighting of atoms in terms of labels and "halos."
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">set debugscript on/off
+</b></span></dt><dd><p>Turns on and off debugging (going to a JavaScript message callback).
+</p></dd><dt><span class="term"><b class="command">set display NORMAL
+</b></span></dt><dd><p>Turns off selection halos
+</p></dd><dt><span class="term"><b class="command">set display SELECTED
+</b></span></dt><dd><p>Sets the option ON to dispay a "halo" around atoms when they are or become selected as a way of highlighting specific atoms.
+</p></dd><dt><span class="term"><b class="command">set echo OFF
+</b></span></dt><dd><p>Turns off all three echo texts.
+</p></dd><dt><span class="term"><b class="command">set echo [vertical-position] [horizontal-position]{default: center for top and middle; left for bottom}
+</b></span></dt><dd><p>Selects which of the three possible echo positions (top, middle, or bottom) will be written to by the next "echo" command and, optionally, sets the horizontal position of that text to left, center, or right.
+</p></dd><dt><span class="term"><b class="command">set fontsize [font size]{default: 8}
+</b></span></dt><dd><p>Sets the font size (for what?)
+</p></dd><dt><span class="term"><b class="command">set frank on/off
+</b></span></dt><dd><p>Determines whether or not "Jmol" is indicated in the bottom right corner of the window.
+</p></dd><dt><span class="term"><b class="command">set labeloffset [x-offset] [y-offset]
+</b></span></dt><dd><p>Sets the label offset relative to the atom being labeled.
+</p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[font size]</tt></span></dt><dd><p>is approximately the same as Rasmol -- (integer)[6 to 63]</p></dd><dt><span class="term"><tt class="option">[x-offset]</tt></span></dt><dd><p>is the x-offset -- (integer)</p></dd><dt><span class="term"><tt class="option">[y-offset]</tt></span></dt><dd><p>is the y-offset -- (integer)</p></dd><dt><span class="term"><tt class="option">[vertical-position]</tt></span></dt><dd><p>is one of the following: -- "top", "middle", "bottom"</p></dd><dt><span class="term"><tt class="option">[horizontal-position]</tt></span></dt><dd><p>is one of the following: -- "left", "center", "middle"</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1645"></a>set (lighting and perspective)
+</h3></div></div><div></div></div><p>This commands in this group determine the overall lighting effects, size, and rotation for the model.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">set ambient [ambient-percent]
+</b></span></dt><dd><p>Sets the amount of "ambient" light filling the shadows created by the apparent light source. An ambient value of 0 creates an effect of a spotlight on a stage; a value of 100 removes the shadow entirely, creating a flat, nonrealistic effect.
+</p></dd><dt><span class="term"><b class="command">set diffuse [diffuse-percent]
+</b></span></dt><dd><p>Sets the amount of "diffuse" light apparently emanating from the spotlight, but not hitting and reflecting off the model directly. Setting the diffuse value to 0 turns this effect off; giving the effect of the model in a black-walled room where no light reflection is possible, effectively turning off all shadows.
+</p></dd><dt><span class="term"><b class="command">set perspectivedepth on/off{default: on}
+</b></span></dt><dd><p>Sets perspective depth on or off. OFF is required for proper function of absolute scale (set scale3d x).
+</p></dd><dt><span class="term"><b class="command">set scale3d [viewing-distance]
+</b></span></dt><dd><p>Sets the absolute scale of the model by setting the viewing distance from the user to the model in arbitrary units. The actual scale will depend upon the sizes of both the applet window and the screen. 
+</p></dd><dt><span class="term"><b class="command">set specpower [specular-power]
+</b></span></dt><dd><p>Sets the density of dots in the specular reflection.
+</p></dd><dt><span class="term"><b class="command">set specular [specular-percent]
+</b></span></dt><dd><p>Sets the size of the apparent reflection from a light source. set specular 0 turns off this effect.
+</p></dd><dt><span class="term"><b class="command">set spin
+</b></span></dt><dd><p>Sets the spin axis and rate. Note that the axes referred to are the fixed axes of the window, not the cartesian axes of the molecular coordinates. Thus, regardless of how the molecule has been rotated by the user or using the move command, x is always the horizontal axis, y is always the vertical axis, and z is always the axis directed toward the user. The spin rate, in degrees per second, determines how fast the model rotates; the number of frames per second determines how smoothly the model rotates. No actual spinning occurs until the spin ON command is issued or the user turns spinning on using the mouse menu.
+</p></dd><dt><span class="term"><b class="command">set spin FPS [frames-per-second]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">set spin [x or y or z] [degrees-per-second]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[specular-percent]</tt></span></dt><dd><p>is an (integer)[0 to 100]</p></dd><dt><span class="term"><tt class="option">[specular-power]</tt></span></dt><dd><p>is an (integer)</p></dd><dt><span class="term"><tt class="option">[ambient-percent]</tt></span></dt><dd><p>is an (integer)[0 to 100]</p></dd><dt><span class="term"><tt class="option">[diffuse-percent]</tt></span></dt><dd><p>is an (integer)[0 to 100]</p></dd><dt><span class="term"><tt class="option">[viewing-distance]</tt></span></dt><dd><p>is the apparent distance from the model to the user in arbitrary units -- (integer), (decimal)</p></dd><dt><span class="term"><tt class="option">[x or y or z]</tt></span></dt><dd><p>is x, y, z</p></dd><dt><span class="term"><tt class="option">[degrees-per-second]</tt></span></dt><dd><p>is an (integer)</p></dd><dt><span class="term"><tt class="option">[frames-per-second]</tt></span></dt><dd><p>is an (integer)</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1773"></a>set (picking)
+</h3></div></div><div></div></div><p>The set picking command determines the response to clicking of atoms by the user. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">set picking ANGLE
+</b></span></dt><dd><p>Turns picking on and returns atom identities and angle involving three atoms.
+</p></dd><dt><span class="term"><b class="command">set picking ATOM
+</b></span></dt><dd><p>When the user clicks an atom, the selection of that atom is toggled on or off.
+</p></dd><dt><span class="term"><b class="command">set picking CENTER
+</b></span></dt><dd><p>When the user clicks an atom, that atom is set to be the center of rotation.
+</p></dd><dt><span class="term"><b class="command">set picking CHAIN
+</b></span></dt><dd><p>When the user clicks an atom, the selection of the chain associated with that atom is toggled on or off.
+</p></dd><dt><span class="term"><b class="command">set picking DISTANCE
+</b></span></dt><dd><p>Turns picking on and returns atom identities and distance between two atoms.
+</p></dd><dt><span class="term"><b class="command">set picking GROUP
+</b></span></dt><dd><p>When the user clicks an atom, the selection of the group associated with that atom is toggled on or off.
+</p></dd><dt><span class="term"><b class="command">set picking LABEL
+</b></span></dt><dd><p>When the user clicks an atom, the label of that atom is toggled on or off.
+</p></dd><dt><span class="term"><b class="command">set picking TORSION
+</b></span></dt><dd><p>Turns picking on and returns atom identities and torsion angle (dihedral angle) involving four atoms.
+</p></dd><dt><span class="term"><b class="command">set picking on/off
+</b></span></dt><dd><p>Turns picking on and off. When turned ON, picking information is sent both to the status line and to the pickcallback function, if defined. Additional information may be sent to the messagecallback function. 
+</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1844"></a>set (visibility)
+</h3></div></div><div></div></div><p>This command group turns on or off specific sets of atoms and axes/cell-related options.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">set axes [line-width-or-type]
+</b></span></dt><dd><p>Turns on or off displayed axes, and determines their line style and line width (as a decimal number, in Angstroms).
+</p></dd><dt><span class="term"><b class="command">set boundbox [line-width-or-type]
+</b></span></dt><dd><p>Turns on or off a wire-frame box that contains the model, and determines the line style and line width (as a decimal number, in Angstroms) of that box.
+</p></dd><dt><span class="term"><b class="command">set hetero on/off
+</b></span></dt><dd><p>Turns on and off display of non-hydrogen atoms.
+</p></dd><dt><span class="term"><b class="command">set hydrogen on/off
+</b></span></dt><dd><p>Turns on and off display of hydrogen atoms.
+</p></dd><dt><span class="term"><b class="command">set monitor [linewidth-pixels]
+</b></span></dt><dd><p>Sets the width of the monitor line in pixels.
+</p></dd><dt><span class="term"><b class="command">set monitor on/off
+</b></span></dt><dd><p>Turns on and off the distance, angle, dihedral measurement monitor.
+</p></dd><dt><span class="term"><b class="command">set solvent [probe-radius-Rasmol]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">set solvent [probe-radius-in-angstroms]{default: 1.2}
+</b></span></dt><dd><p>Sets the radius of the solvent "ball" that would run around the structure defining its outline.
+</p></dd><dt><span class="term"><b class="command">set solvent on/off
+</b></span></dt><dd><p>Turns on and off display of solvent atoms and solvent "probe" that can be displayed using dots.
+</p></dd><dt><span class="term"><b class="command">set strands [strand-count]{default: 5}
+</b></span></dt><dd><p>Sets the number of strands to display.
+</p></dd><dt><span class="term"><b class="command">set unitcell [line-width-or-type]
+</b></span></dt><dd><p>Turns on or off the unit cell for crystal structures, and determines its line style and line width (as a decimal number, in Angstroms).
+</p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[linewidth-pixels]</tt></span></dt><dd><p>is an (integer)</p></dd><dt><span class="term"><tt class="option">[strand-count]</tt></span></dt><dd><p>is the number of strands -- (integer)[0 to 20]</p></dd><dt><span class="term"><tt class="option">[probe-radius-in-angstroms]</tt></span></dt><dd><p>is a (decimal)</p></dd><dt><span class="term"><tt class="option">[probe-radius-Rasmol]</tt></span></dt><dd><p>is in 1/250ths of an Angstrom (deprecated) -- (integer)[&lt;500]</p></dd><dt><span class="term"><tt class="option">[line-width-or-type]</tt></span></dt><dd><p>is a line width or type for a drawing object -- on, off, (integer)[1 to 19], (decimal)[&lt;2], dotted</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1966"></a>show
+</h3></div></div><div></div></div><p>"show" sends information about the model to the messageCallback function and to the Java Console
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">show boundbox
+</b></span></dt><dd><p>Delivers the coordinates of the center coordinate and a directional vector defining a box just perfectly enclosing the model. The vector is determined by taking the min and max values for the atom along each cartesian axis. The center is the geometric center of the model, not the default center of rotation (which is the mean atom position). The eight corners of the boundbox are found by adding the center point to the vector, with all possible combinations of +/- component cectors. The length of a side of the boundbox is determined by doubling the appropriate component of the vector. So, for example, the length of the boundbox along the x-axis is (2*vectorX). Units are in Angstroms. Output is in the form boundbox: (centerX, centerY, centerZ) (vectorX, vectorY, vectorZ)
+</p></dd><dt><span class="term"><b class="command">show center
+</b></span></dt><dd><p>Delivers the coordinates of the center of the model. Units are in Angstroms. Output is in the form center: (centerX, centerY, centerZ)
+</p></dd><dt><span class="term"><b class="command">show file
+</b></span></dt><dd><p>Delivers the entire contents of the file for the current model. 
+</p></dd><dt><span class="term"><b class="command">show file filepath
+</b></span></dt><dd><p>Delivers the entire contents of the specified file on the server from which the applet was loaded. The filename must be relative to the current page (not necessarily the directory containing the applet) and must be enclosed in quotation marks.
+</p></dd><dt><span class="term"><b class="command">show model
+</b></span></dt><dd><p>Delivers properties associated with the currently loaded model. Output includes information about all of the models in the set. This command is still in development. The exact form and content of the output is subject to change (and suggestion).
+</p></dd><dt><span class="term"><b class="command">show orientation
+</b></span></dt><dd><p>Delivers the orientation of the model. Output consists of both a "moveTo" command and an alternative sequence of "reset; rotate z; rotate y; rotate z" commands that would result in the current orientation. Thus, this command allows reading and restoring specific user-specified orientations.
+</p></dd><dt><span class="term"><b class="command">show pdbheader
+</b></span></dt><dd><p>Delivers the PDB file header.
+</p></dd><dt><span class="term"><b class="command">show transform
+</b></span></dt><dd><p>Delivers the current 3x3 transformation matrix (rotation only). 
+</p></dd><dt><span class="term"><b class="command">show zoom
+</b></span></dt><dd><p>Delivers the current zoom setting. Output is in the form of the zoom command: "zoom n" where "n" is an integer percent of "normal" zoom.
+</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2037"></a>slab
+</h3></div></div><div></div></div><p> Slab and Depth together control the percentage of the molecule to be displayed based on clipping planes. "slab on" turns slab/depth on. "slab 50" shows the back 50% of the molecule. "slab 25" show the back 25% of the molecule.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">slab [slab-percent]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">slab on/off
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[slab-percent]</tt></span></dt><dd><p>is an (integer)[0 to 100]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2067"></a>spin
+</h3></div></div><div></div></div><p>Starts and stops the molcule spinning.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2075"></a>ssbonds
+</h3></div></div><div></div></div><p>Cisteine disulfide bonds can be turned on or off, colored, and given customized widths in Angstroms.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">ssbonds [width-Rasmol]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">ssbonds [width-angstroms]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">ssbonds on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[width-angstroms]</tt></span></dt><dd><p>is a (decimal)[&lt;2]</p></dd><dt><span class="term"><tt class="option">[width-Rasmol]</tt></span></dt><dd><p>is in 1/250ths of an Angstrom (deprecated) -- (integer)[&lt;500]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2118"></a>strands
+</h3></div></div><div></div></div><p>Strands offer a representation the protein backbone or nucleic acid helix using lines. For proteins, control points are chosen midway between adjacent alpha carbons (or phosphorus atoms in nucleic acids). The strands are arranged perpendicular to the peptide plane. A hermite cubic curve is used to smoothly connect the points.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">strands [strand-radius]
+</b></span></dt><dd><p>Normally, strands vary in width according to the amino acid atom positions. This command sets the radius of the set of strands to be a constant value (a decimal, in Angstroms).
+</p></dd><dt><span class="term"><b class="command">strands on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[strand-radius]</tt></span></dt><dd><p>is half of the overall width of the set of strands -- (decimal)[&lt;=40]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2149"></a>trace
+</h3></div></div><div></div></div><p>A "trace" is a smooth curve through the center of the carbonyl carbon-alpha carbon bonds of a peptide or the ribose 1-O-P bond. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">trace [trace-radius]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">trace on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[trace-radius]</tt></span></dt><dd><p>is the radius of the trace -- (decimal)[&lt;=40]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2179"></a>translate
+</h3></div></div><div></div></div><p> Moves the molecule along the specified axes according to the amount specified by value. Value ranges from -100 to 100, and represents the percentage of the display window. Negative values move to the left (for the x axis) and down (for the y axis). A value of 100 will move the molecule completely out of the window. A value of 50 will move the center of the molecule to the edge of the window.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">translate [x or y or z] [percent-translation]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[x or y or z]</tt></span></dt><dd><p>is x, y, z</p></dd><dt><span class="term"><tt class="option">[percent-translation]</tt></span></dt><dd><p>is an (integer)[-100 to 100]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2210"></a>vector or vectors
+</h3></div></div><div></div></div><p>Draws vectors arising from vibrational mode data.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">vector [diameter-pixels]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">vector [radius-in-angstroms]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">vector on/off
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">vector scale [vector-scale]
+</b></span></dt><dd><p>Adjusts the scale of the vector independently of the vibration.
+</p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[diameter-pixels]</tt></span></dt><dd><p>is a scaling factor -- (integer)[1 to 19]</p></dd><dt><span class="term"><tt class="option">[radius-in-angstroms]</tt></span></dt><dd><p>is a (decimal)[&lt;=3]</p></dd><dt><span class="term"><tt class="option">[vector-scale]</tt></span></dt><dd><p>is a (decimal)[-10 to 10]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2267"></a>vibration
+</h3></div></div><div></div></div><p>Adjusts the scale of the vibration independently of the vector.
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">vibration scale [vibration-scale]
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[vibration-scale]</tt></span></dt><dd><p>is a (decimal)[-10 to 10]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2291"></a>wireframe
+</h3></div></div><div></div></div><p>Wireframe refers to the bonds drawn between the atoms. A boolean value of ON draws the selected bonds as lines. Alternatively, a numeric value may be used to specify the radius of the bonds. A decimal value such as 0.2 or 0.4 specifies Angstroms. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">wireframe [radius-Rasmol]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">wireframe [radius-in-angstroms]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">wireframe on/off{default: on}
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[radius-in-angstroms]</tt></span></dt><dd><p>is a (decimal)[&lt;=3]</p></dd><dt><span class="term"><tt class="option">[radius-Rasmol]</tt></span></dt><dd><p>is in 1/250ths of an Angstrom (deprecated) -- (integer)[1 to 749]</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2334"></a>zap
+</h3></div></div><div></div></div><p> Clears the currently loaded molecule. RasMol forces you to zap prior to loading a new molecule. Jmol currently does not have this restriction and does not enforce it. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e2342"></a>zoom
+</h3></div></div><div></div></div><p> Allows enlarging or shrinking of the displayed model. A percentage value specifies the zoom relative to 100, the default value, which in Jmol is calculated so that all atoms are completely visible on the screen through all rotations using the default vanderWaals rendering percentage. The command "zoom OFF" disables mouse-based zooming and zooms to 100. The command "zoom ON" re-enables zooming at the current zoom setting. If the zoom has been turned off, setting the the zoom using, for example, "zoom 50," though it sets the "current zoom setting," has no effect until the next "zoom ON" command is given. 
+</p><div class="variablelist"><p class="title"><b>Examples</b></p><dl><dt><span class="term"><b class="command">zoom [percent-zoom]
+</b></span></dt><dd><p></p></dd><dt><span class="term"><b class="command">zoom on/off
+</b></span></dt><dd><p></p></dd></dl></div><div class="variablelist"><p class="title"><b>Definitions</b></p><dl><dt><span class="term"><tt class="option">[percent-zoom]</tt></span></dt><dd><p>is an (integer)[5 to 2000]</p></dd></dl></div></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s05.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="index.html">Up</a></td><td width="40%" align="right">&nbsp;</td></tr><tr><td width="40%" align="left" valign="top">The Help menu&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;</td></tr></table></div></body></html>

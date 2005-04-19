@@ -1,0 +1,30 @@
+<!ELEMENT dbdef  (title?, author?, field*)>
+<!ELEMENT title  (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT field  (name, index*)>
+<!ELEMENT name   (#PCDATA)>
+<!ELEMENT index  (data?, access?, result?)>
+<!ELEMENT data   EMPTY>
+<!ELEMENT access EMPTY>
+
+<!ATTLIST dbdef
+            url          CDATA  #REQUIRED>
+<!ATTLIST field
+            source       (INTERNAL|EXTERNAL) "INTERNAL"
+            type         CDATA  #IMPLIED
+	        mimetype     CDATA  #IMPLIED>
+<!ATTLIST index
+            type         CDATA  #REQUIRED>
+<!ATTLIST data
+            url          CDATA  #REQUIRED>
+<!ATTLIST access
+            result       (ALWAYS|ERROR|IFAVAILABLE) "IFAVAILABLE"
+            prefix       CDATA  #IMPLIED
+            suffix       CDATA  #IMPLIED
+            type         (RESTRICTED|FREE) "RESTRICTED"
+            license      CDATA  #IMPLIED>
+<!ATTLIST result
+            notfound     CDATA  #IMPLIED
+            result       (ALWAYS|ERROR|IFAVAILABLE) "IFAVAILABLE">
+            
+            
