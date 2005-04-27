@@ -39,6 +39,21 @@ import org.jmol.api.JmolSimpleViewer;
  *
  */
 public class Molecules {
+	
+    static String drugDotsScript = "select S58; spacefill off; dots on;";
+    static String drugSfScript = "select S58; spacefill on; dots off;";
+    static String coxDotsScript = "select 120 or 90 or 355 or 530 or 385"
+    	                       + "or 531 or 381; spacefill off; dots on;";
+    static String coxSfScript = "select 120 or 90 or 355 or 530 or 385"
+        					   + "or 531 or 381; spacefill on; dots off;";
+    static String AcpkScript = "select atomno=4561; color cpk;";
+    static String ApurpScript = "select atomno=4561; color purple;";
+    static String BcpkScript = "select atomno=4578; color cpk;";
+    static String BgreenScript = "select atomno=4578; color green;";
+    static String CcpkScript = "select atomno=4579; color cpk;";
+    static String CpinkScript = "select atomno=4579; color pink;";
+    static String DcpkScript = "select atomno=4582; color cpk;";
+    static String DwhiteScript = "select atomno=4582; color white;";
 
 	public static void main(String[] args) {
 	    JFrame frame = new JFrame("Molecules in 3-dimensions");
@@ -66,27 +81,27 @@ public class Molecules {
 	    
 	    problem1Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "Small Molecules<br></font</html>"));
-	    problem1Panel.add(makeSimpleButton("The linear form of glucose",
+	    problem1Panel.add(makeLoadStructureButton("The linear form of glucose",
 	    		                           "D-glucose.pdb",
 										   null,
 										   jmolPanel));
-	    problem1Panel.add(makeSimpleButton("The linear form of fructose",
+	    problem1Panel.add(makeLoadStructureButton("The linear form of fructose",
                 							"D-fructose.pdb",
 											null,
 											jmolPanel));
-	    problem1Panel.add(makeSimpleButton("The circular form of glucose",
+	    problem1Panel.add(makeLoadStructureButton("The circular form of glucose",
 											"beta-D-glucopyranose.pdb",
 											null,
 											jmolPanel));
-	    problem1Panel.add(makeSimpleButton("The first amino acid",
+	    problem1Panel.add(makeLoadStructureButton("The first amino acid",
 											"AA1.PDB",
 											null,
 											jmolPanel));
-	    problem1Panel.add(makeSimpleButton("The second amino acid",
+	    problem1Panel.add(makeLoadStructureButton("The second amino acid",
 											"AA2.PDB",
 											null,
 											jmolPanel));
-	    problem1Panel.add(makeSimpleButton("The third amino acid",
+	    problem1Panel.add(makeLoadStructureButton("The third amino acid",
 											"AA3.PDB",
 											null,
 											jmolPanel));
@@ -101,11 +116,11 @@ public class Molecules {
 	    
 	    problem2Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "Small Polypeptides<br></font></html>"));
-	    problem2Panel.add(makeSimpleButton("The first tripeptide",
+	    problem2Panel.add(makeLoadStructureButton("The first tripeptide",
 	    		                           "tripeptide1.pdb",
 										   null,
 										   jmolPanel));
-	    problem2Panel.add(makeSimpleButton("The second tripeptide",
+	    problem2Panel.add(makeLoadStructureButton("The second tripeptide",
                 							"tripeptide2.pdb",
 											null,
 											jmolPanel));
@@ -121,7 +136,7 @@ public class Molecules {
 	    problem3Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "Lysozyme 2<sup>o</sup> Structure"
 								   + "<br></font></html>"));
-	    problem3Panel.add(makeSimpleButton("Show backbone.",
+	    problem3Panel.add(makeLoadStructureButton("Show backbone.",
 	    		                           "1LYD.PDB",
 										   "spacefill off; wireframe off;"
 										 + "backbone 0.3; color structure;",
@@ -151,7 +166,7 @@ public class Molecules {
 	    problem4Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "Lysozyme 3<sup>o</sup> Structure I"
 								   + "<br></font></html>"));
-	    problem4Panel.add(makeSimpleButton("Show exterior; red = phobic.",
+	    problem4Panel.add(makeLoadStructureButton("Show exterior; red = phobic.",
 	    		                           "1LYD.PDB",
 	    		                           "slab off; restrict protein; "
 	    		                           + "spacefill on; "
@@ -213,7 +228,7 @@ public class Molecules {
 	    problem5Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "Lysozyme 3<sup>o</sup> Structure I"
 								   + "<br></font></html>"));
-	    problem5Panel.add(makeSimpleButton("Show Lysozyme.",
+	    problem5Panel.add(makeLoadStructureButton("Show Lysozyme.",
 	    		                           "1LYD.PDB",
 	    		                           "restrict protein; "
 	    		                           + "spacefill 0.5; wireframe 0.2; "
@@ -297,7 +312,7 @@ public class Molecules {
 	    problem6Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "The DNA-Repair Enzyme AAG"
 								   + "<br></font></html>"));
-	    problem6Panel.add(makeSimpleButton("Show AAG and DNA.",
+	    problem6Panel.add(makeLoadStructureButton("Show AAG and DNA.",
 	    		                           "1BNK.PDB",
 	    		                           "restrict not water; spacefill on;"
 	    		                           + "select not water; color chain; "
@@ -344,7 +359,7 @@ public class Molecules {
 	    problem7Panel.add(new JLabel("<html><font color=red size=+2>"
                 + "The Enzyme COX-2"
 				   + "<br></font></html>"));
-	    problem7Panel.add(makeSimpleButton("Show COX-2 with drug bound.",
+	    problem7Panel.add(makeLoadStructureButton("Show COX-2 with drug bound.",
                         "6COX.PDB",
                         "restrict protein or S58; spacefill on;"
                         + "select protein or S58; color chain; "
@@ -375,55 +390,104 @@ public class Molecules {
 	    problem7Panel.add(new JLabel(
 	    		new ImageIcon(Molecules.class.getResource("cpkColors.gif"))));
 
-	    JPanel problem8Panel = new JPanel();
+	    JPanel problem8Panel = new JPanel();	    	                       		
 	    problemPane.addTab("Problem 2.3.2(2bc)", problem8Panel);
 	    problem8Panel.setLayout(new BoxLayout(problem8Panel, BoxLayout.Y_AXIS));
+	    final JCheckBox drugDotsCheckbox = new JCheckBox("Show Drug as Dots");
+	    final JCheckBox coxDotsCheckbox = new JCheckBox("Show COX-2 as Dots");
+	    final JCheckBox aColorCheckbox = new JCheckBox("Color Position A Purple");
+	    final JCheckBox bColorCheckbox = new JCheckBox("Color Position B Green");
+	    final JCheckBox cColorCheckbox = new JCheckBox("Color Postion C Pink");
+	    final JCheckBox dColorCheckbox = new JCheckBox("Color Postion D White");
+
 	    
 	    problem8Panel.add(new JLabel("<html><font color=red size=+2>"
                 + "The Enzyme COX-2"
 				   + "<br></font></html>"));
-	    problem8Panel.add(makeSimpleButton("Show COX-2 with model drug bound.",
+	    problem8Panel.add(makeSensitiveLoadStructureButton("Show COX-2 with model drug bound.",
 				   "edited_cox2.pdb",
                 "reset; select S58; spacefill on; center selected;"
 				 + "select protein or hem; wireframe off; spacefill off;"
 				 + "select 120 or 90 or 355 or 530 or 385 or 531 or 381;"
 				 + "wireframe 0.2; spacefill on;"
-				 + "zoom 300",
+				 + "zoom 300;",
+				 drugDotsCheckbox,
+				 coxDotsCheckbox,
+				 aColorCheckbox,
+				 bColorCheckbox,
+				 cColorCheckbox,
+				 dColorCheckbox,
 				 jmolPanel));
-	    problem8Panel.add(makeSimpleButton("Show COX-2 with celebrex bound.",
-				   "celebrex_cox2.pdb",
+	    problem8Panel.add(makeSensitiveLoadStructureButton("Show COX-2 with celebrex bound.",
+				   "celebrex_cox.pdb",
              "reset; select S58; spacefill on; center selected;"
 				 + "select protein or hem; wireframe off; spacefill off;"
 				 + "select 120 or 90 or 355 or 530 or 385 or 531 or 381;"
 				 + "wireframe 0.2; spacefill on;"
-				 + "zoom 300",
+				 + "zoom 300;",
+				 drugDotsCheckbox,
+				 coxDotsCheckbox,
+				 aColorCheckbox,
+				 bColorCheckbox,
+				 cColorCheckbox,
+				 dColorCheckbox,
 				 jmolPanel));
 	    
-	    final JCheckBox drugDotsCheckbox = new JCheckBox("Show Drug as Dots");
 	    drugDotsCheckbox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if (drugDotsCheckbox.isSelected()){
-					viewer.evalString("select S58; spacefill off; dots on");
+					viewer.evalString(drugDotsScript);
 				} else {
-					viewer.evalString("select S58; dots off; spacefill on");
+					viewer.evalString(drugSfScript);
 				}
 			}
 	    });
-	    final JCheckBox coxDotsCheckbox = new JCheckBox("Show COX-2 as Dots");
 	    coxDotsCheckbox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if (coxDotsCheckbox.isSelected()){
-					viewer.evalString("select 120 or 90 or 355 or 530 or 385 or 531 or 381; spacefill off; dots on");
+					viewer.evalString(coxDotsScript);
 				} else {
-					viewer.evalString("select 120 or 90 or 355 or 530 or 385 or 531 or 381; dots off; spacefill on");
+					viewer.evalString(coxSfScript);
 				}
 			}
 	    });
-	    JCheckBox aColorCheckbox = new JCheckBox("Color Position A Purple");
-	    JCheckBox bColorCheckbox = new JCheckBox("Color Position B Green");
-	    JCheckBox cColorCheckbox = new JCheckBox("Color Postion C Pink");
-	    JCheckBox dColorCheckbox = new JCheckBox("Color Postion D White");
-	    
+	    aColorCheckbox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				if (aColorCheckbox.isSelected()){
+					viewer.evalString(ApurpScript);
+				} else {
+					viewer.evalString(AcpkScript);
+				}
+			}
+	    });
+	    bColorCheckbox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				if (bColorCheckbox.isSelected()){
+					viewer.evalString(BgreenScript);
+				} else {
+					viewer.evalString(BcpkScript);
+				}
+			}
+	    });
+	    cColorCheckbox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				if (cColorCheckbox.isSelected()){
+					viewer.evalString(CpinkScript);
+				} else {
+					viewer.evalString(CcpkScript);
+				}
+			}
+	    });
+	    dColorCheckbox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				if (dColorCheckbox.isSelected()){
+					viewer.evalString(DwhiteScript);
+				} else {
+					viewer.evalString(DcpkScript);
+				}
+			}
+	    });
+
 	    problem8Panel.add(drugDotsCheckbox);
 	    problem8Panel.add(coxDotsCheckbox);
 	    problem8Panel.add(aColorCheckbox);
@@ -436,22 +500,28 @@ public class Molecules {
 	    problem8Panel.add(new JLabel(
 	    		new ImageIcon(Molecules.class.getResource("cpkColors.gif"))));
 
+	    JPanel problem9Panel = new JPanel();	    	                       		
+	    problemPane.addTab("Problem 4.2", problem9Panel);
+	    problem9Panel.setLayout(new BoxLayout(problem9Panel, BoxLayout.Y_AXIS));
+	    problem9Panel.add(new JLabel("<html><font color=red size=+2>"
+                + "The Protein Hemoglobin."
+				   + "<br></font></html>"));
+
+	    problem9Panel.add(new JLabel("<html><br></html>"));	    
+	    problem9Panel.add(new JLabel(
+	    		new ImageIcon(Molecules.class.getResource("cpkColors.gif"))));
 	    
 	    contentPane.add(problemPane);
 	    
 	    frame.pack();
 	    frame.setVisible(true);
 
-	    //    viewer.openFile("../samples/caffeine.xyz");
-	    //    viewer.openFile("http://database.server/models/1pdb.pdb.gz");
-	    //    viewer.openStringInline(strXyzHOH);
-	    //    viewer.evalString(strScript);
 	    String strError = viewer.getOpenFileError();
 	    if (strError != null)
 	      System.out.println(strError);
 	  }
 
-	  public static JButton makeSimpleButton(String buttonLabel, 
+	  public static JButton makeLoadStructureButton(String buttonLabel, 
 	  		                                 String pdbFile,
 											 String script,
 											 JmolPanel jmolPanel){
@@ -470,6 +540,74 @@ public class Molecules {
 	    return button;
 	  }
 
+	  public static JButton makeSensitiveLoadStructureButton(String buttonLabel, 
+	  														String pdbFile,
+															String baseScript,
+															JCheckBox drugCheckBox,
+															JCheckBox coxCheckBox,
+															JCheckBox AcheckBox,
+															JCheckBox BcheckBox,
+															JCheckBox CcheckBox,
+															JCheckBox DcheckBox,
+															JmolPanel jmolPanel){
+	  	final JmolSimpleViewer viewer = jmolPanel.getViewer();
+	  	final String pdbFileName = pdbFile;
+	  	final String scriptString = baseScript;
+	  	final JCheckBox DrugCheckBox = drugCheckBox;
+	  	final JCheckBox CoxCheckBox = coxCheckBox;
+	  	final JCheckBox aCheckBox = AcheckBox;
+	  	final JCheckBox bCheckBox = BcheckBox;
+	  	final JCheckBox cCheckBox = CcheckBox;
+	  	final JCheckBox dCheckBox = DcheckBox;
+	  	
+	  	JButton button = new JButton(buttonLabel);
+	  	button.addActionListener(new ActionListener() {
+	  		public void actionPerformed(ActionEvent e) {
+	  			viewer.openStringInline(getPDBasString(pdbFileName));
+	  			StringBuffer addOnScript = new StringBuffer();
+	  			if (scriptString != null){
+	  				if (DrugCheckBox.isSelected()){
+	  					addOnScript.append(drugDotsScript);
+	  				} else {
+	  					addOnScript.append(drugSfScript);
+	  				}
+	  				
+	  				if (CoxCheckBox.isSelected()){
+	  					addOnScript.append(coxDotsScript);
+	  				} else {
+	  					addOnScript.append(coxSfScript);
+	  				}
+	  				
+	  				if (aCheckBox.isSelected()){
+	  					addOnScript.append(ApurpScript);
+	  				} else {
+	  					addOnScript.append(AcpkScript);
+	  				}
+	  				
+	  				if (bCheckBox.isSelected()){
+	  					addOnScript.append(BgreenScript);
+	  				} else {
+	  					addOnScript.append(BcpkScript);
+	  				}
+
+	  				if (cCheckBox.isSelected()){
+	  					addOnScript.append(CpinkScript);
+	  				} else {
+	  					addOnScript.append(CcpkScript);
+	  				}
+
+	  				if (dCheckBox.isSelected()){
+	  					addOnScript.append(DwhiteScript);
+	  				} else {
+	  					addOnScript.append(DcpkScript);
+	  				}
+
+	  				viewer.evalString(scriptString + addOnScript.toString());
+	  			}
+	  		}
+	  	});
+	  	return button;
+	  }
 
 	  public static JButton makeScriptButton(String buttonLabel, 
 	  											String script,
