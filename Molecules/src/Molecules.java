@@ -81,27 +81,27 @@ public class Molecules {
 	    
 	    problem1Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "Small Molecules<br></font</html>"));
-	    problem1Panel.add(makeLoadStructureButton("The linear form of glucose",
+	    problem1Panel.add(makeLoadStructureButton("Load the linear form of glucose",
 	    		                           "D-glucose.pdb",
 										   null,
 										   jmolPanel));
-	    problem1Panel.add(makeLoadStructureButton("The linear form of fructose",
+	    problem1Panel.add(makeLoadStructureButton("Load the linear form of fructose",
                 							"D-fructose.pdb",
 											null,
 											jmolPanel));
-	    problem1Panel.add(makeLoadStructureButton("The circular form of glucose",
+	    problem1Panel.add(makeLoadStructureButton("Load the circular form of glucose",
 											"beta-D-glucopyranose.pdb",
 											null,
 											jmolPanel));
-	    problem1Panel.add(makeLoadStructureButton("The first amino acid",
+	    problem1Panel.add(makeLoadStructureButton("Load the first amino acid",
 											"AA1.PDB",
 											null,
 											jmolPanel));
-	    problem1Panel.add(makeLoadStructureButton("The second amino acid",
+	    problem1Panel.add(makeLoadStructureButton("Load the second amino acid",
 											"AA2.PDB",
 											null,
 											jmolPanel));
-	    problem1Panel.add(makeLoadStructureButton("The third amino acid",
+	    problem1Panel.add(makeLoadStructureButton("Load the third amino acid",
 											"AA3.PDB",
 											null,
 											jmolPanel));
@@ -116,11 +116,11 @@ public class Molecules {
 	    
 	    problem2Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "Small Polypeptides<br></font></html>"));
-	    problem2Panel.add(makeLoadStructureButton("The first tripeptide",
+	    problem2Panel.add(makeLoadStructureButton("Load the first tripeptide",
 	    		                           "tripeptide1.pdb",
 										   null,
 										   jmolPanel));
-	    problem2Panel.add(makeLoadStructureButton("The second tripeptide",
+	    problem2Panel.add(makeLoadStructureButton("Load the second tripeptide",
                 							"tripeptide2.pdb",
 											null,
 											jmolPanel));
@@ -136,7 +136,7 @@ public class Molecules {
 	    problem3Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "Lysozyme 2<sup>o</sup> Structure"
 								   + "<br></font></html>"));
-	    problem3Panel.add(makeLoadStructureButton("Show backbone.",
+	    problem3Panel.add(makeLoadStructureButton("Load lysozyme and show backbone.",
 	    		                           "1LYD.PDB",
 										   "spacefill off; wireframe off;"
 										 + "backbone 0.3; color structure;",
@@ -166,7 +166,7 @@ public class Molecules {
 	    problem4Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "Lysozyme 3<sup>o</sup> Structure I"
 								   + "<br></font></html>"));
-	    problem4Panel.add(makeLoadStructureButton("Show exterior; red = phobic.",
+	    problem4Panel.add(makeLoadStructureButton("Load lysozyme and show exterior; red = phobic.",
 	    		                           "1LYD.PDB",
 	    		                           "slab off; restrict protein; "
 	    		                           + "spacefill on; "
@@ -226,13 +226,13 @@ public class Molecules {
 	    });
 
 	    problem5Panel.add(new JLabel("<html><font color=red size=+2>"
-	    		                   + "Lysozyme 3<sup>o</sup> Structure I"
+	    		                   + "Lysozyme 3<sup>o</sup> Structure II"
 								   + "<br></font></html>"));
-	    problem5Panel.add(makeLoadStructureButton("Show Lysozyme.",
+	    problem5Panel.add(makeSizeSensitiveLoadStructureButton("Load Lysozyme.",
 	    		                           "1LYD.PDB",
 	    		                           "restrict protein; "
-	    		                           + "spacefill 0.5; wireframe 0.2; "
-	    		                           + "select all; color cpk",
+	    		                           + "spacefill 0.5; wireframe 0.2; ",
+										   bsButton,
 										   jmolPanel));
 	    problem5Panel.add(makeSizeSensitiveScriptButton("Show Glu 11 and Arg 145.",
 											"restrict protein; spacefill off; "
@@ -312,7 +312,7 @@ public class Molecules {
 	    problem6Panel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "The DNA-Repair Enzyme AAG"
 								   + "<br></font></html>"));
-	    problem6Panel.add(makeLoadStructureButton("Show AAG and DNA.",
+	    problem6Panel.add(makeLoadStructureButton("Load AAG and DNA.",
 	    		                           "1BNK.PDB",
 	    		                           "restrict not water; spacefill on;"
 	    		                           + "select not water; color chain; "
@@ -357,18 +357,18 @@ public class Molecules {
 	    problem7Panel.setLayout(new BoxLayout(problem7Panel, BoxLayout.Y_AXIS));
 	    
 	    problem7Panel.add(new JLabel("<html><font color=red size=+2>"
-                + "The Enzyme COX-2"
+                + "The Enzyme COX-2 I"
 				   + "<br></font></html>"));
-	    problem7Panel.add(makeLoadStructureButton("Show COX-2 with drug bound.",
+	    problem7Panel.add(makeLoadStructureButton("Load COX-2 with drug bound.",
                         "6COX.PDB",
                         "restrict protein or S58; spacefill on;"
                         + "select protein or S58; color chain; "
                         + "select S58; color red;"
                         + "move -45 0 0  0  0 0 0  0  2",
 						   jmolPanel));
-	    JRadioButton sphereButton = new JRadioButton("Show atoms as Spheres");
+	    JRadioButton sphereButton = new JRadioButton("Show protein atoms as Spheres");
 	    sphereButton.setSelected(true);
-	    JRadioButton dotButton = new JRadioButton("Show atoms as Dots");
+	    JRadioButton dotButton = new JRadioButton("Show protein atoms as Dots");
 	    ButtonGroup group2 = new ButtonGroup();
 	    group2.add(sphereButton);
 	    group2.add(dotButton);
@@ -402,9 +402,9 @@ public class Molecules {
 
 	    
 	    problem8Panel.add(new JLabel("<html><font color=red size=+2>"
-                + "The Enzyme COX-2"
+                + "The Enzyme COX-2 II"
 				   + "<br></font></html>"));
-	    problem8Panel.add(makeSensitiveLoadStructureButton("Show COX-2 with model drug bound.",
+	    problem8Panel.add(makeSensitiveLoadStructureButton("Load COX-2 with model drug bound.",
 				   "edited_cox2.pdb",
                 "reset; select S58; spacefill on; center selected;"
 				 + "select protein or hem; wireframe off; spacefill off;"
@@ -418,7 +418,7 @@ public class Molecules {
 				 cColorCheckbox,
 				 dColorCheckbox,
 				 jmolPanel));
-	    problem8Panel.add(makeSensitiveLoadStructureButton("Show COX-2 with celebrex bound.",
+	    problem8Panel.add(makeSensitiveLoadStructureButton("Load COX-2 with celebrex bound.",
 				   "celebrex_cox.pdb",
              "reset; select S58; spacefill on; center selected;"
 				 + "select protein or hem; wireframe off; spacefill off;"
@@ -501,12 +501,56 @@ public class Molecules {
 	    		new ImageIcon(Molecules.class.getResource("cpkColors.gif"))));
 
 	    JPanel problem9Panel = new JPanel();	    	                       		
-	    problemPane.addTab("Problem 4.2", problem9Panel);
+	    problemPane.addTab("Problem 4.1", problem9Panel);
 	    problem9Panel.setLayout(new BoxLayout(problem9Panel, BoxLayout.Y_AXIS));
 	    problem9Panel.add(new JLabel("<html><font color=red size=+2>"
                 + "The Protein Hemoglobin."
 				   + "<br></font></html>"));
 
+	    problem9Panel.add(makeLoadStructureButton("Load Hemoglobin and show 4 "
+	    		+ "chains and heme.",
+                "1a3n.pdb",
+                "restrict ligand or protein; dots off; "
+                + "spacefill on; color chain; "
+				+ "select ligand; color red; ",
+				   jmolPanel));
+
+	    problem9Panel.add(makeScriptButton("Show Gly 107 and heme.",
+	    		"select protein or ligand; spacefill off; "
+	    	  + "wireframe off; dots on; color yellow; "
+	    	  + "select 107 and (:b or :d); color cpk; spacefill on; "
+			  + "select ligand and (:b or :d); color cpk; spacefill on; ",
+			    jmolPanel));
+	    problem9Panel.add(makeScriptButton("Show Ala 27 and heme.",
+	    		"select protein or ligand; spacefill off; "
+	    	  + "wireframe off; dots on; color yellow; "
+	    	  + "select 27 and (:b or :d); color cpk; spacefill on; "
+			  + "select ligand and (:b or :d); color cpk; spacefill on; ",
+			    jmolPanel));
+	    problem9Panel.add(makeScriptButton("Show Lys 17 and heme.",
+	    		"select protein or ligand; spacefill off; "
+	    	  + "wireframe off; dots on; color yellow; "
+	    	  + "select 17 and (:b or :d); color cpk; spacefill on; "
+			  + "select ligand and (:b or :d); color cpk; spacefill on; ",
+			    jmolPanel));
+	    problem9Panel.add(makeScriptButton("Show Val 111 and heme.",
+	    		"select protein or ligand; spacefill off; "
+	    	  + "wireframe off; dots on; color yellow; "
+	    	  + "select 111 and (:b or :d); color cpk; spacefill on; "
+			  + "select ligand and (:b or :d); color cpk; spacefill on; ",
+			    jmolPanel));
+	    problem9Panel.add(makeScriptButton("Show His 63 and heme.",
+	    		"select protein or ligand; spacefill off; "
+	    	  + "wireframe off; dots on; color yellow; "
+	    	  + "select 63 and (:b or :d); color cpk; spacefill on; "
+			  + "select ligand and (:b or :d); color cpk; spacefill on; ",
+			    jmolPanel));
+	    problem9Panel.add(makeScriptButton("Show Lys 66 and heme.",
+	    		"select protein or ligand; spacefill off; "
+	    	  + "wireframe off; dots on; color yellow; "
+	    	  + "select 66 and (:b or :d); color cpk; spacefill on; "
+			  + "select ligand and (:b or :d); color cpk; spacefill on; ",
+			    jmolPanel));
 	    problem9Panel.add(new JLabel("<html><br></html>"));	    
 	    problem9Panel.add(new JLabel(
 	    		new ImageIcon(Molecules.class.getResource("cpkColors.gif"))));
@@ -528,7 +572,9 @@ public class Molecules {
 	  	final JmolSimpleViewer viewer = jmolPanel.getViewer();
 	  	final String pdbFileName = pdbFile;
 	  	final String scriptString = script;
-	  	JButton button = new JButton(buttonLabel);
+	  	JButton button = new JButton("<html><font color=green>"
+	  			                     + buttonLabel
+								   + "</font></html>");
 	    button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			    viewer.openStringInline(getPDBasString(pdbFileName));
@@ -538,6 +584,34 @@ public class Molecules {
 			}
 	    });
 	    return button;
+	  }
+
+	  public static JButton makeSizeSensitiveLoadStructureButton(String buttonLabel, 
+	  															String pdbFile,
+																String script,
+																JRadioButton controlButton,
+																JmolPanel jmolPanel){
+	  	final JmolSimpleViewer viewer = jmolPanel.getViewer();
+	  	final String pdbFileName = pdbFile;
+	  	final String scriptString = script;
+	  	final JRadioButton bsButton = controlButton;
+	  	JButton button = new JButton("<html><font color=green>"
+	  			+ buttonLabel
+				+ "</font></html>");
+	  	button.addActionListener(new ActionListener() {
+	  		public void actionPerformed(ActionEvent e) {
+	  			viewer.openStringInline(getPDBasString(pdbFileName));
+	  			String sizeString = "spacefill on;";
+	  		  	if (bsButton.isSelected()){
+	  		  		sizeString = "spacefill 0.5; wireframe 0.2; ";
+	  		  	}
+	  			if (scriptString != null){
+	  				viewer.evalString(scriptString + sizeString +
+	  						"select all; color cpk; ");
+	  			}
+	  		}
+	  	});
+	  	return button;
 	  }
 
 	  public static JButton makeSensitiveLoadStructureButton(String buttonLabel, 
@@ -560,7 +634,9 @@ public class Molecules {
 	  	final JCheckBox cCheckBox = CcheckBox;
 	  	final JCheckBox dCheckBox = DcheckBox;
 	  	
-	  	JButton button = new JButton(buttonLabel);
+	  	JButton button = new JButton("<html><font color=green>"
+	  			                     + buttonLabel
+									 + "</html></html>");
 	  	button.addActionListener(new ActionListener() {
 	  		public void actionPerformed(ActionEvent e) {
 	  			viewer.openStringInline(getPDBasString(pdbFileName));
