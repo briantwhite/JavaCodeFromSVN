@@ -59,7 +59,7 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.1 2004-09-24 15:30:16 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.2 2005-06-03 13:04:47 brian Exp $
  */
 public class VGLMainApp extends JApplet {
 	/**
@@ -299,7 +299,13 @@ public class VGLMainApp extends JApplet {
 	 * be displayed
 	 */
 	private Point m_NextCageScreenPosition;
-
+	
+	/**
+	 * Signals that this is running as an applet with reduced 
+	 * functionality
+	 */
+	private boolean m_isAnApplet;
+	
 	/**
 	 * The constructor
 	 * 
@@ -308,11 +314,24 @@ public class VGLMainApp extends JApplet {
 	 */
 	public VGLMainApp(JFrame frame) {
 		super();
+		m_isAnApplet = false;
 		m_ProgramId = m_DefaultId;
 		m_FChooser = new JFileChooser();
 		m_DialogFrame = frame;
 	}
-
+	
+	/** 
+	 * 
+	 * constructor for applet
+	 */
+    public VGLMainApp(URL configFileURL, Image image){
+    	super();
+    	m_isAnApplet = true;
+    	m_ProgramId = m_DefaultId;
+    	m_DialogFrame = new JFrame(m_ProgramId);
+    	m_Image = image;
+    }
+    
 	/**
 	 * The constructor for access via a parent application.
 	 * 
@@ -327,6 +346,7 @@ public class VGLMainApp extends JApplet {
 	 */
 	public VGLMainApp(String programId, File defaultDir, Image img, JFrame frame) {
 		super();
+		m_isAnApplet = false;
 		m_ProgramId = programId;
 		m_Image = img;
 		m_DefaultDirectory = defaultDir;
@@ -483,27 +503,27 @@ public class VGLMainApp extends JApplet {
 		JMenuBar mnuBar = new JMenuBar();
 		URL openImageURL = VGLMainApp.class.getResource("images/open16.gif");
 		ImageIcon openImage = new ImageIcon(openImageURL);
-
+		
 		URL newImageURL = VGLMainApp.class.getResource("images/new16.gif");
 		ImageIcon newImage = new ImageIcon(newImageURL);
-
+		
 		URL saveAsImageURL = VGLMainApp.class
-				.getResource("images/saveas16.gif");
+		.getResource("images/saveas16.gif");
 		ImageIcon saveAsImage = new ImageIcon(saveAsImageURL);
-
+		
 		URL saveImageURL = VGLMainApp.class.getResource("images/save16.gif");
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
-
+		
 		URL aboutImageURL = VGLMainApp.class.getResource("images/about16.gif");
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
-
+		
+		URL printFileImageURL = 
+			VGLMainApp.class.getResource("images/printtofile16.gif");
+		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
+		
 		URL balloonHelpImageURL = VGLMainApp.class
 				.getResource("images/help16.gif");
 		ImageIcon balloonHelpImage = new ImageIcon(balloonHelpImageURL);
-
-		URL printFileImageURL = VGLMainApp.class
-				.getResource("images/printtofile16.gif");
-		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
 
 		URL printImageURL = VGLMainApp.class.getResource("images/print16.gif");
 		ImageIcon printImage = new ImageIcon(printImageURL);
@@ -521,30 +541,38 @@ public class VGLMainApp extends JApplet {
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
 		//  "File" options.
-		JMenu mnuFile = new JMenu("File");
+		JMenu mnuFile = new JMenu("File");		
 		m_NewProblemItem = menuItem("New Problem", "NewProblem", newImage);
-		mnuFile.add(m_NewProblemItem);
 		m_OpenProblemItem = menuItem("Open Work", "OpenWork", openImage);
-		mnuFile.add(m_OpenProblemItem);
-		mnuFile.addSeparator();
 		m_SaveProblemItem = menuItem("Save Work", "SaveWork", saveImage);
-		mnuFile.add(m_SaveProblemItem);
 		m_SaveProblemAsItem = menuItem("Save Work As..", "SaveAs", saveAsImage);
-		mnuFile.add(m_SaveProblemAsItem);
-		mnuFile.addSeparator();
 		m_PageSetupItem = menuItem("Page Setup", "PageSetup", pageSetupImage);
-		mnuFile.add(m_PageSetupItem);
 		m_PrintItem = menuItem("Print Work", "PrintWork", printImage);
-		mnuFile.add(m_PrintItem);
 		m_PrintToFileItem = menuItem("Print Work To File", "PrintToFile",
 				printFileImage);
-		mnuFile.add(m_PrintToFileItem);
-		mnuFile.addSeparator();
 		m_CloseProblemItem = menuItem("Close Work", "CloseWork", closeImage);
-		mnuFile.add(m_CloseProblemItem);
 		m_ExitItem = menuItem("Exit", "Exit", null);
-		mnuFile.addSeparator();
-		mnuFile.add(m_ExitItem);
+
+		if (!m_isAnApplet){
+			mnuFile.add(m_NewProblemItem);
+			mnuFile.add(m_OpenProblemItem);
+			mnuFile.addSeparator();
+			mnuFile.add(m_SaveProblemItem);
+			mnuFile.add(m_SaveProblemAsItem);
+			mnuFile.addSeparator();
+		}
+		
+		mnuFile.add(m_PageSetupItem);
+		mnuFile.add(m_PrintItem);
+		
+		if (!m_isAnApplet){
+			mnuFile.add(m_PrintToFileItem);
+			mnuFile.addSeparator();
+			mnuFile.add(m_CloseProblemItem);
+			mnuFile.addSeparator();
+			mnuFile.add(m_ExitItem);
+		}
+		
 		mnuBar.add(mnuFile);
 
 		//  "Utilities" options.
@@ -653,14 +681,21 @@ public class VGLMainApp extends JApplet {
 				"Print Work To File...", KeyEvent.VK_F);
 		m_OnlineHelpButton = JButtonImageItem(onlineHelpImage, "OnlineHelp",
 				"Help Page", KeyEvent.VK_H);
-		m_ToolBar.add(m_NewButton);
-		m_ToolBar.add(m_OpenButton);
-		m_ToolBar.add(m_CloseButton);
-		m_ToolBar.add(m_ExitButton);
-		m_ToolBar.add(m_SaveButton);
-		m_ToolBar.add(m_SaveAsButton);
+		
+		if(!m_isAnApplet){
+			m_ToolBar.add(m_NewButton);
+			m_ToolBar.add(m_OpenButton);
+			m_ToolBar.add(m_CloseButton);
+			m_ToolBar.add(m_ExitButton);
+			m_ToolBar.add(m_SaveButton);
+			m_ToolBar.add(m_SaveAsButton);
+		}
 		m_ToolBar.add(m_PrintButton);
-		m_ToolBar.add(m_PrintToFileButton);
+		
+		if(!m_isAnApplet){
+			m_ToolBar.add(m_PrintToFileButton);
+		}
+		
 		m_ToolBar.add(m_CrossTwoButton);
 		m_ToolBar.add(m_OnlineHelpButton);
 		m_ToolBar.add(m_AboutButton);
