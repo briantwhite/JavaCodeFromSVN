@@ -59,7 +59,7 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.3 2005-06-03 18:14:43 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.4 2005-06-03 20:14:47 brian Exp $
  */
 public class VGLMainApp extends JApplet {
 	/**
@@ -858,14 +858,16 @@ public class VGLMainApp extends JApplet {
 				}
 				
 			} else {
+
 				try {
 					al = m_Genetics.open(workFileURL);
 				} catch (Exception e) {
 					System.out.print(e.getMessage());
 				}
 			}
-			
+
 			try {
+
 				m_Trait = m_Genetics.getModel().getCharacter();
 				if (m_Genetics.getPracticeMode()) {
 					JFrame frame = m_DialogFrame;

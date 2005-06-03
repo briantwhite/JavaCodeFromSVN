@@ -27,7 +27,7 @@ import javax.swing.JApplet;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLApplet.java,v 1.2 2005-06-03 18:14:42 brian Exp $
+ * @version 1.0 $Id: VGLApplet.java,v 1.3 2005-06-03 20:14:47 brian Exp $
  */
 public class VGLApplet extends JApplet {
 	/**
@@ -75,8 +75,9 @@ public class VGLApplet extends JApplet {
 		
 		inputURLString = getParameter("URL");
 		if (inputURLString == null) {
-			inputURLString = "http://intro.bio.umb.edu";
+			inputURLString = "";
 		}
+		System.out.println("URL = " + inputURLString);
 		
 	    URL configFileURL = null;
 		try {
@@ -101,7 +102,7 @@ public class VGLApplet extends JApplet {
 		} catch (NumberFormatException e2) {
 			e2.printStackTrace();
 		}
-		
+
 		setSize(wdt, hgt);
 		app.init();
 		app.start();
