@@ -27,7 +27,7 @@ import javax.swing.JApplet;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLApplet.java,v 1.1 2005-06-03 13:04:47 brian Exp $
+ * @version 1.0 $Id: VGLApplet.java,v 1.2 2005-06-03 18:14:42 brian Exp $
  */
 public class VGLApplet extends JApplet {
 	/**
@@ -43,13 +43,15 @@ public class VGLApplet extends JApplet {
 	/**
 	 * The logo for the application
 	 */
-	private static URL imageURL = VGLMain.class
+	private static URL imageURL = VGLApplet.class
 			.getResource("UIimages/logo.gif");
 
 	private static Image image = Toolkit.getDefaultToolkit().getImage(imageURL);
 
 	static String widthString;
 	static String heightString;
+	static String inputURLString;
+	
 	/**
 	 * The Constructor
 	 */
@@ -62,21 +64,48 @@ public class VGLApplet extends JApplet {
 	 */
 	public void init() {
 		widthString = getParameter("width");
+		if (widthString == null) {
+			widthString = "350";
+		}
+		
 		heightString = getParameter("height");
-
-		URL configFileURL = null;
+		if (heightString == null) {
+			heightString = "150";
+		}
+		
+		inputURLString = getParameter("URL");
+		if (inputURLString == null) {
+			inputURLString = "http://intro.bio.umb.edu";
+		}
+		
+	    URL configFileURL = null;
 		try {
-			configFileURL = new URL("http://intro.bio.umb.edu");
+			configFileURL = new URL(inputURLString);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		VGLMainApp app = new VGLMainApp(configFileURL, image);
+		
+		VGLMainApp app = new VGLMainApp(image);
 		getContentPane().add("Center", app);
-		int wdt = Integer.parseInt(widthString);
-		int hgt = Integer.parseInt(heightString);
+		
+		int wdt = 350;
+		try {
+			wdt = Integer.parseInt(widthString);
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+		}
+		
+		int hgt = 150;
+		try {
+			hgt = Integer.parseInt(heightString);
+		} catch (NumberFormatException e2) {
+			e2.printStackTrace();
+		}
+		
 		setSize(wdt, hgt);
 		app.init();
 		app.start();
+		app.openProblem(configFileURL);
 
 	}
 }

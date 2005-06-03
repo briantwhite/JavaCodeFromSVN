@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +32,7 @@ import org.jdom.output.XMLOutputter;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Naing Naing Maw
- * @version 1.0 $Id: Genetics.java,v 1.1 2004-09-24 15:30:15 brian Exp $
+ * @version 1.0 $Id: Genetics.java,v 1.2 2005-06-03 18:14:42 brian Exp $
  */
 
 public class Genetics {
@@ -254,10 +255,21 @@ public class Genetics {
 	 *            the file containing the information
 	 * @return the list of cages
 	 */
+	
+	public ArrayList open(URL url) throws Exception {
+		SAXBuilder builder = new SAXBuilder();
+		Document doc = builder.build(url);
+		return open(doc);
+	}
+	
 	public ArrayList open(File file) throws Exception {
 		FileInputStream input = new FileInputStream(file);
 		SAXBuilder builder = new SAXBuilder();
 		Document doc = builder.build(input);
+		return open(doc);
+	}
+	
+	private ArrayList open(Document doc) throws Exception {
 		Element root = doc.getRootElement();
 		Element meta = root.getChild("Meta");
 
@@ -274,7 +286,7 @@ public class Genetics {
 			Cage c = new Cage(current, elements);
 			elements.add(c);
 		}
-		return elements;
+		return elements;	
 	}
 
 	/**

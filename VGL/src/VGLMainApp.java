@@ -59,7 +59,7 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.2 2005-06-03 13:04:47 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.3 2005-06-03 18:14:43 brian Exp $
  */
 public class VGLMainApp extends JApplet {
 	/**
@@ -324,13 +324,13 @@ public class VGLMainApp extends JApplet {
 	 * 
 	 * constructor for applet
 	 */
-    public VGLMainApp(URL configFileURL, Image image){
-    	super();
-    	m_isAnApplet = true;
-    	m_ProgramId = m_DefaultId;
-    	m_DialogFrame = new JFrame(m_ProgramId);
-    	m_Image = image;
-    }
+	public VGLMainApp(Image image){
+		super();
+		m_isAnApplet = true;
+		m_ProgramId = m_DefaultId;
+		m_DialogFrame = new JFrame(m_ProgramId);
+		m_Image = image;
+	}
     
 	/**
 	 * The constructor for access via a parent application.
@@ -390,7 +390,7 @@ public class VGLMainApp extends JApplet {
 		if (cmd.equals("NewProblem"))
 			newProblem();
 		else if (cmd.equals("OpenWork"))
-			openProblem();
+			openProblem(null);
 		else if (cmd.equals("SaveWork"))
 			saveProblem();
 		else if (cmd.equals("SaveAs"))
@@ -833,41 +833,63 @@ public class VGLMainApp extends JApplet {
 	 * Opens up an existing saved problem, sets up the model, and opens up all
 	 * the cages of that problem.
 	 */
-	private void openProblem() {
+	public void openProblem(URL workFileURL) {
+		ArrayList al = null;
+		
 		if (m_CageCollection == null) {
-			File newFile = selectFile(m_DefaultDirectory, "Open Work",
-					"Select Work File", false, m_WrkFilterString, "Work Files",
-					JFileChooser.OPEN_DIALOG);
-			if (newFile != null) {
-				m_Genetics = new Genetics();
-				m_SelectionVial = new SelectionVial(m_StatusLabel);
+			
+			File newFile = null;
+			m_Genetics = new Genetics();
+			m_SelectionVial = new SelectionVial(m_StatusLabel);
+			
+			if (workFileURL == null) {
+				newFile = selectFile(m_DefaultDirectory, "Open Work",
+						"Select Work File", false, m_WrkFilterString, "Work Files",
+						JFileChooser.OPEN_DIALOG);
+				
+				if (newFile != null) {					
+					try {
+						al = m_Genetics.open(newFile);
+					} catch (Exception e) {
+						System.out.print(e.getMessage());
+					}
+				}  else {
+					return;
+				}
+				
+			} else {
 				try {
-					ArrayList al = m_Genetics.open(newFile);
-					m_Trait = m_Genetics.getModel().getCharacter();
-					if (m_Genetics.getPracticeMode()) {
-						JFrame frame = m_DialogFrame;
-						int selection;
-						ExpertiseLevel dlg = new ExpertiseLevel(frame,
-								"Display", true);
-						dlg.setVisible(true);
-						selection = dlg.getSelection();
-						if (selection == 0)
-							m_IsBeginner = false;
-						else if (selection == 1)
-							m_IsBeginner = true;
-						dlg = null;
-					} else
-						m_IsBeginner = false;
-					if (m_IsBeginner)
-						balloonHelp();
-					m_CageCollection = null;
-					m_NextCageId = 0;
-					m_CageCollection = new ArrayList();
-					reopenCages(al);
-					enableAll(true);
+					al = m_Genetics.open(workFileURL);
 				} catch (Exception e) {
 					System.out.print(e.getMessage());
 				}
+			}
+			
+			try {
+				m_Trait = m_Genetics.getModel().getCharacter();
+				if (m_Genetics.getPracticeMode()) {
+					JFrame frame = m_DialogFrame;
+					int selection;
+					ExpertiseLevel dlg = new ExpertiseLevel(frame,
+							"Display", true);
+					dlg.setVisible(true);
+					selection = dlg.getSelection();
+					if (selection == 0)
+						m_IsBeginner = false;
+					else if (selection == 1)
+						m_IsBeginner = true;
+					dlg = null;
+				} else
+					m_IsBeginner = false;
+				if (m_IsBeginner)
+					balloonHelp();
+				m_CageCollection = null;
+				m_NextCageId = 0;
+				m_CageCollection = new ArrayList();
+				reopenCages(al);
+				enableAll(true);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
