@@ -2,6 +2,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -9,10 +10,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,6 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -31,7 +37,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.border.SoftBevelBorder;
@@ -59,7 +67,7 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.4 2005-06-03 20:14:47 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.5 2005-06-06 20:17:07 brian Exp $
  */
 public class VGLMainApp extends JApplet {
 	/**
@@ -86,6 +94,16 @@ public class VGLMainApp extends JApplet {
 	 * The common file chooser instance for the application
 	 */
 	private JFileChooser m_FChooser;
+	
+	/**
+	 * the server script for saving to server
+	 */
+	private static final String m_SaveToServerScript = "http://intro.bio.umb.edu/cgi-bin/saveWork.pl";
+	
+	/**
+	 * test file on 'save to server' server - should be downloadable if server is available
+	 */
+	private static final String m_SaveToServerTestFile = "http://intro.bio.umb.edu/111-112/";
 
 	/**
 	 * The collection of Cage UIs associated with the current problem
@@ -163,6 +181,11 @@ public class VGLMainApp extends JApplet {
 	 * Menu item to save current work to a different file than the current one
 	 */
 	private JMenuItem m_SaveProblemAsItem = null;
+	
+	/**
+	 * Meu item to save current work to server
+	 */
+	private JMenuItem m_SaveToServerItem = null;
 
 	/**
 	 * Menu item to close the current work
@@ -248,6 +271,11 @@ public class VGLMainApp extends JApplet {
 	 * Button to save current work
 	 */
 	private JButton m_SaveButton = null;
+	
+	/**
+	 * Button to save current work to server
+	 */
+	private JButton m_SaveToServerButton = null;
 
 	/**
 	 * Button to save to a different file than the current file
@@ -395,6 +423,8 @@ public class VGLMainApp extends JApplet {
 			saveProblem();
 		else if (cmd.equals("SaveAs"))
 			saveAsProblem();
+		else if (cmd.equals("SaveToServer"))
+			saveToServer();
 		else if (cmd.equals("PrintToFile"))
 			printToFile();
 		else if (cmd.equals("PageSetup"))
@@ -511,6 +541,10 @@ public class VGLMainApp extends JApplet {
 		.getResource("images/saveas16.gif");
 		ImageIcon saveAsImage = new ImageIcon(saveAsImageURL);
 		
+		URL saveToServerImageURL = VGLMainApp.class
+		.getResource("images/savetoserver16.gif");
+		ImageIcon saveToServerImage = new ImageIcon(saveToServerImageURL);
+		
 		URL saveImageURL = VGLMainApp.class.getResource("images/save16.gif");
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
 		
@@ -546,6 +580,7 @@ public class VGLMainApp extends JApplet {
 		m_OpenProblemItem = menuItem("Open Work", "OpenWork", openImage);
 		m_SaveProblemItem = menuItem("Save Work", "SaveWork", saveImage);
 		m_SaveProblemAsItem = menuItem("Save Work As..", "SaveAs", saveAsImage);
+		m_SaveToServerItem = menuItem("Save To Server..", "SaveToServer", saveToServerImage);
 		m_PageSetupItem = menuItem("Page Setup", "PageSetup", pageSetupImage);
 		m_PrintItem = menuItem("Print Work", "PrintWork", printImage);
 		m_PrintToFileItem = menuItem("Print Work To File", "PrintToFile",
@@ -562,6 +597,7 @@ public class VGLMainApp extends JApplet {
 			mnuFile.addSeparator();
 		}
 		
+		mnuFile.add(m_SaveToServerItem);
 		mnuFile.add(m_PageSetupItem);
 		mnuFile.add(m_PrintItem);
 		
@@ -632,6 +668,9 @@ public class VGLMainApp extends JApplet {
 
 		URL saveImageURL = VGLMainApp.class.getResource("images/save.gif");
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
+		
+		URL saveToServerURL = VGLMainApp.class.getResource("images/savetoserver.gif");
+		ImageIcon saveToServerImage = new ImageIcon(saveToServerURL);
 
 		URL aboutImageURL = VGLMainApp.class.getResource("images/about.gif");
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
@@ -669,6 +708,8 @@ public class VGLMainApp extends JApplet {
 				KeyEvent.VK_S);
 		m_SaveAsButton = JButtonImageItem(saveAsImage, "SaveAs", "Save as...",
 				KeyEvent.VK_V);
+		m_SaveToServerButton = JButtonImageItem(saveToServerImage, "SaveToServer", "Save To Server...",
+				KeyEvent.VK_I);
 		m_CrossTwoButton = JButtonImageItem(crossTwoImage, "CrossTwo",
 				"Cross two organisms...", KeyEvent.VK_C);
 		m_AboutButton = JButtonImageItem(aboutImage, "About",
@@ -690,6 +731,7 @@ public class VGLMainApp extends JApplet {
 			m_ToolBar.add(m_SaveButton);
 			m_ToolBar.add(m_SaveAsButton);
 		}
+		m_ToolBar.add(m_SaveToServerButton);
 		m_ToolBar.add(m_PrintButton);
 		
 		if(!m_isAnApplet){
@@ -933,6 +975,98 @@ public class VGLMainApp extends JApplet {
 		saveProblem();
 	}
 
+	/**
+	 * Save the current work to a server
+	 *
+	 */
+	private void saveToServer() {
+		// start by testing for server availablilty
+		URL serverTestURL = null;
+		try {
+			serverTestURL = new URL(m_SaveToServerTestFile);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
+		String receivedLine = null;
+		try {
+			URLConnection serverTestConnection = serverTestURL.openConnection();
+			BufferedReader testReader = new BufferedReader(new InputStreamReader(
+					serverTestConnection.getInputStream()));
+			receivedLine = testReader.readLine();
+		}
+		catch (IOException e) {
+		}
+		if (receivedLine == null) {
+			JOptionPane.showMessageDialog(this,
+				    "Unable to contact the server.",
+				    "Connection Error",
+				    JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		//ok, so the server is available, let's try to save it
+		final JDialog saveToServerDialog = new JDialog(m_DialogFrame, "Save To Server");
+		saveToServerDialog.getContentPane().setLayout(new GridLayout(3,1));
+		
+		final JTextField proposedFileName = new JTextField(25);
+		String[] sections = {"Section1", "Section2", "Section3", "Section4",
+				"Section5", "Section6", "Section7", "Section8", "Section9", "Section10"	};
+		JComboBox sectionList = new JComboBox(sections);
+		final JPasswordField password = new JPasswordField(10);
+		JButton cancelButton = new JButton("Cancel");
+		JButton saveToServerButton = new JButton("Save To Server");
+		
+		JPanel fileNamePanel = new JPanel();
+		fileNamePanel.add(new JLabel("Proposed File Name:"));
+		fileNamePanel.add(proposedFileName);
+		
+		JPanel sectionPanel = new JPanel();
+		sectionPanel.add(new JLabel("Lab Section:"));
+		sectionPanel.add(sectionList);
+		
+		JPanel passwordPanel = new JPanel();
+		passwordPanel.add(new JLabel("Password:"));
+		passwordPanel.add(password);
+		
+		JPanel middlePanel = new JPanel();
+		middlePanel.add(sectionPanel);
+		middlePanel.add(passwordPanel);
+		
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.add(cancelButton);
+		bottomPanel.add(saveToServerButton);
+		
+		saveToServerDialog.getContentPane().add(fileNamePanel);
+		saveToServerDialog.getContentPane().add(middlePanel);
+		saveToServerDialog.getContentPane().add(bottomPanel);
+				
+		saveToServerDialog.pack();
+		saveToServerDialog.show();
+		
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				saveToServerDialog.dispose();
+			}
+		});
+		
+		saveToServerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String inputFileName = proposedFileName.getText();
+				String inputPassword = new String(password.getPassword());
+				if (inputFileName.equals("") || inputPassword.equals("")) {
+					JOptionPane.showMessageDialog(m_DialogFrame,
+						    "Please be sure to fill out a file name and a password.",
+						    "Incomplete Submission ",
+						    JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+			}
+			
+		});
+	}
+	
 	/**
 	 * Prints the current work done by the user to a .html file
 	 */
@@ -1179,10 +1313,7 @@ public class VGLMainApp extends JApplet {
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					helpPane.setPage(new URL("file://"
-							+ System.getProperty("user.dir")
-							+ System.getProperty("file.separator")
-							+ "Help/index.html"));
+					helpPane.setPage(VGLMainApp.class.getResource("Help/index.html"));
 				} catch (Exception e) {
 					System.err
 							.println("Couldn't open help file" + e.toString());
@@ -1244,12 +1375,14 @@ public class VGLMainApp extends JApplet {
 		m_PrintToFileButton.setEnabled(value);
 		m_SaveButton.setEnabled(value);
 		m_SaveAsButton.setEnabled(value);
+		m_SaveToServerButton.setEnabled(value);
 		m_CrossTwoButton.setEnabled(value);
 		m_BalloonHelpItem.setEnabled(value);
 		m_CageManagerItem.setEnabled(value);
 		m_RearrangeCagesItem.setEnabled(value);
 		m_SaveProblemItem.setEnabled(value);
 		m_SaveProblemAsItem.setEnabled(value);
+		m_SaveToServerItem.setEnabled(value);
 		m_CloseProblemItem.setEnabled(value);
 		m_CloseButton.setEnabled(value);
 		m_CrossTwoItem.setEnabled(value);
