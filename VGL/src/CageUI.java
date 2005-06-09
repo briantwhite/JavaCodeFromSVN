@@ -53,7 +53,7 @@ import javax.swing.border.Border;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: CageUI.java,v 1.1 2004-09-24 15:30:14 brian Exp $
+ * @version 1.0 $Id: CageUI.java,v 1.2 2005-06-09 17:16:48 brian Exp $
  */
 public class CageUI extends JDialog implements WindowListener {
 	/**
@@ -717,8 +717,8 @@ public class CageUI extends JDialog implements WindowListener {
 	 */
 	public void windowClosing(WindowEvent e) {
 		int ans = JOptionPane.showConfirmDialog(this,
-				"You are about to close Cage" + m_Id + "\n"
-						+ "Do you wish to continue?", "Closing Cage",
+				"Are you sure you want to\n" 
+				+ "close Cage #" + m_Id + "?", "Closing Cage",
 				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 		if (ans == JOptionPane.YES_OPTION)

@@ -28,7 +28,7 @@ import javax.swing.JLabel;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: OrganismUI.java,v 1.1 2004-09-24 15:30:15 brian Exp $
+ * @version 1.0 $Id: OrganismUI.java,v 1.2 2005-06-09 17:16:48 brian Exp $
  */
 public class OrganismUI extends JLabel implements MouseListener {
 	/**
@@ -306,13 +306,10 @@ public class OrganismUI extends JLabel implements MouseListener {
 		String info = "";
 		if (selected) {
 			if (m_IsBeginnersMode)
-				info = "Cage #: " + (m_Organism.getCageId() + 1)
-						+ " Phenotype: " + m_Organism.getPhenotype()
-						+ " Allele1: " + m_Organism.getGenotype1()
-						+ " Allele2: " + m_Organism.getGenotype2();
+				info = "Genotype: " + m_Organism.getGenotype1()
+						+ " ; " + m_Organism.getGenotype2();
 			else
-				info = "Cage #: " + (m_Organism.getCageId() + 1)
-						+ " Phenotype: " + m_Organism.getPhenotype();
+				info = " Phenotype: " + m_Organism.getPhenotype();
 		}
 		setToolTipText(info);
 	}

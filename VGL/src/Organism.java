@@ -24,7 +24,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Naing Naing Maw
- * @version 1.0 $Id: Organism.java,v 1.1 2004-09-24 15:30:16 brian Exp $
+ * @version 1.0 $Id: Organism.java,v 1.2 2005-06-09 17:16:48 brian Exp $
  */
 
 public class Organism {
@@ -225,9 +225,11 @@ public class Organism {
 	 */
 	public String getGenotype1() {
 		if (allele1 == null) {
-			if ((modelNo == 3) || (modelNo == 4))
+			if ((modelNo == 3) || (modelNo == 4) 
+					|| (modelNo == 9) || (modelNo == 10))
 				return "Y";
-			else if ((modelNo == 5) || (modelNo == 6))
+			else if ((modelNo == 5) || (modelNo == 6) 
+					|| (modelNo == 11) || (modelNo == 12))
 				return "W";
 		}
 		return allele1;
@@ -249,9 +251,11 @@ public class Organism {
 	 */
 	public String getGenotype2() {
 		if (allele2 == null) {
-			if ((modelNo == 3) || (modelNo == 4))
+			if ((modelNo == 3) || (modelNo == 4)
+					|| (modelNo == 9) || (modelNo == 10))
 				return "Y";
-			else if ((modelNo == 5) || (modelNo == 6))
+			else if ((modelNo == 5) || (modelNo == 6)
+					|| (modelNo == 11) || (modelNo == 12))
 				return "W";
 		}
 		return allele2;

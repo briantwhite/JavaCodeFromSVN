@@ -11,13 +11,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -67,9 +70,13 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.5 2005-06-06 20:17:07 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.6 2005-06-09 17:16:48 brian Exp $
  */
 public class VGLMainApp extends JApplet {
+	/**
+	 * Allows or disallows the "Save To Server" option
+	 */
+	private boolean m_SaveToServerEnabled = true;
 	/**
 	 * The unique program id of the application
 	 */
@@ -597,7 +604,9 @@ public class VGLMainApp extends JApplet {
 			mnuFile.addSeparator();
 		}
 		
-		mnuFile.add(m_SaveToServerItem);
+		if (m_SaveToServerEnabled) {
+			mnuFile.add(m_SaveToServerItem);
+		}
 		mnuFile.add(m_PageSetupItem);
 		mnuFile.add(m_PrintItem);
 		
@@ -731,7 +740,11 @@ public class VGLMainApp extends JApplet {
 			m_ToolBar.add(m_SaveButton);
 			m_ToolBar.add(m_SaveAsButton);
 		}
-		m_ToolBar.add(m_SaveToServerButton);
+		
+		if (m_SaveToServerEnabled) {
+			m_ToolBar.add(m_SaveToServerButton);
+		}
+		
 		m_ToolBar.add(m_PrintButton);
 		
 		if(!m_isAnApplet){
@@ -998,7 +1011,7 @@ public class VGLMainApp extends JApplet {
 		catch (IOException e) {
 		}
 		if (receivedLine == null) {
-			JOptionPane.showMessageDialog(this,
+			JOptionPane.showMessageDialog(m_DialogFrame,
 				    "Unable to contact the server.",
 				    "Connection Error",
 				    JOptionPane.ERROR_MESSAGE);
@@ -1010,9 +1023,9 @@ public class VGLMainApp extends JApplet {
 		saveToServerDialog.getContentPane().setLayout(new GridLayout(3,1));
 		
 		final JTextField proposedFileName = new JTextField(25);
-		String[] sections = {"Section1", "Section2", "Section3", "Section4",
+		String[] sections = {"Choose...", "Section1", "Section2", "Section3", "Section4",
 				"Section5", "Section6", "Section7", "Section8", "Section9", "Section10"	};
-		JComboBox sectionList = new JComboBox(sections);
+		final JComboBox sectionList = new JComboBox(sections);
 		final JPasswordField password = new JPasswordField(10);
 		JButton cancelButton = new JButton("Cancel");
 		JButton saveToServerButton = new JButton("Save To Server");
@@ -1054,14 +1067,95 @@ public class VGLMainApp extends JApplet {
 			public void actionPerformed(ActionEvent arg0) {
 				String inputFileName = proposedFileName.getText();
 				String inputPassword = new String(password.getPassword());
-				if (inputFileName.equals("") || inputPassword.equals("")) {
+				String inputSection = sectionList.getSelectedItem().toString();
+				if (inputFileName.equals("") || inputPassword.equals("")
+						|| inputSection.equals("Choose...")) {
 					JOptionPane.showMessageDialog(m_DialogFrame,
-						    "Please be sure to fill out a file name and a password.",
+						    "Please be sure to choose a section, fill out a file name,\n"
+							+ "and give a password.",
 						    "Incomplete Submission ",
 						    JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
+				//now actually send the data to the server
+				URL serverScriptURL = null;
+				try {
+					serverScriptURL = new URL(m_SaveToServerScript);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+				
+				URLConnection serverConnection = null;
+				try {
+					serverConnection = serverScriptURL.openConnection();
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(m_DialogFrame,
+						    "Unable to contact the server.\n" + e1.toString(),
+						    "Connection Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				
+				serverConnection.setDoInput(true);
+				serverConnection.setDoOutput(true);
+				serverConnection.setUseCaches(false);
+				
+				serverConnection.setRequestProperty("Content-Type",
+						"application/x-www-form-urlencoded");
+				
+				DataOutputStream toServerStream = null;
+				try {
+					toServerStream = new DataOutputStream(serverConnection.getOutputStream());
+				} catch (IOException e2) {
+					JOptionPane.showMessageDialog(m_DialogFrame,
+						    "Unable to contact the server.\n" + e2.toString(),
+						    "Connection Error",
+						    JOptionPane.ERROR_MESSAGE);					
+				}
+				
+				String toServerContent = new String("");
+				try {
+					toServerContent = 
+						"fileName=" + URLEncoder.encode(inputFileName, "UTF-8") 
+						+ "&section=" + URLEncoder.encode(inputSection, "UTF-8")
+						+ "&password=" + URLEncoder.encode(inputPassword, "UTF-8");
+				} catch (UnsupportedEncodingException e3) {
+					e3.printStackTrace();
+				}
+				
+				try {
+					toServerStream.writeBytes(toServerContent);
+					toServerStream.flush();
+					toServerStream.close();
+				} catch (IOException e4) {
+					JOptionPane.showMessageDialog(m_DialogFrame,
+						    "Unable to send to the server.\n" + e4.toString(),
+						    "Connection Error",
+						    JOptionPane.ERROR_MESSAGE);					
+				}
+				
+				//get response from server
+				String serverResponseLine = new String("");
+				StringBuffer fromServerBuffer = new StringBuffer();
+				BufferedReader fromServerStream;
+				try {
+					fromServerStream = new BufferedReader(new InputStreamReader(
+							serverConnection.getInputStream()));
+					while (null != ((serverResponseLine = fromServerStream.readLine()))) {
+						fromServerBuffer.append(serverResponseLine);
+					}
+				} catch (IOException e5) {
+					JOptionPane.showMessageDialog(m_DialogFrame,
+						    "Server not responding to transmission.\n" + e5.toString(),
+						    "Connection Error",
+						    JOptionPane.ERROR_MESSAGE);					
+				}
+				String serverResponse = fromServerBuffer.toString();
+				JOptionPane.showMessageDialog(m_DialogFrame,
+					    serverResponse,
+					    "Server Response",
+					    JOptionPane.INFORMATION_MESSAGE);
+				saveToServerDialog.dispose();
 			}
 			
 		});
