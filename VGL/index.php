@@ -52,21 +52,27 @@ Saved VGL Problems from
 <b><u>Saved Problems</b></u>:
 <ul>
 <?php 
+  $foundAny = 0;
   $dh = opendir('.');
   while (false != ($fileName = readdir($dh))) {
     if (false != ereg('.wrk', $fileName)) {
       $files[] = $fileName;
+      $foundAny = 1;
     }
   }
   closedir($dh);
-  
-  sort($files);
-  
-  $dirName = ereg_replace('Documents/', '', strstr(getcwd(), 'Documents/'));
-  
-  foreach ($files As $fileName) {
-    $shortName = ereg_replace('.prb', '', $fileName);
-    echo "<li><input type=\"button\" value=\"$shortName\" onClick=\"showVGL('{$dirName}/{$fileName}', '$shortName')\"></li>\n";
+
+ if ($foundAny == 1) {
+    sort($files);
+    $dirName = ereg_replace('Documents/', '', strstr(getcwd(), 'Documents/'));
+    foreach ($files As $fileName) {
+      $shortName = ereg_replace('.wrk', '', $fileName);
+      echo "<li><input type=\"button\" ";
+      echo "value=\"$shortName\" onClick=\"showVGL('{$dirName}/{$fileName}', '$shortName')\">";
+      $date = date('D F j, Y', filemtime($fileName));
+      $daytime = date ('h:i A', filemtime($fileName));
+      echo "<font color=green> Saved at <i>$daytime</i> on <i>$date</i></font></li>\n";
+    }
   }
 ?>
 </ul>

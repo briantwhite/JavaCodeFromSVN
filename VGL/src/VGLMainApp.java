@@ -70,7 +70,7 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.6 2005-06-09 17:16:48 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.7 2005-06-10 17:07:38 brian Exp $
  */
 public class VGLMainApp extends JApplet {
 	/**
@@ -776,7 +776,7 @@ public class VGLMainApp extends JApplet {
 	 */
 	private void aboutVGL() {
 		JOptionPane.showMessageDialog(this, m_ProgramId + "\n"
-				+ "Release Version 1.3\n" + "Copyright 2004\n" + "VGL Team.\n"
+				+ "Release Version 1.4\n" + "Copyright 2005\n" + "VGL Team.\n"
 				+ "All Rights Reserved\n" + "GNU General Public License\n"
 				+ "http://www.gnu.org/copyleft/gpl.html",
 				"About Virtual Genetics Lab...",
@@ -1023,8 +1023,8 @@ public class VGLMainApp extends JApplet {
 		saveToServerDialog.getContentPane().setLayout(new GridLayout(3,1));
 		
 		final JTextField proposedFileName = new JTextField(25);
-		String[] sections = {"Choose...", "Section1", "Section2", "Section3", "Section4",
-				"Section5", "Section6", "Section7", "Section8", "Section9", "Section10"	};
+		String[] sections = {"Choose...", "Section01", "Section02", "Section03", "Section04",
+				"Section05", "Section06", "Section07", "Section08", "Section09", "Section10"	};
 		final JComboBox sectionList = new JComboBox(sections);
 		final JPasswordField password = new JPasswordField(10);
 		JButton cancelButton = new JButton("Cancel");
@@ -1113,12 +1113,27 @@ public class VGLMainApp extends JApplet {
 						    JOptionPane.ERROR_MESSAGE);					
 				}
 				
+				// get the XML representaiton of this problem
+				String XMLString = new String();
+				try {
+					ArrayList al = new ArrayList();
+					Iterator it = m_CageCollection.iterator();
+					while (it.hasNext()) {
+						CageUI cui = (CageUI) it.next();
+						Cage c = cui.getCage();
+						al.add(c);
+					}
+					XMLString = m_Genetics.saveAsString(al);
+				} catch (Exception e) {
+				}
+
 				String toServerContent = new String("");
 				try {
 					toServerContent = 
 						"fileName=" + URLEncoder.encode(inputFileName, "UTF-8") 
 						+ "&section=" + URLEncoder.encode(inputSection, "UTF-8")
-						+ "&password=" + URLEncoder.encode(inputPassword, "UTF-8");
+						+ "&password=" + URLEncoder.encode(inputPassword, "UTF-8")
+					    + "&XMLdata=" + URLEncoder.encode(XMLString, "UTF-8");
 				} catch (UnsupportedEncodingException e3) {
 					e3.printStackTrace();
 				}
@@ -1155,6 +1170,10 @@ public class VGLMainApp extends JApplet {
 					    serverResponse,
 					    "Server Response",
 					    JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(m_DialogFrame,
+					    serverResponse,
+					    "Reminder",
+					    JOptionPane.PLAIN_MESSAGE);
 				saveToServerDialog.dispose();
 			}
 			

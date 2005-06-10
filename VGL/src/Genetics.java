@@ -32,7 +32,7 @@ import org.jdom.output.XMLOutputter;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Naing Naing Maw
- * @version 1.0 $Id: Genetics.java,v 1.2 2005-06-03 18:14:42 brian Exp $
+ * @version 1.0 $Id: Genetics.java,v 1.3 2005-06-10 17:07:38 brian Exp $
  */
 
 public class Genetics {
@@ -218,7 +218,29 @@ public class Genetics {
 	 */
 	public void save(ArrayList elements, File file) throws Exception {
 		FileOutputStream output = new FileOutputStream(file);
-
+		Document doc = getXMLDoc(elements); 
+		XMLOutputter outputter = new XMLOutputter();
+		outputter.output(doc, output);
+	}
+	
+	/**
+	 * generates an XML string representation for use by SaveToServer
+	 * @param elements
+	 * @return
+	 * @throws Exception
+	 */
+	public String saveAsString(ArrayList elements) throws Exception {
+		Document doc = getXMLDoc(elements);
+		XMLOutputter outputter = new XMLOutputter();
+		return outputter.outputString(doc);
+	}
+	
+	/**
+	 * core save method for save and saveToString
+	 * @return
+	 * @throws Exception
+	 */
+	private Document getXMLDoc(ArrayList elements) throws Exception {
 		// creating the whole tree
 		Element root = new Element("Vgl");
 		root.addContent(saveMeta());
@@ -231,9 +253,7 @@ public class Genetics {
 		root.addContent(data);
 
 		Document doc = new Document(root);
-
-		XMLOutputter outputter = new XMLOutputter();
-		outputter.output(doc, output);
+		return doc;
 	}
 
 	/**

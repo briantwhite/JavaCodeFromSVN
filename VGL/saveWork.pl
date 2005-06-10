@@ -7,6 +7,7 @@ $cryptpw = "11uRs9Gu0knxE";
 $password = $query->param('password');
 $section = $query->param('section');
 $fileName = $query->param('fileName');
+$XMLdata = $query->param('XMLdata');
 
 print "content-type: text/html \n\n<html><body>";
 
@@ -24,15 +25,18 @@ if ($section !~ m/^Section[0-9]{1,2}$/) {
 
 #process the filename
 
+# turn spaces to underscores
+$fileName =~ s/ /_/g;
+
 # nuke all illegal chars
 $fileName =~ s/[^A-Za-z0-9_-]//g;
 
-# truncate to 20 chars
-$fileName = substr($fileName, 0, 20);
+# truncate to 25 chars
+$fileName = substr($fileName, 0, 25);
 
-# add the date
-$fileName = $fileName . "." . (localtime)[4] . "." . (localtime)[3] .
-    "." . (localtime)[2] . "." . (localtime)[1] . "." . (localtime)[0];
+# add 3 random digits to make it unique
+srand;
+$fileName = $fileName . (int(rand(1000) + 1));
 
 # see if the file already exists
 if (-e $fileName) {
@@ -41,7 +45,31 @@ if (-e $fileName) {
   exit 1;
 }
 
-print $fileName;
+# see if the xml is OK
+# first line contains "xml"
+# second line starts with "<Vgl>"
+# only 2 lines long
+@XMLParts = split(/^/m, $XMLdata);
+
+if (($XMLParts[0] !~ m/xml/) 
+    || ($XMLParts[1] !~ m/^<Vgl>/)
+    || (scalar(@XMLParts) != 2)) {
+  print "The work file is not in the correct format.<br>\n";
+  print "No file saved.\n";
+  exit 1;
+}
+
+open XML_FILE, ">/Library/WebServer/Documents/VGLProblems/$section/$fileName.wrk"
+  or die ("Could not open $section/$fileName.wrk");
+  print XML_FILE $XMLdata;
+close XML_FILE;
+
+chmod 0400, "/Library/WebServer/Documents/VGLProblems/$section/$fileName.wrk";
+
+print "This problem was saved on the server.<br>\n";
+print "It can be found on the web page for $section.<br>\n";
+print "It is called <font color=blue>$fileName</font>.<br>";
+print "<font color=red>Please make a note of this name.</font><br>";
 
 exit 1;
 
