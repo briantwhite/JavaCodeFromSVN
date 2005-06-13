@@ -70,7 +70,7 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.7 2005-06-10 17:07:38 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.8 2005-06-13 14:25:47 brian Exp $
  */
 public class VGLMainApp extends JApplet {
 	/**
@@ -1133,7 +1133,9 @@ public class VGLMainApp extends JApplet {
 						"fileName=" + URLEncoder.encode(inputFileName, "UTF-8") 
 						+ "&section=" + URLEncoder.encode(inputSection, "UTF-8")
 						+ "&password=" + URLEncoder.encode(inputPassword, "UTF-8")
-					    + "&XMLdata=" + URLEncoder.encode(XMLString, "UTF-8");
+					    + "&XMLdata=" + URLEncoder.encode(XMLString, "UTF-8")
+						+ "&HTMLdata=" + URLEncoder.encode(getWorkAsHTML(), "UTF-8");
+					
 				} catch (UnsupportedEncodingException e3) {
 					e3.printStackTrace();
 				}
@@ -1211,7 +1213,17 @@ public class VGLMainApp extends JApplet {
 		docRenderer.setScaleWidthToFit(true);
 		JTextPane printTextPane = new JTextPane();
 		printTextPane.setContentType("text/html");
-		//prepare the html for printing
+		printTextPane.setText(getWorkAsHTML());
+		HTMLDocument htDoc = (HTMLDocument) printTextPane.getDocument();
+		docRenderer.print(htDoc);
+	}
+	
+	/**
+	 * geneate an html representaiton of the current work
+	 * used by print() and saveToServer()
+	 *
+	 */
+	private String getWorkAsHTML() {
 		StringBuffer htmlString = new StringBuffer();
 		htmlString.append("<html><body>");
 		for (int i = 0; i < m_CageCollection.size(); i++) {
@@ -1260,10 +1272,7 @@ public class VGLMainApp extends JApplet {
 			htmlString.append("</table><p></p>");
 		}
 		htmlString.append("</body></html>");
-
-		printTextPane.setText(htmlString.toString());
-		HTMLDocument htDoc = (HTMLDocument) printTextPane.getDocument();
-		docRenderer.print(htDoc);
+		return htmlString.toString();
 	}
 
 	/**
