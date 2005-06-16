@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -70,7 +71,7 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.8 2005-06-13 14:25:47 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.9 2005-06-16 16:34:19 brian Exp $
  */
 public class VGLMainApp extends JApplet {
 	/**
@@ -776,7 +777,7 @@ public class VGLMainApp extends JApplet {
 	 */
 	private void aboutVGL() {
 		JOptionPane.showMessageDialog(this, m_ProgramId + "\n"
-				+ "Release Version 1.4\n" + "Copyright 2005\n" + "VGL Team.\n"
+				+ "Release Version 1.4.1\n" + "Copyright 2005\n" + "VGL Team.\n"
 				+ "All Rights Reserved\n" + "GNU General Public License\n"
 				+ "http://www.gnu.org/copyleft/gpl.html",
 				"About Virtual Genetics Lab...",
@@ -835,7 +836,14 @@ public class VGLMainApp extends JApplet {
 				result = m_FChooser.getSelectedFile();
 		}
 		update(getGraphics());
-
+	
+		//need to kill the dialog so it won't re-appear on de-iconify
+		Window[] windows = m_DialogFrame.getOwnedWindows();
+		for (int i = 0; i < windows.length; i++) {
+			if (windows[i].toString().matches("title=New Problem Type Selection")) {
+				windows[i].dispose();
+			}
+		}
 		return result;
 	}
 
@@ -954,7 +962,8 @@ public class VGLMainApp extends JApplet {
 	/**
 	 * Saves the current work done by the user to a file.
 	 */
-	private void saveProblem() {
+	private boolean saveProblem() {
+		boolean success = false;
 		if (m_CageCollection != null) {
 			if (m_CurrentSavedFile == null)
 				m_CurrentSavedFile = selectFile(m_DefaultDirectory,
@@ -969,14 +978,19 @@ public class VGLMainApp extends JApplet {
 					Cage c = cui.getCage();
 					al.add(c);
 				}
-				if (m_CurrentSavedFile != null)
-					if (!m_CurrentSavedFile.getPath().endsWith(".wrk"))
+				if (m_CurrentSavedFile != null) {
+					if (!m_CurrentSavedFile.getPath().endsWith(".wrk")) {
 						m_CurrentSavedFile = convertTo(m_CurrentSavedFile,
-								".wrk");
-				m_Genetics.save(al, m_CurrentSavedFile);
+						".wrk");
+					}
+					m_Genetics.save(al, m_CurrentSavedFile);
+					success = true;
+				}
 			} catch (Exception e) {
 			}
 		}
+
+		return success;
 	}
 
 	/**
@@ -1303,8 +1317,14 @@ public class VGLMainApp extends JApplet {
 							+ "Do you wish to save before quitting?",
 					"Exit VGL", JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE);
-			if (ans == JOptionPane.YES_OPTION)
-				saveProblem();
+			if (ans == JOptionPane.YES_OPTION) {
+				if (saveProblem()) {
+					cleanUp();
+					System.exit(0);
+				} else {
+					return;
+				}
+			}
 			if (ans != JOptionPane.CANCEL_OPTION) {
 				cleanUp();
 				System.exit(0);
