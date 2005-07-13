@@ -53,7 +53,7 @@ import javax.swing.border.Border;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: CageUI.java,v 1.2 2005-06-09 17:16:48 brian Exp $
+ * @version 1.0 $Id: CageUI.java,v 1.3 2005-07-13 14:38:31 brian Exp $
  */
 public class CageUI extends JDialog implements WindowListener {
 	/**
@@ -615,13 +615,21 @@ public class CageUI extends JDialog implements WindowListener {
 			m_ParentImages[0] = new OrganismUI(o1, true, m_IsBeginner, m_Vial);
 			m_ParentInfoPanel.add(m_ParentImages[0]);
 			m_ParentInfoPanel.add(new JLabel("(" + cageId + ")"));
-			m_ParentInfoPanel.add(new JLabel(phenoName1));
+			if (m_Trait.equals("Legs")) {
+				m_ParentInfoPanel.add(new JLabel(phenoName1 + " Legs"));
+			} else {
+				m_ParentInfoPanel.add(new JLabel(phenoName1));
+			}
 			cageId = o2.getCageId() + 1;
 			String phenoName2 = o2.getPhenotype();
 			m_ParentImages[1] = new OrganismUI(o2, true, m_IsBeginner, m_Vial);
 			m_ParentInfoPanel.add(m_ParentImages[1]);
 			m_ParentInfoPanel.add(new JLabel("(" + cageId + ")"));
-			m_ParentInfoPanel.add(new JLabel(phenoName2));
+			if (m_Trait.equals("Legs")) {
+				m_ParentInfoPanel.add(new JLabel(phenoName2 + " Legs"));
+			} else {
+				m_ParentInfoPanel.add(new JLabel(phenoName2));
+			}
 		} else {
 			if (m_IsBeginner) {
 				if (m_Details != null) {

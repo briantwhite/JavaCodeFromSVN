@@ -71,7 +71,7 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.9 2005-06-16 16:34:19 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.10 2005-07-13 14:38:32 brian Exp $
  */
 public class VGLMainApp extends JApplet {
 	/**
@@ -777,7 +777,7 @@ public class VGLMainApp extends JApplet {
 	 */
 	private void aboutVGL() {
 		JOptionPane.showMessageDialog(this, m_ProgramId + "\n"
-				+ "Release Version 1.4.1\n" + "Copyright 2005\n" + "VGL Team.\n"
+				+ "Release Version 1.4.2\n" + "Copyright 2005\n" + "VGL Team.\n"
 				+ "All Rights Reserved\n" + "GNU General Public License\n"
 				+ "http://www.gnu.org/copyleft/gpl.html",
 				"About Virtual Genetics Lab...",
