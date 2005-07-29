@@ -1,0 +1,165 @@
+<html>
+<head>
+<title>jlogP: a Hydrophobicity and Molecular Formula Calculator Applet</title>
+</head>
+<body>
+<h3><center>jlogP: a Hydrophobicity and Molecular Formula Calculator Applet</h3></center>
+JlogP is a java applet the calculates two important properties of small molecules:
+<ul>
+  <li><u>Molecular Formula</u>: the number of atoms of each element present in the 
+         molecule as well as the molecule's overall charge.</li>
+  <li><u>Hydrophobicity</u> expressed as logP: this is the calucalted logarithm of 
+         the octanol/water partition coefficient of the molecule.  The higher the
+         logP, the more hydrophobic the molecule. <font color=red>Note that the
+         logP values calculated by jlogP are <i>very approximate</i>.  They
+         are intended for teaching purposes only and not for research or
+         development.</font>  See below for other, professional-grade logP
+         calculation programs.</li>
+</ul>
+
+JlogP requres that the molecule's structure be submitted in three different 
+formats simultaneously: SMILES, jme, and MDL molfile</a>.  These three input 
+formats are most easily provided by 
+<a href="http://www.molinspiration.com/jme/getjme.html">JME: the Java Molecule Editor</a> 
+applet.  JME is a very user-friendly molecular drawing applet that can be used in a 
+wide variety of web-based applications. Peter Ertl, the author
+of JME has generously made the JME applet available for free; see the 
+<a href="http://">JME website</a> for details.  A sample page using jlogP and JME can
+be found <a href="test.html">here</a>.
+<br>
+<br>
+You can create your own custom jlogp-JME website based on this <a href="test.html">sample
+page</a> or use it as is.  See below for instructions.
+<hr>
+<b><u>System Requirements</b></u><br>
+JlogP requires the latest version of the Java Virtual Machine (jvm); this is available
+for <a href="http://java.sun.com/getjava/manual.html" target="_blank">free</a> 
+for most platforms (Windows 98 and above; UNIX/Linux; Mac OS X); 
+it is not possible to run jlogP on Mac Classic (OS 9.2 or lower).
+<hr>
+<b><u>Useful Downloads and Instructions</b></u>:
+<ul>
+  <li><a href="CP.pdf">A lab exercise that uses jlogP to teach structure-hydrophobicity
+      relationships</a>.  For a Microsoft Word version of this file, contact 
+      <a href="mailto:brian.white@umb.edu"><i>Brian White</i></a>.</li>
+  <li><a href="proof.pdf">A paper describing the use of jlogP in a teaching lab and a
+      preliminary assessment of learning outcomes from the lab</a>.
+  <li><a href="jlogp.tar.gz">A .tar.gz archive of jlogp and a sample website that 
+      uses jlogP</a>.  Note that you will have to obtain 
+      <a href="www.molinspiration.com/jme/getjme.html">jme</a> separately
+      in order to set up your own jlogP-JME website. <font color=red>Note: if you teach
+      a class using jogP, you are <i>strongly</i> advised to set up your own website 
+      for the following reasons</font>:
+      <ul>
+        <li>You may want to customize the web page to your class.</li>
+        <li>I may update my site without warning.</li>
+        <li>My server may be down without warning.</li>
+      </ul>
+      To set up your own jlogP-JME website, you should:
+      <ol>
+        <li>Obtain <a href="www.molinspiration.com/jme/getjme.html">JME</a>
+            from Peter Ertl.</li>
+        <li>Download and un-compress the archive described above.</li>
+        <li>Put all three files (jlogp.jar, JME.jar, and test.html) in the <u>same
+            directory</u> on your web server.</li>
+        <li>Make a link to test.html on your course website.</li>
+      </ol></li>
+  <li><a href="jlogp_Source.tar.gz">A .tar.gz archive of the JlogP Source Code</a>.
+      This is only useful if you want to modify jlogP and compile it yourself.  There
+      are three files in this archive:
+      <ul>
+        <li><b>jlogp.java</b>: the jlogp applet itself.  This contains the code that
+            determines the hybridization, aromaticity, and neighbors of each atom
+            in the molecule as well as calculating the formula and overall logP.</li>
+        <li><b>Atom.java</b>: an individual atom. This contains the code that categorizes
+            the atom into one of the 90+ types.</li>
+        <li><b>AtomSpec.java</b>: this is a data-carrying object that is passed from
+            Atom to jlogp.</li>
+     </ul>
+     You can build your own version of jlogP as follows (I'd appreciate if you let me know
+     the changes you make so that I might be able to use them myself):
+     <ol>
+       <li>Download and un-compress the source files described above into a
+           specific directory.  Do all the remaining steps in this directory.</li>
+       <li>Modify them as needed.</li>
+       <li>Compile them (for this, you'll need a java compiler): 
+           <code>javac jlogp.java Atom.java AtomSpec.java</code></li>
+       <li>Put them in a jar-file: <code>jar -cvf jlogp.java *.java </code></li>
+       <li>Move jlogp.jar into the proper directory on your web server.</li>
+    </ol></li>
+</ul>
+<hr>
+<b><u>Hydrophobicity Calculations: The details</b></u>:<br>
+This software has been developed for use in teaching <a href="http://intro.bio.umb.edu/111-112/">
+Introductory Biology</a> at the college level. As a result, it lacks some of the features 
+of similar tools that have been developed for professionals.  The important features
+and limitations of jlogP are listed below:
+<ul>
+  <li><b>Allowed structures</b>: Structures using C, N, H, O, P, S, and the halogens are allowed
+      with the following limitations (jlogP will issue a warning if you attempt to calculate
+      the properties of an 'illegal' structure):
+      <ul>
+        <li>Carbon atoms can make only 4 covalent bonds and cannot be charged.</li>
+        <li>Nitrogen atoms can make 3 or 4 covalent bonds (except in the case of NO<sub>2</sub>
+            where they can make 5 covalent bonds); nitrogens can be (+)-charged;
+            (-)-charged N's are not allowed.</li>
+        <li>Oxygen atoms can make 1 or 2 covalent bonds; oxygens can be (-)-charged but not 
+            (+)-charged.</li>
+        <li>Sulfur atoms can make 2 covalent bonds (or 6 as in a SO<sub>2</sub> group); they
+            cannot be charged.</li>
+        <li>Phosphorus atoms can make 5 covalent bonds only (as in a PO<sub>4</sub> group).
+            </li> 
+      </ul></li>
+  <li><b>logP calculation method</b>: jlogP uses a modified version of the atom-additive
+      methods used by Wang <i>et al.</i> (<i>J. Chem. Inf. Comput. Sci.</i> <b>1997</b>,
+      <i>37</i>, 615-21 and <i>Perspectives in Drug Discovery and Design</i> <b>2000</b>:
+      <i>19</i>, 47-66) in their xlogp software.  Briefly, both programs categorize each
+      atom in the molecule into one of 90+ types based on the element, its hybridization,
+      and its neighbors.  Each type has a characteristic contribution to the overall logP
+      of the molecule.  xlogP sums the individual atom contributions and applies 10 correction
+      factors that take larger scale effects into account. jlogp 1.1 does not apply these
+      correction factors; future versions may.
+  <li><b>Charged groups</b>: The only charged groups allowed by jlogP are N+ and O-.  Because
+      the logP of charged groups is highly dependent on pH, jlopP's logP estimates for
+      charged molecules are <u>very approximate</u>.  
+  <li><b>Other software for calculating logP</b>: there are several other programs that
+      can calculate logP values; each has some advantages and disadvantages.  The table 
+      below summarizes this information:
+      <table border=1>
+        <tr>
+          <th>Program</th>
+          <th>Input format(s)</th>
+          <th>Platforms Supported</th>
+          <th>Cost</th>
+          <th>Charged Structures?</th>
+        </tr>
+        <tr>
+          <td><a href="http://www.daylight.com">clogP</a></td>
+          <td>SMILES</td>
+          <td>UNIX/Linux</td>
+          <td>Yearly License fee</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><a href="http://mdl.ipc.pku.edu.cn/drug_design/work/xlogp.html">xlogp</a></td>
+          <td>SYBYL molfile</td>
+          <td>Any (available as source code).</td>
+          <td>Free</td>
+          <td>No.</td>
+        </tr>
+        <tr>
+          <td><a href="http://www.epa.gov/opptintr/exposure/docs/episuite.htm">EPISUITE</a></td>
+          <td>SMILES</td>
+          <td>Windows 98 and above</td>
+          <td>Free</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><a href="http://www.chemaxon.com/marvin/">Marvin</a></td>
+          <td>Drawing program included</td>
+          <td>Any (java applet)</td>
+          <td>Yearly License fee</td>
+          <td>Yes (also pKa)</td>
+        </tr>
+      </table></li>
+</ul>

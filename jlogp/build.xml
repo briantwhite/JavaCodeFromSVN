@@ -1,0 +1,17 @@
+<project name="jlogp" default="jarfile">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/jlogp.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="jlogp"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    </jar>
+        <move file="bin/jlogp.jar" todir="."/>
+    </target>
+	
+</project>
