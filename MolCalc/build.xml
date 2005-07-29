@@ -1,0 +1,22 @@
+<project name="MolCalc" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/MolCalc.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="MolCalc"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    		<fileset dir="Resources/"/>
+	    </jar>
+        <move file="bin/MolCalc.jar" todir="."/>
+    </target>
+
+	<target name="run" depends="jarfile" description="run MolCalc">
+		<java jar="MolCalc.jar" fork="true"/>
+	</target>
+
+</project>
