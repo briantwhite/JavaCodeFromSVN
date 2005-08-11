@@ -27,7 +27,8 @@ import javax.swing.event.ChangeListener;
 
 import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolAdapter;
-import org.jmol.api.JmolSimpleViewer;
+import org.jmol.api.JmolStatusListener;
+import org.jmol.api.JmolViewer;
 
 /*
  * Created on Apr 19, 2005
@@ -54,20 +55,27 @@ public class Molecules {
     static String CpinkScript = "select atomno=4579; color pink;";
     static String DcpkScript = "select atomno=4582; color cpk;";
     static String DwhiteScript = "select atomno=4582; color white;";
+    
+    static JLabel statusLabel = new JLabel("Information shown here.");
+    static JFrame frame = new JFrame("Molecules in 3-dimensions");
+    static JTabbedPane problemPane = new JTabbedPane();
+
 
 	public static void main(String[] args) {
-	    JFrame frame = new JFrame("Molecules in 3-dimensions");
 	    frame.addWindowListener(new ApplicationCloser());
 	    Container contentPane = frame.getContentPane();
 	    contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 	    
+	    JPanel moleculePanel = new JPanel();
+	    moleculePanel.setLayout(new BoxLayout(moleculePanel, BoxLayout.Y_AXIS));
 	    final JmolPanel jmolPanel = new JmolPanel();
+	    final JmolViewer viewer = jmolPanel.getViewer();
 	    jmolPanel.setPreferredSize(new Dimension(600,600));
-	    contentPane.add(jmolPanel);
+	    moleculePanel.add(jmolPanel);
+	    moleculePanel.add(statusLabel);
 	    
-	    final JmolSimpleViewer viewer = jmolPanel.getViewer();
-	    
-	    JTabbedPane problemPane = new JTabbedPane();
+	    contentPane.add(moleculePanel);
+
 	    problemPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				viewer.evalString("zap;");
@@ -274,7 +282,7 @@ public class Molecules {
 	            						  + "reset; select all; wireframe off; "
 										  + "backbone 0.2; color structure; "
 										  + "select 67; color red; spacefill on;"
-										  + "center selected; translate center center;",
+										  + "center selected;",
 										  jmolPanel));
 	    problem5Panel.add(new JLabel("<html><br></html>"));
 	    
@@ -565,13 +573,15 @@ public class Molecules {
 	      System.out.println(strError);
 	  }
 
+
 	  public static JButton makeLoadStructureButton(String buttonLabel, 
 	  		                                 String pdbFile,
 											 String script,
 											 JmolPanel jmolPanel){
-	  	final JmolSimpleViewer viewer = jmolPanel.getViewer();
+	  	final JmolViewer viewer = jmolPanel.getViewer();
 	  	final String pdbFileName = pdbFile;
 	  	final String scriptString = script;
+	  	final String buttonLabelString = buttonLabel;
 	  	JButton button = new JButton("<html><font color=green>"
 	  			                     + buttonLabel
 								   + "</font></html>");
@@ -580,6 +590,7 @@ public class Molecules {
 			    viewer.openStringInline(getPDBasString(pdbFileName));
 			    if (scriptString != null){
 			    	viewer.evalString(scriptString);
+			    	statusLabel.setText(buttonLabelString);
 			    }
 			}
 	    });
@@ -591,7 +602,7 @@ public class Molecules {
 																String script,
 																JRadioButton controlButton,
 																JmolPanel jmolPanel){
-	  	final JmolSimpleViewer viewer = jmolPanel.getViewer();
+	  	final JmolViewer viewer = jmolPanel.getViewer();
 	  	final String pdbFileName = pdbFile;
 	  	final String scriptString = script;
 	  	final JRadioButton bsButton = controlButton;
@@ -624,7 +635,7 @@ public class Molecules {
 															JCheckBox CcheckBox,
 															JCheckBox DcheckBox,
 															JmolPanel jmolPanel){
-	  	final JmolSimpleViewer viewer = jmolPanel.getViewer();
+	  	final JmolViewer viewer = jmolPanel.getViewer();
 	  	final String pdbFileName = pdbFile;
 	  	final String scriptString = baseScript;
 	  	final JCheckBox DrugCheckBox = drugCheckBox;
@@ -688,7 +699,7 @@ public class Molecules {
 	  public static JButton makeScriptButton(String buttonLabel, 
 	  											String script,
 												JmolPanel jmolPanel){
-	  	final JmolSimpleViewer viewer = jmolPanel.getViewer();
+	  	final JmolViewer viewer = jmolPanel.getViewer();
 	  	final String scriptString = script;
 	  	JButton button = new JButton(buttonLabel);
 	  	button.addActionListener(new ActionListener() {
@@ -703,7 +714,7 @@ public class Molecules {
 	  														String script,
 															JRadioButton controlButton,
 															JmolPanel jmolPanel){
-	  	final JmolSimpleViewer viewer = jmolPanel.getViewer();
+	  	final JmolViewer viewer = jmolPanel.getViewer();
 	  	final String scriptString = script;
 	  	JButton button = new JButton(buttonLabel);
 	  	final JRadioButton bsButton = controlButton;
@@ -714,7 +725,7 @@ public class Molecules {
 	  		  		sizeString = "spacefill 0.5; wireframe 0.2; ";
 	  		  	} 
 	  			viewer.evalString(scriptString + sizeString
-	  					+ "center selected; zoom 400; translate center center;");
+	  					+ "center selected; zoom 400; ");
 	  		}
 	  	});
 	  	return button;
@@ -749,15 +760,17 @@ public class Molecules {
 	    }
 	  }
 
-	  static class JmolPanel extends JPanel {
-	    JmolSimpleViewer viewer;
+	  static class JmolPanel extends JPanel 
+	               implements JmolStatusListener {
+	    JmolViewer viewer;
 	    JmolAdapter adapter;
 	    JmolPanel() {
 	      adapter = new SmarterJmolAdapter(null);
-	      viewer = JmolSimpleViewer.allocateSimpleViewer(this, adapter);
+	      viewer = org.jmol.viewer.Viewer.allocateViewer(this, adapter);
+	      viewer.setJmolStatusListener(this);
 	    }
 
-	    public JmolSimpleViewer getViewer() {
+	    public JmolViewer getViewer() {
 	      return viewer;
 	    }
 
@@ -769,5 +782,55 @@ public class Molecules {
 	      g.getClipBounds(rectClip);
 	      viewer.renderScreenImage(g, currentSize, rectClip);
 	    }
+
+	    //jmol status listener methods
+
+		public void scriptStatus(String statusString) {
+			if (statusString.equals("Script completed")){
+				statusLabel.setText("<html><font color=green>"
+						          + "Ready</font></html>");
+				return;
+			} 
+			if (statusString.endsWith("atoms selected")) {
+				statusLabel.setText("<html><font color=red>"
+						          + "Animation running.</font></html>");
+				return;
+			}
+			statusLabel.setText("<html><font color=red>" 
+					           + statusString 
+							   + "</font></html>");
+			
+		}
+
+		public void notifyAtomPicked(int arg0, String atomInfo) {
+			String editedAtomInfo = new String("");
+			switch (problemPane.getSelectedIndex()) {
+				case 0:  editedAtomInfo = justAtomNames(atomInfo); break;
+				case 1:  editedAtomInfo = justAtomNames(atomInfo); break;
+				default: editedAtomInfo = atomInfo; break;
+			}
+			statusLabel.setText("You just clicked: " + editedAtomInfo);
+		}
+		
+	    public void notifyFileLoaded(String arg0, String arg1, String arg2, Object arg3, String arg4) {}
+		public void scriptEcho(String arg0) {}
+		public void setStatusMessage(String arg0) {}
+		public void notifyScriptTermination(String arg0, int arg1) {}
+		public void handlePopupMenu(int arg0, int arg1) {}
+		public void notifyMeasurementsChanged() {}
+		public void notifyFrameChanged(int arg0) {}
+		public void showUrl(String arg0) {}
+		public void showConsole(boolean arg0) {}
 	  }
+
+	  static String justAtomNames(String atomInfo){
+	      String atom = String.valueOf(atomInfo.charAt(
+                                  atomInfo.indexOf(".") + 1));
+	      if (atom.equals("H")) return new String("An Hydrogen Atom");
+	      if (atom.equals("C")) return new String("A Carbon Atom");
+	      if (atom.equals("N")) return new String("A Nitrogen Atom");
+	      if (atom.equals("O")) return new String("An Oxygen Atom");
+	      return new String("A " + atom + " Atom");
+	  }
+
 	}
