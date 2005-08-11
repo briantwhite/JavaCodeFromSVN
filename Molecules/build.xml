@@ -16,7 +16,7 @@
         <move file="bin/Molecules.jar" todir="."/>
     </target>
 	
-	<target name="run" depends="jarfile" description="run Lysozyme">
+	<target name="run" depends="jarfile" description="run Molecules in 3d">
 		<java jar="Molecules.jar" fork="true"/>
 	</target>
 
