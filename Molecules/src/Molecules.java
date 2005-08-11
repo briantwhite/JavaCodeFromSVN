@@ -804,10 +804,10 @@ public class Molecules {
 
 		public void notifyAtomPicked(int arg0, String atomInfo) {
 			String editedAtomInfo = new String("");
-			switch (problemPane.getSelectedIndex()) {
-				case 0:  editedAtomInfo = justAtomNames(atomInfo); break;
-				case 1:  editedAtomInfo = justAtomNames(atomInfo); break;
-				default: editedAtomInfo = atomInfo; break;
+			if (problemPane.getSelectedIndex() < 2){
+				editedAtomInfo = justAtomNames(atomInfo);
+			} else {
+				editedAtomInfo = aminoAcidInfo(atomInfo);
 			}
 			statusLabel.setText("You just clicked: " + editedAtomInfo);
 		}
@@ -831,6 +831,36 @@ public class Molecules {
 	      if (atom.equals("N")) return new String("A Nitrogen Atom");
 	      if (atom.equals("O")) return new String("An Oxygen Atom");
 	      return new String("A " + atom + " Atom");
+	  }
+	  
+	  static String aminoAcidInfo(String atomInfo){
+	  	  int firstOpenBracket = atomInfo.indexOf("[");
+	  	  int firstCloseBracket = atomInfo.indexOf("]");
+	  	  int firstDot = atomInfo.indexOf(".", firstCloseBracket);
+	  	  String name = atomInfo.substring(firstOpenBracket + 1, firstCloseBracket);
+	  	  String num = atomInfo.substring(firstCloseBracket + 1, firstDot);
+	  	  
+	  	  if (num.indexOf(":") != -1) {
+	  	  	  num = num.substring(0, num.indexOf(":"));
+	  	  }
+	  	  if (name.equals("A") || name.equals("G") 
+	  	  	   || name.equals("C") || name.equals("T")){
+	  	     return new String("DNA base " + name + " ; Number " + num);
+	  	  }
+	  	  
+	  	  if (name.equals("YRR")){
+	  	      return new String("Modified DNA base; Number " + num);
+	  	  }
+	  	  
+	  	  if (name.equals("S58")){
+	  	      return new String("Drug ");
+	  	  }
+	  	  
+	  	  if (name.equals("HEM")){
+	  	  	  return new String("Heme group");
+	  	  }
+	  	  
+	  	  return new String("Amino acid " + name + " ; Number " + num);
 	  }
 
 	}
