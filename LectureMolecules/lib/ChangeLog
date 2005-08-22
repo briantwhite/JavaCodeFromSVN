@@ -1,0 +1,62 @@
+$Id: ChangeLog,v 1.16 2004/12/01 21:02:00 egonw Exp $
+$Author: egonw $
+$Revision: 1.16 $:
+
+version 0.12
+-----------------------------
+- compiled against a CDK from CVS 20041201 with more known formats and 
+  better format detection
+
+version 0.11
+-----------------------------
+- fixed version number in plugin
+
+version 0.10
+-----------------------------
+- allow option to pass an InputStream
+
+version 0.9
+-----------------------------
+- Uses rewritten CDK IO detection mechanism from CVS 20041026
+- Removed chemFormula, because the IO readers are no longer in the jar
+
+version 0.8
+-----------------------------
+- updated for CDK plugin API 1.8
+- updated for CDK editbus API 1.8
+- and now uses the setChemFile(Reader) method
+- fixed license in Java source code
+
+version 0.7
+-----------------------------
+- wrote JavaDoc plugin description
+
+version 0.6
+-----------------------------
+- only select dirs in JFileChooser (closes #901032)
+- now implements plugin API 1.6
+
+version 0.5
+-----------------------------
+- make use of setChemModel model
+- better debug output
+
+version 0.4
+-----------------------------
+- now implements plugin API 1.5: setPropertyDirectory() added
+
+version 0.3
+-----------------------------
+- improved responsiveness by putting format guessing in a thread
+- start with the directory from which the program was started
+
+version 0.2
+-----------------------------
+- use CDK's new ReaderFactory (now able to detect format of gziped files)
+- tuned to CDK cvs from 2004-01-29
+- jar now includes GPL license, a README and the ChangeLog
+- now implements verion 1.4 of the CDK plugin API
+
+version 0.1
+-----------------------------
+- initial release

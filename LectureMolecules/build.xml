@@ -1,0 +1,23 @@
+<project name="Molecules In Lecture" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/MoleculesInLect.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="MoleculesInLect"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    		<fileset dir="lib/"/>
+  	     	    <fileset dir="resources/"/>
+	    </jar>
+        <move file="bin/MoleculesInLect.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run Molecules in Lecture">
+		<java jar="MoleculesInLect.jar" fork="true"/>
+	</target>
+
+</project>

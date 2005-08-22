@@ -1,0 +1,7 @@
+<!ELEMENT dblist       (database+)>  
+<!ELEMENT database     EMTPY>
+
+<!ATTLIST database
+            id           ID     #REQUIRED
+            url          CDATA  #REQUIRED
+            definition   CDATA  #FIXED "database.xml">
