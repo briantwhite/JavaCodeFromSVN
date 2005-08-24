@@ -69,7 +69,14 @@ public class MoleculesInLect {
 
 	    lecturePane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				viewer.evalString("zap;");
+				viewer.evalString("zap;"
+						+ "spacefill off;"
+						+ "wireframe off;"
+						+ "backbone off;"
+						+ "slab off;"
+						+ "spin off;"
+						+ "cartoon off;"
+						+ "dots off;");
 			}
 	    	
 	    });
@@ -113,7 +120,14 @@ public class MoleculesInLect {
 				+ "dots off;"
 				+ "wireframe off;"
 				+ "backbone on;"
-				+ "color chain;"
+				+ "select :a;"
+				+ "color yellow;"
+				+ "select :b;"
+				+ "color green;"
+				+ "select :c;"
+				+ "color blue;"
+				+ "select :d;"
+				+ "color purple;"
 				+ "select ligand;"
 				+ "spacefill 0.4;"
 				+ "wireframe 0.16;"
@@ -180,7 +194,14 @@ public class MoleculesInLect {
 	    hemoLect1Panel.add(makeScriptButton("Show 4 subunits and Hemes",
 	    		"select all;"
 	    		+ "spacefill on;"
-				+ "color chain;"
+				+ "select :a;"
+				+ "color yellow;"
+				+ "select :b;"
+				+ "color green;"
+				+ "select :c;"
+				+ "color blue;"
+				+ "select :d;"
+				+ "color purple;"
 				+ "select ligand;"
 				+ "color red;",
 				"Hemoglobin Subunits and "
@@ -191,7 +212,14 @@ public class MoleculesInLect {
 	    		"select all;"
 	    		+ "spacefill off;"
 				+ "wireframe on;"
-				+ "color chain;"
+				+ "select :a;"
+				+ "color yellow;"
+				+ "select :b;"
+				+ "color green;"
+				+ "select :c;"
+				+ "color blue;"
+				+ "select :d;"
+				+ "color purple;"
 				+ "select ligand;"
 				+ "spacefill on;"
 				+ "color red;",
@@ -224,7 +252,7 @@ public class MoleculesInLect {
 				+ "color blue;"
 				+ "center selected;"
 				+ "spacefill off;"
-				+ "wireframe on;"
+				+ "wireframe 0.2;"
 				+ "backbone 0.4;"
 				+ "select backbone;"
 				+ "color structure;"
@@ -398,6 +426,7 @@ public class MoleculesInLect {
 	    		"reset;"
 	    		+ "restrict protein and :b;"
 	    		+ "select protein and :b;"
+				+ "spacefill on;"
 				+ "color white;"
 				+ "select hydrophobic;"
 				+ "color red;"
@@ -700,13 +729,67 @@ public class MoleculesInLect {
 	    membranePanel.setLayout(new BoxLayout(membranePanel, BoxLayout.Y_AXIS));
 	    
 	    membranePanel.add(new JLabel("<html><font color=red size=+2>"
-	    		                   + "Membranes"
-								   + "<br></font></html>"));
+	    		+ "Membranes"
+				+ "<br></font></html>"));
+	    
+	    membranePanel.add(makeLoadStructureButton("Load one phospholipid.",
+	    		"1lip.pdb",
+				"spacefill 0.48;"
+				+ "wireframe 0.16;",
+				"One Phospholipid.",
+				jmolPanel));
+	    
+	    membranePanel.add(makeLoadStructureButton("Load one layer.",
+	    		"1layer.pdb",
+				"spacefill 0.48;"
+				+ "wireframe 0.16;",
+				"One Layer of a Membrane.",
+				jmolPanel));
+
 	    membranePanel.add(makeLoadStructureButton("Load membrane.",
-	    		                           "???.pdb",
-	    		                           null,
-										   "Membrane",
-										   jmolPanel));
+	    		"crystall.pdb",
+				"spacefill 0.48;"
+				+ "wireframe 0.16;",
+				"A Piece of Membrane.",
+				jmolPanel));
+
+	    membranePanel.add(makeScriptButton("Hide Water",
+	    		"reset;"
+	    		+ "reset;"
+		    + "restrict lip;"
+		    + "spacefill 0.48;"
+		    + "wireframe 0.16;"
+		    + "color cpk;",
+				"Membrane without water.",
+				jmolPanel));
+
+	    membranePanel.add(makeScriptButton("Show Water",
+	    		"reset;"
+	    		+ "reset;"
+		    + "restrict lip;"
+		    + "spacefill 0.48;"
+		    + "wireframe 0.16;"
+		    + "color cpk;"
+			+ "select water;"
+			+ "spacefill on;"
+			+ "color blue;",
+				"Membrane with <font color=blue>water</font>.",
+				jmolPanel));
+
+	    membranePanel.add(makeLoadStructureButton("Load a transmembrane pore.",
+	    		"1pho.pdb",
+				"restrict not water;"
+		        + "spacefill on;"
+		        + "color cpk;"
+		        + "select hydrophobic;"
+		        + "color purple;"
+		        + "rotate x -90;",
+				"A transmembrane pore. <font color=purple>\'phobic</font>",
+				jmolPanel));
+
+	    JRadioButton[] buttons3 = makeSpinToggleButtons(jmolPanel);
+	    membranePanel.add(buttons3[0]);
+	    membranePanel.add(buttons3[1]);
 
 	    membranePanel.add(new JLabel("<html><br></html>"));
 	    membranePanel.add(new JLabel(
@@ -720,11 +803,128 @@ public class MoleculesInLect {
 	    dnaPanel.add(new JLabel("<html><font color=red size=+2>"
 	    		                   + "Lysozyme 3<sup>o</sup> Structure II"
 								   + "<br></font></html>"));
-	    dnaPanel.add(makeLoadStructureButton("Load lysozyme and show exterior; red = phobic.",
-                "1LYD.PDB",
-                null,
-				   "Load Membrane",
+	    
+	    dnaPanel.add(makeLoadStructureButton("Load DNA",
+                "DNA1.pdb",
+                "spacefill on;"
+		        + "rotate x 60;"
+		        + "rotate z 28;",
+				   "Load DNA",
 				   jmolPanel));
+	    
+	    dnaPanel.add(makeScriptButton("Show two strands",
+	    		"reset;"
+	    		+ "rotate x 60;"
+				+ "rotate z 28;"
+				+ "select :C;"
+				+ "color red;"
+				+ "select :D;"
+				+ "color green;",
+				"The two DNA strands.",
+				jmolPanel));
+
+	    dnaPanel.add(makeScriptButton("Show one strand",
+	    		"reset;"
+	    		+ "rotate x 60;"
+				+ "rotate z 28;"
+				+ "restrict :C;"
+				+ "color red;"
+				+ "select :C and backbone;"
+				+ "color blue;",
+				"One Strand:<font color=red> bases </font>and <font color=blue>Backbone</font>.",
+				jmolPanel));
+
+	    dnaPanel.add(makeScriptButton("Show close-up",
+	    		"reset;"
+	    		+ "select all;"
+				+"spacefill 0.48;"
+				+ "wireframe 0.16;"
+				+ "rotate z -108;"
+				+ "rotate y -16;"
+				+ "rotate x 127;"
+				+ "color green;"
+				+ "select backbone;"
+				+ "color blue;"
+				+ "select *.p or *.o1p or *.o2p or *.o3* or *.o5*;"
+				+ "color purple;"
+				+ "select *.c5*;"
+				+ "color cyan;"
+				+ "select *.C3*;"
+				+ "color red;"
+				+ "restrict 460-463c;"
+				+ "center selected;"
+				+ "zoom 500;",
+				"<font color=blue>Sugar</font>"
+				+ " <font color=purple>Phosphate</font>"
+				+ " <font color=green>Base</font>"
+				+ " <font color=red>3'C</font>"
+				+ " <font color=30FFFF>5'C</font>.",
+				jmolPanel));
+
+	    dnaPanel.add(makeScriptButton("Show one base-pair",
+	    		"reset;"
+	    		+ "select all;"
+				+"spacefill 0.48;"
+				+"wireframe 0.16;"
+				+"set monitors off;"
+				+"monitor 238 747;"
+				+"monitor 237 749;"
+				+ "color monitors yellow;"
+				+"rotate z -108;"
+				+"rotate y -16;"
+				+"rotate x 127;"
+				+"color green;"
+				+"select backbone;"
+				+"color blue;"
+				+"select *.p or *.o1p or *.o2p or *.o3* or *.o5*;"
+				+"color purple;"
+				+"select *.c5*;"
+				+"color cyan;"
+				+"select *.C3*;"
+				+"color red;"
+				+"restrict 460c or 487d;"
+				+"center selected;"
+				+"zoom 500;",
+				"<font color=red>Base-pair </font>"
+				+ "<font color=blue>Sug. </font>" 
+				+ "<font color=purple>Phos. </font>" 
+				+ "<font color=green>Base </font>" 
+				+ "<font color=red>3'C </font>" 
+				+ "<font color=30FFFF>5'C</font>.",
+				jmolPanel));
+
+	    dnaPanel.add(makeScriptButton("Show whole thing",
+	    		"reset;"
+	    		+ "select all;"
+				+"spacefill 0.48;"
+				+"wireframe 0.16;"
+				+"set monitors off;"
+				+ "rotate x 60;"
+		        + "rotate z 28;"
+				+"select a;"
+				+"color red;"
+				+"select t;"
+				+"color cyan;"
+				+"select g;"
+				+"color green;"
+				+"select c;"
+				+"color blue;"
+				+"select backbone and :c;"
+				+"color yellow;"
+				+"select backbone and :d;"
+				+"color purple;",
+				"<font size=+4 color=purple>Back</font>" 
+				+ "<font color=yellow>bone </font>" 
+				+ "<font color=red>A</font>" 
+				+ "<font color=00FFFF>T</font>" 
+				+ "<font color=green>G</font>" 
+				+ "<font color=blue>C</font>.",
+				jmolPanel));
+
+	    JRadioButton[] buttons4 = makeSpinToggleButtons(jmolPanel);
+	    dnaPanel.add(buttons4[0]);
+	    dnaPanel.add(buttons4[1]);
+	    
 	    dnaPanel.add(new JLabel("<html><br></html>"));
 	    
 	    dnaPanel.add(new JLabel(
