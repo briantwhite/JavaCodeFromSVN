@@ -39,39 +39,51 @@ import org.jmol.api.JmolViewer;
  * @author brian
  *
  */
-public class MoleculesInLect {
+public class MoleculesInLect extends JFrame {
 	
-	final static String htmlStart = new String("<html><font size=+5><font color=white>");
-	final static String htmlEnd = new String("</font></font></html>");
-	final static String darkGray = new String("color [100,100,100];");
+	final String htmlStart = new String("<html><font size=+5><font color=white>");
+	final String htmlEnd = new String("</font></font></html>");
+	final String darkGray = new String("color [100,100,100];");
+	final String lightYellow = new String("color [200,200,0];");
 	
-	static JLabel captionLabel = new JLabel("<html><font size=+4 color=white>"
-			+ "Welcome!"
-			+ "</font></html>");
-	static JFrame frame = new JFrame("Molecules in Lecture");
-	static JTabbedPane lecturePane = new JTabbedPane();
+	private JLabel captionLabel;
+	JTabbedPane lecturePane;
+	JPanel moleculePanel;
+	JmolPanel jmolPanel;
+	JmolViewer viewer;
 	
-	
-	public static void main(String[] args) {
-		frame.addWindowListener(new ApplicationCloser());
-		Container contentPane = frame.getContentPane();
+	public MoleculesInLect() {
+		super("Molecules in Lecture");
+		moleculePanel = new JPanel();
+		lecturePane = new JTabbedPane();
+		jmolPanel = new JmolPanel();
+	    viewer = jmolPanel.getViewer();
+	    captionLabel = new JLabel("<html><font size=+4 color=white>"
+				+ "Welcome!"
+				+ "</font></html>");
+	    
+		addWindowListener(new ApplicationCloser());
+		Container contentPane = getContentPane();
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 		
-		JPanel moleculePanel = new JPanel();
-		moleculePanel.setLayout(new BoxLayout(moleculePanel, BoxLayout.Y_AXIS));
-		moleculePanel.setOpaque(true);
-		moleculePanel.setBackground(Color.BLACK);
-		final JmolPanel jmolPanel = new JmolPanel();
-		final JmolViewer viewer = jmolPanel.getViewer();
-		jmolPanel.setPreferredSize(new Dimension(600,600));
-		captionLabel.setPreferredSize(new Dimension(600,100));
 		moleculePanel.add(jmolPanel);
+		jmolPanel.setPreferredSize(new Dimension(600,600));
 		moleculePanel.add(captionLabel);
 		captionLabel.setOpaque(true);
 		captionLabel.setBackground(Color.BLACK);
-		
+		captionLabel.setPreferredSize(new Dimension(600,100));
+		moleculePanel.setLayout(new BoxLayout(moleculePanel, BoxLayout.Y_AXIS));
+		moleculePanel.setOpaque(true);
+		moleculePanel.setBackground(Color.BLACK);
 		contentPane.add(moleculePanel);
-		
+
+		lecturePane.addTab("Hemoglobin I", makeOxyDeoxyPanel(jmolPanel, viewer));
+		lecturePane.addTab("Hemoglobin II", makeHemoLect1Panel(jmolPanel, viewer));
+		lecturePane.addTab("Hemoglobin III", makeHemoLect2Panel(jmolPanel, viewer));
+		lecturePane.addTab("Alkaline Phosphatase", makeapLectPanel(jmolPanel, viewer));
+		lecturePane.addTab("Membranes", makeMembranePanel(jmolPanel, viewer));
+		lecturePane.addTab("DNA", makeDnaPanel(jmolPanel, viewer));
+
 		lecturePane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				viewer.evalString("zap;"
@@ -87,9 +99,18 @@ public class MoleculesInLect {
 			}
 			
 		});
-		
+		contentPane.add(lecturePane);
+	}
+	
+
+	public static void main(String[] args) {
+		JFrame myMolecs = new MoleculesInLect();
+		myMolecs.pack();
+		myMolecs.setVisible(true);
+	}
+	
+	public JPanel makeOxyDeoxyPanel(final JmolPanel jmolPanel, final JmolViewer viewer) {
 		JPanel oxyDeoxyPanel = new JPanel();
-		lecturePane.addTab("Hemoglobin I", oxyDeoxyPanel);
 		oxyDeoxyPanel.setLayout(new BoxLayout(oxyDeoxyPanel, BoxLayout.Y_AXIS));
 		
 		oxyDeoxyPanel.add(new JLabel("<html><font color=red size=+2>"
@@ -114,12 +135,12 @@ public class MoleculesInLect {
 				+ "select ligand;"
 				+ "spacefill 0.4;"
 				+ "wireframe 0.16;"
-				+ "color cpk;"
+				+ "color red;"
 				+ "select HEM.o1 or HEM.o2;"
 				+ "spacefill on;"
-				+ "color purple;",
+				+ "color pink;",
 				"Hemoglobin and <font color=red>heme</font>"
-				+ " and <font color=purple>O<sub>2</sub></font>",
+				+ " and <font color=#FF8E8E>O<sub>2</sub></font>",
 				jmolPanel));
 		
 		oxyDeoxyPanel.add(makeScriptButton("Show backbone, Hemes, and Oxygens",
@@ -135,16 +156,16 @@ public class MoleculesInLect {
 				+ "select :c;"
 				+ "color blue;"
 				+ "select :d;"
-				+ "color purple;"
+				+ "color cyan;"
 				+ "select ligand;"
 				+ "spacefill 0.4;"
 				+ "wireframe 0.16;"
-				+ "color cpk;"
+				+ "color red;"
 				+ "select HEM.o1 or HEM.o2;"
 				+ "spacefill on;"
-				+ "color purple;",
+				+ "color pink;",
 				"Hemoglobin and <font color=red>heme</font>"
-				+ " and <font color=purple>O<sub>2</sub></font>",
+				+ " and <font color=#FF8E8E>O<sub>2</sub></font>",
 				jmolPanel));
 		
 		JRadioButton deoxyButton = new JRadioButton("DE-oxy hemoglobin");
@@ -166,7 +187,7 @@ public class MoleculesInLect {
 				viewer.evalString("animation frame 2;");
 				captionLabel.setText(htmlStart
 						+ "Hemoglobin with 4 "
-						+ "<font color=purple>O<sub>2</sub></font>"
+						+ "<font color=#FF8E8E>O<sub>2</sub></font>"
 						+ " bound"
 						+ htmlEnd);
 			}
@@ -184,9 +205,11 @@ public class MoleculesInLect {
 		oxyDeoxyPanel.add(new JLabel(
 				new ImageIcon(MoleculesInLect.class.getResource("cpkColors.gif"))));
 		
-		
+		return oxyDeoxyPanel;
+	}
+	
+	public JPanel makeHemoLect1Panel(final JmolPanel jmolPanel, final JmolViewer viewer) {
 		JPanel hemoLect1Panel = new JPanel();
-		lecturePane.addTab("Hemoglobin II", hemoLect1Panel);
 		hemoLect1Panel.setLayout(new BoxLayout(hemoLect1Panel, BoxLayout.Y_AXIS));
 		
 		hemoLect1Panel.add(new JLabel("<html><font color=red size=+2>"
@@ -213,7 +236,7 @@ public class MoleculesInLect {
 				+ "select :c;"
 				+ "color blue;"
 				+ "select :d;"
-				+ "color purple;"
+				+ "color cyan;"
 				+ "select ligand;"
 				+ "color red;",
 				"Hemoglobin Subunits and "
@@ -235,7 +258,7 @@ public class MoleculesInLect {
 				+ "select :c;"
 				+ "color blue;"
 				+ "select :d;"
-				+ "color purple;"
+				+ "color cyan;"
 				+ "select ligand;"
 				+ "spacefill on;"
 				+ "color red;",
@@ -253,7 +276,14 @@ public class MoleculesInLect {
 				+ "spacefill on;"
 				+ "wireframe off;"
 				+ "backbone off;"
-				+ "color chain;"
+				+ "select :a;"
+				+ "color yellow;"
+				+ "select :b;"
+				+ "color green;"
+				+ "select :c;"
+				+ "color blue;"
+				+ "select :d;"
+				+ "color cyan;"
 				+ "select ligand;"
 				+ "spacefill on;"
 				+ "color red;"
@@ -482,9 +512,11 @@ public class MoleculesInLect {
 		hemoLect1Panel.add(new JLabel(
 				new ImageIcon(MoleculesInLect.class.getResource("cpkColors.gif"))));
 		
-		
+		return hemoLect1Panel;
+	}
+
+	public JPanel makeHemoLect2Panel(final JmolPanel jmolPanel, final JmolViewer viewer) {
 		JPanel hemoLect2Panel = new JPanel();
-		lecturePane.addTab("Hemoglobin III", hemoLect2Panel);
 		hemoLect2Panel.setLayout(new BoxLayout(hemoLect2Panel, BoxLayout.Y_AXIS));
 		
 		hemoLect2Panel.add(new JLabel("<html><font color=red size=+2>"
@@ -503,7 +535,7 @@ public class MoleculesInLect {
 				+ "wireframe off;"
 				+ "backbone off;"
 				+ "dots on;"
-				+ darkGray
+				+ lightYellow
 				+ "select ligand;"
 				+ "spacefill 0.42;"
 				+ "wireframe 0.16;"
@@ -530,7 +562,7 @@ public class MoleculesInLect {
 				+ "wireframe off;"
 				+ "backbone off;"
 				+ "dots on;"
-				+ darkGray
+				+ lightYellow
 				+ "select ligand;"
 				+ "spacefill 0.42;"
 				+ "wireframe 0.16;"
@@ -617,9 +649,11 @@ public class MoleculesInLect {
 		hemoLect2Panel.add(new JLabel(
 				new ImageIcon(MoleculesInLect.class.getResource("cpkColors.gif"))));
 		
-		
+		return hemoLect2Panel;
+	}
+	 
+	public JPanel makeapLectPanel(final JmolPanel jmolPanel, final JmolViewer viewer){
 		JPanel apLectPanel = new JPanel();
-		lecturePane.addTab("Alkaline Phosphatase", apLectPanel);
 		apLectPanel.setLayout(new BoxLayout(apLectPanel, BoxLayout.Y_AXIS));
 		
 		apLectPanel.add(new JLabel("<html><font color=red size=+2>"
@@ -763,8 +797,11 @@ public class MoleculesInLect {
 		apLectPanel.add(new JLabel(
 				new ImageIcon(MoleculesInLect.class.getResource("cpkColors.gif"))));
 		
+		return apLectPanel;
+	}
+	
+	public JPanel makeMembranePanel(final JmolPanel jmolPanel, final JmolViewer viewer) {
 		JPanel membranePanel = new JPanel();
-		lecturePane.addTab("Membranes", membranePanel);
 		membranePanel.setLayout(new BoxLayout(membranePanel, BoxLayout.Y_AXIS));
 		
 		membranePanel.add(new JLabel("<html><font color=red size=+2>"
@@ -834,13 +871,16 @@ public class MoleculesInLect {
 		membranePanel.add(new JLabel(
 				new ImageIcon(MoleculesInLect.class.getResource("cpkColors.gif"))));
 		
+		return membranePanel;
+	}
+	
+	public JPanel makeDnaPanel (final JmolPanel jmolPanel, final JmolViewer viewer) {
 		JPanel dnaPanel = new JPanel();
-		lecturePane.addTab("DNA", dnaPanel);
 		dnaPanel.setLayout(new BoxLayout(dnaPanel, BoxLayout.Y_AXIS));
 		
 		
 		dnaPanel.add(new JLabel("<html><font color=red size=+2>"
-				+ "Lysozyme 3<sup>o</sup> Structure II"
+				+ "DNA Structure"
 				+ "<br></font></html>"));
 		
 		dnaPanel.add(makeLoadStructureButton("Load DNA",
@@ -973,37 +1013,27 @@ public class MoleculesInLect {
 		dnaPanel.add(new JLabel(
 				new ImageIcon(MoleculesInLect.class.getResource("cpkColors.gif"))));
 		
-		
-		contentPane.add(lecturePane);
-		
-		frame.pack();
-		frame.setVisible(true);
-		
-		String strError = viewer.getOpenFileError();
-		if (strError != null)
-			System.out.println(strError);
+		return dnaPanel;
 	}
 	
-	
-	public static JButton makeLoadStructureButton(String buttonLabel, 
-			String pdbFile,
-			String script,
-			String caption,
+	public  JButton makeLoadStructureButton(String buttonLabel, 
+			final String pdbFile,
+			final String script,
+			final String caption,
 			JmolPanel jmolPanel){
+		
 		final JmolViewer viewer = jmolPanel.getViewer();
-		final String pdbFileName = pdbFile;
-		final String scriptString = script;
-		final String buttonLabelString = buttonLabel;
-		final String captionText = caption;
+
 		JButton button = new JButton("<html><font color=green>"
 				+ buttonLabel
 				+ "</font></html>");
+
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewer.openStringInline(getPDBasString(pdbFileName));
-				captionLabel.setText(htmlStart + captionText + htmlEnd);
-				if (scriptString != null){
-					viewer.evalString(scriptString);
+				viewer.openStringInline(getPDBasString(pdbFile));
+				captionLabel.setText(htmlStart + caption + htmlEnd);
+				if (script != null){
+					viewer.evalString(script);
 				}
 			}
 		});
@@ -1011,24 +1041,25 @@ public class MoleculesInLect {
 	}
 	
 	
-	public static JButton makeScriptButton(String buttonLabel, 
-			String script,
-			String caption,
+	public JButton makeScriptButton(String buttonLabel, 
+			final String script,
+			final String caption,
 			JmolPanel jmolPanel){
+		
 		final JmolViewer viewer = jmolPanel.getViewer();
-		final String scriptString = script;
-		final String captionText = caption;
+
 		JButton button = new JButton(buttonLabel);
+		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewer.evalString(scriptString);
-				captionLabel.setText(htmlStart + captionText + htmlEnd);
+				viewer.evalString(script);
+				captionLabel.setText(htmlStart + caption + htmlEnd);
 			}
 		});
 		return button;
 	}
 	
-	public static JRadioButton[] makeSpinToggleButtons(JmolPanel jmolPanel){
+	public JRadioButton[] makeSpinToggleButtons(JmolPanel jmolPanel){
 		final JmolViewer viewer = jmolPanel.getViewer();
 		JRadioButton[] buttons = new JRadioButton[2];
 		buttons[0] = new JRadioButton("Spin on");
@@ -1050,7 +1081,7 @@ public class MoleculesInLect {
 		return buttons;
 	}
 	
-	public static String getPDBasString(String PDBfileName){
+	public String getPDBasString(String PDBfileName){
 		StringBuffer moleculeString = new StringBuffer();
 		URL moleculeURL = MoleculesInLect.class.getResource(PDBfileName);
 		InputStream moleculeInput = null;
@@ -1079,7 +1110,7 @@ public class MoleculesInLect {
 		}
 	}
 	
-	static class JmolPanel extends JPanel 
+	class JmolPanel extends JPanel 
 	implements JmolStatusListener {
 		JmolViewer viewer;
 		JmolAdapter adapter;
