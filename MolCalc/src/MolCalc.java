@@ -667,7 +667,7 @@ public class MolCalc extends JFrame {
 		return atomDataLines.toString();
 	}
 
-	private static void prettyPrint(String atomLabel, int number,
+	private void prettyPrint(String atomLabel, int number,
 			StringBuffer outString) {
 		if (number == 0) {
 			return;
