@@ -39,29 +39,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-public class MolCalc {
+public class MolCalc extends JFrame {
 	
-	static final String versionNumber = new String("2.0");
+	final static String versionNumber = new String("2.1");
+	JLabel outputInfo;
+	JLabel jmeLabel ;
+	JPanel topPanel;
+	JPanel bottomPanel;
+	JButton calculateButton;
+	JButton aboutButton;
+	JButton helpButton;
 	
-	static JFrame masterFrame = new JFrame("Molecular Properties Calculator Version " + versionNumber);
-
-	static JLabel outputInfo = new JLabel("Ready");
+	JME myJME = new JME();
 	
-	static JLabel jmeLabel = new JLabel("<html><body><font size=-2>" +
-			"JME Editor courtesy of Peter Ertl, Novartis</body></html>");
-	
-	static JPanel topPanel = new JPanel();
-	static JPanel bottomPanel = new JPanel();
-	
-	static JButton calculateButton = new JButton("Calculate Formula and logP");
-	
-	static JButton aboutButton = new JButton("About MolCalc");
-	static JButton helpButton = new JButton("Help");
-	
-	static JME myJME = new JME();
-	
-	public static void main(String[] args) {
-
+	public MolCalc() {
+		super ("Molecular Properties Calculator Version " + versionNumber);
+		outputInfo = new JLabel("Ready");
+		jmeLabel = new JLabel("<html><body><font size=-2>" +
+		                    "JME Editor courtesy of Peter Ertl, Novartis</body></html>");
+		topPanel = new JPanel();
+		bottomPanel = new JPanel();
+		calculateButton = new JButton("Calculate Formula and logP");
+		aboutButton = new JButton("About MolCalc");
+		helpButton = new JButton("Help");
 		bottomPanel.setLayout(new BorderLayout());
 		outputInfo.setSize(new Dimension(450,80));
 		bottomPanel.add(outputInfo, BorderLayout.CENTER);
@@ -74,22 +74,21 @@ public class MolCalc {
 
 		topPanel.setPreferredSize(new Dimension(480,50));
 				
-		masterFrame.setSize(500,600);
-		masterFrame.getContentPane().setLayout(new BorderLayout());
+		setSize(500,600);
+		getContentPane().setLayout(new BorderLayout());
 
-		masterFrame.getContentPane().add(topPanel, BorderLayout.NORTH);
-		masterFrame.getContentPane().add(myJME, BorderLayout.CENTER);
-		masterFrame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+		getContentPane().add(topPanel, BorderLayout.NORTH);
+		getContentPane().add(myJME, BorderLayout.CENTER);
+		getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 				
 		myJME.init();
 		myJME.start();
 		
 		outputInfo.setText("Ready for input");
 
-		masterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Dimension screenSize = masterFrame.getToolkit().getScreenSize();
-		masterFrame.setLocation((screenSize.width / 4), (screenSize.height / 4));
-		masterFrame.setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Dimension screenSize = this.getToolkit().getScreenSize();
+		setLocation((screenSize.width / 4), (screenSize.height / 4));
 		
 		aboutButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
@@ -116,17 +115,17 @@ public class MolCalc {
 				try {
 					helpPane.setPage(MolCalc.class.getResource("index.html"));
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(masterFrame,
+					JOptionPane.showMessageDialog(null,
 							"Be sure the help folder is in the same folder as the program.",
 							"Can't find help file.", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
 				JScrollPane helpScrollPane = new JScrollPane(helpPane);
-				JDialog helpDialog = new JDialog(masterFrame, "Molecular Properties Calculator Help");
+				JDialog helpDialog = new JDialog(getMasterFrame(), "Molecular Properties Calculator Help");
 				helpDialog.getContentPane().setLayout(new BorderLayout());
 				helpDialog.getContentPane().add(helpScrollPane, BorderLayout.CENTER);
-				Dimension screenSize = masterFrame.getToolkit().getScreenSize();
+				Dimension screenSize = getMasterFrame().getToolkit().getScreenSize();
 				helpDialog.setBounds((screenSize.width / 2), (screenSize.height / 2),
 						(screenSize.width * 4 / 10), (screenSize.height * 4 / 10));
 				helpDialog.show();
@@ -137,15 +136,24 @@ public class MolCalc {
 		
 		calculateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				computeAndDisplay(myJME.molFile(), myJME.smiles(), myJME.jmeFile());
+				computeAndDisplay(myJME.molFile(), myJME.smiles(), myJME.jmeFile(), outputInfo);
 			}
 			
 		});
 
 	}
 	
-	public static String computeAndDisplay(String molString, String smileString,
-			String jmeString) {
+	public static void main(String[] args) {
+		MolCalc myMolCalc = new MolCalc();
+		myMolCalc.setVisible(true);
+	}
+	
+	JFrame getMasterFrame() {
+		return this;
+	}
+	
+	String computeAndDisplay(String molString, String smileString,
+			String jmeString, JLabel outputInfo) {
 
 		if (molString.equals("") || smileString.equals("") || jmeString.equals("")) {
 			outputInfo.setText("");
