@@ -62,7 +62,7 @@ public class Molecules extends JFrame {
 	JTabbedPane problemPane;
 	
 	public Molecules() {
-		super("Molecules in 3-dimensions");
+		super("Molecules in 3-dimensions  2.2");
 		addWindowListener(new ApplicationCloser());
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
@@ -384,8 +384,8 @@ public class Molecules extends JFrame {
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 		
 		JRadioButton bsButton1 = new JRadioButton("Show atoms as Ball & Stick");
-		bsButton1.setSelected(true);
 		JRadioButton sfButton1 = new JRadioButton("Show atoms as Spacefill");
+		sfButton1.setSelected(true);
 		ButtonGroup group1 = new ButtonGroup();
 		group1.add(bsButton1);
 		group1.add(sfButton1);
@@ -410,7 +410,8 @@ public class Molecules extends JFrame {
 				"1BNK.PDB",
 				"restrict not water; spacefill on;"
 				+ "select not water; color chain; "
-				+ "select ligand; color red",
+				+ "select ligand; color red;"
+				+ "select not water;",
 				buttonNameLabel,
 				jmolPanel));
 		buttonPanel.add(makeSizeSensitiveScriptButton("Show Arg 182 in the protein and T8 in the DNA.",
@@ -697,7 +698,7 @@ public class Molecules extends JFrame {
 				if (script != null){
 					viewer.evalString(script);
 				}
-				buttonNameLabel.setText(buttonLabel);
+				buttonNameLabel.setText("\"" + buttonLabel + "\"");
 			}
 		});
 		return button;
@@ -725,7 +726,7 @@ public class Molecules extends JFrame {
 					viewer.evalString(script + sizeString +
 					"select all; color cpk; ");
 				}
-				buttonNameLabel.setText(buttonLabel);
+				buttonNameLabel.setText("\"" + buttonLabel + "\"");
 			}
 		});
 		return button;
@@ -789,7 +790,7 @@ public class Molecules extends JFrame {
 					}
 					
 					viewer.evalString(baseScript + addOnScript.toString());
-					buttonNameLabel.setText(buttonLabel);
+					buttonNameLabel.setText("\"" + buttonLabel + "\"");
 				}
 			}
 		});
@@ -806,7 +807,7 @@ public class Molecules extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				viewer.evalString(script);
-				buttonNameLabel.setText(buttonLabel);
+				buttonNameLabel.setText("\"" + buttonLabel + "\"");
 			}
 		});
 		return button;
@@ -829,7 +830,7 @@ public class Molecules extends JFrame {
 				} 
 				viewer.evalString(script + sizeString
 						+ "center selected; zoom 400; ");
-				buttonNameLabel.setText(buttonLabel);
+				buttonNameLabel.setText("\"" + buttonLabel + "\"");
 			}
 		});
 		return button;
@@ -957,7 +958,7 @@ public class Molecules extends JFrame {
 		}
 		
 		if (name.equals("S58")){
-			return new String("Drug ");
+			return new String("the Drug molecule");
 		}
 		
 		if (name.equals("HEM")){
