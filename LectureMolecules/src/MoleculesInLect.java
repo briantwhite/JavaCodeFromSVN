@@ -53,7 +53,7 @@ public class MoleculesInLect extends JFrame {
 	JmolViewer viewer;
 	
 	public MoleculesInLect() {
-		super("Molecules in Lecture");
+		super("Molecules in Lecture 1.1");
 		moleculePanel = new JPanel();
 		lecturePane = new JTabbedPane();
 		jmolPanel = new JmolPanel();
@@ -131,7 +131,7 @@ public class MoleculesInLect extends JFrame {
 				+ "backbone off;"
 				+ "select protein;"
 				+ "dots on;"
-				+ darkGray
+				+ "color yellow;"
 				+ "select ligand;"
 				+ "spacefill 0.4;"
 				+ "wireframe 0.16;"
@@ -148,7 +148,7 @@ public class MoleculesInLect extends JFrame {
 				+ "spacefill off;"
 				+ "dots off;"
 				+ "wireframe off;"
-				+ "backbone on;"
+				+ "backbone 0.25;"
 				+ "select :a;"
 				+ "color yellow;"
 				+ "select :b;"
@@ -250,7 +250,8 @@ public class MoleculesInLect extends JFrame {
 				+ "hbonds off;"
 				+ "labels off;"
 				+ "spacefill off;"
-				+ "wireframe on;"
+				+ "wireframe off;"
+				+ "backbone 0.25;"
 				+ "select :a;"
 				+ "color yellow;"
 				+ "select :b;"
@@ -301,20 +302,20 @@ public class MoleculesInLect extends JFrame {
 				+ "spacefill off;"
 				+ "restrict :b;"
 				+ "select protein and :b;"
-				+ "color blue;"
+				+ "color yellow;"
 				+ "center selected;"
 				+ "spacefill off;"
 				+ "wireframe 0.2;"
 				+ "backbone 0.4;"
 				+ "select backbone;"
-				+ "color structure;"
+				+ "color blue;"
 				+ "select ligand and :b;"
 				+ "spacefill 0.4;"
 				+ "wireframe 0.16;"
 				+ "color red;"
 				+ "move 0 0 0  200  0 0 0  0  5 30 15",
-				"Protein Backbone, "
-				+ "<font color=blue>side-chains</font>, and "
+				"Protein <font color=blue>Backbone</font>, "
+				+ "<font color=yellow>side-chains</font>, and "
 				+ "<font color=red>Heme</font>",
 				jmolPanel));
 		
@@ -382,7 +383,7 @@ public class MoleculesInLect extends JFrame {
 				+ "select protein and :b;"
 				+ "spacefill off;"
 				+ "wireframe off;"
-				+ "backbone 0.1;"
+				+ "backbone 0.25;"
 				+ "color white;"
 				+ "select 94b or 146b;"
 				+ "wireframe 0.16;"
@@ -422,7 +423,7 @@ public class MoleculesInLect extends JFrame {
 				+ "select protein and :b;"
 				+ "spacefill off;"
 				+ "wireframe off;"
-				+ "backbone 0.1;"
+				+ "backbone 0.25;"
 				+ "color white;"
 				+ "select 98b or 145b;"
 				+ "wireframe 0.16;"
@@ -466,7 +467,7 @@ public class MoleculesInLect extends JFrame {
 				+ "select protein and :b;"
 				+ "spacefill off;"
 				+ "wireframe off;"
-				+ "backbone 0.1;"
+				+ "backbone 0.25;"
 				+ "color white;"
 				+ "select 68b or 71b;"
 				+ "wireframe 0.16;"
@@ -696,7 +697,7 @@ public class MoleculesInLect extends JFrame {
 		apLectPanel.add(makeScriptButton("Show active site close-up",
 				"reset;"
 				+ "select protein;"
-				+ "backbone on;"
+				+ "backbone 0.25;"
 				+ "wireframe off;"
 				+ "spacefill off;"
 				+ "color white;"
