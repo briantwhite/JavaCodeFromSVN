@@ -62,7 +62,7 @@ public class Molecules extends JFrame {
 	JTabbedPane problemPane;
 	
 	public Molecules() {
-		super("Molecules in 3-dimensions  2.2");
+		super("Molecules in 3-dimensions  2.3");
 		addWindowListener(new ApplicationCloser());
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
@@ -99,6 +99,8 @@ public class Molecules extends JFrame {
 		problemPane.addTab("Enzyme COX-2", makeCOXPanel(jmolPanel, viewer,
 				buttonNameLabel));
 		problemPane.addTab("COX-2 Inhibitors", makeCOXDrugPanel(jmolPanel, viewer,
+				buttonNameLabel));
+		problemPane.addTab("DNA Structure", makeDNAPanel(jmolPanel, viewer,
 				buttonNameLabel));
 		problemPane.addTab("Hemglobin", makeHemoPanel(jmolPanel, viewer,
 				buttonNameLabel));
@@ -317,6 +319,7 @@ public class Molecules extends JFrame {
 				+ "spacefill 0.5; wireframe 0.2; ",
 				buttonNameLabel,
 				bsButton,
+				true,
 				jmolPanel));
 		buttonPanel.add(makeSizeSensitiveScriptButton("Show Glu 11 and Arg 145.",
 				"restrict protein; spacefill off; "
@@ -325,6 +328,7 @@ public class Molecules extends JFrame {
 				+ "select 11 or 145; color cpk; ",
 				buttonNameLabel,
 				bsButton,
+				true,
 				jmolPanel));
 		buttonPanel.add(makeSizeSensitiveScriptButton("Show Asp 10 and Tyr 161.",
 				"restrict protein; spacefill off; "
@@ -333,6 +337,7 @@ public class Molecules extends JFrame {
 				+ "select 10 or 161; color cpk; ",
 				buttonNameLabel,
 				bsButton,
+				true,
 				jmolPanel));
 		buttonPanel.add(makeSizeSensitiveScriptButton("Show Gln 105 and Trp 138.",
 				"restrict protein; spacefill off; "
@@ -341,6 +346,7 @@ public class Molecules extends JFrame {
 				+ "select 105 or 138; color cpk; ",
 				buttonNameLabel,
 				bsButton,
+				true,
 				jmolPanel));
 		buttonPanel.add(makeSizeSensitiveScriptButton("Show Met 102 and Phe 114.",
 				"restrict protein; spacefill off; "
@@ -349,6 +355,7 @@ public class Molecules extends JFrame {
 				+ "select 102 or 114; color cpk; ",
 				buttonNameLabel,
 				bsButton,
+				true,
 				jmolPanel));
 		buttonPanel.add(makeSizeSensitiveScriptButton("Show Tyr 24 and Lys 35.",
 				"restrict protein; spacefill off; "
@@ -357,6 +364,7 @@ public class Molecules extends JFrame {
 				+ "select 24 or 35; color cpk; ",
 				buttonNameLabel,
 				bsButton,
+				true,
 				jmolPanel));
 		buttonPanel.add(makeScriptButton("Show Phe 67 and Secondary Struct.",
 				"restrict protein; spacefill off; "
@@ -420,6 +428,7 @@ public class Molecules extends JFrame {
 				+ "select T8 or 182 or atomno=1679; color cpk; ",
 				buttonNameLabel,
 				bsButton1,
+				true,
 				jmolPanel));
 		buttonPanel.add(makeSizeSensitiveScriptButton("Show Thr 143 in the protein and G23 in the DNA.",
 				"restrict not water; spacefill off; "
@@ -427,6 +436,7 @@ public class Molecules extends JFrame {
 				+ "select G23 or 143 or atomno=1973; color cpk; ",
 				buttonNameLabel,
 				bsButton1,
+				true,
 				jmolPanel));
 		buttonPanel.add(makeSizeSensitiveScriptButton("Show Met 164 in the protein and T19 in the DNA.",
 				"restrict not water; spacefill off; "
@@ -434,6 +444,7 @@ public class Molecules extends JFrame {
 				+ "select T19 or 164; color cpk; ",
 				buttonNameLabel,
 				bsButton1,
+				true,
 				jmolPanel));
 		buttonPanel.add(makeSizeSensitiveScriptButton("Show Tyr 162 in the protein and T8 in the DNA.",
 				"restrict not water; spacefill off; "
@@ -441,6 +452,7 @@ public class Molecules extends JFrame {
 				+ "select T8 or 162; color cpk; ",
 				buttonNameLabel,
 				bsButton1,
+				true,
 				jmolPanel));
 		
 		buttonPanel.add(new JLabel("<html><br></html>"));
@@ -614,6 +626,97 @@ public class Molecules extends JFrame {
 		return buttonPanel;
 	}
 	
+	public JPanel makeDNAPanel(final JmolPanel jmolPanel, final JmolViewer viewer,
+			final JLabel buttonNameLabel) {
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+		buttonPanel.add(new JLabel("<html><font color=red size=+2>"
+				+ "DNA Structure."
+				+ "<br></font></html>"));
+		
+		JRadioButton bsButton2 = new JRadioButton("Show atoms as Ball & Stick");
+		JRadioButton sfButton2 = new JRadioButton("Show atoms as Spacefill");
+		sfButton2.setSelected(true);
+		ButtonGroup group1 = new ButtonGroup();
+		group1.add(bsButton2);
+		group1.add(sfButton2);
+		
+		bsButton2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				viewer.evalString("spacefill 0.5; wireframe 0.2; ");
+			}
+			
+		});
+		sfButton2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				viewer.evalString("spacefill on; ");
+			}
+			
+		});
+
+		buttonPanel.add(makeSizeSensitiveLoadStructureButton("Load First DNA Molecule.",
+				"DNA1.pdb",
+				"select all; "
+				+ "spacefill on; color cpk; "
+				+ "rotate x 60;"
+				+ "rotate z 28;",
+				buttonNameLabel,
+				bsButton2,
+				true,
+				jmolPanel));
+		
+		buttonPanel.add(makeSizeSensitiveScriptButton("Show two strands.",
+				"select all;"
+				+ "color green;"
+				+ "select backbone; color chain;"
+				+ "select atomno==2 or atomno==497; color purple;"
+				+ "select atomno==480 or atomno==968; color white;"
+				+ "select all;",
+				buttonNameLabel,
+				bsButton2,
+				false,
+				jmolPanel));
+
+		buttonPanel.add(makeSizeSensitiveScriptButton("Color code bases and two strands.",
+				"select A; color yellow;"
+				+ "select G; color green;"
+				+ "select C; color blue;"
+				+ "select T; color red;"
+				+ "select backbone; color chain;"
+				+ "select atomno==2 or atomno==497; color purple;"
+				+ "select atomno==480 or atomno==968; color white;"
+				+ "select all;",
+				buttonNameLabel,
+				bsButton2,
+				false,
+				jmolPanel));
+		
+		buttonPanel.add(makeSizeSensitiveLoadStructureButton("Load Second DNA Molecule.",
+				"DNA2.pdb",
+				"select all; "
+				+ "spacefill on; color cpk; "
+				+ "select *.c3*; color white;"
+				+ "select *.c5*; color purple;"
+				+ "rotate x 60;"
+				+ "rotate z 28;"
+				+ "select all;",
+				buttonNameLabel,
+				bsButton2,
+				false,
+				jmolPanel));
+
+		buttonPanel.add(new JLabel("<html><br></html>"));
+		
+		buttonPanel.add(bsButton2);
+		buttonPanel.add(sfButton2);
+
+		buttonPanel.add(new JLabel("<html><br></html>"));	    
+		buttonPanel.add(new JLabel(
+				new ImageIcon(Molecules.class.getResource("cpkColors.gif"))));
+	
+        return buttonPanel;
+	}
+	
 	public JPanel makeHemoPanel(final JmolPanel jmolPanel, final JmolViewer viewer, 
 			final JLabel buttonNameLabel){
 		JPanel buttonPanel = new JPanel();	    	                       		
@@ -709,6 +812,7 @@ public class Molecules extends JFrame {
 			final String script,
 			final JLabel buttonNameLabel,
 			final JRadioButton controlButton,
+			final boolean cpk,
 			JmolPanel jmolPanel){
 		final JmolViewer viewer = jmolPanel.getViewer();
 		
@@ -723,8 +827,13 @@ public class Molecules extends JFrame {
 					sizeString = "spacefill 0.5; wireframe 0.2; ";
 				}
 				if (script != null){
-					viewer.evalString(script + sizeString +
-					"select all; color cpk; ");
+					if (cpk) {
+					    viewer.evalString(script + sizeString +
+					         "select all; color cpk; ");
+					} else {
+						viewer.evalString(script + sizeString +
+								"select all; ");
+					}
 				}
 				buttonNameLabel.setText("\"" + buttonLabel + "\"");
 			}
@@ -817,6 +926,7 @@ public class Molecules extends JFrame {
 			final String script,
 			final JLabel buttonNameLabel,
 			final JRadioButton controlButton,
+			final boolean zoom,
 			JmolPanel jmolPanel){
 		final JmolViewer viewer = jmolPanel.getViewer();
 		
@@ -828,8 +938,13 @@ public class Molecules extends JFrame {
 				if (controlButton.isSelected()){
 					sizeString = "spacefill 0.5; wireframe 0.2; ";
 				} 
-				viewer.evalString(script + sizeString
+				if (zoom){
+				    viewer.evalString(script + sizeString
 						+ "center selected; zoom 400; ");
+				} else {
+				    viewer.evalString(script + sizeString
+							+ "center selected; ");					
+				}
 				buttonNameLabel.setText("\"" + buttonLabel + "\"");
 			}
 		});
@@ -942,6 +1057,7 @@ public class Molecules extends JFrame {
 		int firstOpenBracket = atomInfo.indexOf("[");
 		int firstCloseBracket = atomInfo.indexOf("]");
 		int firstDot = atomInfo.indexOf(".", firstCloseBracket);
+		int star = atomInfo.indexOf("*");
 		String name = atomInfo.substring(firstOpenBracket + 1, firstCloseBracket);
 		String num = atomInfo.substring(firstCloseBracket + 1, firstDot);
 		
@@ -950,7 +1066,13 @@ public class Molecules extends JFrame {
 		}
 		if (name.equals("A") || name.equals("G") 
 				|| name.equals("C") || name.equals("T")){
-			return new String("DNA base " + name + " ; Number " + num);
+			String carbonNumber = "";
+			if (star != -1) {
+				if (atomInfo.substring(star - 2, star - 1).equals("C")) {
+			        carbonNumber = "; " + atomInfo.substring(star - 1, star) + "\' Carbon";
+				}
+			}
+			return new String("DNA base " + name + " ; Number " + num + carbonNumber);
 		}
 		
 		if (name.equals("YRR")){
