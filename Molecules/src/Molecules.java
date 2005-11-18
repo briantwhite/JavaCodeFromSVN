@@ -62,7 +62,7 @@ public class Molecules extends JFrame {
 	JTabbedPane problemPane;
 	
 	public Molecules() {
-		super("Molecules in 3-dimensions  2.3");
+		super("Molecules in 3-dimensions  2.3.1");
 		addWindowListener(new ApplicationCloser());
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
@@ -679,6 +679,7 @@ public class Molecules extends JFrame {
 
 		buttonPanel.add(makeSizeSensitiveScriptButton("Color code bases and two strands.",
 				"select A; color yellow;"
+				+ "select 490; color yellow;"
 				+ "select G; color green;"
 				+ "select C; color blue;"
 				+ "select T; color red;"
