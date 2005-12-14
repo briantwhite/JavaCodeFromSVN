@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Main-Class: cern.colt.Version
+Created-By: 1.3.1_06 (Sun Microsystems Inc.)
+
+Name: cern/colt/
+Specification-Title: Colt Distribution
+Specification-Vendor: The Colt Project
+Implementation-Vendor: wolfgang.hoschek@cern.ch or http://nicewww.cern
+ .ch/~hoschek/colt/index.htm
+Implementation-Version: 1.0.3.165 (Thu Nov 28 11:31:47 CET 2002)
+Package-Title: cern.colt
+
