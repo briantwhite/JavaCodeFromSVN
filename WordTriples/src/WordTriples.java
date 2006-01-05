@@ -1,12 +1,9 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 
-import javax.swing.BoxLayout;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,27 +16,25 @@ public class WordTriples extends JFrame {
 
 	JTabbedPane steps;
 	
-	JFileChooser inputFileChooser;
-	File hypsFile;
+	SelectHypFileUI selectHypFileUI;
+	File hypFile;
 	
-	InfoLabel loadHypsInfoLabel;
-	
+	ShowLoadedHypsUI showLoadedHypsUI;
+			
 	public WordTriples () {
 		super("Word Triples Analyzer");
-		
-		inputFileChooser = new JFileChooser();
-		hypsFile = null;
-		
-		loadHypsInfoLabel = new InfoLabel("No file selected!");
-		
+				
 		addWindowListener(new ApplicationCloser());
 		Container contentPane = getContentPane();
+		
+		selectHypFileUI = new SelectHypFileUI();
+		hypFile = null;
+		
+		showLoadedHypsUI = new ShowLoadedHypsUI();
 
 		steps = new JTabbedPane();
-		steps.addTab("(0)Select Input File", 
-				makeSelectInputFilePane());
-		steps.addTab("(1)Hypotheses found in Input File",
-				makeLoadHypsPane());
+		steps.addTab("(0)Select Input File", selectHypFileUI);
+		steps.addTab("(1)Hypotheses found in Input File", showLoadedHypsUI);
 		
 		contentPane.add(steps);
 		
@@ -50,10 +45,14 @@ public class WordTriples extends JFrame {
 					break;
 				
 				case 1:
-					if (inputFileChooser.getSelectedFile() != null) {
-						hypsFile = inputFileChooser.getSelectedFile();
-						loadHypsInfoLabel.setText("You selected: " 
-								+ hypsFile.toString());
+					if (selectHypFileUI.getSelectedHypFile() != null) {
+						hypFile = selectHypFileUI.getSelectedHypFile();
+						showLoadedHypsUI.setInfoLabel("You selected "
+								+ hypFile.getName().toString() 
+								+ " as the input file.");
+					} else {
+						showLoadedHypsUI.setInfoLabel(
+								"No hypothesis file selected.");
 					}
 					break;
 				
@@ -74,20 +73,11 @@ public class WordTriples extends JFrame {
 
 	}
 
-	JPanel makeSelectInputFilePane(){	
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.add(inputFileChooser, BorderLayout.CENTER);
-		inputFileChooser.setControlButtonsAreShown(false);
-		panel.add(new InfoLabel("Select Input File and then move to next pane."),
-				BorderLayout.NORTH);
-		return panel;
-	}
 	
 	JPanel makeLoadHypsPane() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.add(loadHypsInfoLabel, BorderLayout.NORTH);
+		panel.add(new JLabel("hi there"), BorderLayout.NORTH);
 		
 		return panel;
 	}
