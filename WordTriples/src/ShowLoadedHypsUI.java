@@ -25,4 +25,8 @@ public class ShowLoadedHypsUI extends JPanel {
 	public void setInfoLabel(String newLabel){
 		infoLabel.setText(newLabel);
 	}
+	
+	public void setHypsPane(String hyps){
+		hypsPane.setText(hyps);
+	}
 }
