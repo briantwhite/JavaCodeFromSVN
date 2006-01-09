@@ -2,13 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -52,44 +48,25 @@ public class WordTriples extends JFrame {
 				
 				case 1:
 					if (selectHypFileUI.getSelectedHypFile() != null) {
-						hypFile = selectHypFileUI.getSelectedHypFile();
-						URL hypURL = null;
-						
-						try {
-							hypURL = hypFile.toURL();
-						} catch (MalformedURLException e1) {
-							e1.printStackTrace();
+						StringBuffer allHyps = new StringBuffer();
+						ArrayList hypotheses = selectHypFileUI.getLoadedHyps();
+						Iterator hypothesisIterator = hypotheses.iterator();
+						while (hypothesisIterator.hasNext()){
+							Hypothesis hypothesis = (Hypothesis)hypothesisIterator.next();
+							allHyps.append(hypothesis.getNumber()
+									+ " "
+									+ hypothesis.getHypothesisText() 
+									+ " "
+									+ hypothesis.getWordCount()
+									+ "\n");
 						}
-						StringBuffer hypListBuffer = new StringBuffer();
-						InputStream hypInput = null;
-						try {
-							hypInput = hypURL.openStream();
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-						
-						BufferedReader hypListStream = 
-							new BufferedReader(new InputStreamReader(hypInput));
-						String line = null;
-						int lineCount = 0;
-						
-						try {
-							while ((line = hypListStream.readLine())	!= null ){
-								hypListBuffer.append(line);
-								hypListBuffer.append("\n");
-								lineCount++;
-							}
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-
 						showLoadedHypsUI.setInfoLabel("You selected "
-								+ hypFile.getName().toString() 
+								+ selectHypFileUI.getSelectedHypFile().getName().toString() 
 								+ " as the input file."
 								+ " I found "
-								+ lineCount
+								+ hypotheses.size()
 								+ " hypotheses.");
-						showLoadedHypsUI.setHypsPane(hypListBuffer.toString());
+						showLoadedHypsUI.setHypsPane(allHyps.toString());
 					} else {
 						showLoadedHypsUI.setInfoLabel(
 								"No hypothesis file selected.");
