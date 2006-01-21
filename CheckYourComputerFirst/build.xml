@@ -1,0 +1,21 @@
+<project name="Check Computer" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/CheckYourComputerFirst.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="CheckYourComputerFirst"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    </jar>
+        <move file="bin/CheckYourComputerFirst.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run Check Your Computer">
+		<java jar="CheckYourComputerFirst.jar" fork="true"/>
+	</target>
+
+</project>
