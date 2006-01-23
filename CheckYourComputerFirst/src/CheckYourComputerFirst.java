@@ -17,7 +17,7 @@ public class CheckYourComputerFirst {
 	
 	public static void main(String[] args) {
 		label = new JLabel();
-		frame = new JFrame("Check Your Computer First.");
+		frame = new JFrame("Check Your Computer First 1.0");
 		frame.getContentPane().add(label);
 		
 		javaVersion = System.getProperty("java.version");
