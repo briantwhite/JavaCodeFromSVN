@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -33,7 +34,7 @@ public class WordTriples extends JFrame {
 		hypFile = null;
 		
 		showLoadedHypsUI = new ShowLoadedHypsUI();
-
+		
 		steps = new JTabbedPane();
 		steps.addTab("(0)Select Input File", selectHypFileUI);
 		steps.addTab("(1)Hypotheses found in Input File", showLoadedHypsUI);
@@ -48,27 +49,33 @@ public class WordTriples extends JFrame {
 				
 				case 1:
 					if (selectHypFileUI.getSelectedHypFile() != null) {
-						StringBuffer allHyps = new StringBuffer();
 						ArrayList hypotheses = selectHypFileUI.getLoadedHyps();
 						Iterator hypothesisIterator = hypotheses.iterator();
+						showLoadedHypsUI.createTable(hypotheses.size());
+						int rowNumber = 0;
 						while (hypothesisIterator.hasNext()){
 							Hypothesis hypothesis = (Hypothesis)hypothesisIterator.next();
-							allHyps.append(hypothesis.getNumber()
-									+ " "
-									+ hypothesis.getHypothesisText() 
-									+ " "
-									+ hypothesis.getWordCount()
-									+ "\n");
+							
+							String hypNumberString = String.valueOf(hypothesis.getNumber());
+							String paddedHypNumberString = "000000".substring(0,
+									6 - hypNumberString.length()) + hypNumberString;
+							showLoadedHypsUI.addHyp(rowNumber,
+								paddedHypNumberString, 
+								hypothesis.getHypothesisText(),
+								String.valueOf(hypothesis.getScore()));
+							System.out.println(rowNumber);
+							rowNumber++;
 						}
-						showLoadedHypsUI.setInfoLabel("You selected "
+						showLoadedHypsUI.setInfoLabelText(
+								"You selected "
 								+ selectHypFileUI.getSelectedHypFile().getName().toString() 
 								+ " as the input file."
 								+ " I found "
 								+ hypotheses.size()
 								+ " hypotheses.");
-						showLoadedHypsUI.setHypsPane(allHyps.toString());
+
 					} else {
-						showLoadedHypsUI.setInfoLabel(
+						showLoadedHypsUI.setInfoLabelText(
 								"No hypothesis file selected.");
 					}
 					break;

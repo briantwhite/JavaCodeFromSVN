@@ -1,0 +1,21 @@
+<project name="Word Triples" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/WordTriples.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="WordTriples"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    </jar>
+        <move file="bin/WordTriples.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run Word Triples">
+		<java jar="WordTriples.jar" fork="true"/>
+	</target>
+
+</project>
