@@ -31,13 +31,13 @@ public class ShowLoadedHypsUI extends JPanel {
 	}
 	
 	public void addHyp(int rowNumber, 
-			String hypNumber, 
+			int hypNumber, 
 			String hypothesisText, 
-			String score){
+			int score){
 		
-		hypListTableModel.setValueAt(hypNumber,rowNumber,0);
+		hypListTableModel.setValueAt(new Integer(hypNumber),rowNumber,0);
 		hypListTableModel.setValueAt(hypothesisText,rowNumber,1);
-		hypListTableModel.setValueAt(score,rowNumber,2);
+		hypListTableModel.setValueAt(new Integer(score),rowNumber,2);
 		hypListTableModel.fireTableRowsInserted(rowNumber,rowNumber);		
 	}
 	

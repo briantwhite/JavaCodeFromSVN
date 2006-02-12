@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Hypothesis {
@@ -5,10 +6,10 @@ public class Hypothesis {
 	private String hypothesis;
 	private int number;
 	private int score;
-	private HashSet wordSet;
+	private ArrayList wordSet;
 	
 	public Hypothesis(String text) throws BadHypothesisStringException {
-		wordSet = new HashSet();
+		wordSet = new ArrayList();
 		this.text = text;
 		try {
 			String[] lineParts = text.split("\t");
@@ -28,7 +29,7 @@ public class Hypothesis {
 		return hypothesis;
 	}
 	
-	public HashSet getWords(){
+	public ArrayList getWordSet(){
 		return wordSet;
 	}
 	
@@ -44,7 +45,4 @@ public class Hypothesis {
 		return wordSet.size();
 	}
 	
-	public HashSet getWordSet() {
-		return wordSet;
-	}
 }

@@ -1,13 +1,14 @@
 import javax.swing.table.AbstractTableModel;
 
-public class HypListTableModel extends AbstractTableModel {
+public class WordListTableModel extends AbstractTableModel {
 	final String[] columnNames = {"Index",
-								 "Hypothesis",
-								 "Score"};
-	final Object[][] allHyps;
+								 "Word",
+								 "Count",
+								 "Group"};
+	final Object[][] allWords;
 
-	public HypListTableModel(int numRows) {
-		allHyps = new Object[numRows][columnNames.length];
+	public WordListTableModel(int numRows) {
+		allWords = new Object[numRows][columnNames.length];
 	}
 	
 	public int getColumnCount() {
@@ -15,7 +16,7 @@ public class HypListTableModel extends AbstractTableModel {
 	}
 
 	public int getRowCount() {
-		return allHyps.length;
+		return allWords.length;
 	}
 	
 	public String getColumnName(int c) {
@@ -28,11 +29,15 @@ public class HypListTableModel extends AbstractTableModel {
 	
 	
 	public void setValueAt(Object value, int row, int col) {
-		allHyps[row][col] = value;
+		allWords[row][col] = value;
 	}
 	
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return allHyps[rowIndex][columnIndex];
+		return allWords[rowIndex][columnIndex];
+	}
+	
+	public Object[][] getAllWords() {
+		return allWords;
 	}
 
 }
