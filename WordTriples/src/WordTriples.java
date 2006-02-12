@@ -63,7 +63,6 @@ public class WordTriples extends JFrame {
 								paddedHypNumberString, 
 								hypothesis.getHypothesisText(),
 								String.valueOf(hypothesis.getScore()));
-							System.out.println(rowNumber);
 							rowNumber++;
 						}
 						showLoadedHypsUI.setInfoLabelText(
