@@ -140,8 +140,8 @@ public class WordTriples extends JFrame {
 			while (wordListIterator.hasNext()) {
 				String wordText = (String)wordListIterator.next();
 				int count = ((Integer)wordsAndCounts.get(wordText)).intValue();
-				showWordsUI.addWord(rowNumber, wordText, count, 0);
-				System.out.println(wordText + "," + count);
+				showWordsUI.addWord(rowNumber, wordText, count, "", 0);
+//				System.out.println(wordText + "," + count);
 				rowNumber++;
 			}
 			showWordsUI.setInfoLabelText("I found " + rowNumber	+ " words.");

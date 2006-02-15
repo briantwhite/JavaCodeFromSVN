@@ -1,10 +1,10 @@
 import javax.swing.table.AbstractTableModel;
 
 public class WordListTableModel extends AbstractTableModel {
-	final String[] columnNames = {"Index",
-								 "Word",
+	final String[] columnNames = {"Word",
 								 "Count",
-								 "Group"};
+								 "Group",
+								 "Code"};
 	final Object[][] allWords;
 
 	public WordListTableModel(int numRows) {
@@ -27,6 +27,13 @@ public class WordListTableModel extends AbstractTableModel {
 		return getValueAt(0, c).getClass();
 	}
 	
+	public boolean isCellEditable(int row, int col) {
+		if (col == 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	public void setValueAt(Object value, int row, int col) {
 		allWords[row][col] = value;
