@@ -10,6 +10,7 @@
 	        	    <attribute name="Main-Class" value="WordTriples"/>
 	        </manifest>
 	    	    <fileset dir="bin/"/>
+            	<fileset dir="resources/"/>
 	    </jar>
         <move file="bin/WordTriples.jar" todir="."/>
     </target>

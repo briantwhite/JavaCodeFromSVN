@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Hypothesis {
 	private String text;
@@ -45,4 +46,28 @@ public class Hypothesis {
 		return wordSet.size();
 	}
 	
+	public int[] scoreBySingleWords(HashMap wordCodeMap){
+		int[] scores = new int[wordCodeMap.values().size() + 1];
+		Iterator wordIterator = wordSet.iterator();
+		while (wordIterator.hasNext()) {
+			String currentWord = (String)wordIterator.next();
+			if (wordCodeMap.get(currentWord) != null) {
+				int score = ((Integer)wordCodeMap.get(currentWord)).intValue();
+				scores[score] = 1;				
+			}
+		}
+		return scores;
+	}
+	
+	public int[] getCodeList(HashMap wordCodeMap) {
+		int[] wordCodes = new int[wordSet.size()];
+		for (int i = 0; i < wordSet.size(); i++){
+			if (wordCodeMap.get(wordSet.get(i)) != null) {
+				wordCodes[i] = ((Integer)wordCodeMap.get((wordSet.get(i)))).intValue();
+			} else {
+				wordCodes[i] = 0;
+			}
+		}
+		return wordCodes;
+	}
 }
