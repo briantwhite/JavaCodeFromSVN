@@ -84,6 +84,36 @@ public class SaveWordPairsAsArffUI extends JPanel {
 	public void saveArffFile(ArrayList hypotheses, 
 							HashMap wordCodeMap,
 							TreeMap pairMap) {
+		// make the header
+		StringBuffer headerBuffer = new StringBuffer();
+		headerBuffer.append("@RELATION score\n\n");
+		
+		Iterator scoreIt = pairMap.keySet().iterator();
+		while (scoreIt.hasNext()){
+			headerBuffer.append("@ATTRIBUTE " 
+					+ (String)scoreIt.next()
+					+ " NUMERIC \n");
+		}
+		
+		headerBuffer.append("@ATTRIBUTE class {");
+		StringBuffer possibleScores = new StringBuffer();
+		for (int row = 0; row < scoreShiftTableModel.getRowCount(); row++) {
+			possibleScores.append(scoreShiftTableModel.getValueAt(row,2)
+					+ ",");
+		}
+		headerBuffer.append(
+				(possibleScores.deleteCharAt(possibleScores.length() - 1).toString()));
+		headerBuffer.append("}\n");
+		
+		headerBuffer.append("@DATA \n");
+
+		// make score conversion hash table
+		TreeMap newScoreMap = new TreeMap();
+		for (int row = 0; row < scoreShiftTableModel.getRowCount(); row++) {
+			newScoreMap.put((Integer)scoreShiftTableModel.getValueAt(row,0),
+					(Integer)scoreShiftTableModel.getValueAt(row,2));
+		}
+
 		Iterator hypIterator = hypotheses.iterator();
 		TreeMap scoreMap = new TreeMap();
 		TreeMap scoreCounts = new TreeMap();
@@ -128,20 +158,12 @@ public class SaveWordPairsAsArffUI extends JPanel {
 				String key = (String)scoreIterator.next();
 				scoresBuffer.append((Integer)workingMap.get(key) + ",");
 			}
-			scoresBuffer.append(hyp.getScore());
+			Integer originalScore = new Integer(hyp.getScore());
+			Integer newScore = (Integer)newScoreMap.get(originalScore);
+			scoresBuffer.append(newScore);
 			scoresBuffer.append("\n");
 		}
 		
-		// make the header
-		StringBuffer headerBuffer = new StringBuffer();
-		headerBuffer.append("@RELATION score\n\n");
-		
-		Iterator scoreIt = pairMap.keySet().iterator();
-		while (scoreIt.hasNext()){
-			headerBuffer.append("@ATTRIBUTE " 
-					+ (String)scoreIt.next()
-					+ " NUMERIC \n");
-		}
 		FileWriter arffFileWriter = null;
 		if (saveFileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 			try {

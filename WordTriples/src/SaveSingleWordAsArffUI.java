@@ -94,7 +94,7 @@ public class SaveSingleWordAsArffUI extends JPanel {
 				arffFileWriter.write("@ATTRIBUTE class {");
 				StringBuffer possibleScores = new StringBuffer();
 				for (int row = 0; row < scoreShiftTableModel.getRowCount(); row++) {
-					possibleScores.append(scoreShiftTableModel.getValueAt(row,1)
+					possibleScores.append(scoreShiftTableModel.getValueAt(row,2)
 							+ ",");
 				}
 				arffFileWriter.write(
