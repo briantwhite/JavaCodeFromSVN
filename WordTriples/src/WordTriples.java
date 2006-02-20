@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -42,6 +43,7 @@ public class WordTriples extends JFrame {
 	HashMap wordCodeMap;
 	int[][] pairs;
 	ProgressMonitor progressMonitor;
+	SaveWordPairsAsArffUI saveWordPairsAsArffUI;
 			
 	public WordTriples () {
 		super("Word Triples Analyzer");
@@ -60,6 +62,7 @@ public class WordTriples extends JFrame {
 		scoreHypsByWordsUI = new ScoreHypsByWordsUI();
 		saveSingleWordAsArffUI = new SaveSingleWordAsArffUI();
 		calculateWordDoublesUI = new CalculateWordDoublesUI();
+		saveWordPairsAsArffUI = new SaveWordPairsAsArffUI();
 		
 		steps = new JTabbedPane();
 		steps.addTab("(0)Select Input File", selectHypFileUI);
@@ -68,6 +71,7 @@ public class WordTriples extends JFrame {
 		steps.addTab("(3)Score hyps by single words", scoreHypsByWordsUI);
 		steps.addTab("(4)Save single-word scores as ARFF", saveSingleWordAsArffUI);
 		steps.addTab("(5)Calculate Word Pairs", calculateWordDoublesUI);
+		steps.addTab("(6)Save word-pair scores as ARFF", saveWordPairsAsArffUI);
 		
 		contentPane.add(steps);
 		
@@ -95,6 +99,10 @@ public class WordTriples extends JFrame {
 				
 				case 5:
 					calculateWordPairs();
+					break;
+					
+				case 6:
+					savePairsAsArff();
 					break;
 				}
 			}
@@ -369,9 +377,6 @@ public class WordTriples extends JFrame {
 				int firstWordCode = codes[i];
 				int secondWordCode = codes[i + 1];
 				pairs[firstWordCode][secondWordCode]++;
-//				System.out.println(firstWordCode + " " 
-//						+ secondWordCode + " " 
-//						+ pairs[firstWordCode][secondWordCode]);
 			}
 		}
 		
@@ -405,6 +410,86 @@ public class WordTriples extends JFrame {
 		}
 		calculateWordDoublesUI.setInfoLabelText("There were "
 				+ (numCodes * numCodes) + " possible word pairs.");
+	}
+	
+	public void savePairsAsArff() {
+		TreeMap pairMap = new TreeMap();
+		if (hypotheses == null) {
+			saveWordPairsAsArffUI.setInfoLabelText("No hyps loaded!");
+			hypotheses = getHypsFromFile();
+		}
+		if ((wordCodeMap == null) || (wordCodeMap.size() == 0)) {
+			wordCodeMap = new HashMap();
+			saveWordPairsAsArffUI.setInfoLabelText("No word list loaded!");
+			ArrayList wordList = getWordListFromFile();
+			for (int i = 0; i < wordList.size(); i++) {
+				Word word = (Word)wordList.get(i);
+				wordCodeMap.put(word.getText(), new Integer(word.getCode()));
+			}
+		}
+		if (calculateWordDoublesUI.getPairMap().size() == 0){
+			saveWordPairsAsArffUI.setInfoLabelText("No word pairs loaded!");
+			pairMap = getPairsFromFile();
+		} else {
+			pairMap = calculateWordDoublesUI.getPairMap();
+		}
+		
+		Iterator hypIterator = hypotheses.iterator();
+		TreeMap scoreMap = new TreeMap();
+		TreeMap scoreCounts = new TreeMap();
+		while (hypIterator.hasNext()){
+			Hypothesis hypothesis = (Hypothesis)hypIterator.next();
+			Integer score = new Integer(hypothesis.getScore());
+			scoreMap.put(score, score);
+			if (!scoreCounts.containsKey(score)){
+				scoreCounts.put(score, new Integer(1));
+			} else {
+				int oldCount = ((Integer)scoreCounts.get(score)).intValue();
+				scoreCounts.put(score, new Integer(oldCount + 1));
+			}
+		}
+		saveWordPairsAsArffUI.createTable(scoreMap.size());
+		Iterator scoreIterator = scoreMap.keySet().iterator();
+		int rowNumber = 0;
+		while (scoreIterator.hasNext()){
+			Integer currentScore = (Integer)scoreIterator.next();
+			saveWordPairsAsArffUI.addScore(rowNumber, 
+					currentScore.intValue(),
+					((Integer)scoreCounts.get(currentScore)).intValue());
+			rowNumber++;
+		}
+
+		saveWordPairsAsArffUI.setHypsAndScores(hypotheses, wordCodeMap, pairMap);
+
+		saveWordPairsAsArffUI.setInfoLabelText("Optionally edit the scores and"
+				+ " save the file.");
+
+	}
+	
+	public TreeMap getPairsFromFile() {
+		TreeMap pairMap = new TreeMap();
+		JFileChooser openFileChooser = new JFileChooser();
+		openFileChooser.setDialogTitle("Select a pair list file");
+		if (openFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			BufferedReader infile = null;
+			String line;
+			try {
+				infile = new BufferedReader(new FileReader(
+						openFileChooser.getSelectedFile()));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			try {
+				while ((line = infile.readLine()) != null) {
+					String[] lineParts = line.split(",");
+					pairMap.put(lineParts[0], new Integer(0));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return pairMap;
 	}
 	
 	class ApplicationCloser extends WindowAdapter {

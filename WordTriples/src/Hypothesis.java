@@ -70,4 +70,5 @@ public class Hypothesis {
 		}
 		return wordCodes;
 	}
+	
 }

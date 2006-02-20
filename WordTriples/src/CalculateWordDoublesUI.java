@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,6 +28,8 @@ public class CalculateWordDoublesUI extends JPanel {
             "6", "7", "8", "9", "10"};
 	private int cutoff;
 	private JFileChooser saveFileChooser;
+	private int codes;
+	private int[][] pairTallyTable;
 	
 	public CalculateWordDoublesUI() {
 		super();
@@ -49,7 +53,9 @@ public class CalculateWordDoublesUI extends JPanel {
 	
 	public void createTable(int numRows, int numCodes, int[][] pairs){
 		final int[][] pairTallyTable = pairs;
+		this.pairTallyTable = pairs;
 		final int codes = numCodes;
+		this.codes = codes;
 		wordPairHistoModel = new WordPairHistoTableModel(numRows);
 		sorter = new TableSorter(wordPairHistoModel);
 		dataTable = new JTable(sorter);
@@ -82,13 +88,14 @@ public class CalculateWordDoublesUI extends JPanel {
 					for (int y = 0; y < codes; y++){
 						int count = pairTallyTable[x][y];
 						if (count > cutoff) {
-							listBuffer.append(x + "," + y + "," + count + "\n");
+							listBuffer.append((x + "-" + y) + ","
+									+ x + "," + y + "," + count + "\n");
 						}
 					}
 				}
 				String listString = listBuffer.toString();
 				FileWriter listFileWriter = null;
-				saveFileChooser.setDialogTitle("Save as a word list file");
+				saveFileChooser.setDialogTitle("Save as a pair list file");
 				if (saveFileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					try {
 						listFileWriter = new FileWriter(saveFileChooser.getSelectedFile());
@@ -119,4 +126,16 @@ public class CalculateWordDoublesUI extends JPanel {
 		infoLabel.setText(text);
 	}
 	
+	public TreeMap getPairMap() {
+		TreeMap pairMap = new TreeMap();
+		for (int x = 0; x < codes; x++) {
+			for (int y = 0; y < codes; y++){
+				if (pairTallyTable[x][y] > cutoff){
+					String key = String.valueOf(x) + "-" + String.valueOf(y);
+					pairMap.put(key, new Integer(0));
+				}
+			}
+		}
+		return pairMap;
+	}
 }
