@@ -1,0 +1,79 @@
+<html>
+<head>
+<title>Using Word triples</title>
+</head>
+<body>
+<h1>Instructions for using Word Triples</h1>
+Word triples is a Java application designed to pre-process text files
+containing short text documents for machine-learning algorithms.  
+It starts with a text file containing many "hypotheses" - short 
+text documents that have been scored on a nominal scale.  These are
+then pre-processed into ARFF files so that they can be used to train a 
+machine-learning or data mining algorithm.
+<br>
+Specifically, WordTriples does the following:
+<ol>
+  <li>Finds all the unique WORDS in the hypothesis set.</li>
+  <li>Counts the frequency with which they appear in the hypothesis set.</li>
+  <li>Allows the user to group words into synonym groups and to exclude certain
+      words from the analysis.</li>
+  <li>Scores each of the hypotheses by the presence or absence of the SINGLE
+      WORDS and outputs the results as an ARFF file.</li>
+  <li>Prepares a list of all the possible two-word combinations of the
+      word set and counts their frequency of occurrance in the hypothesis set.</li>
+  <li>Allows the user to exclude word pairs below a certain frequency of 
+      occurrance.</li>
+  <li>Scores each of the hypotheses by the presence or absence of the WORD PAIRS
+      and outputs the results as an ARFF file.</li>
+</ol>
+
+<h2>How to use Word Triples</h2>
+The process consists of the following steps.  
+Each will be described in detail below.
+The results from certain steps can be saved to a file and these files
+can be used to re-enter the process at certain points.  These are noted below.
+<ol>
+  <li>Prepare the hypothesis file.</li>
+  <li>Open the hypothesis file in WordTriples</li>
+  <li>View the hypotheses that have been loaded.</li>
+  <li>Find the set of different words in the hypothesis set
+      and count the frequency with which they appear.</li>
+  <li>Group words into synonym groups.</li>
+  <li>Exclude words from the analysis.</li>
+  <li>Assign numerical codes for each word. <b>The results of this 
+      intermediate step can be saved to a WORDSET file.</b>
+  <li>Score each hypothesis by the occurrance of each word in the word set.</li>
+  <li>Optionally re-code the nominal scores of each hypothesis.</li>
+  <li>Save the single word scores to an ARFF file.</li>
+  <li>Find all the possible word pairs from the word set and count how often
+      each of them appears in the hypothesis set.</li>
+  <li>Exclude from the analysis the word pairs that occur less freqently
+      than a cutoff value.  <b>The results of this intermediate step can be
+      saved to a WORDPAIR file.</b></li>
+  <li>Score each hypothesis by the occurrance of each word pair in the word
+      pair set.</li>
+  <li>Optionally re-code the nominal scores of each hypothesis.</li>
+  <li>Save the word pair scores as an ARFF file.</li>
+</ol>
+
+<h3>Each of these steps is described in detail below:</h3>
+<b>(1) Prepare the hypothesis file.</b>  Hypothesis files have the following format 
+and can be prepared using Word or other text editor:
+<ul>
+  <li>One line per hypothesis</li>
+  <li>All text in ALL CAPITAL LETTERS</li>
+  <li>Each word separated by one space only</li>
+  <li>No numbers or punctuation</li>
+  <li>Each consists of three fields, separated by TABS:</li>
+    <ul>
+      <li>A serial number to identify the hypothesis.</li>
+      <li>The hypothesis (not surrounded by quotes).</li>
+      <li>The score assigned to the hypothesis by previous (usually human)
+          scorers.</li>
+    </ul>
+</ul>
+
+<b>(2) Open the hypothesis file in WordTriples.</b>
+also check to find bad hyps
+</body>
+</html>
