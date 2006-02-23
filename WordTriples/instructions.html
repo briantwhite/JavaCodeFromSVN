@@ -72,8 +72,102 @@ and can be prepared using Word or other text editor:
           scorers.</li>
     </ul>
 </ul>
+A few sample lines are shown below:
+<pre>
+0	I THINK THAT AS THE YEAST CONTINUES TO EXPAND THE EDGES WILL ALSO BECOME RED	2
+1	HOW MANY YEAST CAN BE SUSTAINED IN ONE PETRI DISH	0
+2	UNDER WHAT CONDITIONS DOES THE YEAST GROW BEST	0
+3	THE WHITE CELLS LACKS OXYGEN RED CELLS HAVE AN ABUNDANCE OF OXYGEN	3
+4	WHITE CELLS GOT CONTAMINATED FROM THE AIR	2
+5	WHITE CELLS ARE IMMATURE CELLS AND RED CELLS ARE MATURE	3
+</pre>
 
 <b>(2) Open the hypothesis file in WordTriples.</b>
-also check to find bad hyps
+<ol>
+  <li>Launch WordTriples</li>
+  <li>Go to Pane (0)</li>
+  <li>Select the hypothesis file</li>
+  <li>Switch to pane 1 and the file is automatically loaded.</li>
+</ol>
+
+<b>(3) View the hypotheses that have been loaded.</b>
+<br>
+You will now see a table containing your hypotheses.  
+<br>Some notes:
+<ul>
+  <li>The first column is the serial number for each hypothesis.</li>
+  <li>The second column is the hypothesis text.</li>
+  <li>The third column is the score that was assigned to the hypothesis.</li>
+  <li>You can sort the contents of the table by the contents any of the columns
+      by clicking on the cell at the top of each row. </li>
+    <ul>
+      <li>The first click sorts in ascending order; you will see a little triangle
+          pointing up in the top cell.</li>
+      <li>The second click sorts in descending order; you will see a little triangle
+          pointing down in the top cell.</li>
+      <li>The third click restores the order that the table started with; the little
+          triangle disappears.</li>
+    </ul>
+  <li>You should sort by the hypothesis text and scroll through for hypotheses
+      that start with spaces or quotes or contain punctuation, etc.  If you
+      find these, quit WordTriples and open the hypotheses file in a word processor,
+      and fix the offending hypotheses. It may take several rounds of inspection
+      to fix all the hypotheses.  When all the hypotheses are fixed, proceed to
+      the next step.</li>
+</ul>
+
+<b>(4) Find the set of different words in the hypothesis set
+      and count the frequency with which they appear.</b><br>
+Click on Pane (2) and you will see a table with 4 columns; the data in the table
+can be sorted based on any of the columns as in the previous step.
+<ol>
+  <li><b>Word</b> this lists the words the program found in the set of hypotheses.
+      You should scan through this for inappropriate words (words with punctuation,
+      numbers, etc.).  You should fix the offending hypotheses in a word procesor.
+      You will almost certainly find several "words" that show up
+      only as a blank.  These are the result of one or more adjacent spaces in a
+      hypotheses.  If you find this, you should close WordTriples, open the hypotheses
+      file in a word processor, and replace all double-spaces with single spaces.  You 
+      should repeat this "replace all" until it no-longer finds any double spaces.
+      You should then use WordTriples to check that all the words are OK.</li>
+<li><b>Count</b> this shows how many times each word appeared in the set of
+     hypotheses. You eill see that most words appear only a few times.</li>
+<li><b>Group</b> this is the word group that each word will be assigned to.  These
+     will be blank at the start.  You will fill them in at the next step.</li>
+<li><b>Code</b> this is the numerical code that will be assigned to each word.
+     These all start at 0.  In later steps in the program, these codes will be
+     used to represent each word or word group for analysis.</li>
+</ol>
+
+<b>(5) Group words into synonym groups.</b> <br>
+At this step, you assign a numerical code to each word.  This code can be unique or
+can be shared by several words.  There are three main reasons why words should
+share a code:
+<ul>
+  <li>The words are synonyms.  In this case, you should enter a letter
+      to serve as a group code for all the words in a given group.  You can
+      use any letter (case matters), but don't use group letter Z (see
+      later).  You should use a different letter for each group.  All words
+      with the same group letter will be assigned the same code.</li>
+  <li>The words are mis-spelled variants of the same word.  You should assign
+      spelling variants of the same word to the same group.</li>
+  <li>The words are <i>don't care words</i></li>.  
+    <ul>
+      <li>In single-word analysis, these are words where you don't care whether they
+        are in the hypothesis or not.  Usually, these are words that occur in only
+        a very small number of hypotheses. You should assign them to group Z - you
+        can use the "Set at or below cutoff to group Z" buttonand choose an appropriate
+        cutoff.  Any words that occur at or below the cutoff number will be
+        assigned to group Z.  These will be ignored in later analysis.</li>
+      <li>In multiple-word analysis, these are words where you don't care which
+        word they are.  Usually, these are words that occur in only
+        a very small number of hypotheses. You should assign them to group Z - you
+        can use the "Set at or below cutoff to group Z" buttonand choose an appropriate
+        cutoff.  Any words that occur at or below the cutoff number will be
+        assigned to group Z.  These will be treated as a generic word in later analysis.</li>
+    </ul>
+ </ul>
+you can save the results of this step to a file.
+
 </body>
 </html>
