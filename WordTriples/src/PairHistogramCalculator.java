@@ -7,9 +7,12 @@ public class PairHistogramCalculator extends Thread {
 	private int numCodes;
 	
 	public PairHistogramCalculator(int[][] pairs) {
+		super();
 		this.pairs = pairs;
 		histogram = new TreeMap();
 		numCodes = pairs.length;
+		System.out.println("phc's numcodes="+numCodes);
+		start();
 	}
 	
 	public void run () {

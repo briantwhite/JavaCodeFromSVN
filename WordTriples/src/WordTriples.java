@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -21,6 +20,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -42,8 +42,6 @@ public class WordTriples extends JFrame {
 	CalculateWordDoublesUI calculateWordDoublesUI;
 	HashMap wordCodeMap;
 	int[][] pairs;
-	JDialog progressDialog;
-	JLabel progressLabel;
 	SaveWordPairsAsArffUI saveWordPairsAsArffUI;
 			
 	public WordTriples () {
@@ -380,29 +378,24 @@ public class WordTriples extends JFrame {
 				pairs[firstWordCode][secondWordCode]++;
 			}
 		}
-		progressLabel = new JLabel("Completed 0 out of "
+		
+		JOptionPane progressStuff = new JOptionPane("The only way to close this dialog is by\n"
+                + "pressing one of the following buttons.\n"
+                + "Do you understand?",
+                JOptionPane.QUESTION_MESSAGE,
+                JOptionPane.YES_NO_OPTION);
+		JLabel progressLabel = new JLabel("Completed 0 out of "
 				                   + numCodes + " codes");
-		progressDialog = new JDialog(this,"Calculating Word-Pair Histogram");
-		progressDialog.getContentPane().setLayout(new FlowLayout());
-		progressDialog.getContentPane().add(new JLabel("bite me"));
+		JDialog progressDialog = new JDialog(this,"Calculating Word-Pair Histogram");
+		progressDialog.setContentPane(progressStuff);
 		progressDialog.setSize(500,200);
 		progressDialog.show();
 		progressDialog.setLocationRelativeTo(null);
-		TreeMap histogram = new TreeMap();
-		for (int x = 0; x < numCodes; x++){
-			for (int y = 0; y < numCodes; y++){
-				Integer count = new Integer(pairs[x][y]);
-				if (histogram.containsKey(count)) {
-					Integer oldTally = (Integer)histogram.get(count);
-					histogram.put(count, new Integer(oldTally.intValue() + 1));
-				} else {
-					histogram.put(count, new Integer(1));
-				}
-			}
-			System.out.println("Completed " + x + " out of"
-					               + numCodes + " codes.");
-		}
 
+		System.out.println("actual numcodes="+numCodes);
+		PairHistogramCalculator phc = new PairHistogramCalculator(pairs);
+		phc.run();
+		TreeMap histogram = phc.getHistogram();
 		progressDialog.dispose();
 		
 		calculateWordDoublesUI.createTable(histogram.keySet().size(), 
