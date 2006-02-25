@@ -16,12 +16,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -40,6 +39,9 @@ public class WordTriples extends JFrame {
 	ScoreHypsByWordsUI scoreHypsByWordsUI;
 	SaveSingleWordAsArffUI saveSingleWordAsArffUI;
 	CalculateWordDoublesUI calculateWordDoublesUI;
+	ShowWordDoublesUI showWordDoublesUI;
+	int numCodes;
+	TreeMap wordPairHistogram;
 	HashMap wordCodeMap;
 	int[][] pairs;
 	SaveWordPairsAsArffUI saveWordPairsAsArffUI;
@@ -49,7 +51,8 @@ public class WordTriples extends JFrame {
 				
 		addWindowListener(new ApplicationCloser());
 		Container contentPane = getContentPane();
-		
+		contentPane.setLayout(new BorderLayout());
+				
 		selectHypFileUI = new SelectHypFileUI();
 		hypFile = null;
 		
@@ -61,6 +64,7 @@ public class WordTriples extends JFrame {
 		scoreHypsByWordsUI = new ScoreHypsByWordsUI();
 		saveSingleWordAsArffUI = new SaveSingleWordAsArffUI();
 		calculateWordDoublesUI = new CalculateWordDoublesUI();
+		showWordDoublesUI = new ShowWordDoublesUI();
 		saveWordPairsAsArffUI = new SaveWordPairsAsArffUI();
 		
 		steps = new JTabbedPane();
@@ -70,9 +74,10 @@ public class WordTriples extends JFrame {
 		steps.addTab("(3)Score hyps by single words", scoreHypsByWordsUI);
 		steps.addTab("(4)Save single-word scores as ARFF", saveSingleWordAsArffUI);
 		steps.addTab("(5)Calculate Word Pairs", calculateWordDoublesUI);
-		steps.addTab("(6)Save word-pair scores as ARFF", saveWordPairsAsArffUI);
+		steps.addTab("(6)Show word pair results", showWordDoublesUI);
+		steps.addTab("(7)Save word-pair scores as ARFF", saveWordPairsAsArffUI);
 		
-		contentPane.add(steps);
+		contentPane.add(steps, BorderLayout.CENTER);
 		
 		steps.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -99,8 +104,11 @@ public class WordTriples extends JFrame {
 				case 5:
 					calculateWordPairs();
 					break;
-					
+				
 				case 6:
+					showWordPairs();
+					
+				case 7:
 					savePairsAsArff();
 					break;
 				}
@@ -366,7 +374,7 @@ public class WordTriples extends JFrame {
 	}
 	
 	public void calculateWordPairs() {
-		int numCodes = wordCodeMap.keySet().size() + 1;
+		numCodes = wordCodeMap.keySet().size() + 1;
 		pairs = new int[numCodes][numCodes];
 		Iterator hypIterator = hypotheses.iterator();
 		while (hypIterator.hasNext()){
@@ -377,39 +385,25 @@ public class WordTriples extends JFrame {
 				int secondWordCode = codes[i + 1];
 				pairs[firstWordCode][secondWordCode]++;
 			}
-		}
-		
-		JOptionPane progressStuff = new JOptionPane("The only way to close this dialog is by\n"
-                + "pressing one of the following buttons.\n"
-                + "Do you understand?",
-                JOptionPane.QUESTION_MESSAGE,
-                JOptionPane.YES_NO_OPTION);
-		JLabel progressLabel = new JLabel("Completed 0 out of "
-				                   + numCodes + " codes");
-		JDialog progressDialog = new JDialog(this,"Calculating Word-Pair Histogram");
-		progressDialog.setContentPane(progressStuff);
-		progressDialog.setSize(500,200);
-		progressDialog.show();
-		progressDialog.setLocationRelativeTo(null);
-
-		System.out.println("actual numcodes="+numCodes);
-		PairHistogramCalculator phc = new PairHistogramCalculator(pairs);
-		phc.run();
-		TreeMap histogram = phc.getHistogram();
-		progressDialog.dispose();
-		
-		calculateWordDoublesUI.createTable(histogram.keySet().size(), 
+		}	
+		calculateWordDoublesUI.setPairs(pairs);
+	}
+	
+	public void showWordPairs() {
+		wordPairHistogram = calculateWordDoublesUI.getHistogram();
+		showWordDoublesUI.createTable(wordPairHistogram.keySet().size(), 
 				numCodes, pairs);
-		Iterator histoIterator = histogram.keySet().iterator();
+		Iterator histoIterator = wordPairHistogram.keySet().iterator();
 		int rowNumber = 0;
 		while (histoIterator.hasNext()) {
 			Integer key = (Integer)histoIterator.next();
-			calculateWordDoublesUI.addData(rowNumber, key.intValue(),
-					((Integer)histogram.get(key)).intValue());
+			showWordDoublesUI.addData(rowNumber, key.intValue(),
+					((Integer)wordPairHistogram.get(key)).intValue());
 			rowNumber++;
 		}
-		calculateWordDoublesUI.setInfoLabelText("There were "
+		showWordDoublesUI.setInfoLabelText("There were "
 				+ (numCodes * numCodes) + " possible word pairs.");
+
 	}
 	
 	public void savePairsAsArff() {
@@ -427,11 +421,11 @@ public class WordTriples extends JFrame {
 				wordCodeMap.put(word.getText(), new Integer(word.getCode()));
 			}
 		}
-		if (calculateWordDoublesUI.getPairMap().size() == 0){
+		if (showWordDoublesUI.getPairMap().size() == 0){
 			saveWordPairsAsArffUI.setInfoLabelText("No word pairs loaded!");
 			pairMap = getPairsFromFile();
 		} else {
-			pairMap = calculateWordDoublesUI.getPairMap();
+			pairMap = showWordDoublesUI.getPairMap();
 		}
 		
 		Iterator hypIterator = hypotheses.iterator();

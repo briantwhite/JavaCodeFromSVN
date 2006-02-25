@@ -88,7 +88,7 @@ public class SaveSingleWordAsArffUI extends JPanel {
 				
 				for (int col = 2; col < hypScoresModel.getColumnCount(); col++){
 					arffFileWriter.write("@ATTRIBUTE " + hypScoresModel.getColumnName(col)
-							+ " NUMERIC\n");
+							+ " {0,1}\n");
 				}
 				
 				arffFileWriter.write("@ATTRIBUTE class {");

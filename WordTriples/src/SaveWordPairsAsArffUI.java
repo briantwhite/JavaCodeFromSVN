@@ -96,7 +96,7 @@ public class SaveWordPairsAsArffUI extends JPanel {
 		while (scoreIt.hasNext()){
 			headerBuffer.append("@ATTRIBUTE " 
 					+ (String)scoreIt.next()
-					+ " NUMERIC \n");
+					+ " {0,1} \n");
 		}
 		
 		headerBuffer.append("@ATTRIBUTE class {");
