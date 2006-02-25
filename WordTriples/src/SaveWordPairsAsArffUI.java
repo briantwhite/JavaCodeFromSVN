@@ -78,6 +78,7 @@ public class SaveWordPairsAsArffUI extends JPanel {
 			
 		saveFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("button clicked");
 				saveArffFile(hyps, wcMap, pMap);
 			}
 		});
