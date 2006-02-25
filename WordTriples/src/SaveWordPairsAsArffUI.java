@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import cern.colt.matrix.impl.SparseDoubleMatrix3D;
+
 public class SaveWordPairsAsArffUI extends JPanel {
 	
 	private InfoLabel infoLabel;
@@ -79,6 +81,7 @@ public class SaveWordPairsAsArffUI extends JPanel {
 				saveArffFile(hyps, wcMap, pMap);
 			}
 		});
+		
 	}
 	
 	public void saveArffFile(ArrayList hypotheses, 
