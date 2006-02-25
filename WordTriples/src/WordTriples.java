@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -15,14 +16,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.ProgressMonitor;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -42,7 +42,8 @@ public class WordTriples extends JFrame {
 	CalculateWordDoublesUI calculateWordDoublesUI;
 	HashMap wordCodeMap;
 	int[][] pairs;
-	ProgressMonitor progressMonitor;
+	JDialog progressDialog;
+	JLabel progressLabel;
 	SaveWordPairsAsArffUI saveWordPairsAsArffUI;
 			
 	public WordTriples () {
@@ -379,10 +380,14 @@ public class WordTriples extends JFrame {
 				pairs[firstWordCode][secondWordCode]++;
 			}
 		}
-		
-		progressMonitor = new ProgressMonitor(calculateWordDoublesUI,
-				"Calculating Histogram...", "", 0, numCodes);
-		progressMonitor.setProgress(0);
+		progressLabel = new JLabel("Completed 0 out of "
+				                   + numCodes + " codes");
+		progressDialog = new JDialog(this,"Calculating Word-Pair Histogram");
+		progressDialog.getContentPane().setLayout(new FlowLayout());
+		progressDialog.getContentPane().add(new JLabel("bite me"));
+		progressDialog.setSize(500,200);
+		progressDialog.show();
+		progressDialog.setLocationRelativeTo(null);
 		TreeMap histogram = new TreeMap();
 		for (int x = 0; x < numCodes; x++){
 			for (int y = 0; y < numCodes; y++){
@@ -394,9 +399,11 @@ public class WordTriples extends JFrame {
 					histogram.put(count, new Integer(1));
 				}
 			}
-			progressMonitor.setProgress(x);
+			System.out.println("Completed " + x + " out of"
+					               + numCodes + " codes.");
 		}
-		progressMonitor.close();
+
+		progressDialog.dispose();
 		
 		calculateWordDoublesUI.createTable(histogram.keySet().size(), 
 				numCodes, pairs);
