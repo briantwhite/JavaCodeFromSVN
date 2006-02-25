@@ -1,19 +1,21 @@
 import java.util.TreeMap;
 
-public class PairHistogramCalculator extends Thread {
+import cern.colt.matrix.impl.SparseDoubleMatrix3D;
+
+public class TripleHistogramCalculator extends Thread {
 	
 	private TreeMap histogram;
-	private int[][] pairs;
+	private SparseDoubleMatrix3D triples;
 	private int numCodes;
 	private String statusMessage;
 	private int current;
 	private boolean done;
 	
-	public PairHistogramCalculator(int[][] pairs) {
+	public TripleHistogramCalculator(SparseDoubleMatrix3D triples, int numCodes) {
 		super();
-		this.pairs = pairs;
+		this.triples = triples;
 		histogram = new TreeMap();
-		numCodes = pairs.length;
+		this.numCodes = numCodes;
 		done = false;
 	}
 	

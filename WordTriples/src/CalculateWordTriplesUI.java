@@ -11,20 +11,22 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 
-public class CalculateWordDoublesUI extends JPanel {
+import cern.colt.matrix.impl.SparseDoubleMatrix3D;
+
+public class CalculateWordTriplesUI extends JPanel {
 	
 	private InfoLabel infoLabel;
 	private JLabel warningLabel;
 	private JButton calculateButton;
 	private JLabel progressLabel;
 	private JProgressBar progressBar;
-	private int[][] pairs;
+	private SparseDoubleMatrix3D triples;
 	private int numCodes;
-	private PairHistogramCalculator phc;
+	private TripleHistogramCalculator thc;
 	private Timer timer;
 
 	
-	public CalculateWordDoublesUI() {
+	public CalculateWordTriplesUI() {
 		super();
 		infoLabel = new InfoLabel("Hi there");
 		this.setLayout(new BorderLayout());
@@ -40,20 +42,20 @@ public class CalculateWordDoublesUI extends JPanel {
 		buttonPanel.add(progressBar);
 		buttonPanel.add(progressLabel);
 		this.add(buttonPanel, BorderLayout.CENTER);
-		this.pairs = pairs;
+		this.triples = triples;
 		
 		calculateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				phc.go();
+				thc.go();
 				timer.start();
 			}
 		});
 		
 		timer = new Timer(500, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				progressBar.setValue(phc.getCurrent());
-				progressLabel.setText(phc.getMessage());
-				if (phc.done()){
+				progressBar.setValue(thc.getCurrent());
+				progressLabel.setText(thc.getMessage());
+				if (thc.done()){
 					Toolkit.getDefaultToolkit().beep();
 					timer.stop();
 					progressBar.setValue(progressBar.getMaximum());
@@ -63,16 +65,16 @@ public class CalculateWordDoublesUI extends JPanel {
 		});
 	}
 	
-	public void setPairs(int[][] pairs) {
-		this.pairs = pairs;
-		numCodes = pairs.length;
+	public void setTriples(SparseDoubleMatrix3D triples, int numCodes) {
+		this.triples = triples;
+		this.numCodes = numCodes;
 		progressBar.setMaximum(numCodes);
 		progressBar.setMinimum(0);
-		phc = new PairHistogramCalculator(pairs);
+		thc = new TripleHistogramCalculator(triples, numCodes);
 	}
 	
 	public TreeMap getHistogram() {
-		return phc.getHistogram();
+		return thc.getHistogram();
 	}
 
 	public void setInfoLabelText(String text){

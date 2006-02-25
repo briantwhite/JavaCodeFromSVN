@@ -45,6 +45,7 @@ public class WordTriples extends JFrame {
 	HashMap wordCodeMap;
 	int[][] pairs;
 	SaveWordPairsAsArffUI saveWordPairsAsArffUI;
+	CalculateWordTriplesUI calculateWordTriplesUI;
 			
 	public WordTriples () {
 		super("Word Triples Analyzer");
@@ -66,6 +67,7 @@ public class WordTriples extends JFrame {
 		calculateWordDoublesUI = new CalculateWordDoublesUI();
 		showWordDoublesUI = new ShowWordDoublesUI();
 		saveWordPairsAsArffUI = new SaveWordPairsAsArffUI();
+		calculateWordTriplesUI = new CalculateWordTriplesUI();
 		
 		steps = new JTabbedPane();
 		steps.addTab("(0)Select Input File", selectHypFileUI);
@@ -76,6 +78,7 @@ public class WordTriples extends JFrame {
 		steps.addTab("(5)Calculate Word Pairs", calculateWordDoublesUI);
 		steps.addTab("(6)Show word pair results", showWordDoublesUI);
 		steps.addTab("(7)Save word-pair scores as ARFF", saveWordPairsAsArffUI);
+		steps.addTab("(8)Calculate Word Triples", calculateWordTriplesUI);
 		
 		contentPane.add(steps, BorderLayout.CENTER);
 		
@@ -110,6 +113,10 @@ public class WordTriples extends JFrame {
 					
 				case 7:
 					savePairsAsArff();
+					break;
+					
+				case 8:
+					calculateWordTriples();
 					break;
 				}
 			}
@@ -458,6 +465,10 @@ public class WordTriples extends JFrame {
 		saveWordPairsAsArffUI.setInfoLabelText("Optionally edit the scores and"
 				+ " save the file.");
 
+	}
+	
+	public void calculateWordTriples() {
+		
 	}
 	
 	public TreeMap getPairsFromFile() {
