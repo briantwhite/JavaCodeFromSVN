@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,6 +47,9 @@ public class SaveWordPairsAsArffUI extends JPanel {
 		scoreShiftTableModel = new ScoreShiftTableModel(numRows);
 		sorter = new TableSorter(scoreShiftTableModel);
 		scoresTable = new JTable(sorter);
+		scoresTable.setShowGrid(true);
+		scoresTable.setGridColor(Color.BLACK);
+
 		sorter.setTableHeader(scoresTable.getTableHeader());
 		scrollPane = new JScrollPane(scoresTable);
 		this.add(scrollPane, BorderLayout.CENTER);	

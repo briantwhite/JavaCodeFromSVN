@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,6 +26,8 @@ public class ShowLoadedHypsUI extends JPanel {
 		hypListTableModel = new HypListTableModel(numRows);
 		sorter = new TableSorter(hypListTableModel);
 		hypsTable = new JTable(sorter);
+		hypsTable.setShowGrid(true);
+		hypsTable.setGridColor(Color.BLACK);
 		sorter.setTableHeader(hypsTable.getTableHeader());
 		hypsScrollPane = new JScrollPane(hypsTable);
 		this.add(hypsScrollPane, BorderLayout.CENTER);	

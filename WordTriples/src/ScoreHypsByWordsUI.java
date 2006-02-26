@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +30,9 @@ public class ScoreHypsByWordsUI extends JPanel {
 		scoredHypTableModel = new ScoredHypTableModel(numRows, words);
 		hypsTable = new JTable(scoredHypTableModel);
 		hypsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		hypsTable.setShowGrid(true);
+		hypsTable.setGridColor(Color.BLACK);
+
 		hypScrollPane = new JScrollPane(hypsTable);
 		hypScrollPane.setHorizontalScrollBarPolicy(
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
