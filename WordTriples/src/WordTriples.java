@@ -514,7 +514,7 @@ public class WordTriples extends JFrame {
 			rowNumber++;
 		}
 		showWordTriplesUI.setInfoLabelText("There were "
-				+ (numCodes * numCodes * numCodes) + " possible word pairs.");
+				+ (numCodes * numCodes * numCodes) + " possible word triples.");
 
 
 	}
