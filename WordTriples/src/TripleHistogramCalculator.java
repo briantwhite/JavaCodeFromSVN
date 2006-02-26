@@ -24,7 +24,7 @@ public class TripleHistogramCalculator extends Thread {
 		done = false;
 		final SwingWorker worker = new SwingWorker() {
 			public Object construct() {
-				return new Calculator();
+				return new TripleCalculator();
 			}
 		};
 		worker.start();
@@ -50,16 +50,19 @@ public class TripleHistogramCalculator extends Thread {
 		return histogram;
 	}
 	
-	class Calculator {
-		Calculator() {
+	class TripleCalculator {
+		TripleCalculator() {
 			for (int x = 0; x < numCodes; x++){
 				for (int y = 0; y < numCodes; y++){
-					Integer count = new Integer(pairs[x][y]);
-					if (histogram.containsKey(count)) {
-						Integer oldTally = (Integer)histogram.get(count);
-						histogram.put(count, new Integer(oldTally.intValue() + 1));
-					} else {
-						histogram.put(count, new Integer(1));
+					for (int z = 0; z < numCodes; z++){
+						Double count = new Double(triples.getQuick(x,y,z));
+						if (histogram.containsKey(count)) {
+							Double oldTally = (Double)histogram.get(count);
+							histogram.put(count, new Double(
+									oldTally.doubleValue() + 1));
+						} else {
+							histogram.put(count, new Double(1));
+						}
 					}
 				}
 				statusMessage = "Completed " + x + " out of " + numCodes + ".";

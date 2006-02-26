@@ -25,6 +25,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import cern.colt.matrix.impl.SparseDoubleMatrix3D;
+
 
 public class WordTriples extends JFrame {
 
@@ -46,6 +48,9 @@ public class WordTriples extends JFrame {
 	int[][] pairs;
 	SaveWordPairsAsArffUI saveWordPairsAsArffUI;
 	CalculateWordTriplesUI calculateWordTriplesUI;
+	SparseDoubleMatrix3D triples;
+	ShowWordTriplesUI showWordTriplesUI;
+	TreeMap wordTripleHistogram;
 			
 	public WordTriples () {
 		super("Word Triples Analyzer");
@@ -68,6 +73,7 @@ public class WordTriples extends JFrame {
 		showWordDoublesUI = new ShowWordDoublesUI();
 		saveWordPairsAsArffUI = new SaveWordPairsAsArffUI();
 		calculateWordTriplesUI = new CalculateWordTriplesUI();
+		showWordTriplesUI = new ShowWordTriplesUI();
 		
 		steps = new JTabbedPane();
 		steps.addTab("(0)Select Input File", selectHypFileUI);
@@ -79,6 +85,7 @@ public class WordTriples extends JFrame {
 		steps.addTab("(6)Show word pair results", showWordDoublesUI);
 		steps.addTab("(7)Save word-pair scores as ARFF", saveWordPairsAsArffUI);
 		steps.addTab("(8)Calculate Word Triples", calculateWordTriplesUI);
+		steps.addTab("(9)Show word triple results", showWordTriplesUI);
 		
 		contentPane.add(steps, BorderLayout.CENTER);
 		
@@ -117,6 +124,10 @@ public class WordTriples extends JFrame {
 					
 				case 8:
 					calculateWordTriples();
+					break;
+					
+				case 9:
+					showWordTriples();
 					break;
 				}
 			}
@@ -468,7 +479,44 @@ public class WordTriples extends JFrame {
 	}
 	
 	public void calculateWordTriples() {
-		
+		numCodes = wordCodeMap.keySet().size() + 1;
+		triples = new SparseDoubleMatrix3D(numCodes, numCodes, numCodes);
+		Iterator hypIterator = hypotheses.iterator();
+		while (hypIterator.hasNext()){
+			Hypothesis hyp = (Hypothesis)hypIterator.next();
+			int[] codes = hyp.getCodeList(wordCodeMap);
+			for (int i = 0; i < (codes.length - 2); i++) {
+				int firstWordCode = codes[i];
+				int secondWordCode = codes[i + 1];
+				int thirdWordCode = codes[i + 2];
+				double oldVal = triples.getQuick(firstWordCode,
+						                         secondWordCode,
+						                         thirdWordCode);
+				triples.setQuick(firstWordCode,
+                                 secondWordCode,
+                                 thirdWordCode,
+                                 (oldVal + 1));
+			}
+		}	
+		calculateWordTriplesUI.setTriples(triples, numCodes);
+	}
+	
+	public void showWordTriples() {
+		wordTripleHistogram = calculateWordTriplesUI.getHistogram();
+		showWordTriplesUI.createTable(wordTripleHistogram.keySet().size(), 
+				numCodes, triples);
+		Iterator histoIterator = wordTripleHistogram.keySet().iterator();
+		int rowNumber = 0;
+		while (histoIterator.hasNext()) {
+			Double key = (Double)histoIterator.next();
+			showWordTriplesUI.addData(rowNumber, key.intValue(),
+					((Double)wordTripleHistogram.get(key)).intValue());
+			rowNumber++;
+		}
+		showWordTriplesUI.setInfoLabelText("There were "
+				+ (numCodes * numCodes * numCodes) + " possible word pairs.");
+
+
 	}
 	
 	public TreeMap getPairsFromFile() {
