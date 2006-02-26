@@ -6,9 +6,11 @@ public class WordListTableModel extends AbstractTableModel {
 								 "Group",
 								 "Code"};
 	final Object[][] allWords;
+	private boolean codesAssigned;
 
 	public WordListTableModel(int numRows) {
 		allWords = new Object[numRows][columnNames.length];
+		codesAssigned = false;
 	}
 	
 	public int getColumnCount() {
@@ -45,6 +47,14 @@ public class WordListTableModel extends AbstractTableModel {
 	
 	public Object[][] getAllWords() {
 		return allWords;
+	}
+
+	public boolean isCodesAssigned() {
+		return codesAssigned;
+	}
+
+	public void setCodesAssigned(boolean codesAssigned) {
+		this.codesAssigned = codesAssigned;
 	}
 
 }

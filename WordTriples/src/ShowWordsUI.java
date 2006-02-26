@@ -113,7 +113,6 @@ public class ShowWordsUI extends JPanel {
 					String currentGroup = (String)wordListTableModel.getValueAt(i,GROUP_COL);
 					if ((!currentGroup.equals("")) && (!currentGroup.equals("Z"))
 							&& !groupMap.containsKey(currentGroup)) {
-						System.out.println("*" + currentGroup + "*");
 						groupMap.put(currentGroup, new Integer(groupCounter));	
 						groupCounter++;
 					}
@@ -138,6 +137,7 @@ public class ShowWordsUI extends JPanel {
 					}
 				}
 				wordListTableModel.fireTableDataChanged();
+				wordListTableModel.setCodesAssigned(true);
 				infoLabel.setText("I assigned " + (groupCounter - 1) + " different codes.");
 			}
 		});

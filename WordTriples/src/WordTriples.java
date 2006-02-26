@@ -19,8 +19,8 @@ import java.util.TreeMap;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -107,6 +107,14 @@ public class WordTriples extends JFrame {
 					break;
 					
 				case 3:
+					if (!showWordsUI.getWordListTableModel().isCodesAssigned()){
+						JOptionPane.showMessageDialog(null, "You did not assign codes to "
+								+ "the words.  Go back to step 2.", 
+								"User Error", JOptionPane.ERROR_MESSAGE);
+						steps.setSelectedIndex(2);
+						showAndEditWords();
+						break;
+					}
 					scoreBySingleWords();
 					break;
 				
@@ -119,9 +127,30 @@ public class WordTriples extends JFrame {
 					break;
 				
 				case 6:
+					if (!calculateWordDoublesUI.isDone()){
+						JOptionPane.showMessageDialog(null, 
+								"You need to calculate the word-pair" +
+								" histogram.", "User Error", 
+								JOptionPane.ERROR_MESSAGE);
+						steps.setSelectedIndex(5);
+						calculateWordPairs();
+						break;
+					}
 					showWordPairs();
+					break;
 					
 				case 7:
+					if (!showWordDoublesUI.isCutoffSet()){
+						JOptionPane.showMessageDialog(null, 
+								"You need to exclude pairs with" 
+								+ " frequencies lower than the cutoff,"
+								+ "otherwise, there will be too many"
+								+ " pairs to save.", "User Error", 
+								JOptionPane.ERROR_MESSAGE);
+						steps.setSelectedIndex(6);
+						showWordPairs();
+						break;
+					}
 					savePairsAsArff();
 					break;
 					
@@ -130,10 +159,30 @@ public class WordTriples extends JFrame {
 					break;
 					
 				case 9:
+					if (!calculateWordTriplesUI.isDone()){
+						JOptionPane.showMessageDialog(null, 
+								"You need to calculate the word-triple" +
+								" histogram.", "User Error", 
+								JOptionPane.ERROR_MESSAGE);
+						steps.setSelectedIndex(8);
+						calculateWordTriples();
+						break;
+					}
 					showWordTriples();
 					break;
 					
 				case 10:
+					if (!showWordTriplesUI.isCutoffSet()){
+						JOptionPane.showMessageDialog(null, 
+								"You need to exclude triples with" 
+								+ " frequencies lower than the cutoff,"
+								+ "otherwise, there will be too many"
+								+ " triples to save.", "User Error", 
+								JOptionPane.ERROR_MESSAGE);
+						steps.setSelectedIndex(9);
+						showWordTriples();
+						break;
+					}
 					saveTriplesAsArff();
 					break;
 				}
@@ -146,10 +195,15 @@ public class WordTriples extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		WordTriples wordTriples = new WordTriples();
-		wordTriples.setSize(1000,600);
-		wordTriples.show();
-
+		try {
+			WordTriples wordTriples = new WordTriples();
+			wordTriples.setSize(1000,600);
+			wordTriples.show();
+		} catch (Throwable e) {
+			JOptionPane.showMessageDialog(null, e.toString(), "ERROR!",
+					JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
+		}
 	}
 
 	
@@ -327,9 +381,10 @@ public class WordTriples extends JFrame {
 			showWordsUI.setInfoLabelText("I found " + allWords.size()
 					+ " words.");
 		} 
+		
 		//load the scoring table as a HashMap
 		Object[][] wordListTable = 
-			showWordsUI.getWordListTableModel().getAllWords();
+			showWordsUI.getWordListTableModel().getAllWords();		
 		int wordCount = showWordsUI.getWordListTableModel().getRowCount();
 		wordCodeMap = new HashMap();
 		for (int i = 0; i < wordCount; i++) {
@@ -337,6 +392,7 @@ public class WordTriples extends JFrame {
 				wordCodeMap.put(wordListTable[i][0], wordListTable[i][3]);
 			}
 		}
+				
 		//make list of words
 		String[] words = new String[wordCodeMap.size() + 1];
 		Iterator wordIterator = wordCodeMap.keySet().iterator();
@@ -345,6 +401,7 @@ public class WordTriples extends JFrame {
 			int code = ((Integer)wordCodeMap.get(currentWord)).intValue();
 			words[code] = currentWord;
 		}
+
 		//score the hyps and display
 		scoreHypsByWordsUI.createTable(hypotheses.size(), words);
 		for (int i = 0; i < hypotheses.size(); i++) {
@@ -467,6 +524,7 @@ public class WordTriples extends JFrame {
 				scoreCounts.put(score, new Integer(oldCount + 1));
 			}
 		}
+
 		saveWordPairsAsArffUI.createTable(scoreMap.size());
 		Iterator scoreIterator = scoreMap.keySet().iterator();
 		int rowNumber = 0;
@@ -547,7 +605,7 @@ public class WordTriples extends JFrame {
 		} else {
 			tripleMap = showWordTriplesUI.getTripleMap();
 		}
-		
+
 		Iterator hypIterator = hypotheses.iterator();
 		TreeMap scoreMap = new TreeMap();
 		TreeMap scoreCounts = new TreeMap();
@@ -562,6 +620,7 @@ public class WordTriples extends JFrame {
 				scoreCounts.put(score, new Integer(oldCount + 1));
 			}
 		}
+
 		saveWordTriplesAsArffUI.createTable(scoreMap.size());
 		Iterator scoreIterator = scoreMap.keySet().iterator();
 		int rowNumber = 0;

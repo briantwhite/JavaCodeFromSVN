@@ -79,5 +79,8 @@ public class CalculateWordDoublesUI extends JPanel {
 		infoLabel.setText(text);
 	}
 	
+	public boolean isDone() {
+		return phc.done();
+	}
 
 }

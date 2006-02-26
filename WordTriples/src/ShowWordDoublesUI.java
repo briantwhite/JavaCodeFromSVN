@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,6 +31,7 @@ public class ShowWordDoublesUI extends JPanel {
 	private JFileChooser saveFileChooser;
 	private int codes;
 	private int[][] pairTallyTable;
+	private boolean cutoffSet;
 
 	
 	public ShowWordDoublesUI() {
@@ -48,6 +50,7 @@ public class ShowWordDoublesUI extends JPanel {
 		this.add(buttonPanel, BorderLayout.SOUTH);
 		cutoff = 0;
 		saveFileChooser = new JFileChooser();
+		cutoffSet = false;
 	}
 		
 	public void createTable(int numRows, int numCodes, int[][] pairs){
@@ -79,11 +82,21 @@ public class ShowWordDoublesUI extends JPanel {
 				}
 				setInfoLabelText("There are " + tallyTotal + " pairs with" 
 						+ " counts above " + cutoff);
+				cutoffSet = true;
 			}
 		});
 		
 		saveListToFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (!cutoffSet){
+					JOptionPane.showMessageDialog(null, 
+							"You need to exclude pairs with" 
+							+ " frequencies lower than the cutoff,"
+							+ "otherwise, there will be too many"
+							+ " pairs to save.", "User Error", 
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				StringBuffer listBuffer = new StringBuffer();
 				for (int x = 0; x < codes; x++) {
 					for (int y = 0; y < codes; y++){
@@ -138,5 +151,13 @@ public class ShowWordDoublesUI extends JPanel {
 			}
 		}
 		return pairMap;
+	}
+
+	public boolean isCutoffSet() {
+		return cutoffSet;
+	}
+
+	public void setCutoffSet(boolean cutoffSet) {
+		this.cutoffSet = cutoffSet;
 	}
 }

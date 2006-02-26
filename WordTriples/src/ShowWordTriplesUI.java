@@ -32,6 +32,7 @@ public class ShowWordTriplesUI extends JPanel {
 	private JFileChooser saveFileChooser;
 	private int codes;
 	private SparseDoubleMatrix3D tripleTallyTable;
+	private boolean cutoffSet;
 
 	
 	public ShowWordTriplesUI() {
@@ -83,6 +84,7 @@ public class ShowWordTriplesUI extends JPanel {
 				}
 				setInfoLabelText("There are " + tallyTotal + " pairs with" 
 						+ " counts above " + cutoff);
+				cutoffSet = true;
 			}
 		});
 		
@@ -148,5 +150,13 @@ public class ShowWordTriplesUI extends JPanel {
 			}
 		}
 		return tripleMap;
+	}
+
+	public boolean isCutoffSet() {
+		return cutoffSet;
+	}
+
+	public void setCutoffSet(boolean cutoffSet) {
+		this.cutoffSet = cutoffSet;
 	}
 }

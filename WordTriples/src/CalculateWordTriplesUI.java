@@ -81,5 +81,8 @@ public class CalculateWordTriplesUI extends JPanel {
 		infoLabel.setText(text);
 	}
 	
+	public boolean isDone() {
+		return thc.done();
+	}
 
 }
