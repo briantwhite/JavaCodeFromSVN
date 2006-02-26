@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +10,6 @@ import java.util.TreeMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -62,6 +62,8 @@ public class ShowWordDoublesUI extends JPanel {
 		scrollPane = new JScrollPane(dataTable);
 		this.add(scrollPane, BorderLayout.CENTER);			
 		
+		dataTable.setShowGrid(true);
+		dataTable.setGridColor(Color.BLACK);
 		cutoffButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cutoff = cutoffChoice.getSelectedIndex();

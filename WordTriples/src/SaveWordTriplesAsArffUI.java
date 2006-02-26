@@ -17,7 +17,7 @@ import javax.swing.JTable;
 
 import cern.colt.matrix.impl.SparseDoubleMatrix3D;
 
-public class SaveWordPairsAsArffUI extends JPanel {
+public class SaveWordTriplesAsArffUI extends JPanel {
 	
 	private InfoLabel infoLabel;
 	private ScoreShiftTableModel scoreShiftTableModel;
@@ -28,7 +28,7 @@ public class SaveWordPairsAsArffUI extends JPanel {
 	private JFileChooser saveFileChooser;
 
 
-	public SaveWordPairsAsArffUI() {
+	public SaveWordTriplesAsArffUI() {
 		super();
 		infoLabel = new InfoLabel("Hi there");
 		this.setLayout(new BorderLayout());
@@ -86,12 +86,12 @@ public class SaveWordPairsAsArffUI extends JPanel {
 	
 	public void saveArffFile(ArrayList hypotheses, 
 							HashMap wordCodeMap,
-							TreeMap pairMap) {
+							TreeMap tripleMap) {
 		// make the header
 		StringBuffer headerBuffer = new StringBuffer();
 		headerBuffer.append("@RELATION score\n\n");
 		
-		Iterator scoreIt = pairMap.keySet().iterator();
+		Iterator scoreIt = tripleMap.keySet().iterator();
 		while (scoreIt.hasNext()){
 			headerBuffer.append("@ATTRIBUTE " 
 					+ (String)scoreIt.next()
@@ -146,7 +146,7 @@ public class SaveWordPairsAsArffUI extends JPanel {
 		StringBuffer scoresBuffer = new StringBuffer();
 		Iterator hypIt = hypotheses.iterator();
 		while (hypIt.hasNext()){
-			TreeMap workingMap = new TreeMap(pairMap);
+			TreeMap workingMap = new TreeMap(tripleMap);
 			Hypothesis hyp = (Hypothesis)hypIt.next();
 			int[] wordCodeSet = hyp.getCodeList(wordCodeMap);
 			for (int i = 0; i < (wordCodeSet.length - 1); i++) {

@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,6 +65,9 @@ public class ShowWordTriplesUI extends JPanel {
 		scrollPane = new JScrollPane(dataTable);
 		this.add(scrollPane, BorderLayout.CENTER);			
 		
+		dataTable.setShowGrid(true);
+		dataTable.setGridColor(Color.BLACK);
+		
 		cutoffButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cutoff = cutoffChoice.getSelectedIndex();
@@ -90,15 +94,15 @@ public class ShowWordTriplesUI extends JPanel {
 						for (int z = 0; z < codes; z++){
 							double count = tripleTallyTable.getQuick(x,y,z);
 							if (count > cutoff) {
-								listBuffer.append((x + "-" + y) + ","
-										+ x + "," + y + "," + count + "\n");
+								listBuffer.append((x + "-" + y + "-" + z) + ","
+										+ x + "," + y + "," + z + "," + count + "\n");
 							}
 						}
 					}
 				}
 				String listString = listBuffer.toString();
 				FileWriter listFileWriter = null;
-				saveFileChooser.setDialogTitle("Save as a pair list file");
+				saveFileChooser.setDialogTitle("Save as a triple list file");
 				if (saveFileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					try {
 						listFileWriter = new FileWriter(saveFileChooser.getSelectedFile());
@@ -129,8 +133,8 @@ public class ShowWordTriplesUI extends JPanel {
 		infoLabel.setText(text);
 	}
 	
-	public TreeMap getPairMap() {
-		TreeMap pairMap = new TreeMap();
+	public TreeMap getTripleMap() {
+		TreeMap tripleMap = new TreeMap();
 		for (int x = 0; x < codes; x++) {
 			for (int y = 0; y < codes; y++){
 				for (int z = 0; z < codes; z++){
@@ -138,11 +142,11 @@ public class ShowWordTriplesUI extends JPanel {
 						String key = String.valueOf(x) 
 						             + "-" + String.valueOf(y)
 						             + "-" + String.valueOf(z);
-						pairMap.put(key, new Integer(0));
+						tripleMap.put(key, new Integer(0));
 					}
 				}
 			}
 		}
-		return pairMap;
+		return tripleMap;
 	}
 }

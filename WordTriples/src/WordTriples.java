@@ -51,6 +51,7 @@ public class WordTriples extends JFrame {
 	SparseDoubleMatrix3D triples;
 	ShowWordTriplesUI showWordTriplesUI;
 	TreeMap wordTripleHistogram;
+	SaveWordTriplesAsArffUI saveWordTriplesAsArffUI;
 			
 	public WordTriples () {
 		super("Word Triples Analyzer");
@@ -74,6 +75,7 @@ public class WordTriples extends JFrame {
 		saveWordPairsAsArffUI = new SaveWordPairsAsArffUI();
 		calculateWordTriplesUI = new CalculateWordTriplesUI();
 		showWordTriplesUI = new ShowWordTriplesUI();
+		saveWordTriplesAsArffUI = new SaveWordTriplesAsArffUI();
 		
 		steps = new JTabbedPane();
 		steps.addTab("(0)Select Input File", selectHypFileUI);
@@ -86,6 +88,7 @@ public class WordTriples extends JFrame {
 		steps.addTab("(7)Save word-pair scores as ARFF", saveWordPairsAsArffUI);
 		steps.addTab("(8)Calculate Word Triples", calculateWordTriplesUI);
 		steps.addTab("(9)Show word triple results", showWordTriplesUI);
+		steps.addTab("(10)Save word-triple scores as ARFF", saveWordTriplesAsArffUI);
 		
 		contentPane.add(steps, BorderLayout.CENTER);
 		
@@ -128,6 +131,10 @@ public class WordTriples extends JFrame {
 					
 				case 9:
 					showWordTriples();
+					break;
+					
+				case 10:
+					saveTriplesAsArff();
 					break;
 				}
 			}
@@ -519,6 +526,60 @@ public class WordTriples extends JFrame {
 
 	}
 	
+	public void saveTriplesAsArff() {
+		TreeMap tripleMap = new TreeMap();
+		if (hypotheses == null) {
+			saveWordTriplesAsArffUI.setInfoLabelText("No hyps loaded!");
+			hypotheses = getHypsFromFile();
+		}
+		if ((wordCodeMap == null) || (wordCodeMap.size() == 0)) {
+			wordCodeMap = new HashMap();
+			saveWordTriplesAsArffUI.setInfoLabelText("No word list loaded!");
+			ArrayList wordList = getWordListFromFile();
+			for (int i = 0; i < wordList.size(); i++) {
+				Word word = (Word)wordList.get(i);
+				wordCodeMap.put(word.getText(), new Integer(word.getCode()));
+			}
+		}
+		if (showWordTriplesUI.getTripleMap().size() == 0){
+			saveWordTriplesAsArffUI.setInfoLabelText("No word triples loaded!");
+			tripleMap = getTriplesFromFile();
+		} else {
+			tripleMap = showWordTriplesUI.getTripleMap();
+		}
+		
+		Iterator hypIterator = hypotheses.iterator();
+		TreeMap scoreMap = new TreeMap();
+		TreeMap scoreCounts = new TreeMap();
+		while (hypIterator.hasNext()){
+			Hypothesis hypothesis = (Hypothesis)hypIterator.next();
+			Integer score = new Integer(hypothesis.getScore());
+			scoreMap.put(score, score);
+			if (!scoreCounts.containsKey(score)){
+				scoreCounts.put(score, new Integer(1));
+			} else {
+				int oldCount = ((Integer)scoreCounts.get(score)).intValue();
+				scoreCounts.put(score, new Integer(oldCount + 1));
+			}
+		}
+		saveWordTriplesAsArffUI.createTable(scoreMap.size());
+		Iterator scoreIterator = scoreMap.keySet().iterator();
+		int rowNumber = 0;
+		while (scoreIterator.hasNext()){
+			Integer currentScore = (Integer)scoreIterator.next();
+			saveWordTriplesAsArffUI.addScore(rowNumber, 
+					currentScore.intValue(),
+					((Integer)scoreCounts.get(currentScore)).intValue());
+			rowNumber++;
+		}
+
+		saveWordTriplesAsArffUI.setHypsAndScores(hypotheses, wordCodeMap, tripleMap);
+
+		saveWordTriplesAsArffUI.setInfoLabelText("Optionally edit the scores and"
+				+ " save the file.");
+
+	}
+	
 	public TreeMap getPairsFromFile() {
 		TreeMap pairMap = new TreeMap();
 		JFileChooser openFileChooser = new JFileChooser();
@@ -544,7 +605,33 @@ public class WordTriples extends JFrame {
 		}
 		return pairMap;
 	}
-	
+
+	public TreeMap getTriplesFromFile() {
+		TreeMap tripleMap = new TreeMap();
+		JFileChooser openFileChooser = new JFileChooser();
+		openFileChooser.setDialogTitle("Select a triple list file");
+		if (openFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			BufferedReader infile = null;
+			String line;
+			try {
+				infile = new BufferedReader(new FileReader(
+						openFileChooser.getSelectedFile()));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			try {
+				while ((line = infile.readLine()) != null) {
+					String[] lineParts = line.split(",");
+					tripleMap.put(lineParts[0], new Integer(0));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return tripleMap;
+	}
+
 	class ApplicationCloser extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			System.exit(0);

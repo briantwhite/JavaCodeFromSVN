@@ -1,13 +1,10 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -75,6 +72,8 @@ public class ShowWordsUI extends JPanel {
 		wordsScrollPane = new JScrollPane(wordsTable);
 		this.add(wordsScrollPane, BorderLayout.CENTER);	
 		
+		wordsTable.setShowGrid(true);
+		wordsTable.setGridColor(Color.BLACK);
 		wordsTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		ListSelectionModel wordSelectionModel = wordsTable.getSelectionModel();
 		wordSelectionModel.addListSelectionListener(new ListSelectionListener() {
