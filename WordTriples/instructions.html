@@ -25,6 +25,12 @@ Specifically, WordTriples does the following:
       occurrance.</li>
   <li>Scores each of the hypotheses by the presence or absence of the WORD PAIRS
       and outputs the results as an ARFF file.</li>
+  <li>Prepares a list of all the possible three-word combinations of the
+      word set and counts their frequency of occurrance in the hypothesis set.</li>
+  <li>Allows the user to exclude word triples below a certain frequency of 
+      occurrance.</li>
+  <li>Scores each of the hypotheses by the presence or absence of the WORD TRIPLES
+      and outputs the results as an ARFF file.</li>
 </ol>
 
 <h2>How to use Word Triples</h2>
@@ -44,7 +50,7 @@ can be used to re-enter the process at certain points.  These are noted below.
       <li>Exclude words from the analysis.</li>
       <li>Assign numerical codes for each word.</li>
       <li><b>The results of this 
-          intermediate step can be saved to a WORDSET file.</b></li>
+          intermediate step can be saved to a .word file.</b></li>
     </ol>
   <li>Score each hypothesis by the occurrance of each word in the word set.</li>
   <li>Optionally re-code the nominal scores of each hypothesis and
@@ -53,11 +59,20 @@ can be used to re-enter the process at certain points.  These are noted below.
       each of them appears in the hypothesis set.</li>
   <li>Exclude from the analysis the word pairs that occur less freqently
       than a cutoff value.  <b>The results of this intermediate step can be
-      saved to a WORDPAIR file.</b></li>
+      saved to a .pair file.</b></li>
   <li>Score each hypothesis by the occurrance of each word pair in the word
       pair set.</li>
   <li>Optionally re-code the nominal scores of each hypothesis and
       save the word pair scores as an ARFF file.</li>
+  <li>Find all the possible word triples from the word set and count how often
+      each of them appears in the hypothesis set.</li>
+  <li>Exclude from the analysis the word triples that occur less freqently
+      than a cutoff value.  <b>The results of this intermediate step can be
+      saved to a .triple file.</b></li>
+  <li>Score each hypothesis by the occurrance of each word triple in the word
+      pair set.</li>
+  <li>Optionally re-code the nominal scores of each hypothesis and
+      save the word triple scores as an ARFF file.</li> 
 </ol>
 
 <h3>Each of these steps is described in detail below:</h3>
@@ -149,7 +164,7 @@ can be sorted based on any of the columns as in the previous step.
 The information label at the top of the window will give the number of words found.
 <br>
 <br>
-<b>(5) Group words into synonym groups.</b> <br>
+<b>(5) Process the words.</b> <br>
 At this step, you assign a numerical code to each word.  This code can be unique or
 can be shared by several words.  There are three main reasons why words should
 share a code:
@@ -172,9 +187,9 @@ share a code:
       <li>In multiple-word analysis, these are words where you don't care which
         word they are.  Usually, these are words that occur in only
         a very small number of hypotheses. You should assign them to group Z - you
-        can use the "Set at or below cutoff to group Z" buttonand choose an appropriate
+        can use the "Set at or below cutoff to group Z" button and choose an appropriate
         cutoff.  Any words that occur at or below the cutoff number will be
-        assigned to group Z.  These will be treated as a generic word in later analysis.</li>
+        assigned to group Z.  These will be treated as a generic "word" in later analysis.</li>
     </ul>
  </ul>
  When you are done, click "assign codes" and the program will asign a unique 
@@ -185,7 +200,7 @@ share a code:
  codes that were assigned.
 <br><br>
 At this point, you should save your work to a file. Click the "save" button and give 
-the file a suitable name.  It is best to use the extension .wordlist for consistency.
+the file a suitable name.  It is best to use the extension .word for consistency.
 A wordlist file has one line per word found in the hypothesis set.  Each line consists
 of four tab-separated fields:
 <ol>
@@ -200,7 +215,7 @@ of four tab-separated fields:
 Click on pane (3) and you will see a large table listing each hypothesis
 and the words in the word set that were found.  Words that were assigned to 
 group Z (code = 0) are not included in this analysis.  A &quot;1&quot; indicates
-that the word was present at least once in the hypothesis; a &quot0&quot; 
+that the word was present at least once in the hypothesis; a &quot;0&quot; 
 indicates that it was not found.
 <br>
 <br>
@@ -223,14 +238,15 @@ Click on pane (4) and you will see a table with three columns:
       1, 3, and 4 and a score of 1 to level 2.</li>
 </ol>
 You can then save these results to an ARFF file for processing by a machine-learning
-program like WEKA by clicking the &quot;save&quot; button.
+program like WEKA by clicking the &quot;save to ARFF file&quot; button.
 <br>
 <br>
 
 <b>(8) Find all the possible word pairs from the word set and count how often
-      each of them appears in the hypothesis set.</b>
-Click on pane (5) and wait for the calculations to complete.
+      each of them appears in the hypothesis set.</b><br>
+Click on pane (5), click the &quot;Calculate&quot; button and wait for the calculations to complete.
 <br>
+Click on pane (6) to see a table with a frequency histogram for the word pairs.<br>
 The information line will list the number of possible word pairs (this is the
 number of words squared). For example, with 216 words, there are (216)<sup>2</sup> = 
 47,089 possible word pairs <br>
@@ -265,18 +281,71 @@ comma-separated fields:
   <li>the second word code</li>
   <li>the frequency with which that word pair appeared in the hypothesis set</li>
 </ol>
+<b>You can save the list of word pairs to a .pair file for later use.</b>
 <br>
 <br>
 
 <b>(10) Score each hypothesis by the occurrance of each word pair in the word
       pair set.</b>
-Click on pane (6) and wait for the calculations to complete.
+Click on pane (7) and wait for the calculations to complete.
 <br>
 <br>
 
 <b>(11) Optionally re-code the nominal scores of each hypothesis and
       save the word pair scores as an ARFF file.</b>  
-This is the same as step (7).
+This is the same as step (7).<br>
+You can then save these results to an ARFF file for processing by a machine-learning
+program like WEKA by clicking the &quot;save to ARFF file&quot; button.
+
+<br>
+<br>
+<b>(12) Find all the possible word triples from the word set and count how often
+      each of them appears in the hypothesis set.</b><br>
+Click on pane (8), click the &quot;Calculate&quot; button and wait for the calculations to complete.
+<br>
+Click on pane (9) to see a table with a frequency histogram for the word triples.<br>
+The information line will list the number of possible word triples (this is the
+number of words cubed). For example, with 216 words, there are (216)<sup>3</sup> = 
+10,776,696 possible word triples <br>
+You will then see a table listing the triple count and the number of pairs with 
+that count.  (see Step 8)
+<br><br>
+
+<b>(13) Exclude from the analysis the word triples that occur less freqently
+      than a cutoff value.</b>
+Word triples that occur never (count = 0) or infrequently are unlikely to be 
+important in your analysis and will only make the resulting ARFF file needlessly
+large.  Select a cutoff value and click "exclude all at or below cutoff".  The
+information label will give the number of word triples remaining.
+<br>
+You should the save this intermediate result as a .triples file.
+This file consists of one line per word triple.  Each line consists of five
+comma-separated fields:
+<ol>
+  <li>the code for the word triple [first word code]-[second word code]-[third word code]</li>
+  <li>the first word code</li>
+  <li>the second word code</li>
+  <li>the third word code</li>
+  <li>the frequency with which that word pair appeared in the hypothesis set</li>
+</ol>
+<b>You can save the list of word triples to a .triple file for later use.</b>
+<br>
+<br>
+
+<b>(14) Score each hypothesis by the occurrance of each word triple in the word
+      triple set.</b>
+Click on pane (10) and wait for the calculations to complete.
+<br>
+<br>
+
+<b>(15) Optionally re-code the nominal scores of each hypothesis and
+      save the word pair scores as an ARFF file.</b>  
+This is the same as step (7).<br>
+You can then save these results to an ARFF file for processing by a machine-learning
+program like WEKA by clicking the &quot;save to ARFF file&quot; button.
+
+<br>
+<br>
 
 </body>
 </html>
