@@ -54,11 +54,12 @@ public class ShowWordTriplesUI extends JPanel {
 	}
 		
 	public void createTable(int numRows, int numCodes, 
-                            SparseDoubleMatrix3D triples){
+                            SparseDoubleMatrix3D triples, String[]	words){
 		final SparseDoubleMatrix3D tripleTallyTable = triples;
 		this.tripleTallyTable = triples;
 		final int codes = numCodes;
 		this.codes = codes;
+		final String[] wordCodes = words;
 		wordTripleHistoModel = new WordTripleHistoTableModel(numRows);
 		sorter = new TableSorter(wordTripleHistoModel);
 		dataTable = new JTable(sorter);
@@ -97,7 +98,9 @@ public class ShowWordTriplesUI extends JPanel {
 							double count = tripleTallyTable.getQuick(x,y,z);
 							if (count > cutoff) {
 								listBuffer.append((x + "-" + y + "-" + z) + ","
-										+ x + "," + y + "," + z + "," + count + "\n");
+										+ x + "," + y + "," + z + "," + count 
+										+ "," + wordCodes[x] + "-" + wordCodes[y]
+										+ "-" + wordCodes[z] + "\n");
 							}
 						}
 					}

@@ -53,11 +53,12 @@ public class ShowWordDoublesUI extends JPanel {
 		cutoffSet = false;
 	}
 		
-	public void createTable(int numRows, int numCodes, int[][] pairs){
+	public void createTable(int numRows, int numCodes, int[][] pairs, String[] words){
 		final int[][] pairTallyTable = pairs;
 		this.pairTallyTable = pairs;
 		final int codes = numCodes;
 		this.codes = codes;
+		final String[] wordCodes = words;
 		wordPairHistoModel = new WordPairHistoTableModel(numRows);
 		sorter = new TableSorter(wordPairHistoModel);
 		dataTable = new JTable(sorter);
@@ -103,7 +104,8 @@ public class ShowWordDoublesUI extends JPanel {
 						int count = pairTallyTable[x][y];
 						if (count > cutoff) {
 							listBuffer.append((x + "-" + y) + ","
-									+ x + "," + y + "," + count + "\n");
+									+ x + "," + y + "," + count 
+									+ "," + wordCodes[x] + "-" + wordCodes[y] + "\n");
 						}
 					}
 				}

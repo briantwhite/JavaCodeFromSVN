@@ -36,6 +36,7 @@ public class WordTriples extends JFrame {
 	File hypFile;
 	ArrayList hypotheses;
 	ShowLoadedHypsUI showLoadedHypsUI;
+	String[] words;
 	ShowWordsUI showWordsUI;
 	HashMap wordsAndCounts;
 	ScoreHypsByWordsUI scoreHypsByWordsUI;
@@ -394,7 +395,7 @@ public class WordTriples extends JFrame {
 		}
 				
 		//make list of words
-		String[] words = new String[wordCodeMap.size() + 1];
+		words = new String[wordCodeMap.size() + 1];
 		Iterator wordIterator = wordCodeMap.keySet().iterator();
 		while (wordIterator.hasNext()){
 			String currentWord = (String)wordIterator.next();
@@ -474,7 +475,7 @@ public class WordTriples extends JFrame {
 	public void showWordPairs() {
 		wordPairHistogram = calculateWordDoublesUI.getHistogram();
 		showWordDoublesUI.createTable(wordPairHistogram.keySet().size(), 
-				numCodes, pairs);
+				numCodes, pairs, words);
 		Iterator histoIterator = wordPairHistogram.keySet().iterator();
 		int rowNumber = 0;
 		while (histoIterator.hasNext()) {
@@ -569,7 +570,7 @@ public class WordTriples extends JFrame {
 	public void showWordTriples() {
 		wordTripleHistogram = calculateWordTriplesUI.getHistogram();
 		showWordTriplesUI.createTable(wordTripleHistogram.keySet().size(), 
-				numCodes, triples);
+				numCodes, triples, words);
 		Iterator histoIterator = wordTripleHistogram.keySet().iterator();
 		int rowNumber = 0;
 		while (histoIterator.hasNext()) {
