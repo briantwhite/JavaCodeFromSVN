@@ -93,6 +93,7 @@ public class SaveSingleWordAsArffUI extends JPanel {
 				for (int col = 2; col < hypScoresModel.getColumnCount(); col++){
 					arffFileWriter.write("@ATTRIBUTE " + hypScoresModel.getColumnName(col)
 							+ " {0,1}\n");
+					arffFileWriter.write("%    attribute number: " + (col - 2) + "\n");
 				}
 				
 				arffFileWriter.write("@ATTRIBUTE class {");
@@ -116,15 +117,20 @@ public class SaveSingleWordAsArffUI extends JPanel {
 				
 				//now write out the data
 				for (int row = 0; row < hypScoresModel.getRowCount(); row++){
+					arffFileWriter.write("{");
 					for (int col = 2; col < hypScoresModel.getColumnCount(); col++) {
-						arffFileWriter.write(hypScoresModel.getValueAt(row,col)
-								+ ",");
+//						arffFileWriter.write(hypScoresModel.getValueAt(row,col)
+//								+ ",");
+						if (((Integer)hypScoresModel.getValueAt(row,col)).intValue() == 1) {
+							arffFileWriter.write((col - 2) + " 1, ");
+						}
 					}
 					//then the modified score
 					Hypothesis hyp = (Hypothesis)hypotheses.get(row);
 					Integer originalScore = new Integer(hyp.getScore());
 					Integer newScore = (Integer)newScoreMap.get(originalScore);
-					arffFileWriter.write(newScore.toString() + "\n");
+					arffFileWriter.write((hypScoresModel.getColumnCount() - 2 ) 
+							+ " " + newScore.toString() + "}\n");
 				}
 				
 			} catch (IOException e1) {
