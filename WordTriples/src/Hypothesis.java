@@ -53,7 +53,7 @@ public class Hypothesis {
 			String currentWord = (String)wordIterator.next();
 			if (wordCodeMap.get(currentWord) != null) {
 				int score = ((Integer)wordCodeMap.get(currentWord)).intValue();
-				scores[score] = 1;				
+				scores[score]++;				
 			}
 		}
 		return scores;

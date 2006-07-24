@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,6 +24,8 @@ public class SaveSingleWordAsArffUI extends JPanel {
 	private TableSorter sorter;
 	private JScrollPane scrollPane;
 	private JButton saveFileButton;
+	private JCheckBox countsCheckBox;
+	private JLabel countsLabel;
 	private JFileChooser saveFileChooser;
 
 
@@ -32,8 +36,12 @@ public class SaveSingleWordAsArffUI extends JPanel {
 		this.add(infoLabel, BorderLayout.NORTH);
 		JPanel buttonPanel = new JPanel();
 		saveFileButton = new JButton("Save scores to ARFF file");
+		countsCheckBox = new JCheckBox();
+		countsLabel = new JLabel("Save COUNTS rather than presence:");
 		buttonPanel.setLayout(new FlowLayout());
 		buttonPanel.add(saveFileButton);
+		buttonPanel.add(countsLabel);
+		buttonPanel.add(countsCheckBox);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 		saveFileChooser = new JFileChooser();
 		saveFileChooser.setDialogTitle("Save output to ARFF file");
@@ -119,10 +127,14 @@ public class SaveSingleWordAsArffUI extends JPanel {
 				for (int row = 0; row < hypScoresModel.getRowCount(); row++){
 					arffFileWriter.write("{");
 					for (int col = 2; col < hypScoresModel.getColumnCount(); col++) {
-//						arffFileWriter.write(hypScoresModel.getValueAt(row,col)
-//								+ ",");
-						if (((Integer)hypScoresModel.getValueAt(row,col)).intValue() == 1) {
-							arffFileWriter.write((col - 2) + " 1, ");
+						if (((Integer)hypScoresModel.getValueAt(row,col)).intValue() != 0) {
+							arffFileWriter.write((col - 2) + " ");
+							if(countsCheckBox.isSelected()) {
+								arffFileWriter.write(((Integer)hypScoresModel.getValueAt(row,col)).toString());
+							} else {
+								arffFileWriter.write("1");
+							}
+							arffFileWriter.write(", ");
 						}
 					}
 					//then the modified score
