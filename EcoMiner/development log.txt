@@ -54,3 +54,18 @@ fixed pecans.arff
 		added a newline
 		saved with unix line breaks
 		- put in arffFiles/ in project tree
+
+saved pecans.arff as USClimate.arff
+	didn't change anything
+	it should work just fine as a climate data file
+	
+got world.arff as a climate file from  OriginalPecanData/World
+	fixed a little in bbedit
+		added newlines to make single lines in approp places
+	opened in weka to be sure it is OK. - it is.
+	
+NOTE THAT BOTH CLIMATE FILES LACK LONGITUDE INFO 
+	- they must be fixed
+	- for now, they are OK for testing purposes
+
+		

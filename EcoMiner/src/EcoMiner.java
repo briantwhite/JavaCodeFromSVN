@@ -54,6 +54,7 @@ public class EcoMiner extends JFrame {
 	private JButton backButton;
 	
 	private File speciesDistributionFile;
+	private String speciesName;
 	private ClassifierGenerator cg;
 
 	private DocumentRenderer docRenderer;
@@ -128,6 +129,8 @@ public class EcoMiner extends JFrame {
 		}
 		
 		docRenderer = new DocumentRenderer();
+		
+		speciesName = "";
 
 		currentStep = 0;
 		doStep();
@@ -164,6 +167,7 @@ public class EcoMiner extends JFrame {
 					}
 				}
 				
+				speciesName = classifier.getName().replaceAll(".arff.classifier", "");
 				currentStep = 2;
 				doStep();
 			}
@@ -278,9 +282,11 @@ public class EcoMiner extends JFrame {
 		MoveableJFileChooser fc = new MoveableJFileChooser();
 		fc.setFileFilter(new ArffFileFilter());
 		fc.setDialogTitle("Choose Species Distribution .arff file");
+		fc.setCurrentDirectory(new File("."));
 		int returnVal = fc.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			speciesDistributionFile = fc.getSelectedFile();
+			speciesName = speciesDistributionFile.getName().replaceAll(".arff", "");
 
 			//clean up old classifiers
 			File workspaceDir = new File("workspace/");
@@ -391,6 +397,7 @@ public class EcoMiner extends JFrame {
 		MoveableJFileChooser fc = new MoveableJFileChooser();
 		fc.setFileFilter(new ArffFileFilter());
 		fc.setDialogTitle("Choose Climate arff file");
+		fc.setCurrentDirectory(new File("."));
 		int returnVal = fc.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			climateDistributionFile = fc.getSelectedFile();
@@ -499,7 +506,9 @@ public class EcoMiner extends JFrame {
 					+ " -T "
 					+ climateDistributionFile.toString()
 					+ " -p 1",
+					climateDataReader.getAttributes(),
 					climateDataReader.getInstances(),
+					speciesName,
 					resultFile);
 			cr.go();
 			runnerTimer.start();
