@@ -64,11 +64,8 @@ public class ArffReader extends Thread {
 					}
 					
 					if (inDataRegion) {
-						String[] lineParts = line.split(",");
-						if (lineParts.length > 1) {
-							instances.add(
-									new Instance(Integer.parseInt((String)(lineParts[0])), 
-											line));
+						if (line.indexOf(",") > 0) {
+							instances.add(line);
 						}
 					}
 					

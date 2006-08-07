@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +8,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -35,6 +35,8 @@ public class EcoMiner extends JFrame {
 		"<li><font color=black>Save Results as csv File</font></li>";
 	private static final String step4String =
 		"<li><font color=black>All Done</font></li>";
+	
+	private Point centerOfScreen;
 	
 	private File wekaJar;
 	private String wekaJarFilename;
@@ -103,11 +105,11 @@ public class EcoMiner extends JFrame {
 		buttonPanel.add(nextButton);
 		buttonPanel.setBorder(BorderFactory.createEtchedBorder());
 		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-		
+				
 		wekaJarFilename = "workspace/weka.jar";
 		wekaJar = new File (wekaJarFilename);
 		if (!wekaJar.exists()) {
-			JFileChooser fc = new JFileChooser();
+			MoveableJFileChooser fc = new MoveableJFileChooser();
 			fc.setDialogTitle("File weka.jar not found; please locate!");
 			int returnVal = fc.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -273,7 +275,7 @@ public class EcoMiner extends JFrame {
 				+ "This will be used to make a classifier."
 				+ htmlEnd);
 		
-		JFileChooser fc = new JFileChooser();
+		MoveableJFileChooser fc = new MoveableJFileChooser();
 		fc.setFileFilter(new ArffFileFilter());
 		fc.setDialogTitle("Choose Species Distribution .arff file");
 		int returnVal = fc.showOpenDialog(this);
@@ -386,7 +388,7 @@ public class EcoMiner extends JFrame {
 				+"using this climate distribution."
 				+ htmlEnd);
 		
-		JFileChooser fc = new JFileChooser();
+		MoveableJFileChooser fc = new MoveableJFileChooser();
 		fc.setFileFilter(new ArffFileFilter());
 		fc.setDialogTitle("Choose Climate arff file");
 		int returnVal = fc.showOpenDialog(this);
@@ -478,7 +480,7 @@ public class EcoMiner extends JFrame {
 				+ "You can then open the csv file with MyWorld."
 				+ htmlEnd);
 		
-		JFileChooser fc = new JFileChooser();
+		MoveableJFileChooser fc = new MoveableJFileChooser();
 		fc.setFileFilter(new CsvFileFilter());
 		fc.setDialogTitle("Name Result file");
 		int returnVal = fc.showSaveDialog(this);
