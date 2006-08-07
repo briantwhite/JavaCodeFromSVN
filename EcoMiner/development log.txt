@@ -1,0 +1,56 @@
+7/26/06
+Got “PecanData” from BQ CD-rom.
+put those files in “OriginalPecanData”
+
+try to replicate what we did in Beloit
+
+got MyWorld from web
+
+7/27/06
+original files did not have longitudes!
+got file with station #, name, lat, and long from Amber
+	namloc2.csv
+
+pasted into data.csv
+	removed duplicated columns
+	removed pecan column
+	called it “JustClimate.csv”
+
+opened in MyWorld
+	saved under new name (it had to modify the file) “JustClimate-MW.csv”
+
+worked!!
+
+
+7/31/06
+had e-mailed Amber for the world data with lat & long
+got it: WrldLatLong.csv
+
+it just has station #s and lat & long
+will have to merge it with WrldToTest.xls
+to make a complete world file.
+made WrldJustClimate.xls from these
+	used “longitude” as longitude
+didn’t work with either longitude as “longitude”
+	all in one hemisphere or the other
+e-mailed Amber again.
+
+ 
+8/2/06
+got from Amber WrldLatLong.xls
+which just has lat and long for the world data
+
+merged with WrldToTest.xls
+
+to make WrldJustClimate.xls and .csv
+
+works in MyWorld
+burned CD
+
+8/7/06
+working on software and files
+fixed pecans.arff
+	the first @data line has data immediately after it
+		added a newline
+		saved with unix line breaks
+		- put in arffFiles/ in project tree
