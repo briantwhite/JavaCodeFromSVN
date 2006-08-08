@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -303,12 +304,27 @@ public class EcoMiner extends JFrame {
 			useLastClassifierButton.setEnabled(false);
 			backButton.setEnabled(false);
 			nextButton.setEnabled(false);
+			
+			//first, make temporary version of the species distrib file
+			// without the potentially distracting attributes: site, lat, and long
+			Runtime rt = Runtime.getRuntime();
+			try {
+				Process proc = rt.exec("java -cp " + wekaJarFilename 
+						+ " weka.filters.unsupervised.attribute.Remove -R 1-3"
+						+ " -i " + speciesDistributionFile.getAbsolutePath()
+						+ " -o workspace/temp.arff");
+				proc.waitFor();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			//now build classifier on reduced file
 			cg = new ClassifierGenerator(
 						"java -cp " + wekaJarFilename + " -mx300m "
 						+ "weka.classifiers.rules.JRip -F 3 -N 2.0 -O 2 -S 1 "
-						+ "-t " + speciesDistributionFile.getAbsolutePath() + " "  //training file
-						+ "-T " + speciesDistributionFile.getAbsolutePath() + " "  //test with same
-																		//file to eliminate x-validation
+						+ "-t workspace/temp.arff "  //training file
+						+ "-T workspace/temp.arff "  //test with same
+												   //file to eliminate x-validation
 						+ "-i -k "
 						+ "-d workspace" 
 						+ System.getProperty("file.separator")
@@ -370,6 +386,9 @@ public class EcoMiner extends JFrame {
 				useLastClassifierButton.setEnabled(true);
 				backButton.setEnabled(true);
 				nextButton.setEnabled(true);
+				
+				File tempFile = new File("workspace/temp.arff");
+				tempFile.delete();
 			}
 		}
 	});
@@ -500,12 +519,26 @@ public class EcoMiner extends JFrame {
 			backButton.setEnabled(false);
 			nextButton.setEnabled(false);
 
+			//first, make temporary version of the climate file
+			// without the attributes: site, lat, and long
+			Runtime rt = Runtime.getRuntime();
+			try {
+				Process proc = rt.exec("java -cp " + wekaJarFilename 
+						+ " weka.filters.unsupervised.attribute.Remove -R 1-3"
+						+ " -i " + climateDistributionFile.getAbsolutePath()
+						+ " -o workspace/temp.arff");
+				proc.waitFor();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			//now build classifier on reduced file
+
 			cr = new ClassifierRunner("java -cp " 
 					+ wekaJarFilename
 					+ " weka.classifiers.rules.JRip -l "
 					+ classifier.toString() 
-					+ " -T "
-					+ climateDistributionFile.toString()
+					+ " -T workspace/temp.arff"
 					+ " -p 1",
 					climateDataReader.getAttributes(),
 					climateDataReader.getInstances(),
@@ -564,6 +597,9 @@ public class EcoMiner extends JFrame {
 				useLastClassifierButton.setEnabled(true);
 				backButton.setEnabled(true);
 				nextButton.setEnabled(true);
+				
+				File tempFile = new File("workspace/temp.arff");
+				tempFile.delete();
 			}
 		}
 	});

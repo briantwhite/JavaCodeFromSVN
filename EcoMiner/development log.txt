@@ -94,4 +94,11 @@ need to have world.arff with longitude
 		opened in bbedit and saved as WorldClimate1.arff
 		
 		edited by hand as above to make proper arff
+
+ran them and got different results than before -
+	- look at rules: it's using longitude!!
+	
+therefore create temp files with site, lat, and long left out
+	now works better!
+
 		

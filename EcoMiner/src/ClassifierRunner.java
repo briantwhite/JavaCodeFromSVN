@@ -77,7 +77,7 @@ public class ClassifierRunner extends Thread {
 						String climateDataLine = (String)instances.get(lineCounter);
 						csvOutputFile.write(
 								climateDataLine.substring(0, (climateDataLine.length() - 1))
-								+ (String)resultLineParts[3]
+								+ (String)resultLineParts[1]
 								                  + "\n");
 						lineCounter++;
 					}
