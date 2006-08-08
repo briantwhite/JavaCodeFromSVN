@@ -68,4 +68,30 @@ NOTE THAT BOTH CLIMATE FILES LACK LONGITUDE INFO
 	- they must be fixed
 	- for now, they are OK for testing purposes
 
+8/8/06
+need to test whole thing
+therefore, need files with longitude in them.
+
+from original CD, got Brian White/PecanData/data.csv
+	it has the weather stations for most of the US with pecan data
+		but NO longitude
+	added longitude from namloc2.csv from 8/3/06 cd
+	saved as pecans.csv (didn't save this file)
+	
+	opened in bbedit & saved as pecan1.arff
+		also saved in climate files as USClimate1.arff
+	
+		edited by hand to make .arff format
+			1) select top line and replace "," with " numeric \r@ATTRIBUTE " (do this line in separate file)
+			2) paste back in and add @data, @relation, etc.
+			3) attribute class is {W,D}; pecans is {0,1}
+			4) ran thru weka until no errors
+			
+need to have world.arff with longitude
+	started with WrldJustClimate.csv
+		added Pecans column - filed with zeros
+		
+		opened in bbedit and saved as WorldClimate1.arff
+		
+		edited by hand as above to make proper arff
 		
