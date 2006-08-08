@@ -1,7 +1,6 @@
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
-import java.awt.Point;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;

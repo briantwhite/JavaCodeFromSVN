@@ -282,7 +282,8 @@ public class EcoMiner extends JFrame {
 		MoveableJFileChooser fc = new MoveableJFileChooser();
 		fc.setFileFilter(new ArffFileFilter());
 		fc.setDialogTitle("Choose Species Distribution .arff file");
-		fc.setCurrentDirectory(new File("."));
+		fc.setCurrentDirectory(new File("workspace/SpeciesDistributionFiles"));
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		int returnVal = fc.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			speciesDistributionFile = fc.getSelectedFile();
@@ -397,7 +398,7 @@ public class EcoMiner extends JFrame {
 		MoveableJFileChooser fc = new MoveableJFileChooser();
 		fc.setFileFilter(new ArffFileFilter());
 		fc.setDialogTitle("Choose Climate arff file");
-		fc.setCurrentDirectory(new File("."));
+		fc.setCurrentDirectory(new File("workspace/ClimateFiles/"));
 		int returnVal = fc.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			climateDistributionFile = fc.getSelectedFile();
@@ -407,7 +408,7 @@ public class EcoMiner extends JFrame {
 			readerTimer.start();
 			
 		} else {
-			currentStep = 1;
+			currentStep = 0;
 			doStep();
 		}
 	}
@@ -514,7 +515,7 @@ public class EcoMiner extends JFrame {
 			runnerTimer.start();
 
 		} else {
-			currentStep = 2;
+			currentStep = 0;
 			doStep();
 		}
 	}
