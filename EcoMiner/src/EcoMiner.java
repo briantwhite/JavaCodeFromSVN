@@ -311,23 +311,23 @@ public class EcoMiner extends JFrame {
 			try {
 				Process proc = rt.exec("java -cp " + wekaJarFilename 
 						+ " weka.filters.unsupervised.attribute.Remove -R 1-3"
-						+ " -i " + speciesDistributionFile.getAbsolutePath()
+						+ " -i workspace/SpeciesDistributionFiles/" 
+						+ speciesDistributionFile.getName()
 						+ " -o workspace/temp.arff");
 				proc.waitFor();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			//now build classifier on reduced file
 			cg = new ClassifierGenerator(
-						"java -cp " + wekaJarFilename + " -mx300m "
-						+ "weka.classifiers.rules.JRip -F 3 -N 2.0 -O 2 -S 1 "
+						"java -cp " + wekaJarFilename 
+						+ " weka.classifiers.rules.JRip -F 3 -N 2.0 -O 2 -S 1 "
 						+ "-t workspace/temp.arff "  //training file
 						+ "-T workspace/temp.arff "  //test with same
 												   //file to eliminate x-validation
 						+ "-i -k "
-						+ "-d workspace" 
-						+ System.getProperty("file.separator")
+						+ "-d workspace/" 
 						+ speciesDistributionFile.getName()
 						+ ".classifier");
 			
@@ -525,19 +525,19 @@ public class EcoMiner extends JFrame {
 			try {
 				Process proc = rt.exec("java -cp " + wekaJarFilename 
 						+ " weka.filters.unsupervised.attribute.Remove -R 1-3"
-						+ " -i " + climateDistributionFile.getAbsolutePath()
+						+ " -i workspace/ClimateFiles/" 
+						+ climateDistributionFile.getName()
 						+ " -o workspace/temp.arff");
 				proc.waitFor();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			//now build classifier on reduced file
 
+			//now build classifier on reduced file
 			cr = new ClassifierRunner("java -cp " 
 					+ wekaJarFilename
-					+ " weka.classifiers.rules.JRip -l "
-					+ classifier.toString() 
+					+ " weka.classifiers.rules.JRip -l workspace/"
+					+ classifier.getName() 
 					+ " -T workspace/temp.arff"
 					+ " -p 1",
 					climateDataReader.getAttributes(),
