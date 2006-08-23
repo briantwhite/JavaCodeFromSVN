@@ -82,7 +82,8 @@ from original CD, got Brian White/PecanData/data.csv
 		also saved in climate files as USClimate1.arff
 	
 		edited by hand to make .arff format
-			1) select top line and replace "," with " numeric \r@ATTRIBUTE " (do this line in separate file)
+			1) select top line and replace "," with " numeric \r@ATTRIBUTE " 
+			(do this line in separate file)
 			2) paste back in and add @data, @relation, etc.
 			3) attribute class is {W,D}; pecans is {0,1}
 			4) ran thru weka until no errors
@@ -101,4 +102,16 @@ ran them and got different results than before -
 therefore create temp files with site, lat, and long left out
 	now works better!
 
-		
+8/16/06
+1) put the code to make the temporary arff files inside the long task code 
+so it doesn't just go into a coma when running the filter.
+2) refactored: made LongTaskRunner and associated classes
+
+8/18/06
+finished refactoring - last one to do was the classifierRunner
+also changed version to 1.0.1
+also made the "open" buttons for the arff file choosers say "select"
+
+8/21/06
+refactored
+added code so that going back to the clssifier screen gives old results
