@@ -71,7 +71,7 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.10 2005-07-13 14:38:32 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.11 2006-09-07 16:42:15 brian Exp $
  */
 public class VGLMainApp extends JApplet {
 	/**
@@ -777,7 +777,7 @@ public class VGLMainApp extends JApplet {
 	 */
 	private void aboutVGL() {
 		JOptionPane.showMessageDialog(this, m_ProgramId + "\n"
-				+ "Release Version 1.4.2\n" + "Copyright 2005\n" + "VGL Team.\n"
+				+ "Release Version 1.4.3\n" + "Copyright 2006\n" + "VGL Team.\n"
 				+ "All Rights Reserved\n" + "GNU General Public License\n"
 				+ "http://www.gnu.org/copyleft/gpl.html",
 				"About Virtual Genetics Lab...",
@@ -1038,7 +1038,8 @@ public class VGLMainApp extends JApplet {
 		
 		final JTextField proposedFileName = new JTextField(25);
 		String[] sections = {"Choose...", "Section01", "Section02", "Section03", "Section04",
-				"Section05", "Section06", "Section07", "Section08", "Section09", "Section10"	};
+				"Section05", "Section06", "Section07", "Section08", "Section09", "Section10"	,
+				"Section11", "Section12"};
 		final JComboBox sectionList = new JComboBox(sections);
 		final JPasswordField password = new JPasswordField(10);
 		JButton cancelButton = new JButton("Cancel");
