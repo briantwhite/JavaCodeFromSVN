@@ -1,0 +1,6 @@
+9/25/06
+started from scratch
+added in protex and genex
+had to modify them so they made JPanels rather than JFrames
+  since you can't add a JFrame to a JTabbedPane
+  

@@ -1,0 +1,21 @@
+<project name="MGX" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/MGX.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="molGenExp.MolGenExp"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    </jar>
+        <move file="bin/MGX.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run MGX">
+		<java jar="MGX.jar" fork="true"/>
+	</target>
+
+</project>
