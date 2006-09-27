@@ -4,3 +4,9 @@ added in protex and genex
 had to modify them so they made JPanels rather than JFrames
   since you can't add a JFrame to a JTabbedPane
   
+9/27/06
+worked on genex
+- made it a 2-panel version
+- parallel structure to protex
+- nuked out printing, and black-and-white stuff
+- nuked help and about

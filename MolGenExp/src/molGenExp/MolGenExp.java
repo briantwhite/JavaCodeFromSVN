@@ -44,11 +44,11 @@ public class MolGenExp extends JFrame {
 	private void setupUI() {
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setSize(new Dimension(screenSize.width, screenSize.height * 9/10));
+//		this.setSize(new Dimension(screenSize.width, screenSize.height * 9/10));
 		
 		explorerPane = new JTabbedPane();
-		explorerPane.setSize(new Dimension(screenSize.width * 8/10,
-				screenSize.height * 8/10));
+//		explorerPane.setSize(new Dimension(screenSize.width * 8/10,
+//				screenSize.height * 8/10));
 		
 		biochem.Protex protex = new biochem.Protex();
 		explorerPane.addTab("Biochemistry", protex);
@@ -56,7 +56,7 @@ public class MolGenExp extends JFrame {
 		molBiol.Genex genex = new molBiol.Genex();
 		explorerPane.addTab("Molecular Biology", genex);
 		
-		add(explorerPane);
+		getContentPane().add(explorerPane);
 		
 	}
 	

@@ -16,7 +16,6 @@ public class GenexParams {
 	String intronStartSequence;
 	String intronEndSequence;
 	String polyATail;
-	boolean allowPrinting;    
 
 
 	public GenexParams() {
@@ -29,16 +28,9 @@ public class GenexParams {
 		intronStartSequence = "GUGCG";
 		intronEndSequence = "CAAAG";
 		polyATail = "AAAAAAAAAAAAA";
-		allowPrinting = false; 
 	}
 	
 
-	public boolean isAllowPrinting() {
-		return allowPrinting;
-	}
-	public void setAllowPrinting(boolean allowPrinting) {
-		this.allowPrinting = allowPrinting;
-	}
 	public String getDefaultDNA() {
 		return defaultDNA;
 	}
