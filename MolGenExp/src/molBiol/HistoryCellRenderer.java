@@ -22,11 +22,9 @@ public class HistoryCellRenderer extends JButton
 	public Component getListCellRendererComponent(JList list, 
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		VisibleGene vg = (VisibleGene)value;
-		JButton button = new JButton(vg.getThumbnailPic());
-		button.setBackground(vg.getColor());
+		JButton button = new JButton();
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));
-		button.setToolTipText(vg.getAaSeq());
 		return button;
 	}
 

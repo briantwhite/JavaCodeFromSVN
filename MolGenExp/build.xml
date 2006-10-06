@@ -1,4 +1,4 @@
-<project name="MGX" default="run">
+<project name="Molecular Genetics Explorer" default="run">
 	
     <target name="compile" description="Compiles the code">
     	    <javac srcdir="src/" destdir="bin/"/>
