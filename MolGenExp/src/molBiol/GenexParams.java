@@ -19,10 +19,9 @@ public class GenexParams {
 
 
 	public GenexParams() {
-		defaultDNA = new String("CAAGGCTATAACCGAGATTGATGCCTTGTGCG" 
-	            + "ATAAGGTGTGTCCCCCCCCAAAGTGTCGGATG"
-	            + "TCGAGTGCGCGTGCAAAAAAAAACAAAGGCGA"
-	            + "GGACCTTAAGAAGGTGTGAGGGGGCGCTCGAT");
+		defaultDNA = new String("CAGCTATAACCGAGATTGATGTCTAG"
+				+ "TGCGATAAGCCCCAAAGATCGGCACATTCTGTGCGCTATA"
+				+ "CAAAGGTTTGTGTTCGTTCGGCAGTAGTAGGGGGCGT");
 		promoterSequence = "TATAA";
 		terminatorSequence = "GGGGG";
 		intronStartSequence = "GUGCG";
