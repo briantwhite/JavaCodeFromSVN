@@ -53,7 +53,7 @@ public class MolGenExp extends JFrame {
 		biochem.Protex protex = new biochem.Protex();
 		explorerPane.addTab("Biochemistry", protex);
 		
-		molBiol.Genex genex = new molBiol.Genex();
+		molBiol.Genex genex = new molBiol.Genex(this);
 		explorerPane.addTab("Molecular Biology", genex);
 		
 		getContentPane().add(explorerPane);
