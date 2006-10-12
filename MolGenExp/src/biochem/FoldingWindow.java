@@ -19,6 +19,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import molGenExp.ColorModel;
+import molGenExp.ProteinImageFactory;
+import molGenExp.ProteinImageSet;
+
 public class FoldingWindow extends JPanel {
 	
 	final Protex protex;
@@ -117,49 +121,16 @@ public class FoldingWindow extends JPanel {
 				Color proteinColor = foldedProtein.getProteinColor();
 				colorChip.setBackground(proteinColor);
 				
-
-				//make history list item
-				fullSizePic = new BufferedImage(requiredCanvasSize.width, 
-						requiredCanvasSize.height, BufferedImage.TYPE_INT_RGB);
-				Graphics2D g = fullSizePic.createGraphics();
-				g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-						RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-				g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-						RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-				foldedProtein.getDrawingPane().paint(g);
-				g.dispose();
-				
-				int imageWidth = fullSizePic.getWidth(null);
-				int imageHeight = fullSizePic.getHeight(null);
-				double imageRatio = (double) imageWidth / (double) imageHeight;
-				double thumbRatio = (double) thumbWidth / (double) thumbHeight;
-
-				if (thumbRatio < imageRatio) {
-					thumbHeight = (int) (thumbWidth / imageRatio);
-				}
-				else {
-					thumbWidth = (int) (thumbHeight * imageRatio);
-				}
-
-				// draw original image to thumbnail image object;
-				// 	scale it to the new size on-the-fly
-
-				BufferedImage thumbImage =
-				new BufferedImage(
-				thumbWidth,
-				thumbHeight,
-				BufferedImage.TYPE_INT_RGB);
-				Graphics2D smallG = thumbImage.createGraphics();
-				smallG.setRenderingHint(
-				RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-				smallG.drawImage(fullSizePic, 0, 0, thumbWidth, thumbHeight, null);
-				smallG.dispose();
+				//make full size and thumbnail images
+				ProteinImageSet images = 
+					ProteinImageFactory.generateImages(
+							foldedProtein,
+							requiredCanvasSize);
 				
 				foldedPolypeptide = new FoldedPolypeptide(proteinSequence.getText().trim(),
 						foldedProtein.getDrawingPane().getGrid(), 
-						new ImageIcon(fullSizePic),
-						new ImageIcon(thumbImage), 
+						new ImageIcon(images.getFullScaleImage()),
+						new ImageIcon(images.getThumbnailImage()), 
 						proteinColor);
 				protex.addFoldedToHistList(foldedPolypeptide);
 				

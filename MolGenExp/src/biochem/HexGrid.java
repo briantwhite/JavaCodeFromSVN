@@ -15,6 +15,8 @@ package biochem;
 
 import java.util.HashMap;
 
+import molGenExp.ColorModel;
+
 /**
  * Model a grid of hexagons containing a polypeptide chain.
  * 

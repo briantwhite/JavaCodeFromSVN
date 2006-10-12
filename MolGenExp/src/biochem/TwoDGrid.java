@@ -16,6 +16,8 @@ package biochem;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import molGenExp.ColorModel;
+
 /**
  * Model a grid containing a polypeptide chain.
  */

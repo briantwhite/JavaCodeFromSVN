@@ -27,7 +27,7 @@ public class MiddleButtonPanel extends JPanel {
 				+ "</center></html>");
 		colorChip = new JLabel("<html><pre>         </pre></html>");
 		colorChip.setOpaque(true);
-		colorChip.setBackground(Color.WHITE);
+		colorChip.setBackground(Color.LIGHT_GRAY);
 		colorChip.setBorder(new LineBorder(Color.BLACK));
 		toUPButton = new JButton("> Upper");
 		toLPButton = new JButton("> Lower");

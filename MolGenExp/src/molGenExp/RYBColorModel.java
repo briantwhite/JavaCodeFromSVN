@@ -11,12 +11,14 @@
  * option) any later version.
  */
 
-package biochem;
+package molGenExp;
 
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import biochem.AcidInChain;
 
 /**
  * Class representing RYBColor chart. Model the standard RYB color model.

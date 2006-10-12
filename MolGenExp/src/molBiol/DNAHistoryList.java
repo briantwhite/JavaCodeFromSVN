@@ -8,18 +8,18 @@ import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
-public class HistoryList extends JList implements Serializable {
+public class DNAHistoryList extends JList implements Serializable {
 	DefaultListModel histListDataModel;
 	
-	public HistoryList(ListModel dataModel) {
+	public DNAHistoryList(ListModel dataModel) {
 		super(dataModel);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.setCellRenderer(new HistoryCellRenderer());
+		this.setCellRenderer(new DNAHistoryCellRenderer());
 		histListDataModel = (DefaultListModel)dataModel;
 		this.setFixedCellWidth(20);
 	}
 	
-	public void add(VisibleGene vg) {
+	public void add(ExpressedGene vg) {
 		histListDataModel.addElement(vg);
 	}
 	

@@ -11,11 +11,13 @@
  * option) any later version.
  */
 
-package biochem;
+package molGenExp;
 
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.HashMap;
+
+import biochem.AcidInChain;
 
 /**
  * Class representing a generic color model for coloring proteins by 

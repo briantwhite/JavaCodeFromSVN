@@ -81,7 +81,7 @@ public abstract class GridCanvas extends JPanel {
 	 * 
 	 * @return Grid
 	 */
-	protected Grid getGrid() {
+	public Grid getGrid() {
 		return grid;
 	}
 

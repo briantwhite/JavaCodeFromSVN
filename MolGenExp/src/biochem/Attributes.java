@@ -40,6 +40,9 @@
 
 package biochem;
 
+import molGenExp.ColorModel;
+import molGenExp.RYBColorModel;
+
 /**
  * Class Attributes contains the attributes needed to fold or plot a
  * polypeptide. It serves to transfer data between Observers and FoldingManager.

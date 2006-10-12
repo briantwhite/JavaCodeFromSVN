@@ -1,4 +1,4 @@
-package molBiol;
+package biochem;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,10 +10,10 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-public class HistoryCellRenderer extends JButton 
+public class ProteinHistoryCellRenderer extends JButton 
 	implements ListCellRenderer {
 	
-	public HistoryCellRenderer() {
+	public ProteinHistoryCellRenderer() {
 		super();
 		setOpaque(true);
 		setLayout(new BorderLayout());
@@ -21,10 +21,12 @@ public class HistoryCellRenderer extends JButton
 
 	public Component getListCellRendererComponent(JList list, 
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
-		VisibleGene vg = (VisibleGene)value;
-		JButton button = new JButton();
+		FoldedPolypeptide fp = (FoldedPolypeptide)value;
+		JButton button = new JButton(fp.getThumbnailPic());
+		button.setBackground(fp.getColor());
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));
+		button.setToolTipText(fp.getAaSeq());
 		return button;
 	}
 

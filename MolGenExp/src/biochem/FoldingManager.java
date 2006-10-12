@@ -44,6 +44,8 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
+import molGenExp.ColorModel;
+
 /**
  * Manages the process of folding the polypeptide chains; serves as a subject
  * for FoldingObservers. FoldingManager is a singleton class. Therefore, it has

@@ -41,6 +41,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import molGenExp.ColorModel;
+import molGenExp.RYBColorModel;
+
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
@@ -66,7 +69,7 @@ public class Protex extends JPanel {
 	
 	FoldingWindow upperFoldingWindow;
 	FoldingWindow lowerFoldingWindow;
-	HistoryList historyList;
+	ProteinHistoryList proteinHistoryList;
 	JScrollPane histListScrollPane;
 	MiddleButtonPanel middleButtonPanel;
 	
@@ -143,8 +146,8 @@ public class Protex extends JPanel {
 		aapPanel.setMaximumSize(new Dimension(250, 200));
 		aapPanel.add(aaPalette);
 		
-		historyList = new HistoryList(new DefaultListModel());
-		histListScrollPane = new JScrollPane(historyList);
+		proteinHistoryList = new ProteinHistoryList(new DefaultListModel());
+		histListScrollPane = new JScrollPane(proteinHistoryList);
 		histListScrollPane.setBorder(
 				BorderFactory.createTitledBorder("History List"));
 		histListScrollPane.setMaximumSize(new Dimension(250,1000));
@@ -197,9 +200,9 @@ public class Protex extends JPanel {
 						e.printStackTrace();
 					}
 					if (all != null) {
-						historyList.clearList();
+						proteinHistoryList.clearList();
 						for (int i = 0; i < all.length; i++) {
-							historyList.add((FoldedPolypeptide)all[i]);
+							proteinHistoryList.add((FoldedPolypeptide)all[i]);
 						}
 						histListScrollPane.revalidate();
 						histListScrollPane.repaint();
@@ -212,7 +215,7 @@ public class Protex extends JPanel {
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//save hist list to avoid serialization bug that wipes it clean 
-				Object[] all = historyList.getAll();
+				Object[] all = proteinHistoryList.getAll();
 				if (all.length == 0) {
 					JOptionPane.showMessageDialog(null, "No History List to Save",
 							"Blank History List", JOptionPane.WARNING_MESSAGE);
@@ -230,7 +233,7 @@ public class Protex extends JPanel {
 		
 		saveAs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Object[] all = historyList.getAll();
+				Object[] all = proteinHistoryList.getAll();
 				if (all.length == 0) {
 					JOptionPane.showMessageDialog(null, "No History List to Save",
 							"Blank History List", JOptionPane.WARNING_MESSAGE);
@@ -242,7 +245,7 @@ public class Protex extends JPanel {
 		
 		deleteSelected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				historyList.deleteSelected();
+				proteinHistoryList.deleteSelected();
 			}
 		});
 		
@@ -253,7 +256,7 @@ public class Protex extends JPanel {
 						+ "This cannot be undone!",
 						"Confirm Clear", 
 						JOptionPane.OK_CANCEL_OPTION) == JOptionPane.YES_OPTION) {
-					historyList.clearList();
+					proteinHistoryList.clearList();
 				}
 			}	
 		});
@@ -261,7 +264,7 @@ public class Protex extends JPanel {
 		saveToHTML.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				File htmlDirectory = null;
-				Object[] all = historyList.getAll();
+				Object[] all = proteinHistoryList.getAll();
 				if (all.length == 0) {
 					JOptionPane.showMessageDialog(null, "No History List to Save",
 							"Blank History List", JOptionPane.WARNING_MESSAGE);
@@ -387,7 +390,7 @@ public class Protex extends JPanel {
 	
 
 	public void addFoldedToHistList(FoldedPolypeptide fp) {
-		historyList.add(fp);
+		proteinHistoryList.add(fp);
 		histListScrollPane.revalidate();
 		histListScrollPane.repaint();
 		updateCombinedColor();
@@ -401,17 +404,17 @@ public class Protex extends JPanel {
 	}
 	
 	public void sendSelectedFPtoUP() {
-		if (historyList.getSelectedValue() != null) {
+		if (proteinHistoryList.getSelectedValue() != null) {
 			FoldedPolypeptide fp =
-				(FoldedPolypeptide) historyList.getSelectedValue();
+				(FoldedPolypeptide) proteinHistoryList.getSelectedValue();
 			upperFoldingWindow.setFoldedPolypeptide(fp);
 		}
 	}
 	
 	public void sendSelectedFPtoLP() {
-		if (historyList.getSelectedValue() != null){
+		if (proteinHistoryList.getSelectedValue() != null){
 			FoldedPolypeptide fp =
-				(FoldedPolypeptide) historyList.getSelectedValue();
+				(FoldedPolypeptide) proteinHistoryList.getSelectedValue();
 			lowerFoldingWindow.setFoldedPolypeptide(fp);
 		}
 	}
@@ -445,9 +448,9 @@ public class Protex extends JPanel {
 		}
 		
 		//restore history list
-		historyList.clearList();
+		proteinHistoryList.clearList();
 		for (int i = 0; i < all.length; i++) {
-			historyList.add((FoldedPolypeptide)all[i]);
+			proteinHistoryList.add((FoldedPolypeptide)all[i]);
 		}
 		histListScrollPane.revalidate();
 		histListScrollPane.repaint();

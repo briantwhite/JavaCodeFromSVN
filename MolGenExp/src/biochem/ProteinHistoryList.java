@@ -8,13 +8,13 @@ import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
-public class HistoryList extends JList implements Serializable {
+public class ProteinHistoryList extends JList implements Serializable {
 	DefaultListModel histListDataModel;
 	
-	public HistoryList(ListModel dataModel) {
+	public ProteinHistoryList(ListModel dataModel) {
 		super(dataModel);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.setCellRenderer(new HistoryCellRenderer());
+		this.setCellRenderer(new ProteinHistoryCellRenderer());
 		histListDataModel = (DefaultListModel)dataModel;
 		this.setFixedCellWidth(20);
 	}
