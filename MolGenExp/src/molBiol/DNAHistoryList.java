@@ -1,14 +1,23 @@
 package molBiol;
 
+import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.Serializable;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
+
+import biochem.FoldedPolypeptide;
 
 public class DNAHistoryList extends JList implements Serializable {
+	
 	DefaultListModel histListDataModel;
 	
 	public DNAHistoryList(ListModel dataModel) {
@@ -17,6 +26,38 @@ public class DNAHistoryList extends JList implements Serializable {
 		this.setCellRenderer(new DNAHistoryCellRenderer());
 		histListDataModel = (DefaultListModel)dataModel;
 		this.setFixedCellWidth(20);
+		this.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					ExpressedGene eg = 
+						(ExpressedGene)getSelectedValue();
+					FoldedPolypeptide fp = eg.getFoldedPolypeptide();
+					JLabel colorChipForDialog = new JLabel("     ");
+					colorChipForDialog.setOpaque(true);
+					colorChipForDialog.setBackground(fp.getColor());
+					colorChipForDialog.setBorder(new LineBorder(Color.BLACK));
+
+					Object[] options = {"OK",
+							new JLabel("Color:"),
+							colorChipForDialog
+					};
+					JOptionPane.showOptionDialog(
+							null,
+							"",
+							"Protein Structure",
+							JOptionPane.YES_OPTION,
+							JOptionPane.INFORMATION_MESSAGE,
+							fp.getFullSizePic(),
+							options,
+							options[0]);
+				}
+			}
+
+			public void mouseEntered(MouseEvent arg0) {}
+			public void mouseExited(MouseEvent arg0) {}
+			public void mousePressed(MouseEvent arg0) {}
+			public void mouseReleased(MouseEvent arg0) {}
+		});
 	}
 	
 	public void add(ExpressedGene vg) {
