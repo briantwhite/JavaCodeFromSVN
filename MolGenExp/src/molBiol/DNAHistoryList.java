@@ -14,13 +14,15 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
+import molGenExp.MolGenExp;
+
 import biochem.FoldedPolypeptide;
 
 public class DNAHistoryList extends JList implements Serializable {
 	
 	DefaultListModel histListDataModel;
 	
-	public DNAHistoryList(ListModel dataModel) {
+	public DNAHistoryList(ListModel dataModel, final MolGenExp mge) {
 		super(dataModel);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setCellRenderer(new DNAHistoryCellRenderer());
@@ -42,7 +44,7 @@ public class DNAHistoryList extends JList implements Serializable {
 							colorChipForDialog
 					};
 					JOptionPane.showOptionDialog(
-							null,
+							mge,
 							"",
 							"Protein Structure",
 							JOptionPane.YES_OPTION,

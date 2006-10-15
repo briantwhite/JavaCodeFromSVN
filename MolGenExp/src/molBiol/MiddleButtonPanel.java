@@ -18,6 +18,7 @@ public class MiddleButtonPanel extends JPanel {
 	private JLabel colorChip;
 	private JButton toUPButton;
 	private JButton toLPButton;
+	private JButton makeOrganismButton;
 	
 	public MiddleButtonPanel(final Genex genex){
 		super();
@@ -31,12 +32,14 @@ public class MiddleButtonPanel extends JPanel {
 		colorChip.setBorder(new LineBorder(Color.BLACK));
 		toUPButton = new JButton("> Upper");
 		toLPButton = new JButton("> Lower");
+		makeOrganismButton = new JButton("Make Organism");
 		
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		this.add(colorChipLabel);
 		this.add(colorChip);
 		this.add(toUPButton);
 		this.add(toLPButton);
+		this.add(makeOrganismButton);
 		
 		toUPButton.addActionListener(new ActionListener() {
 
@@ -52,6 +55,12 @@ public class MiddleButtonPanel extends JPanel {
 				genex.sendSelectedGenetoLP();
 			}
 			
+		});
+		
+		makeOrganismButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				genex.makeOrganism();
+			}
 		});
 
 	}
