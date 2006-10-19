@@ -4,15 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-
-import molBiol.ExpressedGene;
-
-import biochem.FoldedPolypeptide;
 
 public class GreenhouseCellRenderer extends JButton 
 	implements ListCellRenderer {
@@ -27,10 +23,13 @@ public class GreenhouseCellRenderer extends JButton
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		Organism o = (Organism)value;
 		JButton button = 
-			new JButton(o.getImage());
+			new JButton(o.getName(), o.getImage());
 		button.setBackground(Color.LIGHT_GRAY);
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));
+		button.setVerticalTextPosition(AbstractButton.BOTTOM);
+		button.setHorizontalTextPosition(AbstractButton.CENTER);
+
 		return button;
 	}
 

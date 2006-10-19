@@ -142,8 +142,8 @@ public class Protex extends JPanel {
 		JPanel aapPanel = new JPanel();
 		aapPanel.setBorder(BorderFactory.createTitledBorder("Amino acids"));
 		AminoAcidPalette aaPalette 
-			= new AminoAcidPalette(225, 180, 4, 5, false);
-		aapPanel.setMaximumSize(new Dimension(250, 200));
+			= new AminoAcidPalette(180, 225, 5, 4, false);
+		aapPanel.setMaximumSize(new Dimension(200, 250));
 		aapPanel.add(aaPalette);
 		
 		proteinHistoryList = new ProteinHistoryList(new DefaultListModel());

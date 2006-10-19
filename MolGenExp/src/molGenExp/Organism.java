@@ -13,8 +13,7 @@ import molBiol.ExpressedGene;
 public class Organism {
 	
 	private static int imageSize = 50; //size of image for greenhouse
-	private static int serialNumberCounter = 1;
-	private int serialNumber;
+	private String name;
 	
 	private ColorModel colorModel;
 	
@@ -23,11 +22,11 @@ public class Organism {
 	private Color color;
 	private ImageIcon image;
 
-	public Organism(ExpressedGene gene1, 
+	public Organism(String name, 
+			ExpressedGene gene1, 
 			ExpressedGene gene2,
 			ColorModel colorModel) {
-		serialNumber = serialNumberCounter;
-		serialNumberCounter++;
+		this.name = name;
 		this.gene1 = gene1;
 		this.gene2 = gene2;
 		this.colorModel = colorModel;
@@ -72,6 +71,10 @@ public class Organism {
 
 		image = new ImageIcon(pic);
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 	public ExpressedGene getGene1() {
 		return gene1;
@@ -84,11 +87,7 @@ public class Organism {
 	public Color getColor() {
 		return color;
 	}
-	
-	public int getSerialNumber() {
-		return serialNumber;
-	}
-	
+		
 	public ImageIcon getImage() {
 		return image;
 	}

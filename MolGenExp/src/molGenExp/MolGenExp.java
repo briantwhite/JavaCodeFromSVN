@@ -1,11 +1,14 @@
 package molGenExp;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -14,6 +17,10 @@ import javax.swing.JTabbedPane;
 public class MolGenExp extends JFrame {
 	
 	private final static String version = "1.0";
+	
+	private JPanel mainPanel;
+	
+	private Greenhouse greenhouse;
 	
 	JTabbedPane explorerPane;
 	
@@ -46,6 +53,9 @@ public class MolGenExp extends JFrame {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 //		this.setSize(new Dimension(screenSize.width, screenSize.height * 9/10));
 		
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+				
 		explorerPane = new JTabbedPane();
 //		explorerPane.setSize(new Dimension(screenSize.width * 8/10,
 //				screenSize.height * 8/10));
@@ -56,7 +66,18 @@ public class MolGenExp extends JFrame {
 		molBiol.Genex genex = new molBiol.Genex(this);
 		explorerPane.addTab("Molecular Biology", genex);
 		
-		getContentPane().add(explorerPane);
+		mainPanel.add(explorerPane);
+		
+		JPanel rightPanel = new JPanel();
+		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+		rightPanel.add(Box.createRigidArea(new Dimension(150,1)));
+		greenhouse = new Greenhouse(new DefaultListModel(), this);
+		greenhouse.setBorder(BorderFactory.createTitledBorder("Greenhouse"));
+		rightPanel.add(greenhouse);
+		
+		mainPanel.add(rightPanel);
+
+		getContentPane().add(mainPanel);
 		
 	}
 	

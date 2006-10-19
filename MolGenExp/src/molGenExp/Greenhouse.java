@@ -21,13 +21,15 @@ import biochem.FoldedPolypeptide;
 public class Greenhouse extends JList implements Serializable {
 	
 	DefaultListModel greenhouseDataModel;
+	MolGenExp mge;
 	
-	public Greenhouse (ListModel dataModel) {
+	public Greenhouse (ListModel dataModel, MolGenExp mge) {
 		super(dataModel);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setCellRenderer(new GreenhouseCellRenderer());
 		greenhouseDataModel = (DefaultListModel)dataModel;
 		this.setFixedCellWidth(20);
+		this.mge = mge;
 	}
 	
 	public void add(Organism o) {
