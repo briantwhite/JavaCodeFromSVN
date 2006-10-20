@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-public class MiddleButtonPanel extends JPanel {
+public class DNAmiddleButtonPanel extends JPanel {
 	
 	final Genex genex;
 	
@@ -18,28 +18,28 @@ public class MiddleButtonPanel extends JPanel {
 	private JLabel colorChip;
 	private JButton toUPButton;
 	private JButton toLPButton;
-	private JButton makeOrganismButton;
+	private JButton saveOrganismToGreenhouseButton;
 	
-	public MiddleButtonPanel(final Genex genex){
+	public DNAmiddleButtonPanel(final Genex genex){
 		super();
 		this.genex = genex;
 		
 		colorChipLabel = new JLabel("<html><center>Combined<br>Color:"
 				+ "</center></html>");
-		colorChip = new JLabel("<html><pre>         </pre></html>");
+		colorChip = new JLabel("<html><pre>    </pre></html>");
 		colorChip.setOpaque(true);
 		colorChip.setBackground(Color.LIGHT_GRAY);
 		colorChip.setBorder(new LineBorder(Color.BLACK));
-		toUPButton = new JButton("> Upper");
-		toLPButton = new JButton("> Lower");
-		makeOrganismButton = new JButton("Make Organism");
+		toUPButton = new JButton(">UGW");
+		toLPButton = new JButton(">LGW");
+		saveOrganismToGreenhouseButton = new JButton("Save");
 		
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		this.add(colorChipLabel);
 		this.add(colorChip);
 		this.add(toUPButton);
 		this.add(toLPButton);
-		this.add(makeOrganismButton);
+		this.add(saveOrganismToGreenhouseButton);
 		
 		toUPButton.addActionListener(new ActionListener() {
 
@@ -57,9 +57,9 @@ public class MiddleButtonPanel extends JPanel {
 			
 		});
 		
-		makeOrganismButton.addActionListener(new ActionListener() {
+		saveOrganismToGreenhouseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				genex.makeOrganism();
+				genex.saveOrganismToGreenhouse();
 			}
 		});
 

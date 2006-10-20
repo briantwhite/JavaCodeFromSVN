@@ -23,13 +23,26 @@ public class Greenhouse extends JList implements Serializable {
 	DefaultListModel greenhouseDataModel;
 	MolGenExp mge;
 	
-	public Greenhouse (ListModel dataModel, MolGenExp mge) {
+	public Greenhouse (ListModel dataModel, final MolGenExp mge) {
 		super(dataModel);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setCellRenderer(new GreenhouseCellRenderer());
 		greenhouseDataModel = (DefaultListModel)dataModel;
-		this.setFixedCellWidth(20);
+		this.setFixedCellWidth(145);
 		this.mge = mge;
+		
+		this.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					Organism o = (Organism)getSelectedValue();
+					mge.loadOrganismIntoActivePanel(o);
+				}
+			}
+			public void mouseEntered(MouseEvent arg0) {}
+			public void mouseExited(MouseEvent arg0) {}
+			public void mousePressed(MouseEvent arg0) {}
+			public void mouseReleased(MouseEvent arg0) {}
+		});
 	}
 	
 	public void add(Organism o) {

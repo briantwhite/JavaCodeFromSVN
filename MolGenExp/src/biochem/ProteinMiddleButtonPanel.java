@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-public class MiddleButtonPanel extends JPanel {
+public class ProteinMiddleButtonPanel extends JPanel {
 	
 	final Protex protex;
 	
@@ -19,7 +19,7 @@ public class MiddleButtonPanel extends JPanel {
 	private JButton toUPButton;
 	private JButton toLPButton;
 	
-	public MiddleButtonPanel(final Protex protex){
+	public ProteinMiddleButtonPanel(final Protex protex){
 		super();
 		this.protex = protex;
 		

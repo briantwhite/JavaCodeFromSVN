@@ -1,5 +1,6 @@
 package molGenExp;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
@@ -13,6 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import molBiol.Genex;
+
+import biochem.Protex;
+
 
 public class MolGenExp extends JFrame {
 	
@@ -25,10 +30,10 @@ public class MolGenExp extends JFrame {
 	JTabbedPane explorerPane;
 	
 	private JPanel biochemPanel;
-	private biochem.Protex protex;
+	private Protex protex;
 	
 	private JPanel molBiolPanel;
-	private molBiol.Genex genex;
+	private Genex genex;
 	
 	public MolGenExp() {
 		super("Molecular Genetics Explorer " + version);
@@ -60,10 +65,10 @@ public class MolGenExp extends JFrame {
 //		explorerPane.setSize(new Dimension(screenSize.width * 8/10,
 //				screenSize.height * 8/10));
 		
-		biochem.Protex protex = new biochem.Protex();
+		protex = new Protex();
 		explorerPane.addTab("Biochemistry", protex);
 		
-		molBiol.Genex genex = new molBiol.Genex(this);
+		genex = new Genex(this);
 		explorerPane.addTab("Molecular Biology", genex);
 		
 		mainPanel.add(explorerPane);
@@ -72,13 +77,31 @@ public class MolGenExp extends JFrame {
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		rightPanel.add(Box.createRigidArea(new Dimension(150,1)));
 		greenhouse = new Greenhouse(new DefaultListModel(), this);
-		greenhouse.setBorder(BorderFactory.createTitledBorder("Greenhouse"));
+		rightPanel.setMaximumSize(new Dimension(150,1000));
+		rightPanel.setBorder(BorderFactory.createTitledBorder("Greenhouse"));
 		rightPanel.add(greenhouse);
 		
 		mainPanel.add(rightPanel);
 
 		getContentPane().add(mainPanel);
 		
+	}
+	
+	public void saveToGreenhouse(Organism o) {
+		greenhouse.add(o);
+	}
+	
+	public void loadOrganismIntoActivePanel(Organism o) {
+		String selectedPane = 
+			explorerPane.getSelectedComponent().getClass().toString();
+
+		if (selectedPane.equals("class molBiol.Genex")) {
+			genex.loadOrganism(o);
+		}
+		
+		if (selectedPane.equals("class biochem.Protex")) {
+			System.out.println("protex was active");
+		}
 	}
 	
 }
