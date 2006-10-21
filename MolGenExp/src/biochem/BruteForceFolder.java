@@ -74,11 +74,15 @@ public class BruteForceFolder extends Folder {
 
 		// place first two AminoAcids near center, loop on just
 		// a few vectors for the third (depending on symmetry of grid
-
 		for (int i = 0; i < numAcids; i++) {
 			grid.unset(acids[i]);
 		}
 		resetEnergy();
+		
+		//if nothing to fold
+		if (numAcids == 0) {
+			return;
+		}
 
 		if (numAcids > 0) {
 			grid.set(0, grid.getCenter(), Direction.none);

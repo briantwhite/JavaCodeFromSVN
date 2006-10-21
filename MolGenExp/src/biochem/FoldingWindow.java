@@ -24,49 +24,49 @@ import molGenExp.ProteinImageFactory;
 import molGenExp.ProteinImageSet;
 
 public class FoldingWindow extends JPanel {
-	
+
 	final Protex protex;
-	
+
 	JPanel proteinPanel;
 	JTextField proteinSequence;
 	TripleLetterCodeDocument tlcDoc;
 	OutputPalette foldedProtein;
 	ColorModel colorModel;
-	
+
 	JPanel buttonPanel;
 	JButton foldButton;
 	JLabel colorLabel;
 	JLabel colorChip;
-	
+
 	Polypeptide polypeptide;
 	Attributes attributes;
 	FoldingManager manager;
 	JScrollPane proteinScrollPane;
 
 	StandardTable table;
-	
+
 	FoldedPolypeptide foldedPolypeptide;
 	BufferedImage fullSizePic;
-	
+
 	// fix thumbnail size from WIDTH and HEIGHT of full-size image;
 	//	these values (in pixels) are for scaling purposes
 	private static int thumbWidth = 130;
 	private static int thumbHeight = 70;
 
-	
+
 	public FoldingWindow(String title, final Protex protex, final ColorModel colorModel) {
 		super();
 		this.colorModel = colorModel;
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createTitledBorder(title));
 		this.setBackground(Color.lightGray);
-		
+
 		this.protex = protex;
-		
+
 		foldedPolypeptide = null;
-		
+
 		fullSizePic = null;
-				
+
 		proteinPanel = new JPanel();
 		proteinPanel.setLayout(new BorderLayout());
 		tlcDoc = new TripleLetterCodeDocument();
@@ -77,42 +77,42 @@ public class FoldingWindow extends JPanel {
 		proteinScrollPane = new JScrollPane(foldedProtein);
 		proteinPanel.add(proteinSequence, BorderLayout.NORTH);
 		proteinPanel.add(proteinScrollPane, BorderLayout.CENTER);
-		
+
 		foldButton = new JButton("FOLD");
 		foldButton.setEnabled(false);
 		tlcDoc.setLinkedFoldingWindow(this);
-		
+
 		colorLabel = new JLabel("Color:");
 		colorChip = new JLabel("     ");
 		colorChip.setOpaque(true);
 		colorChip.setBackground(Color.WHITE);
 		colorChip.setBorder(new LineBorder(Color.BLACK));
-		
+
 		buttonPanel = new JPanel();
 		buttonPanel.add(foldButton);
 		buttonPanel.add(colorLabel);
 		buttonPanel.add(colorChip);
-		
+
 		this.add(proteinPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-		
+
 		manager = FoldingManager.getInstance();
-		
+
 		table = new StandardTable();
-		
+
 		foldButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				attributes = new Attributes(
 						proteinSequence.getText().trim(), 
 						3, colorModel, "straight", "test");
-				
+
 				//fold the polypeptide
 				try {
 					manager.fold(attributes);
 				} catch (FoldingException e) {
 					e.printStackTrace();
 				}	
-				
+
 				//display it
 				manager.createCanvas(foldedProtein);
 				Dimension requiredCanvasSize = 
@@ -120,32 +120,32 @@ public class FoldingWindow extends JPanel {
 				foldedProtein.repaint();
 				Color proteinColor = foldedProtein.getProteinColor();
 				colorChip.setBackground(proteinColor);
-				
+
 				//make full size and thumbnail images
 				ProteinImageSet images = 
 					ProteinImageFactory.generateImages(
 							foldedProtein,
 							requiredCanvasSize);
-				
+
 				foldedPolypeptide = new FoldedPolypeptide(proteinSequence.getText().trim(),
 						foldedProtein.getDrawingPane().getGrid(), 
 						new ImageIcon(images.getFullScaleImage()),
 						new ImageIcon(images.getThumbnailImage()), 
 						proteinColor);
 				protex.addFoldedToHistList(foldedPolypeptide);
-				
+
 				foldButton.setEnabled(false);
 				foldedProtein.setBackground(Color.lightGray);
-				
+
 			}	
 		});
-		
+
 	}
-	
+
 	public String getAaSeq() {
 		return proteinSequence.getText();
 	}
-	
+
 	public Color getColor() {
 		if (foldedProtein.getProteinColor() == null) {
 			return Color.WHITE;
@@ -156,20 +156,20 @@ public class FoldingWindow extends JPanel {
 	public FoldedPolypeptide getFoldedPolypeptide() {
 		return foldedPolypeptide;
 	}
-	
+
 	public BufferedImage getFullSizePic() {
 		return fullSizePic;
 	}
-	
+
 	//callback from the Document in the text field when
 	// the aa seq is changed
 	public void aaSeqChanged() {
 		foldButton.setEnabled(true);
 		foldedProtein.setBackground(Color.PINK);		
 	}
-	
+
 	public void setFoldedPolypeptide(FoldedPolypeptide fp){
-		
+
 		foldedPolypeptide = fp;
 
 		//replace amino acid sequence
@@ -183,23 +183,23 @@ public class FoldingWindow extends JPanel {
 		((TripleLetterCodeDocument)
 				proteinSequence.getDocument()).removeAll();
 		proteinSequence.setText(abAASeq.toString());
-		
+
 		//send the picture of the folded protein
 		foldedProtein.getDrawingPane().setGrid(fp.getFullSizeGrid());
 		foldedProtein.getDrawingPane().repaint();
 		foldedProtein.getDrawingPane().revalidate();
-		
+
 		//update the color chip on the folding window
 		colorChip.setBackground(fp.getColor());
-		
+
 		//update the combined cholor chip
 		protex.updateCombinedColor();
-		
-		
+
+
 		//update the picture as well
 		Dimension requiredCanvasSize = 
 			foldedProtein.getDrawingPane().getRequiredCanvasSize();
-		
+
 		fullSizePic = new BufferedImage(requiredCanvasSize.width, 
 				requiredCanvasSize.height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = fullSizePic.createGraphics();
@@ -209,9 +209,9 @@ public class FoldingWindow extends JPanel {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		foldedProtein.getDrawingPane().paint(g);
 		g.dispose();
-		
+
 		foldedProtein.setBackground(Color.LIGHT_GRAY);
 		foldButton.setEnabled(false);
-		
+
 	}
 }
