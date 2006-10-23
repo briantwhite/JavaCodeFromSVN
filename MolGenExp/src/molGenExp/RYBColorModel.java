@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import biochem.AcidInChain;
+import biochem.AminoAcid;
 
 /**
  * Class representing RYBColor chart. Model the standard RYB color model.
@@ -83,6 +84,19 @@ public class RYBColorModel extends ColorModel {
 		int aNum = ((Integer)colorToNumberMap.get(a)).intValue();
 		int bNum = ((Integer)colorToNumberMap.get(b)).intValue();
 		return numberToColorMap[aNum | bNum];
+	}
+
+	public Color colorAaNameText(AminoAcid a) {
+		if (a.getName().equals("Arg") ||
+				a.getName().equals("Lys") ||
+				a.getName().equals("His")) {
+			return Color.BLUE;
+		}
+		if (a.getName().equals("Asp") ||
+				a.getName().equals("Glu")) {
+			return Color.RED;
+		}
+		return Color.black;
 	}
 
 }

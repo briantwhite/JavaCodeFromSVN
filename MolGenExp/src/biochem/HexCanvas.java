@@ -15,6 +15,8 @@ package biochem;
 
 import java.awt.Polygon;
 
+import molGenExp.ColorModel;
+
 /**
  * Display a Grid of hexagons.
  * 
@@ -34,8 +36,8 @@ public class HexCanvas extends GridCanvas {
 		createHexagon();
 	}
 
-	public HexCanvas() {
-		super();
+	public HexCanvas(ColorModel colorModel) {
+		super(colorModel);
 		createHexagon();
 	}
 

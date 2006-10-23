@@ -55,6 +55,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
+import molGenExp.ColorModel;
+
 /**
  * AminoAcidPalette displays all of the AminoAcid objects. 
  * 
@@ -77,7 +79,7 @@ public class AminoAcidPalette extends JPanel {
 
 	private AminoAcid[] list;
 
-	private boolean admin;
+	private ColorModel colorModel;
 	/**
 	 * Constructor
 	 * 
@@ -87,14 +89,14 @@ public class AminoAcidPalette extends JPanel {
 	 *            Height of canvas
 	 */
 	public AminoAcidPalette(int width, int height, int row, int column,
-			boolean admin) {
+			ColorModel colorModel) {
 		super(new BorderLayout());
 		super.setPreferredSize(new Dimension(width, height));
 		super.setBackground(Color.white);
 
 		this.row = row;
 		this.column = column;
-		this.admin = admin;
+		this.colorModel = colorModel;
 	}
 
 	/**
@@ -116,16 +118,7 @@ public class AminoAcidPalette extends JPanel {
 				g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
 				g.fillOval(j * columnWidth, i * rowHeight, cellDiameter,
 						cellDiameter);
-				g.setColor(Color.BLACK);
-				if (a.getName().equals("Arg") ||
-						a.getName().equals("Lys") ||
-						a.getName().equals("His")) {
-					g.setColor(Color.BLUE);
-				}
-				if (a.getName().equals("Asp") ||
-						a.getName().equals("Glu")) {
-					g.setColor(Color.RED);
-				}
+				g.setColor(colorModel.colorAaNameText(a));
 
 				int offset = getStringIndentationConstant(a.getName(), cellRadius);
 				int abOffset = getStringIndentationConstant(a.getAbName(), cellRadius);

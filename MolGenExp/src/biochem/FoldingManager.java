@@ -59,9 +59,9 @@ public class FoldingManager {
 	 * 
 	 * @return FoldingManager instance.
 	 */
-	public static FoldingManager getInstance() {
+	public static FoldingManager getInstance(ColorModel colorModel) {
 		if (instance == null)
-			instance = new FoldingManager();
+			instance = new FoldingManager(colorModel);
 		return instance;
 	}
 
@@ -249,31 +249,6 @@ public class FoldingManager {
 	}
 
 	/**
-	 * Assign a string ID (a "ppId") to a Polypeptide chain.
-	 * 
-	 * @param id
-	 *            int
-	 * @return String Polypeptide string ID
-	 */
-	public static String assignPPId(int id) {
-		String stringId;
-
-		if (id > 100)
-			stringId = "PP" + new Integer(id).toString();
-		else if (id > 10)
-			stringId = "PP0" + new Integer(id).toString();
-		else
-			stringId = "PP00" + new Integer(id).toString();
-
-		if (FoldingManager.getInstance().DEBUG) {
-			System.out.println("\nHistoryCellRenderer: "
-					+ "Value assigned, stringId = " + stringId);
-		}
-
-		return stringId;
-	}
-
-	/**
 	 * 
 	 * @param flag
 	 *            boolean.
@@ -311,7 +286,7 @@ public class FoldingManager {
 		String grid = currentAttrib.getGrid();
 
 		if (grid.equalsIgnoreCase("hexagonal")) {
-			canvas = new HexCanvas();
+			canvas = new HexCanvas(colorModel);
 		} else { // should not get here
 			canvas = null;
 			System.out.print("\nFoldingManager.createCanvas(): ");
@@ -348,6 +323,7 @@ public class FoldingManager {
 	private Folder currentFolder;
 	private Grid currentGrid;
 	private TwoDGrid hexagonalCore;
+	private ColorModel colorModel;
 
 	// flags
 
@@ -359,9 +335,10 @@ public class FoldingManager {
 	 * Private constructor.
 	 *  
 	 */
-	private FoldingManager() {
+	private FoldingManager(ColorModel colorModel) {
 		observers = new Vector();
 		factory = PolypeptideFactory.getInstance();
+		this.colorModel = colorModel;
 		resetCurrent(); // provides initialization
 	}
 

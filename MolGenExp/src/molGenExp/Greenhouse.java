@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -65,6 +66,15 @@ public class Greenhouse extends JList implements Serializable {
 	
 	public Object[] getAll() {
 		return greenhouseDataModel.toArray();
+	}
+	
+	public boolean nameExistsAlready(String newName) {
+		Object[] allOrgs = greenhouseDataModel.toArray();
+		ArrayList allNames = new ArrayList();
+		for (int i = 0; i < allOrgs.length; i++) {
+			allNames.add(((Organism)allOrgs[i]).getName());
+		}
+		return allNames.contains(newName);
 	}
 
 }

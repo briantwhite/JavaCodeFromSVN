@@ -87,6 +87,10 @@ public class MolGenExp extends JFrame {
 		
 	}
 	
+	public Greenhouse getGreenhouse() {
+		return greenhouse;
+	}
+	
 	public void saveToGreenhouse(Organism o) {
 		greenhouse.add(o);
 	}
@@ -100,7 +104,7 @@ public class MolGenExp extends JFrame {
 		}
 		
 		if (selectedPane.equals("class biochem.Protex")) {
-			System.out.println("protex was active");
+			protex.loadOrganism(o);
 		}
 	}
 	

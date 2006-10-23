@@ -23,6 +23,8 @@ import java.util.Comparator;
 
 import javax.swing.JPanel;
 
+import molGenExp.ColorModel;
+
 /**
  * Display a Grid.
  *  
@@ -53,14 +55,16 @@ public abstract class GridCanvas extends JPanel {
 	private JPanel parentPanel;
 	
 	private Dimension requiredCanvasSize;
+	
+	private ColorModel colorModel;
 
 	public GridCanvas(int width, int height) {
-		this();
 		this.setSize(width, height);
 	}
 
-	public GridCanvas() {
-		blackColoring = FoldingManager.getInstance().getBlackColoring();
+	public GridCanvas(ColorModel colorModel) {
+		this.colorModel = colorModel;
+		blackColoring = FoldingManager.getInstance(colorModel).getBlackColoring();
 		requiredCanvasSize = new Dimension(0,0);
 	}
 	
@@ -235,16 +239,7 @@ public abstract class GridCanvas extends JPanel {
 			for (int i = 0; i < numAcids; i++) {
 				AcidInChain a = pp.getAminoAcid(i);
 				int offset = getStringIndentationConstant(a.name, r);
-				g.setColor(Color.BLACK);
-				if (a.getName().equals("Arg") ||
-						a.getName().equals("Lys") ||
-						a.getName().equals("His")) {
-					g.setColor(Color.BLUE);
-				}
-				if (a.getName().equals("Asp") ||
-						a.getName().equals("Glu")) {
-					g.setColor(Color.RED);
-				}
+				g.setColor(colorModel.colorAaNameText(a.getAminoAcid()));
 				g.drawString(a.name, spots[i].x - offset, spots[i].y);
 				// string is drawn to an left offset from center of disk.;
 				g.drawString(a.getAbName(), spots[i].x - 2, spots[i].y + 12);

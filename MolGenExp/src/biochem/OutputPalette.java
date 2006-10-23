@@ -49,6 +49,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import molGenExp.ColorModel;
+
 /**
  * OutputPalette displays folding results.
  * 
@@ -61,13 +63,13 @@ public class OutputPalette extends JPanel {
 	 * Constructor
 	 *  
 	 */
-	public OutputPalette() {
+	public OutputPalette(ColorModel colorModel) {
 		super(new BorderLayout());
 		super.setBorder(BorderFactory.createTitledBorder(title));
 		area = new Dimension(0, 0);
-
+		
 		//Set up the drawing area.
-		drawingPane = new HexCanvas();
+		drawingPane = new HexCanvas(colorModel);
 		drawingPane.setParentPanel(this);
 
 		//Put the drawing area in a scroll pane.

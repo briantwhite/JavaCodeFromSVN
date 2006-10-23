@@ -73,7 +73,7 @@ public class FoldingWindow extends JPanel {
 		proteinSequence = new JTextField(50);
 		proteinSequence.setBorder(BorderFactory.createTitledBorder("Amino Acid Sequence"));
 		proteinSequence.setDocument(tlcDoc);
-		foldedProtein = new OutputPalette();
+		foldedProtein = new OutputPalette(colorModel);
 		proteinScrollPane = new JScrollPane(foldedProtein);
 		proteinPanel.add(proteinSequence, BorderLayout.NORTH);
 		proteinPanel.add(proteinScrollPane, BorderLayout.CENTER);
@@ -96,7 +96,7 @@ public class FoldingWindow extends JPanel {
 		this.add(proteinPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		manager = FoldingManager.getInstance();
+		manager = FoldingManager.getInstance(colorModel);
 
 		table = new StandardTable();
 

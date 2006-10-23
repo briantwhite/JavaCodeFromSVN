@@ -42,6 +42,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import molGenExp.ColorModel;
+import molGenExp.Organism;
 import molGenExp.RYBColorModel;
 
 import com.sun.image.codec.jpeg.JPEGCodec;
@@ -86,7 +87,7 @@ public class Protex extends JPanel {
 		JPanel aapPanel = new JPanel();
 		aapPanel.setBorder(BorderFactory.createTitledBorder("Amino acids"));
 		AminoAcidPalette aaPalette 
-			= new AminoAcidPalette(180, 225, 5, 4, false);
+			= new AminoAcidPalette(180, 225, 5, 4, colorModel);
 		aapPanel.setMaximumSize(new Dimension(200, 250));
 		aapPanel.add(aaPalette);
 		
@@ -189,4 +190,10 @@ public class Protex extends JPanel {
 
 	}
 	
+	public void loadOrganism(Organism o) {
+		upperFoldingWindow.setFoldedPolypeptide(
+				o.getGene1().getFoldedPolypeptide());
+		lowerFoldingWindow.setFoldedPolypeptide(
+				o.getGene2().getFoldedPolypeptide());
+	}
 }

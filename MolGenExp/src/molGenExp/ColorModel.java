@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 import biochem.AcidInChain;
+import biochem.AminoAcid;
 
 /**
  * Class representing a generic color model for coloring proteins by 
@@ -55,4 +56,7 @@ public abstract class ColorModel implements Serializable {
 	 * @return
 	 */
 	public abstract Color mixTwoColors(Color a, Color b);
+	
+	// color the names of amino acids by their properties
+	public abstract Color colorAaNameText(AminoAcid aa);
 }
