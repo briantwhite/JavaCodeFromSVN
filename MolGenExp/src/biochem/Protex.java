@@ -151,45 +151,7 @@ public class Protex extends JPanel {
 			lowerFoldingWindow.setFoldedPolypeptide(fp);
 		}
 	}
-	
-	public void saveToChosenFile(Object[] all) {
-		JFileChooser outfileChooser = new JFileChooser();
-		outfileChooser.setFileFilter(new HistListFileFilter());
-		int returnVal = outfileChooser.showSaveDialog(null);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			outFile = outfileChooser.getSelectedFile();
-			if (! outFile.getName().endsWith(".histlist")) {
-				outFile = new File(outFile.getParent() 
-						+ System.getProperty("file.separator")
-						+ outFile.getName() + ".histlist");
-			}
-			saveToFile(outFile, all);
-		}
-	}
-	
-	public void saveToFile(File outFile, Object[] all) {
-		try {
-			FileOutputStream f = new FileOutputStream(outFile);
-			ObjectOutput s = new ObjectOutputStream(f);
-			s.writeObject(all);
-			s.flush();
-			s.close();
-			f.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
 		
-		//restore history list
-		proteinHistoryList.clearList();
-		for (int i = 0; i < all.length; i++) {
-			proteinHistoryList.add((FoldedPolypeptide)all[i]);
-		}
-		histListScrollPane.revalidate();
-		histListScrollPane.repaint();
-
-	}
-	
 	public void loadOrganism(Organism o) {
 		upperFoldingWindow.setFoldedPolypeptide(
 				o.getGene1().getFoldedPolypeptide());

@@ -5,12 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
 import molBiol.ExpressedGene;
 
-public class Organism {
+public class Organism implements Serializable {
 	
 	private static int imageSize = 50; //size of image for greenhouse
 	private String name;
@@ -92,4 +93,7 @@ public class Organism {
 		return image;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
 }
