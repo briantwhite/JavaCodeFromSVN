@@ -1,3 +1,28 @@
+Features Log:
+
+Greenhouse in general:
+	- can change names of .organism files in greenhouse folder
+		next time they are loaded, the name in the greenhouse
+		will match the filename (that way, you can re-name
+		them after you've saved them).
+
+Molecular Biology:
+	- double-click on greenhouse member loads it into 
+		gene expression panels
+	- "save" folds proteins as necessary if they aren't already 
+		before saving
+
+
+Biochemistry:
+	- double-click on greenhouse member loads it into
+		folding windows
+	- can't save proteins to greenhouse (DNA siquence is unclear)
+
+
+
+----------------------------------------------------------
+Work Log:
+
 9/25/06
 started from scratch
 added in protex and genex

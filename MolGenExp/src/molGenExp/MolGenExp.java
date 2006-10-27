@@ -169,7 +169,7 @@ public class MolGenExp extends JFrame {
 
 		loadGreenhouseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				loadGreenhouseFromChosenFolder();
 			}
 		});
 
@@ -211,7 +211,7 @@ public class MolGenExp extends JFrame {
 
 		deleteSelectedOrganismMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				greenhouse.deleteSelected();
 			}
 		});
 
@@ -237,11 +237,21 @@ public class MolGenExp extends JFrame {
 			protex.loadOrganism(o);
 		}
 	}
-
+	
+	public void loadGreenhouseFromChosenFolder() {
+		JFileChooser inFolderChooser = new JFileChooser();
+		inFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = inFolderChooser.showOpenDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			greenhouseDirectory = inFolderChooser.getSelectedFile();
+			loadGreenhouse(greenhouseDirectory);
+		}
+	}
+	
 	public void saveToChosenFolder(Object[] all) {
 		JFileChooser outFolderChooser = new JFileChooser();
 		outFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnVal = outFolderChooser.showSaveDialog(null);
+		int returnVal = outFolderChooser.showSaveDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			greenhouseDirectory = outFolderChooser.getSelectedFile();
 			saveToFolder(all);
