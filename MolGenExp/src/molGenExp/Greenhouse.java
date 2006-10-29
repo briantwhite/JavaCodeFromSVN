@@ -20,23 +20,31 @@ import molBiol.ExpressedGene;
 import biochem.FoldedPolypeptide;
 
 public class Greenhouse extends JList implements Serializable {
-	
+
+	boolean inGeneticsMode;
 	DefaultListModel greenhouseDataModel;
 	MolGenExp mge;
-	
-	public Greenhouse (ListModel dataModel, final MolGenExp mge) {
+
+	public Greenhouse (ListModel dataModel, final MolGenExp mgeX) {
 		super(dataModel);
-		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		inGeneticsMode = true;
 		this.setCellRenderer(new GreenhouseCellRenderer());
 		greenhouseDataModel = (DefaultListModel)dataModel;
 		this.setFixedCellWidth(145);
-		this.mge = mge;
-		
+		this.mge = mgeX;
+
 		this.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					Organism o = (Organism)getSelectedValue();
-					mge.loadOrganismIntoActivePanel(o);
+				if (inGeneticsMode) {
+					if (e.getClickCount() == 1) {
+						mge.thisOrganismWasClicked(
+								(Organism)getSelectedValue());
+					}
+				} else {
+					if (e.getClickCount() == 2) {
+						mge.loadOrganismIntoActivePanel(
+								(Organism)getSelectedValue());
+					}
 				}
 			}
 			public void mouseEntered(MouseEvent arg0) {}
@@ -45,11 +53,11 @@ public class Greenhouse extends JList implements Serializable {
 			public void mouseReleased(MouseEvent arg0) {}
 		});
 	}
-	
+
 	public void add(Organism o) {
 		greenhouseDataModel.addElement(o);
 	}
-	
+
 	public void deleteSelected() {
 		if (getSelectedIndex() != -1 ) {
 			greenhouseDataModel.removeElementAt(getSelectedIndex());
@@ -59,15 +67,15 @@ public class Greenhouse extends JList implements Serializable {
 					"None Selected", JOptionPane.WARNING_MESSAGE);
 		}
 	}
-	
+
 	public void clearList() {
 		greenhouseDataModel.removeAllElements();
 	}
-	
+
 	public Object[] getAll() {
 		return greenhouseDataModel.toArray();
 	}
-	
+
 	public boolean nameExistsAlready(String newName) {
 		Object[] allOrgs = greenhouseDataModel.toArray();
 		ArrayList allNames = new ArrayList();
@@ -77,4 +85,12 @@ public class Greenhouse extends JList implements Serializable {
 		return allNames.contains(newName);
 	}
 
+	public Organism getSelectedOrganism() {
+		return (Organism)greenhouseDataModel.getElementAt(
+				getSelectedIndex());
+	}
+
+	public void setInGeneticsMode(boolean mode) {
+		inGeneticsMode = mode;
+	}
 }

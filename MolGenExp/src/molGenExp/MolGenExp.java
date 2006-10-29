@@ -1,7 +1,8 @@
 package molGenExp;
 
+import genetics.GeneticsWorkshop;
+
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -27,10 +28,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import molBiol.Genex;
-
 import biochem.Protex;
 
 
@@ -55,18 +58,19 @@ public class MolGenExp extends JFrame {
 	private Greenhouse greenhouse;
 
 	JTabbedPane explorerPane;
-
-	private JPanel biochemPanel;
+	
+	private GeneticsWorkshop gw;
 	private Protex protex;
-
-	private JPanel molBiolPanel;
 	private Genex genex;
 
 	private File greenhouseDirectory;
+	
+	private ColorModel colorModel;
 
 	public MolGenExp() {
 		super("Molecular Genetics Explorer " + version);
 		addWindowListener(new ApplicationCloser());
+		colorModel = new RYBColorModel();
 		setupUI();
 	}
 
@@ -120,8 +124,11 @@ public class MolGenExp extends JFrame {
 		explorerPane = new JTabbedPane();
 //		explorerPane.setSize(new Dimension(screenSize.width * 8/10,
 //		screenSize.height * 8/10));
+		
+		gw = new GeneticsWorkshop(this);
+		explorerPane.addTab("Genetics", gw);
 
-		protex = new Protex();
+		protex = new Protex(this);
 		explorerPane.addTab("Biochemistry", protex);
 
 		genex = new Genex(this);
@@ -142,6 +149,30 @@ public class MolGenExp extends JFrame {
 		mainPanel.add(innerPanel, BorderLayout.CENTER);
 
 		getContentPane().add(mainPanel);
+		
+		explorerPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				int currentPane = explorerPane.getSelectedIndex();
+				switch (currentPane) {
+					case 0:			//genetics
+						greenhouse.setSelectionMode(
+								ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+						greenhouse.setInGeneticsMode(true);
+						break;
+					case 1:			//biochemistry
+						greenhouse.setSelectionMode(
+								ListSelectionModel.SINGLE_SELECTION);
+						greenhouse.setInGeneticsMode(false);
+						break;
+					case 2:			//molecular biology
+						greenhouse.setSelectionMode(
+								ListSelectionModel.SINGLE_SELECTION);
+						greenhouse.setInGeneticsMode(false);
+						break;
+				}
+			}
+			
+		});
 
 		//make a greenhouse directory if one doesn't exist
 		//  if one exists, load contents
@@ -217,6 +248,10 @@ public class MolGenExp extends JFrame {
 
 	}
 
+	public ColorModel getOverallColorModel() {
+		return colorModel;
+	}
+	
 	public Greenhouse getGreenhouse() {
 		return greenhouse;
 	}
@@ -310,5 +345,13 @@ public class MolGenExp extends JFrame {
 		greenhouse.repaint();
 	}
 
+	// deal with organisms being selected in genetics mode
+	public void thisOrganismWasClicked(Organism o) {
+		
+	}
+	
+//	public Organism getSelectedOrganism() {
+//		return greenhouse.getS
+//	}
 
 }

@@ -42,6 +42,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import molGenExp.ColorModel;
+import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import molGenExp.RYBColorModel;
 
@@ -64,10 +65,12 @@ public class Protex extends JPanel {
 	
 	File outFile;
 	
+	private MolGenExp mge;
 
-	public Protex() {
+	public Protex(MolGenExp mge) {
 		super();
-		colorModel = new RYBColorModel();
+		this.mge = mge;
+		colorModel = mge.getOverallColorModel();
 		printer = new ProteinPrinter();
 		outFile = null;
 		setupUI();
