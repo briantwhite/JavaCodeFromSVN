@@ -3,6 +3,8 @@ package molGenExp;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -23,7 +25,8 @@ public class GreenhouseCellRenderer extends JButton
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		Organism o = (Organism)value;
 		JButton button = 
-			new JButton(o.getName(), o.getImage());
+			new JButton(o.getName(), 
+					o.getImage());
 		button.setBackground(Color.LIGHT_GRAY);
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));

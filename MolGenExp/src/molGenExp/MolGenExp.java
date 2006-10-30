@@ -20,24 +20,29 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import molBiol.Genex;
 import biochem.Protex;
 
 
-public class MolGenExp extends JFrame {
+public class MolGenExp extends JFrame implements ListSelectionListener {
 
 	private final static String version = "1.0";
 
@@ -60,6 +65,10 @@ public class MolGenExp extends JFrame {
 	JTabbedPane explorerPane;
 	
 	private GeneticsWorkshop gw;
+	//for genetics only; the two selected organisms
+	private Organism firstSelectedOrganism;
+	private Organism secondSelectedOrganism;
+	
 	private Protex protex;
 	private Genex genex;
 
@@ -127,6 +136,9 @@ public class MolGenExp extends JFrame {
 		
 		gw = new GeneticsWorkshop(this);
 		explorerPane.addTab("Genetics", gw);
+		firstSelectedOrganism = null;
+		secondSelectedOrganism = null;
+
 
 		protex = new Protex(this);
 		explorerPane.addTab("Biochemistry", protex);
@@ -141,9 +153,12 @@ public class MolGenExp extends JFrame {
 		rightPanel.add(Box.createRigidArea(new Dimension(150,1)));
 		greenhouse = new Greenhouse(new DefaultListModel(), this);
 		rightPanel.setMaximumSize(new Dimension(150,1000));
+		greenhouse.setSelectionMode(
+				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		rightPanel.setBorder(BorderFactory.createTitledBorder("Greenhouse"));
-		rightPanel.add(greenhouse);
-
+		JScrollPane greenhouseScrollPane = new JScrollPane(greenhouse);
+		rightPanel.add(greenhouseScrollPane);
+		
 		innerPanel.add(rightPanel);
 
 		mainPanel.add(innerPanel, BorderLayout.CENTER);
@@ -157,17 +172,14 @@ public class MolGenExp extends JFrame {
 					case 0:			//genetics
 						greenhouse.setSelectionMode(
 								ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-						greenhouse.setInGeneticsMode(true);
 						break;
 					case 1:			//biochemistry
 						greenhouse.setSelectionMode(
 								ListSelectionModel.SINGLE_SELECTION);
-						greenhouse.setInGeneticsMode(false);
 						break;
 					case 2:			//molecular biology
 						greenhouse.setSelectionMode(
 								ListSelectionModel.SINGLE_SELECTION);
-						greenhouse.setInGeneticsMode(false);
 						break;
 				}
 			}
@@ -345,10 +357,20 @@ public class MolGenExp extends JFrame {
 		greenhouse.repaint();
 	}
 
-	// deal with organisms being selected in genetics mode
-	public void thisOrganismWasClicked(Organism o) {
+	//handler for selections of creatures in Genetics mode
+	//  max of two at a time.
+	public void valueChanged(ListSelectionEvent e) {
+		if (explorerPane.getSelectedIndex() != 0) {
+			return;
+		}
 		
+		Object sourceObject = e.getSource();
+		Organism selectedOrganism = 
+			(Organism)((JList)sourceObject).getSelectedValue();
+		System.out.println(selectedOrganism.getName());
 	}
+
+
 	
 //	public Organism getSelectedOrganism() {
 //		return greenhouse.getS

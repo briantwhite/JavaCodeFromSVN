@@ -21,30 +21,22 @@ import biochem.FoldedPolypeptide;
 
 public class Greenhouse extends JList implements Serializable {
 
-	boolean inGeneticsMode;
 	DefaultListModel greenhouseDataModel;
 	MolGenExp mge;
 
 	public Greenhouse (ListModel dataModel, final MolGenExp mgeX) {
 		super(dataModel);
-		inGeneticsMode = true;
 		this.setCellRenderer(new GreenhouseCellRenderer());
 		greenhouseDataModel = (DefaultListModel)dataModel;
+		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setFixedCellWidth(145);
 		this.mge = mgeX;
 
 		this.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
-				if (inGeneticsMode) {
-					if (e.getClickCount() == 1) {
-						mge.thisOrganismWasClicked(
-								(Organism)getSelectedValue());
-					}
-				} else {
-					if (e.getClickCount() == 2) {
-						mge.loadOrganismIntoActivePanel(
-								(Organism)getSelectedValue());
-					}
+				if (e.getClickCount() == 2) {
+					mge.loadOrganismIntoActivePanel(
+							(Organism)getSelectedValue());
 				}
 			}
 			public void mouseEntered(MouseEvent arg0) {}
@@ -52,6 +44,8 @@ public class Greenhouse extends JList implements Serializable {
 			public void mousePressed(MouseEvent arg0) {}
 			public void mouseReleased(MouseEvent arg0) {}
 		});
+		
+		this.addListSelectionListener(mge);
 	}
 
 	public void add(Organism o) {
@@ -90,7 +84,4 @@ public class Greenhouse extends JList implements Serializable {
 				getSelectedIndex());
 	}
 
-	public void setInGeneticsMode(boolean mode) {
-		inGeneticsMode = mode;
-	}
 }

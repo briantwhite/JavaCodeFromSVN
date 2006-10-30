@@ -13,8 +13,11 @@ import molBiol.ExpressedGene;
 
 public class Organism implements Serializable {
 	
+	public static final int GREENHOUSE = 0;
+	
 	private static int imageSize = 50; //size of image for greenhouse
 	private String name;
+	private int trayLocation;
 	
 	private ColorModel colorModel;
 	
@@ -23,10 +26,12 @@ public class Organism implements Serializable {
 	private Color color;
 	private ImageIcon image;
 
-	public Organism(String name, 
+	public Organism(int location,
+			String name, 
 			ExpressedGene gene1, 
 			ExpressedGene gene2,
 			ColorModel colorModel) {
+		this.trayLocation = location;
 		this.name = name;
 		this.gene1 = gene1;
 		this.gene2 = gene2;
@@ -93,6 +98,14 @@ public class Organism implements Serializable {
 		return image;
 	}
 
+	public int getTrayLocation() {
+		return trayLocation;
+	}
+	
+	public void setTrayLocation(int loc) {
+		trayLocation = loc;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
