@@ -34,6 +34,12 @@ public class Greenhouse extends JList implements Serializable {
 
 		this.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
+				
+				//note that this only applies in Genetics
+				if (e.getClickCount() == 1) {
+					mge.updateSelectedOrganisms(
+							(Organism)getSelectedValue());
+				}
 				if (e.getClickCount() == 2) {
 					mge.loadOrganismIntoActivePanel(
 							(Organism)getSelectedValue());
@@ -44,8 +50,6 @@ public class Greenhouse extends JList implements Serializable {
 			public void mousePressed(MouseEvent arg0) {}
 			public void mouseReleased(MouseEvent arg0) {}
 		});
-		
-		this.addListSelectionListener(mge);
 	}
 
 	public void add(Organism o) {

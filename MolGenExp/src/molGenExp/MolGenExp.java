@@ -42,8 +42,13 @@ import molBiol.Genex;
 import biochem.Protex;
 
 
-public class MolGenExp extends JFrame implements ListSelectionListener {
+public class MolGenExp extends JFrame {
 
+	//indices for tabbed panes
+	private final static int GENETICS = 0;
+	private final static int BIOCHEMISTRY = 1;
+	private final static int MOLECULAR_BIOLOGY = 2;
+	
 	private final static String version = "1.0";
 
 	private JPanel mainPanel;
@@ -63,17 +68,17 @@ public class MolGenExp extends JFrame implements ListSelectionListener {
 	private Greenhouse greenhouse;
 
 	JTabbedPane explorerPane;
-	
+
 	private GeneticsWorkshop gw;
 	//for genetics only; the two selected organisms
 	private Organism firstSelectedOrganism;
 	private Organism secondSelectedOrganism;
-	
+
 	private Protex protex;
 	private Genex genex;
 
 	private File greenhouseDirectory;
-	
+
 	private ColorModel colorModel;
 
 	public MolGenExp() {
@@ -133,7 +138,7 @@ public class MolGenExp extends JFrame implements ListSelectionListener {
 		explorerPane = new JTabbedPane();
 //		explorerPane.setSize(new Dimension(screenSize.width * 8/10,
 //		screenSize.height * 8/10));
-		
+
 		gw = new GeneticsWorkshop(this);
 		explorerPane.addTab("Genetics", gw);
 		firstSelectedOrganism = null;
@@ -158,32 +163,35 @@ public class MolGenExp extends JFrame implements ListSelectionListener {
 		rightPanel.setBorder(BorderFactory.createTitledBorder("Greenhouse"));
 		JScrollPane greenhouseScrollPane = new JScrollPane(greenhouse);
 		rightPanel.add(greenhouseScrollPane);
-		
+
 		innerPanel.add(rightPanel);
 
 		mainPanel.add(innerPanel, BorderLayout.CENTER);
 
 		getContentPane().add(mainPanel);
-		
+
 		explorerPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				int currentPane = explorerPane.getSelectedIndex();
 				switch (currentPane) {
-					case 0:			//genetics
-						greenhouse.setSelectionMode(
-								ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-						break;
-					case 1:			//biochemistry
-						greenhouse.setSelectionMode(
-								ListSelectionModel.SINGLE_SELECTION);
-						break;
-					case 2:			//molecular biology
-						greenhouse.setSelectionMode(
-								ListSelectionModel.SINGLE_SELECTION);
-						break;
+				case GENETICS:			
+					greenhouse.setSelectionMode(
+							ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+					clearSelectedOrganisms();
+					break;
+				case BIOCHEMISTRY:			
+					greenhouse.setSelectionMode(
+							ListSelectionModel.SINGLE_SELECTION);
+					clearSelectedOrganisms();
+					break;
+				case MOLECULAR_BIOLOGY:			
+					greenhouse.setSelectionMode(
+							ListSelectionModel.SINGLE_SELECTION);
+					clearSelectedOrganisms();
+					break;
 				}
 			}
-			
+
 		});
 
 		//make a greenhouse directory if one doesn't exist
@@ -263,7 +271,7 @@ public class MolGenExp extends JFrame implements ListSelectionListener {
 	public ColorModel getOverallColorModel() {
 		return colorModel;
 	}
-	
+
 	public Greenhouse getGreenhouse() {
 		return greenhouse;
 	}
@@ -284,7 +292,7 @@ public class MolGenExp extends JFrame implements ListSelectionListener {
 			protex.loadOrganism(o);
 		}
 	}
-	
+
 	public void loadGreenhouseFromChosenFolder() {
 		JFileChooser inFolderChooser = new JFileChooser();
 		inFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -294,7 +302,7 @@ public class MolGenExp extends JFrame implements ListSelectionListener {
 			loadGreenhouse(greenhouseDirectory);
 		}
 	}
-	
+
 	public void saveToChosenFolder(Object[] all) {
 		JFileChooser outFolderChooser = new JFileChooser();
 		outFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -310,9 +318,9 @@ public class MolGenExp extends JFrame implements ListSelectionListener {
 			Organism o = (Organism)all[i];
 			String name = o.getName();
 			String fileName = greenhouseDirectory.toString() 
-				+ System.getProperty("file.separator") 
-				+ name
-				+ ".organism";
+			+ System.getProperty("file.separator") 
+			+ name
+			+ ".organism";
 			try {
 				FileOutputStream f =
 					new FileOutputStream(fileName);
@@ -327,7 +335,7 @@ public class MolGenExp extends JFrame implements ListSelectionListener {
 			}
 		}
 	}
-	
+
 	public void loadGreenhouse(File greenhouseDir) {
 		greenhouse.clearList();
 		String[] files = greenhouseDir.list();
@@ -337,8 +345,8 @@ public class MolGenExp extends JFrame implements ListSelectionListener {
 				String organismName = 
 					fileString.replaceAll(".organism", "");
 				String orgFileName = greenhouseDirectory.toString() 
-					+ System.getProperty("file.separator") 
-					+ fileString;
+				+ System.getProperty("file.separator") 
+				+ fileString;
 				try {
 					FileInputStream in = new FileInputStream(orgFileName);
 					ObjectInputStream s = new ObjectInputStream(in);
@@ -359,21 +367,105 @@ public class MolGenExp extends JFrame implements ListSelectionListener {
 
 	//handler for selections of creatures in Genetics mode
 	//  max of two at a time.
-	public void valueChanged(ListSelectionEvent e) {
-		if (explorerPane.getSelectedIndex() != 0) {
+	public void updateSelectedOrganisms(Organism o) {
+		
+		// only do this in genetics
+		if (explorerPane.getSelectedIndex() != GENETICS) {
 			return;
 		}
 		
-		Object sourceObject = e.getSource();
-		Organism selectedOrganism = 
-			(Organism)((JList)sourceObject).getSelectedValue();
-		System.out.println(selectedOrganism.getName());
+		if (firstSelectedOrganism == null) {
+			firstSelectedOrganism = o;
+			updateGeneticsButtonStatus();
+			return;
+		}
+
+		//if you've clicked an already selected organism, clear it
+		if (o.equals(firstSelectedOrganism)) {
+			firstSelectedOrganism = secondSelectedOrganism;
+			secondSelectedOrganism = null;
+			updateSelectedOrganismDisplay();
+			updateGeneticsButtonStatus();
+			return;
+		}
+		
+		if (o.equals(secondSelectedOrganism)) {
+			secondSelectedOrganism = null;
+			updateSelectedOrganismDisplay();
+			updateGeneticsButtonStatus();
+			return;			
+		}
+		
+		//otherwise, update the selected organims
+		secondSelectedOrganism = firstSelectedOrganism;
+		firstSelectedOrganism = o;
+		updateSelectedOrganismDisplay();
+		updateGeneticsButtonStatus();
+	}
+
+	public void clearSelectedOrganisms() {
+		firstSelectedOrganism = null;
+		secondSelectedOrganism = null;
+		updateSelectedOrganismDisplay();
+		updateGeneticsButtonStatus();
+	}
+	
+	// make the display show the proper selected organisms
+	public void updateSelectedOrganismDisplay() {
+		DefaultListModel listModel = 
+			(DefaultListModel)greenhouse.getModel();
+		
+		greenhouse.clearSelection();
+		greenhouse.addSelectionInterval(
+				listModel.indexOf(firstSelectedOrganism), 
+				listModel.indexOf(firstSelectedOrganism));
+		greenhouse.addSelectionInterval(
+				listModel.indexOf(secondSelectedOrganism), 
+				listModel.indexOf(secondSelectedOrganism));
+		
+		greenhouse.revalidate();
+		greenhouse.repaint();
+	}
+	
+	//if no orgs selected - no buttons active;
+	// if only one - mutate and self are active;
+	// if two - cross only
+	public void updateGeneticsButtonStatus() {
+		int numSelectedOrgs = 0;
+		
+		if (firstSelectedOrganism != null) {
+			numSelectedOrgs++;
+		}
+		
+		if (secondSelectedOrganism != null) {
+			numSelectedOrgs++;
+		}
+		
+		switch (numSelectedOrgs) {
+		case 0:
+			gw.setCrossTwoButtonEnabled(false);
+			gw.setSelfCrossButtonEnabled(false);
+			gw.setMutateButtonEnabled(false);
+			break;
+			
+		case 1:
+			gw.setCrossTwoButtonEnabled(false);
+			gw.setSelfCrossButtonEnabled(true);
+			gw.setMutateButtonEnabled(true);
+			break;
+			
+		case 2:
+			gw.setCrossTwoButtonEnabled(true);
+			gw.setSelfCrossButtonEnabled(false);
+			gw.setMutateButtonEnabled(false);
+			break;
+
+		}
 	}
 
 
-	
 //	public Organism getSelectedOrganism() {
-//		return greenhouse.getS
+//	return greenhouse.getS
 //	}
 
 }

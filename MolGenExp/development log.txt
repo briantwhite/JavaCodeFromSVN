@@ -18,7 +18,9 @@ Biochemistry:
 		folding windows
 	- can't save proteins to greenhouse (DNA siquence is unclear)
 
-
+Genetics:
+	- single click an organism in greenhouse or genetics window
+	    to toggle selection
 
 ----------------------------------------------------------
 Work Log:
