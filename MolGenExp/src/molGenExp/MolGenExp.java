@@ -71,8 +71,8 @@ public class MolGenExp extends JFrame {
 
 	private GeneticsWorkshop gw;
 	//for genetics only; the two selected organisms
-	private Organism firstSelectedOrganism;
-	private Organism secondSelectedOrganism;
+	private Organism org1;
+	private Organism org2;
 
 	private Protex protex;
 	private Genex genex;
@@ -141,8 +141,8 @@ public class MolGenExp extends JFrame {
 
 		gw = new GeneticsWorkshop(this);
 		explorerPane.addTab("Genetics", gw);
-		firstSelectedOrganism = null;
-		secondSelectedOrganism = null;
+		org1 = null;
+		org2 = null;
 
 
 		protex = new Protex(this);
@@ -374,40 +374,48 @@ public class MolGenExp extends JFrame {
 			return;
 		}
 		
-		if (firstSelectedOrganism == null) {
-			firstSelectedOrganism = o;
+		if (org1 == null) {
+			org1 = o;
 			updateGeneticsButtonStatus();
 			return;
 		}
 
 		//if you've clicked an already selected organism, clear it
-		if (o.equals(firstSelectedOrganism)) {
-			firstSelectedOrganism = secondSelectedOrganism;
-			secondSelectedOrganism = null;
+		if (o.equals(org1)) {
+			org1 = org2;
+			org2 = null;
 			updateSelectedOrganismDisplay();
 			updateGeneticsButtonStatus();
 			return;
 		}
 		
-		if (o.equals(secondSelectedOrganism)) {
-			secondSelectedOrganism = null;
+		if (o.equals(org2)) {
+			org2 = null;
 			updateSelectedOrganismDisplay();
 			updateGeneticsButtonStatus();
 			return;			
 		}
 		
 		//otherwise, update the selected organims
-		secondSelectedOrganism = firstSelectedOrganism;
-		firstSelectedOrganism = o;
+		org2 = org1;
+		org1 = o;
 		updateSelectedOrganismDisplay();
 		updateGeneticsButtonStatus();
 	}
 
 	public void clearSelectedOrganisms() {
-		firstSelectedOrganism = null;
-		secondSelectedOrganism = null;
+		org1 = null;
+		org2 = null;
 		updateSelectedOrganismDisplay();
 		updateGeneticsButtonStatus();
+	}
+	
+	public Organism getOrg1() {
+		return org1;
+	}
+	
+	public Organism getOrg2() {
+		return org2;
 	}
 	
 	// make the display show the proper selected organisms
@@ -417,11 +425,11 @@ public class MolGenExp extends JFrame {
 		
 		greenhouse.clearSelection();
 		greenhouse.addSelectionInterval(
-				listModel.indexOf(firstSelectedOrganism), 
-				listModel.indexOf(firstSelectedOrganism));
+				listModel.indexOf(org1), 
+				listModel.indexOf(org1));
 		greenhouse.addSelectionInterval(
-				listModel.indexOf(secondSelectedOrganism), 
-				listModel.indexOf(secondSelectedOrganism));
+				listModel.indexOf(org2), 
+				listModel.indexOf(org2));
 		
 		greenhouse.revalidate();
 		greenhouse.repaint();
@@ -433,31 +441,31 @@ public class MolGenExp extends JFrame {
 	public void updateGeneticsButtonStatus() {
 		int numSelectedOrgs = 0;
 		
-		if (firstSelectedOrganism != null) {
+		if (org1 != null) {
 			numSelectedOrgs++;
 		}
 		
-		if (secondSelectedOrganism != null) {
+		if (org2 != null) {
 			numSelectedOrgs++;
 		}
 		
 		switch (numSelectedOrgs) {
 		case 0:
-			gw.setCrossTwoButtonEnabled(false);
-			gw.setSelfCrossButtonEnabled(false);
-			gw.setMutateButtonEnabled(false);
+			gw.setCrossTwoButtonsEnabled(false);
+			gw.setSelfCrossButtonsEnabled(false);
+			gw.setMutateButtonsEnabled(false);
 			break;
 			
 		case 1:
-			gw.setCrossTwoButtonEnabled(false);
-			gw.setSelfCrossButtonEnabled(true);
-			gw.setMutateButtonEnabled(true);
+			gw.setCrossTwoButtonsEnabled(false);
+			gw.setSelfCrossButtonsEnabled(true);
+			gw.setMutateButtonsEnabled(true);
 			break;
 			
 		case 2:
-			gw.setCrossTwoButtonEnabled(true);
-			gw.setSelfCrossButtonEnabled(false);
-			gw.setMutateButtonEnabled(false);
+			gw.setCrossTwoButtonsEnabled(true);
+			gw.setSelfCrossButtonsEnabled(false);
+			gw.setMutateButtonsEnabled(false);
 			break;
 
 		}

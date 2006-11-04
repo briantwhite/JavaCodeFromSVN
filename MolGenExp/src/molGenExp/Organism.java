@@ -17,7 +17,7 @@ public class Organism implements Serializable {
 	
 	private static int imageSize = 50; //size of image for greenhouse
 	private String name;
-	private int trayLocation;
+	private int trayLocation;  // 0 = greenhouse
 	
 	private ColorModel colorModel;
 	

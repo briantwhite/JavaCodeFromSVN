@@ -12,10 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-public class GreenhouseCellRenderer extends JButton 
+public class OrganismCellRenderer extends JButton 
 	implements ListCellRenderer {
 	
-	public GreenhouseCellRenderer() {
+	public OrganismCellRenderer() {
 		super();
 		setOpaque(true);
 		setLayout(new BorderLayout());

@@ -1,4 +1,4 @@
-package molGenExp;
+package genetics;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -16,20 +16,25 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
 import molBiol.ExpressedGene;
+import molGenExp.MolGenExp;
+import molGenExp.Organism;
+import molGenExp.OrganismCellRenderer;
 
 import biochem.FoldedPolypeptide;
 
-public class Greenhouse extends JList implements Serializable {
+// the panel that shows the reults of a cross or mutation
+public class OffspringList extends JList {
 
-	DefaultListModel greenhouseDataModel;
+	DefaultListModel offspringListDataModel;
 	MolGenExp mge;
 
-	public Greenhouse (ListModel dataModel, final MolGenExp mgeX) {
+	public OffspringList (ListModel dataModel, final MolGenExp mgeX) {
 		super(dataModel);
 		this.setCellRenderer(new OrganismCellRenderer());
-		greenhouseDataModel = (DefaultListModel)dataModel;
-		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.setFixedCellWidth(145);
+		offspringListDataModel = (DefaultListModel)dataModel;
+		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+//		this.setFixedCellWidth(145);
+		this.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		this.mge = mgeX;
 
 		this.addMouseListener(new MouseListener() {
@@ -53,12 +58,12 @@ public class Greenhouse extends JList implements Serializable {
 	}
 
 	public void add(Organism o) {
-		greenhouseDataModel.addElement(o);
+		offspringListDataModel.addElement(o);
 	}
 
 	public void deleteSelected() {
 		if (getSelectedIndex() != -1 ) {
-			greenhouseDataModel.removeElementAt(getSelectedIndex());
+			offspringListDataModel.removeElementAt(getSelectedIndex());
 		} else {
 			JOptionPane.showMessageDialog(null, "You have not selected an "
 					+ "item to delete.",
@@ -67,15 +72,15 @@ public class Greenhouse extends JList implements Serializable {
 	}
 
 	public void clearList() {
-		greenhouseDataModel.removeAllElements();
+		offspringListDataModel.removeAllElements();
 	}
 
 	public Object[] getAll() {
-		return greenhouseDataModel.toArray();
+		return offspringListDataModel.toArray();
 	}
 
 	public boolean nameExistsAlready(String newName) {
-		Object[] allOrgs = greenhouseDataModel.toArray();
+		Object[] allOrgs = offspringListDataModel.toArray();
 		ArrayList allNames = new ArrayList();
 		for (int i = 0; i < allOrgs.length; i++) {
 			allNames.add(((Organism)allOrgs[i]).getName());
@@ -84,7 +89,7 @@ public class Greenhouse extends JList implements Serializable {
 	}
 
 	public Organism getSelectedOrganism() {
-		return (Organism)greenhouseDataModel.getElementAt(
+		return (Organism)offspringListDataModel.getElementAt(
 				getSelectedIndex());
 	}
 
