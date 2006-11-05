@@ -12,7 +12,7 @@ import javax.swing.event.ListSelectionListener;
 
 import molGenExp.MolGenExp;
 
-public class ProteinHistoryList extends JList implements Serializable {
+public class ProteinHistoryList extends JList {
 	DefaultListModel histListDataModel;
 	MolGenExp mge;
 	

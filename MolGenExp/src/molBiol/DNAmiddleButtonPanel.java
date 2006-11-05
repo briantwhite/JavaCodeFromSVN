@@ -72,7 +72,6 @@ public class DNAmiddleButtonPanel extends JPanel {
 	public void setButtonsEnabled(boolean b) {
 		toLPButton.setEnabled(b);
 		toUPButton.setEnabled(b);
-		saveOrganismToGreenhouseButton.setEnabled(b);
 	}
 
 }

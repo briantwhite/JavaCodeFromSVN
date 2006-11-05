@@ -13,12 +13,14 @@ import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import molGenExp.MolGenExp;
 
 import biochem.FoldedPolypeptide;
 
-public class GeneticsHistoryList extends JList implements Serializable {
+public class GeneticsHistoryList extends JList {
 	
 	DefaultListModel histListDataModel;
 	
@@ -28,6 +30,18 @@ public class GeneticsHistoryList extends JList implements Serializable {
 		this.setCellRenderer(new GeneticsHistoryCellRenderer());
 		histListDataModel = (DefaultListModel)dataModel;
 		this.setFixedCellWidth(20);
+		this.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				if (getValueIsAdjusting()) {
+					return;
+				}
+				if (isSelectionEmpty()) {
+					mge.getGeneticsWorkshop().setButtonsEnabled(false);
+				} else {
+					mge.getGeneticsWorkshop().setButtonsEnabled(true);
+				}
+			}
+		});
 	}
 	
 	public void add(Tray tray) {

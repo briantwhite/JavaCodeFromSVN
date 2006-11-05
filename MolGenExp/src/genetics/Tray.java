@@ -65,4 +65,7 @@ public class Tray {
 		return thumbImage;
 	}
 
+	public Organism[] getAllOrganisms() {
+		return allOrganisms;
+	}
 }

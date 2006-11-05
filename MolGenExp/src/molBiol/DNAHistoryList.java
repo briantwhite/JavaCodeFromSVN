@@ -20,7 +20,7 @@ import molGenExp.MolGenExp;
 
 import biochem.FoldedPolypeptide;
 
-public class DNAHistoryList extends JList implements Serializable {
+public class DNAHistoryList extends JList {
 	
 	DefaultListModel histListDataModel;
 	

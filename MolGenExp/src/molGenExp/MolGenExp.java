@@ -280,6 +280,10 @@ public class MolGenExp extends JFrame {
 	public Protex getProtex() {
 		return protex;
 	}
+	
+	public GeneticsWorkshop getGeneticsWorkshop() {
+		return gw;
+	}
 
 	public Greenhouse getGreenhouse() {
 		return greenhouse;

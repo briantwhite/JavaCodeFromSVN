@@ -157,6 +157,18 @@ public class GeneticsWindow extends JPanel {
 	}
 
 	public void setCurrentTray(Tray tray) {
+		offspringList.clearList();
+		Organism[] organisms = tray.getAllOrganisms();
+		for (int i = 0; i < organisms.length; i++) {
+			Organism o = new Organism(location, 
+					organisms[i].getName(),
+					organisms[i]);
+			offspringList.add(o);
+		}
+		upperLabel.setText("<html><h1>" 
+				+ "Tray " + tray.getNumber() + ": "
+				+ tray.getParentInfo()
+				+ "</h1></html");
 
 	}
 
