@@ -68,5 +68,11 @@ public class DNAmiddleButtonPanel extends JPanel {
 	public void setCombinedColor(Color c) {
 		colorChip.setBackground(c);
 	}
+	
+	public void setButtonsEnabled(boolean b) {
+		toLPButton.setEnabled(b);
+		toUPButton.setEnabled(b);
+		saveOrganismToGreenhouseButton.setEnabled(b);
+	}
 
 }

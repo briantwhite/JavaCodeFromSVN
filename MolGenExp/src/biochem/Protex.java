@@ -94,7 +94,8 @@ public class Protex extends JPanel {
 		aapPanel.setMaximumSize(new Dimension(200, 250));
 		aapPanel.add(aaPalette);
 		
-		proteinHistoryList = new ProteinHistoryList(new DefaultListModel());
+		proteinHistoryList = new ProteinHistoryList(
+				new DefaultListModel(), mge);
 		histListScrollPane = new JScrollPane(proteinHistoryList);
 		histListScrollPane.setBorder(
 				BorderFactory.createTitledBorder("History List"));
@@ -112,6 +113,7 @@ public class Protex extends JPanel {
 		
 		proteinMiddleButtonPanel = new ProteinMiddleButtonPanel(this);
 		proteinMiddleButtonPanel.setMaximumSize(proteinMiddleButtonPanel.getPreferredSize());
+		setButtonsEnabled(false);
 		
 		JPanel mainPanel = new JPanel();
 		
@@ -160,5 +162,9 @@ public class Protex extends JPanel {
 				o.getGene1().getFoldedPolypeptide());
 		lowerFoldingWindow.setFoldedPolypeptide(
 				o.getGene2().getFoldedPolypeptide());
+	}
+	
+	public void setButtonsEnabled(boolean b) {
+		proteinMiddleButtonPanel.setButtonsEnabled(b);
 	}
 }

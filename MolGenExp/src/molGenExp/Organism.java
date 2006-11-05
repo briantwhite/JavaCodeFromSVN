@@ -13,13 +13,14 @@ import molBiol.ExpressedGene;
 
 public class Organism implements Serializable {
 	
+	public static final int HISTORY_LIST = -1;
 	public static final int GREENHOUSE = 0;
 	public static final int UPPER_GENETICS_WINDOW = 1;
 	public static final int LOWER_GENETICS_WINDOW = 2;
 	
 	private static int imageSize = 50; //size of image for greenhouse
 	private String name;
-	private int location;  // 0 = greenhouse
+	private int location;  // see list above
 	
 	private ColorModel colorModel;
 	
@@ -80,6 +81,16 @@ public class Organism implements Serializable {
 		image = new ImageIcon(pic);
 	}
 	
+	// constructor for making new organism from old organism
+	//  with name and location changed
+	public Organism (int location, String name, Organism o) {
+		this(location, 
+				name,
+				o.getGene1(),
+				o.getGene2(),
+				o.getColorModel());
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -94,6 +105,10 @@ public class Organism implements Serializable {
 
 	public Color getColor() {
 		return color;
+	}
+	
+	public ColorModel getColorModel() {
+		return colorModel;
 	}
 		
 	public ImageIcon getImage() {

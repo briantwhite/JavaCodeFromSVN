@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -271,6 +272,14 @@ public class MolGenExp extends JFrame {
 	public ColorModel getOverallColorModel() {
 		return colorModel;
 	}
+	
+	public Genex getGenex() {
+		return genex;
+	}
+	
+	public Protex getProtex() {
+		return protex;
+	}
 
 	public Greenhouse getGreenhouse() {
 		return greenhouse;
@@ -314,6 +323,16 @@ public class MolGenExp extends JFrame {
 	}
 
 	public void saveToFolder(Object[] all) {
+		//first, clear out all the old organims
+		String[] oldOrganisms = greenhouseDirectory.list();
+		for (int i = 0; i < oldOrganisms.length; i++) {
+			String name = oldOrganisms[i];
+			if (name.indexOf(".organism") != -1) {
+				File f = new File(greenhouseDirectory, name);
+				f.delete();
+			}
+		}
+		
 		for (int i = 0; i < all.length; i++) {
 			Organism o = (Organism)all[i];
 			String name = o.getName();
@@ -364,6 +383,51 @@ public class MolGenExp extends JFrame {
 		greenhouse.revalidate();
 		greenhouse.repaint();
 	}
+	
+	public void saveSelectedOrganismToGreenhouse() {
+		//should not happen - only works if one org selected
+		if ((org1 == null) || (org2 != null)) {
+			return;
+		}
+		saveOrganismToGreenhouse(org1);
+	}
+	
+	public void saveOrganismToGreenhouse(Organism o) {
+		
+		String name = "";
+		String warning = "";
+		Pattern p = Pattern.compile("[^A-Za-z0-9\\_]+");
+		while (name.equals("") || 
+				p.matcher(name).find() ||
+				greenhouse.nameExistsAlready(name)){
+			name = JOptionPane.showInputDialog(
+					this,
+					warning +
+					"Give a unique name for your new organism.\n"
+					+ "This can only include letters, numbers, and "
+					+ "_.",
+					"Name your organism.",
+					JOptionPane.PLAIN_MESSAGE);
+			if (name == null) {
+				return;
+			}
+
+			if(greenhouse.nameExistsAlready(name)) {
+				warning = "<html><font color=red>"
+					+ "The name you entered exists already,"
+					+ " please cancel or try again.</font>\n";
+			} else {
+				warning = "<html><font color=red>"
+					+ "The name you entered was not allowed," 
+					+ " please cancel or try again.</font>\n";
+			}
+		}
+		saveToGreenhouse(new Organism(
+				Organism.GREENHOUSE,
+				name,
+				o));
+	}
+
 
 	//handler for selections of creatures in Genetics mode
 	//  max of two at a time.
@@ -464,7 +528,7 @@ public class MolGenExp extends JFrame {
 	}
 
 	//if no orgs selected - no buttons active;
-	// if only one - mutate and self are active;
+	// if only one - save to greenhouse, mutate, and self are active;
 	// if two - cross only
 	public void updateGeneticsButtonStatus() {
 		int numSelectedOrgs = 0;
@@ -479,18 +543,21 @@ public class MolGenExp extends JFrame {
 
 		switch (numSelectedOrgs) {
 		case 0:
+			gw.getGenMidButtonPanel().setSaveButtonEnabled(false);
 			gw.setCrossTwoButtonsEnabled(false);
 			gw.setSelfCrossButtonsEnabled(false);
 			gw.setMutateButtonsEnabled(false);
 			break;
 
 		case 1:
+			gw.getGenMidButtonPanel().setSaveButtonEnabled(true);
 			gw.setCrossTwoButtonsEnabled(false);
 			gw.setSelfCrossButtonsEnabled(true);
 			gw.setMutateButtonsEnabled(true);
 			break;
 
 		case 2:
+			gw.getGenMidButtonPanel().setSaveButtonEnabled(false);
 			gw.setCrossTwoButtonsEnabled(true);
 			gw.setSelfCrossButtonsEnabled(false);
 			gw.setMutateButtonsEnabled(false);

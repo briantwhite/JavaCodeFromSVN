@@ -33,7 +33,7 @@ public class OffspringList extends JList {
 		this.setCellRenderer(new OrganismCellRenderer());
 		offspringListDataModel = (DefaultListModel)dataModel;
 		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		this.setVisibleRowCount(-1);  //pack in as many as will fit
+		this.setVisibleRowCount(-1);	//pack in as many as will fit 
 		this.setFixedCellWidth(60);
 		this.setLayoutOrientation(JList.VERTICAL_WRAP);
 		this.mge = mgeX;

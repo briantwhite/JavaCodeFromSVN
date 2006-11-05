@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import molGenExp.MolGenExp;
 
@@ -59,6 +61,19 @@ public class DNAHistoryList extends JList implements Serializable {
 			public void mouseExited(MouseEvent arg0) {}
 			public void mousePressed(MouseEvent arg0) {}
 			public void mouseReleased(MouseEvent arg0) {}
+		});
+		
+		this.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				if (getValueIsAdjusting()) {
+					return;
+				}
+				if (isSelectionEmpty()) {
+					mge.getGenex().setButtonsEnabled(false);
+				} else {
+					mge.getGenex().setButtonsEnabled(true);
+				}
+			}
 		});
 	}
 	

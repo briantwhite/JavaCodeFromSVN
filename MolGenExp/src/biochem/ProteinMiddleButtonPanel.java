@@ -59,5 +59,10 @@ public class ProteinMiddleButtonPanel extends JPanel {
 	public void setCombinedColor(Color c) {
 		colorChip.setBackground(c);
 	}
+	
+	public void setButtonsEnabled(boolean b) {
+		toLPButton.setEnabled(b);
+		toUPButton.setEnabled(b);
+	}
 
 }

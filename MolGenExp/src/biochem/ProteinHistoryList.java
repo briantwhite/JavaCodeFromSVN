@@ -7,16 +7,34 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import molGenExp.MolGenExp;
 
 public class ProteinHistoryList extends JList implements Serializable {
 	DefaultListModel histListDataModel;
+	MolGenExp mge;
 	
-	public ProteinHistoryList(ListModel dataModel) {
+	public ProteinHistoryList(ListModel dataModel, final MolGenExp mge) {
 		super(dataModel);
+		this.mge = mge;
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setCellRenderer(new ProteinHistoryCellRenderer());
 		histListDataModel = (DefaultListModel)dataModel;
 		this.setFixedCellWidth(20);
+		this.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				if (getValueIsAdjusting()) {
+					return;
+				}
+				if (isSelectionEmpty()) {
+					mge.getProtex().setButtonsEnabled(false);
+				} else {
+					mge.getProtex().setButtonsEnabled(true);
+				}
+			}
+		});
 	}
 	
 	public void add(FoldedPolypeptide fp) {

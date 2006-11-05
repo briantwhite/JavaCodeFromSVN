@@ -23,8 +23,11 @@ public class GeneticsMiddleButtonPanel extends JPanel {
 		genWksp = gw;
 		
 		toUPButton = new JButton(">UGW");
+		toUPButton.setEnabled(false);
 		toLPButton = new JButton(">LGW");
+		toLPButton.setEnabled(false);
 		saveOrganismToGreenhouseButton = new JButton("Save");
+		saveOrganismToGreenhouseButton.setEnabled(false);
 		
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		this.add(toUPButton);
@@ -49,10 +52,19 @@ public class GeneticsMiddleButtonPanel extends JPanel {
 		
 		saveOrganismToGreenhouseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				genWksp.saveOrganismToGreenhouse();
+				genWksp.getMolGenExp().saveSelectedOrganismToGreenhouse();
 			}
 		});
 
+	}
+	
+	public void setSendToGeneticsWindowButtonEnabled(boolean b){
+		toUPButton.setEnabled(b);
+		toLPButton.setEnabled(b);
+	}
+	
+	public void setSaveButtonEnabled(boolean b) {
+		saveOrganismToGreenhouseButton.setEnabled(b);
 	}
 	
 }
