@@ -48,7 +48,7 @@ public class MolGenExp extends JFrame {
 	private final static int GENETICS = 0;
 	private final static int BIOCHEMISTRY = 1;
 	private final static int MOLECULAR_BIOLOGY = 2;
-	
+
 	private final static String version = "1.0";
 
 	private JPanel mainPanel;
@@ -368,12 +368,12 @@ public class MolGenExp extends JFrame {
 	//handler for selections of creatures in Genetics mode
 	//  max of two at a time.
 	public void updateSelectedOrganisms(Organism o) {
-		
+
 		// only do this in genetics
 		if (explorerPane.getSelectedIndex() != GENETICS) {
 			return;
 		}
-		
+
 		if (org1 == null) {
 			org1 = o;
 			updateGeneticsButtonStatus();
@@ -388,14 +388,14 @@ public class MolGenExp extends JFrame {
 			updateGeneticsButtonStatus();
 			return;
 		}
-		
+
 		if (o.equals(org2)) {
 			org2 = null;
 			updateSelectedOrganismDisplay();
 			updateGeneticsButtonStatus();
 			return;			
 		}
-		
+
 		//otherwise, update the selected organims
 		org2 = org1;
 		org1 = o;
@@ -409,59 +409,87 @@ public class MolGenExp extends JFrame {
 		updateSelectedOrganismDisplay();
 		updateGeneticsButtonStatus();
 	}
-	
+
 	public Organism getOrg1() {
 		return org1;
 	}
-	
+
 	public Organism getOrg2() {
 		return org2;
 	}
-	
+
 	// make the display show the proper selected organisms
 	public void updateSelectedOrganismDisplay() {
-		DefaultListModel listModel = 
-			(DefaultListModel)greenhouse.getModel();
-		
+
 		greenhouse.clearSelection();
-		greenhouse.addSelectionInterval(
-				listModel.indexOf(org1), 
-				listModel.indexOf(org1));
-		greenhouse.addSelectionInterval(
-				listModel.indexOf(org2), 
-				listModel.indexOf(org2));
-		
+		gw.getLowerGeneticsWindow().getGeneticsWorkPanelList().clearSelection();
+		gw.getUpperGeneticsWindow().getGeneticsWorkPanelList().clearSelection();
+
+		updateListSelections(org1);
+		updateListSelections(org2);
+
 		greenhouse.revalidate();
 		greenhouse.repaint();
+		gw.getLowerGeneticsWindow().getGeneticsWorkPanelList().revalidate();
+		gw.getLowerGeneticsWindow().getGeneticsWorkPanelList().repaint();
+		gw.getUpperGeneticsWindow().getGeneticsWorkPanelList().revalidate();
+		gw.getUpperGeneticsWindow().getGeneticsWorkPanelList().repaint();
 	}
-	
+
+	void updateListSelections(Organism o) {
+		JList list = null;
+
+		if (o == null) {
+			return;
+		}
+		
+		switch (o.getLocation()) {
+		case Organism.GREENHOUSE:
+			list = greenhouse;
+			break;
+		case Organism.LOWER_GENETICS_WINDOW:
+			list = gw.getLowerGeneticsWindow().getGeneticsWorkPanelList();
+			break;
+		case Organism.UPPER_GENETICS_WINDOW:
+			list = gw.getUpperGeneticsWindow().getGeneticsWorkPanelList();
+			break;
+		}
+
+		DefaultListModel listModel = 
+			(DefaultListModel)list.getModel();
+
+		list.addSelectionInterval(listModel.indexOf(o), 
+				listModel.indexOf(o));
+
+	}
+
 	//if no orgs selected - no buttons active;
 	// if only one - mutate and self are active;
 	// if two - cross only
 	public void updateGeneticsButtonStatus() {
 		int numSelectedOrgs = 0;
-		
+
 		if (org1 != null) {
 			numSelectedOrgs++;
 		}
-		
+
 		if (org2 != null) {
 			numSelectedOrgs++;
 		}
-		
+
 		switch (numSelectedOrgs) {
 		case 0:
 			gw.setCrossTwoButtonsEnabled(false);
 			gw.setSelfCrossButtonsEnabled(false);
 			gw.setMutateButtonsEnabled(false);
 			break;
-			
+
 		case 1:
 			gw.setCrossTwoButtonsEnabled(false);
 			gw.setSelfCrossButtonsEnabled(true);
 			gw.setMutateButtonsEnabled(true);
 			break;
-			
+
 		case 2:
 			gw.setCrossTwoButtonsEnabled(true);
 			gw.setSelfCrossButtonsEnabled(false);
@@ -470,10 +498,4 @@ public class MolGenExp extends JFrame {
 
 		}
 	}
-
-
-//	public Organism getSelectedOrganism() {
-//	return greenhouse.getS
-//	}
-
 }

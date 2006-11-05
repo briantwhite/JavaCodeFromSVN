@@ -33,14 +33,6 @@ public class OrganismCellRenderer extends JButton
 		button.setVerticalTextPosition(AbstractButton.BOTTOM);
 		button.setHorizontalTextPosition(AbstractButton.CENTER);
 		
-		button.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(e.getSource());
-			}
-			
-		});
-
 		return button;
 	}
 
