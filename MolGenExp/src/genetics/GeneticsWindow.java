@@ -11,13 +11,25 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import biochem.Attributes;
+import biochem.FoldedPolypeptide;
+import biochem.FoldingException;
+import biochem.FoldingManager;
+import biochem.OutputPalette;
+
 import molBiol.ExpressedGene;
+import molBiol.Gene;
+import molBiol.GeneExpressionWindow;
 import molGenExp.Organism;
+import molGenExp.ProteinImageFactory;
+import molGenExp.ProteinImageSet;
+import molGenExp.RYBColorModel;
 
 public class GeneticsWindow extends JPanel {
 
@@ -103,7 +115,15 @@ public class GeneticsWindow extends JPanel {
 						gw.getMolGenExp().getOrg1());
 			}
 		});
-
+		
+		mutateButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (gw.getMolGenExp().getOrg1() == null) {
+					return;
+				}
+				mutateOrganism(gw.getMolGenExp().getOrg1());
+			}
+		});
 	}
 
 	public void crossTwo(Organism o1, Organism o2) {		
@@ -172,6 +192,108 @@ public class GeneticsWindow extends JPanel {
 
 	}
 
+	public void mutateOrganism(Organism o) {
+		int trayNum = gw.getNextTrayNum();		
+		offspringList.clearList();
+
+		String parentInfo = "Mutant variants of " + o.getName();
+
+		Random random = new Random();
+		int count = 10 + random.nextInt(10);
+		for (int i = 1; i < count; i++) {
+			offspringList.add(new Organism(
+					location,
+					trayNum + "-" + i,
+					mutateGene(o.getGene1()),
+					mutateGene(o.getGene2()),
+					gw.getProteinColorModel()));
+		}
+		// add tray to hist list
+		Tray tray = new Tray(trayNum, parentInfo, offspringList);
+		gw.addTrayToHistoryList(tray);
+	}
+	
+	public ExpressedGene mutateGene(ExpressedGene eg) {
+		//change one base in the DNA
+		Gene gene = eg.getGene();
+		if (gene.getDNASequenceLength() == 0) {
+			return eg;
+		}
+		String DNASequence = gene.getDNASequence();
+		StringBuffer DNABuffer = new StringBuffer(DNASequence);
+		Random random = new Random();
+		int targetBase = random.nextInt(DNABuffer.length());
+		int base = random.nextInt(4);
+		String newBase = "AGCT".substring(base, base + 1);
+		DNASequence = (DNABuffer.replace(
+				targetBase, 
+				targetBase + 1, 
+				newBase)).toString();
+		Gene newGene = 
+			new Gene(DNASequence, gw.getMolGenExp().getGenex().getParams());
+		newGene.transcribe();
+		newGene.process();
+		newGene.translate();
+		String html = newGene.generateHTML(0);
+
+		String proteinSequence = newGene.getProteinString();
+
+		if (proteinSequence.indexOf("none") != -1) {
+			proteinSequence = "";
+		} else {
+			//remove leading/trailing spaces and the N- and C-
+			proteinSequence = 
+				proteinSequence.replaceAll(" ", "");
+			proteinSequence = 
+				proteinSequence.replaceAll("N-", "");
+			proteinSequence = 
+				proteinSequence.replaceAll("-C", "");
+
+			//insert spaces between amino acid codes
+			StringBuffer psBuffer = new StringBuffer(proteinSequence);
+			for (int i = 3; i < psBuffer.length(); i = i + 4) {
+				psBuffer = psBuffer.insert(i, " ");
+			}
+			proteinSequence = psBuffer.toString();
+		}
+		
+		//fold it
+		Attributes attributes = new Attributes(
+				proteinSequence, 
+				3,
+				new RYBColorModel(),
+				"straight",
+				"test");
+		FoldingManager manager = FoldingManager.getInstance(
+				gw.getMolGenExp().getOverallColorModel());
+		try {
+			manager.fold(attributes);
+		} catch (FoldingException e) {
+			e.printStackTrace();
+		}
+
+		//make an icon and display it in a dialog
+		OutputPalette op = new OutputPalette(
+				gw.getMolGenExp().getOverallColorModel());
+		manager.createCanvas(op);
+		Dimension requiredCanvasSize = 
+			op.getDrawingPane().getRequiredCanvasSize();
+
+		ProteinImageSet images = 
+			ProteinImageFactory.generateImages(op, requiredCanvasSize);
+
+		FoldedPolypeptide fp = new FoldedPolypeptide(
+				proteinSequence,
+				op.getDrawingPane().getGrid(), 
+				new ImageIcon(images.getFullScaleImage()),
+				new ImageIcon(images.getThumbnailImage()), 
+				op.getProteinColor());
+
+		ExpressedGene newEg = new ExpressedGene(html, newGene);
+		newEg.setFoldedPolypeptide(fp);
+		return newEg;
+	}
+	
 	public void setCrossTwoButtonEnabled(boolean b) {
 		crossTwoButton.setEnabled(b);
 	}
