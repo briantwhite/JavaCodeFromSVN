@@ -113,17 +113,16 @@ public class GeneticsWindow extends JPanel {
 		ExpressedGene eg1 = null;
 		ExpressedGene eg2 = null;
 
+		String parentInfo = "";
 		if (o1.equals(o2)) {
-			upperLabel.setText("<html><h1>"
-					+ "Tray " + trayNum + ": "
-					+ o1.getName() + " self-cross"
-					+ "</h1></html>");
+			parentInfo = o1.getName() + " self-cross";
 		} else {
-			upperLabel.setText("<html><h1>" 
-					+ "Tray " + trayNum + ": "
-					+ o1.getName() + " X " + o2.getName()
-					+ "</h1></html");
+			parentInfo = o1.getName() + " X " + o2.getName();
 		}
+		upperLabel.setText("<html><h1>" 
+				+ "Tray " + trayNum + ": "
+				+ parentInfo
+				+ "</h1></html");
 
 		Random random = new Random();
 		int count = 20 + random.nextInt(10);
@@ -151,6 +150,10 @@ public class GeneticsWindow extends JPanel {
 
 			offspringList.add(o);
 		}
+		
+		// add tray to hist list
+		Tray tray = new Tray(trayNum, parentInfo, offspringList);
+		gw.addTrayToHistoryList(tray);
 	}
 
 	public void setCurrentTray(Tray tray) {

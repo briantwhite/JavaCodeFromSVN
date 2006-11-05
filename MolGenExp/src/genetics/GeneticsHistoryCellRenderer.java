@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 
 import biochem.FoldedPolypeptide;
 
@@ -25,10 +26,12 @@ public class GeneticsHistoryCellRenderer extends JButton
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		Tray tray = (Tray)value;
 		JButton button = 
-			new JButton(tray.getThumbImage());
+			new JButton("Tray " + tray.getNumber(), tray.getThumbImage());
+		button.setHorizontalTextPosition(SwingConstants.CENTER);
+		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));
-//		button.setToolTipText(tray.getFoldedPolypeptide().getAaSeq());
+		button.setToolTipText(tray.getParentInfo());
 		return button;
 	}
 
