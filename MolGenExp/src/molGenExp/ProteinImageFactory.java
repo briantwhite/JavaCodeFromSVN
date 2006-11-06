@@ -10,8 +10,8 @@ import biochem.OutputPalette;
 public class ProteinImageFactory {
 	// fix thumbnail size from WIDTH and HEIGHT of full-size image;
 	//	these values (in pixels) are for scaling purposes
-	private static int thumbWidth = 130;
-	private static int thumbHeight = 70;
+	private static final int thumbWidth = 130;
+	private static final int thumbHeight = 70;
 
 	public static ProteinImageSet generateImages(
 			OutputPalette op,
@@ -34,26 +34,27 @@ public class ProteinImageFactory {
 		double imageRatio = (double) imageWidth / (double) imageHeight;
 		double thumbRatio = (double) thumbWidth / (double) thumbHeight;
 
+		int actualThumbHeight = thumbHeight;
+		int actualThumbWidth = thumbWidth;
 		if (thumbRatio < imageRatio) {
-			thumbHeight = (int) (thumbWidth / imageRatio);
+			actualThumbHeight = (int) (thumbWidth / imageRatio);
 		}
 		else {
-			thumbWidth = (int) (thumbHeight * imageRatio);
+			actualThumbWidth = (int) (thumbHeight * imageRatio);
 		}
-
 		// draw original image to thumbnail image object;
 		// 	scale it to the new size on-the-fly
 
 		BufferedImage thumbImage =
 		new BufferedImage(
-		thumbWidth,
-		thumbHeight,
+		actualThumbWidth,
+		actualThumbHeight,
 		BufferedImage.TYPE_INT_RGB);
 		Graphics2D smallG = thumbImage.createGraphics();
 		smallG.setRenderingHint(
 		RenderingHints.KEY_INTERPOLATION,
 		RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		smallG.drawImage(fullSizePic, 0, 0, thumbWidth, thumbHeight, null);
+		smallG.drawImage(fullSizePic, 0, 0, actualThumbWidth, actualThumbHeight, null);
 		smallG.dispose();
 
 		return new ProteinImageSet(fullSizePic, thumbImage);

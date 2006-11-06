@@ -197,7 +197,10 @@ public class GeneticsWindow extends JPanel {
 		offspringList.clearList();
 
 		String parentInfo = "Mutant variants of " + o.getName();
-
+		upperLabel.setText("<html><h1>" 
+				+ "Tray " + trayNum + ": "
+				+ parentInfo
+				+ "</h1></html");
 		Random random = new Random();
 		int count = 10 + random.nextInt(10);
 		for (int i = 1; i < count; i++) {
@@ -208,6 +211,8 @@ public class GeneticsWindow extends JPanel {
 					mutateGene(o.getGene2()),
 					gw.getProteinColorModel()));
 		}
+		
+		
 		// add tray to hist list
 		Tray tray = new Tray(trayNum, parentInfo, offspringList);
 		gw.addTrayToHistoryList(tray);

@@ -21,6 +21,8 @@ Biochemistry:
 Genetics:
 	- single click an organism in greenhouse or genetics window
 	    to toggle selection
+	- mutate hits BOTH copies once and only once
+		(3/4 chance of mutation; 1/4 chance that it is "changed" to same
 
 ----------------------------------------------------------
 Work Log:
