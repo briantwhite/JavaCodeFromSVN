@@ -3,6 +3,7 @@ package genetics;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -16,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ProgressMonitor;
+import javax.swing.Timer;
 
 import biochem.Attributes;
 import biochem.FoldedPolypeptide;
@@ -36,6 +39,9 @@ public class GeneticsWindow extends JPanel {
 	private String title;
 
 	private int location;
+	
+	private int trayNum; 	//current tray number
+	private String parentInfo;	//info on the parent
 
 	private GeneticsWorkshop gw;
 
@@ -47,6 +53,10 @@ public class GeneticsWindow extends JPanel {
 	private JButton crossTwoButton;
 	private JButton selfCrossButton;
 	private JButton mutateButton;
+	
+	private MutantGenerator mutantGenerator;
+	private ProgressMonitor mutantProgressMonitor;
+	private Timer timer;
 
 
 	public GeneticsWindow(int location, GeneticsWorkshop gw) {
@@ -124,16 +134,17 @@ public class GeneticsWindow extends JPanel {
 				mutateOrganism(gw.getMolGenExp().getOrg1());
 			}
 		});
+		
+		timer = new Timer(500, new TimerListener());
 	}
 
 	public void crossTwo(Organism o1, Organism o2) {		
-		int trayNum = gw.getNextTrayNum();		
+		trayNum = gw.getNextTrayNum();		
 		offspringList.clearList();
 
 		ExpressedGene eg1 = null;
 		ExpressedGene eg2 = null;
 
-		String parentInfo = "";
 		if (o1.equals(o2)) {
 			parentInfo = o1.getName() + " self-cross";
 		} else {
@@ -193,111 +204,54 @@ public class GeneticsWindow extends JPanel {
 	}
 
 	public void mutateOrganism(Organism o) {
-		int trayNum = gw.getNextTrayNum();		
+		trayNum = gw.getNextTrayNum();		
 		offspringList.clearList();
 
-		String parentInfo = "Mutant variants of " + o.getName();
+		parentInfo = "Mutant variants of " + o.getName();
 		upperLabel.setText("<html><h1>" 
 				+ "Tray " + trayNum + ": "
 				+ parentInfo
 				+ "</h1></html");
-		Random random = new Random();
-		int count = 10 + random.nextInt(10);
-		for (int i = 1; i < count; i++) {
-			offspringList.add(new Organism(
-					location,
-					trayNum + "-" + i,
-					mutateGene(o.getGene1()),
-					mutateGene(o.getGene2()),
-					gw.getProteinColorModel()));
-		}
 		
+		mutantGenerator = new MutantGenerator(
+				o,
+				trayNum,
+				location,
+				offspringList,
+				gw);
 		
-		// add tray to hist list
-		Tray tray = new Tray(trayNum, parentInfo, offspringList);
-		gw.addTrayToHistoryList(tray);
+		mutantProgressMonitor = new ProgressMonitor(
+				GeneticsWindow.this,
+				"Generating mutants, please be patient...",
+				null,
+				0,
+				mutantGenerator.getLengthOfTask());
+		mutantProgressMonitor.setProgress(0);
+		mutantProgressMonitor.setMillisToDecideToPopup(0);
+		mutantProgressMonitor.setMillisToPopup(0);
+		mutantGenerator.go();
+		timer.start();
 	}
 	
-	public ExpressedGene mutateGene(ExpressedGene eg) {
-		//change one base in the DNA
-		Gene gene = eg.getGene();
-		if (gene.getDNASequenceLength() == 0) {
-			return eg;
-		}
-		String DNASequence = gene.getDNASequence();
-		StringBuffer DNABuffer = new StringBuffer(DNASequence);
-		Random random = new Random();
-		int targetBase = random.nextInt(DNABuffer.length());
-		int base = random.nextInt(4);
-		String newBase = "AGCT".substring(base, base + 1);
-		DNASequence = (DNABuffer.replace(
-				targetBase, 
-				targetBase + 1, 
-				newBase)).toString();
-		Gene newGene = 
-			new Gene(DNASequence, gw.getMolGenExp().getGenex().getParams());
-		newGene.transcribe();
-		newGene.process();
-		newGene.translate();
-		String html = newGene.generateHTML(0);
-
-		String proteinSequence = newGene.getProteinString();
-
-		if (proteinSequence.indexOf("none") != -1) {
-			proteinSequence = "";
-		} else {
-			//remove leading/trailing spaces and the N- and C-
-			proteinSequence = 
-				proteinSequence.replaceAll(" ", "");
-			proteinSequence = 
-				proteinSequence.replaceAll("N-", "");
-			proteinSequence = 
-				proteinSequence.replaceAll("-C", "");
-
-			//insert spaces between amino acid codes
-			StringBuffer psBuffer = new StringBuffer(proteinSequence);
-			for (int i = 3; i < psBuffer.length(); i = i + 4) {
-				psBuffer = psBuffer.insert(i, " ");
+	private class TimerListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			if (mutantProgressMonitor.isCanceled() ||
+					mutantGenerator.done()) {
+				mutantProgressMonitor.close();
+				mutantGenerator.stop();
+				Toolkit.getDefaultToolkit().beep();
+				timer.stop();
+				// add tray to hist list
+				Tray tray = new Tray(trayNum, parentInfo, offspringList);
+				gw.addTrayToHistoryList(tray);
+			} else {
+				mutantProgressMonitor.setProgress(
+						mutantGenerator.getCurrent());
 			}
-			proteinSequence = psBuffer.toString();
-		}
-		
-		//fold it
-		Attributes attributes = new Attributes(
-				proteinSequence, 
-				3,
-				new RYBColorModel(),
-				"straight",
-				"test");
-		FoldingManager manager = FoldingManager.getInstance(
-				gw.getMolGenExp().getOverallColorModel());
-		try {
-			manager.fold(attributes);
-		} catch (FoldingException e) {
-			e.printStackTrace();
 		}
 
-		//make an icon and display it in a dialog
-		OutputPalette op = new OutputPalette(
-				gw.getMolGenExp().getOverallColorModel());
-		manager.createCanvas(op);
-		Dimension requiredCanvasSize = 
-			op.getDrawingPane().getRequiredCanvasSize();
-
-		ProteinImageSet images = 
-			ProteinImageFactory.generateImages(op, requiredCanvasSize);
-
-		FoldedPolypeptide fp = new FoldedPolypeptide(
-				proteinSequence,
-				op.getDrawingPane().getGrid(), 
-				new ImageIcon(images.getFullScaleImage()),
-				new ImageIcon(images.getThumbnailImage()), 
-				op.getProteinColor());
-
-		ExpressedGene newEg = new ExpressedGene(html, newGene);
-		newEg.setFoldedPolypeptide(fp);
-		return newEg;
 	}
+	
 	
 	public void setCrossTwoButtonEnabled(boolean b) {
 		crossTwoButton.setEnabled(b);
