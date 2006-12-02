@@ -19,7 +19,7 @@ import molGenExp.ProteinImageSet;
 import molGenExp.RYBColorModel;
 
 public class MutantGenerator {
-	
+
 	private int mutantCount;	//number of mutants to make
 	private int current;
 	private Organism o;
@@ -27,7 +27,8 @@ public class MutantGenerator {
 	private int location;
 	private GeneticsWorkshop gw;
 	private OffspringList offspringList;
-	
+	private boolean running;
+
 	MutantGenerator (Organism o, 
 			int trayNum,
 			int location,
@@ -38,10 +39,12 @@ public class MutantGenerator {
 		this.location = location;
 		this.gw = gw;
 		this.offspringList = offspringList;
-		
+
 		//figure out how many mutants to make
 		Random random = new Random();
 		mutantCount = 10 + random.nextInt(10);
+
+		running = false;
 	}
 
 	public void go() {
@@ -51,20 +54,22 @@ public class MutantGenerator {
 			}
 		};
 		worker.start();
+		running = true;
 	}
-	
+
 	public int getLengthOfTask() {
 		return mutantCount;
 	}
-	
+
 	public int getCurrent() {
 		return current;
 	}
-	
+
 	public void stop() {
 		current = mutantCount;
+		running = false;
 	}
-	
+
 	boolean done() {
 		if (current >= mutantCount) {
 			return true;
@@ -72,20 +77,32 @@ public class MutantGenerator {
 			return false;
 		}
 	}
-	
+
 	private class Mutator {
 		Mutator() {
 			for (current = 0; current < mutantCount; current++) {
-				offspringList.add(new Organism(
-						location,
-						trayNum + "-" + (current + 1),
-						mutateGene(o.getGene1()),
-						mutateGene(o.getGene2()),
-						gw.getProteinColorModel()));
+				ExpressedGene eg1 = null;
+				ExpressedGene eg2 = null;
+				if (running) {
+					eg1 = mutateGene(o.getGene1());
+				}
+				
+				if (running) {
+					eg2 = mutateGene(o.getGene2());
+				}
+				
+				if ((eg1 != null) && (eg2 != null) && running) {
+					offspringList.add(new Organism(
+							location,
+							trayNum + "-" + (current + 1),
+							eg1,
+							eg2,
+							gw.getProteinColorModel()));
+				}
 			}
 		}
 	}
-	
+
 	public ExpressedGene mutateGene(ExpressedGene eg) {
 		//change one base in the DNA
 		Gene gene = eg.getGene();
@@ -129,14 +146,14 @@ public class MutantGenerator {
 			}
 			proteinSequence = psBuffer.toString();
 		}
-		
+
 		//fold it
 		Attributes attributes = new Attributes(
 				proteinSequence, 
 				3,
 				new RYBColorModel(),
 				"straight",
-				"test");
+		"test");
 		FoldingManager manager = FoldingManager.getInstance(
 				gw.getMolGenExp().getOverallColorModel());
 		try {
@@ -164,7 +181,7 @@ public class MutantGenerator {
 
 		ExpressedGene newEg = new ExpressedGene(html, newGene);
 		newEg.setFoldedPolypeptide(fp);
-		
+
 		return newEg;
 	}
 

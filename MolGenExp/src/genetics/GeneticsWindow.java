@@ -2,6 +2,7 @@ package genetics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -213,6 +214,9 @@ public class GeneticsWindow extends JPanel {
 				+ parentInfo
 				+ "</h1></html");
 		
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		gw.setSelfCrossButtonsEnabled(false);
+		gw.setMutateButtonsEnabled(false);
 		mutantGenerator = new MutantGenerator(
 				o,
 				trayNum,
@@ -227,8 +231,8 @@ public class GeneticsWindow extends JPanel {
 				0,
 				mutantGenerator.getLengthOfTask());
 		mutantProgressMonitor.setProgress(0);
-		mutantProgressMonitor.setMillisToDecideToPopup(0);
-		mutantProgressMonitor.setMillisToPopup(0);
+		mutantProgressMonitor.setMillisToDecideToPopup(100);
+		mutantProgressMonitor.setMillisToPopup(100);
 		mutantGenerator.go();
 		timer.start();
 	}
@@ -241,6 +245,10 @@ public class GeneticsWindow extends JPanel {
 				mutantGenerator.stop();
 				Toolkit.getDefaultToolkit().beep();
 				timer.stop();
+				GeneticsWindow.this.setCursor(
+						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				gw.setSelfCrossButtonsEnabled(true);
+				gw.setMutateButtonsEnabled(true);
 				// add tray to hist list
 				Tray tray = new Tray(trayNum, parentInfo, offspringList);
 				gw.addTrayToHistoryList(tray);
