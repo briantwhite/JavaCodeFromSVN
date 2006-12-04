@@ -13,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,19 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ProgressMonitor;
 import javax.swing.Timer;
 
-import biochem.Attributes;
-import biochem.FoldedPolypeptide;
-import biochem.FoldingException;
-import biochem.FoldingManager;
-import biochem.OutputPalette;
-
 import molBiol.ExpressedGene;
-import molBiol.Gene;
-import molBiol.GeneExpressionWindow;
 import molGenExp.Organism;
-import molGenExp.ProteinImageFactory;
-import molGenExp.ProteinImageSet;
-import molGenExp.RYBColorModel;
 
 public class GeneticsWindow extends JPanel {
 
@@ -56,7 +44,6 @@ public class GeneticsWindow extends JPanel {
 	private JButton mutateButton;
 	
 	private MutantGenerator mutantGenerator;
-	private ProgressMonitor mutantProgressMonitor;
 	private Timer timer;
 
 
@@ -77,6 +64,7 @@ public class GeneticsWindow extends JPanel {
 		setBorder(BorderFactory.createTitledBorder(title));
 
 		upperLabel = new JLabel("Ready...");
+		upperLabel.setOpaque(true);
 		add(upperLabel, BorderLayout.NORTH);
 
 		trayPanel = new JPanel();
@@ -205,43 +193,36 @@ public class GeneticsWindow extends JPanel {
 	}
 
 	public void mutateOrganism(Organism o) {
+		//figure out how many mutants to make
+		Random random = new Random();
+		int mutantCount = 10 + random.nextInt(10);
+
 		trayNum = gw.getNextTrayNum();		
 		offspringList.clearList();
-
-		parentInfo = "Mutant variants of " + o.getName();
-		upperLabel.setText("<html><h1>" 
-				+ "Tray " + trayNum + ": "
-				+ parentInfo
-				+ "</h1></html");
 		
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		upperLabel.setBackground(Color.YELLOW);
+		upperLabel.setText("Making " + mutantCount 
+				+ " mutant versions of " + o.getName()
+				+ "; please be patient...");
 		gw.setSelfCrossButtonsEnabled(false);
 		gw.setMutateButtonsEnabled(false);
+		
 		mutantGenerator = new MutantGenerator(
 				o,
+				mutantCount,
 				trayNum,
 				location,
 				offspringList,
 				gw);
 		
-		mutantProgressMonitor = new ProgressMonitor(
-				GeneticsWindow.this,
-				"Generating mutants, please be patient...",
-				null,
-				0,
-				mutantGenerator.getLengthOfTask());
-		mutantProgressMonitor.setProgress(0);
-		mutantProgressMonitor.setMillisToDecideToPopup(100);
-		mutantProgressMonitor.setMillisToPopup(100);
 		mutantGenerator.go();
 		timer.start();
 	}
 	
 	private class TimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			if (mutantProgressMonitor.isCanceled() ||
-					mutantGenerator.done()) {
-				mutantProgressMonitor.close();
+			if (mutantGenerator.done()) {
 				mutantGenerator.stop();
 				Toolkit.getDefaultToolkit().beep();
 				timer.stop();
@@ -249,15 +230,25 @@ public class GeneticsWindow extends JPanel {
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				gw.setSelfCrossButtonsEnabled(true);
 				gw.setMutateButtonsEnabled(true);
+				parentInfo = "Mutant variants of " 
+					+ mutantGenerator.getOrganism().getName();
+				upperLabel.setText("<html><h1>" 
+						+ "Tray " + trayNum + ": "
+						+ parentInfo
+						+ "</h1></html");
+				upperLabel.setBackground(new Color(238, 238, 238));
+
 				// add tray to hist list
 				Tray tray = new Tray(trayNum, parentInfo, offspringList);
 				gw.addTrayToHistoryList(tray);
 			} else {
-				mutantProgressMonitor.setProgress(
-						mutantGenerator.getCurrent());
+				if (upperLabel.getBackground() == Color.YELLOW) {
+					upperLabel.setBackground(Color.ORANGE);
+				} else {
+					upperLabel.setBackground(Color.YELLOW);
+				}
 			}
 		}
-
 	}
 	
 	

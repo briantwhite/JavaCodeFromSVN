@@ -103,9 +103,6 @@ public class MolGenExp extends JFrame {
 
 	private void setupUI() {
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//		this.setSize(new Dimension(screenSize.width, screenSize.height * 9/10));
-
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 

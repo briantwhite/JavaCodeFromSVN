@@ -29,7 +29,8 @@ public class MutantGenerator {
 	private OffspringList offspringList;
 	private boolean running;
 
-	MutantGenerator (Organism o, 
+	MutantGenerator (Organism o,
+			int mutantCount,
 			int trayNum,
 			int location,
 			OffspringList offspringList, 
@@ -39,11 +40,7 @@ public class MutantGenerator {
 		this.location = location;
 		this.gw = gw;
 		this.offspringList = offspringList;
-
-		//figure out how many mutants to make
-		Random random = new Random();
-		mutantCount = 10 + random.nextInt(10);
-
+		this.mutantCount = mutantCount;
 		running = false;
 	}
 
@@ -63,6 +60,10 @@ public class MutantGenerator {
 
 	public int getCurrent() {
 		return current;
+	}
+	
+	public Organism getOrganism() {
+		return o;
 	}
 
 	public void stop() {

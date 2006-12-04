@@ -45,7 +45,7 @@ public class ProteinHistoryList extends JList {
 		if (getSelectedIndex() != -1 ) {
 			histListDataModel.removeElementAt(getSelectedIndex());
 		} else {
-			JOptionPane.showMessageDialog(null, "You have not selected an "
+			JOptionPane.showMessageDialog(this, "You have not selected an "
 					+ "item to delete.",
 					"None Selected", JOptionPane.WARNING_MESSAGE);
 		}

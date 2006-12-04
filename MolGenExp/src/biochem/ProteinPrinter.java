@@ -42,7 +42,7 @@ public class ProteinPrinter implements Printable {
 
 	public void printProteins(FoldingWindow ufw, FoldingWindow lfw) {
 		if ((ufw.getFullSizePic() == null) && (lfw.getFullSizePic() == null)) {
-			JOptionPane.showMessageDialog(null, "No Proteins to Print!", 
+			JOptionPane.showMessageDialog(ufw, "No Proteins to Print!", 
 					"Printer Warning", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
