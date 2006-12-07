@@ -43,3 +43,10 @@ worked on genex
 9/28/06 
 working on genex
 - trying to get folding button to work
+
+12/6/06
+added stuff for aligning sequences
+got code from http://www.dina.dk/~sestoft/bsa/bsapplet.html
+it was in one big file & therefore hard to use
+broke into individual class files
+use them like new NM(new BloSum50(), 8, seq1, seq2).domatch(new Output(), "message");
