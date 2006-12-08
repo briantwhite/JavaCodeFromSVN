@@ -18,6 +18,7 @@ public class ProteinMiddleButtonPanel extends JPanel {
 	private JLabel colorChip;
 	private JButton toUPButton;
 	private JButton toLPButton;
+	private JButton compareButton;
 	
 	public ProteinMiddleButtonPanel(final Protex protex){
 		super();
@@ -31,29 +32,32 @@ public class ProteinMiddleButtonPanel extends JPanel {
 		colorChip.setBorder(new LineBorder(Color.BLACK));
 		toUPButton = new JButton("> Upper");
 		toLPButton = new JButton("> Lower");
+		compareButton = new JButton("Compare");
 		
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		this.add(colorChipLabel);
 		this.add(colorChip);
 		this.add(toUPButton);
 		this.add(toLPButton);
+		this.add(compareButton);
 		
 		toUPButton.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent arg0) {
 				protex.sendSelectedFPtoUP();
 			}
-			
 		});
 		
 		toLPButton.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent arg0) {
 				protex.sendSelectedFPtoLP();
 			}
-			
 		});
 
+		compareButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				protex.computeDifference();
+			}
+		});
 	}
 	
 	public void setCombinedColor(Color c) {
