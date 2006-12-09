@@ -32,7 +32,7 @@ public class Protex extends JPanel {
 	ProteinHistoryList proteinHistoryList;
 	JScrollPane histListScrollPane;
 	ProteinMiddleButtonPanel proteinMiddleButtonPanel;
-
+	
 	ColorModel colorModel;
 
 	ProteinPrinter printer;
@@ -133,22 +133,6 @@ public class Protex extends JPanel {
 
 	//compute differences between aa sequences of upper and lower proteins
 	public void computeDifference() {
-		if (upperFoldingWindow.getFoldedPolypeptide() == null) {
-			JOptionPane.showMessageDialog(this, 
-					"No protein in Upper Folding Window.",
-					"Can't compare sequences.",
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
-		if (lowerFoldingWindow.getFoldedPolypeptide() == null) {
-			JOptionPane.showMessageDialog(this, 
-					"No protein in Lower Folding Window.",
-					"Can't compare sequences.",
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
 		String[] alignment =
 			(new NWSmart(new Blosum50(),
 					8,
@@ -171,25 +155,21 @@ public class Protex extends JPanel {
 		}
 		String differenceString = differenceBuffer.toString();
 		
-		final JEditorPane differencePane = new JEditorPane();
-		differencePane.setEditable(false);
-		differencePane.setContentType("text/html");
-		JDialog differenceDialog = new JDialog(mge, 
-				"Differences between Upper and Lower Amino Acid Sequences.");
-		differenceDialog.getContentPane().add(differencePane);
-		differencePane.setText("<html><pre>\n"
-				+ "Upper Sequence: "
+		JOptionPane.showMessageDialog(this, 
+		"<html><body><pre>"
+				+ "<font color=blue>Upper Sequence:</font> "
 				+ upperAlignedSequence
-				+ "\n"
+				+ "<br>"
 				+ "<font color=red>Differences:    "
 				+ differenceString 
-				+ "</font>\n"
-				+ "Lower Sequence: "
+				+ "</font><br>"
+				+ "<font color=green>Lower Sequence:</font> "
 				+ lowerAlignedSequence
-				+ "\n"
-				+ "</pre></html>");
-		differenceDialog.pack();
-		differenceDialog.setVisible(true);
+				+ "</pre></body></html>",
+				"Differences between Upper and Lower Amino Acid Sequences.",
+				JOptionPane.PLAIN_MESSAGE,
+				null);
+		
 	}
 
 	public String convert3LetterTo1Letter(String aaSeq) {
@@ -217,7 +197,7 @@ public class Protex extends JPanel {
 		}
 		return aaSeq.toString();
 	}
-
+	
 	public void loadOrganism(Organism o) {
 		upperFoldingWindow.setFoldedPolypeptide(
 				o.getGene1().getFoldedPolypeptide());
