@@ -18,6 +18,7 @@ public class DNAmiddleButtonPanel extends JPanel {
 	private JLabel colorChip;
 	private JButton toUPButton;
 	private JButton toLPButton;
+	private JButton compareButton;
 	private JButton saveOrganismToGreenhouseButton;
 	
 	public DNAmiddleButtonPanel(final Genex genex){
@@ -32,6 +33,7 @@ public class DNAmiddleButtonPanel extends JPanel {
 		colorChip.setBorder(new LineBorder(Color.BLACK));
 		toUPButton = new JButton(">UGW");
 		toLPButton = new JButton(">LGW");
+		compareButton = new JButton("Compare");
 		saveOrganismToGreenhouseButton = new JButton("Save");
 		
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -39,6 +41,7 @@ public class DNAmiddleButtonPanel extends JPanel {
 		this.add(colorChip);
 		this.add(toUPButton);
 		this.add(toLPButton);
+		this.add(compareButton);
 		this.add(saveOrganismToGreenhouseButton);
 		
 		toUPButton.addActionListener(new ActionListener() {
@@ -57,6 +60,14 @@ public class DNAmiddleButtonPanel extends JPanel {
 			
 		});
 		
+		compareButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				genex.computeDifference();
+			}
+			
+		});
+
 		saveOrganismToGreenhouseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				genex.saveOrganismToGreenhouse();
