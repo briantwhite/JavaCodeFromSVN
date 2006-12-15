@@ -4,7 +4,6 @@ import genetics.GeneticsWorkshop;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -15,13 +14,15 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -36,11 +37,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
+import match.Blosum50;
+import match.DNAidentity;
+import match.NWSmart;
 import molBiol.Genex;
+import biochem.AminoAcid;
 import biochem.Protex;
+import biochem.StandardTable;
 
 
 public class MolGenExp extends JFrame {
@@ -66,6 +70,14 @@ public class MolGenExp extends JFrame {
 	JMenuBar menuBar;
 	JMenu fileMenu;
 	JMenuItem quitMenuItem;
+	
+	JMenu compareMenu;
+	JMenuItem u_lMenuItem;
+	JMenuItem u_sMenuItem;
+	JMenuItem l_sMenuItem;
+	JMenuItem u_cbMenuItem;
+	JMenuItem l_cbMenuItem;
+	
 
 	JMenu greenhouseMenu;
 	JMenuItem loadGreenhouseMenuItem;
@@ -122,6 +134,23 @@ public class MolGenExp extends JFrame {
 		quitMenuItem = new JMenuItem("Quit");
 		fileMenu.add(quitMenuItem);
 		menuBar.add(fileMenu);
+		
+		menuBar.add(Box.createHorizontalGlue());
+		
+		compareMenu = new JMenu("Compare Sequences");
+		u_lMenuItem = new JMenuItem("Upper vs. Lower");
+		compareMenu.add(u_lMenuItem);
+		compareMenu.addSeparator();
+		u_sMenuItem = new JMenuItem("Upper vs. Sample");
+		compareMenu.add(u_sMenuItem);
+		l_sMenuItem = new JMenuItem("Lower vs. Sample");
+		compareMenu.add(l_sMenuItem);
+		compareMenu.addSeparator();
+		u_cbMenuItem = new JMenuItem("Upper vs. Clipboard");
+		compareMenu.add(u_cbMenuItem);
+		l_cbMenuItem = new JMenuItem("Lower vs. Clipboard");
+		compareMenu.add(l_cbMenuItem);
+		menuBar.add(compareMenu);
 
 		menuBar.add(Box.createHorizontalGlue());
 
@@ -224,7 +253,152 @@ public class MolGenExp extends JFrame {
 				System.exit(0);
 			}
 		});
+		
+		// the compare menu items
+		u_lMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				String firstSequence = "";
+				String secondSequence = "";
+				
+				String selectedPane = 
+					explorerPane.getSelectedComponent().getClass().toString();
+				if (selectedPane.equals("class molBiol.Genex")) {
+					firstSequence = genex.getUpperGEW().getDNA();
+					secondSequence = genex.getLowerGEW().getDNA();
+					computeDNADifference(firstSequence, 
+							secondSequence, 
+							"Upper", 
+							"Lower");
+					return;
+				}
+				if (selectedPane.equals("class biochem.Protex")) {
+					firstSequence = convert3LetterTo1Letter(
+							protex.getUpperFoldingWindow().getAaSeq());
+					secondSequence = convert3LetterTo1Letter(
+							protex.getLowerFoldingWindow().getAaSeq());
+					computeProteinDifference(firstSequence, 
+							secondSequence,
+							"Upper",
+							"Lower");
+					return;
+				}
+			}
+		});
+		
+		u_sMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String firstSequence = "";
+				String secondSequence = "";
+				
+				String selectedPane = 
+					explorerPane.getSelectedComponent().getClass().toString();
+				if (selectedPane.equals("class molBiol.Genex")) {
+					firstSequence = genex.getUpperGEW().getDNA();
+					secondSequence = MolGenExp.sampleDNA;
+					computeDNADifference(firstSequence, 
+							secondSequence, 
+							"Upper", 
+							"Sample");
+					return;
+				}
+				if (selectedPane.equals("class biochem.Protex")) {
+					firstSequence = convert3LetterTo1Letter(
+							protex.getUpperFoldingWindow().getAaSeq());
+					secondSequence = MolGenExp.sampleProtein;
+					computeProteinDifference(firstSequence, 
+							secondSequence,
+							"Upper",
+							"Sample");
+					return;
+				}
+			}
+		});
+		
+		l_sMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				String firstSequence = "";
+				String secondSequence = "";
+				
+				String selectedPane = 
+					explorerPane.getSelectedComponent().getClass().toString();
+				if (selectedPane.equals("class molBiol.Genex")) {
+					firstSequence = genex.getLowerGEW().getDNA();
+					secondSequence = MolGenExp.sampleDNA;
+					computeDNADifference(firstSequence, 
+							secondSequence, 
+							"Lower", 
+							"Sample");
+					return;
+				}
+				if (selectedPane.equals("class biochem.Protex")) {
+					firstSequence = convert3LetterTo1Letter(
+							protex.getLowerFoldingWindow().getAaSeq());
+					secondSequence = MolGenExp.sampleProtein;
+					computeProteinDifference(firstSequence, 
+							secondSequence,
+							"Lower",
+							"Sample");
+					return;
+				}
+			}
+		});
+		
+		u_cbMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				String firstSequence = "";
+				String secondSequence = "";
+				
+				String selectedPane = 
+					explorerPane.getSelectedComponent().getClass().toString();
+				if (selectedPane.equals("class molBiol.Genex")) {
+					return;
+				}
+				if (selectedPane.equals("class biochem.Protex")) {
+					firstSequence = convert3LetterTo1Letter(
+							protex.getUpperFoldingWindow().getAaSeq());
+					secondSequence = convert3LetterTo1Letter(
+							protex.getLowerFoldingWindow().getAaSeq());
+					computeProteinDifference(firstSequence, 
+							secondSequence,
+							"Upper",
+							"Lower");
+					return;
+				}
+				if (selectedPane.equals("class molBiol.Genex")) {
+					
+				}
+			}
+		});
+		
+		l_cbMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				String firstSequence = "";
+				String secondSequence = "";
+				
+				String selectedPane = 
+					explorerPane.getSelectedComponent().getClass().toString();
+				if (selectedPane.equals("class molBiol.Genex")) {
+					return;
+				}
+				if (selectedPane.equals("class biochem.Protex")) {
+					firstSequence = convert3LetterTo1Letter(
+							protex.getUpperFoldingWindow().getAaSeq());
+					secondSequence = convert3LetterTo1Letter(
+							protex.getLowerFoldingWindow().getAaSeq());
+					computeProteinDifference(firstSequence, 
+							secondSequence,
+							"Upper",
+							"Lower");
+					return;
+				}
+				if (selectedPane.equals("class molBiol.Genex")) {
+					
+				}
+			}
+		});
+		
 
+		
 		loadGreenhouseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				loadGreenhouseFromChosenFolder();
@@ -272,6 +446,172 @@ public class MolGenExp extends JFrame {
 				greenhouse.deleteSelected();
 			}
 		});
+
+	}
+	
+	//compute differences between aa sequences of two proteins
+	public void computeProteinDifference(String seq1, 
+			String seq2, 
+			String seq1Name,
+			String seq2Name) {
+		String[] alignment =
+			(new NWSmart(new Blosum50(), 8, seq1, seq2).getMatch());
+
+		String upperAlignedSequence = convert1LetterTo3Letter(alignment[0]);
+		String lowerAlignedSequence = convert1LetterTo3Letter(alignment[1]);
+		
+		//mark the differences
+		StringBuffer differenceBuffer = new StringBuffer();
+		for (int i = 0; i < alignment[0].length(); i++){
+			if (alignment[0].charAt(i) != alignment[1].charAt(i)) {
+				differenceBuffer.append("*** ");
+			} else {
+				differenceBuffer.append("    ");
+			}
+		}
+		String differenceString = differenceBuffer.toString();
+		
+		JOptionPane.showMessageDialog(this, 
+		"<html><body><pre>"
+				+ "<font color=blue>"
+				+ seq1Name
+				+ " Sequence:</font> "
+				+ upperAlignedSequence
+				+ "<br>"
+				+ "<font color=red>Differences:    "
+				+ differenceString 
+				+ "</font><br>"
+				+ "<font color=green>"
+				+ seq2Name 
+				+ " Sequence:</font> "
+				+ lowerAlignedSequence
+				+ "</pre></body></html>",
+				"Differences between "
+				+ seq1Name
+				+ " and "
+				+ seq2Name
+				+ " Amino Acid Sequences.",
+				JOptionPane.PLAIN_MESSAGE,
+				null);
+		
+	}
+
+	public String convert3LetterTo1Letter(String aaSeq) {
+		StandardTable table = new StandardTable();
+		StringBuffer abAASeq = new StringBuffer();
+		StringTokenizer st = new StringTokenizer(aaSeq);
+		while (st.hasMoreTokens()){
+			AminoAcid aa = table.get(st.nextToken());
+			abAASeq.append(aa.getAbName());
+		}
+		return abAASeq.toString();
+	}
+
+	public String convert1LetterTo3Letter(String abAASeq) {
+		StandardTable table = new StandardTable();
+		StringBuffer aaSeq = new StringBuffer();
+		for (int i = 0; i < abAASeq.length(); i++) {
+			String aa = String.valueOf(abAASeq.charAt(i));
+			if (aa.equals("-")) {
+				aaSeq.append("--- ");
+			} else {
+				aaSeq.append(table.getFromAbName(aa));
+				aaSeq.append(" ");
+			}
+		}
+		return aaSeq.toString();
+	}
+
+	//compute differences between DNA sequences of two genes
+	public void computeDNADifference(String seq1,
+			String seq2,
+			String seq1Name,
+			String seq2Name) {
+
+		String[] alignment =
+			(new NWSmart(new DNAidentity(), 10000, seq1, seq2)).getMatch();
+
+		String upperAlignedSequence = alignment[0];
+		String lowerAlignedSequence = alignment[1];
+
+		//mark the differences
+		ArrayList differences = new ArrayList();
+		StringBuffer differenceBuffer = new StringBuffer();
+		for (int i = 0; i < upperAlignedSequence.length(); i++){
+			if (upperAlignedSequence.charAt(i) 
+					!= lowerAlignedSequence.charAt(i)) {
+				differenceBuffer.append("*");
+				differences.add(new Integer(i));
+			} else {
+				differenceBuffer.append(" ");
+			}
+		}
+		String differenceString = differenceBuffer.toString();
+
+		//generate the numbers and tick marks
+		//first the numbers
+		StringBuffer tickMarkBuffer = new StringBuffer();
+		tickMarkBuffer.append("                 ");
+		for (int i = 0; i < upperAlignedSequence.length(); i = i + 10) {
+			String numberLabel = new String("");
+			if (i == 0) {
+				numberLabel = "";
+			} else  if (i < 100 ){
+				numberLabel = "        " + i;   
+			} else {
+				numberLabel = "       " + i;
+			}
+			tickMarkBuffer.append(numberLabel);
+		}
+		tickMarkBuffer.append("<br>");
+
+		//then the tick marks
+		final String tickMarkString = "    .    |";
+		tickMarkBuffer.append("                 ");
+		for (int i = 0; i < upperAlignedSequence.length(); i = i + 10) {
+			if (i > 0) {
+				tickMarkBuffer.append(tickMarkString);
+			}
+		}
+		tickMarkBuffer.append("<br>");
+		String numberingString = tickMarkBuffer.toString();
+
+		StringBuffer differenceListBuffer = new StringBuffer();
+		differenceListBuffer.append("Differences at positions:  ");
+		Iterator it = differences.iterator();
+		while (it.hasNext()) {
+			differenceListBuffer.append(((Integer)it.next()).toString());
+			differenceListBuffer.append(", ");
+		}
+		differenceListBuffer.delete((differenceListBuffer.length() - 2),
+				(differenceListBuffer.length() - 1));
+		String differenceListString = differenceListBuffer.toString();
+
+		JOptionPane.showMessageDialog(this, 
+				"<html><body><pre>"
+				+ numberingString
+				+ "<font color=blue>"
+				+ seq1Name
+				+ " Sequence:</font> "
+				+ upperAlignedSequence
+				+ "<br>"
+				+ "<font color=red>Differences:    "
+				+ differenceString 
+				+ "</font><br>"
+				+ "<font color=green>"
+				+ seq2Name
+				+ " Sequence:</font> "
+				+ lowerAlignedSequence
+				+ "</pre>"
+				+ differenceListString
+				+ "</body></html>",
+				"Differences between "
+				+ seq1Name
+				+ " and "
+				+ seq2Name
+				+ " DNA Sequences.",
+				JOptionPane.PLAIN_MESSAGE,
+				null);
 
 	}
 

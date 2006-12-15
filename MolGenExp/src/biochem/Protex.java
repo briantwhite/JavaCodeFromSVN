@@ -100,6 +100,14 @@ public class Protex extends JPanel {
 		setLayout(new BorderLayout());
 		add(mainPanel, BorderLayout.CENTER);
 	}
+	
+	public FoldingWindow getUpperFoldingWindow() {
+		return upperFoldingWindow;
+	}
+	
+	public FoldingWindow getLowerFoldingWindow() {
+		return lowerFoldingWindow;
+	}
 
 	public void addFoldedToHistList(FoldedPolypeptide fp) {
 		proteinHistoryList.add(fp);
@@ -131,72 +139,7 @@ public class Protex extends JPanel {
 		}
 	}
 
-	//compute differences between aa sequences of upper and lower proteins
-	public void computeDifference() {
-		String[] alignment =
-			(new NWSmart(new Blosum50(),
-					8,
-					convert3LetterTo1Letter(
-							upperFoldingWindow.getAaSeq()),
-							convert3LetterTo1Letter(
-									lowerFoldingWindow.getAaSeq()))).getMatch();
 
-		String upperAlignedSequence = convert1LetterTo3Letter(alignment[0]);
-		String lowerAlignedSequence = convert1LetterTo3Letter(alignment[1]);
-		
-		//mark the differences
-		StringBuffer differenceBuffer = new StringBuffer();
-		for (int i = 0; i < alignment[0].length(); i++){
-			if (alignment[0].charAt(i) != alignment[1].charAt(i)) {
-				differenceBuffer.append("*** ");
-			} else {
-				differenceBuffer.append("    ");
-			}
-		}
-		String differenceString = differenceBuffer.toString();
-		
-		JOptionPane.showMessageDialog(this, 
-		"<html><body><pre>"
-				+ "<font color=blue>Upper Sequence:</font> "
-				+ upperAlignedSequence
-				+ "<br>"
-				+ "<font color=red>Differences:    "
-				+ differenceString 
-				+ "</font><br>"
-				+ "<font color=green>Lower Sequence:</font> "
-				+ lowerAlignedSequence
-				+ "</pre></body></html>",
-				"Differences between Upper and Lower Amino Acid Sequences.",
-				JOptionPane.PLAIN_MESSAGE,
-				null);
-		
-	}
-
-	public String convert3LetterTo1Letter(String aaSeq) {
-		StandardTable table = new StandardTable();
-		StringBuffer abAASeq = new StringBuffer();
-		StringTokenizer st = new StringTokenizer(aaSeq);
-		while (st.hasMoreTokens()){
-			AminoAcid aa = table.get(st.nextToken());
-			abAASeq.append(aa.getAbName());
-		}
-		return abAASeq.toString();
-	}
-
-	public String convert1LetterTo3Letter(String abAASeq) {
-		StandardTable table = new StandardTable();
-		StringBuffer aaSeq = new StringBuffer();
-		for (int i = 0; i < abAASeq.length(); i++) {
-			String aa = String.valueOf(abAASeq.charAt(i));
-			if (aa.equals("-")) {
-				aaSeq.append("--- ");
-			} else {
-				aaSeq.append(table.getFromAbName(aa));
-				aaSeq.append(" ");
-			}
-		}
-		return aaSeq.toString();
-	}
 	
 	public void loadOrganism(Organism o) {
 		upperFoldingWindow.setFoldedPolypeptide(
