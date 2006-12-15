@@ -52,6 +52,15 @@ public class MolGenExp extends JFrame {
 
 	private final static String version = "1.0";
 
+	public final static String sampleDNA = 
+		new String("CAGCTATAACCGAGATTGATGTCTAG"
+			+ "TGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATA"
+			+ "CAAAGGTTAGTGGTCTGTCGGCAGTAGTAGGGGGCGT");
+	
+	public final static String sampleProtein =
+		new String("MSNRHILLVVCRQ");
+	
+	
 	private JPanel mainPanel;
 
 	JMenuBar menuBar;

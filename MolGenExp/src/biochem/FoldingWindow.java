@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import molGenExp.ColorModel;
+import molGenExp.MolGenExp;
 import molGenExp.ProteinImageFactory;
 import molGenExp.ProteinImageSet;
 
@@ -35,6 +36,7 @@ public class FoldingWindow extends JPanel {
 
 	JPanel buttonPanel;
 	JButton foldButton;
+	JButton loadSampleButton;
 	JLabel colorLabel;
 	JLabel colorChip;
 
@@ -78,6 +80,8 @@ public class FoldingWindow extends JPanel {
 		proteinPanel.add(proteinSequence, BorderLayout.NORTH);
 		proteinPanel.add(proteinScrollPane, BorderLayout.CENTER);
 
+		loadSampleButton = new JButton("Load Sample Protein");
+		
 		foldButton = new JButton("FOLD");
 		foldButton.setEnabled(false);
 		tlcDoc.setLinkedFoldingWindow(this);
@@ -92,6 +96,7 @@ public class FoldingWindow extends JPanel {
 		buttonPanel.add(foldButton);
 		buttonPanel.add(colorLabel);
 		buttonPanel.add(colorChip);
+		buttonPanel.add(loadSampleButton);
 
 		this.add(proteinPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
@@ -138,6 +143,13 @@ public class FoldingWindow extends JPanel {
 				foldedProtein.setBackground(Color.lightGray);
 
 			}	
+		});
+		
+		loadSampleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				proteinSequence.setText(MolGenExp.sampleProtein);
+				aaSeqChanged();
+			}
 		});
 
 	}

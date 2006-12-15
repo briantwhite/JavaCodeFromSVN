@@ -1,4 +1,6 @@
 package molBiol;
+
+import molGenExp.MolGenExp;
 /*
  * the parameters for setting up a genex
  * Created on May 5, 2005
@@ -19,9 +21,7 @@ public class GenexParams {
 
 
 	public GenexParams() {
-		defaultDNA = new String("CAGCTATAACCGAGATTGATGTCTAG"
-				+ "TGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATA"
-				+ "CAAAGGTTAGTGTTCTGTCGGCAGTAGTAGGGGGCGT");
+		defaultDNA = MolGenExp.sampleDNA;
 		promoterSequence = "TATAA";
 		terminatorSequence = "GGGGG";
 		intronStartSequence = "GUGCG";
