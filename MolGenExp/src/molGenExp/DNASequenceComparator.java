@@ -42,7 +42,7 @@ public class DNASequenceComparator extends SequenceComparator {
 			}
 		}
 		String differenceString = differenceBuffer.toString();
-
+		
 		//generate the numbers and tick marks
 		//first the numbers
 		StringBuffer tickMarkBuffer = new StringBuffer();
@@ -81,6 +81,9 @@ public class DNASequenceComparator extends SequenceComparator {
 		differenceListBuffer.delete((differenceListBuffer.length() - 2),
 				(differenceListBuffer.length() - 1));
 		String differenceListString = differenceListBuffer.toString();
+		if (differenceListString.length() > 60) {
+			differenceListString = "Too many differences to list!!";
+		}
 
 		JOptionPane.showMessageDialog(null, 
 				"<html><body><pre>"
@@ -101,11 +104,7 @@ public class DNASequenceComparator extends SequenceComparator {
 				+ "</pre>"
 				+ differenceListString
 				+ "</body></html>",
-				"Differences between "
-				+ seq1Label
-				+ " and "
-				+ seq2Label
-				+ " DNA Sequences.",
+				"Differences between DNA Sequences.",
 				JOptionPane.PLAIN_MESSAGE,
 				null);
 

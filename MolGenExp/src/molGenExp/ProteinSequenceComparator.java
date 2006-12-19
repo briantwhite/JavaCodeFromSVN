@@ -57,11 +57,7 @@ public class ProteinSequenceComparator extends SequenceComparator {
 				+ "</font> "
 				+ lowerAlignedSequence
 				+ "</pre></body></html>",
-				"Differences between "
-				+ seq1Label
-				+ " and "
-				+ seq2Label
-				+ " Amino Acid Sequences.",
+				"Differences between Amino Acid Sequences.",
 				JOptionPane.PLAIN_MESSAGE,
 				null);
 

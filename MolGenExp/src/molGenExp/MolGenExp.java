@@ -5,6 +5,11 @@ import genetics.GeneticsWorkshop;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -12,6 +17,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
@@ -136,10 +142,7 @@ public class MolGenExp extends JFrame {
 		fileMenu.add(quitMenuItem);
 		menuBar.add(fileMenu);
 
-		menuBar.add(Box.createHorizontalGlue());
-
 		compareMenu = new JMenu("Compare Sequences");
-		compareMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		u_lMenuItem = new JMenuItem("Upper vs. Lower");
 		compareMenu.add(u_lMenuItem);
 		compareMenu.addSeparator();
@@ -153,8 +156,7 @@ public class MolGenExp extends JFrame {
 		l_cbMenuItem = new JMenuItem("Lower vs. Clipboard");
 		compareMenu.add(l_cbMenuItem);
 		menuBar.add(compareMenu);
-
-		menuBar.add(Box.createHorizontalGlue());
+		compareMenu.setEnabled(false);
 
 		greenhouseMenu = new JMenu("Greenhouse");
 		loadGreenhouseMenuItem = new JMenuItem("Load Greenhouse...");
@@ -216,16 +218,19 @@ public class MolGenExp extends JFrame {
 					greenhouse.setSelectionMode(
 							ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 					clearSelectedOrganisms();
+					compareMenu.setEnabled(false);
 					break;
 				case BIOCHEMISTRY:			
 					greenhouse.setSelectionMode(
 							ListSelectionModel.SINGLE_SELECTION);
 					clearSelectedOrganisms();
+					compareMenu.setEnabled(true);
 					break;
 				case MOLECULAR_BIOLOGY:			
 					greenhouse.setSelectionMode(
 							ListSelectionModel.SINGLE_SELECTION);
 					clearSelectedOrganisms();
+					compareMenu.setEnabled(true);
 					break;
 				}
 			}
@@ -331,13 +336,15 @@ public class MolGenExp extends JFrame {
 				String selectedPane = 
 					explorerPane.getSelectedComponent().getClass().toString();
 				if (selectedPane.equals("class molBiol.Genex")) {
+					DNASequenceComparator dsc = getDNASequences();
+					if (dsc != null) {
+						dsc.compareSequences(SequenceComparator.UPPER, 
+								SequenceComparator.CLIPBOARD);
+					}
 					return;
 				}
 				if (selectedPane.equals("class biochem.Protex")) {
 					return;
-				}
-				if (selectedPane.equals("class molBiol.Genex")) {
-
 				}
 			}
 		});
@@ -414,10 +421,36 @@ public class MolGenExp extends JFrame {
 	}
 
 	private DNASequenceComparator getDNASequences() {
+		String clipSeq = "";
+		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+		Transferable contents = c.getContents(null);
+		if ((contents != null) && 
+				(contents.isDataFlavorSupported(DataFlavor.stringFlavor))) {
+			try {
+				clipSeq = (String)contents.getTransferData(DataFlavor.stringFlavor);
+			} catch (UnsupportedFlavorException e) {
+				clipSeq = "";
+			} catch (IOException e) {
+				clipSeq = "";
+			}
+
+			// if not a DNA sequence
+			Pattern p = Pattern.compile("[^AGCT]+");
+			if (p.matcher(clipSeq).find()) {
+				JOptionPane.showMessageDialog(this,
+						"The clipboard contained this: "
+						+ clipSeq
+						+ "\nThis does not appear to be"
+						+ " a DNA sequence.",
+						"Not a DNA Sequence",
+						JOptionPane.WARNING_MESSAGE);
+				return null;
+			}
+		}
 		return new DNASequenceComparator(genex.getUpperGEW().getDNA(),
 				genex.getLowerGEW().getDNA(),
 				sampleDNA,
-		"");
+				clipSeq);
 	}
 
 	private ProteinSequenceComparator getProteinSequences() {
@@ -572,7 +605,7 @@ public class MolGenExp extends JFrame {
 
 		String name = "";
 		String warning = "";
-		Pattern p = Pattern.compile("[^A-Za-z0-9\\_]+");
+		Pattern p = Pattern.compile("[^A-Za-z0-9\\_\\-]+");
 		while (name.equals("") || 
 				p.matcher(name).find() ||
 				greenhouse.nameExistsAlready(name)){
@@ -580,7 +613,7 @@ public class MolGenExp extends JFrame {
 					this,
 					warning +
 					"Give a unique name for your new organism.\n"
-					+ "This can only include letters, numbers, and "
+					+ "This can only include letters, numbers, -, and "
 					+ "_.",
 					"Name your organism.",
 					JOptionPane.PLAIN_MESSAGE);

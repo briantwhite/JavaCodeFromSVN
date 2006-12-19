@@ -112,16 +112,29 @@ public class MutantGenerator {
 		}
 		String DNASequence = gene.getDNASequence();
 		StringBuffer DNABuffer = new StringBuffer(DNASequence);
-		Random random = new Random();
-		int targetBase = random.nextInt(DNABuffer.length());
-		int base = random.nextInt(4);
-		String newBase = "AGCT".substring(base, base + 1);
-		DNASequence = (DNABuffer.replace(
-				targetBase, 
-				targetBase + 1, 
-				newBase)).toString();
+		
+// code to mutate one and only one base in the sequence
+//		Random random = new Random();
+//		int targetBase = random.nextInt(DNABuffer.length());
+//		int base = random.nextInt(4);
+//		String newBase = "AGCT".substring(base, base + 1);
+//		DNASequence = (DNABuffer.replace(
+//				targetBase, 
+//				targetBase + 1, 
+//				newBase)).toString();
+		
+		//better implementation - 1/100 chance of hitting each base
+		Random r = new Random();
+		for (int i = 0; i < DNABuffer.length(); i++) {
+			if (r.nextInt(100) == 0) {
+				int base = r.nextInt(4);
+				String newBase = "AGCT".substring(base, base + 1);
+				DNABuffer = DNABuffer.replace(i, i + 1, newBase);
+			}
+		}
 		Gene newGene = 
-			new Gene(DNASequence, gw.getMolGenExp().getGenex().getParams());
+			new Gene(DNABuffer.toString(), 
+					gw.getMolGenExp().getGenex().getParams());
 		newGene.transcribe();
 		newGene.process();
 		newGene.translate();
