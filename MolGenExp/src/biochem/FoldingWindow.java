@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -81,7 +82,7 @@ public class FoldingWindow extends JPanel {
 		proteinPanel.add(proteinScrollPane, BorderLayout.CENTER);
 
 		loadSampleButton = new JButton("Load Sample Protein");
-		
+
 		foldButton = new JButton("FOLD");
 		foldButton.setEnabled(false);
 		tlcDoc.setLinkedFoldingWindow(this);
@@ -144,7 +145,7 @@ public class FoldingWindow extends JPanel {
 
 			}	
 		});
-		
+
 		loadSampleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				proteinSequence.setText(MolGenExp.sampleProtein);
