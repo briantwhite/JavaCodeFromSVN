@@ -533,7 +533,7 @@ public class MolGenExp extends JFrame {
 			}
 
 			//try to see if it's a 3-letter code sequence
-			if (clipSeq.contains(" ")) {
+			if (clipSeq.indexOf(" ") != -1) {
 				clipSeq = convert3LetterTo1Letter(clipSeq);
 				if (clipSeq == null) {
 					clipSeq = "";
