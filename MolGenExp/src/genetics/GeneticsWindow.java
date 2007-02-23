@@ -14,10 +14,12 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.ProgressMonitor;
 import javax.swing.Timer;
 
 import molBiol.ExpressedGene;
@@ -46,7 +48,10 @@ public class GeneticsWindow extends JPanel {
 	private MutantGenerator mutantGenerator;
 	private Timer timer;
 
-
+	private JDialog mutantsBeingMadeDialog;
+	private JLabel mutantProgressLabel;
+	private JProgressBar mutantProgressBar;
+	
 	public GeneticsWindow(int location, GeneticsWorkshop gw) {
 		super();
 		this.location = location;
@@ -216,8 +221,23 @@ public class GeneticsWindow extends JPanel {
 				offspringList,
 				gw);
 		
-		mutantGenerator.go();
+		Thread t = new Thread(mutantGenerator);
+		t.start();
 		timer.start();
+		mutantsBeingMadeDialog = new JDialog(gw.getMolGenExp(),
+				"Making mutants...",
+				true);
+//		mutantsBeingMadeDialog.setDefaultCloseOperation(
+//			    JDialog.DO_NOTHING_ON_CLOSE);
+		mutantProgressLabel = new JLabel("Starting up...");
+		mutantProgressBar = new JProgressBar(0, mutantGenerator.getLengthOfTask());
+		mutantProgressBar.setValue(0);
+		mutantsBeingMadeDialog.getContentPane().setLayout(new BorderLayout());
+		mutantsBeingMadeDialog.getContentPane().add(mutantProgressLabel, BorderLayout.NORTH);
+		mutantsBeingMadeDialog.getContentPane().add(mutantProgressBar, BorderLayout.CENTER);
+		mutantsBeingMadeDialog.pack();
+		mutantsBeingMadeDialog.setVisible(true);
+		
 	}
 	
 	private class TimerListener implements ActionListener {
@@ -236,17 +256,15 @@ public class GeneticsWindow extends JPanel {
 						+ "Tray " + trayNum + ": "
 						+ parentInfo
 						+ "</h1></html");
-				upperLabel.setBackground(new Color(238, 238, 238));
-
+				
 				// add tray to hist list
 				Tray tray = new Tray(trayNum, parentInfo, offspringList);
 				gw.addTrayToHistoryList(tray);
 			} else {
-				if (upperLabel.getBackground() == Color.YELLOW) {
-					upperLabel.setBackground(Color.ORANGE);
-				} else {
-					upperLabel.setBackground(Color.YELLOW);
-				}
+				
+				mutantProgressLabel.setText("Mutant number " + mutantGenerator.getCurrent());
+				mutantProgressBar.setValue(mutantGenerator.getCurrent());
+
 			}
 		}
 	}
