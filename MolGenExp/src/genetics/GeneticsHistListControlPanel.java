@@ -1,38 +1,36 @@
 package genetics;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-public class GeneticsMiddleButtonPanel extends JPanel {
+public class GeneticsHistListControlPanel extends JPanel {
 	
 	final GeneticsWorkshop genWksp;
 	
 	private JButton toUPButton;
 	private JButton toLPButton;
-	private JButton saveOrganismToGreenhouseButton;
 	
-	public GeneticsMiddleButtonPanel(final GeneticsWorkshop gw){
+	public GeneticsHistListControlPanel(final GeneticsWorkshop gw){
 		super();
 		genWksp = gw;
 		
-		toUPButton = new JButton(">UGW");
+		toUPButton = new JButton(">Upper");
 		toUPButton.setEnabled(false);
-		toLPButton = new JButton(">LGW");
+		toLPButton = new JButton(">Lower");
 		toLPButton.setEnabled(false);
-		saveOrganismToGreenhouseButton = new JButton("Save");
-		saveOrganismToGreenhouseButton.setEnabled(false);
 		
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		this.add(toUPButton);
 		this.add(toLPButton);
-		this.add(saveOrganismToGreenhouseButton);
 		
 		toUPButton.addActionListener(new ActionListener() {
 
@@ -50,21 +48,11 @@ public class GeneticsMiddleButtonPanel extends JPanel {
 			
 		});
 		
-		saveOrganismToGreenhouseButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				genWksp.getMolGenExp().saveSelectedOrganismToGreenhouse();
-			}
-		});
-
 	}
 	
 	public void setSendToGeneticsWindowButtonEnabled(boolean b){
 		toUPButton.setEnabled(b);
 		toLPButton.setEnabled(b);
-	}
-	
-	public void setSaveButtonEnabled(boolean b) {
-		saveOrganismToGreenhouseButton.setEnabled(b);
 	}
 	
 }

@@ -19,7 +19,7 @@ import molGenExp.ProteinImageSet;
 import molGenExp.RYBColorModel;
 
 public class MutantGenerator implements Runnable {
-	
+
 	private int mutantCount;	//number of mutants to make
 	private int current;
 	private Organism o;
@@ -27,8 +27,7 @@ public class MutantGenerator implements Runnable {
 	private int location;
 	private GeneticsWorkshop gw;
 	private OffspringList offspringList;
-	private boolean running;
-	
+
 	MutantGenerator (Organism o,
 			int mutantCount,
 			int trayNum,
@@ -41,26 +40,24 @@ public class MutantGenerator implements Runnable {
 		this.gw = gw;
 		this.offspringList = offspringList;
 		this.mutantCount = mutantCount;
-		running = false;
 	}
-	
+
 	public int getLengthOfTask() {
 		return mutantCount;
 	}
-	
+
 	public int getCurrent() {
 		return current;
 	}
-	
+
 	public Organism getOrganism() {
 		return o;
 	}
-	
+
 	public void stop() {
 		current = mutantCount;
-		running = false;
 	}
-	
+
 	boolean done() {
 		if (current >= mutantCount) {
 			return true;
@@ -68,21 +65,15 @@ public class MutantGenerator implements Runnable {
 			return false;
 		}
 	}
-	
+
 	public void run() {
-		running = true;
 		for (current = 0; current < mutantCount; current++) {
 			ExpressedGene eg1 = null;
 			ExpressedGene eg2 = null;
-			if (running) {
-				eg1 = mutateGene(o.getGene1());
-			}
-			
-			if (running) {
-				eg2 = mutateGene(o.getGene2());
-			}
-			
-			if ((eg1 != null) && (eg2 != null) && running) {
+			eg1 = mutateGene(o.getGene1());
+			eg2 = mutateGene(o.getGene2());
+
+			if (current < mutantCount) {
 				offspringList.add(new Organism(
 						location,
 						trayNum + "-" + (current + 1),
@@ -92,8 +83,8 @@ public class MutantGenerator implements Runnable {
 			}
 		}
 	}
-	
-	
+
+
 	public ExpressedGene mutateGene(ExpressedGene eg) {
 		//change one base in the DNA
 		Gene gene = eg.getGene();
@@ -102,7 +93,7 @@ public class MutantGenerator implements Runnable {
 		}
 		String DNASequence = gene.getDNASequence();
 		StringBuffer DNABuffer = new StringBuffer(DNASequence);
-				
+
 		//mutation: 1/100 chance of hitting each base
 		Random r = new Random();
 		for (int i = 0; i < DNABuffer.length(); i++) {
@@ -119,9 +110,9 @@ public class MutantGenerator implements Runnable {
 		newGene.process();
 		newGene.translate();
 		String html = newGene.generateHTML(0);
-		
+
 		String proteinSequence = newGene.getProteinString();
-		
+
 		if (proteinSequence.indexOf("none") != -1) {
 			proteinSequence = "";
 		} else {
@@ -132,7 +123,7 @@ public class MutantGenerator implements Runnable {
 				proteinSequence.replaceAll("N-", "");
 			proteinSequence = 
 				proteinSequence.replaceAll("-C", "");
-			
+
 			//insert spaces between amino acid codes
 			StringBuffer psBuffer = new StringBuffer(proteinSequence);
 			for (int i = 3; i < psBuffer.length(); i = i + 4) {
@@ -140,7 +131,7 @@ public class MutantGenerator implements Runnable {
 			}
 			proteinSequence = psBuffer.toString();
 		}
-		
+
 		//fold it
 		Attributes attributes = new Attributes(
 				proteinSequence, 
@@ -155,28 +146,27 @@ public class MutantGenerator implements Runnable {
 		} catch (FoldingException e) {
 			e.printStackTrace();
 		}
-		
+
 		//make an icon and display it in a dialog
 		OutputPalette op = new OutputPalette(
 				gw.getMolGenExp().getOverallColorModel());
 		manager.createCanvas(op);
 		Dimension requiredCanvasSize = 
 			op.getDrawingPane().getRequiredCanvasSize();
-		
+
 		ProteinImageSet images = 
 			ProteinImageFactory.generateImages(op, requiredCanvasSize);
-		
+
 		FoldedPolypeptide fp = new FoldedPolypeptide(
 				proteinSequence,
 				op.getDrawingPane().getGrid(), 
 				new ImageIcon(images.getFullScaleImage()),
 				new ImageIcon(images.getThumbnailImage()), 
 				op.getProteinColor());
-		
+
 		ExpressedGene newEg = new ExpressedGene(html, newGene);
 		newEg.setFoldedPolypeptide(fp);
-		
+
 		return newEg;
 	}
-	
 }

@@ -4,6 +4,7 @@ import genetics.GeneticsWorkshop;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -31,6 +32,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -83,7 +85,7 @@ public class MolGenExp extends JFrame {
 	JMenu editMenu;
 	JMenuItem copyUpperToClipboardItem;
 	JMenuItem copyLowerToClipboardItem;	
-
+	
 	JMenu compareMenu;
 	JMenuItem u_lMenuItem;
 	JMenuItem u_sMenuItem;
@@ -101,6 +103,7 @@ public class MolGenExp extends JFrame {
 	private JPanel innerPanel;
 
 	private Greenhouse greenhouse;
+	private JButton addToGreenhouseButton;
 
 	JTabbedPane explorerPane;
 
@@ -157,8 +160,8 @@ public class MolGenExp extends JFrame {
 		editMenu.add(copyLowerToClipboardItem);
 		menuBar.add(editMenu);
 		editMenu.setEnabled(false);
-
-		compareMenu = new JMenu("Compare Sequences");
+		
+		compareMenu = new JMenu("Compare");
 		u_lMenuItem = new JMenuItem("Upper vs. Lower");
 		compareMenu.add(u_lMenuItem);
 		compareMenu.addSeparator();
@@ -211,9 +214,13 @@ public class MolGenExp extends JFrame {
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		rightPanel.add(Box.createRigidArea(new Dimension(150,1)));
+		rightPanel.add(Box.createRigidArea(new Dimension(100,1)));
+		addToGreenhouseButton = new JButton("Add...");
+		addToGreenhouseButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		rightPanel.add(addToGreenhouseButton);
+		addToGreenhouseButton.setEnabled(false);
+		
 		greenhouse = new Greenhouse(new DefaultListModel(), this);
-		rightPanel.setMaximumSize(new Dimension(150,1000));
 		greenhouse.setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		rightPanel.setBorder(BorderFactory.createTitledBorder("Greenhouse"));
@@ -491,6 +498,12 @@ public class MolGenExp extends JFrame {
 		deleteSelectedOrganismMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				greenhouse.deleteSelected();
+			}
+		});
+		
+		addToGreenhouseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				saveSelectedOrganismToGreenhouse();
 			}
 		});
 
@@ -848,21 +861,21 @@ public class MolGenExp extends JFrame {
 
 		switch (numSelectedOrgs) {
 		case 0:
-			gw.getGenMidButtonPanel().setSaveButtonEnabled(false);
+			addToGreenhouseButton.setEnabled(false);
 			gw.setCrossTwoButtonsEnabled(false);
 			gw.setSelfCrossButtonsEnabled(false);
 			gw.setMutateButtonsEnabled(false);
 			break;
 
 		case 1:
-			gw.getGenMidButtonPanel().setSaveButtonEnabled(true);
+			addToGreenhouseButton.setEnabled(true);
 			gw.setCrossTwoButtonsEnabled(false);
 			gw.setSelfCrossButtonsEnabled(true);
 			gw.setMutateButtonsEnabled(true);
 			break;
 
 		case 2:
-			gw.getGenMidButtonPanel().setSaveButtonEnabled(false);
+			addToGreenhouseButton.setEnabled(false);
 			gw.setCrossTwoButtonsEnabled(true);
 			gw.setSelfCrossButtonsEnabled(false);
 			gw.setMutateButtonsEnabled(false);

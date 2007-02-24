@@ -29,7 +29,7 @@ public class Greenhouse extends JList implements Serializable {
 		this.setCellRenderer(new OrganismCellRenderer());
 		greenhouseDataModel = (DefaultListModel)dataModel;
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.setFixedCellWidth(145);
+		this.setFixedCellWidth(80);
 		this.mge = mgeX;
 
 		this.addMouseListener(new MouseListener() {

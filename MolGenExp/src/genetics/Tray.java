@@ -26,7 +26,7 @@ public class Tray {
 		Object[] organisms = offspringList.getAll();
 		allOrganisms = new Organism[organisms.length];
 		
-		BufferedImage pic = new BufferedImage(100, 30, 
+		BufferedImage pic = new BufferedImage(80, 40, 
 				BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = pic.createGraphics();
 		g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
@@ -34,7 +34,7 @@ public class Tray {
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(0, 0, 100, 30);
+		g.fillRect(0, 0, 80, 40);
 
 		for (int i = 0; i < organisms.length; i++) {
 			//get the organism
@@ -45,8 +45,8 @@ public class Tray {
 			
 			//add to the icon
 			g.setColor(o.getColor());
-			int x = (10*(i%10)) + 1;
-			int y = (10*(i/10)) + 1;
+			int x = (10*(i%8)) + 1;
+			int y = (10*(i/8)) + 1;
 			g.fillRect(x, y, 10, 10);
 		}
 		g.dispose();

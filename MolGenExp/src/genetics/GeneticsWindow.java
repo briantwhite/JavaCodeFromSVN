@@ -73,11 +73,13 @@ public class GeneticsWindow extends JPanel {
 		add(upperLabel, BorderLayout.NORTH);
 
 		trayPanel = new JPanel();
+		trayPanel.setLayout(new BoxLayout(trayPanel, BoxLayout.Y_AXIS));
+		trayPanel.add(Box.createRigidArea(new Dimension(550,1)));
 		offspringList = new OffspringList(
 				new DefaultListModel(), 
 				gw.getMolGenExp());
 		JScrollPane offspringListPane = new JScrollPane(offspringList);
-		offspringListPane.setPreferredSize(new Dimension(600,200));
+		offspringListPane.setPreferredSize(new Dimension(500,200));
 		trayPanel.add(offspringListPane);
 		add(trayPanel, BorderLayout.CENTER);
 
@@ -164,7 +166,7 @@ public class GeneticsWindow extends JPanel {
 			if (random.nextInt(2) == 0) {
 				eg2 = o2.getGene1();
 			} else {
-				eg2 =o2.getGene2(); 
+				eg2 = o2.getGene2(); 
 			}
 
 			Organism o = new Organism(location,

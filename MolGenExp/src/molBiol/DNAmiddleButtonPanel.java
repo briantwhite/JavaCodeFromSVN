@@ -26,12 +26,12 @@ public class DNAmiddleButtonPanel extends JPanel {
 		
 		colorChipLabel = new JLabel("<html><center>Combined<br>Color:"
 				+ "</center></html>");
-		colorChip = new JLabel("<html><pre>    </pre></html>");
+		colorChip = new JLabel("     ");
 		colorChip.setOpaque(true);
 		colorChip.setBackground(Color.LIGHT_GRAY);
 		colorChip.setBorder(new LineBorder(Color.BLACK));
-		toUPButton = new JButton(">UGW");
-		toLPButton = new JButton(">LGW");
+		toUPButton = new JButton(">Upper");
+		toLPButton = new JButton(">Lower");
 		saveOrganismToGreenhouseButton = new JButton("Save");
 		
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
