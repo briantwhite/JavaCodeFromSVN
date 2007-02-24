@@ -2,6 +2,7 @@ package genetics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -16,7 +17,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -129,7 +129,7 @@ public class GeneticsWindow extends JPanel {
 			}
 		});
 		
-		timer = new Timer(500, new TimerListener());
+		timer = new Timer(100, new TimerListener());
 	}
 
 	public void crossTwo(Organism o1, Organism o2) {		
@@ -204,15 +204,7 @@ public class GeneticsWindow extends JPanel {
 
 		trayNum = gw.getNextTrayNum();		
 		offspringList.clearList();
-		
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		upperLabel.setBackground(Color.YELLOW);
-		upperLabel.setText("Making " + mutantCount 
-				+ " mutant versions of " + o.getName()
-				+ "; please be patient...");
-		gw.setSelfCrossButtonsEnabled(false);
-		gw.setMutateButtonsEnabled(false);
-		
+				
 		mutantGenerator = new MutantGenerator(
 				o,
 				mutantCount,
@@ -224,18 +216,34 @@ public class GeneticsWindow extends JPanel {
 		Thread t = new Thread(mutantGenerator);
 		t.start();
 		timer.start();
+		upperLabel.setText("Making " + mutantCount + " mutant versions of "
+				+ "Organism " + o.getName() + ".");
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		gw.setSelfCrossButtonsEnabled(false);
+		gw.setMutateButtonsEnabled(false);
+		
 		mutantsBeingMadeDialog = new JDialog(gw.getMolGenExp(),
-				"Making mutants...",
+				"Making mutants of Organism " + o.getName(),
 				true);
-//		mutantsBeingMadeDialog.setDefaultCloseOperation(
-//			    JDialog.DO_NOTHING_ON_CLOSE);
+		mutantsBeingMadeDialog.setDefaultCloseOperation(
+			    JDialog.DO_NOTHING_ON_CLOSE);
 		mutantProgressLabel = new JLabel("Starting up...");
 		mutantProgressBar = new JProgressBar(0, mutantGenerator.getLengthOfTask());
 		mutantProgressBar.setValue(0);
-		mutantsBeingMadeDialog.getContentPane().setLayout(new BorderLayout());
-		mutantsBeingMadeDialog.getContentPane().add(mutantProgressLabel, BorderLayout.NORTH);
-		mutantsBeingMadeDialog.getContentPane().add(mutantProgressBar, BorderLayout.CENTER);
-		mutantsBeingMadeDialog.pack();
+		Container cp = mutantsBeingMadeDialog.getContentPane();
+		cp.setLayout(
+				new BoxLayout(cp, BoxLayout.Y_AXIS));
+		cp.add(mutantProgressLabel);
+		cp.add(mutantProgressBar);
+		JButton cancelButton = new JButton("Cancel");
+		cp.add(cancelButton);
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mutantGenerator.stop();
+			}
+		});
+		mutantsBeingMadeDialog.setSize(new Dimension(400,100));
+		mutantsBeingMadeDialog.setLocation(200,200);
 		mutantsBeingMadeDialog.setVisible(true);
 		
 	}
@@ -243,13 +251,14 @@ public class GeneticsWindow extends JPanel {
 	private class TimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			if (mutantGenerator.done()) {
-				mutantGenerator.stop();
-				Toolkit.getDefaultToolkit().beep();
+
 				timer.stop();
 				GeneticsWindow.this.setCursor(
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				gw.setSelfCrossButtonsEnabled(true);
 				gw.setMutateButtonsEnabled(true);
+				mutantsBeingMadeDialog.dispose();
+				
 				parentInfo = "Mutant variants of " 
 					+ mutantGenerator.getOrganism().getName();
 				upperLabel.setText("<html><h1>" 
@@ -262,8 +271,11 @@ public class GeneticsWindow extends JPanel {
 				gw.addTrayToHistoryList(tray);
 			} else {
 				
-				mutantProgressLabel.setText("Mutant number " + mutantGenerator.getCurrent());
-				mutantProgressBar.setValue(mutantGenerator.getCurrent());
+				mutantProgressLabel.setText("Making Mutant number " 
+						+ (mutantGenerator.getCurrent() + 1) 
+						+ " of "
+						+ mutantGenerator.getLengthOfTask());
+				mutantProgressBar.setValue(mutantGenerator.getCurrent() + 1);
 
 			}
 		}
