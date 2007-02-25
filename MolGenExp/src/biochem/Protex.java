@@ -3,35 +3,31 @@ package biochem;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.JDialog;
-import javax.swing.JEditorPane;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import match.Blosum50;
-import match.NWSmart;
 import molGenExp.ColorModel;
+import molGenExp.CombinedColorPanel;
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
 
 
 public class Protex extends JPanel {
 
-	FoldingWindow upperFoldingWindow;
-	FoldingWindow lowerFoldingWindow;
-	ProteinHistoryList proteinHistoryList;
-	JScrollPane histListScrollPane;
-	ProteinMiddleButtonPanel proteinMiddleButtonPanel;
+	private FoldingWindow upperFoldingWindow;
+	private FoldingWindow lowerFoldingWindow;
+	private ProteinHistoryList proteinHistoryList;
+	private JScrollPane histListScrollPane;
+	private ProteinHistListControlPanel proteinHistListControlPanel;
+	private CombinedColorPanel combinedColorPanel;
 	
 	ColorModel colorModel;
 
@@ -61,6 +57,7 @@ public class Protex extends JPanel {
 
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		leftPanel.add(Box.createRigidArea(new Dimension(200,1)));
 		JPanel aapPanel = new JPanel();
 		aapPanel.setBorder(BorderFactory.createTitledBorder("Amino acids"));
 		AminoAcidPalette aaPalette 
@@ -68,25 +65,30 @@ public class Protex extends JPanel {
 		aapPanel.setMaximumSize(new Dimension(200, 250));
 		aapPanel.add(aaPalette);
 
+		JPanel histListPanel = new JPanel();
+		histListPanel.setBorder(
+				BorderFactory.createTitledBorder("History List"));
+		histListPanel.setLayout(new BoxLayout(histListPanel, BoxLayout.Y_AXIS));
+		proteinHistListControlPanel = new ProteinHistListControlPanel(this);
+		histListPanel.add(proteinHistListControlPanel);
 		proteinHistoryList = new ProteinHistoryList(
 				new DefaultListModel(), mge);
 		histListScrollPane = new JScrollPane(proteinHistoryList);
-		histListScrollPane.setBorder(
-				BorderFactory.createTitledBorder("History List"));
-		histListScrollPane.setMaximumSize(new Dimension(250,1000));
+//		histListScrollPane.setPreferredSize(new Dimension(200,1000));
+		histListPanel.add(histListScrollPane);
 
 		leftPanel.add(aapPanel);
-		leftPanel.add(histListScrollPane);
+		leftPanel.add(histListPanel);
 
 		JPanel rightPanel = new JPanel();
-		rightPanel.setLayout(new GridLayout(2,1));
+		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		upperFoldingWindow = new FoldingWindow("Upper Folding Window", this, colorModel);
 		lowerFoldingWindow = new FoldingWindow("Lower Folding Window", this, colorModel);
 		rightPanel.add(upperFoldingWindow);
+		combinedColorPanel = new CombinedColorPanel();
+		rightPanel.add(combinedColorPanel);
 		rightPanel.add(lowerFoldingWindow);
 
-		proteinMiddleButtonPanel = new ProteinMiddleButtonPanel(this);
-		proteinMiddleButtonPanel.setMaximumSize(proteinMiddleButtonPanel.getPreferredSize());
 		setButtonsEnabled(false);
 
 		JPanel mainPanel = new JPanel();
@@ -94,7 +96,6 @@ public class Protex extends JPanel {
 		mainPanel.setLayout(
 				new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		mainPanel.add(leftPanel);
-		mainPanel.add(proteinMiddleButtonPanel);
 		mainPanel.add(rightPanel);
 
 		setLayout(new BorderLayout());
@@ -120,7 +121,7 @@ public class Protex extends JPanel {
 		Color u = upperFoldingWindow.getColor();
 		Color l = lowerFoldingWindow.getColor();
 		Color combined = colorModel.mixTwoColors(u, l);
-		proteinMiddleButtonPanel.setCombinedColor(combined);
+		combinedColorPanel.setCombinedColor(combined);
 	}
 
 	public void sendSelectedFPtoUP() {
@@ -149,6 +150,6 @@ public class Protex extends JPanel {
 	}
 
 	public void setButtonsEnabled(boolean b) {
-		proteinMiddleButtonPanel.setButtonsEnabled(b);
+		proteinHistListControlPanel.setButtonsEnabled(b);
 	}
 }

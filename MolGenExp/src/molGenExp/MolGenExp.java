@@ -85,7 +85,7 @@ public class MolGenExp extends JFrame {
 	JMenu editMenu;
 	JMenuItem copyUpperToClipboardItem;
 	JMenuItem copyLowerToClipboardItem;	
-	
+
 	JMenu compareMenu;
 	JMenuItem u_lMenuItem;
 	JMenuItem u_sMenuItem;
@@ -160,7 +160,7 @@ public class MolGenExp extends JFrame {
 		editMenu.add(copyLowerToClipboardItem);
 		menuBar.add(editMenu);
 		editMenu.setEnabled(false);
-		
+
 		compareMenu = new JMenu("Compare");
 		u_lMenuItem = new JMenuItem("Upper vs. Lower");
 		compareMenu.add(u_lMenuItem);
@@ -219,7 +219,7 @@ public class MolGenExp extends JFrame {
 		addToGreenhouseButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		rightPanel.add(addToGreenhouseButton);
 		addToGreenhouseButton.setEnabled(false);
-		
+
 		greenhouse = new Greenhouse(new DefaultListModel(), this);
 		greenhouse.setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -243,6 +243,7 @@ public class MolGenExp extends JFrame {
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(false);
 					editMenu.setEnabled(false);
+					addToGreenhouseButton.setEnabled(false);
 					break;
 				case BIOCHEMISTRY:			
 					greenhouse.setSelectionMode(
@@ -250,6 +251,7 @@ public class MolGenExp extends JFrame {
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(true);
 					editMenu.setEnabled(true);
+					addToGreenhouseButton.setEnabled(false);
 					break;
 				case MOLECULAR_BIOLOGY:			
 					greenhouse.setSelectionMode(
@@ -257,6 +259,7 @@ public class MolGenExp extends JFrame {
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(true);
 					editMenu.setEnabled(true);
+					addToGreenhouseButton.setEnabled(true);
 					break;
 				}
 			}
@@ -500,7 +503,7 @@ public class MolGenExp extends JFrame {
 				greenhouse.deleteSelected();
 			}
 		});
-		
+
 		addToGreenhouseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				saveSelectedOrganismToGreenhouse();
@@ -703,11 +706,26 @@ public class MolGenExp extends JFrame {
 	}
 
 	public void saveSelectedOrganismToGreenhouse() {
-		//should not happen - only works if one org selected
-		if ((org1 == null) || (org2 != null)) {
-			return;
+		int currentPane = explorerPane.getSelectedIndex();
+		switch (currentPane) {
+		case GENETICS:
+			//should not happen - only works if one org selected
+			if ((org1 == null) || (org2 != null)) {
+				return;
+			}
+			saveOrganismToGreenhouse(org1);
+			break;
+			
+		case BIOCHEMISTRY:
+			// should not happen - button should be disabled
+			break;
+			
+		case MOLECULAR_BIOLOGY:
+			//need to express and fold the proteins
+			genex.saveOrganismToGreenhouse();
+			break;
 		}
-		saveOrganismToGreenhouse(org1);
+
 	}
 
 	public void saveOrganismToGreenhouse(Organism o) {

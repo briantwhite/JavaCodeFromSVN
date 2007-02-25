@@ -1,4 +1,4 @@
-package biochem;
+package molBiol;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -10,51 +10,42 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-public class ProteinMiddleButtonPanel extends JPanel {
+public class DNAHistListControlPanel extends JPanel {
 	
-	final Protex protex;
+	final Genex genex;
 	
-	private JLabel colorChipLabel;
-	private JLabel colorChip;
 	private JButton toUPButton;
 	private JButton toLPButton;
 	
-	public ProteinMiddleButtonPanel(final Protex protex){
+	public DNAHistListControlPanel(final Genex genex){
 		super();
-		this.protex = protex;
+		this.genex = genex;
 		
-		colorChipLabel = new JLabel("<html><center>Combined<br>Color:"
-				+ "</center></html>");
-		colorChip = new JLabel("<html><pre>         </pre></html>");
-		colorChip.setOpaque(true);
-		colorChip.setBackground(Color.WHITE);
-		colorChip.setBorder(new LineBorder(Color.BLACK));
-		toUPButton = new JButton("> Upper");
-		toLPButton = new JButton("> Lower");
+		toUPButton = new JButton(">Upper");
+		toLPButton = new JButton(">Lower");
 		
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-		this.add(colorChipLabel);
-		this.add(colorChip);
 		this.add(toUPButton);
 		this.add(toLPButton);
 		
 		toUPButton.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent arg0) {
-				protex.sendSelectedFPtoUP();
+				genex.sendSelectedGenetoUP();
 			}
+			
 		});
 		
 		toLPButton.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent arg0) {
-				protex.sendSelectedFPtoLP();
+				genex.sendSelectedGenetoLP();
 			}
+			
 		});
+		
 	}
-	
-	public void setCombinedColor(Color c) {
-		colorChip.setBackground(c);
-	}
-	
+		
 	public void setButtonsEnabled(boolean b) {
 		toLPButton.setEnabled(b);
 		toUPButton.setEnabled(b);
