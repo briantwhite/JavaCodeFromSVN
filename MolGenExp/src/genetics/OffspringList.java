@@ -16,6 +16,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
 import molBiol.ExpressedGene;
+import molGenExp.CustomListSelectionModel;
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import molGenExp.OrganismCellRenderer;
@@ -32,7 +33,8 @@ public class OffspringList extends JList {
 		super(dataModel);
 		this.setCellRenderer(new OrganismCellRenderer());
 		offspringListDataModel = (DefaultListModel)dataModel;
-		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+//		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		this.setSelectionModel(new CustomListSelectionModel(Organism.LOWER_GENETICS_WINDOW));
 		this.setVisibleRowCount(-1);	//pack in as many as will fit 
 		this.setFixedCellWidth(60);
 		this.setLayoutOrientation(JList.VERTICAL_WRAP);
