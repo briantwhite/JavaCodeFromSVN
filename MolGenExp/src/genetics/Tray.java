@@ -41,7 +41,7 @@ public class Tray {
 			Organism o = (Organism)organisms[i];
 			
 			//save a copy in the tray with a new location
-			allOrganisms[i] = new Organism(-1, o.getName(), o);
+			allOrganisms[i] = new Organism(o.getName(), o);
 			
 			//add to the icon
 			g.setColor(o.getColor());

@@ -26,21 +26,15 @@ public class Greenhouse extends JList implements Serializable {
 
 	public Greenhouse (ListModel dataModel, final MolGenExp mgeX) {
 		super(dataModel);
+		this.mge = mgeX;
 		this.setCellRenderer(new OrganismCellRenderer());
 		greenhouseDataModel = (DefaultListModel)dataModel;
 //		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.setSelectionModel(new CustomListSelectionModel(Organism.GREENHOUSE));
+		this.setSelectionModel(new CustomListSelectionModel(mge, this));
 		this.setFixedCellWidth(80);
-		this.mge = mgeX;
 
 		this.addMouseListener(new MouseListener() {
-			public void mouseClicked(MouseEvent e) {
-				
-				//note that this only applies in Genetics
-				if (e.getClickCount() == 1) {
-					mge.updateSelectedOrganisms(
-							(Organism)getSelectedValue());
-				}
+			public void mouseClicked(MouseEvent e) {				
 				if (e.getClickCount() == 2) {
 					mge.loadOrganismIntoActivePanel(
 							(Organism)getSelectedValue());

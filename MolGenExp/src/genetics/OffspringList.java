@@ -31,23 +31,17 @@ public class OffspringList extends JList {
 
 	public OffspringList (ListModel dataModel, final MolGenExp mgeX) {
 		super(dataModel);
+		this.mge = mgeX;
 		this.setCellRenderer(new OrganismCellRenderer());
 		offspringListDataModel = (DefaultListModel)dataModel;
-//		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		this.setSelectionModel(new CustomListSelectionModel(Organism.LOWER_GENETICS_WINDOW));
+		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		this.setSelectionModel(new CustomListSelectionModel(mge, this));
 		this.setVisibleRowCount(-1);	//pack in as many as will fit 
 		this.setFixedCellWidth(60);
 		this.setLayoutOrientation(JList.VERTICAL_WRAP);
-		this.mge = mgeX;
 
 		this.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
-				
-				//note that this only applies in Genetics
-				if (e.getClickCount() == 1) {
-					mge.updateSelectedOrganisms(
-							(Organism)getSelectedValue());
-				}
 				if (e.getClickCount() == 2) {
 					mge.loadOrganismIntoActivePanel(
 							(Organism)getSelectedValue());

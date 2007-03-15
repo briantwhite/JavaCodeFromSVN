@@ -84,3 +84,8 @@ in case organism gets messed up, the DNA sequences are:
 	- it has the ugly selection thing
 	- it does not print to the console
  
+- working on improved genetics selection management
+-removed "location" integer from Organism (not needed since now in OrgAndLoc class)
+	had to do lots of fixes
+- got the genetics selection to work
+- the double-click in genex & protex makes a HUGE list of errors...

@@ -24,19 +24,16 @@ public class MutantGenerator implements Runnable {
 	private int current;
 	private Organism o;
 	private int trayNum;
-	private int location;
 	private GeneticsWorkshop gw;
 	private OffspringList offspringList;
 
 	MutantGenerator (Organism o,
 			int mutantCount,
 			int trayNum,
-			int location,
 			OffspringList offspringList, 
 			GeneticsWorkshop gw) {
 		this.o = o;
 		this.trayNum = trayNum;
-		this.location = location;
 		this.gw = gw;
 		this.offspringList = offspringList;
 		this.mutantCount = mutantCount;
@@ -74,9 +71,7 @@ public class MutantGenerator implements Runnable {
 			eg2 = mutateGene(o.getGene2());
 
 			if (current < mutantCount) {
-				offspringList.add(new Organism(
-						location,
-						trayNum + "-" + (current + 1),
+				offspringList.add(new Organism(trayNum + "-" + (current + 1),
 						eg1,
 						eg2,
 						gw.getProteinColorModel()));

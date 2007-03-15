@@ -106,11 +106,12 @@ public class MolGenExp extends JFrame {
 	private JButton addToGreenhouseButton;
 
 	JTabbedPane explorerPane;
-
+	
 	private GeneticsWorkshop gw;
+
 	//for genetics only; the two selected organisms
-	private Organism org1;
-	private Organism org2;
+	private OrganismAndLocation oal1;
+	private OrganismAndLocation oal2;
 
 	private Protex protex;
 	private Genex genex;
@@ -200,8 +201,8 @@ public class MolGenExp extends JFrame {
 
 		gw = new GeneticsWorkshop(this);
 		explorerPane.addTab("Genetics", gw);
-		org1 = null;
-		org2 = null;
+		oal1 = null;
+		oal2 = null;
 
 
 		protex = new Protex(this);
@@ -710,16 +711,16 @@ public class MolGenExp extends JFrame {
 		switch (currentPane) {
 		case GENETICS:
 			//should not happen - only works if one org selected
-			if ((org1 == null) || (org2 != null)) {
+			if ((oal1 == null) || (oal2 != null)) {
 				return;
 			}
-			saveOrganismToGreenhouse(org1);
+			saveOrganismToGreenhouse(oal1.getOrganism());
 			break;
-			
+
 		case BIOCHEMISTRY:
 			// should not happen - button should be disabled
 			break;
-			
+
 		case MOLECULAR_BIOLOGY:
 			//need to express and fold the proteins
 			genex.saveOrganismToGreenhouse();
@@ -758,110 +759,103 @@ public class MolGenExp extends JFrame {
 					+ " please cancel or try again.</font>\n";
 			}
 		}
-		saveToGreenhouse(new Organism(
-				Organism.GREENHOUSE,
-				name,
-				o));
+		saveToGreenhouse(new Organism(name,o));
 	}
 
 
-	//handler for selections of creatures in Genetics mode
+	//handlers for selections of creatures in Genetics mode
 	//  max of two at a time.
-	public void updateSelectedOrganisms(Organism o) {
+	//these are called by the CustomListSelectionMode
+	public void deselectOrganism(OrganismAndLocation oal) {
 
 		// only do this in genetics
 		if (explorerPane.getSelectedIndex() != GENETICS) {
 			return;
 		}
 
-		if (org1 == null) {
-			org1 = o;
+		//remove from list of selected organisms
+		//if #1 is being deleted, delete it and move #2 up
+		if ((oal.getOrganism()).equals(oal1.getOrganism())) {
+			oal1 = oal2;
+			oal2 = null;
 			updateGeneticsButtonStatus();
 			return;
 		}
 
-		//if you've clicked an already selected organism, clear it
-		if (o.equals(org1)) {
-			org1 = org2;
-			org2 = null;
-			updateSelectedOrganismDisplay();
+		//otherwise just delete #2
+		if ((oal.getOrganism()).equals(oal2.getOrganism())) {
+			oal2 = null;
 			updateGeneticsButtonStatus();
 			return;
 		}
 
-		if (o.equals(org2)) {
-			org2 = null;
-			updateSelectedOrganismDisplay();
-			updateGeneticsButtonStatus();
-			return;			
-		}
-
-		//otherwise, update the selected organims
-		org2 = org1;
-		org1 = o;
-		updateSelectedOrganismDisplay();
+		//should not get to here
 		updateGeneticsButtonStatus();
+		return;
+	}
+
+	public void addSelectedOrganism(OrganismAndLocation oal) {
+
+		// only do this in genetics
+		if (explorerPane.getSelectedIndex() != GENETICS) {
+			return;
+		}
+
+		//if none selected so far, put it in #1
+		if ((oal1 == null) && (oal2 == null)) {
+			oal1 = oal;
+			updateGeneticsButtonStatus();
+			return;
+		}
+
+		// if only one selected so far, it should be in #1
+		// so move #1 to #2 and put this in #1
+		if ((oal1 != null) && (oal2 == null)) {
+			oal2 = oal1;
+			oal1 = oal;
+			updateGeneticsButtonStatus();
+			return;
+		}
+
+		//it must be that there are 2 selected orgs
+		// so you have to drop #2, move 1 to 2 and put the
+		// new one in 1.
+		if ((oal1 != null) && (oal2 != null)) {
+			//drop #2
+			oal2.getListLocation().removeSelectionIntervalDirectly(oal2);
+			//move 1 to 2
+			oal2 = oal1;
+			//put new one in 1
+			oal1 = oal;
+			updateGeneticsButtonStatus();
+		}
+
+		//should not get to here
+		return;
 	}
 
 	public void clearSelectedOrganisms() {
-		org1 = null;
-		org2 = null;
-		updateSelectedOrganismDisplay();
+		if (oal1 != null) {
+			oal1.getListLocation().removeSelectionIntervalDirectly(oal1);
+		}
+
+		if (oal2 != null) {
+			oal2.getListLocation().removeSelectionIntervalDirectly(oal2);
+		}
+
+		oal1 = null;
+		oal2 = null;
 		updateGeneticsButtonStatus();
 	}
 
 	public Organism getOrg1() {
-		return org1;
+		return oal1.getOrganism();
 	}
 
 	public Organism getOrg2() {
-		return org2;
+		return oal2.getOrganism();
 	}
 
-	// make the display show the proper selected organisms
-	public void updateSelectedOrganismDisplay() {
-
-		greenhouse.clearSelection();
-		gw.getLowerGeneticsWindow().getGeneticsWorkPanelList().clearSelection();
-		gw.getUpperGeneticsWindow().getGeneticsWorkPanelList().clearSelection();
-
-		updateListSelections(org1);
-		updateListSelections(org2);
-
-		greenhouse.revalidate();
-		greenhouse.repaint();
-		gw.getLowerGeneticsWindow().getGeneticsWorkPanelList().revalidate();
-		gw.getLowerGeneticsWindow().getGeneticsWorkPanelList().repaint();
-		gw.getUpperGeneticsWindow().getGeneticsWorkPanelList().revalidate();
-		gw.getUpperGeneticsWindow().getGeneticsWorkPanelList().repaint();
-	}
-
-	void updateListSelections(Organism o) {
-		JList list = null;
-
-		if (o == null) {
-			return;
-		}
-
-		switch (o.getLocation()) {
-		case Organism.GREENHOUSE:
-			list = greenhouse;
-			break;
-		case Organism.LOWER_GENETICS_WINDOW:
-			list = gw.getLowerGeneticsWindow().getGeneticsWorkPanelList();
-			break;
-		case Organism.UPPER_GENETICS_WINDOW:
-			list = gw.getUpperGeneticsWindow().getGeneticsWorkPanelList();
-			break;
-		}
-
-		DefaultListModel listModel = 
-			(DefaultListModel)list.getModel();
-
-		list.addSelectionInterval(listModel.indexOf(o), 
-				listModel.indexOf(o));
-
-	}
 
 	//if no orgs selected - no buttons active;
 	// if only one - save to greenhouse, mutate, and self are active;
@@ -869,11 +863,11 @@ public class MolGenExp extends JFrame {
 	public void updateGeneticsButtonStatus() {
 		int numSelectedOrgs = 0;
 
-		if (org1 != null) {
+		if (oal1 != null) {
 			numSelectedOrgs++;
 		}
 
-		if (org2 != null) {
+		if (oal2 != null) {
 			numSelectedOrgs++;
 		}
 

@@ -29,8 +29,8 @@ public class GeneticsWindow extends JPanel {
 
 	private String title;
 
-	private int location;
-	
+	private String upperOrLower;
+
 	private int trayNum; 	//current tray number
 	private String parentInfo;	//info on the parent
 
@@ -44,22 +44,18 @@ public class GeneticsWindow extends JPanel {
 	private JButton crossTwoButton;
 	private JButton selfCrossButton;
 	private JButton mutateButton;
-	
+
 	private MutantGenerator mutantGenerator;
 	private Timer timer;
 
 	private JDialog mutantsBeingMadeDialog;
 	private JLabel mutantProgressLabel;
 	private JProgressBar mutantProgressBar;
-	
-	public GeneticsWindow(int location, GeneticsWorkshop gw) {
+
+	public GeneticsWindow(String upperOrLower, GeneticsWorkshop gw) {
 		super();
-		this.location = location;
-		if (location == Organism.LOWER_GENETICS_WINDOW) {
-			title = "Lower GeneticsWindow";
-		} else {
-			title = "Upper Genetics Window";
-		}
+		this.upperOrLower = upperOrLower;
+		title = upperOrLower + " GeneticsWindow";
 		this.gw = gw;
 		setupUI();
 	}
@@ -121,7 +117,7 @@ public class GeneticsWindow extends JPanel {
 						gw.getMolGenExp().getOrg1());
 			}
 		});
-		
+
 		mutateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (gw.getMolGenExp().getOrg1() == null) {
@@ -130,7 +126,7 @@ public class GeneticsWindow extends JPanel {
 				mutateOrganism(gw.getMolGenExp().getOrg1());
 			}
 		});
-		
+
 		timer = new Timer(100, new TimerListener());
 	}
 
@@ -169,15 +165,14 @@ public class GeneticsWindow extends JPanel {
 				eg2 = o2.getGene2(); 
 			}
 
-			Organism o = new Organism(location,
-					trayNum + "-" + i,
+			Organism o = new Organism(trayNum + "-" + i,
 					eg1,
 					eg2,
 					gw.getProteinColorModel());
 
 			offspringList.add(o);
 		}
-		
+
 		// add tray to hist list
 		Tray tray = new Tray(trayNum, parentInfo, offspringList);
 		gw.addTrayToHistoryList(tray);
@@ -187,8 +182,7 @@ public class GeneticsWindow extends JPanel {
 		offspringList.clearList();
 		Organism[] organisms = tray.getAllOrganisms();
 		for (int i = 0; i < organisms.length; i++) {
-			Organism o = new Organism(location, 
-					organisms[i].getName(),
+			Organism o = new Organism(organisms[i].getName(),
 					organisms[i]);
 			offspringList.add(o);
 		}
@@ -206,15 +200,14 @@ public class GeneticsWindow extends JPanel {
 
 		trayNum = gw.getNextTrayNum();		
 		offspringList.clearList();
-				
+
 		mutantGenerator = new MutantGenerator(
 				o,
 				mutantCount,
 				trayNum,
-				location,
 				offspringList,
 				gw);
-		
+
 		Thread t = new Thread(mutantGenerator);
 		t.start();
 		timer.start();
@@ -223,12 +216,12 @@ public class GeneticsWindow extends JPanel {
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		gw.setSelfCrossButtonsEnabled(false);
 		gw.setMutateButtonsEnabled(false);
-		
+
 		mutantsBeingMadeDialog = new JDialog(gw.getMolGenExp(),
 				"Making mutants of Organism " + o.getName(),
 				true);
 		mutantsBeingMadeDialog.setDefaultCloseOperation(
-			    JDialog.DO_NOTHING_ON_CLOSE);
+				JDialog.DO_NOTHING_ON_CLOSE);
 		mutantProgressLabel = new JLabel("Starting up...");
 		mutantProgressBar = new JProgressBar(0, mutantGenerator.getLengthOfTask());
 		mutantProgressBar.setValue(0);
@@ -247,9 +240,9 @@ public class GeneticsWindow extends JPanel {
 		mutantsBeingMadeDialog.setSize(new Dimension(400,100));
 		mutantsBeingMadeDialog.setLocation(200,200);
 		mutantsBeingMadeDialog.setVisible(true);
-		
+
 	}
-	
+
 	private class TimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			if (mutantGenerator.done()) {
@@ -260,19 +253,19 @@ public class GeneticsWindow extends JPanel {
 				gw.setSelfCrossButtonsEnabled(true);
 				gw.setMutateButtonsEnabled(true);
 				mutantsBeingMadeDialog.dispose();
-				
+
 				parentInfo = "Mutant variants of " 
 					+ mutantGenerator.getOrganism().getName();
 				upperLabel.setText("<html><h1>" 
 						+ "Tray " + trayNum + ": "
 						+ parentInfo
 						+ "</h1></html");
-				
+
 				// add tray to hist list
 				Tray tray = new Tray(trayNum, parentInfo, offspringList);
 				gw.addTrayToHistoryList(tray);
 			} else {
-				
+
 				mutantProgressLabel.setText("Making Mutant number " 
 						+ (mutantGenerator.getCurrent() + 1) 
 						+ " of "
@@ -282,8 +275,8 @@ public class GeneticsWindow extends JPanel {
 			}
 		}
 	}
-	
-	
+
+
 	public void setCrossTwoButtonEnabled(boolean b) {
 		crossTwoButton.setEnabled(b);
 	}
