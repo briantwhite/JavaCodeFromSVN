@@ -89,3 +89,10 @@ in case organism gets messed up, the DNA sequences are:
 	had to do lots of fixes
 - got the genetics selection to work
 - the double-click in genex & protex makes a HUGE list of errors...
+
+3/16/07
+- got it to work
+ for some reason, you need to make a new CustomListSelectionModel when switching panes
+ otherwise you get the infininte loop of calls to setSelectedIndexes()
+
+- fixed it so that any changes to greenhouse clears oal1 and oal2

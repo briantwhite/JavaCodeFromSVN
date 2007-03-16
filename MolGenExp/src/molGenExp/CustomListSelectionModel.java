@@ -14,6 +14,7 @@ public class CustomListSelectionModel extends DefaultListSelectionModel {
 
 	//regular methods called by the JList
 	public void setSelectionInterval(int index0, int index1) {
+		
 		if (isSelectedIndex(index0)) {
 			super.removeSelectionInterval(index0, index0);
 			mge.deselectOrganism(new OrganismAndLocation(

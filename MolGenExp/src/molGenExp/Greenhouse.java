@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -29,7 +30,7 @@ public class Greenhouse extends JList implements Serializable {
 		this.mge = mgeX;
 		this.setCellRenderer(new OrganismCellRenderer());
 		greenhouseDataModel = (DefaultListModel)dataModel;
-//		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		this.setSelectionModel(new CustomListSelectionModel(mge, this));
 		this.setFixedCellWidth(80);
 
@@ -81,6 +82,16 @@ public class Greenhouse extends JList implements Serializable {
 	public Organism getSelectedOrganism() {
 		return (Organism)greenhouseDataModel.getElementAt(
 				getSelectedIndex());
+	}
+	
+	public void setDefaultSelectionSettings() {
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setSelectionModel(new DefaultListSelectionModel());
+	}
+	
+	public void setCustomSelectionSettings() {
+		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		setSelectionModel(new CustomListSelectionModel(mge, this));
 	}
 
 }

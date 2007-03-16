@@ -239,28 +239,25 @@ public class MolGenExp extends JFrame {
 				int currentPane = explorerPane.getSelectedIndex();
 				switch (currentPane) {
 				case GENETICS:			
-					greenhouse.setSelectionMode(
-							ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(false);
 					editMenu.setEnabled(false);
 					addToGreenhouseButton.setEnabled(false);
+					setCustomSelectionSettings();
 					break;
 				case BIOCHEMISTRY:			
-					greenhouse.setSelectionMode(
-							ListSelectionModel.SINGLE_SELECTION);
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(true);
 					editMenu.setEnabled(true);
 					addToGreenhouseButton.setEnabled(false);
+					setDefaultSelectionSettings();
 					break;
 				case MOLECULAR_BIOLOGY:			
-					greenhouse.setSelectionMode(
-							ListSelectionModel.SINGLE_SELECTION);
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(true);
 					editMenu.setEnabled(true);
 					addToGreenhouseButton.setEnabled(true);
+					setDefaultSelectionSettings();
 					break;
 				}
 			}
@@ -502,6 +499,7 @@ public class MolGenExp extends JFrame {
 		deleteSelectedOrganismMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				greenhouse.deleteSelected();
+				clearSelectedOrganisms();
 			}
 		});
 
@@ -625,6 +623,7 @@ public class MolGenExp extends JFrame {
 	}
 
 	public void loadGreenhouseFromChosenFolder() {
+		clearSelectedOrganisms();
 		JFileChooser inFolderChooser = new JFileChooser();
 		inFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int returnVal = inFolderChooser.showOpenDialog(this);
@@ -678,6 +677,7 @@ public class MolGenExp extends JFrame {
 	}
 
 	public void loadGreenhouse(File greenhouseDir) {
+		clearSelectedOrganisms();
 		greenhouse.clearList();
 		String[] files = greenhouseDir.list();
 		for (int i = 0; i < files.length; i++){
@@ -760,6 +760,7 @@ public class MolGenExp extends JFrame {
 			}
 		}
 		saveToGreenhouse(new Organism(name,o));
+		clearSelectedOrganisms();
 	}
 
 
@@ -894,5 +895,15 @@ public class MolGenExp extends JFrame {
 			break;
 
 		}
+	}
+	
+	public void setDefaultSelectionSettings() {
+		greenhouse.setDefaultSelectionSettings();
+		gw.setDefaultSelectionSettings();
+	}
+	
+	public void setCustomSelectionSettings() {
+		greenhouse.setCustomSelectionSettings();
+		gw.setCustomSelectionSettings();
 	}
 }

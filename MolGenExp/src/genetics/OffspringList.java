@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -89,5 +90,16 @@ public class OffspringList extends JList {
 		return (Organism)offspringListDataModel.getElementAt(
 				getSelectedIndex());
 	}
+	
+	public void setDefaultSelectionSettings() {
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setSelectionModel(new DefaultListSelectionModel());
+	}
+	
+	public void setCustomSelectionSettings() {
+		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		setSelectionModel(new CustomListSelectionModel(mge, this));
+	}
+
 
 }
