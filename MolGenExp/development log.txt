@@ -92,7 +92,9 @@ in case organism gets messed up, the DNA sequences are:
 
 3/16/07
 - got it to work
- for some reason, you need to make a new CustomListSelectionModel when switching panes
+ you need to make a new CustomListSelectionModel when switching panes
  otherwise you get the infininte loop of calls to setSelectedIndexes()
+ - this is because the old object keeps some state info that needs to be cleared out
+ 	therefore, making a new one is the best way to clear it out
 
 - fixed it so that any changes to greenhouse clears oal1 and oal2
