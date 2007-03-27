@@ -198,6 +198,8 @@ public class MolGenExp extends JFrame {
 		explorerPane = new JTabbedPane();
 //		explorerPane.setSize(new Dimension(screenSize.width * 8/10,
 //		screenSize.height * 8/10));
+		
+		addToGreenhouseButton = new JButton("Add...");
 
 		gw = new GeneticsWorkshop(this);
 		explorerPane.addTab("Genetics", gw);
@@ -216,7 +218,6 @@ public class MolGenExp extends JFrame {
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		rightPanel.add(Box.createRigidArea(new Dimension(100,1)));
-		addToGreenhouseButton = new JButton("Add...");
 		addToGreenhouseButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		rightPanel.add(addToGreenhouseButton);
 		addToGreenhouseButton.setEnabled(false);
@@ -905,5 +906,9 @@ public class MolGenExp extends JFrame {
 	public void setCustomSelectionSettings() {
 		greenhouse.setCustomSelectionSettings();
 		gw.setCustomSelectionSettings();
+	}
+	
+	public void setAddToGreenhouseButtonEnabled(boolean b) {
+		addToGreenhouseButton.setEnabled(b);
 	}
 }

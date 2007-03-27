@@ -108,3 +108,8 @@ bug: paste a sequence into genex & express it
 
 used this to make the greenhouse of organisms shown on 3/14/07
 
+bug: after adding to greenhouse from genex, the "add" button is disabled
+fixed
+
+
+
