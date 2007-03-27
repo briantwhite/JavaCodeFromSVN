@@ -82,7 +82,7 @@ in case organism gets messed up, the DNA sequences are:
 ***SAVED AS VERSION 0.8
 -this version works
 	- it has the ugly selection thing
-	- it does not print to the console
+	- it does not print debug messages to the console
  
 - working on improved genetics selection management
 -removed "location" integer from Organism (not needed since now in OrgAndLoc class)
@@ -98,3 +98,13 @@ in case organism gets messed up, the DNA sequences are:
  	therefore, making a new one is the best way to clear it out
 
 - fixed it so that any changes to greenhouse clears oal1 and oal2
+
+3/27/07
+bug: paste a sequence into genex & express it
+	it folds the "previous" sequence, not the new one.
+
+- fixed in GeneExpressionWindow - in load new sequence button listener
+	use the instance variable currentGene (was a local variable)
+
+used this to make the greenhouse of organisms shown on 3/14/07
+
