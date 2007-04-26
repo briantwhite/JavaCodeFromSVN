@@ -338,122 +338,30 @@ public class MolGenExp extends JFrame {
 		});
 
 		// the compare menu items
-		u_lMenuItem.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				String selectedPane = 
-					explorerPane.getSelectedComponent().getClass().toString();
-				if (selectedPane.equals("class molBiol.Genex")) {
-					DNASequenceComparator dsc = getDNASequences();
-					if (dsc != null) {
-						dsc.compareSequences(SequenceComparator.UPPER, 
-								SequenceComparator.LOWER);
-					}
-					return;
-				}
-				if (selectedPane.equals("class biochem.Protex")) {
-					ProteinSequenceComparator psc = getProteinSequences();
-					if (psc != null) {
-						psc.compareSequences(SequenceComparator.UPPER, 
-								SequenceComparator.LOWER);
-					}
-					return;
-				}
-			}
-		});
+		u_lMenuItem.addActionListener(new SequenceComparatorMenuItemListener(
+				this, 
+				SequenceComparator.UPPER,
+				SequenceComparator.LOWER));
+		
+		u_sMenuItem.addActionListener(new SequenceComparatorMenuItemListener(
+				this, 
+				SequenceComparator.UPPER,
+				SequenceComparator.SAMPLE));
+	
+		l_sMenuItem.addActionListener(new SequenceComparatorMenuItemListener(
+				this, 
+				SequenceComparator.LOWER,
+				SequenceComparator.SAMPLE));
 
-		u_sMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String selectedPane = 
-					explorerPane.getSelectedComponent().getClass().toString();
-				if (selectedPane.equals("class molBiol.Genex")) {
-					DNASequenceComparator dsc = getDNASequences();
-					if (dsc != null) {
-						dsc.compareSequences(SequenceComparator.UPPER, 
-								SequenceComparator.SAMPLE);
-					}
-					return;
-				}
-				if (selectedPane.equals("class biochem.Protex")) {
-					ProteinSequenceComparator psc = getProteinSequences();
-					if (psc != null) {
-						psc.compareSequences(SequenceComparator.UPPER, 
-								SequenceComparator.SAMPLE);
-					}
-					return;
-				}
-			}
-		});
+		u_cbMenuItem.addActionListener(new SequenceComparatorMenuItemListener(
+				this, 
+				SequenceComparator.UPPER,
+				SequenceComparator.CLIPBOARD));
 
-		l_sMenuItem.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				String selectedPane = 
-					explorerPane.getSelectedComponent().getClass().toString();
-				if (selectedPane.equals("class molBiol.Genex")) {
-					DNASequenceComparator dsc = getDNASequences();
-					if (dsc != null) {
-						dsc.compareSequences(SequenceComparator.LOWER, 
-								SequenceComparator.SAMPLE);
-					}
-					return;
-				}
-				if (selectedPane.equals("class biochem.Protex")) {
-					ProteinSequenceComparator psc = getProteinSequences();
-					if (psc != null) {
-						psc.compareSequences(SequenceComparator.LOWER, 
-								SequenceComparator.SAMPLE);
-					}
-					return;
-				}
-			}
-		});
-
-		u_cbMenuItem.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				String selectedPane = 
-					explorerPane.getSelectedComponent().getClass().toString();
-				if (selectedPane.equals("class molBiol.Genex")) {
-					DNASequenceComparator dsc = getDNASequences();
-					if (dsc != null) {
-						dsc.compareSequences(SequenceComparator.UPPER, 
-								SequenceComparator.CLIPBOARD);
-					}
-					return;
-				}
-				if (selectedPane.equals("class biochem.Protex")) {
-					ProteinSequenceComparator psc = getProteinSequences();
-					if (psc != null) {
-						psc.compareSequences(SequenceComparator.UPPER, 
-								SequenceComparator.CLIPBOARD);
-					}
-					return;
-				}
-			}
-		});
-
-		l_cbMenuItem.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				String selectedPane = 
-					explorerPane.getSelectedComponent().getClass().toString();
-				if (selectedPane.equals("class molBiol.Genex")) {
-					DNASequenceComparator dsc = getDNASequences();
-					if (dsc != null) {
-						dsc.compareSequences(SequenceComparator.LOWER, 
-								SequenceComparator.CLIPBOARD);
-					}
-					return;
-				}
-				if (selectedPane.equals("class biochem.Protex")) {
-					ProteinSequenceComparator psc = getProteinSequences();
-					if (psc != null) {
-						psc.compareSequences(SequenceComparator.LOWER, 
-								SequenceComparator.CLIPBOARD);
-					}
-					return;
-				}
-			}
-		});
-
-
+		l_cbMenuItem.addActionListener(new SequenceComparatorMenuItemListener(
+				this, 
+				SequenceComparator.LOWER,
+				SequenceComparator.CLIPBOARD));
 
 		loadGreenhouseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -512,7 +420,7 @@ public class MolGenExp extends JFrame {
 
 	}
 
-	private DNASequenceComparator getDNASequences() {
+	public DNASequenceComparator getDNASequences() {
 		String clipSeq = "";
 		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
 		Transferable contents = c.getContents(null);
@@ -536,7 +444,7 @@ public class MolGenExp extends JFrame {
 				clipSeq);
 	}
 
-	private ProteinSequenceComparator getProteinSequences() {
+	public ProteinSequenceComparator getProteinSequences() {
 		String clipSeq = "";
 		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
 		Transferable contents = c.getContents(null);
@@ -604,6 +512,10 @@ public class MolGenExp extends JFrame {
 
 	public Greenhouse getGreenhouse() {
 		return greenhouse;
+	}
+	
+	public String getCurrentWorkingPanel() {
+		return explorerPane.getSelectedComponent().getClass().toString();
 	}
 
 	public void saveToGreenhouse(Organism o) {
