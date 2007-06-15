@@ -31,7 +31,7 @@ public class GeneticsHistoryCellRenderer extends JButton
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));
-		button.setToolTipText(tray.getParentInfo());
+		button.setToolTipText(tray.getToolTipText());
 		return button;
 	}
 

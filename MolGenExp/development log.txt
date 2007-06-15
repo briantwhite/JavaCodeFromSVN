@@ -1,5 +1,11 @@
 Features Log:
-
+History List:
+- double-click to get menu of options
+	to upper
+	to lower
+	add notes
+	delete
+	
 Greenhouse in general:
 	- can change names of .organism files in greenhouse folder
 		next time they are loaded, the name in the greenhouse
@@ -115,6 +121,17 @@ fixed
 bug: when resized, the aa table in protex can shrink vertically
 fixed: added box layout and rigid vertical area
 
+major refactoring
+made superclasses of major types:
+
+- Workbench = GeneticsWorkbench, protex, and genex 
+	the big thing with both panels and the controls
+
+- Workpanel = an individual window for a tray, folding one protein, one gene
+
+- HistoryList = a generic history list
+
+implemented these for genetics first.
 
 
 

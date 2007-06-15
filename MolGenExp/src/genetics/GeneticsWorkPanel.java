@@ -24,8 +24,9 @@ import javax.swing.Timer;
 
 import molBiol.ExpressedGene;
 import molGenExp.Organism;
+import molGenExp.WorkPanel;
 
-public class GeneticsWindow extends JPanel {
+public class GeneticsWorkPanel extends WorkPanel {
 
 	private String title;
 
@@ -34,7 +35,7 @@ public class GeneticsWindow extends JPanel {
 	private int trayNum; 	//current tray number
 	private String parentInfo;	//info on the parent
 
-	private GeneticsWorkshop gw;
+	private GeneticsWorkbench gw;
 
 	private JLabel upperLabel;
 
@@ -52,7 +53,7 @@ public class GeneticsWindow extends JPanel {
 	private JLabel mutantProgressLabel;
 	private JProgressBar mutantProgressBar;
 
-	public GeneticsWindow(String upperOrLower, GeneticsWorkshop gw) {
+	public GeneticsWorkPanel(String upperOrLower, GeneticsWorkbench gw) {
 		super();
 		this.upperOrLower = upperOrLower;
 		title = upperOrLower + " GeneticsWindow";
@@ -73,7 +74,7 @@ public class GeneticsWindow extends JPanel {
 		trayPanel.add(Box.createRigidArea(new Dimension(550,1)));
 		offspringList = new OffspringList(
 				new DefaultListModel(), 
-				gw.getMolGenExp());
+				gw.getMGE());
 		JScrollPane offspringListPane = new JScrollPane(offspringList);
 		offspringListPane.setPreferredSize(new Dimension(500,200));
 		trayPanel.add(offspringListPane);
@@ -99,31 +100,31 @@ public class GeneticsWindow extends JPanel {
 
 		crossTwoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if ((gw.getMolGenExp().getOrg1() == null) ||
-						(gw.getMolGenExp().getOrg2() == null)) {
+				if ((gw.getMGE().getOrg1() == null) ||
+						(gw.getMGE().getOrg2() == null)) {
 					return;
 				}
-				crossTwo(gw.getMolGenExp().getOrg1(),
-						gw.getMolGenExp().getOrg2());
+				crossTwo(gw.getMGE().getOrg1(),
+						gw.getMGE().getOrg2());
 			}
 		});
 
 		selfCrossButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (gw.getMolGenExp().getOrg1() == null) {
+				if (gw.getMGE().getOrg1() == null) {
 					return;
 				}
-				crossTwo(gw.getMolGenExp().getOrg1(),
-						gw.getMolGenExp().getOrg1());
+				crossTwo(gw.getMGE().getOrg1(),
+						gw.getMGE().getOrg1());
 			}
 		});
 
 		mutateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (gw.getMolGenExp().getOrg1() == null) {
+				if (gw.getMGE().getOrg1() == null) {
 					return;
 				}
-				mutateOrganism(gw.getMolGenExp().getOrg1());
+				mutateOrganism(gw.getMGE().getOrg1());
 			}
 		});
 
@@ -175,7 +176,7 @@ public class GeneticsWindow extends JPanel {
 
 		// add tray to hist list
 		Tray tray = new Tray(trayNum, parentInfo, offspringList);
-		gw.addTrayToHistoryList(tray);
+		gw.addToHistoryList(tray);
 	}
 
 	public void setCurrentTray(Tray tray) {
@@ -217,7 +218,7 @@ public class GeneticsWindow extends JPanel {
 		gw.setSelfCrossButtonsEnabled(false);
 		gw.setMutateButtonsEnabled(false);
 
-		mutantsBeingMadeDialog = new JDialog(gw.getMolGenExp(),
+		mutantsBeingMadeDialog = new JDialog(gw.getMGE(),
 				"Making mutants of Organism " + o.getName(),
 				true);
 		mutantsBeingMadeDialog.setDefaultCloseOperation(
@@ -248,7 +249,7 @@ public class GeneticsWindow extends JPanel {
 			if (mutantGenerator.done()) {
 
 				timer.stop();
-				GeneticsWindow.this.setCursor(
+				GeneticsWorkPanel.this.setCursor(
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				gw.setSelfCrossButtonsEnabled(true);
 				gw.setMutateButtonsEnabled(true);
@@ -263,7 +264,7 @@ public class GeneticsWindow extends JPanel {
 
 				// add tray to hist list
 				Tray tray = new Tray(trayNum, parentInfo, offspringList);
-				gw.addTrayToHistoryList(tray);
+				gw.addToHistoryList(tray);
 			} else {
 
 				mutantProgressLabel.setText("Making Mutant number " 

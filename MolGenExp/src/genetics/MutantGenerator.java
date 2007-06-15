@@ -24,14 +24,14 @@ public class MutantGenerator implements Runnable {
 	private int current;
 	private Organism o;
 	private int trayNum;
-	private GeneticsWorkshop gw;
+	private GeneticsWorkbench gw;
 	private OffspringList offspringList;
 
 	MutantGenerator (Organism o,
 			int mutantCount,
 			int trayNum,
 			OffspringList offspringList, 
-			GeneticsWorkshop gw) {
+			GeneticsWorkbench gw) {
 		this.o = o;
 		this.trayNum = trayNum;
 		this.gw = gw;
@@ -100,7 +100,7 @@ public class MutantGenerator implements Runnable {
 		}
 		Gene newGene = 
 			new Gene(DNABuffer.toString(), 
-					gw.getMolGenExp().getGenex().getParams());
+					gw.getMGE().getGenex().getParams());
 		newGene.transcribe();
 		newGene.process();
 		newGene.translate();
@@ -135,7 +135,7 @@ public class MutantGenerator implements Runnable {
 				"straight",
 		"test");
 		FoldingManager manager = FoldingManager.getInstance(
-				gw.getMolGenExp().getOverallColorModel());
+				gw.getMGE().getOverallColorModel());
 		try {
 			manager.fold(attributes);
 		} catch (FoldingException e) {
@@ -144,7 +144,7 @@ public class MutantGenerator implements Runnable {
 
 		//make an icon and display it in a dialog
 		OutputPalette op = new OutputPalette(
-				gw.getMolGenExp().getOverallColorModel());
+				gw.getMGE().getOverallColorModel());
 		manager.createCanvas(op);
 		Dimension requiredCanvasSize = 
 			op.getDrawingPane().getRequiredCanvasSize();

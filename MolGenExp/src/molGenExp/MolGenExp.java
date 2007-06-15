@@ -1,6 +1,6 @@
 package molGenExp;
 
-import genetics.GeneticsWorkshop;
+import genetics.GeneticsWorkbench;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -107,7 +107,7 @@ public class MolGenExp extends JFrame {
 
 	JTabbedPane explorerPane;
 	
-	private GeneticsWorkshop gw;
+	private GeneticsWorkbench gw;
 
 	//for genetics only; the two selected organisms
 	private OrganismAndLocation oal1;
@@ -201,7 +201,7 @@ public class MolGenExp extends JFrame {
 		
 		addToGreenhouseButton = new JButton("Add...");
 
-		gw = new GeneticsWorkshop(this);
+		gw = new GeneticsWorkbench(this);
 		explorerPane.addTab("Genetics", gw);
 		oal1 = null;
 		oal2 = null;
@@ -506,7 +506,7 @@ public class MolGenExp extends JFrame {
 		return protex;
 	}
 
-	public GeneticsWorkshop getGeneticsWorkshop() {
+	public GeneticsWorkbench getGeneticsWorkshop() {
 		return gw;
 	}
 

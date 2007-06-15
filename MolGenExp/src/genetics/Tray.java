@@ -8,9 +8,10 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import molGenExp.HistListItem;
 import molGenExp.Organism;
 
-public class Tray {
+public class Tray extends HistListItem {
 	
 	private int trayNumber;
 	private String parentInfo;
@@ -20,8 +21,10 @@ public class Tray {
 	public Tray(int trayNumber, 
 			String parentInfo, 
 			OffspringList offspringList) {
+		super();
 		this.parentInfo = parentInfo;
 		this.trayNumber = trayNumber;
+		toolTipText = parentInfo;
 		
 		Object[] organisms = offspringList.getAll();
 		allOrganisms = new Organism[organisms.length];
@@ -55,6 +58,14 @@ public class Tray {
 	
 	public String getParentInfo() {
 		return parentInfo;
+	}
+	
+	public String getToolTipText() {
+		return toolTipText;
+	}
+	
+	public void setToolTipText(String text) {
+		toolTipText = text;
 	}
 	
 	public int getNumber() {
