@@ -131,6 +131,8 @@ made superclasses of major types:
 
 - HistoryList = a generic history list
 
+- HistListItem = a generic member of history list (eg a Tray)
+
 implemented these for genetics first.
 
 
