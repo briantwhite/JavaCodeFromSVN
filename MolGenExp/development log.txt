@@ -111,5 +111,10 @@ used this to make the greenhouse of organisms shown on 3/14/07
 bug: after adding to greenhouse from genex, the "add" button is disabled
 fixed
 
+6/15/07
+bug: when resized, the aa table in protex can shrink vertically
+fixed: added box layout and rigid vertical area
+
+
 
 

@@ -59,10 +59,12 @@ public class Protex extends JPanel {
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(Box.createRigidArea(new Dimension(200,1)));
 		JPanel aapPanel = new JPanel();
+		aapPanel.setLayout(new BoxLayout(aapPanel, BoxLayout.X_AXIS));
 		aapPanel.setBorder(BorderFactory.createTitledBorder("Amino acids"));
 		AminoAcidPalette aaPalette 
 		= new AminoAcidPalette(180, 225, 5, 4, colorModel);
 		aapPanel.setMaximumSize(new Dimension(200, 250));
+		aapPanel.add(Box.createRigidArea(new Dimension(1,225)));
 		aapPanel.add(aaPalette);
 
 		JPanel histListPanel = new JPanel();
