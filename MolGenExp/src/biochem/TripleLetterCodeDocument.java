@@ -6,7 +6,7 @@ import javax.swing.text.DefaultStyledDocument;
 
 public class TripleLetterCodeDocument extends DefaultStyledDocument {
 	final String allowedLetters = "ACDEFGHIKLMNPQRSTVWY";
-	private FoldingWindow foldingWindow = null;
+	private BiochemistryWorkpanel foldingWindow = null;
 	private StandardTable table = new StandardTable();
 	
 	public void insertString(int offs, String str, AttributeSet a) 
@@ -44,7 +44,7 @@ public class TripleLetterCodeDocument extends DefaultStyledDocument {
 		}
 	}
 
-	public void setLinkedFoldingWindow(FoldingWindow fw) {
+	public void setLinkedFoldingWindow(BiochemistryWorkpanel fw) {
 		foldingWindow = fw;
 	}
 	

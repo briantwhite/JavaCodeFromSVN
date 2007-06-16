@@ -26,7 +26,7 @@ public class ProteinHistoryCellRenderer extends JButton
 		button.setBackground(fp.getColor());
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));
-		button.setToolTipText(fp.getAaSeq());
+		button.setToolTipText(fp.getToolTipText());
 		return button;
 	}
 

@@ -22,8 +22,8 @@ public class ProteinPrinter implements Printable {
 	BufferedImage upperProtein;
 	BufferedImage lowerProtein;
 	
-	FoldingWindow ufw;
-	FoldingWindow lfw;
+	BiochemistryWorkpanel ufw;
+	BiochemistryWorkpanel lfw;
 	
 	private static int printedWidth = 500;
 	private static int printedHeight = 250;
@@ -40,7 +40,7 @@ public class ProteinPrinter implements Printable {
 		lowerProtein = null;
 	}
 
-	public void printProteins(FoldingWindow ufw, FoldingWindow lfw) {
+	public void printProteins(BiochemistryWorkpanel ufw, BiochemistryWorkpanel lfw) {
 		if ((ufw.getFullSizePic() == null) && (lfw.getFullSizePic() == null)) {
 			JOptionPane.showMessageDialog(ufw, "No Proteins to Print!", 
 					"Printer Warning", JOptionPane.ERROR_MESSAGE);

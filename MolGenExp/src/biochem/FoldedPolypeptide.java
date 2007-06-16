@@ -5,7 +5,9 @@ import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
-public class FoldedPolypeptide implements Serializable {
+import molGenExp.HistListItem;
+
+public class FoldedPolypeptide extends HistListItem implements Serializable {
 	private String aaSeq;
 	private Grid fullSizeGrid;
 	private ImageIcon thumbnailPic;
@@ -20,6 +22,7 @@ public class FoldedPolypeptide implements Serializable {
 		fullSizePic = bigPic;
 		thumbnailPic = thumb;
 		this.color = color;
+		toolTipText = seq;
 	}
 
 	public String getAaSeq() {
@@ -40,5 +43,13 @@ public class FoldedPolypeptide implements Serializable {
 
 	public Color getColor() {
 		return color;
+	}
+
+	public String getToolTipText() {
+		return toolTipText;
+	}
+
+	public void setToolTipText(String text) {
+		toolTipText = text;
 	}
 }

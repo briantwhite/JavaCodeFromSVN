@@ -16,19 +16,21 @@ import javax.swing.JScrollPane;
 
 import molGenExp.ColorModel;
 import molGenExp.CombinedColorPanel;
+import molGenExp.HistoryList;
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
+import molGenExp.WorkPanel;
+import molGenExp.Workbench;
 
 
-public class Protex extends JPanel {
+public class BiochemistryWorkbench extends Workbench {
 
-	private FoldingWindow upperFoldingWindow;
-	private FoldingWindow lowerFoldingWindow;
-	private ProteinHistoryList proteinHistoryList;
+	private BiochemistryWorkpanel upperWorkPanel;
+	private BiochemistryWorkpanel lowerWorkPanel;
+	private HistoryList proteinHistoryList;
 	private JScrollPane histListScrollPane;
-	private ProteinHistListControlPanel proteinHistListControlPanel;
 	private CombinedColorPanel combinedColorPanel;
-	
+
 	ColorModel colorModel;
 
 	ProteinPrinter printer;
@@ -37,8 +39,8 @@ public class Protex extends JPanel {
 
 	private MolGenExp mge;
 
-	public Protex(MolGenExp mge) {
-		super();
+	public BiochemistryWorkbench(MolGenExp mge) {
+		super(mge);
 		this.mge = mge;
 		colorModel = mge.getOverallColorModel();
 		printer = new ProteinPrinter();
@@ -71,12 +73,9 @@ public class Protex extends JPanel {
 		histListPanel.setBorder(
 				BorderFactory.createTitledBorder("History List"));
 		histListPanel.setLayout(new BoxLayout(histListPanel, BoxLayout.Y_AXIS));
-		proteinHistListControlPanel = new ProteinHistListControlPanel(this);
-		histListPanel.add(proteinHistListControlPanel);
-		proteinHistoryList = new ProteinHistoryList(
-				new DefaultListModel(), mge);
+		proteinHistoryList = new HistoryList(
+				new DefaultListModel(), this, new ProteinHistoryCellRenderer() );
 		histListScrollPane = new JScrollPane(proteinHistoryList);
-//		histListScrollPane.setPreferredSize(new Dimension(200,1000));
 		histListPanel.add(histListScrollPane);
 
 		leftPanel.add(aapPanel);
@@ -84,14 +83,12 @@ public class Protex extends JPanel {
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		upperFoldingWindow = new FoldingWindow("Upper Folding Window", this, colorModel);
-		lowerFoldingWindow = new FoldingWindow("Lower Folding Window", this, colorModel);
-		rightPanel.add(upperFoldingWindow);
+		upperWorkPanel = new BiochemistryWorkpanel("Upper Folding Window", this, colorModel);
+		lowerWorkPanel = new BiochemistryWorkpanel("Lower Folding Window", this, colorModel);
+		rightPanel.add(upperWorkPanel);
 		combinedColorPanel = new CombinedColorPanel();
 		rightPanel.add(combinedColorPanel);
-		rightPanel.add(lowerFoldingWindow);
-
-		setButtonsEnabled(false);
+		rightPanel.add(lowerWorkPanel);
 
 		JPanel mainPanel = new JPanel();
 
@@ -103,55 +100,42 @@ public class Protex extends JPanel {
 		setLayout(new BorderLayout());
 		add(mainPanel, BorderLayout.CENTER);
 	}
-	
-	public FoldingWindow getUpperFoldingWindow() {
-		return upperFoldingWindow;
-	}
-	
-	public FoldingWindow getLowerFoldingWindow() {
-		return lowerFoldingWindow;
+
+	public void updateCombinedColor() {
+		Color u = upperWorkPanel.getColor();
+		Color l = lowerWorkPanel.getColor();
+		Color combined = colorModel.mixTwoColors(u, l);
+		combinedColorPanel.setCombinedColor(combined);
 	}
 
-	public void addFoldedToHistList(FoldedPolypeptide fp) {
-		proteinHistoryList.add(fp);
+	public void loadOrganism(Organism o) {
+		upperWorkPanel.setFoldedPolypeptide(
+				o.getGene1().getFoldedPolypeptide());
+		lowerWorkPanel.setFoldedPolypeptide(
+				o.getGene2().getFoldedPolypeptide());
+	}
+
+	public void addToHistoryList(Object o) {
+		proteinHistoryList.add(o);
 		histListScrollPane.revalidate();
 		histListScrollPane.repaint();
 		updateCombinedColor();
 	}
 
-	public void updateCombinedColor() {
-		Color u = upperFoldingWindow.getColor();
-		Color l = lowerFoldingWindow.getColor();
-		Color combined = colorModel.mixTwoColors(u, l);
-		combinedColorPanel.setCombinedColor(combined);
+	public WorkPanel getLowerPanel() {
+		return lowerWorkPanel;
 	}
 
-	public void sendSelectedFPtoUP() {
-		if (proteinHistoryList.getSelectedValue() != null) {
-			FoldedPolypeptide fp =
-				(FoldedPolypeptide) proteinHistoryList.getSelectedValue();
-			upperFoldingWindow.setFoldedPolypeptide(fp);
-		}
+	public WorkPanel getUpperPanel() {
+		return upperWorkPanel;
 	}
 
-	public void sendSelectedFPtoLP() {
-		if (proteinHistoryList.getSelectedValue() != null){
-			FoldedPolypeptide fp =
-				(FoldedPolypeptide) proteinHistoryList.getSelectedValue();
-			lowerFoldingWindow.setFoldedPolypeptide(fp);
-		}
+	public void sendToLowerPanel(Object o) {
+		lowerWorkPanel.setFoldedPolypeptide((FoldedPolypeptide)o);
 	}
 
-
-	
-	public void loadOrganism(Organism o) {
-		upperFoldingWindow.setFoldedPolypeptide(
-				o.getGene1().getFoldedPolypeptide());
-		lowerFoldingWindow.setFoldedPolypeptide(
-				o.getGene2().getFoldedPolypeptide());
-	}
-
-	public void setButtonsEnabled(boolean b) {
-		proteinHistListControlPanel.setButtonsEnabled(b);
+	public void sendToUpperPanel(Object o) {
+		upperWorkPanel.setFoldedPolypeptide((FoldedPolypeptide)o);
 	}
 }
+

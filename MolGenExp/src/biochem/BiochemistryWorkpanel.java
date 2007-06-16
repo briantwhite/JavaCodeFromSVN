@@ -24,10 +24,11 @@ import molGenExp.ColorModel;
 import molGenExp.MolGenExp;
 import molGenExp.ProteinImageFactory;
 import molGenExp.ProteinImageSet;
+import molGenExp.WorkPanel;
 
-public class FoldingWindow extends JPanel {
+public class BiochemistryWorkpanel extends WorkPanel {
 
-	final Protex protex;
+	final BiochemistryWorkbench protex;
 
 	JPanel proteinPanel;
 	JTextField proteinSequence;
@@ -57,7 +58,7 @@ public class FoldingWindow extends JPanel {
 	private static int thumbHeight = 70;
 
 
-	public FoldingWindow(String title, final Protex protex, final ColorModel colorModel) {
+	public BiochemistryWorkpanel(String title, final BiochemistryWorkbench protex, final ColorModel colorModel) {
 		super();
 		this.colorModel = colorModel;
 		this.setLayout(new BorderLayout());
@@ -138,7 +139,7 @@ public class FoldingWindow extends JPanel {
 						new ImageIcon(images.getFullScaleImage()),
 						new ImageIcon(images.getThumbnailImage()), 
 						proteinColor);
-				protex.addFoldedToHistList(foldedPolypeptide);
+				protex.addToHistoryList(foldedPolypeptide);
 
 				foldButton.setEnabled(false);
 				foldedProtein.setBackground(Color.lightGray);

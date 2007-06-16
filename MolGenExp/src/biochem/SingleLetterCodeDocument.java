@@ -6,7 +6,7 @@ import javax.swing.text.DefaultStyledDocument;
 
 public class SingleLetterCodeDocument extends DefaultStyledDocument {
 	final String allowedLetters = "ACDEFGHIKLMNPQRSTVWY";
-	private FoldingWindow foldingWindow = null;
+	private BiochemistryWorkpanel foldingWindow = null;
 	
 	public void insertString(int offs, String str, AttributeSet a) 
 	throws BadLocationException {
@@ -40,7 +40,7 @@ public class SingleLetterCodeDocument extends DefaultStyledDocument {
 		foldingWindow.aaSeqChanged();
 	}
 	
-	public void setLinkedFoldingWindow(FoldingWindow fw) {
+	public void setLinkedFoldingWindow(BiochemistryWorkpanel fw) {
 		foldingWindow = fw;
 	}
 	

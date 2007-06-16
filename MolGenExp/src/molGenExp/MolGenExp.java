@@ -53,7 +53,8 @@ import match.DNAidentity;
 import match.NWSmart;
 import molBiol.Genex;
 import biochem.AminoAcid;
-import biochem.Protex;
+import biochem.BiochemistryWorkbench;
+import biochem.BiochemistryWorkpanel;
 import biochem.StandardTable;
 
 
@@ -113,7 +114,7 @@ public class MolGenExp extends JFrame {
 	private OrganismAndLocation oal1;
 	private OrganismAndLocation oal2;
 
-	private Protex protex;
+	private BiochemistryWorkbench protex;
 	private Genex genex;
 
 	private File greenhouseDirectory;
@@ -207,7 +208,7 @@ public class MolGenExp extends JFrame {
 		oal2 = null;
 
 
-		protex = new Protex(this);
+		protex = new BiochemistryWorkbench(this);
 		explorerPane.addTab("Biochemistry", protex);
 
 		genex = new Genex(this);
@@ -301,12 +302,12 @@ public class MolGenExp extends JFrame {
 					c.setContents(s, null);
 					return;
 				}
-				if (selectedPane.equals("class biochem.Protex")) {
+				if (selectedPane.equals("class biochem.ProteinWorkbench")) {
 					Clipboard c = 
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
 						new StringSelection(
-								protex.getUpperFoldingWindow().getAaSeq());
+								((BiochemistryWorkpanel)(protex.getUpperPanel())).getAaSeq());
 					c.setContents(s, null);
 					return;
 				}
@@ -325,12 +326,12 @@ public class MolGenExp extends JFrame {
 					c.setContents(s, null);
 					return;
 				}
-				if (selectedPane.equals("class biochem.Protex")) {
+				if (selectedPane.equals("class biochem.ProteinWorkbench")) {
 					Clipboard c = 
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
 						new StringSelection(
-								protex.getLowerFoldingWindow().getAaSeq());
+								((BiochemistryWorkpanel)(protex.getLowerPanel())).getAaSeq());
 					c.setContents(s, null);
 					return;
 				}
@@ -471,9 +472,9 @@ public class MolGenExp extends JFrame {
 		}
 		return new ProteinSequenceComparator(
 				convert3LetterTo1Letter(
-						protex.getUpperFoldingWindow().getAaSeq()),
+						((BiochemistryWorkpanel)(protex.getUpperPanel())).getAaSeq()),
 						convert3LetterTo1Letter(
-								protex.getLowerFoldingWindow().getAaSeq()),
+								((BiochemistryWorkpanel)(protex.getLowerPanel())).getAaSeq()),
 								sampleProtein,
 								clipSeq);
 
@@ -502,7 +503,7 @@ public class MolGenExp extends JFrame {
 		return genex;
 	}
 
-	public Protex getProtex() {
+	public BiochemistryWorkbench getProtex() {
 		return protex;
 	}
 
@@ -530,7 +531,7 @@ public class MolGenExp extends JFrame {
 			genex.loadOrganism(o);
 		}
 
-		if (selectedPane.equals("class biochem.Protex")) {
+		if (selectedPane.equals("class biochem.BiochemistryWorkbench")) {
 			protex.loadOrganism(o);
 		}
 	}

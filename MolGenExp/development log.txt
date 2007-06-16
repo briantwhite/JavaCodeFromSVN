@@ -135,5 +135,9 @@ made superclasses of major types:
 
 implemented these for genetics first.
 
+got proteins to work - but it broke 
+	- the organisms in the greenhouse (need to remake)
+	- the comparator (check the name of the class it looks for)
+
 
 
