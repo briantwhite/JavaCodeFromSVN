@@ -139,5 +139,45 @@ got proteins to work - but it broke
 	- the organisms in the greenhouse (need to remake)
 	- the comparator (check the name of the class it looks for)
 
+6/17/07
+continued working
+had to remake greenhouse
+- working on comparator bug...
+need to put in mge and SequenceComparatorMenuItemListener
+to look for class biochem.BiochemistryWorkbench
+
+now OK
+
+implement refactoring and double-click hist list items for genex
+
+NOTE!!! - the DNA hist list used to allow you to double-click to show the folded protein
+now, we'll need to nuke this feature or make a special menu item....
+
+this was the code:
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					ExpressedGene eg = 
+						(ExpressedGene)getSelectedValue();
+					FoldedPolypeptide fp = eg.getFoldedPolypeptide();
+					JLabel colorChipForDialog = new JLabel("     ");
+					colorChipForDialog.setOpaque(true);
+					colorChipForDialog.setBackground(fp.getColor());
+					colorChipForDialog.setBorder(new LineBorder(Color.BLACK));
+
+					Object[] options = {"OK",
+							new JLabel("Color:"),
+							colorChipForDialog
+					};
+					JOptionPane.showOptionDialog(
+							mge,
+							"",
+							"Protein Structure",
+							JOptionPane.YES_OPTION,
+							JOptionPane.INFORMATION_MESSAGE,
+							fp.getFullSizePic(),
+							options,
+							options[0]);
+				}
+			}
 
 

@@ -29,7 +29,7 @@ public class DNAHistoryCellRenderer extends JButton
 		button.setBackground(gene.getFoldedPolypeptide().getColor());
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));
-		button.setToolTipText(gene.getFoldedPolypeptide().getAaSeq());
+		button.setToolTipText(gene.getToolTipText());
 		return button;
 	}
 

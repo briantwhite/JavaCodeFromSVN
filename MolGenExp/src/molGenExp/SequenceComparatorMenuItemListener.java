@@ -16,14 +16,14 @@ public class SequenceComparatorMenuItemListener implements ActionListener {
 	
 	public void actionPerformed(ActionEvent arg0) {
 		String selectedPane = mge.getCurrentWorkingPanel();
-		if (selectedPane.equals("class molBiol.Genex")) {
+		if (selectedPane.equals("class molBiol.MolBiolWorkbench")) {
 			DNASequenceComparator dsc = mge.getDNASequences();
 			if (dsc != null) {
 				dsc.compareSequences(seq1ID, seq2ID);
 			}
 			return;
 		}
-		if (selectedPane.equals("class biochem.Protex")) {
+		if (selectedPane.equals("class biochem.BiochemistryWorkbench")) {
 			ProteinSequenceComparator psc = mge.getProteinSequences();
 			if (psc != null) {
 				psc.compareSequences(seq1ID, seq2ID);

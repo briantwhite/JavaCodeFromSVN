@@ -51,7 +51,8 @@ import javax.swing.event.ChangeListener;
 import match.Blosum50;
 import match.DNAidentity;
 import match.NWSmart;
-import molBiol.Genex;
+import molBiol.MolBiolWorkbench;
+import molBiol.MolBiolWorkpanel;
 import biochem.AminoAcid;
 import biochem.BiochemistryWorkbench;
 import biochem.BiochemistryWorkpanel;
@@ -115,7 +116,7 @@ public class MolGenExp extends JFrame {
 	private OrganismAndLocation oal2;
 
 	private BiochemistryWorkbench protex;
-	private Genex genex;
+	private MolBiolWorkbench genex;
 
 	private File greenhouseDirectory;
 
@@ -211,7 +212,7 @@ public class MolGenExp extends JFrame {
 		protex = new BiochemistryWorkbench(this);
 		explorerPane.addTab("Biochemistry", protex);
 
-		genex = new Genex(this);
+		genex = new MolBiolWorkbench(this);
 		explorerPane.addTab("Molecular Biology", genex);
 
 		innerPanel.add(explorerPane);
@@ -294,15 +295,15 @@ public class MolGenExp extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				String selectedPane = 
 					explorerPane.getSelectedComponent().getClass().toString();
-				if (selectedPane.equals("class molBiol.Genex")) {
+				if (selectedPane.equals("class molBiol.MolBiolWorkbench")) {
 					Clipboard c = 
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
-						new StringSelection(genex.getUpperGEW().getDNA());
+						new StringSelection(((MolBiolWorkpanel)genex.getUpperPanel()).getDNA());
 					c.setContents(s, null);
 					return;
 				}
-				if (selectedPane.equals("class biochem.ProteinWorkbench")) {
+				if (selectedPane.equals("class biochem.BiochemistryWorkbench")) {
 					Clipboard c = 
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
@@ -318,15 +319,15 @@ public class MolGenExp extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				String selectedPane = 
 					explorerPane.getSelectedComponent().getClass().toString();
-				if (selectedPane.equals("class molBiol.Genex")) {
+				if (selectedPane.equals("class molBiol.MolBiolWorkbench")) {
 					Clipboard c = 
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
-						new StringSelection(genex.getLowerGEW().getDNA());
+						new StringSelection(((MolBiolWorkpanel)genex.getLowerPanel()).getDNA());
 					c.setContents(s, null);
 					return;
 				}
-				if (selectedPane.equals("class biochem.ProteinWorkbench")) {
+				if (selectedPane.equals("class biochem.BiochemistryWorkbench")) {
 					Clipboard c = 
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
@@ -439,8 +440,8 @@ public class MolGenExp extends JFrame {
 				clipSeq = "";
 			}
 		}
-		return new DNASequenceComparator(genex.getUpperGEW().getDNA(),
-				genex.getLowerGEW().getDNA(),
+		return new DNASequenceComparator(((MolBiolWorkpanel)genex.getUpperPanel()).getDNA(),
+				((MolBiolWorkpanel)genex.getLowerPanel()).getDNA(),
 				sampleDNA,
 				clipSeq);
 	}
@@ -499,7 +500,7 @@ public class MolGenExp extends JFrame {
 		return colorModel;
 	}
 
-	public Genex getGenex() {
+	public MolBiolWorkbench getGenex() {
 		return genex;
 	}
 
@@ -527,7 +528,7 @@ public class MolGenExp extends JFrame {
 		String selectedPane = 
 			explorerPane.getSelectedComponent().getClass().toString();
 
-		if (selectedPane.equals("class molBiol.Genex")) {
+		if (selectedPane.equals("class molBiol.MolBiolWorkbench")) {
 			genex.loadOrganism(o);
 		}
 
