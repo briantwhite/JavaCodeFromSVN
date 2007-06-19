@@ -19,14 +19,15 @@ public class HistoryList extends JList {
 
 	public HistoryList(ListModel dataModel, 
 			final Workbench workbench,
-			ListCellRenderer historyCellRenderer) {
+			ListCellRenderer historyCellRenderer,
+			boolean isMolBiol) {
 		super(dataModel);
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setCellRenderer(historyCellRenderer);
 		histListDataModel = (DefaultListModel)dataModel;
 		this.setFixedCellWidth(20);
 
-		histListPopupMenu = new HistListPopupMenu(this, workbench);
+		histListPopupMenu = new HistListPopupMenu(this, workbench, isMolBiol);
 
 		this.addMouseListener(new MouseAdapter() {
 			

@@ -74,7 +74,10 @@ public class BiochemistryWorkbench extends Workbench {
 				BorderFactory.createTitledBorder("History List"));
 		histListPanel.setLayout(new BoxLayout(histListPanel, BoxLayout.Y_AXIS));
 		proteinHistoryList = new HistoryList(
-				new DefaultListModel(), this, new ProteinHistoryCellRenderer() );
+				new DefaultListModel(), 
+				this, 
+				new ProteinHistoryCellRenderer(),
+				false);
 		histListScrollPane = new JScrollPane(proteinHistoryList);
 		histListPanel.add(histListScrollPane);
 

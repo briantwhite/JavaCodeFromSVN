@@ -11,17 +11,45 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
+import molBiol.MolBiolWorkbench;
+
 public class HistListPopupMenu extends JPopupMenu {
 	
+	JMenuItem showProteinItem;
 	JMenuItem toUpperItem;
 	JMenuItem toLowerItem;
 	JMenuItem addNotesItem;
 	JMenuItem deleteItem;
 	
-	public HistListPopupMenu(final JList list, final Workbench workbench) {
+	public HistListPopupMenu(final JList list, final Workbench workbench, boolean isMolBiol) {
 		super();
-		setupList();
+		if (isMolBiol) {
+			showProteinItem = new JMenuItem("Show close-up of protein structure");
+		}
+		toUpperItem = new JMenuItem("Send to Upper Panel");
+		toLowerItem = new JMenuItem("Send to Lower Panel");
+		addNotesItem = new JMenuItem("Add Notes...");
+		deleteItem = new JMenuItem("Delete from History List");
 		
+		if(isMolBiol) {
+			this.add(showProteinItem);
+			this.addSeparator();
+		}
+		this.add(toUpperItem);
+		this.add(toLowerItem);
+		this.addSeparator();
+		this.add(addNotesItem);
+		this.addSeparator();
+		this.add(deleteItem);
+		
+		if(isMolBiol) {
+			showProteinItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					((MolBiolWorkbench)workbench).showProteinCloseUp((((HistoryList)list).getSelectedValue()));
+				}
+			});
+		}
+
 		toUpperItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				workbench.sendToUpperPanel((((HistoryList)list).getSelectedValue()));
@@ -59,18 +87,4 @@ public class HistListPopupMenu extends JPopupMenu {
 		});
 		
 	}
-	
-	private void setupList() {
-		toUpperItem = new JMenuItem("Send to Upper Panel");
-		toLowerItem = new JMenuItem("Send to Lower Panel");
-		addNotesItem = new JMenuItem("Add Notes...");
-		deleteItem = new JMenuItem("Delete from History List");
-		this.add(toUpperItem);
-		this.add(toLowerItem);
-		this.addSeparator();
-		this.add(addNotesItem);
-		this.addSeparator();
-		this.add(deleteItem);
-	}
-
 }
