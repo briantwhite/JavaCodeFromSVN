@@ -11,7 +11,7 @@ import molGenExp.MolGenExp;
  * @author brian
  *
   */
-public class GenexParams {
+public class MolBiolParams {
 	String defaultDNA;
 	String promoterSequence;
 	String terminatorSequence;
@@ -20,7 +20,7 @@ public class GenexParams {
 	String polyATail;
 
 
-	public GenexParams() {
+	public MolBiolParams() {
 		defaultDNA = MolGenExp.sampleDNA;
 		promoterSequence = "TATAA";
 		terminatorSequence = "GGGGG";

@@ -100,7 +100,7 @@ public class MutantGenerator implements Runnable {
 		}
 		Gene newGene = 
 			new Gene(DNABuffer.toString(), 
-					gw.getMGE().getGenex().getParams());
+					gw.getMGE().getMolBiolWorkbench().getParams());
 		newGene.transcribe();
 		newGene.process();
 		newGene.translate();

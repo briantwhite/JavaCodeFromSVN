@@ -109,14 +109,14 @@ public class MolGenExp extends JFrame {
 
 	JTabbedPane explorerPane;
 	
-	private GeneticsWorkbench gw;
+	private GeneticsWorkbench geneticsWorkbench;
 
 	//for genetics only; the two selected organisms
 	private OrganismAndLocation oal1;
 	private OrganismAndLocation oal2;
 
-	private BiochemistryWorkbench protex;
-	private MolBiolWorkbench genex;
+	private BiochemistryWorkbench biochemistryWorkbench;
+	private MolBiolWorkbench molBiolWorkbench;
 
 	private File greenhouseDirectory;
 
@@ -198,22 +198,20 @@ public class MolGenExp extends JFrame {
 		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
 
 		explorerPane = new JTabbedPane();
-//		explorerPane.setSize(new Dimension(screenSize.width * 8/10,
-//		screenSize.height * 8/10));
 		
 		addToGreenhouseButton = new JButton("Add...");
 
-		gw = new GeneticsWorkbench(this);
-		explorerPane.addTab("Genetics", gw);
+		geneticsWorkbench = new GeneticsWorkbench(this);
+		explorerPane.addTab("Genetics", geneticsWorkbench);
 		oal1 = null;
 		oal2 = null;
 
 
-		protex = new BiochemistryWorkbench(this);
-		explorerPane.addTab("Biochemistry", protex);
+		biochemistryWorkbench = new BiochemistryWorkbench(this);
+		explorerPane.addTab("Biochemistry", biochemistryWorkbench);
 
-		genex = new MolBiolWorkbench(this);
-		explorerPane.addTab("Molecular Biology", genex);
+		molBiolWorkbench = new MolBiolWorkbench(this);
+		explorerPane.addTab("Molecular Biology", molBiolWorkbench);
 
 		innerPanel.add(explorerPane);
 
@@ -299,7 +297,7 @@ public class MolGenExp extends JFrame {
 					Clipboard c = 
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
-						new StringSelection(((MolBiolWorkpanel)genex.getUpperPanel()).getDNA());
+						new StringSelection(((MolBiolWorkpanel)molBiolWorkbench.getUpperPanel()).getDNA());
 					c.setContents(s, null);
 					return;
 				}
@@ -308,7 +306,7 @@ public class MolGenExp extends JFrame {
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
 						new StringSelection(
-								((BiochemistryWorkpanel)(protex.getUpperPanel())).getAaSeq());
+								((BiochemistryWorkpanel)(biochemistryWorkbench.getUpperPanel())).getAaSeq());
 					c.setContents(s, null);
 					return;
 				}
@@ -323,7 +321,7 @@ public class MolGenExp extends JFrame {
 					Clipboard c = 
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
-						new StringSelection(((MolBiolWorkpanel)genex.getLowerPanel()).getDNA());
+						new StringSelection(((MolBiolWorkpanel)molBiolWorkbench.getLowerPanel()).getDNA());
 					c.setContents(s, null);
 					return;
 				}
@@ -332,7 +330,7 @@ public class MolGenExp extends JFrame {
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
 						new StringSelection(
-								((BiochemistryWorkpanel)(protex.getLowerPanel())).getAaSeq());
+								((BiochemistryWorkpanel)(biochemistryWorkbench.getLowerPanel())).getAaSeq());
 					c.setContents(s, null);
 					return;
 				}
@@ -440,8 +438,8 @@ public class MolGenExp extends JFrame {
 				clipSeq = "";
 			}
 		}
-		return new DNASequenceComparator(((MolBiolWorkpanel)genex.getUpperPanel()).getDNA(),
-				((MolBiolWorkpanel)genex.getLowerPanel()).getDNA(),
+		return new DNASequenceComparator(((MolBiolWorkpanel)molBiolWorkbench.getUpperPanel()).getDNA(),
+				((MolBiolWorkpanel)molBiolWorkbench.getLowerPanel()).getDNA(),
 				sampleDNA,
 				clipSeq);
 	}
@@ -473,9 +471,9 @@ public class MolGenExp extends JFrame {
 		}
 		return new ProteinSequenceComparator(
 				convert3LetterTo1Letter(
-						((BiochemistryWorkpanel)(protex.getUpperPanel())).getAaSeq()),
+						((BiochemistryWorkpanel)(biochemistryWorkbench.getUpperPanel())).getAaSeq()),
 						convert3LetterTo1Letter(
-								((BiochemistryWorkpanel)(protex.getLowerPanel())).getAaSeq()),
+								((BiochemistryWorkpanel)(biochemistryWorkbench.getLowerPanel())).getAaSeq()),
 								sampleProtein,
 								clipSeq);
 
@@ -500,16 +498,16 @@ public class MolGenExp extends JFrame {
 		return colorModel;
 	}
 
-	public MolBiolWorkbench getGenex() {
-		return genex;
+	public MolBiolWorkbench getMolBiolWorkbench() {
+		return molBiolWorkbench;
 	}
 
-	public BiochemistryWorkbench getProtex() {
-		return protex;
+	public BiochemistryWorkbench getBiochemistryWorkbench() {
+		return biochemistryWorkbench;
 	}
 
-	public GeneticsWorkbench getGeneticsWorkshop() {
-		return gw;
+	public GeneticsWorkbench getGeneticsWorkbench() {
+		return geneticsWorkbench;
 	}
 
 	public Greenhouse getGreenhouse() {
@@ -529,11 +527,11 @@ public class MolGenExp extends JFrame {
 			explorerPane.getSelectedComponent().getClass().toString();
 
 		if (selectedPane.equals("class molBiol.MolBiolWorkbench")) {
-			genex.loadOrganism(o);
+			molBiolWorkbench.loadOrganism(o);
 		}
 
 		if (selectedPane.equals("class biochem.BiochemistryWorkbench")) {
-			protex.loadOrganism(o);
+			biochemistryWorkbench.loadOrganism(o);
 		}
 	}
 
@@ -638,7 +636,7 @@ public class MolGenExp extends JFrame {
 
 		case MOLECULAR_BIOLOGY:
 			//need to express and fold the proteins
-			genex.saveOrganismToGreenhouse();
+			molBiolWorkbench.saveOrganismToGreenhouse();
 			break;
 		}
 
@@ -790,23 +788,23 @@ public class MolGenExp extends JFrame {
 		switch (numSelectedOrgs) {
 		case 0:
 			addToGreenhouseButton.setEnabled(false);
-			gw.setCrossTwoButtonsEnabled(false);
-			gw.setSelfCrossButtonsEnabled(false);
-			gw.setMutateButtonsEnabled(false);
+			geneticsWorkbench.setCrossTwoButtonsEnabled(false);
+			geneticsWorkbench.setSelfCrossButtonsEnabled(false);
+			geneticsWorkbench.setMutateButtonsEnabled(false);
 			break;
 
 		case 1:
 			addToGreenhouseButton.setEnabled(true);
-			gw.setCrossTwoButtonsEnabled(false);
-			gw.setSelfCrossButtonsEnabled(true);
-			gw.setMutateButtonsEnabled(true);
+			geneticsWorkbench.setCrossTwoButtonsEnabled(false);
+			geneticsWorkbench.setSelfCrossButtonsEnabled(true);
+			geneticsWorkbench.setMutateButtonsEnabled(true);
 			break;
 
 		case 2:
 			addToGreenhouseButton.setEnabled(false);
-			gw.setCrossTwoButtonsEnabled(true);
-			gw.setSelfCrossButtonsEnabled(false);
-			gw.setMutateButtonsEnabled(false);
+			geneticsWorkbench.setCrossTwoButtonsEnabled(true);
+			geneticsWorkbench.setSelfCrossButtonsEnabled(false);
+			geneticsWorkbench.setMutateButtonsEnabled(false);
 			break;
 
 		}
@@ -814,12 +812,12 @@ public class MolGenExp extends JFrame {
 	
 	public void setDefaultSelectionSettings() {
 		greenhouse.setDefaultSelectionSettings();
-		gw.setDefaultSelectionSettings();
+		geneticsWorkbench.setDefaultSelectionSettings();
 	}
 	
 	public void setCustomSelectionSettings() {
 		greenhouse.setCustomSelectionSettings();
-		gw.setCustomSelectionSettings();
+		geneticsWorkbench.setCustomSelectionSettings();
 	}
 	
 	public void setAddToGreenhouseButtonEnabled(boolean b) {

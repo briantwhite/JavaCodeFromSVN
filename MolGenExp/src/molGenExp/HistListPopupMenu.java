@@ -20,16 +20,7 @@ public class HistListPopupMenu extends JPopupMenu {
 	
 	public HistListPopupMenu(final JList list, final Workbench workbench) {
 		super();
-		toUpperItem = new JMenuItem("Send to Upper Panel");
-		toLowerItem = new JMenuItem("Send to Lower Panel");
-		addNotesItem = new JMenuItem("Add Notes...");
-		deleteItem = new JMenuItem("Delete from History List");
-		this.add(toUpperItem);
-		this.add(toLowerItem);
-		this.addSeparator();
-		this.add(addNotesItem);
-		this.addSeparator();
-		this.add(deleteItem);
+		setupList();
 		
 		toUpperItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -67,6 +58,19 @@ public class HistListPopupMenu extends JPopupMenu {
 			}
 		});
 		
+	}
+	
+	private void setupList() {
+		toUpperItem = new JMenuItem("Send to Upper Panel");
+		toLowerItem = new JMenuItem("Send to Lower Panel");
+		addNotesItem = new JMenuItem("Add Notes...");
+		deleteItem = new JMenuItem("Delete from History List");
+		this.add(toUpperItem);
+		this.add(toLowerItem);
+		this.addSeparator();
+		this.add(addNotesItem);
+		this.addSeparator();
+		this.add(deleteItem);
 	}
 
 }

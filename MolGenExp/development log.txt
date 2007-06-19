@@ -180,4 +180,10 @@ this was the code:
 				}
 			}
 
-
+6/19/07
+- tried to fix genex bug: when you select a base off screen, it scrools back to show the first base
+ scrollRectToVisible should work, but it doesn't...
+ 
+ - refactoring:
+ 	- fix references to genex and protex to MolBiolWorkbench and BiochemistryWorkbench
+ 	
