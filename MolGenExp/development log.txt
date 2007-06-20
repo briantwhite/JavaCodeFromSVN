@@ -225,4 +225,10 @@ tried removing the serialVersionUID from Organism.java (that's the only place it
 NG
 
 try getting latest java...
+NG
+
+note that the errors are always the same - even when I change Organism.java
+java.io.InvalidClassException: javax.swing.ImageIcon$AccessibleImageIcon; local class incompatible: 
+   stream classdesc serialVersionUID = -3994512798706967451, local class serialVersionUID = -1903458698681874148
+
 
