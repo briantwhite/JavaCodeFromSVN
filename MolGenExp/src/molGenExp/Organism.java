@@ -13,7 +13,7 @@ import molBiol.ExpressedGene;
 
 public class Organism implements Serializable {
 	
-	static final long serialVersionUID = 8325366528314337126L;
+	static final long serialVersionUID = -3994512798706967451L;
 	private static int imageSize = 50; //size of image for greenhouse
 	private String name;
 	
