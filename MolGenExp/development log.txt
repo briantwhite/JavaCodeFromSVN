@@ -241,4 +241,16 @@ have a progress bar for this.
 this should be version 1.2
 set version # and made a version in CVS
 
+made mac and pc versions
+in mac version, used JarBundler to make a .app
+	right-click the .app
+	"view contents"
+	use bbedit to open Info.plist
+	add:
+		<key>CFBundleIdentifier</key>
+        <string>edu.umb.MGX</string>
+	now, this will act like a real application in the "restricted finder" list of applications
+
+
+
 
