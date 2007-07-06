@@ -42,16 +42,6 @@ public abstract class GridCanvas extends JPanel {
 
 	protected Polypeptide pp;
 
-	private static final Color COLOR_BACKGROUND = new Color((float) 0.7,
-			(float) 0.7, (float) 1.0);
-
-	private static final Color BLACK_BACKGROUND = new Color((int) 175,
-			(int) 175, (int) 175);
-
-	// careful here. 175 is half of 100-250
-
-	private boolean blackColoring; // flag for black / color coloring
-	
 	private JPanel parentPanel;
 	
 	private Dimension requiredCanvasSize;
@@ -64,7 +54,6 @@ public abstract class GridCanvas extends JPanel {
 
 	public GridCanvas(ColorModel colorModel) {
 		this.colorModel = colorModel;
-		blackColoring = FoldingManager.getInstance(colorModel).getBlackColoring();
 		requiredCanvasSize = new Dimension(0,0);
 	}
 	
@@ -194,17 +183,11 @@ public abstract class GridCanvas extends JPanel {
 		
 		ColorCoder cc = null;
 
-		if (blackColoring) {
-			setBackground(BLACK_BACKGROUND);
-			cc = new BlackColorCoder(pp.getTable().getContrastScaler());
-			g.setColor(BLACK_BACKGROUND);
+			setBackground(BiochemistryWorkbench.BACKGROUND_COLOR);
+			cc = new ShadingColorCoder(pp.getTable().getContrastScaler());
+			g.setColor(BiochemistryWorkbench.BACKGROUND_COLOR);
 			g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
-		} else {
-			setBackground(COLOR_BACKGROUND);
-			cc = new ColorColorCoder(pp.getTable().getContrastScaler());
-			g.setColor(COLOR_BACKGROUND);
-			g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
-		}
+		
 		
 		GridPoint[] spots = new GridPoint[numAcids];
 		AcidInChain[] acidsByZ = new AcidInChain[numAcids];
@@ -227,28 +210,53 @@ public abstract class GridCanvas extends JPanel {
 			g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
 			g.fillOval(here.x - r, here.y - r, 2 * r, 2 * r);
 			
-			if (blackColoring) {
-			// draws the circle, on top on the color disk
-			g.setColor(Color.black);
-			g.drawOval(here.x - r, here.y - r, 2 * r, 2 * r);
-			}
 		}
 				
 		// draw the backbone
-			g.setColor(Color.black);
-			for (int i = 0; i < numAcids; i++) {
-				AcidInChain a = pp.getAminoAcid(i);
-				int offset = getStringIndentationConstant(a.name, r);
-				g.setColor(colorModel.colorAaNameText(a.getAminoAcid()));
-				g.drawString(a.name, spots[i].x - offset, spots[i].y);
-				// string is drawn to an left offset from center of disk.;
-				g.drawString(a.getAbName(), spots[i].x - 2, spots[i].y + 12);
-				g.setColor(Color.BLACK);
-				if (i < numAcids - 1) {
-					g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
-							spots[i + 1].y);
-				}
+		for (int i = 0; i < numAcids; i++) {
+			AcidInChain a = pp.getAminoAcid(i);
+			int offset = getStringIndentationConstant(a.name, r);
+
+			// default color for names is white
+			g.setColor(Color.white)	;
+
+			//if philic - then add stuff
+			if (a.getName().equals("Arg") ||
+					a.getName().equals("Lys") ||
+					a.getName().equals("His")) {
+				g.setColor(Color.blue);
+				g.drawString("+", spots[i].x - 15, spots[i].y);
+				g.setColor(Color.black);
 			}
+
+			if (a.getName().equals("Asp") ||
+					a.getName().equals("Glu")) {
+				g.setColor(Color.red);
+				g.drawString("-", spots[i].x - 15, spots[i].y);
+				g.setColor(Color.black);
+			}
+
+			if (a.getName().equals("Asn") ||
+					a.getName().equals("Gln") ||
+					a.getName().equals("Ser") ||
+					a.getName().equals("Thr") ||
+					a.getName().equals("Tyr")) {
+				g.setColor(Color.green);
+				g.drawString("*", spots[i].x - 15, spots[i].y);
+				g.setColor(Color.BLACK);					
+			}
+
+			g.drawString(a.name, spots[i].x - offset, spots[i].y);
+			// string is drawn to an left offset from center of disk.;
+			g.drawString(a.getAbName(), spots[i].x - 2, spots[i].y + 12);
+			g.setColor(Color.magenta);
+
+			if (i < numAcids - 1) {
+				g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
+						spots[i + 1].y);
+			}
+		}
+
 	}
 
 

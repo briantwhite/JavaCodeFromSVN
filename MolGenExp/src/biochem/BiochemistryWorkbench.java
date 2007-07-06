@@ -25,6 +25,9 @@ import molGenExp.Workbench;
 
 public class BiochemistryWorkbench extends Workbench {
 
+	public static final Color BACKGROUND_COLOR = new Color((float) 0.7,
+			(float) 0.7, (float) 1.0);
+
 	private BiochemistryWorkpanel upperWorkPanel;
 	private BiochemistryWorkpanel lowerWorkPanel;
 	private HistoryList proteinHistoryList;

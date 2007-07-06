@@ -256,4 +256,11 @@ apply fixes from protex
 1) improved speed
 put in CVS
 
+2) changed color coding of amino acids in biochem workshop
+
+made version 1.3
+put in cvs
+tagged as version 1.3
+
+
 

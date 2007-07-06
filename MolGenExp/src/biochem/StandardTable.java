@@ -203,8 +203,8 @@ public class StandardTable extends AminoAcidTable  {
 		while (i.hasNext()) {
 			AcidInTable a = (AcidInTable) i.next();
 			a.probability /= ptotal;
-			a.a.setNormalizedHydrophobicIndex(a.a.getHydrophobicIndex()
-					/ maxEnergy);
+			a.a.setNormalizedHydrophobicIndex((a.a.getHydrophobicIndex() - minHI)
+					/ (maxHI - minHI));
 		}
 	}
 

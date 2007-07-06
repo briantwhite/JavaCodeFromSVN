@@ -79,7 +79,7 @@ public class AminoAcidPalette extends JPanel {
 
 	private AminoAcid[] list;
 
-	private ColorModel colorModel;
+	private boolean admin;
 	/**
 	 * Constructor
 	 * 
@@ -92,11 +92,11 @@ public class AminoAcidPalette extends JPanel {
 			ColorModel colorModel) {
 		super(new BorderLayout());
 		super.setPreferredSize(new Dimension(width, height));
-		super.setBackground(Color.white);
+		super.setBackground(BiochemistryWorkbench.BACKGROUND_COLOR);
 
 		this.row = row;
 		this.column = column;
-		this.colorModel = colorModel;
+		this.admin = admin;
 	}
 
 	/**
@@ -110,18 +110,51 @@ public class AminoAcidPalette extends JPanel {
 		rowHeight = columnWidth;
 		StandardTable table = new StandardTable();
 		list = table.getAllAcids();
-		ColorColorCoder cc = new ColorColorCoder(table.getContrastScaler()); ///
+		ColorCoder cc = new ShadingColorCoder(table.getContrastScaler()); ///
 		int x = 0;
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
 				AminoAcid a = list[x];
+				
+				int offset = getStringIndentationConstant(a.getName(), cellRadius);
+				int abOffset = getStringIndentationConstant(a.getAbName(), cellRadius);
+				
 				g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
 				g.fillOval(j * columnWidth, i * rowHeight, cellDiameter,
 						cellDiameter);
-				g.setColor(colorModel.colorAaNameText(a));
 
-				int offset = getStringIndentationConstant(a.getName(), cellRadius);
-				int abOffset = getStringIndentationConstant(a.getAbName(), cellRadius);
+				// default color for names is white
+				g.setColor(Color.white)	;
+				
+				//if philic - then add stuff
+				if (a.getName().equals("Arg") ||
+						a.getName().equals("Lys") ||
+						a.getName().equals("His")) {
+					g.setColor(Color.blue);
+					g.drawString("+", j * columnWidth + cellRadius - 15, i
+						* rowHeight + cellRadius);
+					g.setColor(Color.BLACK);
+				}
+				
+				if (a.getName().equals("Asp") ||
+						a.getName().equals("Glu")) {
+					g.setColor(Color.red);
+					g.drawString("-", j * columnWidth + cellRadius - 15, i
+						* rowHeight + cellRadius);
+					g.setColor(Color.BLACK);
+				}
+				
+				if (a.getName().equals("Asn") ||
+						a.getName().equals("Gln") ||
+						a.getName().equals("Ser") ||
+						a.getName().equals("Thr") ||
+						a.getName().equals("Tyr")) {
+					g.setColor(Color.green);
+					g.drawString("*", j * columnWidth + cellRadius - 15, i
+						* rowHeight + cellRadius);
+					g.setColor(Color.BLACK);					
+				}
+
 				g.drawString(a.getName(), j * columnWidth + cellRadius - offset, i
 						* rowHeight + cellRadius);
 				g.drawString(a.getAbName(), j * columnWidth + cellRadius - abOffset, i 
