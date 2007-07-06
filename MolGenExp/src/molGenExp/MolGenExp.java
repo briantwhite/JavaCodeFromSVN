@@ -87,7 +87,7 @@ public class MolGenExp extends JFrame {
 	private final static int BIOCHEMISTRY = 1;
 	private final static int MOLECULAR_BIOLOGY = 2;
 	
-	private final static String version = "1.3";
+	private final static String version = "1.3.1";
 	
 	public final static String sampleDNA = 
 		new String("CAGCTATAACCGAGATTGATGTCTAG"
@@ -243,6 +243,7 @@ public class MolGenExp extends JFrame {
 		
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+		rightPanel.setMaximumSize(new Dimension(120,1000));
 		rightPanel.add(Box.createRigidArea(new Dimension(100,1)));
 		addToGreenhouseButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		rightPanel.add(addToGreenhouseButton);
