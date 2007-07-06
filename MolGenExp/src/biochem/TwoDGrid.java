@@ -1,7 +1,7 @@
-// TwoDGrid.java
-//
-//
-// Copyright 2004, Ethan Bolker and Bogdan Calota
+//TwoDGrid.java
+
+
+//Copyright 2004, Ethan Bolker and Bogdan Calota
 /* 
  * License Information
  * 
@@ -147,44 +147,20 @@ public abstract class TwoDGrid extends Grid {
 				AcidInChain ac = get(nextCell(allDirections[d], a.xyz));
 				if (ac == null) {
 					free++;
-				}
-				//	if(ac!=null)
-				//	System.out.println("protein:"+ac.getName());
-				if ((int) acids[i].gethydrogenbondIndex() == 1) {
-					if (ac != null) {
-						//	System.out.println("protein:"+ac.getName());
-						if ((int) ac.gethydrogenbondIndex() == 1) {
-							hbondContacts++;
-							//		System.out.println("HBond:" + hbondContacts);
-						}
-					}
-				}
-				if ((int) acids[i].getionicIndex() == 1) {
-					if (ac != null) {
-						//	System.out.println("protein:"+ac.getName());
-						if ((int) ac.getionicIndex() == 1) {
-							ionicInteractions++;
-							//	System.out.println("Ionic Bond:" +
-							// ionicInteractions);
-						} else if ((int) ac.getionicIndex() == -1) {
-							ionicInteractions--;
-							//	System.out.println("Ionic Bond:" +
-							// ionicInteractions);
-						}
-					}
-				}
-				if ((int) acids[i].getionicIndex() == -1) {
-					if (ac != null) {
-						if ((int) ac.getionicIndex() == -1) {
-							ionicInteractions++;
-						} else if ((int) ac.getionicIndex() == 1) {
-							ionicInteractions--;
-						}
-					}
+				} else {
+					//add to H-bond contacts if both indices are 1
+					hbondContacts = hbondContacts + 
+					(a.gethydrogenbondIndex() * ac.gethydrogenbondIndex());
+
+					//subtract from ionic bond index if both have opposite signs
+					ionicInteractions = ionicInteractions - 
+					(a.getionicIndex() * ac.getionicIndex());
+
 				}
 			}
-			energy += free * a.hydrophobicIndex * hpIndex - hbondContacts
-					* hIndex + ionicInteractions * iIndex;
+			energy += free * a.hydrophobicIndex * hpIndex 
+			- hbondContacts * hIndex 
+			- ionicInteractions * iIndex;
 			freeEdges += free;
 		}
 		return energy;

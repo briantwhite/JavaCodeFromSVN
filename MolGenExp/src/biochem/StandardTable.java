@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
+
 /**
  * Model the standard table of amino acids.
  */
@@ -33,26 +34,26 @@ public class StandardTable extends AminoAcidTable  {
 		table = new TreeMap();
 		abNameTable = new TreeMap();
 		try {
-			add(new AminoAcid("R", "Arg", -15.86, 1.0, 1.0), 0.057);
-			add(new AminoAcid("D", "Asp", -9.66, 1.0, -1.0), 0.053);
-			add(new AminoAcid("E", "Glu", -7.75, 1.0, -1.0), 0.062);
-			add(new AminoAcid("N", "Asn", -7.58, 1.0, 0.0), 0.044);
-			add(new AminoAcid("K", "Lys", -6.49, 1.0, 1.0), 0.057);
-			add(new AminoAcid("Q", "Gln", -6.48, 1.0, 0.0), 0.040);
-			add(new AminoAcid("H", "His", -5.60, 1.0, 1.0), 0.022);
-			add(new AminoAcid("S", "Ser", -4.34, 1.0, 0.0), 0.069);
-			add(new AminoAcid("T", "Thr", -3.51, 1.0, 0.0), 0.058);
-			add(new AminoAcid("Y", "Tyr", -1.08, 1.0, 0.0), 0.032);
-			add(new AminoAcid("G", "Gly", 0.00, 0.0, 0.0), 0.072);
-			add(new AminoAcid("P", "Pro", 0.01, 0.0, 0.0), 0.051); // check value
-			add(new AminoAcid("C", "Cys", 0.34, 0.0, 0.0), 0.017);
-			add(new AminoAcid("A", "Ala", 0.87, 0.0, 0.0), 0.083);
-			add(new AminoAcid("W", "Trp", 1.39, 0.0, 0.0), 0.013);
-			add(new AminoAcid("M", "Met", 1.41, 0.0, 0.0), 0.024);
-			add(new AminoAcid("F", "Phe", 2.04, 0.0, 0.0), 0.039);
-			add(new AminoAcid("V", "Val", 3.10, 0.0, 0.0), 0.066);
-			add(new AminoAcid("I", "Ile", 3.98, 0.0, 0.0), 0.052);
-			add(new AminoAcid("L", "Leu", 3.98, 0.0, 0.0), 0.090);
+			add(new AminoAcid("R", "Arg", -15.86, 1, 1), 0.057);
+			add(new AminoAcid("D", "Asp", -9.66, 1, -1), 0.053);
+			add(new AminoAcid("E", "Glu", -7.75, 1, -1), 0.062);
+			add(new AminoAcid("N", "Asn", -7.58, 1, 0), 0.044);
+			add(new AminoAcid("K", "Lys", -6.49, 1, 1), 0.057);
+			add(new AminoAcid("Q", "Gln", -6.48, 1, 0), 0.040);
+			add(new AminoAcid("H", "His", -5.60, 1, 1), 0.022);
+			add(new AminoAcid("S", "Ser", -4.34, 1, 0), 0.069);
+			add(new AminoAcid("T", "Thr", -3.51, 1, 0), 0.058);
+			add(new AminoAcid("Y", "Tyr", -1.08, 1, 0), 0.032);
+			add(new AminoAcid("G", "Gly", 0.00, 0, 0), 0.072);
+			add(new AminoAcid("P", "Pro", 0.01, 0, 0), 0.051); // check value
+			add(new AminoAcid("C", "Cys", 0.34, 0, 0), 0.017);
+			add(new AminoAcid("A", "Ala", 0.87, 0, 0), 0.083);
+			add(new AminoAcid("W", "Trp", 1.39, 0, 0), 0.013);
+			add(new AminoAcid("M", "Met", 1.41, 0, 0), 0.024);
+			add(new AminoAcid("F", "Phe", 2.04, 0, 0), 0.039);
+			add(new AminoAcid("V", "Val", 3.10, 0, 0), 0.066);
+			add(new AminoAcid("I", "Ile", 3.98, 0, 0), 0.052);
+			add(new AminoAcid("L", "Leu", 3.98, 0, 0), 0.090);
 		} catch (FoldingException e) {
 			System.err.println("shouldn't get here");
 			e.printStackTrace();

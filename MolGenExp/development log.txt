@@ -251,6 +251,9 @@ in mac version, used JarBundler to make a .app
         <string>edu.umb.MGX</string>
 	now, this will act like a real application in the "restricted finder" list of applications
 
-
+7/6/07
+apply fixes from protex
+1) improved speed
+put in CVS
 
 

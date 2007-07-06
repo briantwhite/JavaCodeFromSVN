@@ -91,11 +91,11 @@ public class AcidInChain implements Serializable {
 		return a.getHydrophobicIndex();
 	}
 
-	public double gethydrogenbondIndex() {
+	public int gethydrogenbondIndex() {
 		return a.gethydrogenbondIndex();
 	}
 
-	public double getionicIndex() {
+	public int getionicIndex() {
 		return a.getionicIndex();
 	}
 

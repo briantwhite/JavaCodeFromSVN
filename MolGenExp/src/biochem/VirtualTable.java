@@ -69,8 +69,8 @@ public class VirtualTable extends AminoAcidTable {
 			double hydrophobicIndex = (new Double(name)).doubleValue();
 
 			//Added on 10/17/2004 by Namita and Ruchi
-			double hydrogenbondIndex = (new Double(name)).doubleValue();
-			double ionicIndex = (new Double(name)).doubleValue();
+			int hydrogenbondIndex = (new Integer(name)).intValue();
+			int ionicIndex = (new Integer(name)).intValue();
 
 			updateMax(hydrophobicIndex);
 			return new AminoAcid(hydrophobicIndex, hydrogenbondIndex,

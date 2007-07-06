@@ -34,9 +34,9 @@ public class AminoAcid implements Serializable {
 	 */
 	protected double hydrophobicIndex;
 
-	protected double hydrogenbondIndex; //Added by NR
+	protected int hydrogenbondIndex; //Added by NR
 
-	protected double ionicIndex; //Added by NR
+	protected int ionicIndex; //Added by NR
 
 	/**
 	 * The hydrophobic index normalized to have a value between +-1, so suitable
@@ -45,7 +45,7 @@ public class AminoAcid implements Serializable {
 	private float normalizedHydrophobicIndex;
 
 	public AminoAcid(String abName, String name, double hydrophobicIndex,
-			double hydrogenbondIndex, double ionicIndex) {
+			int hydrogenbondIndex, int ionicIndex) {
 		this.abName = abName;
 		this.name = name;
 		this.hydrophobicIndex = hydrophobicIndex;
@@ -57,8 +57,8 @@ public class AminoAcid implements Serializable {
 	/**
 	 * The default name in the hydroPhobicIndex, as a String.
 	 */
-	public AminoAcid(double hydrophobicIndex, double hydrogenbondIndex,
-			double ionicIndex) {
+	public AminoAcid(double hydrophobicIndex, int hydrogenbondIndex,
+			int ionicIndex) {
 		this("", "" + hydrophobicIndex, hydrophobicIndex, hydrogenbondIndex,
 				ionicIndex);
 	}
@@ -67,11 +67,11 @@ public class AminoAcid implements Serializable {
 		return hydrophobicIndex;
 	}
 
-	public double gethydrogenbondIndex() {
+	public int gethydrogenbondIndex() {
 		return hydrogenbondIndex;
 	}
 
-	public double getionicIndex() {
+	public int getionicIndex() {
 		return ionicIndex;
 	}
 
