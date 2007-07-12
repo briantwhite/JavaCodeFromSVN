@@ -71,7 +71,7 @@ import javax.swing.text.html.HTMLDocument;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Nikunj Koolar
- * @version 1.0 $Id: VGLMainApp.java,v 1.11 2006-09-07 16:42:15 brian Exp $
+ * @version 1.0 $Id: VGLMainApp.java,v 1.12 2007-07-12 19:25:55 brian Exp $
  */
 public class VGLMainApp extends JApplet {
 	/**
@@ -109,9 +109,9 @@ public class VGLMainApp extends JApplet {
 	private static final String m_SaveToServerScript = "http://intro.bio.umb.edu/cgi-bin/saveWork.pl";
 	
 	/**
-	 * test file on 'save to server' server - should be downloadable if server is available
+	 * script on server to get list of sections available for saving work
 	 */
-	private static final String m_SaveToServerTestFile = "http://intro.bio.umb.edu/111-112/";
+	private static final String m_GetSectionListScript = "http://intro.bio.umb.edu/cgi-bin/getSectionList.pl";
 
 	/**
 	 * The collection of Cage UIs associated with the current problem
@@ -777,7 +777,7 @@ public class VGLMainApp extends JApplet {
 	 */
 	private void aboutVGL() {
 		JOptionPane.showMessageDialog(this, m_ProgramId + "\n"
-				+ "Release Version 1.4.3\n" + "Copyright 2006\n" + "VGL Team.\n"
+				+ "Release Version 1.4.4\n" + "Copyright 2007\n" + "VGL Team.\n"
 				+ "All Rights Reserved\n" + "GNU General Public License\n"
 				+ "http://www.gnu.org/copyleft/gpl.html",
 				"About Virtual Genetics Lab...",
@@ -1008,28 +1008,34 @@ public class VGLMainApp extends JApplet {
 	 */
 	private void saveToServer() {
 		// start by testing for server availablilty
-		URL serverTestURL = null;
+		URL getSectionListURL = null;
 		try {
-			serverTestURL = new URL(m_SaveToServerTestFile);
+			getSectionListURL = new URL(m_GetSectionListScript);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		
-		String receivedLine = null;
+		String serverResponseLine = new String("");
+		ArrayList sectionsAvailable = new ArrayList();
+		sectionsAvailable.add("Choose...");
+		
+		BufferedReader fromServerStream;
 		try {
-			URLConnection serverTestConnection = serverTestURL.openConnection();
-			BufferedReader testReader = new BufferedReader(new InputStreamReader(
-					serverTestConnection.getInputStream()));
-			receivedLine = testReader.readLine();
-		}
-		catch (IOException e) {
-		}
-		if (receivedLine == null) {
+			URLConnection serverConnection = getSectionListURL.openConnection();
+			fromServerStream = new BufferedReader(new InputStreamReader(
+					serverConnection.getInputStream()));
+			while (null != ((serverResponseLine = fromServerStream.readLine()))) {
+				sectionsAvailable.add(serverResponseLine);
+			}
+		} catch (IOException e5) {
 			JOptionPane.showMessageDialog(m_DialogFrame,
-				    "Unable to contact the server.",
+				    "Server not responding to transmission.\n" + e5.toString(),
 				    "Connection Error",
-				    JOptionPane.ERROR_MESSAGE);
-			return;
+				    JOptionPane.ERROR_MESSAGE);					
+		}
+		String[] sections = new String[sectionsAvailable.size()];
+		for (int i = 0; i < sectionsAvailable.size(); i++) {
+			sections[i] = (String)sectionsAvailable.get(i);
 		}
 		
 		//ok, so the server is available, let's try to save it
@@ -1037,9 +1043,6 @@ public class VGLMainApp extends JApplet {
 		saveToServerDialog.getContentPane().setLayout(new GridLayout(3,1));
 		
 		final JTextField proposedFileName = new JTextField(25);
-		String[] sections = {"Choose...", "Section01", "Section02", "Section03", "Section04",
-				"Section05", "Section06", "Section07", "Section08", "Section09", "Section10"	,
-				"Section11", "Section12"};
 		final JComboBox sectionList = new JComboBox(sections);
 		final JPasswordField password = new JPasswordField(10);
 		JButton cancelButton = new JButton("Cancel");
