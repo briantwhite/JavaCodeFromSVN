@@ -1,6 +1,9 @@
+import java.io.IOException;
+
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 	
 public class PictureCanvas extends Canvas {
 
@@ -16,6 +19,14 @@ public class PictureCanvas extends Canvas {
 		
 		g.setColor(0x00ff00);
 		g.drawString(text, 0, 0, g.TOP|g.LEFT);
+		
+		try {
+			g.drawImage(Image.createImage("/images/test1.png"), 20, 20, 
+					Graphics.TOP|Graphics.LEFT);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setString(String s) {

@@ -9,3 +9,27 @@ to get from CVS
 - check out as
 - select C:/WTK25/apps
 - it will expand into C:/WTK25/apps/OrgoGame
+
+to include images, will need to make a jar
+created classes/images
+created build.xml
+- just to make jar
+ 
+not working - even though the .jad talks about OrgoGame.jar
+it does not use that when running, it uses the classes in classes/
+not the jar
+
+punted
+
+just get it running for now
+
+put images in classes/images & see if it works
+
+it does
+
+to make pix:
+- in mac, run chem draw
+- copy
+- new from clipboard in graphicconverter
+- save to desktop
+- drag to images folder in parallels
