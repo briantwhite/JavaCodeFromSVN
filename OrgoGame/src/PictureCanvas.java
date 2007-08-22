@@ -21,7 +21,7 @@ public class PictureCanvas extends Canvas {
 		g.drawString(text, 0, 0, g.TOP|g.LEFT);
 		
 		try {
-			g.drawImage(Image.createImage("/images/test1.png"), 20, 20, 
+			g.drawImage(Image.createImage("/images/mol1.png"), 20, 20, 
 					Graphics.TOP|Graphics.LEFT);
 
 		} catch (IOException e) {
