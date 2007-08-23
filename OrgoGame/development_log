@@ -33,3 +33,6 @@ to make pix:
 - new from clipboard in graphicconverter
 - save to desktop
 - drag to images folder in parallels
+
+got it to load images into array
+made first State: ReactantState

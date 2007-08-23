@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Random;
 
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -10,34 +11,46 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 public class OrgoGame extends MIDlet implements CommandListener {
 
-	PictureCanvas pictureCanvas;
-	
 	private Command exitCommand;
+	
+	public Image[] molecules;
+	public Image[] reactions;
+	
+	public int startingMaterial;
+	public int product;
 	
 	private ReactionList[][] reactionArray;
 	
+	State currentState;
+	
+	ReactantState reactantState;
+	
 	public OrgoGame() {
+		reactantState = new ReactantState(this);
+		currentState = reactantState;
 		exitCommand = new Command("Exit", Command.EXIT, 99);
-		pictureCanvas = new PictureCanvas();
-		pictureCanvas.addCommand(exitCommand);
-		pictureCanvas.setCommandListener(this);
+		currentState.addCommand(exitCommand);
+		currentState.setCommandListener(this);
 	}
 	
 	protected void startApp() throws MIDletStateChangeException {
 		
 		//load in images
+		molecules = new Image[4];
+		reactions = new Image[7];
+		
 		try {
-			Image mol0 = Image.createImage("/images/mol0.png");
-			Image mol1 = Image.createImage("/images/mol1.png");
-			Image mol2 = Image.createImage("/images/mol2.png");
-			Image mol3 = Image.createImage("/images/mol3.png");
-			Image rx0 = Image.createImage("/images/rx0.png");
-			Image rx1 = Image.createImage("/images/rx1.png");
-			Image rx2 = Image.createImage("/images/rx2.png");
-			Image rx3 = Image.createImage("/images/rx3.png");
-			Image rx4 = Image.createImage("/images/rx4.png");
-			Image rx5 = Image.createImage("/images/rx5.png");
-			Image rx6 = Image.createImage("/images/rx6.png");
+			molecules[0] = Image.createImage("/images/mol0.png");
+			molecules[1] = Image.createImage("/images/mol1.png");
+			molecules[2] = Image.createImage("/images/mol2.png");
+			molecules[3] = Image.createImage("/images/mol3.png");
+			reactions[0] = Image.createImage("/images/rx0.png");
+			reactions[1] = Image.createImage("/images/rx1.png");
+			reactions[2] = Image.createImage("/images/rx2.png");
+			reactions[3] = Image.createImage("/images/rx3.png");
+			reactions[4] = Image.createImage("/images/rx4.png");
+			reactions[5] = Image.createImage("/images/rx5.png");
+			reactions[6] = Image.createImage("/images/rx6.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -50,14 +63,32 @@ public class OrgoGame extends MIDlet implements CommandListener {
 			reactionArray[i][i] = null;
 		}
 		
+		// row, column
 		reactionArray[0][1] = new ReactionList("1");
+		reactionArray[0][2] = new ReactionList("1,2");
+		reactionArray[0][3] = new ReactionList("1,3");
 		
-		Display.getDisplay(this).setCurrent(pictureCanvas);
-		pictureCanvas.repaint();
+		reactionArray[1][0] = new ReactionList("4");
+		reactionArray[1][2] = new ReactionList("0,2");
+		reactionArray[1][3] = new ReactionList("0,3");
+		
+		reactionArray[2][0] = new ReactionList("5,4");
+		reactionArray[2][1] = new ReactionList("5");
+		reactionArray[2][3] = new ReactionList("5,0,3");
+		
+		reactionArray[3][0] = new ReactionList("4");
+		reactionArray[3][1] = new ReactionList("6");
+		reactionArray[3][2] = new ReactionList("2");
+		
+		Random r = new Random();
+		startingMaterial = r.nextInt(4);
+		product = r.nextInt(4);
+				
+		Display.getDisplay(this).setCurrent(currentState);
+		currentState.repaint();
 	}
 
 	public void commandAction(Command command, Displayable displayable) {
-		pictureCanvas.setString("Fred");
 
 		if (command == exitCommand) {
 			try {
@@ -73,4 +104,12 @@ public class OrgoGame extends MIDlet implements CommandListener {
 
 	protected void pauseApp() {}
 
+	public int getStartingMaterial() {
+		return startingMaterial;
+	}
+	
+	public int getProduct() {
+		return product;
+	}
+	
 }
