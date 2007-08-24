@@ -3,11 +3,11 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.Graphics;
 
 
-public abstract class State extends Canvas {
+public abstract class CanvasState extends Canvas {
 	
 	OrgoGame game; 
 	
-	public State(OrgoGame game) {
+	public CanvasState(OrgoGame game) {
 		this.game = game;
 	}
 	

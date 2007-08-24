@@ -21,16 +21,12 @@ public class OrgoGame extends MIDlet implements CommandListener {
 	
 	private ReactionList[][] reactionArray;
 	
-	State currentState;
+	Displayable currentState;
 	
 	ReactantState reactantState;
+	ReactionChoiceState reactionChoiceState;
 	
 	public OrgoGame() {
-		reactantState = new ReactantState(this);
-		currentState = reactantState;
-		exitCommand = new Command("Exit", Command.EXIT, 99);
-		currentState.addCommand(exitCommand);
-		currentState.setCommandListener(this);
 	}
 	
 	protected void startApp() throws MIDletStateChangeException {
@@ -83,9 +79,18 @@ public class OrgoGame extends MIDlet implements CommandListener {
 		Random r = new Random();
 		startingMaterial = r.nextInt(4);
 		product = r.nextInt(4);
-				
+			
+		reactantState = new ReactantState(this);
+		reactionChoiceState = new ReactionChoiceState(this);
+		
+		currentState = reactionChoiceState;
+		
+		exitCommand = new Command("Exit", Command.EXIT, 99);
+		currentState.addCommand(exitCommand);
+		currentState.setCommandListener(this);
+
 		Display.getDisplay(this).setCurrent(currentState);
-		currentState.repaint();
+		
 	}
 
 	public void commandAction(Command command, Displayable displayable) {

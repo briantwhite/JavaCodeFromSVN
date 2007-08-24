@@ -4,7 +4,7 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 
-public class ReactantState extends State {
+public class ReactantState extends CanvasState {
 
 	public ReactantState(OrgoGame game) {
 		super(game);
