@@ -36,3 +36,25 @@ to make pix:
 
 got it to load images into array
 made first State: ReactantState
+
+8/26/07
+got model-view-controller to work with starting material and product states
+model = ProblemSet
+view = all the Displayables
+controller = Controller
+
+can toggle back & forth between starting mat & prod
+
+8/27/07
+working on getting problemSet accessor methods
+and some UI stuff
+
+8/28/07
+got all major states going
+need to make SelectReactionState work
+
+8/29/07
+got SelectReactionState to work
+add and delete work AOK
+but need to get add in the middle of the list working
+- need a flag to carry over?

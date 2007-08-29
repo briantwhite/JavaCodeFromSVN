@@ -1,14 +1,28 @@
+import javax.microedition.lcdui.Command;
+import javax.microedition.lcdui.CommandListener;
+import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.List;
+import javax.microedition.midlet.MIDletStateChangeException;
 
 
-public abstract class ListState extends List {
+public abstract class ListState extends List implements CommandListener {
 	
-	OrgoGame game;
-
-	public ListState(OrgoGame game, String title, int type) {
+	OrgoGame orgoGame;
+	Controller controller;
+	ProblemSet problemSet;
+	
+	public ListState(OrgoGame orgoGame, 
+			Controller controller, 
+			ProblemSet problemSet, 
+			String title, 
+			int type) {
 		super(title, type);
-		this.game = game;
+		this.orgoGame = orgoGame;
+		this.controller = controller;
+		this.problemSet = problemSet;
 	}
+	
+	public abstract void updateDisplay();
 	
 
 }
