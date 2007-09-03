@@ -20,9 +20,6 @@ public abstract class ListState extends List implements CommandListener {
 		this.orgoGame = orgoGame;
 		this.controller = controller;
 		this.problemSet = problemSet;
-	}
-	
-	public abstract void updateDisplay();
-	
+	}	
 
 }

@@ -4,30 +4,30 @@ import javax.microedition.lcdui.List;
 
 
 public class EditAnswerState extends ListState {
-	
+
 	Command addRxn;
+	Command addRxnBefore;
 	Command deleteRxn;
 	Command back;
 	Command checkAnswer;
-		
+
 	public EditAnswerState(OrgoGame orgoGame, 
 			Controller controller,
 			ProblemSet problemSet) {
 		super(orgoGame, controller, problemSet, "Your Answer:", List.IMPLICIT);
-		addRxn = new Command("Add", Command.SCREEN, 1);
-		deleteRxn = new Command("Delete", Command.SCREEN, 2);
-		back = new Command("Back", Command.BACK, 3);
-		checkAnswer = new Command("Check", Command.SCREEN, 4);
+		addRxn = new Command("Add Rxn to End", Command.SCREEN, 1);
+		addRxnBefore = new Command("Add Rxn Before Selected", Command.SCREEN, 2);
+		deleteRxn = new Command("Delete Rxn", Command.SCREEN, 3);
+		back = new Command("Back", Command.BACK, 4);
+		checkAnswer = new Command("Check Answer", Command.SCREEN, 5);
 		this.addCommand(addRxn);
+		this.addCommand(addRxnBefore);
 		this.addCommand(deleteRxn);
 		this.addCommand(back);
 		this.addCommand(checkAnswer);
 		setCommandListener(this);
-	}
-	
-	public void updateDisplay() {
-		deleteAll();
-		int[] answer = problemSet.getStudentsAnswer();
+		
+		int[] answer = this.problemSet.getStudentsAnswer();
 		if (answer.length == 0) {
 			append("No reactions yet.", null);
 		} else {
@@ -36,21 +36,25 @@ public class EditAnswerState extends ListState {
 						+ problemSet.getReactionDescription(answer[i]), null);
 			}
 		}
+
 	}
 
 	public void commandAction(Command command, Displayable arg1) {
 		if (command == addRxn) {
-			controller.switchToReactionChoiceState();
+			controller.switchToReactionChoiceState(-1);
+		}
+		if (command == addRxnBefore){
+			controller.switchToReactionChoiceState(getSelectedIndex());
 		}
 		if (command == deleteRxn){
 			problemSet.deleteReactionFromStudentsAnswer(getSelectedIndex());
-			controller.updateDisplay();
+			controller.switchToEditAnswerState();
 		}
 		if (command == back) {
 			controller.switchToStartingMaterialState();
 		}
 		if (command == checkAnswer){
-			System.out.println("hi there");
+			controller.checkAnswer();
 		}
 	}
 

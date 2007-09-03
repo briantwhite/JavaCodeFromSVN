@@ -53,8 +53,47 @@ and some UI stuff
 got all major states going
 need to make SelectReactionState work
 
-8/29/07
+8/29/07a
 got SelectReactionState to work
 add and delete work AOK
 but need to get add in the middle of the list working
 - need a flag to carry over?
+- put in CVS
+
+8/29/07b
+got the add in middle thing to work
+got it to check answer ok
+to do
+- get scoring to work
+- if correct, automatically do new problem after the alert returns
+
+8/30/07
+the prev versions were for modp2.0 and cldc1.1
+this is not standard on all phones
+therefore, go to midp1.0 and cldc1.0
+change in the Java WTK for CLCD 2.5
+ - in settings, set API to TargetPlatform MIDP 1.0
+
+- had to fix:
+ - controller: replace with instanceof
+ - problemSet: no nextInt(4) allowed - replace with code from book
+ - list states don't have delete all - add to ListState
+ 	this was no good
+ 		-deleted from SelectReactionState (not needed)
+ 		- harder with EditAnswerState - size() doesn't seem to work
+ 			just make a new one each time
+ - list doesn't have setSelectCommand - nuke
+ 
+ works AOK (finally!)
+ 
+ problem - if you have it do something right after the alert that says
+ you got it right - it never shows the alert!
+ 
+ 9/1/07
+ strange behavior - when you get it wrong after getting it right a few times (?)
+ it freezes...
+ put in lots of prints in ProblemSet.isCurrentListCorrect()
+ but still unclear...
+ 
+ 
+ 

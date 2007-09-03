@@ -16,16 +16,13 @@ public class SelectReactionState extends ListState {
 		select = new Command("Select", Command.ITEM, 2);
 		this.addCommand(back);
 		this.addCommand(select);
-		this.setSelectCommand(select);
 		setCommandListener(this);
-	}
-
-	public void updateDisplay() {
-		String[] reactions = problemSet.getAllReactions();
-		deleteAll();
+		
+		String[] reactions = this.problemSet.getAllReactions();
 		for (int i = 0; i < reactions.length; i++) {
-			append(reactions[i], null);
+			append("* " + reactions[i], null);
 		}
+
 	}
 
 	public void commandAction(Command command, Displayable arg1) {

@@ -6,6 +6,8 @@ import javax.microedition.lcdui.Image;
 
 
 public class ProblemSet {
+	
+	Random randomizer;
 
 	private Image[] molecules;
 	private int numMolecules;
@@ -33,7 +35,8 @@ public class ProblemSet {
 		//list of reactions in current solution attempt
 		studentsAnswer = new Vector();
 
-
+		randomizer = new Random();
+		
 		//load in images
 		molecules = new Image[4];
 		reactions = new String[] {"SOCl2",
@@ -42,7 +45,8 @@ public class ProblemSet {
 				"CH3OH",
 				"Reduction",
 				"H3O+",
-		"OH-"};
+				"OH-",
+		"None of the above"};
 
 		try {
 			for (int i = 0; i < numMolecules; i++) {
@@ -63,7 +67,7 @@ public class ProblemSet {
 
 		// row, column
 		reactionArray[0][1] = new ReactionList("1");
-		reactionArray[0][2] = new ReactionList("1,2");
+		reactionArray[0][2] = new ReactionList("1,0,2");
 		reactionArray[0][3] = new ReactionList("1,3");
 
 		reactionArray[1][0] = new ReactionList("4");
@@ -96,15 +100,15 @@ public class ProblemSet {
 	public void newProblem() {
 		// see if all done
 		if (numSuccessfullyCompletedProblems == totalNumberOfProblems) {
-
+			System.out.println("Yahoo");
 		} else {
-			Random r = new Random();
+			studentsAnswer.removeAllElements();
 			startingMaterial = 0;
 			product = 0;
 			while (isSuccessfullyCompleted(startingMaterial, product)) {
 				while (product == startingMaterial) {
-					startingMaterial = r.nextInt(4);
-					product = r.nextInt(4);
+					startingMaterial = getRandomInt(0,3);
+					product = getRandomInt(0,3);
 				}
 			}
 		}
@@ -129,7 +133,7 @@ public class ProblemSet {
 			return "";
 		}
 	}
-	
+
 	public String[] getAllReactions() {
 		return reactions;
 	}
@@ -155,6 +159,10 @@ public class ProblemSet {
 		}
 	}
 
+	public int getSizeOfStudentsAnswer() {
+		return studentsAnswer.size();
+	}
+	
 	public int[] getStudentsAnswer() {
 		int[] answer = new int[studentsAnswer.size()];
 		for (int i = 0; i < studentsAnswer.size(); i++){
@@ -170,7 +178,11 @@ public class ProblemSet {
 
 	//adds before element at location
 	public void addReactionToStudentsAnswer(int reaction, int location){
-		studentsAnswer.insertElementAt(new Integer(reaction), location);
+		if (location == -1) {
+			addReactionToStudentsAnswer(reaction);
+		} else {
+			studentsAnswer.insertElementAt(new Integer(reaction), location);
+		}
 	}
 
 	public void deleteReactionFromStudentsAnswer(int location) {
@@ -181,15 +193,19 @@ public class ProblemSet {
 
 	public boolean isCurrentListCorrect() {
 		int[] correctList = getCorrectAnswer(startingMaterial, product).getList();
+		System.out.println(studentsAnswer.size());
 		if (correctList.length != studentsAnswer.size()) {
+			System.out.println("Wrong answer length");
 			return false;
 		}
 		boolean isCorrect = true;
 		for (int i = 0; i < correctList.length; i++) {
 			if (correctList[i] != ((Integer)studentsAnswer.elementAt(i)).intValue()){
+				System.out.println("Rxn mismatch");
 				isCorrect = false;
 			}
 		}
+		System.out.println("returning" + isCorrect);
 		return isCorrect;
 	}
 
@@ -197,6 +213,7 @@ public class ProblemSet {
 		if ((startingMaterial < numMolecules) 
 				&& (product < numMolecules)) {
 			successfullyCompletedProblemMatrix[startingMaterial][product] = true;
+			numSuccessfullyCompletedProblems++;
 		}
 	}
 
@@ -210,5 +227,10 @@ public class ProblemSet {
 
 	public int getTotalNumberOfProblems() {
 		return totalNumberOfProblems;
+	}
+	
+	public int getRandomInt(int min, int max){
+		int r = Math.abs(randomizer.nextInt());
+		return (r % (max - min)) + min;
 	}
 }
