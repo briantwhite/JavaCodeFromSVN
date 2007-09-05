@@ -95,5 +95,21 @@ change in the Java WTK for CLCD 2.5
  put in lots of prints in ProblemSet.isCurrentListCorrect()
  but still unclear...
  
+ 9/4/07
+ if you give an answer with the right number of steps but a wrong rxn
+ then one with the wrong number of steps
+ it goes into lala land 
+ but ONLY IF THE DEBUG CODE IS MISSING
+ if debug code present, it works AOK!!!
+ (sometimes it goes to lala land with debug code missing...)
+ 
+ test setup
+ SM: amide
+ P: alcohol
+ wrong ans: OH-, reduction
+ check answer & sometimes it goes to lala land when debug code absent
+ it "never" seems to when the debug code is present...
+ wtf?
+ 
  
  

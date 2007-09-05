@@ -193,19 +193,36 @@ public class ProblemSet {
 
 	public boolean isCurrentListCorrect() {
 		int[] correctList = getCorrectAnswer(startingMaterial, product).getList();
-		System.out.println(studentsAnswer.size());
+		
+		//debug code
+//		System.out.println("******");
+//		System.out.println("Checking answer");
+//		System.out.print("Student(" + studentsAnswer.size() + "):");
+//		for (int i = 0; i  < studentsAnswer.size(); i++){
+//			System.out.print(studentsAnswer.elementAt(i));
+//		}
+//		System.out.print("\n");
+//		System.out.print("Correct (" + correctList.length + "):");
+//		for (int i = 0; i < correctList.length; i++) {
+//			System.out.print(correctList[i]);
+//		}
+//		System.out.print("\n");
+		
 		if (correctList.length != studentsAnswer.size()) {
-			System.out.println("Wrong answer length");
+//			System.out.println("Wrong answer length");
 			return false;
 		}
+		
+//		System.out.println("Comparing S,C:");
 		boolean isCorrect = true;
 		for (int i = 0; i < correctList.length; i++) {
+//			System.out.println(studentsAnswer.elementAt(i) + "," + correctList[i]);
 			if (correctList[i] != ((Integer)studentsAnswer.elementAt(i)).intValue()){
-				System.out.println("Rxn mismatch");
 				isCorrect = false;
 			}
 		}
-		System.out.println("returning" + isCorrect);
+//		System.out.println("returning " + isCorrect);
+//		System.out.println("***");
 		return isCorrect;
 	}
 
