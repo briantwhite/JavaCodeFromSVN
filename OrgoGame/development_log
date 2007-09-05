@@ -111,5 +111,9 @@ change in the Java WTK for CLCD 2.5
  it "never" seems to when the debug code is present...
  wtf?
  
- 
+ 9/5/07
+ maybe it was the Vector of the student's answer
+ so, when checking the answer, read the Vector into an int[]
+ then compare the int[]'s
+ seems OK
  

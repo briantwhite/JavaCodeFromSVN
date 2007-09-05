@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Random;
 import java.util.Vector;
 
@@ -193,36 +194,24 @@ public class ProblemSet {
 
 	public boolean isCurrentListCorrect() {
 		int[] correctList = getCorrectAnswer(startingMaterial, product).getList();
+		int[] submittedList = new int[studentsAnswer.size()];
+		int x = 0;
+		Enumeration e = studentsAnswer.elements();
+		while (e.hasMoreElements()){
+			submittedList[x] = ((Integer)e.nextElement()).intValue();
+			x++;
+		}
 		
-		//debug code
-//		System.out.println("******");
-//		System.out.println("Checking answer");
-//		System.out.print("Student(" + studentsAnswer.size() + "):");
-//		for (int i = 0; i  < studentsAnswer.size(); i++){
-//			System.out.print(studentsAnswer.elementAt(i));
-//		}
-//		System.out.print("\n");
-//		System.out.print("Correct (" + correctList.length + "):");
-//		for (int i = 0; i < correctList.length; i++) {
-//			System.out.print(correctList[i]);
-//		}
-//		System.out.print("\n");
-		
-		if (correctList.length != studentsAnswer.size()) {
-//			System.out.println("Wrong answer length");
+		if (correctList.length != submittedList.length) {
 			return false;
 		}
 		
-//		System.out.println("Comparing S,C:");
 		boolean isCorrect = true;
 		for (int i = 0; i < correctList.length; i++) {
-//			System.out.println(studentsAnswer.elementAt(i) + "," + correctList[i]);
-			if (correctList[i] != ((Integer)studentsAnswer.elementAt(i)).intValue()){
+			if (correctList[i] != submittedList[i]){
 				isCorrect = false;
 			}
 		}
-//		System.out.println("returning " + isCorrect);
-//		System.out.println("***");
 		return isCorrect;
 	}
 
