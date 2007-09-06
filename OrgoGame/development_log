@@ -117,3 +117,10 @@ change in the Java WTK for CLCD 2.5
  then compare the int[]'s
  seems OK
  
+ but not ok
+ tried two runs
+ both generated random problems (different in each case)
+ but died when checking (correct) answer to 5th problem
+ 
+ try again
+ still dies when checking 4th or 5th answer (I didn't keep track)
