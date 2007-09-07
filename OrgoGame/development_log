@@ -130,3 +130,17 @@ change in the Java WTK for CLCD 2.5
  additions & deletions work
  but check answer doesn't
  
+9/7/07
+tried in Controller 
+	orgoGame.editAnswerState = null;
+before
+	orgoGame.editAnswerState = new EditAnswerState(orgoGame, this, problemSet);
+still no help
+
+maybe it's the MIDP 1 simulator.
+
+try as midp 2 - use "MSA" as "Target Platform"
+
+STILL NG!
+
+why does it go into lala land...

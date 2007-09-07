@@ -60,6 +60,7 @@ public class Controller {
 	}
 	
 	public void switchToEditAnswerState() {
+		orgoGame.editAnswerState = null;
 		orgoGame.editAnswerState = new EditAnswerState(orgoGame, this, problemSet);
 		setCurrentState(orgoGame.editAnswerState);
 		updateDisplay();
