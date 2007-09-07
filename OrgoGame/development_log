@@ -124,3 +124,9 @@ change in the Java WTK for CLCD 2.5
  
  try again
  still dies when checking 4th or 5th answer (I didn't keep track)
+ 
+ 9/6/07
+ replace nasty vector with int[] and ArrayManipulator to fiddle with them
+ additions & deletions work
+ but check answer doesn't
+ 

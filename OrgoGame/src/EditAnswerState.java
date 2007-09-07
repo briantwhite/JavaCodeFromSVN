@@ -27,10 +27,10 @@ public class EditAnswerState extends ListState {
 		this.addCommand(checkAnswer);
 		setCommandListener(this);
 		
-		int[] answer = this.problemSet.getStudentsAnswer();
-		if (answer.length == 0) {
+		if (this.problemSet.getStudentsAnswer() == null) {
 			append("No reactions yet.", null);
 		} else {
+			int[] answer = this.problemSet.getStudentsAnswer();
 			for (int i = 0; i < answer.length; i++){
 				append((i + 1) + ") " 
 						+ problemSet.getReactionDescription(answer[i]), null);

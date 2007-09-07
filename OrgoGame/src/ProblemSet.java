@@ -20,7 +20,7 @@ public class ProblemSet {
 
 	private ReactionList[][] reactionArray;
 
-	private Vector studentsAnswer;
+	private int[] studentsAnswer;
 
 	private boolean[][] successfullyCompletedProblemMatrix;
 	private int numSuccessfullyCompletedProblems = 0;
@@ -34,7 +34,7 @@ public class ProblemSet {
 		numReactions = 7;
 
 		//list of reactions in current solution attempt
-		studentsAnswer = new Vector();
+		studentsAnswer = null;
 
 		randomizer = new Random();
 		
@@ -103,7 +103,7 @@ public class ProblemSet {
 		if (numSuccessfullyCompletedProblems == totalNumberOfProblems) {
 			System.out.println("Yahoo");
 		} else {
-			studentsAnswer.removeAllElements();
+			studentsAnswer = null;
 			startingMaterial = 0;
 			product = 0;
 			while (isSuccessfullyCompleted(startingMaterial, product)) {
@@ -161,20 +161,16 @@ public class ProblemSet {
 	}
 
 	public int getSizeOfStudentsAnswer() {
-		return studentsAnswer.size();
+		return studentsAnswer.length;
 	}
 	
 	public int[] getStudentsAnswer() {
-		int[] answer = new int[studentsAnswer.size()];
-		for (int i = 0; i < studentsAnswer.size(); i++){
-			answer[i] = ((Integer)studentsAnswer.elementAt(i)).intValue();
-		}
-		return answer;
+		return studentsAnswer;
 	}
 
 	//adds to end
 	public void addReactionToStudentsAnswer(int reaction) {
-		studentsAnswer.addElement(new Integer(reaction));
+		studentsAnswer = ArrayManipulator.append(studentsAnswer, reaction);
 	}
 
 	//adds before element at location
@@ -182,33 +178,28 @@ public class ProblemSet {
 		if (location == -1) {
 			addReactionToStudentsAnswer(reaction);
 		} else {
-			studentsAnswer.insertElementAt(new Integer(reaction), location);
+			studentsAnswer = ArrayManipulator.insertBefore(studentsAnswer, 
+					location, 
+					reaction);
 		}
 	}
 
 	public void deleteReactionFromStudentsAnswer(int location) {
-		if (studentsAnswer.size() != 0) {
-			studentsAnswer.removeElementAt(location);
+		if (studentsAnswer.length != 0) {
+			studentsAnswer = ArrayManipulator.delete(studentsAnswer, location);
 		}
 	}
 
 	public boolean isCurrentListCorrect() {
 		int[] correctList = getCorrectAnswer(startingMaterial, product).getList();
-		int[] submittedList = new int[studentsAnswer.size()];
-		int x = 0;
-		Enumeration e = studentsAnswer.elements();
-		while (e.hasMoreElements()){
-			submittedList[x] = ((Integer)e.nextElement()).intValue();
-			x++;
-		}
 		
-		if (correctList.length != submittedList.length) {
+		if (correctList.length != studentsAnswer.length) {
 			return false;
 		}
 		
 		boolean isCorrect = true;
 		for (int i = 0; i < correctList.length; i++) {
-			if (correctList[i] != submittedList[i]){
+			if (correctList[i] != studentsAnswer[i]){
 				isCorrect = false;
 			}
 		}
