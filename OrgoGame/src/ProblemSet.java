@@ -110,9 +110,12 @@ public class ProblemSet {
 				while (product == startingMaterial) {
 					startingMaterial = getRandomInt(0,3);
 					product = getRandomInt(0,3);
+					System.out.println("trying s=" + startingMaterial + " p=" + product
+							+ " " + isSuccessfullyCompleted(startingMaterial, product));
 				}
 			}
 		}
+		System.out.println("new problem:" + startingMaterial + " " + product);
 	}
 
 	public Image getMoleculeImage(int i) {
@@ -191,18 +194,20 @@ public class ProblemSet {
 	}
 
 	public boolean isCurrentListCorrect() {
+		System.out.println("1 - starting to check list");
 		int[] correctList = getCorrectAnswer(startingMaterial, product).getList();
-		
+		System.out.println("2 - made array of correct answer");
 		if (correctList.length != studentsAnswer.length) {
 			return false;
 		}
-		
+		System.out.println("3 - length OK");
 		boolean isCorrect = true;
 		for (int i = 0; i < correctList.length; i++) {
 			if (correctList[i] != studentsAnswer[i]){
 				isCorrect = false;
 			}
 		}
+		System.out.println("4 - done checking answer, it was: " + isCorrect);
 		return isCorrect;
 	}
 

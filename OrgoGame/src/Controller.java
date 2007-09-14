@@ -11,8 +11,6 @@ public class Controller {
 
 	Display display;
 	
-	Alert resultAlert;
-	
 	Displayable currentState;
 	
 	OrgoGame orgoGame;
@@ -80,24 +78,19 @@ public class Controller {
 	}
 	
 	public void checkAnswer(){
+		System.out.println("0 - told to check answer");
 		if (problemSet.isCurrentListCorrect()){
-			resultAlert = new Alert("Checking Your Answer",
-					"You got it right!",
-					null,
-					AlertType.INFO);
+			System.out.println("5c- answer was correct");
 			problemSet.setSuccessfullyCompleted(problemSet.getStartingMaterial(), 
 					problemSet.getProduct());
-			resultAlert.setTimeout(Alert.FOREVER);
-			display.setCurrent(resultAlert);
+			orgoGame.editAnswerState.showAnswerWasCorrectOrNot(true);
+			System.out.println("6 - asking for new problem");
 			problemSet.newProblem();
+			System.out.println("7 - got new problem");
 //			switchToStartingMaterialState();
 		} else {
-			resultAlert = new Alert("Checking Your Answer",
-					"Your answer is incorrect.",
-					null,
-					AlertType.ERROR);
-			resultAlert.setTimeout(Alert.FOREVER);
-			display.setCurrent(resultAlert);
+			System.out.println("5i - answer was incorrect");
+			orgoGame.editAnswerState.showAnswerWasCorrectOrNot(false);
 		}
 	}
 }

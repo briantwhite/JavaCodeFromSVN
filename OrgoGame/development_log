@@ -144,3 +144,200 @@ try as midp 2 - use "MSA" as "Target Platform"
 STILL NG!
 
 why does it go into lala land...
+
+9/13/07
+put in lots of tracers
+
+	public boolean isCurrentListCorrect() {
+		System.out.println("1 - starting to check list");
+		int[] correctList = getCorrectAnswer(startingMaterial, product).getList();
+		System.out.println("2 - made array of correct answer");
+		if (correctList.length != studentsAnswer.length) {
+			return false;
+		}
+		System.out.println("3 - length OK");
+		boolean isCorrect = true;
+		for (int i = 0; i < correctList.length; i++) {
+			if (correctList[i] != studentsAnswer[i]){
+				isCorrect = false;
+			}
+		}
+		System.out.println("4 - done checking answer, it was: " + isCorrect);
+		return isCorrect;
+	}
+
+and 
+
+	public void checkAnswer(){
+		System.out.println("0 - told to check answer");
+		if (problemSet.isCurrentListCorrect()){
+			System.out.println("5c- answer was correct");
+			resultAlert = new Alert("Checking Your Answer",
+					"You got it right!",
+					null,
+					AlertType.INFO);
+			problemSet.setSuccessfullyCompleted(problemSet.getStartingMaterial(), 
+					problemSet.getProduct());
+			resultAlert.setTimeout(Alert.FOREVER);
+			display.setCurrent(resultAlert);
+			problemSet.newProblem();
+//			switchToStartingMaterialState();
+		} else {
+			System.out.println("5i - answer was incorrect");
+			resultAlert = new Alert("Checking Your Answer",
+					"Your answer is incorrect.",
+					null,
+					AlertType.ERROR);
+			resultAlert.setTimeout(Alert.FOREVER);
+			display.setCurrent(resultAlert);
+		}
+	}
+
+and it locks up like this:
+0 - told to check answer
+1 - starting to check list
+2 - made array of correct answer
+3 - length OK
+4 - done checking answer, it was: true
+5c- answer was correct
+
+so - it gets back from the problemSet.isCurrentListCorrect() AOK
+it blows up when making the alert
+maybe don't make a new one each time?
+or, maybe, I'm using it wrong....
+
+tried moving the alert to EditAnswerState
+and re-using the alerts (not new each time)
+still NG
+
+maybe using it wrong?
+maybe need to run it from a canvas?
+
+try taking Alert out and just doing console output of right/wrong
+STILL crashes!
+
+added this to look to see if getting new problem is the issue
+	public void checkAnswer(){
+		System.out.println("0 - told to check answer");
+		if (problemSet.isCurrentListCorrect()){
+			System.out.println("5c- answer was correct");
+			problemSet.setSuccessfullyCompleted(problemSet.getStartingMaterial(), 
+					problemSet.getProduct());
+			orgoGame.editAnswerState.showAnswerWasCorrectOrNot(true);
+			System.out.println("6 - asking for new problem");
+			problemSet.newProblem();
+			System.out.println("7 - got new problem");
+//			switchToStartingMaterialState();
+		} else {
+			System.out.println("5i - answer was incorrect");
+			orgoGame.editAnswerState.showAnswerWasCorrectOrNot(false);
+		}
+	}
+died here
+0 - told to check answer
+1 - starting to check list
+2 - made array of correct answer
+3 - length OK
+4 - done checking answer, it was: true
+5c- answer was correct
+RIGHT
+6 - asking for new problem
+
+when it was getting the new problem
+
+try again to be sure...
+ - dies in same place
+(but clicking the New Problem button has no problem...)
+
+tried this:
+	public void newProblem() {
+		// see if all done
+		if (numSuccessfullyCompletedProblems == totalNumberOfProblems) {
+			System.out.println("Yahoo");
+		} else {
+			studentsAnswer = null;
+			startingMaterial = 0;
+			product = 0;
+			while (isSuccessfullyCompleted(startingMaterial, product)) {
+				while (product == startingMaterial) {
+					startingMaterial = getRandomInt(0,3);
+					product = getRandomInt(0,3);
+					System.out.println("trying s=" + startingMaterial + " p=" + product);
+				}
+			}
+		}
+	}
+
+trying s=1 p=2
+0 - told to check answer
+1 - starting to check list
+2 - made array of correct answer
+3 - length OK
+4 - done checking answer, it was: true
+5c- answer was correct
+RIGHT
+6 - asking for new problem
+trying s=1 p=2
+- then froze
+
+so it's in the new problem thingy...
+
+tried more prints
+
+	public void newProblem() {
+		// see if all done
+		if (numSuccessfullyCompletedProblems == totalNumberOfProblems) {
+			System.out.println("Yahoo");
+		} else {
+			studentsAnswer = null;
+			startingMaterial = 0;
+			product = 0;
+			while (isSuccessfullyCompleted(startingMaterial, product)) {
+				while (product == startingMaterial) {
+					startingMaterial = getRandomInt(0,3);
+					product = getRandomInt(0,3);
+					System.out.println("trying s=" + startingMaterial + " p=" + product
+							+ " " + isSuccessfullyCompleted(startingMaterial, product));
+				}
+			}
+		}
+		System.out.println("new problem:" + startingMaterial + " " + product);
+	}
+
+
+now get:
+trying s=2 p=1 false
+new problem:2 1
+0 - told to check answer
+1 - starting to check list
+2 - made array of correct answer
+3 - length OK
+4 - done checking answer, it was: true
+5c- answer was correct
+RIGHT
+6 - asking for new problem
+trying s=2 p=0 false
+new problem:2 0
+7 - got new problem
+0 - told to check answer
+1 - starting to check list
+2 - made array of correct answer
+3 - length OK
+4 - done checking answer, it was: true
+5c- answer was correct
+RIGHT
+6 - asking for new problem
+trying s=2 p=2 true
+trying s=0 p=0 true
+trying s=2 p=1 true
+
+it dies in this routine...
+but why...
+
+if no problems have been attempted, or none solved sucessfully,
+	you can get new problem (via button) as much as you like - no crashes
+
+if you've solved even one correctly, then, if you ask for enough new probs
+	via the button, it will eventually crash...
+	
+what's up?

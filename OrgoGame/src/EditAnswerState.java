@@ -1,3 +1,5 @@
+import javax.microedition.lcdui.Alert;
+import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.List;
@@ -10,6 +12,9 @@ public class EditAnswerState extends ListState {
 	Command deleteRxn;
 	Command back;
 	Command checkAnswer;
+	
+	Alert incorrectAnswerAlert;
+	Alert correctAnswerAlert;
 
 	public EditAnswerState(OrgoGame orgoGame, 
 			Controller controller,
@@ -27,6 +32,18 @@ public class EditAnswerState extends ListState {
 		this.addCommand(checkAnswer);
 		setCommandListener(this);
 		
+		incorrectAnswerAlert = new Alert("Checking Your Answer",
+				"Your answer is incorrect.",
+				null,
+				AlertType.ERROR);
+		incorrectAnswerAlert.setTimeout(Alert.FOREVER);
+		
+		correctAnswerAlert = new Alert("Checking Your Answer",
+				"You got it right!",
+				null,
+				AlertType.INFO);
+		correctAnswerAlert.setTimeout(Alert.FOREVER);
+
 		if (this.problemSet.getStudentsAnswer() == null) {
 			append("No reactions yet.", null);
 		} else {
@@ -59,4 +76,13 @@ public class EditAnswerState extends ListState {
 	}
 
 
+	public void showAnswerWasCorrectOrNot(boolean correct) {
+		if (correct) {
+//			controller.getDisplay().setCurrent(correctAnswerAlert);
+			System.out.println("RIGHT");
+		} else {
+//			controller.getDisplay().setCurrent(incorrectAnswerAlert);
+			System.out.println("WRONG");
+		}
+	}
 }
