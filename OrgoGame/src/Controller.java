@@ -78,18 +78,13 @@ public class Controller {
 	}
 	
 	public void checkAnswer(){
-		System.out.println("0 - told to check answer");
 		if (problemSet.isCurrentListCorrect()){
-			System.out.println("5c- answer was correct");
 			problemSet.setSuccessfullyCompleted(problemSet.getStartingMaterial(), 
 					problemSet.getProduct());
 			orgoGame.editAnswerState.showAnswerWasCorrectOrNot(true);
-			System.out.println("6 - asking for new problem");
 			problemSet.newProblem();
-			System.out.println("7 - got new problem");
 //			switchToStartingMaterialState();
 		} else {
-			System.out.println("5i - answer was incorrect");
 			orgoGame.editAnswerState.showAnswerWasCorrectOrNot(false);
 		}
 	}

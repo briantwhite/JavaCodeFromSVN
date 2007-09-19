@@ -3,10 +3,15 @@ import java.util.Enumeration;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.microedition.lcdui.Alert;
+import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Image;
+import javax.microedition.midlet.MIDletStateChangeException;
 
 
 public class ProblemSet {
+
+	private OrgoGame orgoGame;
 	
 	Random randomizer;
 
@@ -20,15 +25,17 @@ public class ProblemSet {
 
 	private ReactionList[][] reactionArray;
 
-	private int[] studentsAnswer;
+	private Vector studentsAnswer;
 
 	private boolean[][] successfullyCompletedProblemMatrix;
 	private int numSuccessfullyCompletedProblems = 0;
 	private int totalNumberOfProblems;
 
 
-	public ProblemSet() {
+	public ProblemSet(OrgoGame orgoGame) {
 
+		this.orgoGame = orgoGame;
+		
 		numMolecules = 4;
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
 		numReactions = 7;
@@ -37,7 +44,7 @@ public class ProblemSet {
 		studentsAnswer = null;
 
 		randomizer = new Random();
-		
+
 		//load in images
 		molecules = new Image[4];
 		reactions = new String[] {"SOCl2",
@@ -69,7 +76,7 @@ public class ProblemSet {
 		// row, column
 		reactionArray[0][1] = new ReactionList("1");
 		reactionArray[0][2] = new ReactionList("1,0,2");
-		reactionArray[0][3] = new ReactionList("1,3");
+		reactionArray[0][3] = new ReactionList("1,0,3");
 
 		reactionArray[1][0] = new ReactionList("4");
 		reactionArray[1][2] = new ReactionList("0,2");
@@ -79,7 +86,7 @@ public class ProblemSet {
 		reactionArray[2][1] = new ReactionList("5");
 		reactionArray[2][3] = new ReactionList("5,0,3");
 
-		reactionArray[3][0] = new ReactionList("4");
+		reactionArray[3][0] = new ReactionList("6,4");
 		reactionArray[3][1] = new ReactionList("6");
 		reactionArray[3][2] = new ReactionList("2");
 
@@ -101,21 +108,16 @@ public class ProblemSet {
 	public void newProblem() {
 		// see if all done
 		if (numSuccessfullyCompletedProblems == totalNumberOfProblems) {
-			System.out.println("Yahoo");
+			orgoGame.allDone();
 		} else {
-			studentsAnswer = null;
+			studentsAnswer = new Vector();
 			startingMaterial = 0;
 			product = 0;
 			while (isSuccessfullyCompleted(startingMaterial, product)) {
-				while (product == startingMaterial) {
-					startingMaterial = getRandomInt(0,3);
-					product = getRandomInt(0,3);
-					System.out.println("trying s=" + startingMaterial + " p=" + product
-							+ " " + isSuccessfullyCompleted(startingMaterial, product));
-				}
+				startingMaterial = getRandomInt(0,4);
+				product = getRandomInt(0,4);
 			}
 		}
-		System.out.println("new problem:" + startingMaterial + " " + product);
 	}
 
 	public Image getMoleculeImage(int i) {
@@ -164,16 +166,24 @@ public class ProblemSet {
 	}
 
 	public int getSizeOfStudentsAnswer() {
-		return studentsAnswer.length;
+		return studentsAnswer.size();
 	}
-	
+
 	public int[] getStudentsAnswer() {
-		return studentsAnswer;
+		if (studentsAnswer == null){
+			return null;
+		}
+		
+		int[] array = new int[studentsAnswer.size()];
+		for (int i = 0; i < studentsAnswer.size(); i++){
+			array[i] = ((Integer)studentsAnswer.elementAt(i)).intValue();
+		}
+		return array;
 	}
 
 	//adds to end
 	public void addReactionToStudentsAnswer(int reaction) {
-		studentsAnswer = ArrayManipulator.append(studentsAnswer, reaction);
+		studentsAnswer.addElement(new Integer(reaction));
 	}
 
 	//adds before element at location
@@ -181,33 +191,28 @@ public class ProblemSet {
 		if (location == -1) {
 			addReactionToStudentsAnswer(reaction);
 		} else {
-			studentsAnswer = ArrayManipulator.insertBefore(studentsAnswer, 
-					location, 
-					reaction);
+			studentsAnswer.insertElementAt(new Integer(reaction), location);
 		}
 	}
 
 	public void deleteReactionFromStudentsAnswer(int location) {
-		if (studentsAnswer.length != 0) {
-			studentsAnswer = ArrayManipulator.delete(studentsAnswer, location);
-		}
+		studentsAnswer.removeElementAt(location);
 	}
 
 	public boolean isCurrentListCorrect() {
-		System.out.println("1 - starting to check list");
 		int[] correctList = getCorrectAnswer(startingMaterial, product).getList();
-		System.out.println("2 - made array of correct answer");
-		if (correctList.length != studentsAnswer.length) {
+		int[] trialAnswer = getStudentsAnswer();
+		if (correctList.length != trialAnswer.length) {
 			return false;
 		}
-		System.out.println("3 - length OK");
+
 		boolean isCorrect = true;
 		for (int i = 0; i < correctList.length; i++) {
-			if (correctList[i] != studentsAnswer[i]){
+			if (correctList[i] != trialAnswer[i]){
 				isCorrect = false;
 			}
 		}
-		System.out.println("4 - done checking answer, it was: " + isCorrect);
+
 		return isCorrect;
 	}
 
@@ -230,7 +235,7 @@ public class ProblemSet {
 	public int getTotalNumberOfProblems() {
 		return totalNumberOfProblems;
 	}
-	
+
 	public int getRandomInt(int min, int max){
 		int r = Math.abs(randomizer.nextInt());
 		return (r % (max - min)) + min;

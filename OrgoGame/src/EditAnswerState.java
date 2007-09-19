@@ -44,7 +44,7 @@ public class EditAnswerState extends ListState {
 				AlertType.INFO);
 		correctAnswerAlert.setTimeout(Alert.FOREVER);
 
-		if (this.problemSet.getStudentsAnswer() == null) {
+		if (this.problemSet.getSizeOfStudentsAnswer() == 0) {
 			append("No reactions yet.", null);
 		} else {
 			int[] answer = this.problemSet.getStudentsAnswer();
@@ -78,11 +78,9 @@ public class EditAnswerState extends ListState {
 
 	public void showAnswerWasCorrectOrNot(boolean correct) {
 		if (correct) {
-//			controller.getDisplay().setCurrent(correctAnswerAlert);
-			System.out.println("RIGHT");
+			controller.getDisplay().setCurrent(correctAnswerAlert);
 		} else {
-//			controller.getDisplay().setCurrent(incorrectAnswerAlert);
-			System.out.println("WRONG");
+			controller.getDisplay().setCurrent(incorrectAnswerAlert);
 		}
 	}
 }

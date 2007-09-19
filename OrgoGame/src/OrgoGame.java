@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.Random;
 
+import javax.microedition.lcdui.Alert;
+import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
@@ -23,12 +25,22 @@ public class OrgoGame extends MIDlet {
 	SelectReactionState selectReactionState;
 	
 	public OrgoGame() {
-		problemSet = new ProblemSet();
+		problemSet = new ProblemSet(this);
 		controller = new Controller(this, problemSet);
 		startingMaterialState = new StartingMaterialState(this, problemSet, controller);
 		editAnswerState = new EditAnswerState(this, controller, problemSet);
 		productState = new ProductState(this, problemSet, controller);
 		selectReactionState = new SelectReactionState(this, controller, problemSet);
+	}
+	
+	public void allDone() {
+		System.out.println("Yahoo");
+		try {
+			destroyApp(true);
+			notifyDestroyed();
+		} catch (MIDletStateChangeException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	protected void startApp() throws MIDletStateChangeException {
