@@ -60,11 +60,17 @@ public abstract class ShowMoleculeState extends Canvas implements CommandListene
 		g.fillRect(0, 0, width, height);
 
 		g.setColor(0x000000);
-		g.fillRect(0, 0, width, 15);
+		g.fillRect(0, 0, width, 30);
 		g.setColor(0xffffff);
 		g.drawString("Completed " + problemSet.getNumSuccessfullyCompletedProblems()
 				+ " of " + problemSet.getTotalNumberOfProblems() 
 				+ " problems.", 0, 0, Graphics.TOP|Graphics.LEFT);
+		g.setColor(0xff0000);
+		g.drawString("Time Elapsed = " + problemSet.getTimerDisplay().getMinutes() 
+				+ ":" 
+				+ problemSet.getTimerDisplay().getSeconds(), 
+				0, 15, 
+				Graphics.TOP|Graphics.LEFT);
 		
 		g.drawImage(legend, width/2, height, Graphics.BOTTOM|Graphics.HCENTER);
 	}

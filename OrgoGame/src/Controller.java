@@ -18,10 +18,16 @@ public class Controller {
 	
 	int selectedReactionInAnswer;
 	
-	public Controller(OrgoGame game, ProblemSet problemSet) {
-		orgoGame = game;
-		this.problemSet = problemSet;
+	public Controller() {
 		selectedReactionInAnswer = 0;
+	}
+	
+	public void setOrgoGame(OrgoGame og) {
+		orgoGame = og;
+	}
+	
+	public void setProblemSet(ProblemSet ps) {
+		problemSet = ps;
 	}
 	
 	public void updateDisplay() {
@@ -30,6 +36,14 @@ public class Controller {
 			((Canvas)currentState).repaint();
 		}
 	}
+	
+	public void updateTimers(){
+		System.out.println(problemSet.getTimerDisplay().getMinutes() 
+				+ ":" 
+				+ problemSet.getTimerDisplay().getSeconds());
+		updateDisplay();
+	}
+
 
 	public void setCurrentState(Displayable state) {
 		currentState = state;

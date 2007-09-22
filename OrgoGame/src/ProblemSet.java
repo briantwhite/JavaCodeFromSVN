@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Random;
+import java.util.Timer;
 import java.util.Vector;
 
 import javax.microedition.lcdui.Alert;
@@ -12,6 +13,7 @@ import javax.microedition.midlet.MIDletStateChangeException;
 public class ProblemSet {
 
 	private OrgoGame orgoGame;
+	private Controller controller;
 	
 	Random randomizer;
 
@@ -30,11 +32,15 @@ public class ProblemSet {
 	private boolean[][] successfullyCompletedProblemMatrix;
 	private int numSuccessfullyCompletedProblems = 0;
 	private int totalNumberOfProblems;
+	
+	private Timer timer;
+	private TimerDisplay timerDisplay;
 
 
-	public ProblemSet(OrgoGame orgoGame) {
-
-		this.orgoGame = orgoGame;
+	public ProblemSet() {
+		
+		timer = new Timer();
+		timerDisplay = new TimerDisplay();
 		
 		numMolecules = 4;
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
@@ -103,6 +109,14 @@ public class ProblemSet {
 		}
 
 		newProblem();
+	}
+	
+	public void setOrgoGame(OrgoGame og) {
+		orgoGame = og;
+	}
+	
+	public void setController(Controller c) {
+		controller = c;
 	}
 
 	public void newProblem() {
@@ -239,5 +253,24 @@ public class ProblemSet {
 	public int getRandomInt(int min, int max){
 		int r = Math.abs(randomizer.nextInt());
 		return (r % (max - min)) + min;
+	}
+	
+	public void startTimerDisplay() {
+		timerDisplay.setOrgoGame(orgoGame);
+		timerDisplay.setProblemSet(this);
+		timerDisplay.setController(controller);
+		timer.schedule(timerDisplay, 1000, 1000);
+	}
+	
+	public void resetTimerDisplay(){
+		timerDisplay.reset();
+	}
+	
+	public void stopTimerDisplay() {
+		timer.cancel();
+	}
+	
+	public TimerDisplay getTimerDisplay() {
+		return timerDisplay;
 	}
 }

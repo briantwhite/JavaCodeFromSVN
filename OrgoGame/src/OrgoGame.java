@@ -25,8 +25,12 @@ public class OrgoGame extends MIDlet {
 	SelectReactionState selectReactionState;
 	
 	public OrgoGame() {
-		problemSet = new ProblemSet(this);
-		controller = new Controller(this, problemSet);
+		problemSet = new ProblemSet();
+		controller = new Controller();
+		problemSet.setOrgoGame(this);
+		problemSet.setController(controller);
+		controller.setOrgoGame(this);
+		controller.setProblemSet(problemSet);
 		startingMaterialState = new StartingMaterialState(this, problemSet, controller);
 		editAnswerState = new EditAnswerState(this, controller, problemSet);
 		productState = new ProductState(this, problemSet, controller);
@@ -47,6 +51,7 @@ public class OrgoGame extends MIDlet {
 		controller.setCurrentState(startingMaterialState);
 		controller.setDisplay(Display.getDisplay(this));
 		controller.updateDisplay();
+		problemSet.startTimerDisplay();
 	}
 
 	protected void destroyApp(boolean arg0) throws MIDletStateChangeException {}
@@ -57,5 +62,6 @@ public class OrgoGame extends MIDlet {
 		problemSet.newProblem();
 		controller.setCurrentState(startingMaterialState);
 		controller.updateDisplay();
+		problemSet.resetTimerDisplay();
 	}
 }

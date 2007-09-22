@@ -20,9 +20,9 @@ public class ProductState extends ShowMoleculeState {
 				
 		g.setColor(0x000000);
 		
-		g.drawString("Product", 0, 20, Graphics.TOP|Graphics.LEFT);
+		g.drawString("Product", 0, 40, Graphics.TOP|Graphics.LEFT);
 		
-		g.drawImage(problemSet.getMoleculeImage(problemSet.getProduct()), 20, 40, 
+		g.drawImage(problemSet.getMoleculeImage(problemSet.getProduct()), 20, 60, 
 					Graphics.TOP|Graphics.LEFT);
 
 

@@ -22,9 +22,9 @@ public class StartingMaterialState extends ShowMoleculeState {
 				
 		g.setColor(0x000000);
 		
-		g.drawString("Starting Material", 0, 20, Graphics.TOP|Graphics.LEFT);
+		g.drawString("Starting Material", 0, 40, Graphics.TOP|Graphics.LEFT);
 		
-		g.drawImage(problemSet.getMoleculeImage(problemSet.getStartingMaterial()), 20, 40, 
+		g.drawImage(problemSet.getMoleculeImage(problemSet.getStartingMaterial()), 20, 60, 
 					Graphics.TOP|Graphics.LEFT);
 	}
 
