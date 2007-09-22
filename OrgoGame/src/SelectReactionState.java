@@ -8,9 +8,9 @@ public class SelectReactionState extends ListState {
 	Command select;
 
 	public SelectReactionState(OrgoGame orgoGame, 
-			Controller controller, 
-			ProblemSet problemSet) {
-		super(orgoGame, controller, problemSet, "Choose a Reaction", IMPLICIT);
+			ProblemSet problemSet,
+			Controller controller) {
+		super(orgoGame, problemSet, controller, "Choose a Reaction", IMPLICIT);
 		
 		back = new Command("Back", Command.BACK, 1);
 		select = new Command("Select", Command.ITEM, 2);

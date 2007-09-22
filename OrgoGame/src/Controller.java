@@ -73,7 +73,7 @@ public class Controller {
 	
 	public void switchToEditAnswerState() {
 		orgoGame.editAnswerState = null;
-		orgoGame.editAnswerState = new EditAnswerState(orgoGame, this, problemSet);
+		orgoGame.editAnswerState = new EditAnswerState(orgoGame, problemSet, this);
 		setCurrentState(orgoGame.editAnswerState);
 		updateDisplay();
 	}
@@ -86,7 +86,7 @@ public class Controller {
 	
 	public void addReactionToAnswer(int reaction) {
 		problemSet.addReactionToStudentsAnswer(reaction, selectedReactionInAnswer);
-		orgoGame.editAnswerState = new EditAnswerState(orgoGame, this, problemSet);
+		orgoGame.editAnswerState = new EditAnswerState(orgoGame, problemSet, this);
 		setCurrentState(orgoGame.editAnswerState);
 		updateDisplay();
 	}

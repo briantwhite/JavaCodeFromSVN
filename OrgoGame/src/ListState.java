@@ -12,8 +12,8 @@ public abstract class ListState extends List implements CommandListener {
 	ProblemSet problemSet;
 	
 	public ListState(OrgoGame orgoGame, 
-			Controller controller, 
 			ProblemSet problemSet, 
+			Controller controller, 
 			String title, 
 			int type) {
 		super(title, type);

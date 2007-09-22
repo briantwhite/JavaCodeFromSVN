@@ -32,9 +32,9 @@ public class OrgoGame extends MIDlet {
 		controller.setOrgoGame(this);
 		controller.setProblemSet(problemSet);
 		startingMaterialState = new StartingMaterialState(this, problemSet, controller);
-		editAnswerState = new EditAnswerState(this, controller, problemSet);
+		editAnswerState = new EditAnswerState(this, problemSet, controller);
 		productState = new ProductState(this, problemSet, controller);
-		selectReactionState = new SelectReactionState(this, controller, problemSet);
+		selectReactionState = new SelectReactionState(this, problemSet, controller);
 	}
 	
 	public void allDone() {

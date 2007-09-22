@@ -17,9 +17,9 @@ public class EditAnswerState extends ListState {
 	Alert correctAnswerAlert;
 
 	public EditAnswerState(OrgoGame orgoGame, 
-			Controller controller,
-			ProblemSet problemSet) {
-		super(orgoGame, controller, problemSet, "Your Answer:", List.IMPLICIT);
+			ProblemSet problemSet,
+			Controller controller) {
+		super(orgoGame, problemSet, controller, "Your Answer:", List.IMPLICIT);
 		addRxn = new Command("Add Rxn to End", Command.SCREEN, 1);
 		addRxnBefore = new Command("Add Rxn Before Selected", Command.SCREEN, 2);
 		deleteRxn = new Command("Delete Rxn", Command.SCREEN, 3);
