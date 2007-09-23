@@ -23,6 +23,7 @@ public class OrgoGame extends MIDlet {
 	EditAnswerState editAnswerState;
 	ProductState productState;
 	SelectReactionState selectReactionState;
+	ProblemSolvedState problemSolvedState;
 	
 	public OrgoGame() {
 		problemSet = new ProblemSet();
@@ -35,6 +36,7 @@ public class OrgoGame extends MIDlet {
 		editAnswerState = new EditAnswerState(this, problemSet, controller);
 		productState = new ProductState(this, problemSet, controller);
 		selectReactionState = new SelectReactionState(this, problemSet, controller);
+		problemSolvedState = new ProblemSolvedState(this);
 	}
 	
 	public void allDone() {

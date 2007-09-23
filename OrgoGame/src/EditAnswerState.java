@@ -39,7 +39,8 @@ public class EditAnswerState extends ListState {
 		incorrectAnswerAlert.setTimeout(Alert.FOREVER);
 		
 		correctAnswerAlert = new Alert("Checking Your Answer",
-				"You got it right!",
+				"You got it right!\n"
+				+ "Click \"Back\" to get a new Problem.",
 				null,
 				AlertType.INFO);
 		correctAnswerAlert.setTimeout(Alert.FOREVER);

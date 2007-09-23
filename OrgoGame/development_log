@@ -407,6 +407,19 @@ still need to work on what it does when it quits
 9/22/07
 fixed up constructors of problemSet, orgoGame, Controller to be no-arg
 and then have setter methods.
-that way, all can know about all without having trouble of who is madde first
+that way, all can know about all without having trouble of who is made first
 
 started adding timer stuff
+got it working
+
+tried to make the Lists be Forms with lists
+so I could show the elapsed time
+this sux!
+you can add labels, but they are part of the scrolling list in the form!
+also to select from a list, you have to click it and then click select
+PUNT
+
+problem - now, the success alert disappears after a short interval
+maybe interference from the update display thingy.
+
+maybe make it a ProblemSolvedState

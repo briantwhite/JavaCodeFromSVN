@@ -84,6 +84,14 @@ public class Controller {
 		updateDisplay();
 	}
 	
+	public void switchToProblemSolvedState(String elapsedTimeString,
+			String fractionCompletedString) {
+		orgoGame.problemSolvedState.setElapsedTimeString(elapsedTimeString);
+		orgoGame.problemSolvedState.setFractionCompletedString(fractionCompletedString);
+		setCurrentState(orgoGame.problemSolvedState);
+		updateDisplay();
+	}
+	
 	public void addReactionToAnswer(int reaction) {
 		problemSet.addReactionToStudentsAnswer(reaction, selectedReactionInAnswer);
 		orgoGame.editAnswerState = new EditAnswerState(orgoGame, problemSet, this);
@@ -95,9 +103,15 @@ public class Controller {
 		if (problemSet.isCurrentListCorrect()){
 			problemSet.setSuccessfullyCompleted(problemSet.getStartingMaterial(), 
 					problemSet.getProduct());
-			orgoGame.editAnswerState.showAnswerWasCorrectOrNot(true);
+			switchToProblemSolvedState(
+					problemSet.getTimerDisplay().getMinutes() 
+					+ ":"
+					+ problemSet.getTimerDisplay().getSeconds(),
+					problemSet.getNumSuccessfullyCompletedProblems()
+					+ " out of "
+					+ problemSet.getTotalNumberOfProblems()
+					+ " problems.");
 			problemSet.newProblem();
-//			switchToStartingMaterialState();
 		} else {
 			orgoGame.editAnswerState.showAnswerWasCorrectOrNot(false);
 		}
