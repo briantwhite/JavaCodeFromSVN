@@ -13,9 +13,6 @@ public class EditAnswerState extends ListState {
 	Command back;
 	Command checkAnswer;
 	
-	Alert incorrectAnswerAlert;
-	Alert correctAnswerAlert;
-
 	public EditAnswerState(OrgoGame orgoGame, 
 			ProblemSet problemSet,
 			Controller controller) {
@@ -32,19 +29,6 @@ public class EditAnswerState extends ListState {
 		this.addCommand(checkAnswer);
 		setCommandListener(this);
 		
-		incorrectAnswerAlert = new Alert("Checking Your Answer",
-				"Your answer is incorrect.",
-				null,
-				AlertType.ERROR);
-		incorrectAnswerAlert.setTimeout(Alert.FOREVER);
-		
-		correctAnswerAlert = new Alert("Checking Your Answer",
-				"You got it right!\n"
-				+ "Click \"Back\" to get a new Problem.",
-				null,
-				AlertType.INFO);
-		correctAnswerAlert.setTimeout(Alert.FOREVER);
-
 		if (this.problemSet.getSizeOfStudentsAnswer() == 0) {
 			append("No reactions yet.", null);
 		} else {
@@ -73,15 +57,6 @@ public class EditAnswerState extends ListState {
 		}
 		if (command == checkAnswer){
 			controller.checkAnswer();
-		}
-	}
-
-
-	public void showAnswerWasCorrectOrNot(boolean correct) {
-		if (correct) {
-			controller.getDisplay().setCurrent(correctAnswerAlert);
-		} else {
-			controller.getDisplay().setCurrent(incorrectAnswerAlert);
 		}
 	}
 }

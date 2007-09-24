@@ -36,7 +36,6 @@ public class ProblemSet {
 	private Timer timer;
 	private TimerDisplay timerDisplay;
 
-
 	public ProblemSet() {
 		
 		timer = new Timer();

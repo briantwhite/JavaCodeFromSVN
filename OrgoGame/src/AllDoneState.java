@@ -6,22 +6,19 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 
-public class ProblemSolvedState extends Canvas implements CommandListener {
+public class AllDoneState extends Canvas implements CommandListener {
 	
 	OrgoGame orgoGame;
 	
-	private Command newProblem;
 	private Command quit;
 	
 	private String elapsedTimeString = "";
 	private String fractionCompletedString = "";
 
-	public ProblemSolvedState(OrgoGame orgoGame) {
+	public AllDoneState(OrgoGame orgoGame) {
 		this.orgoGame = orgoGame;
 		quit = new Command("Quit", Command.EXIT, 1);
 		this.addCommand(quit);
-		newProblem = new Command("New Problem", Command.SCREEN, 1);
-		this.addCommand(newProblem);
 		this.setCommandListener(this);
 	}
 	
@@ -30,10 +27,6 @@ public class ProblemSolvedState extends Canvas implements CommandListener {
 			if (c == quit) {
 				orgoGame.destroyApp(true);
 				orgoGame.notifyDestroyed();
-			}
-			if (c == newProblem) {
-				orgoGame.newProblem();
-				return;
 			}
 		}
 		catch (MIDletStateChangeException e) {}
@@ -44,18 +37,18 @@ public class ProblemSolvedState extends Canvas implements CommandListener {
 		int width = getWidth();
 		int height = getHeight();
 		
-		g.setColor(0x808080);
+		g.setColor(0x208020);
 		g.fillRect(0, 0, width, height);
 
 		g.setColor(0x000000);
 		
 		g.drawString("Congratulations!", 0, 0, Graphics.TOP|Graphics.LEFT);
-		g.setColor(0xff0000);
-		g.drawString("The clock is stopped at  " 
-				+ elapsedTimeString, 0, 20, Graphics.TOP|Graphics.LEFT);
 		g.setColor(0x000000);
-		g.drawString("You have solved " 
-				+ fractionCompletedString, 0, 40, Graphics.TOP|Graphics.LEFT);
+		g.drawString("You have solved all the problems!", 
+				0, 40, Graphics.TOP|Graphics.LEFT);
+		g.setColor(0xff0000);
+		g.drawString("It took you  " 
+				+ elapsedTimeString, 0, 20, Graphics.TOP|Graphics.LEFT);
 	}
 
 	public void setElapsedTimeString(String elapsedTimeString) {

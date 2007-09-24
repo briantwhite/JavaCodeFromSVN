@@ -63,11 +63,13 @@ public class Controller {
 	
 	public void switchToProductState() {
 		setCurrentState(orgoGame.productState);
+		problemSet.getTimerDisplay().setPaused(false);
 		updateDisplay();
 	}
 	
 	public void switchToStartingMaterialState() {
 		setCurrentState(orgoGame.startingMaterialState);
+		problemSet.getTimerDisplay().setPaused(false);
 		updateDisplay();
 	}
 	
@@ -75,12 +77,14 @@ public class Controller {
 		orgoGame.editAnswerState = null;
 		orgoGame.editAnswerState = new EditAnswerState(orgoGame, problemSet, this);
 		setCurrentState(orgoGame.editAnswerState);
+		problemSet.getTimerDisplay().setPaused(false);
 		updateDisplay();
 	}
 	
 	public void switchToReactionChoiceState(int selectedItem) {
 		selectedReactionInAnswer = selectedItem;
 		setCurrentState(orgoGame.selectReactionState);
+		problemSet.getTimerDisplay().setPaused(false);
 		updateDisplay();
 	}
 	
@@ -89,6 +93,20 @@ public class Controller {
 		orgoGame.problemSolvedState.setElapsedTimeString(elapsedTimeString);
 		orgoGame.problemSolvedState.setFractionCompletedString(fractionCompletedString);
 		setCurrentState(orgoGame.problemSolvedState);
+		problemSet.getTimerDisplay().setPaused(true);
+		updateDisplay();
+	}
+	
+	public void switchToWrongAnswerState(String elapsedTimeString) {
+		orgoGame.wrongAnswerState.setElapsedTimeString(elapsedTimeString);
+		setCurrentState(orgoGame.wrongAnswerState);
+		problemSet.getTimerDisplay().setPaused(true);
+		updateDisplay();
+	}
+	
+	public void switchToAllDoneState(String elapsedTimeString) {
+		orgoGame.allDoneState.setElapsedTimeString(elapsedTimeString);
+		setCurrentState(orgoGame.allDoneState);
 		updateDisplay();
 	}
 	
@@ -113,7 +131,10 @@ public class Controller {
 					+ " problems.");
 			problemSet.newProblem();
 		} else {
-			orgoGame.editAnswerState.showAnswerWasCorrectOrNot(false);
+			switchToWrongAnswerState(
+					problemSet.getTimerDisplay().getMinutes() 
+					+ ":"
+					+ problemSet.getTimerDisplay().getSeconds());
 		}
 	}
 }

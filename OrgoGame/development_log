@@ -423,3 +423,15 @@ problem - now, the success alert disappears after a short interval
 maybe interference from the update display thingy.
 
 maybe make it a ProblemSolvedState
+
+9/23/07
+made ProblemSolvedState
+made WrongAnswerState
+got them working.
+set timer to pause when in these states
+made AllDoneState
+looks good & works
+
+need to clean up interactions, links and uniform design
+especially the state changing stuff
+

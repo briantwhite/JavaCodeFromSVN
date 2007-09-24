@@ -24,6 +24,8 @@ public class OrgoGame extends MIDlet {
 	ProductState productState;
 	SelectReactionState selectReactionState;
 	ProblemSolvedState problemSolvedState;
+	WrongAnswerState wrongAnswerState;
+	AllDoneState allDoneState;
 	
 	public OrgoGame() {
 		problemSet = new ProblemSet();
@@ -37,16 +39,14 @@ public class OrgoGame extends MIDlet {
 		productState = new ProductState(this, problemSet, controller);
 		selectReactionState = new SelectReactionState(this, problemSet, controller);
 		problemSolvedState = new ProblemSolvedState(this);
+		wrongAnswerState = new WrongAnswerState(this);
+		allDoneState = new AllDoneState(this);
 	}
 	
 	public void allDone() {
-		System.out.println("Yahoo");
-		try {
-			destroyApp(true);
-			notifyDestroyed();
-		} catch (MIDletStateChangeException e) {
-			e.printStackTrace();
-		}
+		controller.switchToAllDoneState(problemSet.getTimerDisplay().getMinutes() 
+				+ ":"
+				+ problemSet.getTimerDisplay().getSeconds());
 	}
 	
 	protected void startApp() throws MIDletStateChangeException {
@@ -63,7 +63,7 @@ public class OrgoGame extends MIDlet {
 	public void newProblem() {
 		problemSet.newProblem();
 		controller.setCurrentState(startingMaterialState);
+		problemSet.getTimerDisplay().setPaused(false);
 		controller.updateDisplay();
-		problemSet.resetTimerDisplay();
 	}
 }
