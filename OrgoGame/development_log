@@ -435,3 +435,7 @@ looks good & works
 need to clean up interactions, links and uniform design
 especially the state changing stuff
 
+9/26/07
+began massive refactoring to clean up design
+did all except controller commandAction()
+also need to get the timer working

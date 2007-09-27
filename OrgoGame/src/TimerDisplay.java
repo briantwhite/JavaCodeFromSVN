@@ -3,8 +3,6 @@ import java.util.TimerTask;
 
 public class TimerDisplay extends TimerTask {
 
-	private ProblemSet problemSet;
-	private OrgoGame orgoGame;
 	private Controller controller;
 	private int ticks;
 	private int seconds;
@@ -12,7 +10,8 @@ public class TimerDisplay extends TimerTask {
 
 	private boolean paused;
 
-	public TimerDisplay() {
+	public TimerDisplay(Controller controller) {
+		this.controller = controller;
 		seconds = 0;
 		minutes = 0;
 		paused = false;
@@ -23,7 +22,6 @@ public class TimerDisplay extends TimerTask {
 			ticks++;
 			seconds = ticks % 60;
 			minutes = (int)(ticks/60);
-			controller.updateTimers();
 		}
 	}
 	
@@ -33,18 +31,6 @@ public class TimerDisplay extends TimerTask {
 
 	public void reset() {
 		ticks = 0;
-	}
-
-	public void setOrgoGame(OrgoGame og) {
-		orgoGame = og;
-	}
-
-	public void setProblemSet(ProblemSet ps) {
-		problemSet = ps;
-	}
-
-	public void setController(Controller c) {
-		controller = c;
 	}
 
 	public String getMinutes() {

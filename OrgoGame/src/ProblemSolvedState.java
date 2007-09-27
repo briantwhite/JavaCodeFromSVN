@@ -6,40 +6,22 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 
-public class ProblemSolvedState extends Canvas implements CommandListener {
+public class ProblemSolvedState extends Canvas {
 	
-	OrgoGame orgoGame;
+	private Controller controller;
 	
 	private Command newProblem;
 	private Command quit;
 	
-	private String elapsedTimeString = "";
-	private String fractionCompletedString = "";
-
-	public ProblemSolvedState(OrgoGame orgoGame) {
-		this.orgoGame = orgoGame;
+	public ProblemSolvedState(Controller controller) {
+		this.controller = controller;
 		quit = new Command("Quit", Command.EXIT, 1);
 		this.addCommand(quit);
 		newProblem = new Command("New Problem", Command.SCREEN, 1);
 		this.addCommand(newProblem);
-		this.setCommandListener(this);
+		this.setCommandListener(controller);
 	}
 	
-	public void commandAction(Command c, Displayable arg1) {
-		try {
-			if (c == quit) {
-				orgoGame.destroyApp(true);
-				orgoGame.notifyDestroyed();
-			}
-			if (c == newProblem) {
-				orgoGame.newProblem();
-				return;
-			}
-		}
-		catch (MIDletStateChangeException e) {}
-
-	}
-
 	protected void paint(Graphics g) {
 		int width = getWidth();
 		int height = getHeight();
@@ -52,18 +34,9 @@ public class ProblemSolvedState extends Canvas implements CommandListener {
 		g.drawString("Congratulations!", 0, 0, Graphics.TOP|Graphics.LEFT);
 		g.setColor(0xff0000);
 		g.drawString("The clock is stopped at  " 
-				+ elapsedTimeString, 0, 20, Graphics.TOP|Graphics.LEFT);
+				+ controller.getElapsedTimeString(), 0, 20, Graphics.TOP|Graphics.LEFT);
 		g.setColor(0x000000);
 		g.drawString("You have solved " 
-				+ fractionCompletedString, 0, 40, Graphics.TOP|Graphics.LEFT);
+				+ controller.getFractionCompletedString(), 0, 40, Graphics.TOP|Graphics.LEFT);
 	}
-
-	public void setElapsedTimeString(String elapsedTimeString) {
-		this.elapsedTimeString = elapsedTimeString;
-	}
-
-	public void setFractionCompletedString(String fractionCompletedString) {
-		this.fractionCompletedString = fractionCompletedString;
-	}
-
 }

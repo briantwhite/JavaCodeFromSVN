@@ -9,47 +9,29 @@ import javax.microedition.lcdui.Image;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 
-public abstract class ShowMoleculeState extends Canvas implements CommandListener {
+public abstract class ShowMoleculeState extends Canvas {
 
-	OrgoGame orgoGame; 
-	ProblemSet problemSet;
 	Controller controller;
-	
+	ProblemSet problemSet;
+
 	private Image legend;
 
 	protected Command quit;
 	protected Command newProblem;
 
-	public ShowMoleculeState(OrgoGame orgoGame, 
-			ProblemSet problemSet, 
-			Controller controller) {
-		this.orgoGame = orgoGame;
+	public ShowMoleculeState(Controller controller, ProblemSet problemSet) {
 		this.problemSet = problemSet;
 		this.controller = controller;
 		quit = new Command("Quit", Command.EXIT, 1);
 		newProblem = new Command("New Problem", Command.SCREEN, 2);
 		addCommand(quit);
 		addCommand(newProblem);
-		setCommandListener(this);
+		setCommandListener(controller);
 		try {
 			legend = Image.createImage("/images/legend.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void doCommonCommandActions(Command c) {
-		try {
-			if (c == quit) {
-				orgoGame.destroyApp(true);
-				orgoGame.notifyDestroyed();
-			}
-			if (c == newProblem) {
-				orgoGame.newProblem();
-				return;
-			}
-		}
-		catch (MIDletStateChangeException e) {}
 	}
 	
 	public void doCommmonPainting(Graphics g) {
@@ -66,13 +48,15 @@ public abstract class ShowMoleculeState extends Canvas implements CommandListene
 				+ " of " + problemSet.getTotalNumberOfProblems() 
 				+ " problems.", 0, 0, Graphics.TOP|Graphics.LEFT);
 		g.setColor(0xff0000);
-		g.drawString("Time Elapsed = " + problemSet.getTimerDisplay().getMinutes() 
-				+ ":" 
-				+ problemSet.getTimerDisplay().getSeconds(), 
+		g.drawString("Time Elapsed = " + controller.getElapsedTimeString(), 
 				0, 15, 
 				Graphics.TOP|Graphics.LEFT);
 		
 		g.drawImage(legend, width/2, height, Graphics.BOTTOM|Graphics.HCENTER);
+	}
+
+	protected final void keyPressed(int keyCode) {
+		controller.respondToKeyPress(getGameAction(keyCode), this);
 	}
 
 }

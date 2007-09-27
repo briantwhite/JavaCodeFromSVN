@@ -6,39 +6,22 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 
-public class WrongAnswerState extends Canvas implements CommandListener {
+public class WrongAnswerState extends Canvas {
 	
-	OrgoGame orgoGame;
+	private Controller controller;
 	
 	private Command back;
 	private Command quit;
 	
-	private String elapsedTimeString = "";
-
-	public WrongAnswerState(OrgoGame orgoGame) {
-		this.orgoGame = orgoGame;
+	public WrongAnswerState(Controller controller) {
+		this.controller = controller;
 		quit = new Command("Quit", Command.EXIT, 1);
 		this.addCommand(quit);
 		back = new Command("Back", Command.SCREEN, 1);
 		this.addCommand(back);
-		this.setCommandListener(this);
+		this.setCommandListener(controller);
 	}
 	
-	public void commandAction(Command c, Displayable arg1) {
-		try {
-			if (c == quit) {
-				orgoGame.destroyApp(true);
-				orgoGame.notifyDestroyed();
-			}
-			if (c == back) {
-				orgoGame.controller.switchToEditAnswerState();
-				return;
-			}
-		}
-		catch (MIDletStateChangeException e) {}
-
-	}
-
 	protected void paint(Graphics g) {
 		int width = getWidth();
 		int height = getHeight();
@@ -55,12 +38,8 @@ public class WrongAnswerState extends Canvas implements CommandListener {
 		
 		g.setColor(0xff0000);
 		g.drawString("The timer is stopped at "
-				+ elapsedTimeString, 0, 60, Graphics.TOP|Graphics.LEFT);
+				+ controller.getElapsedTimeString(), 0, 60, Graphics.TOP|Graphics.LEFT);
 	
-	}
-
-	public void setElapsedTimeString(String elapsedTimeString) {
-		this.elapsedTimeString = elapsedTimeString;
 	}
 
 }

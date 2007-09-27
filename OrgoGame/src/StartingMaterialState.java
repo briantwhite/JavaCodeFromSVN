@@ -8,10 +8,8 @@ import javax.microedition.lcdui.Image;
 
 public class StartingMaterialState extends ShowMoleculeState {
 
-	public StartingMaterialState(OrgoGame orgoGame, 
-			ProblemSet problemSet, 
-			Controller controller) {
-		super(orgoGame, problemSet, controller);
+	public StartingMaterialState(Controller controller, ProblemSet problemSet) {
+		super(controller, problemSet);
 	}
 	
 	public void paint(Graphics g) {
@@ -27,20 +25,5 @@ public class StartingMaterialState extends ShowMoleculeState {
 		g.drawImage(problemSet.getMoleculeImage(problemSet.getStartingMaterial()), 20, 60, 
 					Graphics.TOP|Graphics.LEFT);
 	}
-
-	public void commandAction(Command c, Displayable arg1) {
-		doCommonCommandActions(c);
-		
-	}
 	
-	protected void keyPressed(int keyCode) {
-		if(getGameAction(keyCode) == RIGHT){
-			controller.switchToProductState();
-			return;
-		}
-		if (getGameAction(keyCode) == FIRE){
-			controller.switchToEditAnswerState();
-		}
-	}
-
 }

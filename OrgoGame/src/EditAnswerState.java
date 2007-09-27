@@ -13,10 +13,8 @@ public class EditAnswerState extends ListState {
 	Command back;
 	Command checkAnswer;
 	
-	public EditAnswerState(OrgoGame orgoGame, 
-			ProblemSet problemSet,
-			Controller controller) {
-		super(orgoGame, problemSet, controller, "Your Answer:", List.IMPLICIT);
+	public EditAnswerState(Controller controller, ProblemSet problemSet) {
+		super(controller, problemSet, "Your Answer:", List.IMPLICIT);
 		addRxn = new Command("Add Rxn to End", Command.SCREEN, 1);
 		addRxnBefore = new Command("Add Rxn Before Selected", Command.SCREEN, 2);
 		deleteRxn = new Command("Delete Rxn", Command.SCREEN, 3);
@@ -27,7 +25,7 @@ public class EditAnswerState extends ListState {
 		this.addCommand(deleteRxn);
 		this.addCommand(back);
 		this.addCommand(checkAnswer);
-		setCommandListener(this);
+		setCommandListener(controller);
 		
 		if (this.problemSet.getSizeOfStudentsAnswer() == 0) {
 			append("No reactions yet.", null);
@@ -38,25 +36,6 @@ public class EditAnswerState extends ListState {
 						+ problemSet.getReactionDescription(answer[i]), null);
 			}
 		}
-
 	}
 
-	public void commandAction(Command command, Displayable arg1) {
-		if (command == addRxn) {
-			controller.switchToReactionChoiceState(-1);
-		}
-		if (command == addRxnBefore){
-			controller.switchToReactionChoiceState(getSelectedIndex());
-		}
-		if (command == deleteRxn){
-			problemSet.deleteReactionFromStudentsAnswer(getSelectedIndex());
-			controller.switchToEditAnswerState();
-		}
-		if (command == back) {
-			controller.switchToStartingMaterialState();
-		}
-		if (command == checkAnswer){
-			controller.checkAnswer();
-		}
-	}
 }

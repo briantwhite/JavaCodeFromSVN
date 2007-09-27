@@ -6,32 +6,19 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 
-public class AllDoneState extends Canvas implements CommandListener {
+public class AllDoneState extends Canvas {
 	
-	OrgoGame orgoGame;
+	private Controller controller;
 	
 	private Command quit;
 	
-	private String elapsedTimeString = "";
-	private String fractionCompletedString = "";
-
-	public AllDoneState(OrgoGame orgoGame) {
-		this.orgoGame = orgoGame;
+	public AllDoneState(Controller controller) {
+		this.controller = controller;
 		quit = new Command("Quit", Command.EXIT, 1);
 		this.addCommand(quit);
-		this.setCommandListener(this);
+		this.setCommandListener(controller);
 	}
 	
-	public void commandAction(Command c, Displayable arg1) {
-		try {
-			if (c == quit) {
-				orgoGame.destroyApp(true);
-				orgoGame.notifyDestroyed();
-			}
-		}
-		catch (MIDletStateChangeException e) {}
-
-	}
 
 	protected void paint(Graphics g) {
 		int width = getWidth();
@@ -48,15 +35,6 @@ public class AllDoneState extends Canvas implements CommandListener {
 				0, 40, Graphics.TOP|Graphics.LEFT);
 		g.setColor(0xff0000);
 		g.drawString("It took you  " 
-				+ elapsedTimeString, 0, 20, Graphics.TOP|Graphics.LEFT);
+				+ controller.getElapsedTimeString(), 0, 20, Graphics.TOP|Graphics.LEFT);
 	}
-
-	public void setElapsedTimeString(String elapsedTimeString) {
-		this.elapsedTimeString = elapsedTimeString;
-	}
-
-	public void setFractionCompletedString(String fractionCompletedString) {
-		this.fractionCompletedString = fractionCompletedString;
-	}
-
 }

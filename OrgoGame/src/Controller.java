@@ -1,13 +1,16 @@
+import java.util.Timer;
+
 import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Command;
+import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.List;
 
 
-public class Controller {
+public class Controller implements CommandListener {
 
 	Display display;
 	
@@ -16,125 +19,61 @@ public class Controller {
 	OrgoGame orgoGame;
 	ProblemSet problemSet;
 	
+	private Timer timer;
+	private TimerDisplay timerDisplay;
+
 	int selectedReactionInAnswer;
 	
-	public Controller() {
+	public Controller(OrgoGame orgoGame, ProblemSet problemSet) {
+		this.orgoGame = orgoGame;
+		this.problemSet = problemSet;
 		selectedReactionInAnswer = 0;
+		
+		timer = new Timer();
+		timerDisplay = new TimerDisplay(this);
+
 	}
 	
-	public void setOrgoGame(OrgoGame og) {
-		orgoGame = og;
+	public void startGame() {
+		display = Display.getDisplay(orgoGame);
+		problemSet.newProblem();
+		display.setCurrent(orgoGame.startingMaterialState);
+		orgoGame.startingMaterialState.repaint();
+	}
+
+	public void commandAction(Command command, Displayable displayable) {
+		
 	}
 	
-	public void setProblemSet(ProblemSet ps) {
-		problemSet = ps;
-	}
-	
-	public void updateDisplay() {
-		display.setCurrent(currentState);
-		if (currentState instanceof Canvas) {
-			((Canvas)currentState).repaint();
+	public void respondToKeyPress(int gameAction, Displayable displayable) {
+		if (gameAction == Canvas.RIGHT) {
+			display.setCurrent(orgoGame.productState);
+			orgoGame.productState.repaint();
+		}
+		
+		if (gameAction == Canvas.LEFT) {
+			display.setCurrent(orgoGame.startingMaterialState);
+			orgoGame.startingMaterialState.repaint();
+		}
+		
+		if (gameAction == Canvas.FIRE) {
+			orgoGame.editAnswerState = null;
+			orgoGame.editAnswerState = new EditAnswerState(this, problemSet);
+			display.setCurrent(orgoGame.editAnswerState);
 		}
 	}
-	
-	public void updateTimers(){
-		System.out.println(problemSet.getTimerDisplay().getMinutes() 
-				+ ":" 
-				+ problemSet.getTimerDisplay().getSeconds());
-		updateDisplay();
-	}
-
-
-	public void setCurrentState(Displayable state) {
-		currentState = state;
+		
+	public String getElapsedTimeString() {
+		return timerDisplay.getMinutes() + ":" + timerDisplay.getSeconds();
 	}
 	
-	public Displayable getCurrentState() {
-		return currentState;
-	}
-	
-	public Display getDisplay() {
-		return display;
-	}
-
-	public void setDisplay(Display display) {
-		this.display = display;
-	}
-	
-	public void switchToProductState() {
-		setCurrentState(orgoGame.productState);
-		problemSet.getTimerDisplay().setPaused(false);
-		updateDisplay();
-	}
-	
-	public void switchToStartingMaterialState() {
-		setCurrentState(orgoGame.startingMaterialState);
-		problemSet.getTimerDisplay().setPaused(false);
-		updateDisplay();
-	}
-	
-	public void switchToEditAnswerState() {
-		orgoGame.editAnswerState = null;
-		orgoGame.editAnswerState = new EditAnswerState(orgoGame, problemSet, this);
-		setCurrentState(orgoGame.editAnswerState);
-		problemSet.getTimerDisplay().setPaused(false);
-		updateDisplay();
-	}
-	
-	public void switchToReactionChoiceState(int selectedItem) {
-		selectedReactionInAnswer = selectedItem;
-		setCurrentState(orgoGame.selectReactionState);
-		problemSet.getTimerDisplay().setPaused(false);
-		updateDisplay();
-	}
-	
-	public void switchToProblemSolvedState(String elapsedTimeString,
-			String fractionCompletedString) {
-		orgoGame.problemSolvedState.setElapsedTimeString(elapsedTimeString);
-		orgoGame.problemSolvedState.setFractionCompletedString(fractionCompletedString);
-		setCurrentState(orgoGame.problemSolvedState);
-		problemSet.getTimerDisplay().setPaused(true);
-		updateDisplay();
-	}
-	
-	public void switchToWrongAnswerState(String elapsedTimeString) {
-		orgoGame.wrongAnswerState.setElapsedTimeString(elapsedTimeString);
-		setCurrentState(orgoGame.wrongAnswerState);
-		problemSet.getTimerDisplay().setPaused(true);
-		updateDisplay();
-	}
-	
-	public void switchToAllDoneState(String elapsedTimeString) {
-		orgoGame.allDoneState.setElapsedTimeString(elapsedTimeString);
-		setCurrentState(orgoGame.allDoneState);
-		updateDisplay();
-	}
-	
-	public void addReactionToAnswer(int reaction) {
-		problemSet.addReactionToStudentsAnswer(reaction, selectedReactionInAnswer);
-		orgoGame.editAnswerState = new EditAnswerState(orgoGame, problemSet, this);
-		setCurrentState(orgoGame.editAnswerState);
-		updateDisplay();
+	public String getFractionCompletedString() {
+		return problemSet.getNumSuccessfullyCompletedProblems()
+		+ " out of " + problemSet.getTotalNumberOfProblems();
 	}
 	
 	public void checkAnswer(){
-		if (problemSet.isCurrentListCorrect()){
-			problemSet.setSuccessfullyCompleted(problemSet.getStartingMaterial(), 
-					problemSet.getProduct());
-			switchToProblemSolvedState(
-					problemSet.getTimerDisplay().getMinutes() 
-					+ ":"
-					+ problemSet.getTimerDisplay().getSeconds(),
-					problemSet.getNumSuccessfullyCompletedProblems()
-					+ " out of "
-					+ problemSet.getTotalNumberOfProblems()
-					+ " problems.");
-			problemSet.newProblem();
-		} else {
-			switchToWrongAnswerState(
-					problemSet.getTimerDisplay().getMinutes() 
-					+ ":"
-					+ problemSet.getTimerDisplay().getSeconds());
-		}
+
 	}
+
 }

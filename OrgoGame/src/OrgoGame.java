@@ -15,9 +15,8 @@ public class OrgoGame extends MIDlet {
 
 	private Command exitCommand;
 	
-	protected ProblemSet problemSet;
-	
-	protected Controller controller;
+	private ProblemSet problemSet;
+	private Controller controller;
 	
 	StartingMaterialState startingMaterialState;
 	EditAnswerState editAnswerState;
@@ -29,41 +28,22 @@ public class OrgoGame extends MIDlet {
 	
 	public OrgoGame() {
 		problemSet = new ProblemSet();
-		controller = new Controller();
-		problemSet.setOrgoGame(this);
-		problemSet.setController(controller);
-		controller.setOrgoGame(this);
-		controller.setProblemSet(problemSet);
-		startingMaterialState = new StartingMaterialState(this, problemSet, controller);
-		editAnswerState = new EditAnswerState(this, problemSet, controller);
-		productState = new ProductState(this, problemSet, controller);
-		selectReactionState = new SelectReactionState(this, problemSet, controller);
-		problemSolvedState = new ProblemSolvedState(this);
-		wrongAnswerState = new WrongAnswerState(this);
-		allDoneState = new AllDoneState(this);
+		controller = new Controller(this, problemSet);
+		startingMaterialState = new StartingMaterialState(controller, problemSet);
+		editAnswerState = new EditAnswerState(controller, problemSet);
+		productState = new ProductState(controller, problemSet);
+		selectReactionState = new SelectReactionState(controller, problemSet);
+		problemSolvedState = new ProblemSolvedState(controller);
+		wrongAnswerState = new WrongAnswerState(controller);
+		allDoneState = new AllDoneState(controller);
 	}
-	
-	public void allDone() {
-		controller.switchToAllDoneState(problemSet.getTimerDisplay().getMinutes() 
-				+ ":"
-				+ problemSet.getTimerDisplay().getSeconds());
-	}
-	
+		
 	protected void startApp() throws MIDletStateChangeException {
-		controller.setCurrentState(startingMaterialState);
-		controller.setDisplay(Display.getDisplay(this));
-		controller.updateDisplay();
-		problemSet.startTimerDisplay();
+		controller.startGame();
 	}
 
 	protected void destroyApp(boolean arg0) throws MIDletStateChangeException {}
 
 	protected void pauseApp() {}
 	
-	public void newProblem() {
-		problemSet.newProblem();
-		controller.setCurrentState(startingMaterialState);
-		problemSet.getTimerDisplay().setPaused(false);
-		controller.updateDisplay();
-	}
 }

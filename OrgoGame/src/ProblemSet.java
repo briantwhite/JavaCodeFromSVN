@@ -12,9 +12,6 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 public class ProblemSet {
 
-	private OrgoGame orgoGame;
-	private Controller controller;
-	
 	Random randomizer;
 
 	private Image[] molecules;
@@ -32,15 +29,10 @@ public class ProblemSet {
 	private boolean[][] successfullyCompletedProblemMatrix;
 	private int numSuccessfullyCompletedProblems = 0;
 	private int totalNumberOfProblems;
-	
-	private Timer timer;
-	private TimerDisplay timerDisplay;
+
 
 	public ProblemSet() {
-		
-		timer = new Timer();
-		timerDisplay = new TimerDisplay();
-		
+
 		numMolecules = 4;
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
 		numReactions = 7;
@@ -109,29 +101,18 @@ public class ProblemSet {
 
 		newProblem();
 	}
-	
-	public void setOrgoGame(OrgoGame og) {
-		orgoGame = og;
-	}
-	
-	public void setController(Controller c) {
-		controller = c;
-	}
 
 	public void newProblem() {
-		// see if all done
-		if (numSuccessfullyCompletedProblems == totalNumberOfProblems) {
-			orgoGame.allDone();
-		} else {
-			studentsAnswer = new Vector();
-			startingMaterial = 0;
-			product = 0;
-			while (isSuccessfullyCompleted(startingMaterial, product)) {
-				startingMaterial = getRandomInt(0,4);
-				product = getRandomInt(0,4);
-			}
+
+		studentsAnswer = new Vector();
+		startingMaterial = 0;
+		product = 0;
+		while (isSuccessfullyCompleted(startingMaterial, product)) {
+			startingMaterial = getRandomInt(0,4);
+			product = getRandomInt(0,4);
 		}
 	}
+
 
 	public Image getMoleculeImage(int i) {
 		if (i < molecules.length) {
@@ -186,7 +167,7 @@ public class ProblemSet {
 		if (studentsAnswer == null){
 			return null;
 		}
-		
+
 		int[] array = new int[studentsAnswer.size()];
 		for (int i = 0; i < studentsAnswer.size(); i++){
 			array[i] = ((Integer)studentsAnswer.elementAt(i)).intValue();
@@ -252,24 +233,5 @@ public class ProblemSet {
 	public int getRandomInt(int min, int max){
 		int r = Math.abs(randomizer.nextInt());
 		return (r % (max - min)) + min;
-	}
-	
-	public void startTimerDisplay() {
-		timerDisplay.setOrgoGame(orgoGame);
-		timerDisplay.setProblemSet(this);
-		timerDisplay.setController(controller);
-		timer.schedule(timerDisplay, 1000, 1000);
-	}
-	
-	public void resetTimerDisplay(){
-		timerDisplay.reset();
-	}
-	
-	public void stopTimerDisplay() {
-		timer.cancel();
-	}
-	
-	public TimerDisplay getTimerDisplay() {
-		return timerDisplay;
 	}
 }
