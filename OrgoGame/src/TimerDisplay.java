@@ -22,6 +22,7 @@ public class TimerDisplay extends TimerTask {
 			ticks++;
 			seconds = ticks % 60;
 			minutes = (int)(ticks/60);
+			controller.updateVisibleTimers();
 		}
 	}
 	

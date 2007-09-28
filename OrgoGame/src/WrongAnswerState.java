@@ -15,9 +15,9 @@ public class WrongAnswerState extends Canvas {
 	
 	public WrongAnswerState(Controller controller) {
 		this.controller = controller;
-		quit = new Command("Quit", Command.EXIT, 1);
+		quit = new Command(OrgoGame.QUIT, Command.EXIT, 1);
 		this.addCommand(quit);
-		back = new Command("Back", Command.SCREEN, 1);
+		back = new Command(OrgoGame.BACK, Command.SCREEN, 1);
 		this.addCommand(back);
 		this.setCommandListener(controller);
 	}

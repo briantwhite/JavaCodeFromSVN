@@ -14,7 +14,7 @@ public class AllDoneState extends Canvas {
 	
 	public AllDoneState(Controller controller) {
 		this.controller = controller;
-		quit = new Command("Quit", Command.EXIT, 1);
+		quit = new Command(OrgoGame.QUIT, Command.EXIT, 1);
 		this.addCommand(quit);
 		this.setCommandListener(controller);
 	}

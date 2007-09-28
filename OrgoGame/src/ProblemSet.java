@@ -176,7 +176,7 @@ public class ProblemSet {
 	}
 
 	//adds to end
-	public void addReactionToStudentsAnswer(int reaction) {
+	private void addReactionToStudentsAnswer(int reaction) {
 		studentsAnswer.addElement(new Integer(reaction));
 	}
 

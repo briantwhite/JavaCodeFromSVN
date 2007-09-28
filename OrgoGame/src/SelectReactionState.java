@@ -10,8 +10,8 @@ public class SelectReactionState extends ListState {
 	public SelectReactionState(Controller controller, ProblemSet problemSet) {
 		super(controller, problemSet, "Choose a Reaction", IMPLICIT);
 		
-		back = new Command("Back", Command.BACK, 1);
-		select = new Command("Select", Command.ITEM, 2);
+		back = new Command(OrgoGame.BACK, Command.BACK, 1);
+		select = new Command(OrgoGame.SELECT, Command.ITEM, 2);
 		this.addCommand(back);
 		this.addCommand(select);
 		setCommandListener(controller);

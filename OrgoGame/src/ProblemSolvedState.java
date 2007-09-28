@@ -15,9 +15,9 @@ public class ProblemSolvedState extends Canvas {
 	
 	public ProblemSolvedState(Controller controller) {
 		this.controller = controller;
-		quit = new Command("Quit", Command.EXIT, 1);
+		quit = new Command(OrgoGame.QUIT, Command.EXIT, 1);
 		this.addCommand(quit);
-		newProblem = new Command("New Problem", Command.SCREEN, 1);
+		newProblem = new Command(OrgoGame.NEW_PROBLEM, Command.SCREEN, 1);
 		this.addCommand(newProblem);
 		this.setCommandListener(controller);
 	}

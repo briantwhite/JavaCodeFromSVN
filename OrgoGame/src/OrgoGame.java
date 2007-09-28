@@ -12,6 +12,16 @@ import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 public class OrgoGame extends MIDlet {
+	
+	//button labels
+	public final static String QUIT = "Quit";
+	public final static String NEW_PROBLEM = "New Problem";
+	public final static String BACK = "Back";
+	public final static String SELECT = "Select";
+	public final static String ADD_RXN_TO_END = "Add Rxn to End";
+	public final static String ADD_BEFORE_SELECTED = "Add Rxn Before Selected";
+	public final static String DELETE_RXN = "Delete Reaction";
+	public final static String CHECK_ANSWER = "Check Answer";
 
 	private Command exitCommand;
 	

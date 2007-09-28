@@ -15,11 +15,11 @@ public class EditAnswerState extends ListState {
 	
 	public EditAnswerState(Controller controller, ProblemSet problemSet) {
 		super(controller, problemSet, "Your Answer:", List.IMPLICIT);
-		addRxn = new Command("Add Rxn to End", Command.SCREEN, 1);
-		addRxnBefore = new Command("Add Rxn Before Selected", Command.SCREEN, 2);
-		deleteRxn = new Command("Delete Rxn", Command.SCREEN, 3);
-		back = new Command("Back", Command.BACK, 4);
-		checkAnswer = new Command("Check Answer", Command.SCREEN, 5);
+		addRxn = new Command(OrgoGame.ADD_RXN_TO_END, Command.SCREEN, 1);
+		addRxnBefore = new Command(OrgoGame.ADD_BEFORE_SELECTED, Command.SCREEN, 2);
+		deleteRxn = new Command(OrgoGame.DELETE_RXN, Command.SCREEN, 3);
+		back = new Command(OrgoGame.BACK, Command.BACK, 4);
+		checkAnswer = new Command(OrgoGame.CHECK_ANSWER, Command.SCREEN, 5);
 		this.addCommand(addRxn);
 		this.addCommand(addRxnBefore);
 		this.addCommand(deleteRxn);

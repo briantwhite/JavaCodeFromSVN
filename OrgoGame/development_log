@@ -439,3 +439,6 @@ especially the state changing stuff
 began massive refactoring to clean up design
 did all except controller commandAction()
 also need to get the timer working
+
+9/27/07
+finished refactoring - works!

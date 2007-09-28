@@ -22,8 +22,8 @@ public abstract class ShowMoleculeState extends Canvas {
 	public ShowMoleculeState(Controller controller, ProblemSet problemSet) {
 		this.problemSet = problemSet;
 		this.controller = controller;
-		quit = new Command("Quit", Command.EXIT, 1);
-		newProblem = new Command("New Problem", Command.SCREEN, 2);
+		quit = new Command(OrgoGame.QUIT, Command.EXIT, 1);
+		newProblem = new Command(OrgoGame.NEW_PROBLEM, Command.SCREEN, 2);
 		addCommand(quit);
 		addCommand(newProblem);
 		setCommandListener(controller);
