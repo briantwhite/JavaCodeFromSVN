@@ -6,6 +6,7 @@ import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
@@ -22,6 +23,8 @@ public class Organism implements Serializable {
 	private ExpressedGene gene2;
 	private Color color;
 	private ImageIcon image;
+	
+	private static HashMap iconCache = new HashMap();
 
 	public Organism(String name, 
 			ExpressedGene gene1, 
@@ -38,6 +41,17 @@ public class Organism implements Serializable {
 				gene2.getFoldedPolypeptide().getColor());
 		
 		//generate icon
+		// see if we've cached one yet
+		if (iconCache.containsKey(color.toString())) {
+			image = (ImageIcon)iconCache.get(color.toString());
+		} else {
+			image = makeIcon(color);
+			iconCache.put(color.toString(), image);
+		}
+
+	}
+	
+	private ImageIcon makeIcon(Color color) {
 		BufferedImage pic = new BufferedImage(
 				imageSize,
 				imageSize,
@@ -69,9 +83,10 @@ public class Organism implements Serializable {
 		g.drawLine(25, 25, 14, 22);		
 
 		g.dispose();
-
-		image = new ImageIcon(pic);
+		pic.flush();
+		return new ImageIcon(pic);
 	}
+	
 	
 	// constructor for making new organism from old organism
 	//  with name changed
