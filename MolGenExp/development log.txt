@@ -280,3 +280,5 @@ so made a static iconCache in Organism to keep the icons we've made so far
 now there are no more of these massive arrays
 should be OK
 try making many trays
+made 100 & it was OK
+tagged as version 1.3.2
