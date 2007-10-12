@@ -442,3 +442,24 @@ also need to get the timer working
 
 9/27/07
 finished refactoring - works!
+
+10/11/07
+tried sending to server
+
+need to make jar with the images folder in it
+
+load from CVS
+build with Wireless Toolkit 2.5.1
+go to classes & delete all CVS folders (also the one in images)
+in bin
+jar cvmf MANIFEST.MF OrgoGame.jar -C ../classes .
+
+sent up to server
+it works!
+but -
+ - it is too big for my cell phone's screen!
+ - sometimes, it messes up the menus (puts them in different places)
+
+NOTE - it won't properly go back into CVS once you've done this procedure
+it complains that manifest and another file were added by someone else...
+
