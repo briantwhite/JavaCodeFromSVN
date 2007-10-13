@@ -19,9 +19,6 @@ public class ProductState extends ShowMoleculeState {
 		
 		g.drawString("Product", 0, 40, Graphics.TOP|Graphics.LEFT);
 		
-		g.drawImage(problemSet.getMoleculeImage(problemSet.getProduct()), 20, 60, 
-					Graphics.TOP|Graphics.LEFT);
-
 
 	}
 }

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Random;
 import java.util.Timer;
@@ -14,7 +15,6 @@ public class ProblemSet {
 
 	Random randomizer;
 
-	private Image[] molecules;
 	private int numMolecules;
 	private String[] reactions;
 	private int numReactions;
@@ -33,6 +33,39 @@ public class ProblemSet {
 
 	public ProblemSet() {
 
+
+		//determine the size of the file
+		int size = 0;
+		InputStream problemFileStream = 
+			getClass().getResourceAsStream("ProblemFiles/Problem.pml");
+		byte b;
+		try {
+			b = (byte)problemFileStream.read();
+
+			while (b != -1) {
+				size ++;
+				b = (byte)problemFileStream.read();
+			}
+			problemFileStream.close();
+			//create byte array to hold the file contents
+			byte buf[] = new byte[size];
+
+			//read the contents into the byte array
+			problemFileStream = 
+				getClass().getResourceAsStream("ProblemFiles/Problem.pml");
+			problemFileStream.read(buf);
+			problemFileStream.close();
+			
+			// convert the array into string
+			String problemFileString = new String(buf);
+			System.out.println(problemFileString);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
 		numMolecules = 4;
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
 		numReactions = 7;
@@ -43,7 +76,6 @@ public class ProblemSet {
 		randomizer = new Random();
 
 		//load in images
-		molecules = new Image[4];
 		reactions = new String[] {"SOCl2",
 				"Oxidation",
 				"NH3",
@@ -52,15 +84,6 @@ public class ProblemSet {
 				"H3O+",
 				"OH-",
 		"None of the above"};
-
-		try {
-			for (int i = 0; i < numMolecules; i++) {
-				String fileName = "/images/mol" + i + ".png";
-				molecules[i] = Image.createImage(fileName);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		//set up correct reaction array
 		reactionArray = new ReactionList[numMolecules][numMolecules];
@@ -108,17 +131,8 @@ public class ProblemSet {
 		startingMaterial = 0;
 		product = 0;
 		while (isSuccessfullyCompleted(startingMaterial, product)) {
-			startingMaterial = getRandomInt(0,4);
-			product = getRandomInt(0,4);
-		}
-	}
-
-
-	public Image getMoleculeImage(int i) {
-		if (i < molecules.length) {
-			return molecules[i];
-		} else {
-			return null;
+			startingMaterial = getRandomInt(0,numMolecules);
+			product = getRandomInt(0,numMolecules);
 		}
 	}
 

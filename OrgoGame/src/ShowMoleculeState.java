@@ -51,8 +51,6 @@ public abstract class ShowMoleculeState extends Canvas {
 		g.drawString("Time Elapsed = " + controller.getElapsedTimeString(), 
 				0, 15, 
 				Graphics.TOP|Graphics.LEFT);
-		
-		g.drawImage(legend, width/2, height, Graphics.BOTTOM|Graphics.HCENTER);
 	}
 
 	protected final void keyPressed(int keyCode) {
