@@ -27,11 +27,6 @@ public abstract class ShowMoleculeState extends Canvas {
 		addCommand(quit);
 		addCommand(newProblem);
 		setCommandListener(controller);
-		try {
-			legend = Image.createImage("/images/legend.png");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void doCommmonPainting(Graphics g) {

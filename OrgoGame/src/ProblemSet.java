@@ -22,18 +22,19 @@ public class ProblemSet {
 	private int startingMaterial;
 	private int product;
 
-	private ReactionList[][] reactionArray;
+	private ReactionList[][] correctAnswerArray;
 
 	private Vector studentsAnswer;
 
-	private boolean[][] successfullyCompletedProblemMatrix;
+	private boolean[][] successfullyCompletedProblemArray;
 	private int numSuccessfullyCompletedProblems = 0;
 	private int totalNumberOfProblems;
 
 
 	public ProblemSet() {
 
-
+		//read in the problem file
+		String problemFileString = "";
 		//determine the size of the file
 		int size = 0;
 		InputStream problemFileStream = 
@@ -55,69 +56,91 @@ public class ProblemSet {
 				getClass().getResourceAsStream("ProblemFiles/Problem.pml");
 			problemFileStream.read(buf);
 			problemFileStream.close();
-			
+
 			// convert the array into string
-			String problemFileString = new String(buf);
-			System.out.println(problemFileString);
+			problemFileString = new String(buf);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+		// convert to String[] with each line is an entry
+		String[] problemFileLines = 
+			StringParser.parseToStringArray(problemFileString, "\r");
 
-		numMolecules = 4;
+		// count the relevant parameters
+		numMolecules = 0;
+		numReactions = 0;
+		for (int i = 0; i < problemFileLines.length; i++) {
+			String line = problemFileLines[i];
+			if (line.startsWith("<molecule ")) {
+				numMolecules++;
+			}
+			if (line.startsWith("<reaction ")) {
+				numReactions++;
+			}
+		}
+
+		//read in the reactions and correct answers
+		reactions = new String[numReactions];
+		correctAnswerArray = new ReactionList[numMolecules][numMolecules];
+		for (int i = 0; i < problemFileLines.length; i++) {
+			String line = problemFileLines[i];
+			if (line.startsWith("<reaction ")) {
+				String[] parts = 
+					StringParser.parseToStringArray(line, " ");
+				reactions[
+				          Integer.parseInt(
+				        		  StringParser.extractFromWithinQuotes(parts[1]))] =
+				        			  StringParser.extractFromWithinQuotes(parts[2]);
+			}
+			if (line.startsWith("<answer ")) {
+				String[] parts = 
+					StringParser.parseToStringArray(line, " ");
+				correctAnswerArray[
+				                   Integer.parseInt(
+				                		   StringParser.extractFromWithinQuotes(parts[1]))]
+				                		   [
+				                		    Integer.parseInt(
+				                		    		StringParser.extractFromWithinQuotes(
+				                		    				parts[2]))]
+				                		    				= new ReactionList(
+				                		    						StringParser.extractFromWithinQuotes(
+				                		    								parts[3]));
+			}
+		}
+		//can't convert mol0 to mol0
+		for (int i = 0; i < numMolecules; i++) {
+			correctAnswerArray[i][i] = null;
+		}
+
+		// read in the molecules; one-by-one
+		int numAtoms = 0;
+		int numBonds = 0;
+		for (int i = 0; i < problemFileLines.length; i++) {
+			String line = problemFileLines[i];
+			
+			// see if starting a new molecule
+			if (line.startsWith("<molecule ")) {
+				numAtoms = 0;
+				numBonds = 0;
+			}
+		}
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
-		numReactions = 7;
 
 		//list of reactions in current solution attempt
 		studentsAnswer = null;
 
 		randomizer = new Random();
 
-		//load in images
-		reactions = new String[] {"SOCl2",
-				"Oxidation",
-				"NH3",
-				"CH3OH",
-				"Reduction",
-				"H3O+",
-				"OH-",
-		"None of the above"};
-
-		//set up correct reaction array
-		reactionArray = new ReactionList[numMolecules][numMolecules];
-
-		//can't convert mol0 to mol0
-		for (int i = 0; i < numMolecules; i++) {
-			reactionArray[i][i] = null;
-		}
-
-		// row, column
-		reactionArray[0][1] = new ReactionList("1");
-		reactionArray[0][2] = new ReactionList("1,0,2");
-		reactionArray[0][3] = new ReactionList("1,0,3");
-
-		reactionArray[1][0] = new ReactionList("4");
-		reactionArray[1][2] = new ReactionList("0,2");
-		reactionArray[1][3] = new ReactionList("0,3");
-
-		reactionArray[2][0] = new ReactionList("5,4");
-		reactionArray[2][1] = new ReactionList("5");
-		reactionArray[2][3] = new ReactionList("5,0,3");
-
-		reactionArray[3][0] = new ReactionList("6,4");
-		reactionArray[3][1] = new ReactionList("6");
-		reactionArray[3][2] = new ReactionList("2");
-
 		//set up array of successfully-completed problems
-		successfullyCompletedProblemMatrix = new boolean[numMolecules][numMolecules];
+		successfullyCompletedProblemArray = new boolean[numMolecules][numMolecules];
 		for (int i = 0; i < numMolecules; i++) {
 			for (int j = 0; j < numMolecules; j++) {
 				if (i == j) {
-					successfullyCompletedProblemMatrix[i][j] = true;
+					successfullyCompletedProblemArray[i][j] = true;
 				} else {
-					successfullyCompletedProblemMatrix[i][j] = false;
+					successfullyCompletedProblemArray[i][j] = false;
 				}
 			}
 		}
@@ -167,7 +190,7 @@ public class ProblemSet {
 	public ReactionList getCorrectAnswer(int startingMaterial, int product) {
 		if ((startingMaterial < numMolecules) &&
 				(product < numMolecules)) {
-			return reactionArray[startingMaterial][product];
+			return correctAnswerArray[startingMaterial][product];
 		} else {
 			return null;
 		}
@@ -227,13 +250,13 @@ public class ProblemSet {
 	public void setSuccessfullyCompleted(int startingMaterial, int product) {
 		if ((startingMaterial < numMolecules) 
 				&& (product < numMolecules)) {
-			successfullyCompletedProblemMatrix[startingMaterial][product] = true;
+			successfullyCompletedProblemArray[startingMaterial][product] = true;
 			numSuccessfullyCompletedProblems++;
 		}
 	}
 
 	public boolean isSuccessfullyCompleted(int startingMaterial, int product) {
-		return successfullyCompletedProblemMatrix[startingMaterial][product];
+		return successfullyCompletedProblemArray[startingMaterial][product];
 	}
 
 	public int getNumSuccessfullyCompletedProblems() {
