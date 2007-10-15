@@ -12,6 +12,8 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 
 public class ProblemSet {
+	
+	Scale scale;
 
 	Random randomizer;
 
@@ -32,6 +34,8 @@ public class ProblemSet {
 
 
 	public ProblemSet() {
+		
+		scale = new SmallScale();
 
 		//read in the problem file
 		String problemFileString = "";
@@ -80,7 +84,7 @@ public class ProblemSet {
 				numReactions++;
 			}
 		}
-
+		
 		//read in the reactions and correct answers
 		reactions = new String[numReactions];
 		correctAnswerArray = new ReactionList[numMolecules][numMolecules];
@@ -115,17 +119,106 @@ public class ProblemSet {
 		}
 
 		// read in the molecules; one-by-one
+		Molecule[] molecules = new Molecule[numMolecules];
+		int moleculeCounter = 0;
+
 		int numAtoms = 0;
 		int numBonds = 0;
+		Vector atomVector = null;
+		Vector bondVector = null;
 		for (int i = 0; i < problemFileLines.length; i++) {
 			String line = problemFileLines[i];
 			
 			// see if starting a new molecule
+			//  if so, clear everything out
 			if (line.startsWith("<molecule ")) {
 				numAtoms = 0;
 				numBonds = 0;
+				atomVector = new Vector();
+				bondVector = new Vector();
+			}
+			
+			// if it's an atom, make one and add to vector
+			if (line.startsWith("<atom ")) {
+				String type = "";
+				int x = 0;
+				int y = 0;
+				int hydrogenCount = 0;
+				String id = "";
+				String[] parts = StringParser.parseToStringArray(line, " ");
+				for (int j = 0; j < parts.length; j++) {
+					String part = parts[j];
+					if (part.startsWith("elementType")) {
+						type = StringParser.extractFromWithinQuotes(part);
+					}
+					if (part.startsWith("id")) {
+						id = StringParser.extractFromWithinQuotes(part);
+					}
+					if (part.startsWith("hydrogenCount")) {
+						hydrogenCount = 
+							Integer.parseInt(StringParser.extractFromWithinQuotes(
+									part));
+					}
+					if (part.startsWith("x2")) {
+						x = 
+							Integer.parseInt(StringParser.extractFromWithinQuotes(
+									part));
+					}
+					if (part.startsWith("y2")) {
+						y = 
+							Integer.parseInt(StringParser.extractFromWithinQuotes(
+									part));
+					}
+				}
+				atomVector.addElement(new Atom(type, x, y, hydrogenCount, id));
+			}
+			
+			// if it's a bond, add it to the vector
+			if (line.startsWith("<bond ")) {
+				Atom a1 = null;
+				Atom a2 = null;
+				int bondOrder = 0;
+				String[] parts = StringParser.parseToStringArray(line, " ");
+				for (int j = 0; j < parts.length; j++) {
+					String part = parts[j];
+					if (part.startsWith("atomRefs")) {
+						String[] atomIdsInBond =
+							StringParser.parseToStringArray(
+									StringParser.extractFromWithinQuotes(part), " ");
+						a1 = findAtomWithThisId(atomVector, atomIdsInBond[0]);
+						a2 = findAtomWithThisId(atomVector, atomIdsInBond[1]);
+					}
+					if (part.startsWith("order")) {
+						bondOrder =
+							Integer.parseInt(StringParser.extractFromWithinQuotes(
+									part));
+					}
+				}
+				bondVector.addElement(new Bond(a1, a2, bondOrder));
+			}
+			
+			// if it's the end of a molecule, save the molecule
+			if (line.startsWith("</molecule")) {
+				
+				Atom[] atoms = new Atom[atomVector.size()];
+				for (int j = 0; j < atoms.length; j++) {
+					atoms[j] = (Atom)atomVector.elementAt(j);
+				}
+				
+				Bond[] bonds = new Bond[bondVector.size()];
+				for (int j = 0; j < bonds.length; j++) {
+					bonds[j] = (Bond)bondVector.elementAt(j);
+				}
+				
+				//need to scale the x,y coord of the atoms
+				
+				
+				molecules[moleculeCounter] =
+					new Molecule(atoms, bonds);
+				moleculeCounter++;
 			}
 		}
+		
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
 
 		//list of reactions in current solution attempt
@@ -146,6 +239,16 @@ public class ProblemSet {
 		}
 
 		newProblem();
+	}
+	
+	private Atom findAtomWithThisId(Vector v, String id) {
+		for (int i = 0; i < v.size(); i++) {
+			Atom a = (Atom)v.elementAt(i);
+			if (a.getId().equals(id)) {
+				return a;
+			}
+		}
+		return null;
 	}
 
 	public void newProblem() {
