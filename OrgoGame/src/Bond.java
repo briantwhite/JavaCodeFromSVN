@@ -23,8 +23,8 @@ public class Bond {
 		return bondOrder;
 	}
 
-	public double getLength() {
-		return Math.sqrt(
+	public int getLength() {
+		return Utilities.sqrt(
 				(
 						(atom1.getX() - atom2.getX()) 
 						* (atom1.getX() - atom2.getX())

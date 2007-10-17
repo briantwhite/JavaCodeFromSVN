@@ -5,7 +5,7 @@ public class ReactionList {
 	private String delimiter = ",";
 	
 	public ReactionList(String reactionListString) {
-		reactionList = StringParser.parseToIntegerArray(reactionListString, ",");
+		reactionList = Utilities.parseToIntegerArray(reactionListString, ",");
 	}
 	
 	public int[] getList() {

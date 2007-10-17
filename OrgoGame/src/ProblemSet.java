@@ -70,7 +70,7 @@ public class ProblemSet {
 
 		// convert to String[] with each line is an entry
 		String[] problemFileLines = 
-			StringParser.parseToStringArray(problemFileString, "\r");
+			Utilities.parseToStringArray(problemFileString, "\r");
 
 		// count the relevant parameters
 		numMolecules = 0;
@@ -92,24 +92,24 @@ public class ProblemSet {
 			String line = problemFileLines[i];
 			if (line.startsWith("<reaction ")) {
 				String[] parts = 
-					StringParser.parseToStringArray(line, " ");
+					Utilities.parseToStringArray(line, " ");
 				reactions[
 				          Integer.parseInt(
-				        		  StringParser.extractFromWithinQuotes(parts[1]))] =
-				        			  StringParser.extractFromWithinQuotes(parts[2]);
+				        		  Utilities.extractFromWithinQuotes(parts[1]))] =
+				        			  Utilities.extractFromWithinQuotes(parts[2]);
 			}
 			if (line.startsWith("<answer ")) {
 				String[] parts = 
-					StringParser.parseToStringArray(line, " ");
+					Utilities.parseToStringArray(line, " ");
 				correctAnswerArray[
 				                   Integer.parseInt(
-				                		   StringParser.extractFromWithinQuotes(parts[1]))]
+				                		   Utilities.extractFromWithinQuotes(parts[1]))]
 				                		   [
 				                		    Integer.parseInt(
-				                		    		StringParser.extractFromWithinQuotes(
+				                		    		Utilities.extractFromWithinQuotes(
 				                		    				parts[2]))]
 				                		    				= new ReactionList(
-				                		    						StringParser.extractFromWithinQuotes(
+				                		    						Utilities.extractFromWithinQuotes(
 				                		    								parts[3]));
 			}
 		}
@@ -145,29 +145,31 @@ public class ProblemSet {
 				int y = 0;
 				int hydrogenCount = 0;
 				String id = "";
-				String[] parts = StringParser.parseToStringArray(line, " ");
+				String[] parts = Utilities.parseToStringArray(line, " ");
 				for (int j = 0; j < parts.length; j++) {
 					String part = parts[j];
 					if (part.startsWith("elementType")) {
-						type = StringParser.extractFromWithinQuotes(part);
+						type = Utilities.extractFromWithinQuotes(part);
 					}
 					if (part.startsWith("id")) {
-						id = StringParser.extractFromWithinQuotes(part);
+						id = Utilities.extractFromWithinQuotes(part);
 					}
 					if (part.startsWith("hydrogenCount")) {
 						hydrogenCount = 
-							Integer.parseInt(StringParser.extractFromWithinQuotes(
+							Integer.parseInt(Utilities.extractFromWithinQuotes(
 									part));
 					}
 					if (part.startsWith("x2")) {
 						x = 
-							Integer.parseInt(StringParser.extractFromWithinQuotes(
-									part));
+							Utilities.parseStringToBigInt(
+									Utilities.extractFromWithinQuotes(
+									part), 3);
 					}
 					if (part.startsWith("y2")) {
 						y = 
-							Integer.parseInt(StringParser.extractFromWithinQuotes(
-									part));
+							Utilities.parseStringToBigInt(
+									Utilities.extractFromWithinQuotes(
+									part), 3);
 					}
 				}
 				atomVector.addElement(new Atom(type, x, y, hydrogenCount, id));
@@ -178,19 +180,19 @@ public class ProblemSet {
 				Atom a1 = null;
 				Atom a2 = null;
 				int bondOrder = 0;
-				String[] parts = StringParser.parseToStringArray(line, " ");
+				String[] parts = Utilities.parseToStringArray(line, " ");
 				for (int j = 0; j < parts.length; j++) {
 					String part = parts[j];
 					if (part.startsWith("atomRefs")) {
 						String[] atomIdsInBond =
-							StringParser.parseToStringArray(
-									StringParser.extractFromWithinQuotes(part), " ");
+							Utilities.parseToStringArray(
+									Utilities.extractFromWithinQuotes(part), " ");
 						a1 = findAtomWithThisId(atomVector, atomIdsInBond[0]);
 						a2 = findAtomWithThisId(atomVector, atomIdsInBond[1]);
 					}
 					if (part.startsWith("order")) {
 						bondOrder =
-							Integer.parseInt(StringParser.extractFromWithinQuotes(
+							Integer.parseInt(Utilities.extractFromWithinQuotes(
 									part));
 					}
 				}
@@ -219,6 +221,10 @@ public class ProblemSet {
 			}
 		}
 		
+		for (int i = 0; i < 100; i++) {
+			System.out.print(i);
+			Utilities.sqrt(i);
+		}
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
 
 		//list of reactions in current solution attempt
