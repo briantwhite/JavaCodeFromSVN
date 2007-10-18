@@ -282,3 +282,13 @@ should be OK
 try making many trays
 made 100 & it was OK
 tagged as version 1.3.2
+
+10/18/07
+working on new bug
+if you make a lot of mutants, it runs out of memory
+it's because of all the buffered images
+therefore, when making mutants, don't make the images
+- save the new organisms with the images as NULL
+- if you open them in biochemworkbench, then draw the picx as necessary
+
+started refactoring GridCanvas's paint() to allow for multiple entry points

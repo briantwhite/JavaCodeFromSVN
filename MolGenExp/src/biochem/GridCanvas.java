@@ -181,81 +181,7 @@ public abstract class GridCanvas extends JPanel {
 
 		super.paintComponent(g);
 		
-		ColorCoder cc = null;
-
-			setBackground(BiochemistryWorkbench.BACKGROUND_COLOR);
-			cc = new ShadingColorCoder(pp.getTable().getContrastScaler());
-			g.setColor(BiochemistryWorkbench.BACKGROUND_COLOR);
-			g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
-		
-		
-		GridPoint[] spots = new GridPoint[numAcids];
-		AcidInChain[] acidsByZ = new AcidInChain[numAcids];
-		for (int i = 0; i < numAcids; i++) {
-			AcidInChain a = pp.getAminoAcid(i);
-			spots[i] = project(a.xyz);
-			acidsByZ[i] = a;
-		}
-		GridPoint min = getMin(spots);
-		for (int i = 0; i < numAcids; i++) {
-			spots[i] = spots[i].subtract(min);
-		}
-		Arrays.sort(acidsByZ, new SortByZ());
-		int r = getAcidRadius();
-		for (int i = 0; i < numAcids; i++) {
-			AcidInChain a = acidsByZ[i];
-			GridPoint here = project(a.xyz).subtract(min);
-			
-			// fills the circle
-			g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
-			g.fillOval(here.x - r, here.y - r, 2 * r, 2 * r);
-			
-		}
-				
-		// draw the backbone
-		for (int i = 0; i < numAcids; i++) {
-			AcidInChain a = pp.getAminoAcid(i);
-			int offset = getStringIndentationConstant(a.name, r);
-
-			// default color for names is white
-			g.setColor(Color.white)	;
-
-			//if philic - then add stuff
-			if (a.getName().equals("Arg") ||
-					a.getName().equals("Lys") ||
-					a.getName().equals("His")) {
-				g.setColor(Color.blue);
-				g.drawString("+", spots[i].x - 15, spots[i].y);
-				g.setColor(Color.black);
-			}
-
-			if (a.getName().equals("Asp") ||
-					a.getName().equals("Glu")) {
-				g.setColor(Color.red);
-				g.drawString("-", spots[i].x - 15, spots[i].y);
-				g.setColor(Color.black);
-			}
-
-			if (a.getName().equals("Asn") ||
-					a.getName().equals("Gln") ||
-					a.getName().equals("Ser") ||
-					a.getName().equals("Thr") ||
-					a.getName().equals("Tyr")) {
-				g.setColor(Color.green);
-				g.drawString("*", spots[i].x - 15, spots[i].y);
-				g.setColor(Color.BLACK);					
-			}
-
-			g.drawString(a.name, spots[i].x - offset, spots[i].y);
-			// string is drawn to an left offset from center of disk.;
-			g.drawString(a.getAbName(), spots[i].x - 2, spots[i].y + 12);
-			g.setColor(Color.magenta);
-
-			if (i < numAcids - 1) {
-				g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
-						spots[i + 1].y);
-			}
-		}
+		paintProtein(g);
 
 	}
 
@@ -295,6 +221,85 @@ public void calculateRequiredCanvasSize() {
 	requiredCanvasSize = new Dimension(maxX + 2 * cellDiameter, 
 			maxY + 2 * cellDiameter);
 	}
+
+private void paintProtein(Graphics g) {
+	ColorCoder cc = null;
+	
+	setBackground(BiochemistryWorkbench.BACKGROUND_COLOR);
+	cc = new ShadingColorCoder(pp.getTable().getContrastScaler());
+	g.setColor(BiochemistryWorkbench.BACKGROUND_COLOR);
+	g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
+	
+	
+	GridPoint[] spots = new GridPoint[numAcids];
+	AcidInChain[] acidsByZ = new AcidInChain[numAcids];
+	for (int i = 0; i < numAcids; i++) {
+		AcidInChain a = pp.getAminoAcid(i);
+		spots[i] = project(a.xyz);
+		acidsByZ[i] = a;
+	}
+	GridPoint min = getMin(spots);
+	for (int i = 0; i < numAcids; i++) {
+		spots[i] = spots[i].subtract(min);
+	}
+	Arrays.sort(acidsByZ, new SortByZ());
+	int r = getAcidRadius();
+	for (int i = 0; i < numAcids; i++) {
+		AcidInChain a = acidsByZ[i];
+		GridPoint here = project(a.xyz).subtract(min);
+		
+		// fills the circle
+		g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
+		g.fillOval(here.x - r, here.y - r, 2 * r, 2 * r);
+		
+	}
+	
+	// draw the backbone
+	for (int i = 0; i < numAcids; i++) {
+		AcidInChain a = pp.getAminoAcid(i);
+		int offset = getStringIndentationConstant(a.name, r);
+		
+		// default color for names is white
+		g.setColor(Color.white)	;
+		
+		//if philic - then add stuff
+		if (a.getName().equals("Arg") ||
+				a.getName().equals("Lys") ||
+				a.getName().equals("His")) {
+			g.setColor(Color.blue);
+			g.drawString("+", spots[i].x - 15, spots[i].y);
+			g.setColor(Color.black);
+		}
+		
+		if (a.getName().equals("Asp") ||
+				a.getName().equals("Glu")) {
+			g.setColor(Color.red);
+			g.drawString("-", spots[i].x - 15, spots[i].y);
+			g.setColor(Color.black);
+		}
+		
+		if (a.getName().equals("Asn") ||
+				a.getName().equals("Gln") ||
+				a.getName().equals("Ser") ||
+				a.getName().equals("Thr") ||
+				a.getName().equals("Tyr")) {
+			g.setColor(Color.green);
+			g.drawString("*", spots[i].x - 15, spots[i].y);
+			g.setColor(Color.BLACK);					
+		}
+		
+		g.drawString(a.name, spots[i].x - offset, spots[i].y);
+		// string is drawn to an left offset from center of disk.;
+		g.drawString(a.getAbName(), spots[i].x - 2, spots[i].y + 12);
+		g.setColor(Color.magenta);
+		
+		if (i < numAcids - 1) {
+			g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
+					spots[i + 1].y);
+		}
+	}
+	
+}
 	
 	private class SortByZ implements Comparator {
 		public int compare(Object o1, Object o2) {
