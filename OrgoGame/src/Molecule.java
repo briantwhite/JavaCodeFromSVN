@@ -17,6 +17,26 @@ public class Molecule {
 		return bonds;
 	}
 	
+	public int getOneBondLength() {
+		return bonds[0].getLength();
+	}
+	
+	// normalize by subtracting the average x from the x's
+	//  and the average y from the y's
+	public void normalizeXandY() {
+		int sumX = 0;
+		int sumY = 0;
+		for (int i = 0; i < atoms.length; i++) {
+			sumX = sumX + atoms[i].getX();
+			sumY = sumY + atoms[i].getY();
+		}
+		int avgX = sumX/atoms.length;
+		int avgY = sumY/atoms.length;
+		for (int i = 0; i < atoms.length; i++) {
+			atoms[i].normalizeXandY(avgX, avgY);
+		}
+	}
+	
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("Molecule\n");

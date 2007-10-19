@@ -4,7 +4,7 @@ public class Atom {
 	private String type;
 	private int x;
 	private int y;
-	private int hAtomCount;
+	private int hAtomCount = 0;
 	private String id;
 
 	public Atom(String type,
@@ -45,6 +45,11 @@ public class Atom {
 		+ " y=" + y 
 		+ " #H=" + hAtomCount
 		+ " id=" + id;
+	}
+	
+	public void normalizeXandY(int avgX, int avgY) {
+		x = x - avgX;
+		y = y - avgY;
 	}
 	
 	public void scale(int scaleFactor, int xOffset, int yOffset) {

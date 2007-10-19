@@ -103,13 +103,22 @@ public class Utilities {
 	}
 	
 	public static int sqrt(int x) {
-		int guess = 1;
-		while (Math.abs((guess * guess) - x) > 3) {
-			guess = (guess + (x/guess))/2;
-			System.out.print(guess + ",");
+		int n = 1;
+		int n1 = next(n, x);
+		
+		while (Math.abs(n1 - n) > 1) {
+			n = n1;
+			n1 = next(n, x);
 		}
-		System.out.println();
-		return guess;
+		
+		while ((n1 * n1) > x) {
+			n1 -= 1;
+		}
+		
+		return n1;
 	}
 
+	private static int next(int n, int i) {
+		return (n + i/n) >> 1;
+	}
 }

@@ -21,6 +21,7 @@ public class ProblemSet {
 	private String[] reactions;
 	private int numReactions;
 
+	private Molecule[] molecules;
 	private int startingMaterial;
 	private int product;
 
@@ -119,7 +120,7 @@ public class ProblemSet {
 		}
 
 		// read in the molecules; one-by-one
-		Molecule[] molecules = new Molecule[numMolecules];
+		molecules = new Molecule[numMolecules];
 		int moleculeCounter = 0;
 
 		int numAtoms = 0;
@@ -221,10 +222,23 @@ public class ProblemSet {
 			}
 		}
 		
-		for (int i = 0; i < 100; i++) {
-			System.out.print(i);
-			Utilities.sqrt(i);
+		//scale the measurements
+		// use a standard bond length to scale each molecule
+		// so all bonds the same length
+		for (int i = 0; i < numMolecules; i++) {
+			Molecule molec = molecules[i];
+			molec.normalizeXandY();
+			int scaleFactor = molec.getOneBondLength()/scale.getBondLength();
+			Atom[] atoms = molec.getAtoms();
+			for (int j = 0; j < atoms.length; j++) {
+				atoms[j].scale(scaleFactor, scale.getXOffset(), scale.getYOffset());
+			}
 		}
+		
+//		for (int i = 0; i < numMolecules; i++) {
+//			System.out.println(molecules[i]);
+//		}
+		
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
 
 		//list of reactions in current solution attempt
@@ -287,6 +301,10 @@ public class ProblemSet {
 	public int getNumReactions() {
 		return numReactions;
 	}
+	
+	public Molecule getMolecule(int i) {
+		return molecules[i];
+	}
 
 	public int getStartingMaterial() {
 		return startingMaterial;
@@ -296,6 +314,10 @@ public class ProblemSet {
 		return product;
 	}
 
+	public Scale getScale() {
+		return scale;
+	}
+	
 	public ReactionList getCorrectAnswer(int startingMaterial, int product) {
 		if ((startingMaterial < numMolecules) &&
 				(product < numMolecules)) {
