@@ -14,9 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
@@ -45,18 +43,11 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	Polypeptide polypeptide;
 	Attributes attributes;
 	FoldingManager manager;
-	JScrollPane proteinScrollPane;
 
 	StandardTable table;
 
 	FoldedPolypeptide foldedPolypeptide;
 	BufferedImage fullSizePic;
-
-	// fix thumbnail size from WIDTH and HEIGHT of full-size image;
-	//	these values (in pixels) are for scaling purposes
-	private static int thumbWidth = 130;
-	private static int thumbHeight = 70;
-
 
 	public BiochemistryWorkpanel(String title, final BiochemistryWorkbench protex, final ColorModel colorModel) {
 		super();
@@ -78,9 +69,8 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		proteinSequence.setBorder(BorderFactory.createTitledBorder("Amino Acid Sequence"));
 		proteinSequence.setDocument(tlcDoc);
 		foldedProtein = new OutputPalette(colorModel);
-		proteinScrollPane = new JScrollPane(foldedProtein);
 		proteinPanel.add(proteinSequence, BorderLayout.NORTH);
-		proteinPanel.add(proteinScrollPane, BorderLayout.CENTER);
+		proteinPanel.add(foldedProtein, BorderLayout.CENTER);
 
 		loadSampleButton = new JButton("Load Sample Protein");
 

@@ -292,3 +292,8 @@ therefore, when making mutants, don't make the images
 - if you open them in biochemworkbench, then draw the picx as necessary
 
 started refactoring GridCanvas's paint() to allow for multiple entry points
+
+10/19/07
+- working on bug - extra scrolbar appears in BiochWBench when screen is small
+ - OutputPalette already has a scroller so none is needed in BiochemWorkPanel
+
