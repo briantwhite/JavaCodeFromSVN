@@ -54,7 +54,7 @@ public class HexCanvas extends GridCanvas {
 		hexagon.addPoint(0, sqrt3 * cellRadius);
 	}
 
-	protected void setGrid(Grid grid) {
+	public void setGrid(Grid grid) {
 		super.setGrid(grid);
 	}
 

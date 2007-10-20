@@ -155,12 +155,13 @@ public class MutantGenerator implements Runnable {
 		FoldedPolypeptide fp = new FoldedPolypeptide(
 				proteinSequence,
 				op.getDrawingPane().getGrid(), 
-				new ImageIcon(images.getFullScaleImage()),
 				new ImageIcon(images.getThumbnailImage()), 
 				op.getProteinColor());
 
 		ExpressedGene newEg = new ExpressedGene(html, newGene);
 		newEg.setFoldedPolypeptide(fp);
+		
+		images = null;
 
 		return newEg;
 	}

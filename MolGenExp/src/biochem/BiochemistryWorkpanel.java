@@ -49,7 +49,9 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	FoldedPolypeptide foldedPolypeptide;
 	BufferedImage fullSizePic;
 
-	public BiochemistryWorkpanel(String title, final BiochemistryWorkbench protex, final ColorModel colorModel) {
+	public BiochemistryWorkpanel(String title, 
+			final BiochemistryWorkbench protex, 
+			final ColorModel colorModel) {
 		super();
 		this.colorModel = colorModel;
 		this.setLayout(new BorderLayout());
@@ -126,10 +128,10 @@ public class BiochemistryWorkpanel extends WorkPanel {
 
 				foldedPolypeptide = new FoldedPolypeptide(proteinSequence.getText().trim(),
 						foldedProtein.getDrawingPane().getGrid(), 
-						new ImageIcon(images.getFullScaleImage()),
 						new ImageIcon(images.getThumbnailImage()), 
 						proteinColor);
 				protex.addToHistoryList(foldedPolypeptide);
+				images = null; 
 
 				foldButton.setEnabled(false);
 				foldedProtein.setBackground(Color.lightGray);

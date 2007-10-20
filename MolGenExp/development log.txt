@@ -296,4 +296,104 @@ started refactoring GridCanvas's paint() to allow for multiple entry points
 10/19/07
 - working on bug - extra scrolbar appears in BiochWBench when screen is small
  - OutputPalette already has a scroller so none is needed in BiochemWorkPanel
+- fixed
 
+- added genetic code table to MoBoworkbench
+
+10/20/07
+- working on mutant out-of-memory thing
+need to get rid of the full-scale image when not needed
+	biochem - not needed since it already re-draws protein from Grid when loading
+	mobo - only need this re-draw when looking at protein big pic
+start by deleteing the BigPic & set/get methods from FoldedPolypeptide
+  (just save the thumbnail & the Grid)
+  then clean up the resulting mess
+  	(also, when getting images from ProteinImageFactory, 
+  	  explicitly set images = null when done)
+  	BiochemWorkpanel
+  	MoBoWorkbench
+  	MoBoWorkpanel
+  	MutantGenerator
+  	GreenhouseLoader
+  	others..
+ seems to work (10 cages of mutants are OK)
+ 
+ with 10 mutant cages
+          percent          live          alloc'ed  stack class
+ rank   self  accum     bytes objs     bytes  objs trace name
+    1 16.11% 16.11%   5636144   19  38716128   148 322916 int[]			**FULL SIZE
+    2 15.56% 31.67%   5443664   19  39463808   148 323522 int[]			**FULL SIZE
+    3  9.42% 41.09%   3296288  148   3296288   148 322962 int[]			**THUMB
+    4  9.13% 50.22%   3193528  148   3193528   148 323562 int[]			**THUMB
+    5  7.01% 57.23%   2453088 102212   2453088 102212 322610 biochem.GridPoint
+    6  7.00% 64.23%   2449248 102052   2449248 102052 323426 biochem.GridPoint
+    
+TRACE 322916:
+	java.awt.image.DataBufferInt.<init>(DataBufferInt.java:41)
+	java.awt.image.Raster.createPackedRaster(Raster.java:458)
+	java.awt.image.DirectColorModel.createCompatibleWritableRaster(DirectColorModel.java:1015)
+	java.awt.image.BufferedImage.<init>(BufferedImage.java:317)
+	molGenExp.ProteinImageFactory.generateImages(ProteinImageFactory.java:21)
+	genetics.MutantGenerator.mutateGene(MutantGenerator.java:153)
+	genetics.MutantGenerator.run(MutantGenerator.java:70)
+	java.lang.Thread.run(Thread.java:613)
+**FULL SIZE PIC
+
+TRACE 323522:
+	java.awt.image.DataBufferInt.<init>(DataBufferInt.java:41)
+	java.awt.image.Raster.createPackedRaster(Raster.java:458)
+	java.awt.image.DirectColorModel.createCompatibleWritableRaster(DirectColorModel.java:1015)
+	java.awt.image.BufferedImage.<init>(BufferedImage.java:317)
+	molGenExp.ProteinImageFactory.generateImages(ProteinImageFactory.java:21)
+	genetics.MutantGenerator.mutateGene(MutantGenerator.java:153)
+	genetics.MutantGenerator.run(MutantGenerator.java:71)
+	java.lang.Thread.run(Thread.java:613)
+*** FULL SIZE PIC
+
+TRACE 322962:
+	java.awt.image.DataBufferInt.<init>(DataBufferInt.java:41)
+	java.awt.image.Raster.createPackedRaster(Raster.java:458)
+	java.awt.image.DirectColorModel.createCompatibleWritableRaster(DirectColorModel.java:1015)
+	java.awt.image.BufferedImage.<init>(BufferedImage.java:317)
+	molGenExp.ProteinImageFactory.generateImages(ProteinImageFactory.java:49)
+	genetics.MutantGenerator.mutateGene(MutantGenerator.java:153)
+	genetics.MutantGenerator.run(MutantGenerator.java:70)
+	java.lang.Thread.run(Thread.java:613)
+*** THUMB
+
+TRACE 323562:
+	java.awt.image.DataBufferInt.<init>(DataBufferInt.java:41)
+	java.awt.image.Raster.createPackedRaster(Raster.java:458)
+	java.awt.image.DirectColorModel.createCompatibleWritableRaster(DirectColorModel.java:1015)
+	java.awt.image.BufferedImage.<init>(BufferedImage.java:317)
+	molGenExp.ProteinImageFactory.generateImages(ProteinImageFactory.java:49)
+	genetics.MutantGenerator.mutateGene(MutantGenerator.java:153)
+	genetics.MutantGenerator.run(MutantGenerator.java:71)
+	java.lang.Thread.run(Thread.java:613)
+***THUMB
+
+probably OK - it made a lot of big pics (roughly as many 2x as the & of mutants) 
+but all but 19 were nuked
+	where did the 19 come from? (not gc'd yet?)
+
+see what #s look like with 5 trays of mutants
+10 + 13 + 14 + 17 + 19 = 73 mutants
+
+          percent          live          alloc'ed  stack class
+ rank   self  accum     bytes objs     bytes  objs trace name
+    1 16.08% 16.08%   3105920   10  20413488    73 323501 int[]
+    2 14.66% 30.74%   2831184    9  20294288    73 322894 int[]
+    3  8.15% 38.89%   1574208   73   1574208    73 322940 int[]
+    4  8.15% 47.04%   1573088   73   1573088    73 323541 int[]
+    5  6.83% 53.87%   1319064 54961   1319064 54961 323405 biochem.GridPoint
+
+looks like it's OK
+it made 73x2 big pics, all but 19 of which were nuked
+	(strange, this is ~1/2 of when it was 10 trays... )
+but it takes MUCH less memory.
+
+still strange - why does it keep some around?
+WHATEVER
+this is still MUCH better than before (see notebook)
+
+ 

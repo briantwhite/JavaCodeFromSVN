@@ -167,7 +167,6 @@ public class GreenhouseLoader implements Runnable {
 		return new FoldedPolypeptide(
 				aaSeq,
 				op.getDrawingPane().getGrid(), 
-				new ImageIcon(images.getFullScaleImage()),
 				new ImageIcon(images.getThumbnailImage()), 
 				op.getProteinColor());
 		

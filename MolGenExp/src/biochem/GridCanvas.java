@@ -62,7 +62,7 @@ public abstract class GridCanvas extends JPanel {
 		return requiredCanvasSize;
 	}
 
-	protected void setGrid(Grid grid) {
+	public void setGrid(Grid grid) {
 		this.grid = grid;
 		this.size = grid.getSize();
 		this.pp = grid.getPP();
