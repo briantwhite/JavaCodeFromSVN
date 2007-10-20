@@ -52,14 +52,21 @@ public abstract class ShowMoleculeState extends Canvas {
 		g.setColor(0x000000);
 		for (int i = 0; i < bonds.length; i++) {
 
+			int deltaX = bonds[i].getAtom2().getX() - bonds[i].getAtom1().getX();
+			int deltaY = bonds[i].getAtom2().getY() - bonds[i].getAtom1().getY();
+			int shiftX = 0;
+			int shiftY = 0;
+			if ((deltaX > 0) && (deltaY > 0)) {
+				shiftX = (problemSet.getScale().getMultiBondOffset() * 3)/4;
+				shiftY = (problemSet.getScale().getMultiBondOffset() * 3)/4;
+			} else if (deltaX > 0) {
+				shiftY = problemSet.getScale().getMultiBondOffset();
+			} else if (deltaY > 0) {
+				shiftX = problemSet.getScale().getMultiBondOffset();
+			}
+			
 			if (bonds[i].getBondOrder() == 2) {
-				int deltaX = bonds[i].getAtom2().getX() - bonds[i].getAtom1().getX();
-				int deltaY = bonds[i].getAtom2().getY() - bonds[i].getAtom1().getY();
-				int shiftX = 
-					(deltaY * problemSet.getScale().getMultiBondOffset())/bonds[i].getLength();
-				int shiftY = 
-					(deltaX * problemSet.getScale().getMultiBondOffset())/bonds[i].getLength();
-				                                                                        
+								                                                                        
 				g.drawLine(bonds[i].getAtom1().getX() + shiftX, 
 						bonds[i].getAtom1().getY() + shiftY, 
 						bonds[i].getAtom2().getX() + shiftX, 
@@ -69,12 +76,22 @@ public abstract class ShowMoleculeState extends Canvas {
 						bonds[i].getAtom1().getY() - shiftY, 
 						bonds[i].getAtom2().getX() - shiftX, 
 						bonds[i].getAtom2().getY() - shiftY);
-
 			} else {
 				g.drawLine(bonds[i].getAtom1().getX(), 
 						bonds[i].getAtom1().getY(), 
 						bonds[i].getAtom2().getX(), 
 						bonds[i].getAtom2().getY());
+			}
+			if (bonds[i].getBondOrder() == 3) {
+				g.drawLine(bonds[i].getAtom1().getX() + (shiftX * 3)/2, 
+						bonds[i].getAtom1().getY() + (shiftY * 3)/2, 
+						bonds[i].getAtom2().getX() + (shiftX * 3)/2, 
+						bonds[i].getAtom2().getY() + (shiftY * 3)/2);
+				
+				g.drawLine(bonds[i].getAtom1().getX() - (shiftX * 3)/2, 
+						bonds[i].getAtom1().getY() - (shiftY * 3)/2, 
+						bonds[i].getAtom2().getX() - (shiftX * 3)/2, 
+						bonds[i].getAtom2().getY() - (shiftY * 3)/2);				
 			}
 		}
 
