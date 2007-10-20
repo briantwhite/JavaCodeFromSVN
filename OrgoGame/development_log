@@ -466,3 +466,9 @@ it complains that manifest and another file were added by someone else...
 10/13/07
 tagged as version 1.0
 make new version that draws molecules based on cml files
+
+10/20/07
+working on multiple bonds
+if vertical or horizontal AOK
+but not if diagonal - offsets seem to be working but bonds too close together
+	probably a rounding thing

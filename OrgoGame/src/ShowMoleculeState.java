@@ -51,10 +51,31 @@ public abstract class ShowMoleculeState extends Canvas {
 		Bond[] bonds = molecule.getBonds();
 		g.setColor(0x000000);
 		for (int i = 0; i < bonds.length; i++) {
-			g.drawLine(bonds[i].getAtom1().getX(), 
-					bonds[i].getAtom1().getY(), 
-					bonds[i].getAtom2().getX(), 
-					bonds[i].getAtom2().getY());
+
+			if (bonds[i].getBondOrder() == 2) {
+				int deltaX = bonds[i].getAtom2().getX() - bonds[i].getAtom1().getX();
+				int deltaY = bonds[i].getAtom2().getY() - bonds[i].getAtom1().getY();
+				int shiftX = 
+					(deltaY * problemSet.getScale().getMultiBondOffset())/bonds[i].getLength();
+				int shiftY = 
+					(deltaX * problemSet.getScale().getMultiBondOffset())/bonds[i].getLength();
+				                                                                        
+				g.drawLine(bonds[i].getAtom1().getX() + shiftX, 
+						bonds[i].getAtom1().getY() + shiftY, 
+						bonds[i].getAtom2().getX() + shiftX, 
+						bonds[i].getAtom2().getY() + shiftY);
+				
+				g.drawLine(bonds[i].getAtom1().getX() - shiftX, 
+						bonds[i].getAtom1().getY() - shiftY, 
+						bonds[i].getAtom2().getX() - shiftX, 
+						bonds[i].getAtom2().getY() - shiftY);
+
+			} else {
+				g.drawLine(bonds[i].getAtom1().getX(), 
+						bonds[i].getAtom1().getY(), 
+						bonds[i].getAtom2().getX(), 
+						bonds[i].getAtom2().getY());
+			}
 		}
 
 
@@ -70,6 +91,8 @@ public abstract class ShowMoleculeState extends Canvas {
 					atomLabel += "H";
 					if (atoms[i].getHatomCount() > 1) {
 						atomLabel += atoms[i].getHatomCount();
+					} else {
+
 					}
 				}
 
@@ -81,8 +104,8 @@ public abstract class ShowMoleculeState extends Canvas {
 					problemSet.getScale().getFont().getHeight();
 				g.fillArc(atoms[i].getX() - (3 * atomLabelWidth)/4, 
 						atoms[i].getY() - (3 * atomLabelHeight)/4, 
-						(atomLabelWidth * 3)/2, 
-						(atomLabelHeight * 3)/2, 
+						(atomLabelWidth * 4)/3, 
+						(atomLabelHeight * 4)/3, 
 						0, 
 						360);
 
@@ -100,7 +123,7 @@ public abstract class ShowMoleculeState extends Canvas {
 				g.drawString(atomLabel, 
 						atoms[i].getX() 
 						+ problemSet.getScale().getFont().stringWidth(
-								atoms[i].getType())/2, 
+								atomLabel)/2, 
 								atoms[i].getY() 
 								+ problemSet.getScale().getFont().getHeight()/2, 
 								Graphics.BOTTOM|Graphics.RIGHT);
