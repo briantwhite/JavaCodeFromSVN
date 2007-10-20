@@ -36,7 +36,7 @@ public class ProblemSet {
 
 	public ProblemSet() {
 		
-		scale = new SmallScale();
+		scale = new MediumScale();
 
 		//read in the problem file
 		String problemFileString = "";
