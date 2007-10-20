@@ -18,7 +18,7 @@ public class ProductState extends ShowMoleculeState {
 		doCommmonPainting(g);
 		if (!(problemSet.getScale() instanceof SmallScale)) {
 			g.setColor(0x000000);
-			g.drawString("Product", 0, 30, Graphics.TOP|Graphics.LEFT);		
+			g.drawString("Product", 0, 25, Graphics.TOP|Graphics.LEFT);		
 		}
 	}
 }

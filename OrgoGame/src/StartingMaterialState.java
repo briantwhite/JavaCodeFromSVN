@@ -19,7 +19,7 @@ public class StartingMaterialState extends ShowMoleculeState {
 		g.setColor(0x000000);
 		if (!(problemSet.getScale() instanceof SmallScale)) {
 			g.setColor(0x000000);
-			g.drawString("Starting Material", 0, 30, Graphics.TOP|Graphics.LEFT);		
+			g.drawString("Starting Material", 0, 25, Graphics.TOP|Graphics.LEFT);		
 		}
 	}
 	

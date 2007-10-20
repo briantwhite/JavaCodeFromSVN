@@ -40,15 +40,20 @@ public abstract class ShowMoleculeState extends Canvas {
 		g.fillRect(0, 0, width, height);
 
 		g.setColor(0x000000);
-		g.fillRect(0, 0, width, 30);
+		g.fillRect(0, 0, width, 25);
 		g.setColor(0xffffff);
 		g.drawString("Completed " + problemSet.getNumSuccessfullyCompletedProblems()
 				+ " of " + problemSet.getTotalNumberOfProblems(), 
 				0, 0, Graphics.TOP|Graphics.LEFT);
 		g.setColor(0xff0000);
 		g.drawString("Time = " + controller.getElapsedTimeString(), 
-				0, 15, 
+				0, 12, 
 				Graphics.TOP|Graphics.LEFT);
+		
+		g.setColor(0x000000);
+		g.drawString("<SM (Rx) Pr>", 
+				width/2, height, 
+				Graphics.BOTTOM|Graphics.HCENTER);
 
 		Bond[] bonds = molecule.getBonds();
 		g.setColor(DisplayColors.BOND);

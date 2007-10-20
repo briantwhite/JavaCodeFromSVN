@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.AlertType;
+import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Image;
 import javax.microedition.midlet.MIDletStateChangeException;
 
@@ -34,10 +35,8 @@ public class ProblemSet {
 	private int totalNumberOfProblems;
 
 
-	public ProblemSet() {
+	public ProblemSet(OrgoGame orgoGame) {
 		
-		scale = new MediumScale();
-
 		//read in the problem file
 		String problemFileString = "";
 		//determine the size of the file
@@ -225,6 +224,26 @@ public class ProblemSet {
 		//scale the measurements
 		// use a standard bond length to scale each molecule
 		// so all bonds the same length
+		
+		//start with largest scale
+		// if that fails, the try smaller ones
+		// first, figure the usable screen area
+		scale = new SmallScale();
+		int width = orgoGame.screenSizeMeasurer.getWidth();
+		int height = orgoGame.screenSizeMeasurer.getHeight();
+		// subtract off stuff for header & footer
+		int minX = 0;
+		int minY = 0;
+		int maxX = width;
+		int maxY = height;
+		if (scale instanceof SmallScale) {
+			minX = 25;
+		} else {
+			minX = 36;
+		}
+		maxY = height - 12;
+		
+
 		for (int i = 0; i < numMolecules; i++) {
 			Molecule molec = molecules[i];
 			molec.normalizeXandY();

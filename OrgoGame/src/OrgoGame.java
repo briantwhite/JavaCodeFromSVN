@@ -28,6 +28,7 @@ public class OrgoGame extends MIDlet {
 	private ProblemSet problemSet;
 	private Controller controller;
 	
+	ScreenSizeMeasurer screenSizeMeasurer;
 	StartingMaterialState startingMaterialState;
 	EditAnswerState editAnswerState;
 	ProductState productState;
@@ -37,7 +38,8 @@ public class OrgoGame extends MIDlet {
 	AllDoneState allDoneState;
 	
 	public OrgoGame() {
-		problemSet = new ProblemSet();
+		screenSizeMeasurer = new ScreenSizeMeasurer();
+		problemSet = new ProblemSet(this);
 		controller = new Controller(this, problemSet);
 		startingMaterialState = new StartingMaterialState(controller, problemSet);
 		editAnswerState = new EditAnswerState(controller, problemSet);
