@@ -13,12 +13,12 @@ public class ProductState extends ShowMoleculeState {
 	}
 	
 	public void paint(Graphics g) {
+		molecule = problemSet.getMolecule(problemSet.getProduct());
+		backgroundColor = DisplayColors.PR_BACKGROUND;
 		doCommmonPainting(g);
-						
-		g.setColor(0x000000);
-		
-		g.drawString("Product", 0, 40, Graphics.TOP|Graphics.LEFT);
-		
-
+		if (!(problemSet.getScale() instanceof SmallScale)) {
+			g.setColor(0x000000);
+			g.drawString("Product", 0, 30, Graphics.TOP|Graphics.LEFT);		
+		}
 	}
 }

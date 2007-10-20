@@ -14,6 +14,8 @@ public abstract class ShowMoleculeState extends Canvas {
 
 	Controller controller;
 	ProblemSet problemSet;
+	
+	int backgroundColor;
 
 	Molecule molecule;
 
@@ -34,22 +36,22 @@ public abstract class ShowMoleculeState extends Canvas {
 		int width = getWidth();
 		int height = getHeight();
 
-		g.setColor(0x808080);
+		g.setColor(backgroundColor);
 		g.fillRect(0, 0, width, height);
 
 		g.setColor(0x000000);
 		g.fillRect(0, 0, width, 30);
 		g.setColor(0xffffff);
 		g.drawString("Completed " + problemSet.getNumSuccessfullyCompletedProblems()
-				+ " of " + problemSet.getTotalNumberOfProblems() 
-				+ " problems.", 0, 0, Graphics.TOP|Graphics.LEFT);
+				+ " of " + problemSet.getTotalNumberOfProblems(), 
+				0, 0, Graphics.TOP|Graphics.LEFT);
 		g.setColor(0xff0000);
-		g.drawString("Time Elapsed = " + controller.getElapsedTimeString(), 
+		g.drawString("Time = " + controller.getElapsedTimeString(), 
 				0, 15, 
 				Graphics.TOP|Graphics.LEFT);
 
 		Bond[] bonds = molecule.getBonds();
-		g.setColor(0x000000);
+		g.setColor(DisplayColors.BOND);
 		for (int i = 0; i < bonds.length; i++) {
 
 			int deltaX = bonds[i].getAtom2().getX() - bonds[i].getAtom1().getX();
@@ -98,7 +100,6 @@ public abstract class ShowMoleculeState extends Canvas {
 
 
 		Atom[] atoms = molecule.getAtoms();
-		g.setColor(0xff0000);
 		g.setFont(problemSet.getScale().getFont());
 		for (int i = 0; i < atoms.length; i++) {
 			String atomLabel = atoms[i].getType();
@@ -113,7 +114,7 @@ public abstract class ShowMoleculeState extends Canvas {
 					}
 				}
 
-				g.setColor(0x808080);
+				g.setColor(backgroundColor);
 				int atomLabelWidth = 
 					problemSet.getScale().getFont().stringWidth(
 							atomLabel);
@@ -126,16 +127,16 @@ public abstract class ShowMoleculeState extends Canvas {
 						0, 
 						360);
 
-				g.setColor(0xff00ff);
+				g.setColor(DisplayColors.OTHER_ATOM);
 
 				if (atoms[i].getType().equals("O")) {
-					g.setColor(0xff0000);
+					g.setColor(DisplayColors.OXYGEN);
 				}
 				if (atoms[i].getType().equals("N")) {
-					g.setColor(0x0000ff);
+					g.setColor(DisplayColors.NITROGEN);
 				}
 				if (atoms[i].getType().equals("S")) {
-					g.setColor(0xffff00);
+					g.setColor(DisplayColors.SULFUR);
 				} 
 				g.drawString(atomLabel, 
 						atoms[i].getX() 

@@ -14,9 +14,13 @@ public class StartingMaterialState extends ShowMoleculeState {
 	
 	public void paint(Graphics g) {
 		molecule = problemSet.getMolecule(problemSet.getStartingMaterial());
+		backgroundColor = DisplayColors.SM_BACKGROUND;
 		doCommmonPainting(g);
 		g.setColor(0x000000);
-		g.drawString("Starting Material", 0, 30, Graphics.TOP|Graphics.LEFT);
+		if (!(problemSet.getScale() instanceof SmallScale)) {
+			g.setColor(0x000000);
+			g.drawString("Starting Material", 0, 30, Graphics.TOP|Graphics.LEFT);		
+		}
 	}
 	
 }
