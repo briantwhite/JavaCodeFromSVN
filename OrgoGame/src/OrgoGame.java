@@ -29,6 +29,7 @@ public class OrgoGame extends MIDlet {
 	private Controller controller;
 	
 	ScreenSizeMeasurer screenSizeMeasurer;
+	ScreenTooSmallState screenTooSmallState;
 	StartingMaterialState startingMaterialState;
 	EditAnswerState editAnswerState;
 	ProductState productState;
@@ -41,6 +42,7 @@ public class OrgoGame extends MIDlet {
 		screenSizeMeasurer = new ScreenSizeMeasurer();
 		problemSet = new ProblemSet(this);
 		controller = new Controller(this, problemSet);
+		screenTooSmallState = new ScreenTooSmallState(controller);
 		startingMaterialState = new StartingMaterialState(controller, problemSet);
 		editAnswerState = new EditAnswerState(controller, problemSet);
 		productState = new ProductState(controller, problemSet);
@@ -53,7 +55,7 @@ public class OrgoGame extends MIDlet {
 	protected void startApp() throws MIDletStateChangeException {
 		controller.startGame();
 	}
-
+	
 	protected void destroyApp(boolean arg0) throws MIDletStateChangeException {}
 
 	protected void pauseApp() {}

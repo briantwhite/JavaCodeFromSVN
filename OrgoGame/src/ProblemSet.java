@@ -17,6 +17,10 @@ public class ProblemSet {
 	Scale scale;
 
 	Random randomizer;
+	
+	private OrgoGame orgoGame;
+	
+	private boolean screenTooSmall;
 
 	private int numMolecules;
 	private String[] reactions;
@@ -36,6 +40,7 @@ public class ProblemSet {
 
 
 	public ProblemSet(OrgoGame orgoGame) {
+		this.orgoGame = orgoGame;
 		
 		//read in the problem file
 		String problemFileString = "";
@@ -212,51 +217,27 @@ public class ProblemSet {
 					bonds[j] = (Bond)bondVector.elementAt(j);
 				}
 				
-				//need to scale the x,y coord of the atoms
-				
-				
 				molecules[moleculeCounter] =
 					new Molecule(atoms, bonds);
 				moleculeCounter++;
 			}
 		}
 		
-		//scale the measurements
-		// use a standard bond length to scale each molecule
-		// so all bonds the same length
 		
 		//start with largest scale
 		// if that fails, the try smaller ones
-		// first, figure the usable screen area
-		scale = new SmallScale();
-		int width = orgoGame.screenSizeMeasurer.getWidth();
-		int height = orgoGame.screenSizeMeasurer.getHeight();
-		// subtract off stuff for header & footer
-		int minX = 0;
-		int minY = 0;
-		int maxX = width;
-		int maxY = height;
-		if (scale instanceof SmallScale) {
-			minX = 25;
-		} else {
-			minX = 36;
-		}
-		maxY = height - 12;
-		
-
-		for (int i = 0; i < numMolecules; i++) {
-			Molecule molec = molecules[i];
-			molec.normalizeXandY();
-			int scaleFactor = molec.getOneBondLength()/scale.getBondLength();
-			Atom[] atoms = molec.getAtoms();
-			for (int j = 0; j < atoms.length; j++) {
-				atoms[j].scale(scaleFactor, scale.getXOffset(), scale.getYOffset());
+		// if none fit, quit
+		screenTooSmall = false;
+		scale = new LargeScale();
+		if (!scaleMolecule()) {
+			scale = new MediumScale();
+			if (!scaleMolecule()) {
+				scale = new SmallScale();
+				if (!scaleMolecule()) {
+					screenTooSmall = true;
+				}
 			}
 		}
-		
-//		for (int i = 0; i < numMolecules; i++) {
-//			System.out.println(molecules[i]);
-//		}
 		
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
 
@@ -280,6 +261,40 @@ public class ProblemSet {
 		newProblem();
 	}
 	
+	// returns true if molecules will fit in useable screen area
+	private boolean scaleMolecule() {
+		// figure useable screen coordinates
+		int minX = 0;
+		int minY = 0;
+		int maxX = orgoGame.screenSizeMeasurer.getWidth();
+		int maxY = orgoGame.screenSizeMeasurer.getHeight();
+		if (scale instanceof SmallScale) {
+			minX = 25;
+		} else {
+			minX = 36;
+		}
+		maxY = orgoGame.screenSizeMeasurer.getHeight() - 12;
+		
+		MinMaxTallier mmt = MinMaxTallier.getInstance();
+		mmt.reset();
+		
+		//scale the measurements
+		// use a standard bond length to scale each molecule
+		// so all bonds the same length
+		for (int i = 0; i < numMolecules; i++) {
+			Molecule molec = molecules[i];
+			molec.normalizeXandY();
+			int scaleFactor = molec.getOneBondLength()/scale.getBondLength();
+			Atom[] atoms = molec.getAtoms();
+			for (int j = 0; j < atoms.length; j++) {
+				atoms[j].scale(scaleFactor, 
+						scale.getXOffset(), scale.getYOffset(),
+						mmt);
+			}
+		}
+		 return mmt.outsideRange(minX, minY, maxX, maxY);
+	}
+	
 	private Atom findAtomWithThisId(Vector v, String id) {
 		for (int i = 0; i < v.size(); i++) {
 			Atom a = (Atom)v.elementAt(i);
@@ -299,6 +314,10 @@ public class ProblemSet {
 			startingMaterial = getRandomInt(0,numMolecules);
 			product = getRandomInt(0,numMolecules);
 		}
+	}
+	
+	public boolean screenTooSmall() {
+		return screenTooSmall;
 	}
 
 	public int getNumMolecules() {

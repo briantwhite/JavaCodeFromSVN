@@ -31,12 +31,24 @@ public class ProblemSolvedState extends Canvas {
 
 		g.setColor(0x000000);
 		
-		g.drawString("Congratulations!", 0, 0, Graphics.TOP|Graphics.LEFT);
+		g.drawString("Congratulations!", 
+				0, 0, 
+				Graphics.TOP|Graphics.LEFT);
 		g.setColor(0xff0000);
-		g.drawString("The clock is stopped at  " 
-				+ controller.getElapsedTimeString(), 0, 20, Graphics.TOP|Graphics.LEFT);
+		g.drawString("The clock is ", 
+				0, 12, 
+				Graphics.TOP|Graphics.LEFT);
+		g.drawString("stopped at  " 
+				+ controller.getElapsedTimeString(), 
+				12, 24, 
+				Graphics.TOP|Graphics.LEFT);
 		g.setColor(0x000000);
-		g.drawString("You have solved " 
-				+ controller.getFractionCompletedString(), 0, 40, Graphics.TOP|Graphics.LEFT);
+		g.drawString("You have ", 
+				0, 36, 
+				Graphics.TOP|Graphics.LEFT);
+		g.drawString("solved " 
+				+ controller.getFractionCompletedString(), 
+				12, 48, 
+				Graphics.TOP|Graphics.LEFT);
 	}
 }

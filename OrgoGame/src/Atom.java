@@ -52,8 +52,11 @@ public class Atom {
 		y = y - avgY;
 	}
 	
-	public void scale(int scaleFactor, int xOffset, int yOffset) {
+	public void scale(int scaleFactor, 
+			int xOffset, int yOffset,
+			MinMaxTallier mmt) {
 		x = (x / scaleFactor) + xOffset;
 		y = (y / scaleFactor) + yOffset;
+		mmt.update(x, y);
 	}
 }

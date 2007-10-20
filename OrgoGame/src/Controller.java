@@ -34,8 +34,12 @@ public class Controller implements CommandListener {
 
 	public void startGame() {
 		display = Display.getDisplay(orgoGame);
-		getAndShowNewProblem();
-		timer.schedule(timerDisplay, 1000, 1000);
+		if (problemSet.screenTooSmall()) {
+			display.setCurrent(orgoGame.screenTooSmallState);
+		} else {
+			getAndShowNewProblem();
+			timer.schedule(timerDisplay, 1000, 1000);
+		}
 	}
 
 	public void getAndShowNewProblem() {
@@ -120,7 +124,7 @@ public class Controller implements CommandListener {
 				timerDisplay.setPaused(false);
 			}
 		}
-		
+
 		if (displayable == orgoGame.wrongAnswerState){
 			if (commandLabel.equals(OrgoGame.BACK)){
 				display.setCurrent(orgoGame.editAnswerState);
@@ -152,7 +156,7 @@ public class Controller implements CommandListener {
 			((Canvas)display.getCurrent()).repaint();
 		}
 	}
-	
+
 	public String getElapsedTimeString() {
 		return timerDisplay.getMinutes() + ":" + timerDisplay.getSeconds();
 	}

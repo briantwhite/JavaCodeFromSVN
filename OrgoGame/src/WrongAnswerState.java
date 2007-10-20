@@ -31,14 +31,30 @@ public class WrongAnswerState extends Canvas {
 
 		g.setColor(0x000000);
 		
-		g.drawString("Sorry!", 0, 0, Graphics.TOP|Graphics.LEFT);
-		g.drawString("Your answer was incorrect."
-				, 0, 20, Graphics.TOP|Graphics.LEFT);
-		g.drawString("Please try again.", 0, 40, Graphics.TOP|Graphics.LEFT);
+		g.drawString("Sorry!", 
+				0, 0, 
+				Graphics.TOP|Graphics.LEFT);
+		g.drawString("Your answer", 
+				0, 12, 
+				Graphics.TOP|Graphics.LEFT);
+		g.drawString("was incorrect.", 
+				12, 24, 
+				Graphics.TOP|Graphics.LEFT);
+		g.drawString("Please try", 
+				0, 36, 
+				Graphics.TOP|Graphics.LEFT);
+		g.drawString("again.", 
+				12, 48, 
+				Graphics.TOP|Graphics.LEFT);
 		
 		g.setColor(0xff0000);
-		g.drawString("The timer is stopped at "
-				+ controller.getElapsedTimeString(), 0, 60, Graphics.TOP|Graphics.LEFT);
+		g.drawString("The timer is ", 
+				0, 60, 
+				Graphics.TOP|Graphics.LEFT);
+		g.drawString("stopped at "
+				+ controller.getElapsedTimeString(), 
+				12, 72, 
+				Graphics.TOP|Graphics.LEFT);
 	
 	}
 
