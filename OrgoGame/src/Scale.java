@@ -41,5 +41,13 @@ public abstract class Scale {
 		return yOffset;
 	}
 	
+	public void setXOffset(int x) {
+		xOffset = x;
+	}
+	
+	public void setYOffset(int y) {
+		yOffset = y;
+	}
+	
 	
 }

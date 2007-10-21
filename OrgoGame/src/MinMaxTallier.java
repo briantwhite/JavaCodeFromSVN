@@ -44,20 +44,20 @@ public class MinMaxTallier {
 		}
 	}
 	
-	public boolean outsideRange(int minX, int minY, int maxX, int maxY) {
+	public boolean insideUseableScreenArea(int minX, int minY, int maxX, int maxY) {
 		if (this.minX < minX) {
-			return true;
+			return false;
 		}
 		if (this.minY < minY) {
-			return true;
+			return false;
 		}
 		if (this.maxX > maxX) {
-			return true;
+			return false;
 		}
 		if (this.maxY > maxY) {
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public int getMaxX() {

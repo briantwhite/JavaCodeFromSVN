@@ -13,13 +13,13 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 
 public class ProblemSet {
-	
+
 	Scale scale;
 
 	Random randomizer;
-	
+
 	private OrgoGame orgoGame;
-	
+
 	private boolean screenTooSmall;
 
 	private int numMolecules;
@@ -41,7 +41,7 @@ public class ProblemSet {
 
 	public ProblemSet(OrgoGame orgoGame) {
 		this.orgoGame = orgoGame;
-		
+
 		//read in the problem file
 		String problemFileString = "";
 		//determine the size of the file
@@ -89,7 +89,7 @@ public class ProblemSet {
 				numReactions++;
 			}
 		}
-		
+
 		//read in the reactions and correct answers
 		reactions = new String[numReactions];
 		correctAnswerArray = new ReactionList[numMolecules][numMolecules];
@@ -133,7 +133,7 @@ public class ProblemSet {
 		Vector bondVector = null;
 		for (int i = 0; i < problemFileLines.length; i++) {
 			String line = problemFileLines[i];
-			
+
 			// see if starting a new molecule
 			//  if so, clear everything out
 			if (line.startsWith("<molecule ")) {
@@ -142,7 +142,7 @@ public class ProblemSet {
 				atomVector = new Vector();
 				bondVector = new Vector();
 			}
-			
+
 			// if it's an atom, make one and add to vector
 			if (line.startsWith("<atom ")) {
 				String type = "";
@@ -168,18 +168,18 @@ public class ProblemSet {
 						x = 
 							Utilities.parseStringToBigInt(
 									Utilities.extractFromWithinQuotes(
-									part), 3);
+											part), 3);
 					}
 					if (part.startsWith("y2")) {
 						y = 
 							Utilities.parseStringToBigInt(
 									Utilities.extractFromWithinQuotes(
-									part), 3);
+											part), 3);
 					}
 				}
 				atomVector.addElement(new Atom(type, x, y, hydrogenCount, id));
 			}
-			
+
 			// if it's a bond, add it to the vector
 			if (line.startsWith("<bond ")) {
 				Atom a1 = null;
@@ -203,27 +203,27 @@ public class ProblemSet {
 				}
 				bondVector.addElement(new Bond(a1, a2, bondOrder));
 			}
-			
+
 			// if it's the end of a molecule, save the molecule
 			if (line.startsWith("</molecule")) {
-				
+
 				Atom[] atoms = new Atom[atomVector.size()];
 				for (int j = 0; j < atoms.length; j++) {
 					atoms[j] = (Atom)atomVector.elementAt(j);
 				}
-				
+
 				Bond[] bonds = new Bond[bondVector.size()];
 				for (int j = 0; j < bonds.length; j++) {
 					bonds[j] = (Bond)bondVector.elementAt(j);
 				}
-				
+
 				molecules[moleculeCounter] =
 					new Molecule(atoms, bonds);
 				moleculeCounter++;
 			}
 		}
-		
-		
+
+
 		//start with largest scale
 		// if that fails, the try smaller ones
 		// if none fit, quit
@@ -238,7 +238,7 @@ public class ProblemSet {
 				}
 			}
 		}
-		
+
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
 
 		//list of reactions in current solution attempt
@@ -260,7 +260,7 @@ public class ProblemSet {
 
 		newProblem();
 	}
-	
+
 	// returns true if molecules will fit in useable screen area
 	private boolean scaleMolecule() {
 		// figure useable screen coordinates
@@ -269,15 +269,17 @@ public class ProblemSet {
 		int maxX = orgoGame.screenSizeMeasurer.getWidth();
 		int maxY = orgoGame.screenSizeMeasurer.getHeight();
 		if (scale instanceof SmallScale) {
-			minX = 25;
+			minY = 25;
 		} else {
-			minX = 36;
+			minY = 36;
 		}
-		maxY = orgoGame.screenSizeMeasurer.getHeight() - 12;
-		
+		maxY = maxY - 12;
+		scale.setXOffset((minX + maxX)/2);
+		scale.setYOffset((minY + maxY)/2);
+
 		MinMaxTallier mmt = MinMaxTallier.getInstance();
 		mmt.reset();
-		
+
 		//scale the measurements
 		// use a standard bond length to scale each molecule
 		// so all bonds the same length
@@ -292,9 +294,9 @@ public class ProblemSet {
 						mmt);
 			}
 		}
-		 return mmt.outsideRange(minX, minY, maxX, maxY);
+		return mmt.insideUseableScreenArea(minX, minY, maxX, maxY);
 	}
-	
+
 	private Atom findAtomWithThisId(Vector v, String id) {
 		for (int i = 0; i < v.size(); i++) {
 			Atom a = (Atom)v.elementAt(i);
@@ -315,7 +317,7 @@ public class ProblemSet {
 			product = getRandomInt(0,numMolecules);
 		}
 	}
-	
+
 	public boolean screenTooSmall() {
 		return screenTooSmall;
 	}
@@ -339,7 +341,7 @@ public class ProblemSet {
 	public int getNumReactions() {
 		return numReactions;
 	}
-	
+
 	public Molecule getMolecule(int i) {
 		return molecules[i];
 	}
@@ -355,7 +357,7 @@ public class ProblemSet {
 	public Scale getScale() {
 		return scale;
 	}
-	
+
 	public ReactionList getCorrectAnswer(int startingMaterial, int product) {
 		if ((startingMaterial < numMolecules) &&
 				(product < numMolecules)) {
