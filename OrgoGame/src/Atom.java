@@ -52,11 +52,12 @@ public class Atom {
 		y = y - avgY;
 	}
 	
-	public void scale(int scaleFactor, 
+	public Atom scale(int scaleFactor, 
 			int xOffset, int yOffset,
 			MinMaxTallier mmt) {
-		x = (x / scaleFactor) + xOffset;
-		y = (y / scaleFactor) + yOffset;
-		mmt.update(x, y);
+		int newX = (x / scaleFactor) + xOffset;
+		int newY = (y / scaleFactor) + yOffset;
+		mmt.update(newX, newY);
+		return new Atom(type, newX, newY, hAtomCount, id);
 	}
 }

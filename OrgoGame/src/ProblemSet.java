@@ -227,17 +227,23 @@ public class ProblemSet {
 		//start with largest scale
 		// if that fails, the try smaller ones
 		// if none fit, quit
+		Molecule[] scaledMolecules = new Molecule[numMolecules];
 		screenTooSmall = false;
 		scale = new LargeScale();
-		if (!scaleMolecule()) {
+		scaledMolecules = scaleMolecules(molecules);
+		if (scaledMolecules == null) {
 			scale = new MediumScale();
-			if (!scaleMolecule()) {
+			scaledMolecules = scaleMolecules(molecules);
+			if (scaledMolecules == null) {
 				scale = new SmallScale();
-				if (!scaleMolecule()) {
+				scaledMolecules = scaleMolecules(molecules);
+				if (scaledMolecules == null) {
 					screenTooSmall = true;
 				}
 			}
 		}
+		molecules = scaledMolecules;
+		scaledMolecules = null;
 
 		totalNumberOfProblems = (numMolecules * numMolecules) - numMolecules;
 
@@ -261,8 +267,8 @@ public class ProblemSet {
 		newProblem();
 	}
 
-	// returns true if molecules will fit in useable screen area
-	private boolean scaleMolecule() {
+	// returns null if molecules will not fit in useable screen area
+	private Molecule[] scaleMolecules(Molecule[] unscaledMolecules) {
 		// figure useable screen coordinates
 		int minX = 0;
 		int minY = 0;
@@ -283,23 +289,53 @@ public class ProblemSet {
 		//scale the measurements
 		// use a standard bond length to scale each molecule
 		// so all bonds the same length
+		Molecule[] scaledMolecules = new Molecule[numMolecules];
 		for (int i = 0; i < numMolecules; i++) {
-			Molecule molec = molecules[i];
+			Molecule molec = unscaledMolecules[i];
+
 			molec.normalizeXandY();
 			int scaleFactor = molec.getOneBondLength()/scale.getBondLength();
-			Atom[] atoms = molec.getAtoms();
-			for (int j = 0; j < atoms.length; j++) {
-				atoms[j].scale(scaleFactor, 
+
+			Atom[] unscaledAtoms = molec.getAtoms();
+			Atom[] scaledAtoms = new Atom[unscaledAtoms.length];
+			for (int j = 0; j < unscaledAtoms.length; j++) {
+				scaledAtoms[j] = unscaledAtoms[j].scale(scaleFactor, 
 						scale.getXOffset(), scale.getYOffset(),
 						mmt);
 			}
+
+			Bond[] unscaledBonds = molec.getBonds();
+			Bond[] scaledBonds = new Bond[unscaledBonds.length];
+			for (int j = 0; j < unscaledBonds.length; j++) {
+				scaledBonds[j] = new Bond(
+						findAtomWithThisId(scaledAtoms, 
+								unscaledBonds[j].getAtom1().getId()),
+								findAtomWithThisId(scaledAtoms, 
+										unscaledBonds[j].getAtom2().getId()),
+										unscaledBonds[j].getBondOrder());
+			}
+			scaledMolecules[i] = new Molecule(scaledAtoms, scaledBonds);
 		}
-		return mmt.insideUseableScreenArea(minX, minY, maxX, maxY);
+		if (mmt.insideUseableScreenArea(minX, minY, maxX, maxY)) {
+			return scaledMolecules;
+		} else {
+			return null;
+		}
 	}
 
 	private Atom findAtomWithThisId(Vector v, String id) {
 		for (int i = 0; i < v.size(); i++) {
 			Atom a = (Atom)v.elementAt(i);
+			if (a.getId().equals(id)) {
+				return a;
+			}
+		}
+		return null;
+	}
+
+	private Atom findAtomWithThisId(Atom[] atoms, String id) {
+		for (int i = 0; i < atoms.length; i++) {
+			Atom a = atoms[i];
 			if (a.getId().equals(id)) {
 				return a;
 			}

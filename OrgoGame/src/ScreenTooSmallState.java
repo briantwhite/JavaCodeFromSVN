@@ -20,6 +20,9 @@ public class ScreenTooSmallState extends Canvas {
 		g.setColor(0xffffff);
 		g.drawString("Your screen" , 0, 0, Graphics.TOP|Graphics.LEFT);
 		g.drawString("is too small.", 0, 12, Graphics.TOP|Graphics.LEFT);
+		g.drawString("W,H=" + getWidth() + "," + getHeight(), 
+				0, 24, 
+				Graphics.TOP|Graphics.LEFT);
 	}
 	
 }

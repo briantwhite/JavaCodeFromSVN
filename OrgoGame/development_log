@@ -477,3 +477,9 @@ even with triple bonds
 
 posted on web
 my cellphone is still too small...
+
+10/21/07
+massive recoding
+make a new Molecule[] with all new Bonds and Atoms when scaling
+also reports screen size if too small
+seems to work....
