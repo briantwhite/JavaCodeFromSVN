@@ -41,7 +41,7 @@ import javax.swing.JScrollPane;
 
 public class MolCalc extends JFrame {
 	
-	final static String versionNumber = new String("2.1");
+	final static String versionNumber = new String("2.2");
 	JLabel outputInfo;
 	JLabel jmeLabel ;
 	JPanel topPanel;
@@ -617,8 +617,15 @@ public class MolCalc extends JFrame {
 		String[] jmeFilePieces = jmeString.split(" +");
 		numBonds = numBonds + Integer.parseInt(jmeFilePieces[1]);
 
-		//then the charge - get by adding up lines from mol file
+		//then, since the smile string has [NH3+], etc, need to remove the
+		//  H that was counted in the atom count above
+		Pattern chargedNPattern = Pattern.compile("[Nn]H[23]?+");
+		String[] parts = chargedNPattern.split(smileString);
+		int numChargedNWithH = parts.length - 1;
+		
+		h = h - numChargedNWithH;
 
+		//then the charge - get by adding up lines from mol file
 		for (int i = 0; i < molStringLines.length; i++) {
 			if (molStringLines[i].indexOf("CHG") != -1) {
 				charge = charge
@@ -626,6 +633,7 @@ public class MolCalc extends JFrame {
 								molStringLines[i].length() - 3).trim());
 			}
 		}
+
 		h = h - 2 * numBonds - numAromaticAtoms + charge;
 
 		prettyPrint("C", c, formula);
