@@ -87,7 +87,7 @@ public class MolGenExp extends JFrame {
 	private final static int BIOCHEMISTRY = 1;
 	private final static int MOLECULAR_BIOLOGY = 2;
 	
-	private final static String version = "1.3.2";
+	private final static String version = "1.3.3";
 	
 	public final static String sampleDNA = 
 		new String("CAGCTATAACCGAGATTGATGTCTAG"
