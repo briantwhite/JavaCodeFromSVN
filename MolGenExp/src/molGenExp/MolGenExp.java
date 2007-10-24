@@ -32,6 +32,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Writer;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -97,6 +98,7 @@ public class MolGenExp extends JFrame {
 	public final static String sampleProtein =
 		new String("MSNRHILLVVCRQ");
 	
+	private ImageIcon geneticCodeTableImage;
 	
 	private JPanel mainPanel;
 	
@@ -168,7 +170,7 @@ public class MolGenExp extends JFrame {
 	}
 	
 	private void setupUI() {
-		
+				
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		
@@ -895,4 +897,5 @@ public class MolGenExp extends JFrame {
 	public void setAddToGreenhouseButtonEnabled(boolean b) {
 		addToGreenhouseButton.setEnabled(b);
 	}
+	
 }
