@@ -1,0 +1,212 @@
+<html>
+<head>
+  <title>Protein Investigator Help</title>
+</head>
+<body style="background-color: rgb(208, 208, 208);">
+<h1 align="center">Protein Investigator</h1>
+<ol>
+  <li><a href="#screen">The Protein Investigator Screen</a></li>
+  <li><a href="#enter">Entering and Editing Protein Sequences</a></li>
+  <li><a href="#fold">Folding Your Proteins</a></li>
+  <li><a href="#history">Using the History List</a></li>
+  <li><a href="#game">Using Game Mode</a></li>
+  <li><a href="#printing">Printing Your Structures</a></li>
+  <li><a href="#assumptions">Assumptions, approximations, etc.</a></li>
+</ol>
+<br>
+<a name="screen"><h3>(1) The Protein Investigator Screen</h3></a>
+The Protein Invesitgator Screen is shown below with key parts numbered.<br>
+<img src="protex.gif"><br>
+<ol>
+  <li><b>The Amino Acid Table</b>.  This is a reference for the 20 amino acids
+  		found in proteins.  Both the one-letter and three-letter codes for 
+  		each amino acid are shown.  
+  	<ul>
+  	    <li>The shades of the amino acids indicate 
+  		their relative hydrophobicities: the shades blend from <font color=white>
+  		white (hydrophilic)</font> through <font color=gray>gray (intermediate)
+  		</font> to <b>black (hydrophobic)</b>.</li>
+  		<li>Amino acids with <font color=blue>positively-charged</font> side chains have 
+  		  a <font color=blue>+</font> in their symbol.</li>
+  		<li>Amino acids with <font color=red>negatively-charged</font> side chains have 
+  		  a <font color=red>-</font> in their symbol.</li>
+  		<li>Amino acids whose side chains can make <font color=green>hydrogen bonds</font>
+  		 have a <font color=green>*</font> in their symbol.</li>
+     </ul>
+  <li><b>Upper Folding Window: Amino acid Sequence Box</b>.  Enter the amino acid
+  		sequence you want to fold here.  See under <a href="#enter">Entering</a>
+  		for instructions on how to enter and edit sequences. See under 
+  		<a href="#fold">Folding</a> for how to fold sequences.</li>
+  <li><b>Upper Folding Window: Folded Protein Pane</b>.  The structure of the folded 
+  		protein will appear here.</li>
+  <li><b>Lower Folding Window</b>.  You can enter and fold another protein in 
+  		this window.  You can then compare the two protein sequences and 
+  		structures.</li>
+  <li><b>History List</b>.  Each time you fold a protein, it is saved in the
+  		History List.  Sequences in the history list can be loaded into either
+  		folding window for further analysis.</li>
+</ol>
+<hr>
+<a name="enter"><h3>(2) Entering and Editing Protein Sequences</a></h3>
+You can enter a protein sequence by clicking in the Amino Acid Sequence Box and
+typing the <B>single letter code</b> for the desired amino acids.  The program
+will automatically fill in the three-letter code for easier reading.<p>
+You can edit the amino acid sequence as you would any line of text: you can
+click on a place to insert an amino acid (type the single-letter code); you 
+can select amino acids and delete them with the delete or backspace key 
+(the program will automatically delete complete amino acids).<p>
+Note that once you change the amino acid sequence, the border of the Folded 
+Protein Pane changes to pink - this indicates that the amino acid sequence
+in the Sequence Box no longer matches that of the Folded Protein.  The "Fold"
+button is then activated so you can fold your new protein.<p>
+
+<hr>
+<a name="fold"><h3>(3) Folding Your Proteins</a></h3>
+To fold your protein, click on the "Fold" button in the appropriate Folding
+Window.  In a few seconds, depending on the length of your protein and the
+speed of your computer, the folded protein will appear in the Folded Protein
+pane.  The border of the Folded Protein Pane will then turn gray to indicate
+that your protein is folded and the "Fold" button will be deactivated until
+you change the Amino acid sequence. The backbone of your protein will be shown
+in <font color=magenta>magenta</font>.<p>
+
+By selecting either &quot;<b>Disulfide Bonds On</b>&quot; or 
+&quot;<b>Disulfide Bonds Off</b>&quot;, you can fold the protein under conditions 
+where disulfide bonds can form (oxidizing - typically outside of a cell) or not 
+(reducing - typically inside a cell), respectively. When enabled, disulfide bonds
+can form between pairs of cysteines; they are stronger than ionic bonds and are shown
+by <font color=yellow>yellow lines</font>.
+
+<hr>
+<a name="history"><h3>(4) Using the History List</a></h3>
+The History List shows all the proteins you have folded during this session.
+All proteins are lost once you quit the program. <p>
+
+You can move a folded protein from the History List to one of the 
+Folding Windows by double-clicking on the desired protein in the History List; its
+border will change to green indicating that it has been selected.  Then
+choose either the "Send to Upper Panel" or "Send to Lower Panel" items
+from the menu that pops up to load that protein into
+the upper or lower folding window, respectively.  You can then compare the
+two proteins in the different folding windows as well as edit and re-fold
+either sequence. You can also add a note to the item in the history list
+that will appear when you leave the cursor over the item for a few seconds.<p>
+
+If you leave the cursor over a protein in the History List, a small window
+will pop up that shows that protein's amino acid sequence and/or any notes
+you have added.<p>
+
+You can save the proteins in your History List to a file by choosing
+"<b>Save As...</b>" from the "<b>File</b>" menu.  Once you have designated a file
+to save into, choosing "<b>Save</B>" from the "<B>History List</B>" menu will automatically
+save to that file.  History List files must end with the extension
+.histlist; the program will add it if you don't.<p>
+
+You can load in a History List that you have saved in a .histlist file
+by choosing "<b>Load</b>" from the "<b>History List</b>" menu and selecting the desired
+.histlist file.  The current History List will be replaced by the one
+in the file.<p>
+
+You can delete an protein from the History List by clicking on the protein
+in the History List that you want to delete and choosing "<b>Delete Selected</b>" 
+from the "<b>History List</b>" menu.  This action cannot be un-done.<p>
+
+You can clear the History List by selecting "<b>Clear</b>" from the "<b>History
+List</b>" menu.  This action cannot be un-done.<p>
+
+You can save all the proteins in the History List as a web page by selecting
+"<b>Save as Web Page...</b>" from the "<b>History List</b>" menu.  You will be
+asked to supply the name of a <u>folder</u> in which all the relevant files
+will be stored.  You can view the web page by double-clicking the file
+named "<b>index.html</b>" in the directory you have named.  <i>The web page
+cannot be loaded into Protein Investigator; only a .histlist file can
+do this.</i><p>
+<hr>
+<a name="game"><h3>(5) Using Game Mode</a></h3>
+In <b>Game Mode</b>, the object is to design a protein with the same <u>shape</u>
+as a target molecule you have chosen.  Protein Investigator will then determine
+if the shape of your protein matches the target.  Using Game Mode is a good
+way to practice your protein engineering skills.<p>
+In Game Mode, there are two levels of shape matching which can be selected
+by choosing the <b>Strict Matching Mode</b> from the <b>Game</b> menu:
+<ul>
+  <li><b>Strict Mode</b> although the amino acid sequences of your protein
+    need not match that of the target,  both the shape of the protein and the direction 
+    of the backbone must be the same as the target. Also, the folded protein must be 
+    in the same orientation as the target on order to register a match.
+    This is a much more challenging level of play than <b>Non Strict Mode</b>.</li>
+  <li><b>Non-strict Mode</b> matches your protein based on shape only and will try
+    matching your protein with the target rotated into different orientations.</li>
+</ul>
+You can switch between these two modes by choosing the <b>Strict Matching Mode</b> 
+from the <b>Game</b> menu; in Strict Mode, a check will appear to the left of the
+<b>Strict Matching Mode</b> in the menu.<p>
+
+You use game mode as follows:
+<ol>
+  <li>Choose <b>Choose a Target Shape...</b> from the <b>Game</b> menu. </li>
+  <li>Double-click on one of the target shapes in the list that appears.</li>
+  <li>A window will pop up showing the target shape you chose. In <b>Strict Mode</b>
+    the backbone will be shown and the amino acids will be numbered to show the
+    proper direction of the protein chain. In <b>Non Strict Mode</b>, only the
+    shape of the target protein will be shown. In either case, no specific amino acids
+    will be shown since your task is to match the <u>shape</u> of the target,
+    not necessarily the sequence.</li>
+  <li>Go back to one of the <b>Folding Window</b>s and design a protein to match
+    the shape of the target you have chosen. 
+  <li>To see if your shape is a match to the target, click the <b>Check Upper/Lower 
+    Protein for Matching Shape</b> button as appropriate. A window will pop up
+    telling you if you were successful or not.</li>
+  <li>When you are done with this target, click the <b>Cancel</b> button.</li>
+</ol>
+
+<hr>
+<a name="printing"><h3>(6) Printing Your Structures</a></h3>
+You can print the amino acid sequences and folded structures of the
+proteins in both Folding Windows by choosing "<b>Print</b>" from the "<b>File</b>"
+menu.<p>
+
+<hr>
+<a name="assumptions"><h3>(7) Assumptions, approximations, etc.</a></h3>
+This is a <b>highly-simplified</b> model of protein folding.  It is not 
+intended to predict the correct structures of any proteins; it is designed
+to illustrate the major principles involved in that process. Our model of
+protein folding includes the following factors:
+<ul>
+  <li><b>The hydrophobic effect</b>: Proteins are folded so as to minimize
+  	the number of hydrophobic amino acids exposed to the water surrounding
+  	the protein.  Different amino acids have different hydrophobicities that 
+  	span a wide range of values. 	This is the weakest force controlling the 
+  	shape of the proteins.</li>
+  <li><b>Hydrogen Bonds</b>: Proteins are folded so as to maximize contacts
+  	between amino acids that can form hydrogen bonds. Amino acids are
+  	either able to make hydrogen bonds or not; there are no intermediate
+  	levels of hydrogen bonding ability.  Hydrogen bonds have an intermediate
+  	strength between the other two interactions.</li>
+  <li><b>Ionic Bonds</b>: Proteins are folded so as to maximize contacts
+  	between side chains with unlike charges and to minimize contacts
+  	between side chains with like charges.  Amino acids are (+), (-), 
+  	or neutral; no intermediate levels of charge are allowed.  Ionic
+  	bonds are the strongest of the interactions.</li>
+</ul>
+Even though these provide some important insights into protein folding, 
+you should always keep in mind that this is an approximation.  The most 
+important "gotcha's" to be aware of are:
+<ul>
+  <li>This program folds proteins in 2-dimensions only; real proteins
+  	fold in 3-dimensions.</li>
+  <li>This program treats all amino acids as equal-sized circles; real
+  	amino acids have different sizes and shapes.</li>
+  <li>This program folds the protein strictly based on the interactions
+  	between the side chains; in real proteins, side chains can interact
+  	with the backbone and proteins are often folded with the help
+  	of chaperones.</li>
+  <li>This program does not model secondary or quaternary structure;
+  	real proteins often have these.</li>
+  <li>This program assumes that all side chains with hydrogen bonding
+  	capability can bond with each other; in real proteins this is
+  	not always possible.</li>
+</ul>
+
+</body>
+</html>
