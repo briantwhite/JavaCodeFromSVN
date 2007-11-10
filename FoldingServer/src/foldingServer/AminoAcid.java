@@ -12,14 +12,13 @@
  */
 // Modified by Namita, Ruchi (NR) on 10/17/2004
 
-package protex;
+package foldingServer;
 
-import java.io.Serializable;
 
 /**
  * Model an AminoAcid
  */
-public class AminoAcid implements Serializable {
+public class AminoAcid {
 	/**
 	 * The name of this AminoAcid.
 	 */

@@ -13,7 +13,7 @@
 
 // histogram is broken - need to get right value for offset
 
-package protex;
+package foldingServer;
 
 import java.util.HashSet;
 import java.util.Set;

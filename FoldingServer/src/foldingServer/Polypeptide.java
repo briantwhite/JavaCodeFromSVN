@@ -38,10 +38,9 @@
  * Modified: 26 Apr Mar 2005 (D. A. Portman/MGX Team UMB)
  */
 
-package protex;
+package foldingServer;
 
 import java.awt.Color;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -49,7 +48,7 @@ import java.util.Iterator;
  * Model a polypeptide as a List of AminoAcids.
  *  
  */
-public class Polypeptide implements Serializable {
+public class Polypeptide {
 
 	// public accessors
 

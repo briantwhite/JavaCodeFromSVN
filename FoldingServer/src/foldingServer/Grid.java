@@ -13,10 +13,8 @@
 
 // to do: rationalize the way the several statistics are computed
 
-package protex;
+package foldingServer;
 
-import java.awt.Color;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,7 +23,7 @@ import java.util.Map;
 /**
  * Model a grid containing a polypeptide chain.
  */
-public abstract class Grid implements Serializable {
+public abstract class Grid {
 	public static final int STRAIGHT = 0;
 
 	public static final int BENT = 1;

@@ -38,9 +38,8 @@
  * Modified: 02 Mar 2005 (D. A. Portman/MGX Team UMB)
  */
 
-package protex;
+package foldingServer;
 
-import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -48,7 +47,7 @@ import java.util.TreeSet;
  * An AcidInChain refers to an AminoAcid and has fields and methods to manage
  * the placement of that AminoAcid in a Polypeptide on a Grid.
  */
-public class AcidInChain implements Serializable {
+public class AcidInChain {
 
 	/**
 	 * Constructor.

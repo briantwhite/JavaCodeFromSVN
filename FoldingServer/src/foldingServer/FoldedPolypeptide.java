@@ -1,11 +1,8 @@
-package protex;
-
-import java.awt.Color;
-import java.io.Serializable;
+package foldingServer;
 
 import javax.swing.ImageIcon;
 
-public class FoldedPolypeptide implements Serializable {
+public class FoldedPolypeptide {
 	private boolean ssBondsOn;
 	private String aaSeq;
 	private Grid fullSizeGrid;

@@ -11,7 +11,7 @@
  * option) any later version.
  */
 
-package protex;
+package foldingServer;
 
 import java.awt.Color;
 import java.util.Iterator;

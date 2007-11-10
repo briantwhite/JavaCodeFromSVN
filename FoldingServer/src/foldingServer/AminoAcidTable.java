@@ -11,7 +11,7 @@
  * option) any later version.
  */
 
-package protex;
+package foldingServer;
 
 import java.io.Serializable;
 import java.util.Iterator;

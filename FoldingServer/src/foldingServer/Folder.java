@@ -11,7 +11,7 @@
  * option) any later version.
  */
 
-package protex;
+package foldingServer;
 
 /**
  * Abstract base class for folding algorithms.

@@ -38,7 +38,7 @@
  * Modified:  10 May 2005 (D. A. Portman/MGX Team UMB)
  */
 
-package protex;
+package foldingServer;
 
 /**
  * Class Attributes contains the attributes needed to fold or plot a

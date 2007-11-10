@@ -11,7 +11,7 @@
  * option) any later version.
  */
 
-package protex;
+package foldingServer;
 
 /**
  * Parent Exception for the folding package.

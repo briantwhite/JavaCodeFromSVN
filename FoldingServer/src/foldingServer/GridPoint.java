@@ -11,14 +11,13 @@
  * option) any later version.
  */
 
-package protex;
+package foldingServer;
 
-import java.io.Serializable;
 
 /**
  * Model a point in three dimensional space.
  */
-public class GridPoint implements Serializable {
+public class GridPoint {
 	public int x;
 
 	public int y;

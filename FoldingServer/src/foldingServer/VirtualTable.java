@@ -12,7 +12,7 @@
  */
 //Modified by Namita, Ruchi (NR) on 10/17/2004
 
-package protex;
+package foldingServer;
 
 /**
  * A virtual table of acids contains one for each possible hydrophobic index.

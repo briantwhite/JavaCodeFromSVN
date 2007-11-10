@@ -13,7 +13,7 @@
 
 //.1 .2 .3 .4 .5 .6 .7 .8 
 
-package protex;
+package foldingServer;
 
 import java.awt.Color;
 import java.awt.Dimension;

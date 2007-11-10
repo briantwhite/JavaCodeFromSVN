@@ -11,7 +11,7 @@
  * option) any later version.
  */
 
-package protex;
+package foldingServer;
 
 /**
  * Incremental approximation algorithm searching for minimal energy.

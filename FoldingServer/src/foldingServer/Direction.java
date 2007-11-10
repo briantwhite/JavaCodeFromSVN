@@ -11,14 +11,13 @@
  * option) any later version.
  */
 
-package protex;
+package foldingServer;
 
-import java.io.Serializable;
 
 /**
  * Model a direction on a grid.
  */
-public class Direction implements Serializable {
+public class Direction {
 	// for the hexagonal grid
 	public static final Direction E = new Direction(" E", 1);
 

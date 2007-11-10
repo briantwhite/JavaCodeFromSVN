@@ -1,4 +1,4 @@
-package protex;
+package foldingServer;
 
 import java.awt.Dimension;
 

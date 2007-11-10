@@ -12,7 +12,7 @@
  */
 //Modified by Namita, Ruchi (NR) on 10/17/2004
 
-package protex;
+package foldingServer;
 
 import java.io.Serializable;
 import java.util.Iterator;

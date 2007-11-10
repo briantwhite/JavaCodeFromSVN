@@ -39,7 +39,7 @@
  * Modified: 10 May 2005 (David Portman/MGX Team UMB)
  */
 
-package protex;
+package foldingServer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -32,7 +32,7 @@
  * Modified: 09 Mar 2005 (D. A. Portman/MGX Team UMB)
  */
 
-package protex;
+package foldingServer;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
