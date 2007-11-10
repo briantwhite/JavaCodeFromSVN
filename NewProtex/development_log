@@ -1,0 +1,192 @@
+7/2/07
+started with version 2.0.2
+
+1) since this version doesn't need color - take it out.
+
+nuked classes:
+	ColorModel
+	RYBColorModel
+
+had to fix
+	Attributes
+	FoldingManager
+	FoldingWindow
+	HexGrid
+	TwoDgrid
+	Grid
+	FoldingManager
+	OutputPalette
+	FoldingWindow
+	MiddleButtonPanel
+	FoldedPolypeptide
+	HistoryCellRenderer
+	Protex
+
+works
+
+put in CVS
+
+2) optimize for speed
+first, put in a timer to measure how long a fold takes.
+
+tested on the fast macbook laptop 2.33ghz intel core duo (mac os) with 3gb ram
+folded Arg Arg Arg Arg Arg Arg Phe Phe Phe Phe Phe Phe Phe Asn Asn Asn Asn Asn Asp 
+RRRRRRFFFFFFFNNNNND
+1871ms
+1826ms
+1831ms
+1820ms
+1858ms (no effect of having safari running or not)
+
+therefore - some random variability in runs (2-5%).
+therefore - need to see a big change to be sure.
+
+put in CVS
+
+3) start experimenting with speed
+
+- add a delay
+	in AminoAcid.getionicIndex
+		add a for i = 1 to 500 loop
+
+new folding for above:
+took way too long - gave up
+
+need new "standard protein" - it must have an ionic and an h-bond
+
+RFFTAASTAATFFE
+1020ms
+998ms
+990ms
+990ms
+
+add the delay (1 to 50 loop)
+4543ms
+4534ms
+- much longer.
+
+try an experiment:
+according to the profiler, it spends a lot of time in BruteForceFolder.recurse
+	this method re-calculated the length of next[] each time thru
+	(for int i = 0; i < next.length..)
+	try replacing next.length with a local variable
+	
+no effect, put it back the old way.
+
+in TwoDGrid.getEnergy, there are a lot of casts because the hbond and ionic bond indices are 
+	doubles not ints
+-try changing them to ints
+872, 843, 847, 836 - somewhat faster!
+
+same place - it tests if ac == null and then re-tests to see if it non-null
+switch to if else
+712, 697, 682, 685 - definitely faster
+
+h-bond calculations use if then
+	switch to multiplication
+658, 624 - faster still
+
+do the same with ionic bonds
+619, 577 - maybe a little faster...
+
+it looks up allDirections.length every time; try a local variable
+605, 586 - not enough change (if any) to justify the confusion
+
+can't think of any other ways to speed it up...
+
+3) implement the double-clicking of hist list items from MGE
+- copied in HistListPopupMenu from mge
+- fixed various things to make it work
+
+works
+version 2.1.0
+put in cvs
+
+7/6/07
+got ssbonds to work
+notes:
+	- not possible between adjacent cys's in the chain (not n & n+1)
+	
+changed color scheme to black & white
+
+put in cvs
+
+made version 2.2.0
+
+
+9/20/07
+starting to make game mode
+
+1) set up ???? to save a list of the aas and the directions to place them:
+	AcidInFoldingSpec = aa and direction
+	FoldingSpec = ArrayList(AcidInFoldingSpec) (with accessor methods)
+	
+- got it to show the folding string aa:direction;aa:direction; etc.
+
+2) make it able to draw a target shape from a foldingSpec
+ - this will be tough....
+ 
+nuked these - just use polypeptide, it has all the info
+edited Polypeptide, Grid, TwoDGrid, and Protex to show this
+
+now, need to be able to make a polypeptide from a folding string with all black aa's
+(no sequence info, just shape) for a target
+
+9/21/07
+make a method object for making protein pix
+(steal from mgx)
+ProteinImageFactory
+ProteinImageSet
+- bring in methods from FoldingWindow for drawing pic
+
+got it to work!
+
+- got it to save shape strings to a text file and retrieve them to a list for selection.
+
+9/26/07
+- got it to select targets and match using strict mode!
+
+9/27/07
+- try to get rotational isomers (rotamers) working
+	- add to Direction increment(Directon d) that gives the next clockwise direction
+- got rotamers to work
+
+tried to get comparison to work - the strings look identical but equals() doesn't think so!
+
+compare directions - since each is a singleton, can use ==
+
+will need to wrap rotamers with circlular permutations of sequence as well
+also do reverse
+
+10/1/07
+no - the circular permutations do not give the same shapes!
+just do the 6 rotamers
+and compare by matching x & y coordinates of the aas
+(after shifting - if necessary - to compensate for offsets)
+
+coded this in
+not working yet...
+
+got it to work - need to test, but looks good
+got rotamers of FFFRFFFF with R in various places
+
+10/6/07
+fixed some bugs with the TargetShapeDisplayDialog
+as well as the drawing stuff
+now displays properly
+made version 3.0.1
+
+10/9/07
+tagged as version 3.0.1
+
+10/13/07
+working on command-line ShapeMatcher
+add a main() method to ShapeMatcher that 
+	- takes args prot_seq and target_shape
+	- returns folded shape and match/not
+
+got it to work using ShapeMatcher.pl!
+need to try on server
+  (strange note: as it runs, you see protex.ShapeMatcher appear at upper left of apple bar
+    does that mean it'll be bad on the server?)
+ 

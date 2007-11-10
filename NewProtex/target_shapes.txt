@@ -1,0 +1,7 @@
+Stick, E; E; E; E; E; E;none
+Dinner Plate, E;NE;NW; W;SW; E;none
+Frying Pan, E; E; E;NW; E;SE;SW; W;none
+Crab, E; E; E;NW; E;SE;SW; W;SW;SW;none
+Donut, E;NE;NW; W;SW;none
+Padlock, E;NE;NW; W;SW;SW;SE; W;NW;NE;none
+Spoon, E;NE;NW; W;SW; W; W; W; W; W;SE; W;NW;NE; E;none
