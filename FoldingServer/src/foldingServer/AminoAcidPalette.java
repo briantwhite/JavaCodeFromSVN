@@ -45,11 +45,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -126,6 +128,8 @@ public class AminoAcidPalette extends JPanel {
 
 	public void paintAminoAcid(Graphics g, AminoAcid a, int x, int y) {
 
+		Graphics2D g2d = (Graphics2D)g;
+		
 		boolean smallSize = false;
 		if (cellRadius < 20) {
 			smallSize = true;
@@ -134,32 +138,32 @@ public class AminoAcidPalette extends JPanel {
 		int offset = getStringIndentationConstant(a.getName(), cellRadius);
 
 		if (a.getName().equals("X")) {
-			g.setColor(Color.BLUE);
+			g2d.setColor(Color.BLUE);
 		} else {
-			g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
+			g2d.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
 		}
-		g.fillOval(x, y, cellDiameter, cellDiameter);
+		g2d.fillOval(x, y, cellDiameter, cellDiameter);
 		
 		//default label color is white
-		g.setColor(Color.WHITE);
+		g2d.setColor(Color.WHITE);
 
 		//if philic - then add stuff
 		if (a.getName().equals("Arg") ||
 				a.getName().equals("Lys") ||
 				a.getName().equals("His")) {
-			g.setColor(Color.blue);
+			g2d.setColor(Color.blue);
 			if (!smallSize) {
-				g.drawString("+", x + cellRadius - 15, y + cellRadius);
-				g.setColor(Color.BLACK);
+				g2d.drawString("+", x + cellRadius - 15, y + cellRadius);
+				g2d.setColor(Color.BLACK);
 			} 
 		}
 
 		if (a.getName().equals("Asp") ||
 				a.getName().equals("Glu")) {
-			g.setColor(Color.red);
+			g2d.setColor(Color.red);
 			if (!smallSize) {
-				g.drawString("-", x + cellRadius - 15, y + cellRadius);
-				g.setColor(Color.BLACK);
+				g2d.drawString("-", x + cellRadius - 15, y + cellRadius);
+				g2d.setColor(Color.BLACK);
 			} 
 		}
 
@@ -168,19 +172,22 @@ public class AminoAcidPalette extends JPanel {
 				a.getName().equals("Ser") ||
 				a.getName().equals("Thr") ||
 				a.getName().equals("Tyr")) {
-			g.setColor(Color.green);
+			g2d.setColor(Color.green);
 			if (!smallSize) {
-				g.drawString("*", x + cellRadius - 15, y + cellRadius);
-				g.setColor(Color.BLACK);
+				g2d.drawString("*", x + cellRadius - 15, y + cellRadius);
+				g2d.setColor(Color.BLACK);
 			} 
 		}
 
 		if (smallSize) {
-			int fontSize = g.getFont().getSize();
-			g.drawString(a.getAbName(), x + cellRadius - fontSize/2, y + cellRadius + fontSize/2);
+			Rectangle2D labelBounds = 
+				g2d.getFont().getStringBounds(a.getAbName(), g2d.getFontRenderContext());
+			g2d.drawString(a.getAbName(), 
+					x + cellRadius - (int)labelBounds.getWidth()/2, 
+					y + cellRadius + (int)labelBounds.getHeight()/3);
 		} else {
-			g.drawString(a.getName(), x + cellRadius - offset, y + cellRadius);
-			g.drawString(a.getAbName(), x + cellRadius , y + cellRadius + AB_Y_OFFSET);
+			g2d.drawString(a.getName(), x + cellRadius - offset, y + cellRadius);
+			g2d.drawString(a.getAbName(), x + cellRadius , y + cellRadius + AB_Y_OFFSET);
 		}
 	}
 

@@ -6,28 +6,30 @@ make a gui-free application for protein folding
 	for game and evolution
 	
 
-four modes:
+five modes:
 
 <aaseq> = single-letter aa seq
+<aa radius> = radius of aa to use when rendering
 <target shape string> = list of directions for folding target shape
 <filename.gif/png> = filename with extension specifying type
 
-TARGET:
-server -t <target shape string> <filename.gif/png>
-		saves tiny gif/png of target shape in same dir as app
+PALETTE:
+server -p <aa radius> <filename.gif/png>
+		
 
-server -T <target shape string> <filename.gif/png>
-		saves big gif/png of target shape in same dir as app	
+TARGET:
+server -t <aa radius> <target shape string> <filename.gif/png>
+		saves gif/png of target shape in same dir as app
 
 PICTURE:
-server -p <aaseq> <filename.gif/png>
+server -p <aa radius> <aaseq> <filename.gif/png>
 	ssBonds OFF
-	saves big gif/png of folded protein in same dir as app
+	saves gif/png of folded protein in same dir as app
 	returns color
 
 server -P <aaseq> <filename>
 	ssBonds ON
-	saves big gif/png of folded protein in same dir as app
+	saves gif/png of folded protein in same dir as app
 	returns color
 
 COLOR:
@@ -40,14 +42,14 @@ server -C <aaseq>
 	returns color
 	
 MATCH:
-server -m <aaseq> <target shape string> <filename.gif/png>
+server -m <aa radius> <aaseq> <target shape string> <filename.gif/png>
 	ssBonds OFF
-	saves tiny gif/png of folded protein in same dir as app
+	saves gif/png of folded protein in same dir as app
 	returns true/false for match
 	
-server -M <aaseq> <target shape string> <filename.gif/png>
+server -M <aa radius> <aaseq> <target shape string> <filename.gif/png>
 	ssBonds ON
-	saves tiny gif/png of folded protein in same dir as app
+	saves gif/png of folded protein in same dir as app
 	returns true/false for match
 	
 
