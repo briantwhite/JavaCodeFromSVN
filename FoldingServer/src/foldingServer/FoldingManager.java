@@ -281,12 +281,12 @@ public class FoldingManager {
 	 *            int.
 	 * @return GridCanvas
 	 */
-	public GridCanvas createCanvas(int width, int height) {
+	public GridCanvas createCanvas(AminoAcidPalette aap, int width, int height) {
 		GridCanvas canvas;
 		String grid = currentAttrib.getGrid();
 
 		if (grid.equalsIgnoreCase("hexagonal")) {
-			canvas = new HexCanvas();
+			canvas = new HexCanvas(aap);
 		} else { // should not get here
 			canvas = null;
 			System.out.print("\nFoldingManager.createCanvas(): ");

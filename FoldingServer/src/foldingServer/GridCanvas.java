@@ -30,9 +30,9 @@ import javax.swing.JPanel;
  */
 public abstract class GridCanvas extends JPanel {
 
-	protected int cellRadius = 20;
+	protected int cellRadius;
 
-	protected int cellDiameter = 2 * cellRadius;
+	protected int cellDiameter;
 
 	protected int size; // 2*numAcids + 1
 
@@ -45,14 +45,19 @@ public abstract class GridCanvas extends JPanel {
 	private JPanel parentPanel;
 
 	private Dimension requiredCanvasSize;
+	
+	private AminoAcidPalette aaPalette;
 
-	public GridCanvas(int width, int height) {
-		this();
-		this.setSize(width, height);
-	}
+//	public GridCanvas(int width, int height) {
+//		this();
+//		this.setSize(width, height);
+//	}
 
-	public GridCanvas() {
+	public GridCanvas(AminoAcidPalette aap) {
+		aaPalette = aap;
 		requiredCanvasSize = new Dimension(0,0);
+		cellRadius = FoldingServer.aaRadius;
+		cellDiameter = 2 * cellRadius;
 	}
 
 	public Dimension getRequiredCanvasSize() {
@@ -134,10 +139,6 @@ public abstract class GridCanvas extends JPanel {
 	 */
 	protected abstract GridPoint project(GridPoint p);
 
-	protected int getAcidRadius() {
-		return cellRadius;
-	}
-
 	/**
 	 * Returns constants used for center the name of the polypeptide
 	 */
@@ -188,8 +189,9 @@ public abstract class GridCanvas extends JPanel {
 			g.setColor(FoldingServer.SS_BONDS_ON_BACKGROUND);
 			g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
 		} else {
-			setBackground(Color.WHITE);
-			g.setColor(Color.WHITE);
+			setBackground(FoldingServer.SS_BONDS_OFF_BACKGROUND);
+			cc = new ShadingColorCoder(pp.getTable().getContrastScaler());
+			g.setColor(FoldingServer.SS_BONDS_OFF_BACKGROUND);
 			g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
 		}
 
@@ -205,18 +207,14 @@ public abstract class GridCanvas extends JPanel {
 			spots[i] = spots[i].subtract(min);
 		}
 		Arrays.sort(acidsByZ, new SortByZ());
-		int r = getAcidRadius();
 		for (int i = 0; i < numAcids; i++) {
 			AcidInChain a = acidsByZ[i];
 			GridPoint here = project(a.xyz).subtract(min);
 
-			// fills the circle
-			if (a.getAbName().equals("X")) {
-				g.setColor(Color.BLUE);
-			} else {
-				g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
-			}
-			g.fillOval(here.x - r, here.y - r, 2 * r, 2 * r);
+			aaPalette.paintAminoAcid(g, 
+					a.getAminoAcid(), 
+					here.x - cellRadius, 
+					here.y - cellRadius);
 
 		}
 
@@ -224,44 +222,6 @@ public abstract class GridCanvas extends JPanel {
 		g.setColor(Color.red);
 		for (int i = 0; i < numAcids; i++) {
 			AcidInChain a = pp.getAminoAcid(i);
-			int offset = getStringIndentationConstant(a.name, r);
-
-			// default color for names is white
-			g.setColor(Color.white)	;
-
-			//if philic - then add stuff
-			if (a.getName().equals("Arg") ||
-					a.getName().equals("Lys") ||
-					a.getName().equals("His")) {
-				g.setColor(Color.blue);
-				g.drawString("+", spots[i].x - 15, spots[i].y);
-				g.setColor(Color.black);
-			}
-
-			if (a.getName().equals("Asp") ||
-					a.getName().equals("Glu")) {
-				g.setColor(Color.red);
-				g.drawString("-", spots[i].x - 15, spots[i].y);
-				g.setColor(Color.black);
-			}
-
-			if (a.getName().equals("Asn") ||
-					a.getName().equals("Gln") ||
-					a.getName().equals("Ser") ||
-					a.getName().equals("Thr") ||
-					a.getName().equals("Tyr")) {
-				g.setColor(Color.green);
-				g.drawString("*", spots[i].x - 15, spots[i].y);
-				g.setColor(Color.BLACK);					
-			}
-
-			g.drawString(a.name, spots[i].x - offset, spots[i].y);
-			// string is drawn to an left offset from center of disk.;
-			g.drawString(a.getAbName(), spots[i].x - 2, spots[i].y + 12);
-			g.setColor(Color.magenta);
-
-
-			//draw the backbone
 			if (i < numAcids - 1) {
 				g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
 						spots[i + 1].y);
@@ -327,31 +287,6 @@ public abstract class GridCanvas extends JPanel {
 			AcidInChain a1 = (AcidInChain) o1;
 			AcidInChain a2 = (AcidInChain) o2;
 			return (a1.xyz.z - a2.xyz.z);
-		}
-	}
-
-	private void drawDottedLine(Graphics g, int x1, int y1, int x2, int y2) {
-	}
-
-	// for hex grid - never called
-	private void paintEmpties(Graphics g) {
-		g.setColor(Color.black);
-		for (int row = 0; row < size; row++) {
-			int rowstart = (row <= numAcids) ? numAcids - row : 0;
-			int rowend = (row <= numAcids) ? size : size - row + numAcids;
-			for (int col = rowstart; col < rowend; col++) {
-				GridPoint here = new GridPoint(row, col);
-				// redo if needed g.drawOval(
-				// 			   getCenterX(here) - cellRadius,
-				// 			   getCenterY(here) - cellRadius,
-				// 			   cellDiameter, cellDiameter);
-				// commented out code draws the grid
-				// 		hexagon.translate(getCornerX(row, col),
-				// 				  getCornerY(row,col));
-				// 		g.drawPolygon(hexagon);
-				// 		hexagon.translate(-getCornerX(row, col),
-				// 				  -getCornerY(row,col));
-			}
 		}
 	}
 

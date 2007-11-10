@@ -18,11 +18,13 @@ public class ProteinImageFactory {
 		return generateImages(op.getDrawingPane());
 	}
 	
-	public static ProteinImageSet buildProtein(String foldingString, boolean strictMatchDisplayMode) {
+	public static ProteinImageSet buildProtein(AminoAcidPalette aap, 
+			String foldingString, 
+			boolean strictMatchDisplayMode) {
 		
 		Direction[] directionArray = directionStringToDirectionArray(foldingString);
 		
-		HexCanvas hexCanvas = new HexCanvas();
+		HexCanvas hexCanvas = new HexCanvas(aap);
 		
 		hexCanvas.setGrid(layoutOntoHexGrid(directionArray));
 				

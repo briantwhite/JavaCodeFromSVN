@@ -25,7 +25,7 @@ import javax.swing.border.LineBorder;
 
 public class FoldingWindow extends JPanel {
 	
-	final FoldingServer protex;
+	final FoldingServer foldingServer;
 	
 	JPanel proteinPanel;
 	JTextField proteinSequence;
@@ -54,12 +54,12 @@ public class FoldingWindow extends JPanel {
 	private static final int thumbHeight = 70;
 
 	
-	public FoldingWindow(final FoldingServer protex) {
+	public FoldingWindow(final FoldingServer foldingServer) {
 		super();
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.lightGray);
 		
-		this.protex = protex;
+		this.foldingServer = foldingServer;
 		
 		foldedPolypeptide = null;
 		
@@ -71,7 +71,7 @@ public class FoldingWindow extends JPanel {
 		proteinSequence = new JTextField(50);
 		proteinSequence.setBorder(BorderFactory.createTitledBorder("Amino Acid Sequence"));
 		proteinSequence.setDocument(tlcDoc);
-		outputPalette = new OutputPalette();
+		outputPalette = new OutputPalette(foldingServer.getAAPalette());
 		proteinScrollPane = new JScrollPane(outputPalette);
 		proteinPanel.add(proteinSequence, BorderLayout.NORTH);
 		proteinPanel.add(proteinScrollPane, BorderLayout.CENTER);

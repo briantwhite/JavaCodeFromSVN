@@ -6,11 +6,18 @@ make a gui-free application for protein folding
 	for game and evolution
 	
 
-three modes:
+four modes:
 
 <aaseq> = single-letter aa seq
 <target shape string> = list of directions for folding target shape
 <filename.gif/png> = filename with extension specifying type
+
+TARGET:
+server -t <target shape string> <filename.gif/png>
+		saves tiny gif/png of target shape in same dir as app
+
+server -T <target shape string> <filename.gif/png>
+		saves big gif/png of target shape in same dir as app	
 
 PICTURE:
 server -p <aaseq> <filename.gif/png>

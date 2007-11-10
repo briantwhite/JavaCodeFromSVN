@@ -17,7 +17,8 @@ public class FoldingServer extends JFrame {
 	public static final Color SS_BONDS_ON_BACKGROUND = new Color((float) 0.7,
 			(float) 1.0, (float) 1.0);
 	
-	private int aaRadius = 20;
+	// 20 is standard size
+	public static int aaRadius = 6;
 	
 	private AminoAcidPalette aap;
 	
@@ -42,14 +43,14 @@ public class FoldingServer extends JFrame {
 	private void setupUI() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		aap = new AminoAcidPalette(aaRadius, 225, 180, 4, 5);
+		aap = new AminoAcidPalette(4, 5);
 		panel.add(aap);
 		FoldingWindow fw = new FoldingWindow(this);
 		panel.add(fw);
 		this.getContentPane().add(panel);
 	}
 	
-	private AminoAcidPalette getAAPalette() {
+	public AminoAcidPalette getAAPalette() {
 		return aap;
 	}
 	

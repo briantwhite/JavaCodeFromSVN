@@ -126,36 +126,36 @@ public class ShapeMatcher {
 	// args[0] = amino acid sequence of guess (single letter)
 	// args[1] = target shape folding string
 	//  returns folding string of guess and match/not
-	public static void main(String[] args) {
-		String guessAASeq = args[0];
-		String targetFoldingString = args[1];
-		
-		//fold the guess sequence
-		FoldingManager manager = FoldingManager.getInstance();
-		Attributes attributes = new Attributes(guessAASeq.trim(), 
-						1, "0.0", "straight", "test");
-		OutputPalette outputPalette = new OutputPalette();
-		try {
-			manager.fold(attributes);
-		} catch (FoldingException e) {
-			e.printStackTrace();
-		}	
-		manager.createCanvas(outputPalette);
-			outputPalette.getDrawingPane().getRequiredCanvasSize();
-		outputPalette.setssBondsOn(false);
-
-		String guessFoldingString = 
-			outputPalette.getDrawingPane().getGrid().getPP().getDirectionSequence();
-		
-		System.out.println("guess=" + guessFoldingString);
-		
-		// see if it matches the target
-		ShapeMatcher shapeMatcher = new ShapeMatcher(targetFoldingString, false);
-		if (shapeMatcher.matchesTarget(guessFoldingString)) {
-			System.out.println("match=Y");
-		} else {
-			System.out.println("match=N");
-		}
-
-	}
+//	public static void main(String[] args) {
+//		String guessAASeq = args[0];
+//		String targetFoldingString = args[1];
+//		
+//		//fold the guess sequence
+//		FoldingManager manager = FoldingManager.getInstance();
+//		Attributes attributes = new Attributes(guessAASeq.trim(), 
+//						1, "0.0", "straight", "test");
+//		OutputPalette outputPalette = new OutputPalette();
+//		try {
+//			manager.fold(attributes);
+//		} catch (FoldingException e) {
+//			e.printStackTrace();
+//		}	
+//		manager.createCanvas(outputPalette);
+//			outputPalette.getDrawingPane().getRequiredCanvasSize();
+//		outputPalette.setssBondsOn(false);
+//
+//		String guessFoldingString = 
+//			outputPalette.getDrawingPane().getGrid().getPP().getDirectionSequence();
+//		
+//		System.out.println("guess=" + guessFoldingString);
+//		
+//		// see if it matches the target
+//		ShapeMatcher shapeMatcher = new ShapeMatcher(targetFoldingString, false);
+//		if (shapeMatcher.matchesTarget(guessFoldingString)) {
+//			System.out.println("match=Y");
+//		} else {
+//			System.out.println("match=N");
+//		}
+//
+//	}
 }
