@@ -1,0 +1,53 @@
+11/10/07
+set up from NewProtex 3.0.1
+
+goal: 
+make a gui-free application for protein folding
+	for game and evolution
+	
+
+three modes:
+
+<aaseq> = single-letter aa seq
+<target shape string> = list of directions for folding target shape
+<filename.gif/png> = filename with extension specifying type
+
+PICTURE:
+server -p <aaseq> <filename.gif/png>
+	ssBonds OFF
+	saves big gif/png of folded protein in same dir as app
+	returns color
+
+server -P <aaseq> <filename>
+	ssBonds ON
+	saves big gif/png of folded protein in same dir as app
+	returns color
+
+COLOR:
+server -c <aaseq>
+	ssBonds OFF
+	returns color
+
+server -C <aaseq>
+	ssBonds ON
+	returns color
+	
+MATCH:
+server -m <aaseq> <target shape string> <filename.gif/png>
+	ssBonds OFF
+	saves tiny gif/png of folded protein in same dir as app
+	returns true/false for match
+	
+server -M <aaseq> <target shape string> <filename.gif/png>
+	ssBonds ON
+	saves tiny gif/png of folded protein in same dir as app
+	returns true/false for match
+	
+
+PLAN:
+1) bring it down to just aapalette & one folding window
+2) pull out AApainter as static method object for drawing aas
+	differnt drawBigAA; drawTinyAA methods
+3) test to develop tiny aas
+4) get it to make .gif & .png
+5) nuke all gui stuff
