@@ -25,9 +25,7 @@ public class ProteinImageFactory {
 		HexCanvas hexCanvas = new HexCanvas();
 		
 		hexCanvas.setGrid(layoutOntoHexGrid(directionArray));
-		
-		hexCanvas.setStrictMatchDisplayMode(strictMatchDisplayMode);
-		
+				
 		return generateImages(hexCanvas);
 		
 	}

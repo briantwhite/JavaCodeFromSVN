@@ -1,21 +1,21 @@
-<project name="New Protex" default="run">
+<project name="Folding Server" default="run">
 	
     <target name="compile" description="Compiles the code">
     	    <javac srcdir="src/" destdir="bin/"/>
     </target>
 
 	<target name="jarfile" depends="compile" description="makes jar file">
-	    <jar destfile="bin/Protex.jar">
+	    <jar destfile="bin/FoldingServer.jar">
 	        <manifest>
-	        	    <attribute name="Main-Class" value="protex.Protex"/>
+	        	    <attribute name="Main-Class" value="foldingServer.FoldingServer"/>
 	        </manifest>
 	    	    <fileset dir="bin/"/>
 	    </jar>
-        <move file="bin/Protex.jar" todir="."/>
+        <move file="bin/FoldingServer.jar" todir="."/>
     </target>
 	
 	<target name="run" depends="jarfile" description="run new Protex">
-		<java jar="Protex.jar" fork="true"/>
+		<java jar="FoldingServer.jar" fork="true"/>
 	</target>
 
 </project>

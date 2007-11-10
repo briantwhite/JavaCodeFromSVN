@@ -29,7 +29,7 @@ import javax.swing.JPanel;
  *  
  */
 public abstract class GridCanvas extends JPanel {
-	
+
 	protected int cellRadius = 20;
 
 	protected int cellDiameter = 2 * cellRadius;
@@ -37,7 +37,7 @@ public abstract class GridCanvas extends JPanel {
 	protected int size; // 2*numAcids + 1
 
 	protected Grid grid = null;
-	
+
 	protected int numAcids;
 
 	protected Polypeptide pp;
@@ -45,19 +45,16 @@ public abstract class GridCanvas extends JPanel {
 	private JPanel parentPanel;
 
 	private Dimension requiredCanvasSize;
-	
-	private boolean strictMatchDisplayMode;
 
 	public GridCanvas(int width, int height) {
 		this();
 		this.setSize(width, height);
-		strictMatchDisplayMode = false;
 	}
 
 	public GridCanvas() {
 		requiredCanvasSize = new Dimension(0,0);
 	}
-	
+
 	public Dimension getRequiredCanvasSize() {
 		calculateRequiredCanvasSize();
 		return requiredCanvasSize;
@@ -68,10 +65,6 @@ public abstract class GridCanvas extends JPanel {
 		this.size = grid.getSize();
 		this.pp = grid.getPP();
 		numAcids = pp.getLength();
-	}
-	
-	public void setStrictMatchDisplayMode(boolean b) {
-		strictMatchDisplayMode = b;
 	}
 
 	/**
@@ -174,48 +167,32 @@ public abstract class GridCanvas extends JPanel {
 	}
 
 	public void paint(Graphics g) {
-		
+
 		if (grid == null)
 			return;
-		
-		//with no parent panel, we must be building a target shape
-		//  so we should turn off some unnecessary stuff
-		boolean buildTargetShapeMode = false;
-		if (parentPanel == null) {
-			buildTargetShapeMode = true;
-		}
-		
+
 		calculateRequiredCanvasSize();
 		setPreferredSize(requiredCanvasSize);
-		
-		if (!buildTargetShapeMode) {
-			((OutputPalette) parentPanel).getDimension().width = requiredCanvasSize.width;
-			((OutputPalette) parentPanel).getDimension().height = requiredCanvasSize.height;
-			revalidate();
-		}
-		
+
+		((OutputPalette) parentPanel).getDimension().width = requiredCanvasSize.width;
+		((OutputPalette) parentPanel).getDimension().height = requiredCanvasSize.height;
+		revalidate();
+
 		super.paintComponent(g);
-		
+
 		ColorCoder cc = null;
-		
-		if (!buildTargetShapeMode) {
-			if (((OutputPalette)parentPanel).getssBondsOn()) {
-				setBackground(Protex.SS_BONDS_ON_BACKGROUND);
-				cc = new ShadingColorCoder(pp.getTable().getContrastScaler());
-				g.setColor(Protex.SS_BONDS_ON_BACKGROUND);
-				g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
-			} else {
-				setBackground(Protex.SS_BONDS_OFF_BACKGROUND);
-				cc = new ShadingColorCoder(pp.getTable().getContrastScaler());
-				g.setColor(Protex.SS_BONDS_OFF_BACKGROUND);
-				g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
-			}
+
+		if (((OutputPalette)parentPanel).getssBondsOn()) {
+			setBackground(FoldingServer.SS_BONDS_ON_BACKGROUND);
+			cc = new ShadingColorCoder(pp.getTable().getContrastScaler());
+			g.setColor(FoldingServer.SS_BONDS_ON_BACKGROUND);
+			g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
 		} else {
 			setBackground(Color.WHITE);
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
 		}
-		
+
 		GridPoint[] spots = new GridPoint[numAcids];
 		AcidInChain[] acidsByZ = new AcidInChain[numAcids];
 		for (int i = 0; i < numAcids; i++) {
@@ -232,7 +209,7 @@ public abstract class GridCanvas extends JPanel {
 		for (int i = 0; i < numAcids; i++) {
 			AcidInChain a = acidsByZ[i];
 			GridPoint here = project(a.xyz).subtract(min);
-			
+
 			// fills the circle
 			if (a.getAbName().equals("X")) {
 				g.setColor(Color.BLUE);
@@ -240,18 +217,18 @@ public abstract class GridCanvas extends JPanel {
 				g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
 			}
 			g.fillOval(here.x - r, here.y - r, 2 * r, 2 * r);
-			
+
 		}
-		
+
 		// draw the backbone
 		g.setColor(Color.red);
 		for (int i = 0; i < numAcids; i++) {
 			AcidInChain a = pp.getAminoAcid(i);
 			int offset = getStringIndentationConstant(a.name, r);
-			
+
 			// default color for names is white
 			g.setColor(Color.white)	;
-			
+
 			//if philic - then add stuff
 			if (a.getName().equals("Arg") ||
 					a.getName().equals("Lys") ||
@@ -260,14 +237,14 @@ public abstract class GridCanvas extends JPanel {
 				g.drawString("+", spots[i].x - 15, spots[i].y);
 				g.setColor(Color.black);
 			}
-			
+
 			if (a.getName().equals("Asp") ||
 					a.getName().equals("Glu")) {
 				g.setColor(Color.red);
 				g.drawString("-", spots[i].x - 15, spots[i].y);
 				g.setColor(Color.black);
 			}
-			
+
 			if (a.getName().equals("Asn") ||
 					a.getName().equals("Gln") ||
 					a.getName().equals("Ser") ||
@@ -277,28 +254,21 @@ public abstract class GridCanvas extends JPanel {
 				g.drawString("*", spots[i].x - 15, spots[i].y);
 				g.setColor(Color.BLACK);					
 			}
-			
-			if (a.getAbName().equals("X")) {
-				if (strictMatchDisplayMode) {
-					g.drawString(Integer.toString(a.getIndex() + 1), spots[i].x - offset, spots[i].y);
-				}
-			} else {
-				g.drawString(a.name, spots[i].x - offset, spots[i].y);
-				// string is drawn to an left offset from center of disk.;
-				g.drawString(a.getAbName(), spots[i].x - 2, spots[i].y + 12);
-			}
+
+			g.drawString(a.name, spots[i].x - offset, spots[i].y);
+			// string is drawn to an left offset from center of disk.;
+			g.drawString(a.getAbName(), spots[i].x - 2, spots[i].y + 12);
 			g.setColor(Color.magenta);
-			
-			
+
+
 			//draw the backbone
-			if (strictMatchDisplayMode || !buildTargetShapeMode){
-				if (i < numAcids - 1) {
-					g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
-							spots[i + 1].y);
-				}
+			if (i < numAcids - 1) {
+				g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
+						spots[i + 1].y);
 			}
+
 		}
-		
+
 		//draw the ss bonds
 		if ((parentPanel != null) && ((OutputPalette)parentPanel).getssBondsOn()) {
 			if (grid.getssBondList().size() != 0) {
@@ -313,7 +283,7 @@ public abstract class GridCanvas extends JPanel {
 			}
 		}
 	}
-	
+
 
 
 	public void calculateRequiredCanvasSize() {

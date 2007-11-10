@@ -65,19 +65,18 @@ public class AminoAcidPalette extends JPanel {
 
 	// non-public fields
 
-	private static int cellRadius = 20;
+	private static int cellRadius;
 
-	private static int cellDiameter = 2 * cellRadius;
+	private static int cellDiameter;
 	
-	private static int AB_Y_OFFSET = 13;
+	private static int AB_Y_OFFSET;
 
 	private int row, column, columnWidth, rowHeight;
 
-	private AminoAcid selectedAminoAcid;
-
 	private AminoAcid[] list;
+	
+	private ColorCoder cc;
 
-	private boolean admin;
 	/**
 	 * Constructor
 	 * 
@@ -86,15 +85,15 @@ public class AminoAcidPalette extends JPanel {
 	 * @param height
 	 *            Height of canvas
 	 */
-	public AminoAcidPalette(int width, int height, int row, int column,
-			boolean admin) {
+	public AminoAcidPalette(int aaRadius, int width, int height, int row, int column) {
 		super(new BorderLayout());
 		super.setPreferredSize(new Dimension(width, height));
-		super.setBackground(Protex.SS_BONDS_OFF_BACKGROUND);
-
+		super.setBackground(FoldingServer.SS_BONDS_OFF_BACKGROUND);
 		this.row = row;
 		this.column = column;
-		this.admin = admin;
+		cellRadius = aaRadius;
+		cellDiameter = 2 * cellRadius;
+		AB_Y_OFFSET = 13;
 	}
 
 	/**
@@ -108,7 +107,7 @@ public class AminoAcidPalette extends JPanel {
 		rowHeight = columnWidth;
 		StandardTable table = new StandardTable();
 		list = table.getAllAcids();
-		ColorCoder cc = new ShadingColorCoder(table.getContrastScaler()); ///
+		cc = new ShadingColorCoder(table.getContrastScaler()); 
 		int x = 0;
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
@@ -119,53 +118,96 @@ public class AminoAcidPalette extends JPanel {
 					break;
 				}
 				
-				int offset = getStringIndentationConstant(a.getName(), cellRadius);
-				int abOffset = getStringIndentationConstant(a.getAbName(), cellRadius);
+				paintAminoAcid(g, a, j * columnWidth, i * rowHeight);
 				
-				g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
-				g.fillOval(j * columnWidth, i * rowHeight, cellDiameter,
-						cellDiameter);
-
-				// default color for names is white
-				g.setColor(Color.white)	;
-				
-				//if philic - then add stuff
-				if (a.getName().equals("Arg") ||
-						a.getName().equals("Lys") ||
-						a.getName().equals("His")) {
-					g.setColor(Color.blue);
-					g.drawString("+", j * columnWidth + cellRadius - 15, i
-						* rowHeight + cellRadius);
-					g.setColor(Color.BLACK);
-				}
-				
-				if (a.getName().equals("Asp") ||
-						a.getName().equals("Glu")) {
-					g.setColor(Color.red);
-					g.drawString("-", j * columnWidth + cellRadius - 15, i
-						* rowHeight + cellRadius);
-					g.setColor(Color.BLACK);
-				}
-				
-				if (a.getName().equals("Asn") ||
-						a.getName().equals("Gln") ||
-						a.getName().equals("Ser") ||
-						a.getName().equals("Thr") ||
-						a.getName().equals("Tyr")) {
-					g.setColor(Color.green);
-					g.drawString("*", j * columnWidth + cellRadius - 15, i
-						* rowHeight + cellRadius);
-					g.setColor(Color.BLACK);					
-				}
-
-				g.drawString(a.getName(), j * columnWidth + cellRadius - offset, i
-						* rowHeight + cellRadius);
-				g.drawString(a.getAbName(), j * columnWidth + cellRadius - abOffset, i 
-						* rowHeight + cellRadius + AB_Y_OFFSET);
-				g.setColor(Color.black);
+//				int offset = getStringIndentationConstant(a.getName(), cellRadius);
+//				int abOffset = getStringIndentationConstant(a.getAbName(), cellRadius);
+//				
+//				g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
+//				g.fillOval(j * columnWidth, i * rowHeight, cellDiameter,
+//						cellDiameter);
+//
+//				// default color for names is white
+//				g.setColor(Color.white)	;
+//				
+//				//if philic - then add stuff
+//				if (a.getName().equals("Arg") ||
+//						a.getName().equals("Lys") ||
+//						a.getName().equals("His")) {
+//					g.setColor(Color.blue);
+//					g.drawString("+", j * columnWidth + cellRadius - 15, i
+//						* rowHeight + cellRadius);
+//					g.setColor(Color.BLACK);
+//				}
+//				
+//				if (a.getName().equals("Asp") ||
+//						a.getName().equals("Glu")) {
+//					g.setColor(Color.red);
+//					g.drawString("-", j * columnWidth + cellRadius - 15, i
+//						* rowHeight + cellRadius);
+//					g.setColor(Color.BLACK);
+//				}
+//				
+//				if (a.getName().equals("Asn") ||
+//						a.getName().equals("Gln") ||
+//						a.getName().equals("Ser") ||
+//						a.getName().equals("Thr") ||
+//						a.getName().equals("Tyr")) {
+//					g.setColor(Color.green);
+//					g.drawString("*", j * columnWidth + cellRadius - 15, i
+//						* rowHeight + cellRadius);
+//					g.setColor(Color.BLACK);					
+//				}
+//
+//				g.drawString(a.getName(), j * columnWidth + cellRadius - offset, i
+//						* rowHeight + cellRadius);
+//				g.drawString(a.getAbName(), j * columnWidth + cellRadius - abOffset, i 
+//						* rowHeight + cellRadius + AB_Y_OFFSET);
+//				g.setColor(Color.black);
 				x++;
 			}
 		}
+	}
+	
+	public void paintAminoAcid(Graphics g, AminoAcid a, int x, int y) {
+		int offset = getStringIndentationConstant(a.getName(), cellRadius);
+		int abOffset = getStringIndentationConstant(a.getAbName(), cellRadius);
+		
+		g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
+		g.fillOval(x, y, cellDiameter, cellDiameter);
+
+		// default color for names is white
+		g.setColor(Color.white)	;
+		
+		//if philic - then add stuff
+		if (a.getName().equals("Arg") ||
+				a.getName().equals("Lys") ||
+				a.getName().equals("His")) {
+			g.setColor(Color.blue);
+			g.drawString("+", x + cellRadius - 15, y + cellRadius);
+			g.setColor(Color.BLACK);
+		}
+		
+		if (a.getName().equals("Asp") ||
+				a.getName().equals("Glu")) {
+			g.setColor(Color.red);
+			g.drawString("-", x + cellRadius - 15, y + cellRadius);
+			g.setColor(Color.BLACK);
+		}
+		
+		if (a.getName().equals("Asn") ||
+				a.getName().equals("Gln") ||
+				a.getName().equals("Ser") ||
+				a.getName().equals("Thr") ||
+				a.getName().equals("Tyr")) {
+			g.setColor(Color.green);
+			g.drawString("*", x + cellRadius - 15, y + cellRadius);
+			g.setColor(Color.BLACK);					
+		}
+
+		g.drawString(a.getName(), x + cellRadius - offset, y + cellRadius);
+		g.drawString(a.getAbName(), x + cellRadius - abOffset, y + cellRadius + AB_Y_OFFSET);
+		g.setColor(Color.black);
 	}
 
 	/**
