@@ -130,3 +130,44 @@ Asn	234
 Glu	235
 Asp	245
 Arg	252
+
+if you rounded to the nearest 50:
+0:
+Ile	0
+Leu	0
+Val	32
+
+50:
+Phe	67
+Met	86
+Trp	87
+
+100:
+Ala	101
+Cys	115
+Gly	123
+Pro	123
+Tyr	148
+
+150:
+Thr	192
+
+200:
+Ser	203
+His	218
+Gln	226
+Lys	226
+Asn	234
+Glu	235
+Asp	245
+
+250:
+Arg	252
+
+= 6 colors +
+
+red, green, blue, magenta, background color
+
+= 12 colors
+therefore, can get a 16-color palette.
+
