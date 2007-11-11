@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -30,8 +31,10 @@ public class FoldingServer {
 
 	public static void main(String[] args) {
 		FoldingServer foldingServer = new FoldingServer();
+		Date start = new Date();
 
 		//palette mode
+		// output a .png of the amino acid palette
 		if (args[0].equals("-p")) {
 			aaRadius = Integer.parseInt(args[1]);
 			if (fileNameIsOK(args[2])) {
@@ -40,6 +43,16 @@ public class FoldingServer {
 				System.err.println("ERROR: Bad filename: " + args[2]);
 			}
 		}
+		
+		//target mode
+		// given a target shape string, output a .png of the target
+		if (args[0].equals("-t")) {
+			aaRadius = Integer.parseInt(args[1]);
+			
+		}
+		
+		Date end = new Date();
+		System.out.println("time=" + (end.getTime() - start.getTime()) + "ms");
 	}
 	
 	private static boolean fileNameIsOK(String fileName) {

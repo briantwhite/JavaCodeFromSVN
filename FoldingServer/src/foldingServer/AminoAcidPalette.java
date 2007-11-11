@@ -90,6 +90,10 @@ public class AminoAcidPalette extends JPanel {
 		size = new Dimension(column * cellDiameter, row * cellDiameter);
 	}
 	
+	public AminoAcidPalette() {
+		this(0,0);
+	}
+	
 	public Dimension getSize() {
 		return size;
 	}
