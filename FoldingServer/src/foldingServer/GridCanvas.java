@@ -28,7 +28,7 @@ import javax.swing.JPanel;
  * Display a Grid.
  *  
  */
-public abstract class GridCanvas extends JPanel {
+public abstract class GridCanvas {
 
 	protected int cellRadius;
 
@@ -45,13 +45,8 @@ public abstract class GridCanvas extends JPanel {
 	private JPanel parentPanel;
 
 	private Dimension requiredCanvasSize;
-	
-	private AminoAcidPalette aaPalette;
 
-//	public GridCanvas(int width, int height) {
-//		this();
-//		this.setSize(width, height);
-//	}
+	private AminoAcidPalette aaPalette;
 
 	public GridCanvas(AminoAcidPalette aap) {
 		aaPalette = aap;
@@ -173,27 +168,8 @@ public abstract class GridCanvas extends JPanel {
 			return;
 
 		calculateRequiredCanvasSize();
-		setPreferredSize(requiredCanvasSize);
-
-		((OutputPalette) parentPanel).getDimension().width = requiredCanvasSize.width;
-		((OutputPalette) parentPanel).getDimension().height = requiredCanvasSize.height;
-		revalidate();
-
-		super.paintComponent(g);
 
 		ColorCoder cc = null;
-
-		if (((OutputPalette)parentPanel).getssBondsOn()) {
-			setBackground(FoldingServer.SS_BONDS_ON_BACKGROUND);
-			cc = new ShadingColorCoder(pp.getTable().getContrastScaler());
-			g.setColor(FoldingServer.SS_BONDS_ON_BACKGROUND);
-			g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
-		} else {
-			setBackground(FoldingServer.SS_BONDS_OFF_BACKGROUND);
-			cc = new ShadingColorCoder(pp.getTable().getContrastScaler());
-			g.setColor(FoldingServer.SS_BONDS_OFF_BACKGROUND);
-			g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
-		}
 
 		GridPoint[] spots = new GridPoint[numAcids];
 		AcidInChain[] acidsByZ = new AcidInChain[numAcids];
@@ -230,18 +206,17 @@ public abstract class GridCanvas extends JPanel {
 		}
 
 		//draw the ss bonds
-		if ((parentPanel != null) && ((OutputPalette)parentPanel).getssBondsOn()) {
-			if (grid.getssBondList().size() != 0) {
-				g.setColor(Color.yellow);
-				ArrayList ssBondList = grid.getssBondList();
-				for (int i = 0; i < ssBondList.size(); i++) {
-					int first = ((SsBond)ssBondList.get(i)).getFirst();
-					int second = ((SsBond)ssBondList.get(i)).getSecond();
-					g.drawLine(spots[first].x, spots[first].y, 
-							spots[second].x, spots[second].y);
-				}
+		if (grid.getssBondList().size() != 0) {
+			g.setColor(Color.yellow);
+			ArrayList ssBondList = grid.getssBondList();
+			for (int i = 0; i < ssBondList.size(); i++) {
+				int first = ((SsBond)ssBondList.get(i)).getFirst();
+				int second = ((SsBond)ssBondList.get(i)).getSecond();
+				g.drawLine(spots[first].x, spots[first].y, 
+						spots[second].x, spots[second].y);
 			}
 		}
+
 	}
 
 

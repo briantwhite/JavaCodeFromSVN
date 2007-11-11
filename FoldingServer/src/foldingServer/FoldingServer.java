@@ -1,58 +1,71 @@
 package foldingServer;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class FoldingServer extends JFrame {
-		
+public class FoldingServer {
+
 	public static final Color SS_BONDS_OFF_BACKGROUND = new Color((float) 0.7,
 			(float) 0.7, (float) 1.0);
-	
+
 	public static final Color SS_BONDS_ON_BACKGROUND = new Color((float) 0.7,
 			(float) 1.0, (float) 1.0);
-	
+
 	// 20 is standard size
-	public static int aaRadius = 6;
-	
-	private AminoAcidPalette aap;
-	
+	public static int aaRadius;
+
 	public FoldingServer() {
-		super("Folding Server");
-		addWindowListener(new ApplicationCloser());
-		setupUI();
 	}
-	
+
 	public static void main(String[] args) {
 		FoldingServer foldingServer = new FoldingServer();
-		foldingServer.pack();
-		foldingServer.setVisible(true);
-	}
-	
-	class ApplicationCloser extends WindowAdapter {
-		public void windowClosing(WindowEvent e) {
-			System.exit(0);
+
+		//palette mode
+		if (args[0].equals("-p")) {
+			aaRadius = Integer.parseInt(args[1]);
+			if (fileNameIsOK(args[2])) {
+				foldingServer.makeAAPImage(args[2]);
+			} else {
+				System.err.println("ERROR: Bad filename: " + args[2]);
+			}
 		}
 	}
 	
-	private void setupUI() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		aap = new AminoAcidPalette(4, 5);
-		panel.add(aap);
-		FoldingWindow fw = new FoldingWindow(this);
-		panel.add(fw);
-		this.getContentPane().add(panel);
+	private static boolean fileNameIsOK(String fileName) {
+		if (fileName.contains("/") ||
+				fileName.contains("\\") ||
+				fileName.equals("")) {
+				return false;
+			} else {
+				return true;
+			}
 	}
-	
-	public AminoAcidPalette getAAPalette() {
-		return aap;
+
+	private void makeAAPImage(String fileName) {
+		AminoAcidPalette aap = new AminoAcidPalette(4,5);
+		BufferedImage aapBI = new BufferedImage(
+				aap.getSize().width, 
+				aap.getSize().height, 
+				BufferedImage.TYPE_INT_RGB);
+		Graphics2D aapBIg2D = aapBI.createGraphics();
+		aap.paint(aapBIg2D);
+		File paletteFile = new File (fileName);
+		try {
+			ImageIO.write(aapBI, "png", paletteFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
 
 }

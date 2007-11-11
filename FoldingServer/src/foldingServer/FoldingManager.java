@@ -273,48 +273,11 @@ public class FoldingManager {
 	}
 	
 
-	/**
-	 * 
-	 * @param width
-	 *            int.
-	 * @param height
-	 *            int.
-	 * @return GridCanvas
-	 */
-	public GridCanvas createCanvas(AminoAcidPalette aap, int width, int height) {
-		GridCanvas canvas;
-		String grid = currentAttrib.getGrid();
-
-		if (grid.equalsIgnoreCase("hexagonal")) {
-			canvas = new HexCanvas(aap);
-		} else { // should not get here
-			canvas = null;
-			System.out.print("\nFoldingManager.createCanvas(): ");
-			System.out
-					.println("Could not create canvas. Grid argument failed.");
-		}
-
-		canvas.setGrid(currentGrid);
-		return canvas;
-	}
-
-	/**
-	 * Another createCanvas method.
-	 * 
-	 * @param outputPanel
-	 *            OutputPalette
-	 */
-	public void createCanvas(OutputPalette outputPanel) {
-		outputPanel.getDrawingPane().repaint();
-		outputPanel.getDrawingPane().setGrid(currentGrid);
-	}
-
 	// non-public fields
 
 	private int lastPPId;
 	private static FoldingManager instance;
 	private PolypeptideFactory factory;
-	private Vector observers;
 
 	// buffers
 
@@ -322,7 +285,6 @@ public class FoldingManager {
 	private Polypeptide currentPP;
 	private Folder currentFolder;
 	private Grid currentGrid;
-	private TwoDGrid hexagonalCore;
 
 	// flags
 
@@ -334,7 +296,6 @@ public class FoldingManager {
 	 *  
 	 */
 	private FoldingManager() {
-		observers = new Vector();
 		factory = PolypeptideFactory.getInstance();
 		resetCurrent(); // provides initialization
 	}

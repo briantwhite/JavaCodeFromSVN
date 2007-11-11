@@ -41,21 +41,13 @@
 
 package foldingServer;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.TransferHandler;
 
 /**
  * AminoAcidPalette displays all of the AminoAcid objects. 
@@ -74,6 +66,8 @@ public class AminoAcidPalette extends JPanel {
 	private static int AB_Y_OFFSET;
 
 	private int row, column;
+	
+	private Dimension size;
 
 	private AminoAcid[] list;
 
@@ -88,24 +82,25 @@ public class AminoAcidPalette extends JPanel {
 	 *            Height of canvas
 	 */
 	public AminoAcidPalette(int row, int column) {
-		super();
 		this.row = row;
 		this.column = column;
 		cellRadius = FoldingServer.aaRadius;
 		cellDiameter = 2 * cellRadius;
 		AB_Y_OFFSET = 13;
-		super.setPreferredSize(
-				new Dimension(column * cellDiameter, row * cellDiameter));
-		super.setBackground(FoldingServer.SS_BONDS_OFF_BACKGROUND);
+		size = new Dimension(column * cellDiameter, row * cellDiameter);
+	}
+	
+	public Dimension getSize() {
+		return size;
 	}
 
 	/**
 	 * Draw the palette
 	 */
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Dimension d = getSize();
-		Point p = this.getLocation();
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D)g;
+		g2d.setColor(FoldingServer.SS_BONDS_OFF_BACKGROUND);
+		g2d.fillRect(0, 0, size.width, size.height);
 		StandardTable table = new StandardTable();
 		list = table.getAllAcids();
 		cc = new ShadingColorCoder(table.getContrastScaler()); 
@@ -119,7 +114,7 @@ public class AminoAcidPalette extends JPanel {
 					break;
 				}
 
-				paintAminoAcid(g, a, j * cellDiameter, i * cellDiameter);
+				paintAminoAcid(g2d, a, j * cellDiameter, i * cellDiameter);
 
 				x++;
 			}
