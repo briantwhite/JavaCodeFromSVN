@@ -60,3 +60,73 @@ PLAN:
 3) test to develop tiny aas
 4) get it to make .gif & .png
 5) nuke all gui stuff
+
+11/11/07
+want to shring file size
+therefore need a reduced color palette for the tiny images for the cell phones
+have it output the color for each aa
+    [java] Ala java.awt.Color[r=101,g=101,b=101]
+     [java] Arg java.awt.Color[r=252,g=252,b=252]
+     [java] Asn java.awt.Color[r=234,g=234,b=234]
+     [java] Asp java.awt.Color[r=245,g=245,b=245]
+     [java] Cys java.awt.Color[r=115,g=115,b=115]
+     [java] Gln java.awt.Color[r=226,g=226,b=226]
+     [java] Glu java.awt.Color[r=235,g=235,b=235]
+     [java] Gly java.awt.Color[r=123,g=123,b=123]
+     [java] His java.awt.Color[r=218,g=218,b=218]
+     [java] Ile java.awt.Color[r=0,g=0,b=0]
+     [java] Leu java.awt.Color[r=0,g=0,b=0]
+     [java] Lys java.awt.Color[r=226,g=226,b=226]
+     [java] Met java.awt.Color[r=86,g=86,b=86]
+     [java] Phe java.awt.Color[r=67,g=67,b=67]
+     [java] Pro java.awt.Color[r=123,g=123,b=123]
+     [java] Ser java.awt.Color[r=203,g=203,b=203]
+     [java] Thr java.awt.Color[r=192,g=192,b=192]
+     [java] Trp java.awt.Color[r=87,g=87,b=87]
+     [java] Tyr java.awt.Color[r=148,g=148,b=148]
+     [java] Val java.awt.Color[r=32,g=32,b=32]
+
+just the red components, since all 3 channels are equal
+     [java] Ala 101
+     [java] Arg 252
+     [java] Asn 234
+     [java] Asp 245
+     [java] Cys 115
+     [java] Gln 226
+     [java] Glu 235
+     [java] Gly 123
+     [java] His 218
+     [java] Ile 0
+     [java] Leu 0
+     [java] Lys 226
+     [java] Met 86
+     [java] Phe 67
+     [java] Pro 123
+     [java] Ser 203
+     [java] Thr 192
+     [java] Trp 87
+     [java] Tyr 148
+     [java] Val 32
+
+put in excel to sort by value:
+
+Ile	0
+Leu	0
+Val	32
+Phe	67
+Met	86
+Trp	87
+Ala	101
+Cys	115
+Gly	123
+Pro	123
+Tyr	148
+Thr	192
+Ser	203
+His	218
+Gln	226
+Lys	226
+Asn	234
+Glu	235
+Asp	245
+Arg	252
