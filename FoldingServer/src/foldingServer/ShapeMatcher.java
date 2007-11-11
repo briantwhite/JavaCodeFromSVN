@@ -13,9 +13,8 @@ public class ShapeMatcher {
 	private int targetHeight;
 	private GridPoint[] targetPoints;
 	
-	public ShapeMatcher(String targetString, boolean strictMode) {
+	public ShapeMatcher(String targetString) {
 		
-		this.strictMode = strictMode;
 		this.targetString = targetString;
 		
 		//parse the target string into a direction list
