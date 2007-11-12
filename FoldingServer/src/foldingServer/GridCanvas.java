@@ -31,7 +31,7 @@ import javax.swing.JPanel;
 public abstract class GridCanvas {
 
 	public static final int MODE_SS_BONDS_ON = 0;
-	public static final int MODE_SSBONDS_OFF = 1;
+	public static final int MODE_SS_BONDS_OFF = 1;
 	public static final int MODE_TARGET_SHAPE = 2;
 
 	protected int cellRadius;
@@ -169,7 +169,7 @@ public abstract class GridCanvas {
 		case MODE_SS_BONDS_ON:
 			g.setColor(FoldingServer.SS_BONDS_ON_BACKGROUND);
 			break;
-		case MODE_SSBONDS_OFF:
+		case MODE_SS_BONDS_OFF:
 			g.setColor(FoldingServer.SS_BONDS_OFF_BACKGROUND);
 			break;
 		case MODE_TARGET_SHAPE:

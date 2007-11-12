@@ -180,6 +180,10 @@ public class FoldingManager {
 			return "\n" + currentFolder.report();
 		}
 	}
+	
+	public Grid getGrid() {
+		return currentGrid;
+	}
 
 	/**
 	 * 

@@ -38,7 +38,7 @@ public class FoldingServer {
 
 		//palette mode
 		// output a .png of the amino acid palette
-		if (args[0].equals("-p")) {
+		if (args[0].equals("-a")) {
 			aaRadius = Integer.parseInt(args[1]);
 			if (fileNameIsOK(args[2])) {
 				foldingServer.makeAAPImage(args[2]);
@@ -56,6 +56,21 @@ public class FoldingServer {
 			} else {
 				System.err.println("ERROR: Bad filename: " + args[3]);
 			}
+		}
+		
+		//picture mode
+		//  given an aa seq, give the 2-d pic
+		if (args[0].equalsIgnoreCase("-p")) {
+			int mode = GridCanvas.MODE_SS_BONDS_ON;
+			if (args[0].equals("-p")) {
+				mode = GridCanvas.MODE_SS_BONDS_OFF;
+			}
+			aaRadius = Integer.parseInt(args[1]);
+			if (fileNameIsOK(args[3])) {
+				foldingServer.makeFoldedProteinImage(args[2], mode, args[3]);
+			} else {
+				System.err.println("ERROR: Bad filename: " + args[3]);
+			}			
 		}
 
 		Date end = new Date();
@@ -90,13 +105,26 @@ public class FoldingServer {
 
 	private void makeTargetShapeImage(String targetShapeString, String fileName) {
 		BufferedImage img = 
-			ProteinImageFactory.buildProteinFromFoldingString(targetShapeString);
+			ProteinImageFactory.buildTargetProteinFromFoldingString(targetShapeString);
 		File targetShapeFile = new File(fileName);
 		try {
 			ImageIO.write(img, "png", targetShapeFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
+	}
+	
+	private void makeFoldedProteinImage(String aaSeq, int mode, String fileName) {
+		HexGrid grid = ProteinImageFactory.foldOntoHexGrid(aaSeq, mode);
+		HexCanvas canvas = new HexCanvas();
+		canvas.setGrid(grid);
+		BufferedImage img = ProteinImageFactory.generateImage(canvas, mode);
+		File proteinShapeFile = new File(fileName);
+		try {
+			ImageIO.write(img, "png", proteinShapeFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}				
 	}
 
 }

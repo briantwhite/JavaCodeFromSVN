@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ProteinImageFactory {
 		
 	
-	public static BufferedImage buildProteinFromFoldingString(String foldingString) {
+	public static BufferedImage buildTargetProteinFromFoldingString(String foldingString) {
 		
 		Direction[] directionArray = directionStringToDirectionArray(foldingString);
 		
@@ -62,6 +62,18 @@ public class ProteinImageFactory {
 		
 		return new HexGrid(polypeptide);
 
+	}
+	
+	public static HexGrid foldOntoHexGrid(String aaSeq, int mode) {
+		FoldingManager manager = FoldingManager.getInstance();
+		Attributes attributes = new Attributes(aaSeq.trim(), 
+				1, "0.0", "straight", "test");
+		try {
+			manager.fold(attributes);
+		} catch (FoldingException e) {
+			e.printStackTrace();
+		}
+		return (HexGrid)manager.getGrid();
 	}
 
 	public static BufferedImage generateImage(GridCanvas gridCanvas, int mode) {
