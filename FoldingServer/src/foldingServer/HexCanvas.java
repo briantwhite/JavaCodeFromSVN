@@ -29,13 +29,8 @@ public class HexCanvas extends GridCanvas {
 
 	private Polygon hexagon;
 
-//	public HexCanvas(int width, int height) {
-//		super(width, height);
-//		createHexagon();
-//	}
-
-	public HexCanvas(AminoAcidPalette aap) {
-		super(aap);
+	public HexCanvas() {
+		super();
 		createHexagon();
 	}
 

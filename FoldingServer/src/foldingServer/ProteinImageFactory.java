@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ProteinImageFactory {
 		
 	
-	public static BufferedImage buildProtein(String foldingString) {
+	public static BufferedImage buildProteinFromFoldingString(String foldingString) {
 		
 		Direction[] directionArray = directionStringToDirectionArray(foldingString);
 		
@@ -17,11 +17,11 @@ public class ProteinImageFactory {
 		
 		hexCanvas.setGrid(layoutOntoHexGrid(directionArray));
 				
-		return generateImage(hexCanvas);
+		return generateImage(hexCanvas, GridCanvas.MODE_TARGET_SHAPE);
 		
 	}
 	
-	private static Direction[] directionStringToDirectionArray(String directionString) {
+	public static Direction[] directionStringToDirectionArray(String directionString) {
 		//if there are colons, its aa:direction;aa:direction; etc
 		// if not, it's just directions
 		ArrayList directionList = new ArrayList();
@@ -64,7 +64,7 @@ public class ProteinImageFactory {
 
 	}
 
-	public static BufferedImage generateImage(GridCanvas gridCanvas) {
+	public static BufferedImage generateImage(GridCanvas gridCanvas, int mode) {
 		
 		gridCanvas.calculateRequiredCanvasSize();
 		
@@ -73,7 +73,7 @@ public class ProteinImageFactory {
 					gridCanvas.getRequiredCanvasSize().height,
 					BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = pic.createGraphics();
-		gridCanvas.paint(g);
+		gridCanvas.paint(g, mode);
 		g.dispose();
 		
 		return pic;

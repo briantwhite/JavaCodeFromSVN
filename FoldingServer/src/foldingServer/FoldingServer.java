@@ -26,6 +26,9 @@ public class FoldingServer {
 	// 20 is standard size
 	public static int aaRadius;
 
+	public static ColorCoder colorCoder = 
+		new ShadingColorCoder(new StandardTable().getContrastScaler());
+
 	public FoldingServer() {
 	}
 
@@ -43,26 +46,30 @@ public class FoldingServer {
 				System.err.println("ERROR: Bad filename: " + args[2]);
 			}
 		}
-		
+
 		//target mode
 		// given a target shape string, output a .png of the target
 		if (args[0].equals("-t")) {
 			aaRadius = Integer.parseInt(args[1]);
-			
+			if (fileNameIsOK(args[3])) {
+				foldingServer.makeTargetShapeImage(args[2], args[3]);
+			} else {
+				System.err.println("ERROR: Bad filename: " + args[3]);
+			}
 		}
-		
+
 		Date end = new Date();
 		System.out.println("time=" + (end.getTime() - start.getTime()) + "ms");
 	}
-	
+
 	private static boolean fileNameIsOK(String fileName) {
 		if (fileName.contains("/") ||
 				fileName.contains("\\") ||
 				fileName.equals("")) {
-				return false;
-			} else {
-				return true;
-			}
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	private void makeAAPImage(String fileName) {
@@ -79,6 +86,17 @@ public class FoldingServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void makeTargetShapeImage(String targetShapeString, String fileName) {
+		BufferedImage img = 
+			ProteinImageFactory.buildProteinFromFoldingString(targetShapeString);
+		File targetShapeFile = new File(fileName);
+		try {
+			ImageIO.write(img, "png", targetShapeFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	}
 
 }

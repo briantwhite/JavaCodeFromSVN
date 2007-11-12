@@ -30,6 +30,10 @@ import javax.swing.JPanel;
  */
 public abstract class GridCanvas {
 
+	public static final int MODE_SS_BONDS_ON = 0;
+	public static final int MODE_SSBONDS_OFF = 1;
+	public static final int MODE_TARGET_SHAPE = 2;
+
 	protected int cellRadius;
 
 	protected int cellDiameter;
@@ -42,14 +46,9 @@ public abstract class GridCanvas {
 
 	protected Polypeptide pp;
 
-	private JPanel parentPanel;
-
 	private Dimension requiredCanvasSize;
 
-	private AminoAcidPalette aaPalette;
-
-	public GridCanvas(AminoAcidPalette aap) {
-		aaPalette = aap;
+	public GridCanvas() {
 		requiredCanvasSize = new Dimension(0,0);
 		cellRadius = FoldingServer.aaRadius;
 		cellDiameter = 2 * cellRadius;
@@ -158,18 +157,28 @@ public abstract class GridCanvas {
 			return (int) (3 / 4f * r);
 	}
 
-	public void setParentPanel(JPanel parentPanel) {
-		this.parentPanel = parentPanel;
-	}
-
-	public void paint(Graphics g) {
+	public void paint(Graphics g, int mode) {
 
 		if (grid == null)
 			return;
 
 		calculateRequiredCanvasSize();
 
-		ColorCoder cc = null;
+		// set background color
+		switch(mode) {
+		case MODE_SS_BONDS_ON:
+			g.setColor(FoldingServer.SS_BONDS_ON_BACKGROUND);
+			break;
+		case MODE_SSBONDS_OFF:
+			g.setColor(FoldingServer.SS_BONDS_OFF_BACKGROUND);
+			break;
+		case MODE_TARGET_SHAPE:
+			g.setColor(Color.LIGHT_GRAY);
+			break;
+		default:
+			g.setColor(Color.BLACK);
+		}
+		g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
 
 		GridPoint[] spots = new GridPoint[numAcids];
 		AcidInChain[] acidsByZ = new AcidInChain[numAcids];
@@ -186,27 +195,28 @@ public abstract class GridCanvas {
 		for (int i = 0; i < numAcids; i++) {
 			AcidInChain a = acidsByZ[i];
 			GridPoint here = project(a.xyz).subtract(min);
-
-			aaPalette.paintAminoAcid(g, 
-					a.getAminoAcid(), 
+			AminoAcid aa = a.getAminoAcid();
+			aa.paint(g, 
+					FoldingServer.aaRadius, 
+					FoldingServer.colorCoder, 
 					here.x - cellRadius, 
 					here.y - cellRadius);
-
 		}
 
 		// draw the backbone
-		g.setColor(Color.red);
-		for (int i = 0; i < numAcids; i++) {
-			AcidInChain a = pp.getAminoAcid(i);
-			if (i < numAcids - 1) {
-				g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
-						spots[i + 1].y);
+		if (mode != MODE_TARGET_SHAPE) {
+			g.setColor(Color.red);
+			for (int i = 0; i < numAcids; i++) {
+				AcidInChain a = pp.getAminoAcid(i);
+				if (i < numAcids - 1) {
+					g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
+							spots[i + 1].y);
+				}
 			}
-
 		}
 
 		//draw the ss bonds
-		if (grid.getssBondList().size() != 0) {
+		if ((grid.getssBondList().size() != 0) && (mode != MODE_TARGET_SHAPE)) {
 			g.setColor(Color.yellow);
 			ArrayList ssBondList = grid.getssBondList();
 			for (int i = 0; i < ssBondList.size(); i++) {

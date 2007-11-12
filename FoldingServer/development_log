@@ -171,3 +171,27 @@ red, green, blue, magenta, background color
 = 12 colors
 therefore, can get a 16-color palette.
 
+nuked GUI stuff and got it to output an image of the aa palette
+
+couldn't get gif to work...
+tried
+		String[] names = ImageIO.getWriterFormatNames();
+		for (int i = 0; i < names.length; i++) {
+			System.out.println(names[i]);
+		}
+got
+    [java] BMP
+     [java] jpeg
+     [java] bmp
+     [java] wbmp
+     [java] png
+     [java] JPG
+     [java] PNG
+     [java] jpg
+     [java] JPEG
+     [java] WBMP
+ so just do png for now
+
+11/12/07
+refactored - moved paint to AminoAcid
+got target mode working
