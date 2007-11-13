@@ -6,7 +6,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class ProteinImageFactory {
+public class ProteinImageGenerator {
 		
 	
 	public static BufferedImage buildTargetProteinFromFoldingString(String foldingString) {
@@ -66,8 +66,12 @@ public class ProteinImageFactory {
 	
 	public static HexGrid foldOntoHexGrid(String aaSeq, int mode) {
 		FoldingManager manager = FoldingManager.getInstance();
+		String ssBondIndex = "0.0";
+		if (mode == GridCanvas.MODE_SS_BONDS_ON) {
+			ssBondIndex = "1.5";
+		}
 		Attributes attributes = new Attributes(aaSeq.trim(), 
-				1, "0.0", "straight", "test");
+				1, ssBondIndex, "straight", "test");
 		try {
 			manager.fold(attributes);
 		} catch (FoldingException e) {

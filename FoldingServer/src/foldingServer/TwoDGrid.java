@@ -32,7 +32,7 @@ public abstract class TwoDGrid extends Grid {
 	protected Color proteinColor = Color.white;
 
 	protected ArrayList coreColors;
-
+	
 	public TwoDGrid() {
 	}
 
@@ -196,6 +196,49 @@ public abstract class TwoDGrid extends Grid {
 			else
 				hydrophilics.add(a);
 		}
+	}
+
+	public Color getProteinColor() {
+		if (numAcids < 13)
+			return Color.white;
+		categorizeAcids();
+		if (hydrophobics.size() < 7 || hydrophilics.size() < 6)
+			return Color.white;
+		Color c = Color.white;
+		for (int i = 0; i < hydrophobics.size(); i++) {
+			c = Color.white;
+			AcidInChain a = (AcidInChain) hydrophobics.get(i);
+			int d;
+			for (d = 0; d < allDirections.length; d++) {
+				AcidInChain ac = get(nextCell(allDirections[d], a.xyz));
+
+				if (ac == null || !hydrophobics.contains(ac))
+					break;
+				else if (hydrophobics.contains(ac)) {
+					c = FoldingServer.colorModel.colorByAminoAcid(c, ac);
+				}
+			}
+			if (d == allDirections.length) {
+				c = FoldingServer.colorModel.colorByAminoAcid(c, a);
+				coreColors.add(c);
+			}
+		}
+		if (coreColors.size() > 0)
+			proteinColor = mixHexagonalCores();
+		return proteinColor;
+	}
+
+	/**
+	 *  
+	 */
+	private Color mixHexagonalCores() {
+
+		proteinColor = (Color) coreColors.get(0);
+		for (int i = 1; i < coreColors.size(); i++)
+			proteinColor = FoldingServer.colorModel.mixTwoColors(
+					proteinColor, (Color) coreColors
+					.get(i));
+		return proteinColor;
 	}
 
 	public double getFoldingIndex(double hpIndex, double hIndex, double iIndex, double sIndex) {

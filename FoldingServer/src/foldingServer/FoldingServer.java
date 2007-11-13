@@ -28,6 +28,8 @@ public class FoldingServer {
 
 	public static ColorCoder colorCoder = 
 		new ShadingColorCoder(new StandardTable().getContrastScaler());
+	
+	public static ColorModel colorModel = new RYBColorModel();
 
 	public FoldingServer() {
 	}
@@ -72,6 +74,28 @@ public class FoldingServer {
 				System.err.println("ERROR: Bad filename: " + args[3]);
 			}			
 		}
+		
+		//color mode
+		// given an aa seq, determine the color
+		if (args[0].equalsIgnoreCase("-c")) {
+			int mode = GridCanvas.MODE_SS_BONDS_ON;
+			if (args[0].equals("-c")) {
+				mode = GridCanvas.MODE_SS_BONDS_OFF;
+			}
+			foldingServer.foldProteinAndReportColor(args[1], mode);
+		}
+		
+		//match mode
+		// given an aa seq, a target shape string, and mode
+		// give the 2-d pic and say if shapes match
+		if (args[0].equalsIgnoreCase("-m")) {
+			int mode = GridCanvas.MODE_SS_BONDS_ON;
+			if (args[0].equals("-m")) {
+				mode = GridCanvas.MODE_SS_BONDS_OFF;
+			}
+			
+		}
+		
 
 		Date end = new Date();
 		System.out.println("time=" + (end.getTime() - start.getTime()) + "ms");
@@ -105,7 +129,7 @@ public class FoldingServer {
 
 	private void makeTargetShapeImage(String targetShapeString, String fileName) {
 		BufferedImage img = 
-			ProteinImageFactory.buildTargetProteinFromFoldingString(targetShapeString);
+			ProteinImageGenerator.buildTargetProteinFromFoldingString(targetShapeString);
 		File targetShapeFile = new File(fileName);
 		try {
 			ImageIO.write(img, "png", targetShapeFile);
@@ -115,16 +139,24 @@ public class FoldingServer {
 	}
 	
 	private void makeFoldedProteinImage(String aaSeq, int mode, String fileName) {
-		HexGrid grid = ProteinImageFactory.foldOntoHexGrid(aaSeq, mode);
+		HexGrid grid = ProteinImageGenerator.foldOntoHexGrid(aaSeq, mode);
 		HexCanvas canvas = new HexCanvas();
 		canvas.setGrid(grid);
-		BufferedImage img = ProteinImageFactory.generateImage(canvas, mode);
+		BufferedImage img = ProteinImageGenerator.generateImage(canvas, mode);
 		File proteinShapeFile = new File(fileName);
 		try {
 			ImageIO.write(img, "png", proteinShapeFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}				
+	}
+	
+	private void foldProteinAndReportColor(String aaSeq, int mode) {
+		HexGrid grid = ProteinImageGenerator.foldOntoHexGrid(aaSeq, mode);
+		HexCanvas canvas = new HexCanvas();
+		canvas.setGrid(grid);
+		grid.categorizeAcids();
+		System.out.println(grid.getProteinColor().toString());
 	}
 
 }

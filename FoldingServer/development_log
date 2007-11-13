@@ -13,8 +13,8 @@ five modes:
 <target shape string> = list of directions for folding target shape
 <filename.gif/png> = filename with extension specifying type
 
-PALETTE:
-server -p <aa radius> <filename.gif/png>
+AMINO ACID PALETTE:
+server -a <aa radius> <filename.gif/png>
 		
 
 TARGET:
@@ -27,7 +27,7 @@ server -p <aa radius> <aaseq> <filename.gif/png>
 	saves gif/png of folded protein in same dir as app
 	returns color
 
-server -P <aaseq> <filename>
+server -P <aa radius> <aaseq> <filename.gif/png>
 	ssBonds ON
 	saves gif/png of folded protein in same dir as app
 	returns color
@@ -195,3 +195,6 @@ got
 11/12/07
 refactored - moved paint to AminoAcid
 got target mode working
+got picture mode working
+got color mode working
+started match mode
