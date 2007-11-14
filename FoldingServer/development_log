@@ -10,46 +10,48 @@ five modes:
 
 <aaseq> = single-letter aa seq
 <aa radius> = radius of aa to use when rendering
+	6 is the smallest; 20 is typical for Protein Investigator full size
 <target shape string> = list of directions for folding target shape
-<filename.gif/png> = filename with extension specifying type
+	in quotes
+<filename.png> = filename for picture
 
 AMINO ACID PALETTE:
-server -a <aa radius> <filename.gif/png>
+java -cp FoldingServer.jar foldingServer.FoldingServer -a <aa radius> <filename.png>
 		
 
 TARGET:
-server -t <aa radius> <target shape string> <filename.gif/png>
-		saves gif/png of target shape in same dir as app
+java -cp FoldingServer.jar foldingServer.FoldingServer -t <aa radius> <target shape string> <filename.png>
+		saves png of target shape in same dir as app
 
 PICTURE:
-server -p <aa radius> <aaseq> <filename.gif/png>
+java -cp FoldingServer.jar foldingServer.FoldingServer -p <aa radius> <aaseq> <filename.png>
 	ssBonds OFF
-	saves gif/png of folded protein in same dir as app
+	saves png of folded protein in same dir as app
 	returns color
 
-server -P <aa radius> <aaseq> <filename.gif/png>
+java -cp FoldingServer.jar foldingServer.FoldingServer -P <aa radius> <aaseq> <filename.png>
 	ssBonds ON
-	saves gif/png of folded protein in same dir as app
+	saves png of folded protein in same dir as app
 	returns color
 
 COLOR:
-server -c <aaseq>
+java -cp FoldingServer.jar foldingServer.FoldingServer -c <aaseq>
 	ssBonds OFF
 	returns color
 
-server -C <aaseq>
+java -cp FoldingServer.jar foldingServer.FoldingServer -C <aaseq>
 	ssBonds ON
 	returns color
 	
 MATCH:
-server -m <aa radius> <aaseq> <target shape string> <filename.gif/png>
+java -cp FoldingServer.jar foldingServer.FoldingServer -m <aa radius> <aaseq> <target shape string> <filename.png>
 	ssBonds OFF
-	saves gif/png of folded protein in same dir as app
+	saves png of folded protein in same dir as app
 	returns true/false for match
 	
-server -M <aa radius> <aaseq> <target shape string> <filename.gif/png>
+java -cp FoldingServer.jar foldingServer.FoldingServer -M <aa radius> <aaseq> <target shape string> <filename.png>
 	ssBonds ON
-	saves gif/png of folded protein in same dir as app
+	saves png of folded protein in same dir as app
 	returns true/false for match
 	
 

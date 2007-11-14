@@ -111,8 +111,8 @@ public class FoldingServer {
 	}
 
 	private static boolean fileNameIsOK(String fileName) {
-		if (fileName.contains("/") ||
-				fileName.contains("\\") ||
+		if ((fileName.indexOf("/") != -1) ||
+				(fileName.indexOf("\\") != -1) ||
 				fileName.equals("")) {
 			return false;
 		} else {
