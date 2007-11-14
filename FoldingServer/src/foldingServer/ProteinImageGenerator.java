@@ -89,6 +89,7 @@ public class ProteinImageGenerator {
 					gridCanvas.getRequiredCanvasSize().height,
 					BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = pic.createGraphics();
+		FoldingServer.setAppropriateRenderingHints(g, FoldingServer.aaRadius);
 		gridCanvas.paint(g, mode);
 		g.dispose();
 		

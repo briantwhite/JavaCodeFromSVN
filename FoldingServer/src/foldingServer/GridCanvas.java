@@ -263,8 +263,13 @@ public abstract class GridCanvas {
 					maxY = here.y;
 			}
 		}
-		requiredCanvasSize = new Dimension(maxX + 2 * cellDiameter, 
-				maxY + 2 * cellDiameter);
+		
+		if (FoldingServer.aaRadius < FoldingServer.SMALL_RADIUS_CUTOFF) {
+			requiredCanvasSize = new Dimension(maxX + cellDiameter, maxY + cellDiameter);
+		} else {
+			requiredCanvasSize = new Dimension(maxX + 2 * cellDiameter, 
+					maxY + 2 * cellDiameter);
+		}
 	}
 
 	private class SortByZ implements Comparator {

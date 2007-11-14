@@ -115,7 +115,7 @@ public class AminoAcid {
 		Graphics2D g2d = (Graphics2D)g;
 
 		boolean smallSize = false;
-		if (aminoAcidRadius < 20) {
+		if (aminoAcidRadius < FoldingServer.SMALL_RADIUS_CUTOFF) {
 			smallSize = true;
 		}
 

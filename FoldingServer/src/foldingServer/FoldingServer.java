@@ -2,6 +2,7 @@ package foldingServer;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -25,6 +26,7 @@ public class FoldingServer {
 
 	// 20 is standard size
 	public static int aaRadius;
+	public static final int SMALL_RADIUS_CUTOFF = 18;
 
 	public static ColorCoder colorCoder = 
 		new ShadingColorCoder(new StandardTable().getContrastScaler());
@@ -93,7 +95,14 @@ public class FoldingServer {
 			if (args[0].equals("-m")) {
 				mode = GridCanvas.MODE_SS_BONDS_OFF;
 			}
-			
+			aaRadius = Integer.parseInt(args[1]);
+			boolean result = 
+				foldingServer.foldProteinAndReportMatch(args[2], args[3], args[4], mode);
+			if (result) {
+				System.out.println("TRUE");
+			} else {
+				System.out.println("FALSE");
+			}
 		}
 		
 
@@ -110,6 +119,16 @@ public class FoldingServer {
 			return true;
 		}
 	}
+	
+	// only do this for big images
+	public static void setAppropriateRenderingHints(Graphics2D g2d, int aaRadius) {
+		if (aaRadius > SMALL_RADIUS_CUTOFF) {
+			g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
+					RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		}
+	}
 
 	private void makeAAPImage(String fileName) {
 		AminoAcidPalette aap = new AminoAcidPalette(4,5);
@@ -118,6 +137,7 @@ public class FoldingServer {
 				aap.getSize().height, 
 				BufferedImage.TYPE_INT_RGB);
 		Graphics2D aapBIg2D = aapBI.createGraphics();
+		setAppropriateRenderingHints(aapBIg2D, aaRadius);
 		aap.paint(aapBIg2D);
 		File paletteFile = new File (fileName);
 		try {
@@ -138,7 +158,7 @@ public class FoldingServer {
 		}		
 	}
 	
-	private void makeFoldedProteinImage(String aaSeq, int mode, String fileName) {
+	private HexGrid makeFoldedProteinImage(String aaSeq, int mode, String fileName) {
 		HexGrid grid = ProteinImageGenerator.foldOntoHexGrid(aaSeq, mode);
 		HexCanvas canvas = new HexCanvas();
 		canvas.setGrid(grid);
@@ -148,7 +168,8 @@ public class FoldingServer {
 			ImageIO.write(img, "png", proteinShapeFile);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}				
+		}
+		return grid;
 	}
 	
 	private void foldProteinAndReportColor(String aaSeq, int mode) {
@@ -157,6 +178,16 @@ public class FoldingServer {
 		canvas.setGrid(grid);
 		grid.categorizeAcids();
 		System.out.println(grid.getProteinColor().toString());
+	}
+	
+	private boolean foldProteinAndReportMatch(String aaSeq, 
+			String targetShapeString, 
+			String fileName, 
+			int mode) {
+		HexGrid guessGrid = makeFoldedProteinImage(aaSeq, mode, fileName);
+		String guessDirectionString = guessGrid.getPP().getDirectionSequence();
+		ShapeMatcher matcher = new ShapeMatcher(targetShapeString);
+		return matcher.matchesTarget(guessDirectionString);
 	}
 
 }
