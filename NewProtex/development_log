@@ -189,4 +189,25 @@ got it to work using ShapeMatcher.pl!
 need to try on server
   (strange note: as it runs, you see protex.ShapeMatcher appear at upper left of apple bar
     does that mean it'll be bad on the server?)
+    
+nix this - made FoldingServer without any gui parts
+
+12/4/07
+sample matching proteins
+(target shape name)	(target shape string)			(sample matching protein string)
+
+Stick				 E; E; E; E; E; E;none						RRRRRRR
+
+Dinner Plate			 E;NE;NW; W;SW; E;none					FFFFFFF
+
+Frying Pan			E; E; E;NW; E;SE;SW; W;none				SSFFFFFFF
+
+Crab				E; E; E;NW; E;SE;SW; W;SW;SW;none		RRFFFFFFFKK
+
+Donut				E;NE;NW; W;SW;none					SGGGGS
+
+Padlock				E;NE;NW; W;SW;SW;SE; W;NW;NE;none	FFFFFEEEEFF
+
+Spoon		E;NE;NW; W;SW; W; W; W; W; W;SE; W;NW;NE; E;none	SEEEESEEEFFFFFFF
+
  
