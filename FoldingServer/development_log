@@ -203,3 +203,16 @@ started match mode
 
 11/13/07
 got match working!
+
+12/8/07
+trouble running it on intro.bio.umb.edu
+java.lang.UnsupportedClassVersionError
+so in project, properties, 
+	enable projet-specific settings
+	Java Compiler: 1.4
+
+runs from root or console but fails from arkitek or php
+kCGErrorRangeCheck : Window Server communications from outside of session allowed for root and console user only
+Exception in thread "main" java.lang.InternalError: Can't connect to window server - not enough permissions.
+
+therefore add -Djava.awt.headless=true  to command line
