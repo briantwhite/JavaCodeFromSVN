@@ -216,3 +216,10 @@ kCGErrorRangeCheck : Window Server communications from outside of session allowe
 Exception in thread "main" java.lang.InternalError: Can't connect to window server - not enough permissions.
 
 therefore add -Djava.awt.headless=true  to command line
+
+runs as arkitek from ssh
+but not from php
+error in /var/log/httpd/error log
+java.io.FileNotFoundException: guessoutput.png (Permission denied)
+
+chmod a+w wml/
