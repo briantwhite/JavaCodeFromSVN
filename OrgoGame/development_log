@@ -483,3 +483,11 @@ massive recoding
 make a new Molecule[] with all new Bonds and Atoms when scaling
 also reports screen size if too small
 seems to work....
+
+1/2/07
+had to reload windows on laptop
+lost settings
+when eclipse would check out into wtk, it would not include the bin dir
+so there was no jad file and wtk wouldn't open it
+had to specifically select bin in cvs view and check out into existing project
+that seems to work
