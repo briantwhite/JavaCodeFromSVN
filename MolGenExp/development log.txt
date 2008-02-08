@@ -402,3 +402,9 @@ version 1.3.3 (tagged)
 - it wasn't seeing the geneticcidetable image
 - fixed the jar access stuff
 tagged as version 1.3.4
+
+2/7/08
+preparing to add evolution
+
+1) clean up some useless crap
+	- ppID in polypeptide - not needed

@@ -59,14 +59,6 @@ public class Polypeptide implements Serializable {
 
 
 	/**
-	 * 
-	 * @return ppId String.
-	 */
-	public String getId() {
-		return stringId;
-	}
-
-	/**
 	 * @return Returns the color.
 	 */
 	public Color getColor() {
@@ -130,7 +122,6 @@ public class Polypeptide implements Serializable {
 	public String toReport() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("\n\tPolpeptide pp:         " + this.toString());
-		buf.append("\n\tpp.getId():            " + this.getId());
 		buf.append("\n\tpp.getColor():         " + this.getColor());
 		return buf.toString();
 	}
@@ -153,15 +144,6 @@ public class Polypeptide implements Serializable {
 
 	public void setFolded() {
 		folded = true;
-	}
-
-	/**
-	 * 
-	 * @param String
-	 *            ppId.
-	 */
-	public void setId(String ppId) {
-		stringId = ppId;
 	}
 
 	/**
@@ -197,13 +179,11 @@ public class Polypeptide implements Serializable {
 
 	// non-public fields
 
-	private int id, numAcids;
+	private int numAcids;
 
 	private boolean folded = false;
 
 	private Color color;
-
-	private String stringId = null;
 
 	private double maxEnergy = 1.0; // to scale histogram
 
@@ -236,7 +216,7 @@ public class Polypeptide implements Serializable {
 	protected Polypeptide(AminoAcidTable table, int length, int seed, String id) {
 
 		// ASSUMES: length >0, seed >=0, table != null
-		this(table, table.getRandom(length, seed), id);
+		this(table, table.getRandom(length, seed));
 	}
 
 	/**
@@ -254,7 +234,7 @@ public class Polypeptide implements Serializable {
 	 */
 	protected Polypeptide(AminoAcidTable table, AminoAcid[] acids,
 			Direction[] directions, String id) {
-		this(table, acids, id);
+		this(table, acids);
 		setDirections(directions);
 	}
 
@@ -269,8 +249,7 @@ public class Polypeptide implements Serializable {
 	 * @param id
 	 *            the assigned string id for this Polypeptide
 	 */
-	protected Polypeptide(AminoAcidTable table, AminoAcid[] realAcids, String id) {
-		this.stringId = id;
+	protected Polypeptide(AminoAcidTable table, AminoAcid[] realAcids) {
 
 		// ASSUMES: all acids in realAcids are from table.
 		this.table = table;

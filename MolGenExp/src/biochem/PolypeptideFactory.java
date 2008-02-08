@@ -225,7 +225,7 @@ public class PolypeptideFactory {
 		}
 		
 		// call constructor in Polypeptide
-		return new Polypeptide(table, acids, ppId);
+		return new Polypeptide(table, acids);
 	}
 
 	/**
