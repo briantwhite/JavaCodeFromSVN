@@ -244,53 +244,14 @@ private void paintProtein(Graphics g) {
 	int r = getAcidRadius();
 	for (int i = 0; i < numAcids; i++) {
 		AcidInChain a = acidsByZ[i];
-		GridPoint here = project(a.xyz).subtract(min);
-		
-		// fills the circle
-		g.setColor(cc.getCellColor(a.getNormalizedHydrophobicIndex()));
-		g.fillOval(here.x - r, here.y - r, 2 * r, 2 * r);
-		
+		GridPoint here = project(a.xyz).subtract(min);	
+		a.getAminoAcid().paint(g, cc, here.x - r, here.y - r);
 	}
 	
 	// draw the backbone
+	g.setColor(Color.BLACK);
 	for (int i = 0; i < numAcids; i++) {
-		AcidInChain a = pp.getAminoAcid(i);
-		int offset = getStringIndentationConstant(a.name, r);
-		
-		// default color for names is white
-		g.setColor(Color.white)	;
-		
-		//if philic - then add stuff
-		if (a.getName().equals("Arg") ||
-				a.getName().equals("Lys") ||
-				a.getName().equals("His")) {
-			g.setColor(Color.blue);
-			g.drawString("+", spots[i].x - 15, spots[i].y);
-			g.setColor(Color.black);
-		}
-		
-		if (a.getName().equals("Asp") ||
-				a.getName().equals("Glu")) {
-			g.setColor(Color.red);
-			g.drawString("-", spots[i].x - 15, spots[i].y);
-			g.setColor(Color.black);
-		}
-		
-		if (a.getName().equals("Asn") ||
-				a.getName().equals("Gln") ||
-				a.getName().equals("Ser") ||
-				a.getName().equals("Thr") ||
-				a.getName().equals("Tyr")) {
-			g.setColor(Color.green);
-			g.drawString("*", spots[i].x - 15, spots[i].y);
-			g.setColor(Color.BLACK);					
-		}
-		
-		g.drawString(a.name, spots[i].x - offset, spots[i].y);
-		// string is drawn to an left offset from center of disk.;
-		g.drawString(a.getAbName(), spots[i].x - 2, spots[i].y + 12);
-		g.setColor(Color.magenta);
-		
+		AcidInChain a = pp.getAminoAcid(i);		
 		if (i < numAcids - 1) {
 			g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
 					spots[i + 1].y);

@@ -88,6 +88,9 @@ public class MolGenExp extends JFrame {
 	private final static int BIOCHEMISTRY = 1;
 	private final static int MOLECULAR_BIOLOGY = 2;
 	
+	//radius of aas as drawn in big images
+	public final static int aaRadius = 20;
+	
 	private final static String version = "1.3.4";
 	
 	public final static String sampleDNA = 

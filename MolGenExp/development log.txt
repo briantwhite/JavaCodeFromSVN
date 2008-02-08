@@ -412,4 +412,6 @@ preparing to add evolution
 		requires lots of changes (but eliminates silly passing around)
 	- move StandardTable up to static final in MolGen Exp
 		ditto
-		
+
+2) move all amino acid painting code to one place - in AminoAcid
+	steal code from FoldingServer & modify
