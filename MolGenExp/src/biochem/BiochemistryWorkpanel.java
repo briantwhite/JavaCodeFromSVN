@@ -32,7 +32,6 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	JTextField proteinSequence;
 	TripleLetterCodeDocument tlcDoc;
 	OutputPalette foldedProtein;
-	ColorModel colorModel;
 
 	JPanel buttonPanel;
 	JButton foldButton;
@@ -50,10 +49,8 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	BufferedImage fullSizePic;
 
 	public BiochemistryWorkpanel(String title, 
-			final BiochemistryWorkbench protex, 
-			final ColorModel colorModel) {
+			final BiochemistryWorkbench protex) {
 		super();
-		this.colorModel = colorModel;
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createTitledBorder(title));
 		this.setBackground(Color.lightGray);
@@ -70,7 +67,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		proteinSequence = new JTextField(50);
 		proteinSequence.setBorder(BorderFactory.createTitledBorder("Amino Acid Sequence"));
 		proteinSequence.setDocument(tlcDoc);
-		foldedProtein = new OutputPalette(colorModel);
+		foldedProtein = new OutputPalette();
 		proteinPanel.add(proteinSequence, BorderLayout.NORTH);
 		proteinPanel.add(foldedProtein, BorderLayout.CENTER);
 
@@ -95,7 +92,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		this.add(proteinPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		manager = FoldingManager.getInstance(colorModel);
+		manager = FoldingManager.getInstance();
 
 		table = new StandardTable();
 
@@ -103,7 +100,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				attributes = new Attributes(
 						proteinSequence.getText().trim(), 
-						3, colorModel, "straight", "test");
+						3, "straight", "test");
 
 				//fold the polypeptide
 				try {

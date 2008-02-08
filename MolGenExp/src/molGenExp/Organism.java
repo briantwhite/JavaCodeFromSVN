@@ -12,12 +12,10 @@ import javax.swing.ImageIcon;
 
 import molBiol.ExpressedGene;
 
-public class Organism implements Serializable {
+public class Organism {
 	
 	private static int imageSize = 50; //size of image for greenhouse
 	private String name;
-	
-	private ColorModel colorModel;
 	
 	private ExpressedGene gene1;
 	private ExpressedGene gene2;
@@ -26,17 +24,13 @@ public class Organism implements Serializable {
 	
 	private static HashMap iconCache = new HashMap();
 
-	public Organism(String name, 
-			ExpressedGene gene1, 
-			ExpressedGene gene2,
-			ColorModel colorModel) {
+	public Organism(String name, ExpressedGene gene1, ExpressedGene gene2) {
 		this.name = name;
 		this.gene1 = gene1;
 		this.gene2 = gene2;
-		this.colorModel = colorModel;
 		
 		//calculate color
-		color = colorModel.mixTwoColors(
+		color = MolGenExp.colorModel.mixTwoColors(
 				gene1.getFoldedPolypeptide().getColor(), 
 				gene2.getFoldedPolypeptide().getColor());
 		
@@ -91,10 +85,7 @@ public class Organism implements Serializable {
 	// constructor for making new organism from old organism
 	//  with name changed
 	public Organism (String name, Organism o) {
-		this(name,
-				o.getGene1(),
-				o.getGene2(),
-				o.getColorModel());
+		this(name, o.getGene1(), o.getGene2());
 	}
 	
 	public String getName() {
@@ -113,10 +104,6 @@ public class Organism implements Serializable {
 		return color;
 	}
 	
-	public ColorModel getColorModel() {
-		return colorModel;
-	}
-		
 	public ImageIcon getImage() {
 		return image;
 	}

@@ -73,8 +73,7 @@ public class MutantGenerator implements Runnable {
 			if (current < mutantCount) {
 				offspringList.add(new Organism(trayNum + "-" + (current + 1),
 						eg1,
-						eg2,
-						gw.getProteinColorModel()));
+						eg2));
 			}
 		}
 	}
@@ -131,11 +130,9 @@ public class MutantGenerator implements Runnable {
 		Attributes attributes = new Attributes(
 				proteinSequence, 
 				3,
-				new RYBColorModel(),
 				"straight",
-		"test");
-		FoldingManager manager = FoldingManager.getInstance(
-				gw.getMGE().getOverallColorModel());
+				"test");
+		FoldingManager manager = FoldingManager.getInstance();
 		try {
 			manager.fold(attributes);
 		} catch (FoldingException e) {
@@ -143,8 +140,7 @@ public class MutantGenerator implements Runnable {
 		}
 
 		//make an icon and display it in a dialog
-		OutputPalette op = new OutputPalette(
-				gw.getMGE().getOverallColorModel());
+		OutputPalette op = new OutputPalette();
 		manager.createCanvas(op);
 		Dimension requiredCanvasSize = 
 			op.getDrawingPane().getRequiredCanvasSize();

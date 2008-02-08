@@ -408,3 +408,6 @@ preparing to add evolution
 
 1) clean up some useless crap
 	- ppID in polypeptide - not needed
+	- move colorModel up to a static final in MolGenExp
+		requires lots of changes (but eliminates silly passing around)
+	- 

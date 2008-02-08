@@ -39,8 +39,8 @@ public class HexGrid extends TwoDGrid {
 
 	public final Direction NE = Direction.NE;
 
-	public HexGrid(Polypeptide pp, ColorModel colorModel) {
-		super(pp, colorModel);
+	public HexGrid(Polypeptide pp) {
+		super(pp);
 		allDirections = getAllDirections();
 		setNextDirectionsStraight();
 		setNextDirectionsBent();

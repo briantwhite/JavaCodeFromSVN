@@ -59,9 +59,9 @@ public class FoldingManager {
 	 * 
 	 * @return FoldingManager instance.
 	 */
-	public static FoldingManager getInstance(ColorModel colorModel) {
+	public static FoldingManager getInstance() {
 		if (instance == null)
-			instance = new FoldingManager(colorModel);
+			instance = new FoldingManager();
 		return instance;
 	}
 
@@ -286,7 +286,7 @@ public class FoldingManager {
 		String grid = currentAttrib.getGrid();
 
 		if (grid.equalsIgnoreCase("hexagonal")) {
-			canvas = new HexCanvas(colorModel);
+			canvas = new HexCanvas();
 		} else { // should not get here
 			canvas = null;
 			System.out.print("\nFoldingManager.createCanvas(): ");
@@ -323,7 +323,6 @@ public class FoldingManager {
 	private Folder currentFolder;
 	private Grid currentGrid;
 	private TwoDGrid hexagonalCore;
-	private ColorModel colorModel;
 
 	// flags
 
@@ -335,10 +334,9 @@ public class FoldingManager {
 	 * Private constructor.
 	 *  
 	 */
-	private FoldingManager(ColorModel colorModel) {
+	private FoldingManager() {
 		observers = new Vector();
 		factory = PolypeptideFactory.getInstance();
-		this.colorModel = colorModel;
 		resetCurrent(); // provides initialization
 	}
 
@@ -404,9 +402,8 @@ public class FoldingManager {
 	 */
 	private void createGrid(Attributes attrib) throws FoldingException {
 		String grid = attrib.getGrid();
-		ColorModel colorModel = attrib.getColorModel();
 		if (grid.equalsIgnoreCase("hexagonal")) {
-			currentGrid = new HexGrid(currentPP, colorModel);
+			currentGrid = new HexGrid(currentPP);
 		} else {
 			throw new FoldingException("FoldingManager.createGrid(): "
 					+ "REQUIRED: hexagonal. GIVEN: " + grid);

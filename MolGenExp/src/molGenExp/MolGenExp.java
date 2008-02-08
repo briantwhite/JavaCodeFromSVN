@@ -98,6 +98,8 @@ public class MolGenExp extends JFrame {
 	public final static String sampleProtein =
 		new String("MSNRHILLVVCRQ");
 	
+	public static final ColorModel colorModel = new RYBColorModel();
+	
 	private ImageIcon geneticCodeTableImage;
 	
 	private JPanel mainPanel;
@@ -147,13 +149,9 @@ public class MolGenExp extends JFrame {
 	private BiochemistryWorkbench biochemistryWorkbench;
 	private MolBiolWorkbench molBiolWorkbench;
 	
-	
-	private ColorModel colorModel;
-	
 	public MolGenExp() {
 		super("Molecular Genetics Explorer " + version);
 		addWindowListener(new ApplicationCloser());
-		colorModel = new RYBColorModel();
 		setupUI();
 	}
 	
@@ -524,10 +522,6 @@ public class MolGenExp extends JFrame {
 		return abAASeq.toString();
 	}
 	
-	public ColorModel getOverallColorModel() {
-		return colorModel;
-	}
-	
 	public MolBiolWorkbench getMolBiolWorkbench() {
 		return molBiolWorkbench;
 	}
@@ -634,14 +628,10 @@ public class MolGenExp extends JFrame {
 		//need this to go from DNA to protein
 		MolBiolWorkpanel mbwp = new MolBiolWorkpanel("", 
 				new MolBiolParams(), 
-				colorModel, 
 				molBiolWorkbench, 
 				this);
 		
-		greenhouseLoader = new GreenhouseLoader(greenhouseDir,
-				mbwp,
-				colorModel,
-				greenhouse);
+		greenhouseLoader = new GreenhouseLoader(greenhouseDir, mbwp, greenhouse);
 		
 		Thread t = new Thread(greenhouseLoader);
 		t.start();

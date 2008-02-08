@@ -63,13 +63,13 @@ public class OutputPalette extends JPanel {
 	 * Constructor
 	 *  
 	 */
-	public OutputPalette(ColorModel colorModel) {
+	public OutputPalette() {
 		super(new BorderLayout());
 		super.setBorder(BorderFactory.createTitledBorder(title));
 		area = new Dimension(0, 0);
 		
 		//Set up the drawing area.
-		drawingPane = new HexCanvas(colorModel);
+		drawingPane = new HexCanvas();
 		drawingPane.setParentPanel(this);
 
 		//Put the drawing area in a scroll pane.

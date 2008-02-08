@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import molGenExp.ColorModel;
+import molGenExp.MolGenExp;
 
 /**
  * Model a grid containing a polypeptide chain.
@@ -31,8 +32,6 @@ public abstract class TwoDGrid extends Grid {
 
 	protected ArrayList hydrophilics;
 
-	protected ColorModel colorModel;
-
 	protected Color proteinColor = Color.white;
 
 	protected ArrayList coreColors;
@@ -40,13 +39,12 @@ public abstract class TwoDGrid extends Grid {
 	public TwoDGrid() {
 	}
 
-	public TwoDGrid(Polypeptide pp, ColorModel colorModel) {
+	public TwoDGrid(Polypeptide pp) {
 		super(pp);
 		hydrophobics = new ArrayList();
 		hydrophilics = new ArrayList();
 		cells = new AcidInChain[size][size];
 		points = new GridPoint[size][size];
-		this.colorModel = colorModel;
 		coreColors = new ArrayList();
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -194,11 +192,11 @@ public abstract class TwoDGrid extends Grid {
 				if (ac == null || !hydrophobics.contains(ac))
 					break;
 				else if (hydrophobics.contains(ac)) {
-					c = colorModel.colorByAminoAcid(c, ac);
+					c = MolGenExp.colorModel.colorByAminoAcid(c, ac);
 				}
 			}
 			if (d == allDirections.length) {
-				c = colorModel.colorByAminoAcid(c, a);
+				c = MolGenExp.colorModel.colorByAminoAcid(c, a);
 				coreColors.add(c);
 			}
 		}
@@ -214,8 +212,8 @@ public abstract class TwoDGrid extends Grid {
 
 		proteinColor = (Color) coreColors.get(0);
 		for (int i = 1; i < coreColors.size(); i++)
-			proteinColor = colorModel.mixTwoColors(proteinColor, (Color) coreColors
-					.get(i));
+			proteinColor = MolGenExp.colorModel.mixTwoColors(proteinColor, 
+					(Color) coreColors.get(i));
 		return proteinColor;
 	}
 

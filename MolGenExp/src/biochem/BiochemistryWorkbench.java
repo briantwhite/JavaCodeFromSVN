@@ -34,8 +34,6 @@ public class BiochemistryWorkbench extends Workbench {
 	private JScrollPane histListScrollPane;
 	private CombinedColorPanel combinedColorPanel;
 
-	ColorModel colorModel;
-
 	ProteinPrinter printer;
 
 	File outFile;
@@ -45,7 +43,6 @@ public class BiochemistryWorkbench extends Workbench {
 	public BiochemistryWorkbench(MolGenExp mge) {
 		super(mge);
 		this.mge = mge;
-		colorModel = mge.getOverallColorModel();
 		printer = new ProteinPrinter();
 		outFile = null;
 		setupUI();
@@ -66,8 +63,7 @@ public class BiochemistryWorkbench extends Workbench {
 		JPanel aapPanel = new JPanel();
 		aapPanel.setLayout(new BoxLayout(aapPanel, BoxLayout.X_AXIS));
 		aapPanel.setBorder(BorderFactory.createTitledBorder("Amino acids"));
-		AminoAcidPalette aaPalette 
-		= new AminoAcidPalette(180, 225, 5, 4, colorModel);
+		AminoAcidPalette aaPalette = new AminoAcidPalette(180, 225, 5, 4);
 		aapPanel.setMaximumSize(new Dimension(200, 250));
 		aapPanel.add(Box.createRigidArea(new Dimension(1,225)));
 		aapPanel.add(aaPalette);
@@ -89,8 +85,8 @@ public class BiochemistryWorkbench extends Workbench {
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		upperWorkPanel = new BiochemistryWorkpanel("Upper Folding Window", this, colorModel);
-		lowerWorkPanel = new BiochemistryWorkpanel("Lower Folding Window", this, colorModel);
+		upperWorkPanel = new BiochemistryWorkpanel("Upper Folding Window", this);
+		lowerWorkPanel = new BiochemistryWorkpanel("Lower Folding Window", this);
 		rightPanel.add(upperWorkPanel);
 		combinedColorPanel = new CombinedColorPanel();
 		rightPanel.add(combinedColorPanel);
@@ -110,7 +106,7 @@ public class BiochemistryWorkbench extends Workbench {
 	public void updateCombinedColor() {
 		Color u = upperWorkPanel.getColor();
 		Color l = lowerWorkPanel.getColor();
-		Color combined = colorModel.mixTwoColors(u, l);
+		Color combined = MolGenExp.colorModel.mixTwoColors(u, l);
 		combinedColorPanel.setCombinedColor(combined);
 	}
 

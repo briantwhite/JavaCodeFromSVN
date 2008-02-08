@@ -46,14 +46,11 @@ public abstract class GridCanvas extends JPanel {
 	
 	private Dimension requiredCanvasSize;
 	
-	private ColorModel colorModel;
-
 	public GridCanvas(int width, int height) {
 		this.setSize(width, height);
 	}
 
-	public GridCanvas(ColorModel colorModel) {
-		this.colorModel = colorModel;
+	public GridCanvas() {
 		requiredCanvasSize = new Dimension(0,0);
 	}
 	

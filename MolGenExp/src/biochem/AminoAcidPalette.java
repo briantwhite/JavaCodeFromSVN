@@ -88,8 +88,7 @@ public class AminoAcidPalette extends JPanel {
 	 * @param height
 	 *            Height of canvas
 	 */
-	public AminoAcidPalette(int width, int height, int row, int column,
-			ColorModel colorModel) {
+	public AminoAcidPalette(int width, int height, int row, int column) {
 		super(new BorderLayout());
 		super.setPreferredSize(new Dimension(width, height));
 		super.setBackground(BiochemistryWorkbench.BACKGROUND_COLOR);

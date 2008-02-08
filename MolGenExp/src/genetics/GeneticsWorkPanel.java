@@ -166,10 +166,7 @@ public class GeneticsWorkPanel extends WorkPanel {
 				eg2 = o2.getGene2(); 
 			}
 
-			Organism o = new Organism(trayNum + "-" + i,
-					eg1,
-					eg2,
-					gw.getProteinColorModel());
+			Organism o = new Organism(trayNum + "-" + i, eg1, eg2);
 
 			offspringList.add(o);
 		}

@@ -24,17 +24,14 @@ public class GreenhouseLoader implements Runnable {
 	File greenhouseDir;
 	ArrayList organismFiles;
 	MolBiolWorkpanel mbwp;
-	ColorModel colorModel;
 	Greenhouse greenhouse;
 	int i;
 	
 	public GreenhouseLoader(File greenhouseDir,
 			MolBiolWorkpanel mbwp,
-			ColorModel colorModel,
 			Greenhouse greenhouse) {
 		this.greenhouseDir = greenhouseDir;
 		this.mbwp = mbwp;
-		this.colorModel = colorModel;
 		this.greenhouse = greenhouse;
 		String[] files = greenhouseDir.list();
 		organismFiles = new ArrayList();
@@ -98,10 +95,7 @@ public class GreenhouseLoader implements Runnable {
 						mbwp.expressGene((String)geneSequences.get(1), -1);
 					eg1.setFoldedPolypeptide(foldProtein(eg1.getGene().getProteinString()));
 					eg2.setFoldedPolypeptide(foldProtein(eg2.getGene().getProteinString()));
-					Organism o = new Organism(organismName,
-							eg1,
-							eg2,
-							colorModel);
+					Organism o = new Organism(organismName, eg1, eg2);
 					greenhouse.add(o);
 				}
 				input.close();
@@ -142,13 +136,8 @@ public class GreenhouseLoader implements Runnable {
 		}
 		
 		//fold it
-		Attributes attributes = new Attributes(
-				aaSeq, 
-				3,
-				colorModel,
-				"straight",
-		"test");
-		FoldingManager manager = FoldingManager.getInstance(colorModel);
+		Attributes attributes = new Attributes(aaSeq, 3, "straight", "test");
+		FoldingManager manager = FoldingManager.getInstance();
 		try {
 			manager.fold(attributes);
 		} catch (FoldingException e) {
@@ -156,7 +145,7 @@ public class GreenhouseLoader implements Runnable {
 		}
 		
 		//make an icon and display it in a dialog
-		OutputPalette op = new OutputPalette(colorModel);
+		OutputPalette op = new OutputPalette();
 		manager.createCanvas(op);
 		Dimension requiredCanvasSize = 
 			op.getDrawingPane().getRequiredCanvasSize();

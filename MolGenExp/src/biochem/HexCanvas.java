@@ -36,8 +36,8 @@ public class HexCanvas extends GridCanvas {
 		createHexagon();
 	}
 
-	public HexCanvas(ColorModel colorModel) {
-		super(colorModel);
+	public HexCanvas() {
+		super();
 		createHexagon();
 	}
 

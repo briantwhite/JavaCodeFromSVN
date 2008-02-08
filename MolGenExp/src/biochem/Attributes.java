@@ -47,7 +47,7 @@ import molGenExp.RYBColorModel;
  * Class Attributes contains the attributes needed to fold or plot a
  * polypeptide. It serves to transfer data between Observers and FoldingManager.
  */
-public class Attributes implements Cloneable {
+public class Attributes {
 
 	/**
 	 * A complete default constructor.
@@ -55,7 +55,7 @@ public class Attributes implements Cloneable {
 	 */
 	public Attributes() {
 		this("Ser:Leu:Glu:Leu:Asn:Ile:Thr:Met:Glu:Val:Asp:Phe:Trp:",
-				3, new RYBColorModel(), "straight", null);
+				3, "straight", null);
 	}
 
 	/**
@@ -69,11 +69,10 @@ public class Attributes implements Cloneable {
 	 */
 	public Attributes(String inputString, 
 		int numAALetterCode,
-		ColorModel colorModel,
 		String breakTies, 
 		String ppId) {
 		
-		this(inputString, "standard", numAALetterCode, colorModel, breakTies, 
+		this(inputString, "standard", numAALetterCode, breakTies, 
 				"hexagonal", "incremental",
 				"8", "4", "0.1", "0.5", "1.0", ppId);
 	}
@@ -108,7 +107,6 @@ public class Attributes implements Cloneable {
 	public Attributes(String inputString, 
 			String table, 
 			int numAALetterCode,
-			ColorModel colorModel,
 			String breakTies,
 			String grid, 
 			String folder, 
@@ -122,7 +120,6 @@ public class Attributes implements Cloneable {
 		this.inputString = inputString;
 		this.table = table;
 		this.numAALetterCode = numAALetterCode;
-		this.colorModel = colorModel;
 		this.breakTies = breakTies;
 		this.grid = grid;
 		this.folder = folder;
@@ -200,11 +197,6 @@ public class Attributes implements Cloneable {
 		return ppId;
 	}
 	
-	public ColorModel getColorModel() {
-		return colorModel;
-	}
-
-
 	// mutator methods
 
 	public void setIsFolded(boolean b) {
@@ -271,6 +263,5 @@ public class Attributes implements Cloneable {
 	private String hydrogenIndex = "";
 	private String ionicIndex = "";
 	private String ppId = "";
-	private ColorModel colorModel = null;
 }
 
