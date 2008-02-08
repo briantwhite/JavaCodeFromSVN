@@ -147,7 +147,7 @@ public class PolypeptideFactory {
 		}
 
 		// call constructor in Polypeptide
-		return new Polypeptide(table, acids, directions, ppId);
+		return new Polypeptide(acids, directions);
 	}
 
 	/**
@@ -225,7 +225,7 @@ public class PolypeptideFactory {
 		}
 		
 		// call constructor in Polypeptide
-		return new Polypeptide(table, acids);
+		return new Polypeptide(acids);
 	}
 
 	/**

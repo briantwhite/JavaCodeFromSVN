@@ -100,6 +100,8 @@ public class MolGenExp extends JFrame {
 	
 	public static final ColorModel colorModel = new RYBColorModel();
 	
+	public static final StandardTable aaTable = new StandardTable();
+	
 	private ImageIcon geneticCodeTableImage;
 	
 	private JPanel mainPanel;

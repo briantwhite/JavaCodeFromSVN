@@ -45,6 +45,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import molGenExp.MolGenExp;
+
 /**
  * Model a polypeptide as a List of AminoAcids.
  *  
@@ -71,10 +73,6 @@ public class Polypeptide implements Serializable {
 
 	public Iterator iterator() {
 		return acids.iterator();
-	}
-
-	public AminoAcidTable getTable() {
-		return table;
 	}
 
 	public AcidInChain[] getAcidArray() {
@@ -187,8 +185,6 @@ public class Polypeptide implements Serializable {
 
 	private double maxEnergy = 1.0; // to scale histogram
 
-	private AminoAcidTable table;
-
 	private ArrayList acids;
 
 	// for efficiency, mirror the ArrayList as an array,
@@ -216,7 +212,7 @@ public class Polypeptide implements Serializable {
 	protected Polypeptide(AminoAcidTable table, int length, int seed, String id) {
 
 		// ASSUMES: length >0, seed >=0, table != null
-		this(table, table.getRandom(length, seed));
+		this(MolGenExp.aaTable.getRandom(length, seed));
 	}
 
 	/**
@@ -232,9 +228,8 @@ public class Polypeptide implements Serializable {
 	 * @param id
 	 *            the assigned string id for this Polypeptide
 	 */
-	protected Polypeptide(AminoAcidTable table, AminoAcid[] acids,
-			Direction[] directions, String id) {
-		this(table, acids);
+	protected Polypeptide(AminoAcid[] acids, Direction[] directions) {
+		this(acids);
 		setDirections(directions);
 	}
 
@@ -249,11 +244,10 @@ public class Polypeptide implements Serializable {
 	 * @param id
 	 *            the assigned string id for this Polypeptide
 	 */
-	protected Polypeptide(AminoAcidTable table, AminoAcid[] realAcids) {
+	protected Polypeptide(AminoAcid[] realAcids) {
 
 		// ASSUMES: all acids in realAcids are from table.
-		this.table = table;
-		maxEnergy = table.getMaxEnergy();
+		maxEnergy = MolGenExp.aaTable.getMaxEnergy();
 		acids = new ArrayList(); // duplicated code
 		for (int i = 0; i < realAcids.length; i++) {
 			acids.add(new AcidInChain(realAcids[i], i));

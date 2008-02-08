@@ -24,6 +24,7 @@ import java.util.Comparator;
 import javax.swing.JPanel;
 
 import molGenExp.ColorModel;
+import molGenExp.MolGenExp;
 
 /**
  * Display a Grid.
@@ -223,7 +224,7 @@ private void paintProtein(Graphics g) {
 	ColorCoder cc = null;
 	
 	setBackground(BiochemistryWorkbench.BACKGROUND_COLOR);
-	cc = new ShadingColorCoder(pp.getTable().getContrastScaler());
+	cc = new ShadingColorCoder(MolGenExp.aaTable.getContrastScaler());
 	g.setColor(BiochemistryWorkbench.BACKGROUND_COLOR);
 	g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
 	
