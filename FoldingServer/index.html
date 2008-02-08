@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>Biology Cluster Computer Home page</title>
+</head>
+
+<body bgcolor=cyan>
+<h3><center>Biology Cluster Computer</center></h3>
+<hr>
+<form action="http://cluster.bio.whe.umb.edu/cgi-bin/report.pl" method=GET>
+Enter a sequence to fold for report.pl<br>
+it will be folded by all members of the cluster<br>
+this lets you see how many nodes they are and how fast they are.<br>
+<input type=text size=18 name="seq"><br>
+<input type=submit><br>
+</form>
+<hr>
+<form action="http://cluster.bio.whe.umb.edu/cgi-bin/fold.pl" method=POST>
+Enter a comma-separated set of sequences to fold for fold.pl<br>
+they will be distributed to members of the cluster for folding.<br>
+<input type=text size=50 name="seq"><br>
+<input type=submit><br>
+</form>
+<hr>
+
+</body>
+</html>
