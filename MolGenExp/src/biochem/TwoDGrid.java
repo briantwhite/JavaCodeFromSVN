@@ -28,24 +28,13 @@ public abstract class TwoDGrid extends Grid {
 	// create one GridPoint for each cell, use as singletons
 	protected GridPoint[][] points;
 
-	protected ArrayList hydrophobics;
-
-	protected ArrayList hydrophilics;
-
-	protected Color proteinColor = Color.white;
-
-	protected ArrayList coreColors;
-
 	public TwoDGrid() {
 	}
 
 	public TwoDGrid(Polypeptide pp) {
 		super(pp);
-		hydrophobics = new ArrayList();
-		hydrophilics = new ArrayList();
 		cells = new AcidInChain[size][size];
 		points = new GridPoint[size][size];
-		coreColors = new ArrayList();
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				cells[i][j] = null;
@@ -96,7 +85,7 @@ public abstract class TwoDGrid extends Grid {
 		}
 	}
 
-	protected AcidInChain get(GridPoint p) {
+	public AcidInChain get(GridPoint p) {
 		return this.get(p.x, p.y);
 	}
 
@@ -115,7 +104,7 @@ public abstract class TwoDGrid extends Grid {
 
 	protected abstract Direction getDirection(int x1, int y1, int x2, int y2);
 
-	protected abstract Direction[] getAllDirections();
+	public abstract Direction[] getAllDirections();
 
 	protected Direction[] allDirections = null;
 
@@ -164,59 +153,13 @@ public abstract class TwoDGrid extends Grid {
 		return energy;
 	}
 
-	public void categorizeAcids() {
-		for (int i = 0; i < numAcids; i++) {
-			AcidInChain a = acids[i];
-			if (a.getHydrophobicIndex() >= 0
-					|| a.getName().equalsIgnoreCase("tyr"))
-				hydrophobics.add(a);
-			else
-				hydrophilics.add(a);
-		}
-	}
-
 	public Color getProteinColor() {
-		if (numAcids < 13)
-			return Color.white;
-		categorizeAcids();
-		if (hydrophobics.size() < 7 || hydrophilics.size() < 6)
-			return Color.white;
-		Color c = Color.white;
-		for (int i = 0; i < hydrophobics.size(); i++) {
-			c = Color.white;
-			AcidInChain a = (AcidInChain) hydrophobics.get(i);
-			int d;
-			for (d = 0; d < allDirections.length; d++) {
-				AcidInChain ac = get(nextCell(allDirections[d], a.xyz));
-
-				if (ac == null || !hydrophobics.contains(ac))
-					break;
-				else if (hydrophobics.contains(ac)) {
-					c = MolGenExp.colorModel.colorByAminoAcid(c, ac);
-				}
-			}
-			if (d == allDirections.length) {
-				c = MolGenExp.colorModel.colorByAminoAcid(c, a);
-				coreColors.add(c);
-			}
-		}
-		if (coreColors.size() > 0)
-			proteinColor = mixHexagonalCores();
-		return proteinColor;
+		return MolGenExp.colorModel.getProteinColor(this);
 	}
 
 	/**
 	 *  
 	 */
-	private Color mixHexagonalCores() {
-
-		proteinColor = (Color) coreColors.get(0);
-		for (int i = 1; i < coreColors.size(); i++)
-			proteinColor = MolGenExp.colorModel.mixTwoColors(proteinColor, 
-					(Color) coreColors.get(i));
-		return proteinColor;
-	}
-
 
 	public double getFoldingIndex(double hpIndex, double hIndex, double iIndex) {
 		computeStatistics(hpIndex, hIndex, iIndex);

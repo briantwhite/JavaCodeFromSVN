@@ -160,7 +160,7 @@ public class AcidInChain implements Serializable {
 
 	protected Direction next; // Direction to next AminoAcid
 
-	protected GridPoint xyz; // coordinates on Grid
+	public GridPoint xyz; // coordinates on Grid
 
 	private int index; // location in Polypeptide
 

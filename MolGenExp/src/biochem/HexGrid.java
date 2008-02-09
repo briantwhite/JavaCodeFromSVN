@@ -60,7 +60,7 @@ public class HexGrid extends TwoDGrid {
 
 	}
 
-	protected Direction[] getAllDirections() {
+	public Direction[] getAllDirections() {
 		Direction[] all = { Direction.E, Direction.NE, Direction.NW,
 				Direction.W, Direction.SW, Direction.SE };
 		return all;
@@ -103,7 +103,7 @@ public class HexGrid extends TwoDGrid {
 		return NE;
 	}
 
-	protected GridPoint nextCell(Direction direction, GridPoint p) {
+	public GridPoint nextCell(Direction direction, GridPoint p) {
 		int x = p.x;
 		int y = p.y;
 		if (direction == E)

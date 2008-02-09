@@ -14,12 +14,16 @@
 package molGenExp;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import biochem.AcidInChain;
 import biochem.AminoAcid;
+import biochem.Direction;
+import biochem.Grid;
+import biochem.HexGrid;
 
 /**
  * Class representing RYBColor chart. Model the standard RYB color model.
@@ -30,6 +34,10 @@ import biochem.AminoAcid;
  * modified by BW - totally different method
  */
 public class RYBColorModel extends ColorModel {
+	
+	ArrayList hydrophobics;
+	ArrayList hydrophilics;
+	ArrayList coreColors;
 
 	private Color[] numberToColorMap = {
 			// colors are odeled by bits in integer
@@ -52,18 +60,78 @@ public class RYBColorModel extends ColorModel {
 	 * Constructor
 	 */
 	public RYBColorModel() { 
-		super();
+		super();		
 		colorToNumberMap = new HashMap();
 		for (int i = 0; i < numberToColorMap.length; i++) {
 			colorToNumberMap.put((Color)numberToColorMap[i], new Integer(i));
 		}
 	}
+	
+	public Color getProteinColor(Grid grid) {
+		Color color = null;
+		hydrophobics = new ArrayList();
+		hydrophilics = new ArrayList();
+		coreColors = new ArrayList();
+
+		HexGrid realGrid = (HexGrid)grid;
+		int numAcids = grid.getPP().getLength();
+		Direction[] allDirections = grid.getAllDirections();
+		if (numAcids < 13)
+			return Color.white;
+		categorizeAcids(grid);
+		if (hydrophobics.size() < 7 || hydrophilics.size() < 6)
+			return Color.white;
+		Color c = Color.white;
+		for (int i = 0; i < hydrophobics.size(); i++) {
+			c = Color.white;
+			AcidInChain a = (AcidInChain) hydrophobics.get(i);
+			int d;
+			for (d = 0; d < allDirections.length; d++) {
+				AcidInChain ac = realGrid.get(realGrid.nextCell(allDirections[d], a.xyz));
+
+				if (ac == null || !hydrophobics.contains(ac))
+					break;
+				else if (hydrophobics.contains(ac)) {
+					c = colorByAminoAcid(c, ac);
+				}
+			}
+			if (d == allDirections.length) {
+				c = colorByAminoAcid(c, a);
+				coreColors.add(c);
+			}
+		}
+		if (coreColors.size() > 0)
+			color = mixHexagonalCores();
+		return color;
+	}
+	
+	public void categorizeAcids(Grid grid) {
+		int numAcids = grid.getPP().getLength();
+		AcidInChain[] acids = grid.getPP().getAcidArray();
+		for (int i = 0; i < numAcids; i++) {
+			AcidInChain a = acids[i];
+			if (a.getHydrophobicIndex() >= 0
+					|| a.getName().equalsIgnoreCase("tyr"))
+				hydrophobics.add(a);
+			else
+				hydrophilics.add(a);
+		}
+	}
+
+	private Color mixHexagonalCores() {
+		Color color = (Color) coreColors.get(0);
+		for (int i = 1; i < coreColors.size(); i++)
+			color = mixTwoColors(color, 
+					(Color) coreColors.get(i));
+		return color;
+	}
+
 
 	/**
 	 * Color by amino acids found in core
 	 * 	accumulate color as amino acids found
 	 */
-	public Color colorByAminoAcid(Color c, AcidInChain a) {
+	private Color colorByAminoAcid(Color c, AcidInChain a) {
 		if (a.getName().equalsIgnoreCase("phe"))
 			c = mixTwoColors(c, Color.red);
 		if (a.getName().equalsIgnoreCase("tyr"))
@@ -98,5 +166,4 @@ public class RYBColorModel extends ColorModel {
 		}
 		return Color.black;
 	}
-
 }

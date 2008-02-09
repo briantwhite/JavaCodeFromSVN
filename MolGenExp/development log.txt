@@ -415,3 +415,5 @@ preparing to add evolution
 
 2) move all amino acid painting code to one place - in AminoAcid
 	steal code from FoldingServer & modify
+	
+3) Moved protein coloring algorithm into ColorModel so its all in one place

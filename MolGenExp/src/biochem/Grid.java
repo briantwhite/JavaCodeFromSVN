@@ -179,7 +179,7 @@ public abstract class Grid implements Serializable {
 
 	protected abstract Direction getDirection(GridPoint p1, GridPoint p2);
 
-	protected abstract Direction[] getAllDirections();
+	public abstract Direction[] getAllDirections();
 
 	protected abstract Color getProteinColor();
 

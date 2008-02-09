@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 import biochem.AcidInChain;
 import biochem.AminoAcid;
+import biochem.Grid;
 
 /**
  * Class representing a generic color model for coloring proteins by 
@@ -41,13 +42,13 @@ public abstract class ColorModel implements Serializable {
 		
 	}
 
+
 	/**
-	 * Color by amino acids found in core
-	 * 	accumulate color as amino acids found
+	 * compute the color of a protein folded on a grid
+	 * @param grid
+	 * @return
 	 */
-	public abstract Color colorByAminoAcid(Color c, AcidInChain a);
-
-
+	public abstract Color getProteinColor(Grid grid);
 
 	/**
 	 * Mix two colors and return the result
