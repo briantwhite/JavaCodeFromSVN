@@ -1,7 +1,7 @@
-// PolypeptideFactory.java
-//
-//
-// Copyright 2004, Ethan Bolker and Bogdan Calota
+//PolypeptideFactory.java
+
+
+//Copyright 2004, Ethan Bolker and Bogdan Calota
 /* 
  * License Information
  * 
@@ -37,6 +37,8 @@ package biochem;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import molGenExp.MolGenExp;
+
 public class PolypeptideFactory {
 
 	// accessor method(s)
@@ -64,17 +66,13 @@ public class PolypeptideFactory {
 	 *            length of random polypeptide.
 	 * @param seed
 	 *            seed of the random polypeptide.
-	 * @param tableName
-	 *            table of amino acids.
-	 * @param ppId
-	 *            String ID for the folded polypeptide.
 	 */
 	public Polypeptide createPolypeptide(String[] args, boolean isSolution,
-			boolean isRandom, String length, String seed, String tableName,
-			int numAALetterCode, String ppId) throws FoldingException {
+			boolean isRandom, String length, String seed,
+			int numAALetterCode) throws FoldingException {
 
 		return this.createPolypeptide(arrayToString(args), isSolution,
-				isRandom, length, seed, tableName, numAALetterCode, ppId);
+				isRandom, length, seed, numAALetterCode);
 	}
 
 	/**
@@ -90,21 +88,17 @@ public class PolypeptideFactory {
 	 *            length of random polypeptide.
 	 * @param seed
 	 *            seed of the random polypeptide.
-	 * @param tableName
-	 *            table of amino acids.
-	 * @param ppId
-	 *            String ID for the folded polypeptide.
 	 */
-	public Polypeptide createPolypeptide(String input, boolean isSolution,
-			boolean isRandom, String length, String seed, String tableName,
-			int numAALetterCode, String ppId) throws FoldingException {
+	public Polypeptide createPolypeptide(String input, boolean isFolded,
+			boolean isRandom, String length, String seed,
+			int numAALetterCode) throws FoldingException {
 
-		if (isSolution) {
-			return createSolution(tableName, numAALetterCode, input, ppId);
+		if (isFolded) {
+			return createFromProteinString(numAALetterCode, input);
 		} else if (isRandom) {
-			return createRandom(tableName, length, seed, ppId);
+			return createRandom(length, seed);
 		} else {
-			return createFromAcids(tableName, numAALetterCode, input, ppId);
+			return createFromAcids(numAALetterCode, input);
 		}
 	}
 
@@ -118,9 +112,8 @@ public class PolypeptideFactory {
 	 * @throws FoldingException
 	 */
 	// 
-	public Polypeptide createSolution(String tableName, int numAALetterCode, String input,
-			String ppId) throws FoldingException {
-		AminoAcidTable table = createTable(tableName);
+	public Polypeptide createFromProteinString(
+			int numAALetterCode, String input) throws FoldingException {
 
 		// parse input into strings representing an acid or a direction
 		ArrayList acidString = getTokens(input);
@@ -139,7 +132,7 @@ public class PolypeptideFactory {
 		for (int i = 0; i < numberOfTokens; i = i + 2) {
 
 			// parse acid string( found on even positions)
-			acids[acidIndex++] = parseAcid((String) acidString.get(i), table, numAALetterCode);
+			acids[acidIndex++] = parseAcid((String) acidString.get(i), numAALetterCode);
 
 			// parse direction string( found on odd positions)
 			directions[directionIndex++] = parseDirection((String) acidString
@@ -159,8 +152,7 @@ public class PolypeptideFactory {
 	 * @return Polypeptide
 	 * @throws FoldingException
 	 */
-	public Polypeptide createRandom(String tableName, String length,
-			String seed, String ppId) throws FoldingException {
+	public Polypeptide createRandom( String length, String seed) throws FoldingException {
 
 		int len = 0;
 		int s = -1;
@@ -185,7 +177,7 @@ public class PolypeptideFactory {
 			throw new IntegerFormatFoldingException(
 					"Seed: REQUIRED:  >=0 GIVEN: " + seed);
 
-		return new Polypeptide(createTable(tableName), len, s, ppId);
+		return new Polypeptide(len, s);
 	}
 
 	/**
@@ -195,35 +187,33 @@ public class PolypeptideFactory {
 	 * @return Polypeptide
 	 * @throws FoldingException
 	 */
-	public Polypeptide createFromAcids(String tableName, int numAALetterCode, String input,
-			String ppId) throws FoldingException {
-		AminoAcidTable table = createTable(tableName);
+	public Polypeptide createFromAcids(int numAALetterCode, String input) throws FoldingException {
 		AminoAcid[] acids;
-		
+
 		switch (numAALetterCode) {
 		case 1:
 			char[] letters = input.toCharArray();
 			acids = new AminoAcid[letters.length];
 			for (int i = 0; i < letters.length; i++) {
-				acids[i] = parseAcid(String.valueOf(letters[i]), table, numAALetterCode);
+				acids[i] = parseAcid(String.valueOf(letters[i]), numAALetterCode);
 			}
 			break;
 		case 3:
 			// parse input into strings, each representing an acid
 			ArrayList acidString = getTokens(input);
-			
+
 			// parsing each acid string into AminoAcids using the AminoAcidTable.
 			acids = new AminoAcid[acidString.size()];
 			for (int i = 0; i < acids.length; i++) {
-				acids[i] = parseAcid((String) acidString.get(i), table, numAALetterCode);
+				acids[i] = parseAcid((String) acidString.get(i), numAALetterCode);
 			}
 			break;
 		default:
 			acids = null;
-			throw new FoldingException("nonexistent number of letters in AA code "
-					+ numAALetterCode);
+		throw new FoldingException("nonexistent number of letters in AA code "
+				+ numAALetterCode);
 		}
-		
+
 		// call constructor in Polypeptide
 		return new Polypeptide(acids);
 	}
@@ -253,25 +243,25 @@ public class PolypeptideFactory {
 	 * @return AminoAcid
 	 * @throws FoldingException
 	 */
-	public AminoAcid parseAcid(String acidString, AminoAcidTable table, int numAALetterCode)
+	public AminoAcid parseAcid(String acidString, int numAALetterCode)
 	throws FoldingException {
 		AminoAcid acid;
 		switch (numAALetterCode) {
-			case 1:
-				acid = table.getFromAbName(acidString);
-				break;
-			case 3:
-				acid = table.get(acidString);
-				break;
-			default:
-				acid = null;
-				throw new FoldingException("nonexistent number of letters in AA code "
-						+ numAALetterCode);
+		case 1:
+			acid = MolGenExp.aaTable.getFromAbName(acidString);
+			break;
+		case 3:
+			acid = MolGenExp.aaTable.get(acidString);
+			break;
+		default:
+			acid = null;
+		throw new FoldingException("nonexistent number of letters in AA code "
+				+ numAALetterCode);
 		}
-		
+
 		if (acid == null)
 			throw new FoldingException("acid not found. ACID: " + acidString
-					+ " TABLE: " + table.getName());
+					+ " TABLE: " + MolGenExp.aaTable.getName());
 		return acid;
 	}
 
@@ -283,7 +273,7 @@ public class PolypeptideFactory {
 	 * @throws FoldingException
 	 */
 	public Direction parseDirection(String directionString)
-			throws FoldingException {
+	throws FoldingException {
 		if (directionString.trim().equalsIgnoreCase("none")) {
 			//System.out.println("Direction is: none");
 			return Direction.none;
@@ -317,7 +307,7 @@ public class PolypeptideFactory {
 	}
 
 	private AminoAcidTable createTable(String tableName)
-			throws FoldingException {
+	throws FoldingException {
 		AminoAcidTable table;
 		table = AminoAcidTable.makeTable(tableName);
 		return table;

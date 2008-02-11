@@ -72,9 +72,9 @@ public class Attributes {
 		String breakTies, 
 		String ppId) {
 		
-		this(inputString, "standard", numAALetterCode, breakTies, 
+		this(inputString, numAALetterCode, breakTies, 
 				"hexagonal", "incremental",
-				"8", "4", "0.1", "0.5", "1.0", ppId);
+				"8", "4", "0.1", "0.5", "1.0");
 	}
 
 	/**
@@ -105,7 +105,6 @@ public class Attributes {
 	 *            String.
 	 */
 	public Attributes(String inputString, 
-			String table, 
 			int numAALetterCode,
 			String breakTies,
 			String grid, 
@@ -114,11 +113,9 @@ public class Attributes {
 			String step,
 			String hpindx, 
 			String h2indx, 
-			String ionindx, 
-			String ppId) {
+			String ionindx) {
 		
 		this.inputString = inputString;
-		this.table = table;
 		this.numAALetterCode = numAALetterCode;
 		this.breakTies = breakTies;
 		this.grid = grid;
@@ -128,7 +125,6 @@ public class Attributes {
 		this.hydroPhobicIndex = hpindx;
 		this.hydrogenIndex = h2indx;
 		this.ionicIndex = ionindx;
-		this.ppId = ppId;
 	}
 
 	// accessor methods
@@ -151,10 +147,6 @@ public class Attributes {
 
 	public String getSeed() {
 		return seed;
-	}
-
-	public String getTable() {
-		return table;
 	}
 
 	public int getNumAALetterCode() {
@@ -193,10 +185,6 @@ public class Attributes {
 		return ionicIndex;
 	}
 
-	public String getPpId() {
-		return ppId;
-	}
-	
 	// mutator methods
 
 	public void setIsFolded(boolean b) {
@@ -207,10 +195,6 @@ public class Attributes {
 		isRandom = b;
 	}
 	
-	public void setPpId(String s) {
-		ppId = s;
-	}
-
 	public void setLength(String s) {
 		length = s;
 	}
@@ -252,7 +236,6 @@ public class Attributes {
 	private String inputString = "";
 	private String length = "";
 	private String seed = "";
-	private String table = "";
 	private int numAALetterCode = 0;
 	private String grid = "";
 	private String breakTies = "";
@@ -262,6 +245,5 @@ public class Attributes {
 	private String hydroPhobicIndex = "";
 	private String hydrogenIndex = "";
 	private String ionicIndex = "";
-	private String ppId = "";
 }
 

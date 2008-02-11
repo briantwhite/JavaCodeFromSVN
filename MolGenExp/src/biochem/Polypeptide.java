@@ -103,6 +103,19 @@ public class Polypeptide implements Serializable {
 		}
 		return buf.toString();
 	}
+	
+	// string representation for use in FoldedProteinArchive
+	//   aa:direction:aa:direction
+	public String getProteinString() {
+		StringBuffer b = new StringBuffer();
+		Iterator i = iterator();
+		while (i.hasNext()) {
+			AcidInChain a = (AcidInChain) i.next();
+			b.append(a.getAbName() + ":");
+			b.append(a.getNext() + ":");
+		}
+		return b.toString();
+	}
 
 	public String toCSV() {
 		Iterator i = iterator();
@@ -209,7 +222,7 @@ public class Polypeptide implements Serializable {
 	 * @param id
 	 *            the assigned string id for this Polypeptide
 	 */
-	protected Polypeptide(AminoAcidTable table, int length, int seed, String id) {
+	protected Polypeptide(int length, int seed) {
 
 		// ASSUMES: length >0, seed >=0, table != null
 		this(MolGenExp.aaTable.getRandom(length, seed));

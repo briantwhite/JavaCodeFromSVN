@@ -417,3 +417,13 @@ preparing to add evolution
 	steal code from FoldingServer & modify
 	
 3) Moved protein coloring algorithm into ColorModel so its all in one place
+
+2/10/08
+4) fixed Polypeptide to output a proteinString
+	aa:direction:aa:direction etc.
+
+5) edited PolypeptideFactory
+	- remove useless ppID
+	- move AminoAcidTable up to static field in MolGenExp
+	- changed createSOlution to createFromProteinString - to make a protein from
+		a protein string (see (4))

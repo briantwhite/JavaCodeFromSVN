@@ -383,9 +383,7 @@ public class FoldingManager {
 				attrib.getIsRandom(), 
 				attrib.getLength(), 
 				attrib.getSeed(), 
-				attrib.getTable(),
-				attrib.getNumAALetterCode(),
-				attrib.getPpId());
+				attrib.getNumAALetterCode());
 		} 
 		catch (FoldingException ex) {
 			throw new FoldingException("Polypeptide Creation: "
