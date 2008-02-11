@@ -100,7 +100,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				attributes = new Attributes(
 						proteinSequence.getText().trim(), 
-						3, "straight", "test");
+						3, "straight");
 
 				//fold the polypeptide
 				try {

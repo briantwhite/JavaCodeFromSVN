@@ -130,8 +130,7 @@ public class MutantGenerator implements Runnable {
 		Attributes attributes = new Attributes(
 				proteinSequence, 
 				3,
-				"straight",
-				"test");
+				"straight");
 		FoldingManager manager = FoldingManager.getInstance();
 		try {
 			manager.fold(attributes);

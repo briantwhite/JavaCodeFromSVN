@@ -55,7 +55,7 @@ public class Attributes {
 	 */
 	public Attributes() {
 		this("Ser:Leu:Glu:Leu:Asn:Ile:Thr:Met:Glu:Val:Asp:Phe:Trp:",
-				3, "straight", null);
+				3, "straight");
 	}
 
 	/**
@@ -69,8 +69,7 @@ public class Attributes {
 	 */
 	public Attributes(String inputString, 
 		int numAALetterCode,
-		String breakTies, 
-		String ppId) {
+		String breakTies) {
 		
 		this(inputString, numAALetterCode, breakTies, 
 				"hexagonal", "incremental",

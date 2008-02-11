@@ -136,7 +136,7 @@ public class GreenhouseLoader implements Runnable {
 		}
 		
 		//fold it
-		Attributes attributes = new Attributes(aaSeq, 3, "straight", "test");
+		Attributes attributes = new Attributes(aaSeq, 3, "straight");
 		FoldingManager manager = FoldingManager.getInstance();
 		try {
 			manager.fold(attributes);
