@@ -45,6 +45,7 @@ import java.text.DecimalFormat;
 import java.util.Vector;
 
 import molGenExp.ColorModel;
+import molGenExp.MolGenExp;
 
 /**
  * Manages the process of folding the polypeptide chains; serves as a subject
@@ -267,6 +268,8 @@ public class FoldingManager {
 	 * @throws FoldingException
 	 */
 	public void fold(Attributes attrib) throws FoldingException {
+		//need to fix this - the inputString has : in it....
+		MolGenExp.foldedProteinArchive.isInArchive(attrib.getInputString());
 		resetCurrent();
 		currentAttrib = attrib;
 		foldPP(attrib);

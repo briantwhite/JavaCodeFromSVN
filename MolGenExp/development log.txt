@@ -427,3 +427,6 @@ preparing to add evolution
 	- move AminoAcidTable up to static field in MolGenExp
 	- changed createSOlution to createFromProteinString - to make a protein from
 		a protein string (see (4))
+
+6) Made a FoldedProteinArchive
+	- should access it in FoldingManager's fold(Arrtibutes attrib) method
