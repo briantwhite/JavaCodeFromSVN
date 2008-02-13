@@ -188,6 +188,12 @@ public class PolypeptideFactory {
 	 * @throws FoldingException
 	 */
 	public Polypeptide createFromAcids(int numAALetterCode, String input) throws FoldingException {
+		AminoAcid[] acids = parseInputStringToAmAcArray(numAALetterCode, input);
+		return new Polypeptide(acids);
+	}
+
+	public AminoAcid[] parseInputStringToAmAcArray(int numAALetterCode,
+			String input) throws FoldingException {
 		AminoAcid[] acids;
 
 		switch (numAALetterCode) {
@@ -213,10 +219,10 @@ public class PolypeptideFactory {
 		throw new FoldingException("nonexistent number of letters in AA code "
 				+ numAALetterCode);
 		}
-
-		// call constructor in Polypeptide
-		return new Polypeptide(acids);
+		return acids;
 	}
+	
+
 
 	/**
 	 * 

@@ -123,7 +123,8 @@ public class BiochemistryWorkpanel extends WorkPanel {
 							foldedProtein,
 							requiredCanvasSize);
 
-				foldedPolypeptide = new FoldedPolypeptide(proteinSequence.getText().trim(),
+				foldedPolypeptide = new FoldedPolypeptide(
+						proteinSequence.getText().trim(),
 						foldedProtein.getDrawingPane().getGrid(), 
 						new ImageIcon(images.getThumbnailImage()), 
 						proteinColor);

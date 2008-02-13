@@ -23,6 +23,7 @@ public class ProteinHistoryCellRenderer extends JButton
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		FoldedPolypeptide fp = (FoldedPolypeptide)value;
 		JButton button = new JButton(fp.getThumbnailPic());
+		button.setOpaque(true);
 		button.setBackground(fp.getColor());
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));

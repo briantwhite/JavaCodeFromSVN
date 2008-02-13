@@ -1,7 +1,7 @@
-// FoldingManager.java
-//
-//
-// Copyright 2004, Ethan Bolker and Bogdan Calota
+//FoldingManager.java
+
+
+//Copyright 2004, Ethan Bolker and Bogdan Calota
 /* 
  * License Information
  * 
@@ -46,6 +46,7 @@ import java.util.Vector;
 
 import molGenExp.ColorModel;
 import molGenExp.FoldedProteinArchive;
+import molGenExp.FoldedProteinArchiveEntry;
 import molGenExp.MolGenExp;
 
 /**
@@ -272,11 +273,38 @@ public class FoldingManager {
 		//first, see if it's already been folded
 		FoldedProteinArchive foldedProteinArchive = 
 			FoldedProteinArchive.getInstance();
-		resetCurrent();
-		currentAttrib = attrib;
-		foldPP(attrib);
+		//get the aa seq as a single letter string with no separators
+		AminoAcid[] acids = 
+			factory.parseInputStringToAmAcArray(
+					attrib.getNumAALetterCode(), 
+					attrib.getInputString());
+		StringBuffer buf = new StringBuffer();
+		for (int i = 0; i < acids.length; i++) {
+			buf.append(acids[i].getAbName());
+		}
+		String aaSeq = buf.toString();
+
+		//see if it's in the archive
+		if (foldedProteinArchive.isInArchive(aaSeq)) {
+			FoldedProteinArchiveEntry entry = 
+				foldedProteinArchive.getArchiveEntry(aaSeq);
+			currentPP = factory.createFromProteinString(
+					1, entry.getProteinString());
+			currentPP.setFolded();
+			currentGrid = new HexGrid(currentPP);
+		} else {
+			//fold it the regular way
+			resetCurrent();
+			currentAttrib = attrib;
+			foldPP(attrib);
+			currentPP.setColor(currentGrid.getProteinColor());
+			//save it in the archive
+			foldedProteinArchive.add(
+					aaSeq, currentPP.getProteinString(), 
+					currentGrid.getProteinColor());
+		}
 	}
-	
+
 
 	/**
 	 * 
@@ -296,7 +324,7 @@ public class FoldingManager {
 			canvas = null;
 			System.out.print("\nFoldingManager.createCanvas(): ");
 			System.out
-					.println("Could not create canvas. Grid argument failed.");
+			.println("Could not create canvas. Grid argument failed.");
 		}
 
 		canvas.setGrid(currentGrid);
@@ -365,13 +393,13 @@ public class FoldingManager {
 	 * @throws FoldingException
 	 */
 	private void foldPP(Attributes attrib) 
-		throws FoldingException {
+	throws FoldingException {
 		createPP(attrib);
 		createGrid(attrib);
 		createFolder(attrib);
 		currentFolder.fold();
 	}
-	
+
 
 	/**
 	 * Create a polypeptide chain.  Maintain references to ppFromHistory.
@@ -380,15 +408,15 @@ public class FoldingManager {
 	 * @throws FoldingException.
 	 */
 	private void createPP(Attributes attrib) 
-		throws FoldingException {
+	throws FoldingException {
 		try {
 			currentPP = factory.createPolypeptide(
-				attrib.getInputString(),
-				attrib.getIsFolded(), 
-				attrib.getIsRandom(), 
-				attrib.getLength(), 
-				attrib.getSeed(), 
-				attrib.getNumAALetterCode());
+					attrib.getInputString(),
+					attrib.getIsFolded(), 
+					attrib.getIsRandom(), 
+					attrib.getLength(), 
+					attrib.getSeed(), 
+					attrib.getNumAALetterCode());
 		} 
 		catch (FoldingException ex) {
 			throw new FoldingException("Polypeptide Creation: "
@@ -440,44 +468,44 @@ public class FoldingManager {
 			} catch (NumberFormatException ex) {
 				throw new FoldingException(
 						"FolderCreation: look ahead: REQUIRED: integer GIVEN: "
-								+ lookupString);
+						+ lookupString);
 			}
 			if (lookup <= 0)
 				throw new FoldingException(
 						"FolderCreation: look ahead: REQUIRED: positive no GIVEN: "
-								+ lookup);
+						+ lookup);
 
 			try {
 				step = Integer.parseInt(stepString);
 			} catch (NumberFormatException ex) {
 				throw new FoldingException(
 						"FolderCreation: step: REQUIRED: integer GIVEN: "
-								+ stepString);
+						+ stepString);
 			}
 			if (step <= 0)
 				throw new FoldingException(
 						"FolderCreation: step: REQUIRED: positive no GIVEN: "
-								+ step);
+						+ step);
 			try {
 				hpIndex = Double.parseDouble(hpIndexString);
 			} catch (NumberFormatException ex) {
 				throw new FoldingException(
 						"FolderCreation: HydroutputPanelhobic Index: REQUIRED: double GIVEN: "
-								+ hpIndexString);
+						+ hpIndexString);
 			}
 			try {
 				hIndex = Double.parseDouble(hIndexString);
 			} catch (NumberFormatException ex) {
 				throw new FoldingException(
 						"FolderCreation: HydrogenBond Index: REQUIRED: double GIVEN: "
-								+ hIndexString);
+						+ hIndexString);
 			}
 			try {
 				iIndex = Double.parseDouble(iIndexString);
 			} catch (NumberFormatException ex) {
 				throw new FoldingException(
 						"FolderCreation: Ionic Index: REQUIRED: double GIVEN: "
-								+ iIndexString);
+						+ iIndexString);
 			}
 			((IncrementalFolder) currentFolder).setLookAhead(lookup);
 			((IncrementalFolder) currentFolder).setStep(step);
@@ -487,7 +515,7 @@ public class FoldingManager {
 		} else {
 			throw new FoldingException(
 					"Folder creation: REQUIRED: bruteforce OR incremental. GIVEN: "
-							+ folder);
+					+ folder);
 		}
 	}
 }

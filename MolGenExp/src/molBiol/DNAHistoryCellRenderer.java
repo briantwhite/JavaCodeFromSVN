@@ -26,6 +26,7 @@ public class DNAHistoryCellRenderer extends JButton
 		ExpressedGene gene = (ExpressedGene)value;
 		JButton button = 
 			new JButton(gene.getFoldedPolypeptide().getThumbnailPic());
+		button.setOpaque(true);
 		button.setBackground(gene.getFoldedPolypeptide().getColor());
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));

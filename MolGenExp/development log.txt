@@ -430,3 +430,11 @@ preparing to add evolution
 
 6) Made a FoldedProteinArchive
 	- should access it in FoldingManager's fold(Arrtibutes attrib) method
+	
+2/12/08
+7) got FoldedProteinArchive working
+	- can get proteins in/out
+
+needed to fix random update bug 
+	background colors of hist list items not showing up
+		need to button.setOpaque(true)
