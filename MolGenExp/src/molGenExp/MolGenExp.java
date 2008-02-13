@@ -104,9 +104,7 @@ public class MolGenExp extends JFrame {
 	public static final ColorModel colorModel = new RYBColorModel();
 	
 	public static final StandardTable aaTable = new StandardTable();
-	
-	public static FoldedProteinArchive foldedProteinArchive;
-	
+		
 	private ImageIcon geneticCodeTableImage;
 	
 	private JPanel mainPanel;
@@ -159,7 +157,6 @@ public class MolGenExp extends JFrame {
 	public MolGenExp() {
 		super("Molecular Genetics Explorer " + version);
 		addWindowListener(new ApplicationCloser());
-		foldedProteinArchive = new FoldedProteinArchive();
 		setupUI();
 	}
 	

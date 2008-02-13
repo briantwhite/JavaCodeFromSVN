@@ -45,6 +45,7 @@ import java.text.DecimalFormat;
 import java.util.Vector;
 
 import molGenExp.ColorModel;
+import molGenExp.FoldedProteinArchive;
 import molGenExp.MolGenExp;
 
 /**
@@ -268,8 +269,9 @@ public class FoldingManager {
 	 * @throws FoldingException
 	 */
 	public void fold(Attributes attrib) throws FoldingException {
-		//need to fix this - the inputString has : in it....
-		MolGenExp.foldedProteinArchive.isInArchive(attrib.getInputString());
+		//first, see if it's already been folded
+		FoldedProteinArchive foldedProteinArchive = 
+			FoldedProteinArchive.getInstance();
 		resetCurrent();
 		currentAttrib = attrib;
 		foldPP(attrib);

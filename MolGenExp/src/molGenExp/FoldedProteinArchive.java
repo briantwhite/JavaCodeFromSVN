@@ -4,11 +4,19 @@ import java.util.HashMap;
 
 public class FoldedProteinArchive {
 	
+	private static FoldedProteinArchive singleton;
 	private HashMap archive;
 	
-	public FoldedProteinArchive() {
+	private FoldedProteinArchive() {
 		archive = new HashMap();
 		//in the future, have it look for archive file and load if present
+	}
+	
+	public static FoldedProteinArchive getInstance() {
+		if (singleton == null) {
+			singleton = new FoldedProteinArchive();
+		}
+		return singleton;
 	}
 	
 	public void add(String aaSeq, String proteinString) {
