@@ -37,11 +37,11 @@ java -cp FoldingServer.jar foldingServer.FoldingServer -P <aa radius> <aaseq> <f
 COLOR:
 java -cp FoldingServer.jar foldingServer.FoldingServer -c <aaseq>
 	ssBonds OFF
-	returns color
+	returns color & proteinString
 
 java -cp FoldingServer.jar foldingServer.FoldingServer -C <aaseq>
 	ssBonds ON
-	returns color
+	returns color & proteinString
 	
 MATCH:
 java -cp FoldingServer.jar foldingServer.FoldingServer -m <aa radius> <aaseq> <target shape string> <filename.png>
@@ -223,3 +223,6 @@ error in /var/log/httpd/error log
 java.io.FileNotFoundException: guessoutput.png (Permission denied)
 
 chmod a+w wml/
+
+2/13/08
+fixed -c to output a proteinString (aa: direction: aa: direction...) as well as a color

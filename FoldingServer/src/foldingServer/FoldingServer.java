@@ -78,13 +78,13 @@ public class FoldingServer {
 		}
 		
 		//color mode
-		// given an aa seq, determine the color
+		// given an aa seq, determine the color and folding string
 		if (args[0].equalsIgnoreCase("-c")) {
 			int mode = GridCanvas.MODE_SS_BONDS_ON;
 			if (args[0].equals("-c")) {
 				mode = GridCanvas.MODE_SS_BONDS_OFF;
 			}
-			foldingServer.foldProteinAndReportColor(args[1], mode);
+			foldingServer.foldProteinAndReportShapeAndColor(args[1], mode);
 		}
 		
 		//match mode
@@ -172,12 +172,17 @@ public class FoldingServer {
 		return grid;
 	}
 	
-	private void foldProteinAndReportColor(String aaSeq, int mode) {
+	private void foldProteinAndReportShapeAndColor(String aaSeq, int mode) {
 		HexGrid grid = ProteinImageGenerator.foldOntoHexGrid(aaSeq, mode);
 		HexCanvas canvas = new HexCanvas();
 		canvas.setGrid(grid);
 		grid.categorizeAcids();
-		System.out.println(grid.getProteinColor().toString());
+		String colorString = grid.getProteinColor().toString();
+		colorString = colorString.replaceAll("java.awt.Color\\[r=", "");
+		colorString = colorString.replaceAll(",g=", "/");
+		colorString = colorString.replaceAll(",b=", "/");
+		colorString = colorString.replaceAll("]", "");
+		System.out.println(grid.getPP().getProteinString() + ";" + colorString);
 	}
 	
 	private boolean foldProteinAndReportMatch(String aaSeq, 

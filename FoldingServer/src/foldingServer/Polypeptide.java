@@ -44,6 +44,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+
 /**
  * Model a polypeptide as a List of AminoAcids.
  *  
@@ -121,6 +122,21 @@ public class Polypeptide {
 		}
 		return buf.toString();
 	}
+	
+	// string representation for use in FoldedProteinArchive
+	//   aa:direction:aa:direction
+	public String getProteinString() {
+		StringBuffer b = new StringBuffer();
+		Iterator i = iterator();
+		while (i.hasNext()) {
+			AcidInChain a = (AcidInChain) i.next();
+			b.append(a.getAbName() + ":");
+			b.append(a.getNext() + ":");
+		}
+		return b.toString();
+	}
+
+
 
 	/**
 	 * 
