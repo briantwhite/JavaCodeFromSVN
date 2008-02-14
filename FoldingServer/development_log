@@ -226,3 +226,4 @@ chmod a+w wml/
 
 2/13/08
 fixed -c to output a proteinString (aa: direction: aa: direction...) as well as a color
+made new fold.py to output it correctly
