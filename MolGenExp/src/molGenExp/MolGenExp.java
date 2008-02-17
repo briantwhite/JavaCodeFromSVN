@@ -88,6 +88,7 @@ public class MolGenExp extends JFrame {
 	private final static int GENETICS = 0;
 	private final static int BIOCHEMISTRY = 1;
 	private final static int MOLECULAR_BIOLOGY = 2;
+	private final static int EVOLUTION = 3;
 	
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;
@@ -297,6 +298,13 @@ public class MolGenExp extends JFrame {
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(true);
 					editMenu.setEnabled(true);
+					addToGreenhouseButton.setEnabled(true);
+					setDefaultSelectionSettings();
+					break;
+				case EVOLUTION:
+					clearSelectedOrganisms();
+					compareMenu.setEnabled(false);
+					editMenu.setEnabled(false);
 					addToGreenhouseButton.setEnabled(true);
 					setDefaultSelectionSettings();
 					break;
@@ -564,6 +572,10 @@ public class MolGenExp extends JFrame {
 		return greenhouseDirectory.toString();
 	}
 	
+	public EvolutionWorkArea getEvolutionWorkArea() {
+		return evolutionWorkArea;
+	}
+		
 	public void loadOrganismIntoActivePanel(Organism o) {
 		String selectedPane = 
 			explorerPane.getSelectedComponent().getClass().toString();
@@ -904,6 +916,12 @@ public class MolGenExp extends JFrame {
 	
 	public void setAddToGreenhouseButtonEnabled(boolean b) {
 		addToGreenhouseButton.setEnabled(b);
+	}
+	
+	public void loadSelectedIntoWorld() {
+		evolutionWorkArea.getWorld().initialize(
+				greenhouse.getSelectedOrganism());
+		evolutionWorkArea.repaint();
 	}
 	
 	public void startEvolving() {

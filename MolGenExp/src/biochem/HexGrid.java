@@ -47,7 +47,7 @@ public class HexGrid extends TwoDGrid {
 		setNextDirections();
 
 		// following should go in superclass constructor but fails there
-		if (pp.isFolded()) {
+		if (pp.isFolded() && (pp.getLength() > 0)) {
 			GridPoint currentP = getCenter();
 			set(0, currentP, Direction.none);
 			Direction d = pp.getNextDirection(0);

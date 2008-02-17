@@ -68,7 +68,7 @@ public class RYBColorModel extends ColorModel {
 	}
 	
 	public Color getProteinColor(Grid grid) {
-		Color color = null;
+		Color color = Color.white;
 		hydrophobics = new ArrayList();
 		hydrophilics = new ArrayList();
 		coreColors = new ArrayList();
@@ -149,6 +149,12 @@ public class RYBColorModel extends ColorModel {
 	 * @return
 	 */
 	public Color mixTwoColors(Color a, Color b) {
+		if (a == null) {
+			System.out.println("a was null");
+		}
+		if (b == null) {
+			System.out.println("b was null");
+		}
 		int aNum = ((Integer)colorToNumberMap.get(a)).intValue();
 		int bNum = ((Integer)colorToNumberMap.get(b)).intValue();
 		return numberToColorMap[aNum | bNum];

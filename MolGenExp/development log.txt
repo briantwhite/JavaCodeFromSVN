@@ -446,3 +446,12 @@ got it to save FoldedProteinArchive to a zip file in the greenhouse on quitting
 	apple-q requires adding stuff from com.apple.eawt that was too much of a pain to add
 	see http://lists.apple.com/archives/Java-dev/2004/Sep/msg00195.html
 got it to read in the archive zip file
+
+had to fix 2 strange bugs
+it'd freeze when making mutants
+	- if it found a 0 aa protein in the archive, HexGrid's constructor had a fit
+		so made it skip out of 0 aas
+	- the protein coloring routine sometimes returned null
+		made the default be white
+now OK
+

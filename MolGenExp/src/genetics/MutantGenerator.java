@@ -82,6 +82,7 @@ public class MutantGenerator implements Runnable {
 	public ExpressedGene mutateGene(ExpressedGene eg) {
 		//change one base in the DNA
 		Gene gene = eg.getGene();
+
 		if (gene.getDNASequenceLength() == 0) {
 			return eg;
 		}

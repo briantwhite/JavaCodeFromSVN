@@ -20,6 +20,7 @@ public class EvolutionWorkArea extends JPanel {
 	private MolGenExp mge;
 	private JPanel leftPanel;
 	private JPanel controlPanel;
+	private JButton loadButton;
 	private JButton startButton;
 	private JButton stopButton;
 	private JPanel fitnessPanel;
@@ -27,6 +28,7 @@ public class EvolutionWorkArea extends JPanel {
 	private World world;
 	private JLabel generationLabel;
 	private int generation = 0;
+	private boolean running = false;
 	
 	public EvolutionWorkArea(MolGenExp mge) {
 		this.mge = mge;
@@ -69,6 +71,8 @@ public class EvolutionWorkArea extends JPanel {
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
 		controlPanel.setBorder(BorderFactory.createTitledBorder("Controls"));
+		loadButton = new JButton("Load");
+		controlPanel.add(loadButton);
 		startButton = new JButton("Start");
 		controlPanel.add(startButton);
 		stopButton = new JButton("Stop");
@@ -90,10 +94,17 @@ public class EvolutionWorkArea extends JPanel {
 
 		this.add(rightPanel);
 		
+		loadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mge.loadSelectedIntoWorld();
+			}
+		});
+
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startButton.setEnabled(false);
 				stopButton.setEnabled(true);
+				running = true;
 				mge.startEvolving();
 			}
 		});
@@ -102,18 +113,23 @@ public class EvolutionWorkArea extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				stopButton.setEnabled(false);
 				startButton.setEnabled(true);
+				running = false;
 			}
 		});
 
 	}
 	
 	public boolean running() {
-		return startButton.isSelected();
+		return running;
 	}
 	
-	public void setGeneration(int i) {
-		generation = i;
+	public void updateGenerationLabel() {
+		generation++;
 		generationLabel.setText("Generation " + generation);
+	}
+	
+	public World getWorld() {
+		return world;
 	}
 
 }

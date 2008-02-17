@@ -5,7 +5,8 @@ import java.awt.Color;
 import molGenExp.Organism;
 
 // class with just DNA and color - so it's smaller
-
+//  for use with evolution
+//  don't bother with pictures unless needed
 public class ThinOrganism {
 	private String dna1;
 	private String dna2;
