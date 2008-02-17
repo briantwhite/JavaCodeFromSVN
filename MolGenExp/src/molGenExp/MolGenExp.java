@@ -101,6 +101,8 @@ public class MolGenExp extends JFrame {
 	public final static String sampleProtein =
 		new String("MSNRHILLVVCRQ");
 	
+	public static final String greenhouseDirName = "Greenhouse";
+	
 	public static final ColorModel colorModel = new RYBColorModel();
 	
 	public static final StandardTable aaTable = new StandardTable();
@@ -156,8 +158,8 @@ public class MolGenExp extends JFrame {
 	
 	public MolGenExp() {
 		super("Molecular Genetics Explorer " + version);
-		addWindowListener(new ApplicationCloser());
 		setupUI();
+		addWindowListener(new ApplicationCloser());
 	}
 	
 	public static void main(String[] args) {
@@ -168,6 +170,7 @@ public class MolGenExp extends JFrame {
 	
 	class ApplicationCloser extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
+			FoldedProteinArchive.getInstance().saveArchiveToZipFile();
 			System.exit(0);
 		}
 	}
@@ -300,7 +303,7 @@ public class MolGenExp extends JFrame {
 		//make a greenhouse directory if one doesn't exist
 		//  if one exists, load contents
 		timer = new Timer(100, new TimerListener());	//timer for greenhouse loading progress bar
-		greenhouseDirectory = new File("Greenhouse");
+		greenhouseDirectory = new File(greenhouseDirName);
 		if(!greenhouseDirectory.exists() 
 				|| !greenhouseDirectory.isDirectory()) {
 			boolean success = greenhouseDirectory.mkdir();
@@ -318,6 +321,7 @@ public class MolGenExp extends JFrame {
 		
 		quitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				FoldedProteinArchive.getInstance().saveArchiveToZipFile();
 				System.exit(0);
 			}
 		});
@@ -549,6 +553,10 @@ public class MolGenExp extends JFrame {
 	
 	public void saveToGreenhouse(Organism o) {
 		greenhouse.add(o);
+	}
+	
+	public String getGreenhouseDirectory() {
+		return greenhouseDirectory.toString();
 	}
 	
 	public void loadOrganismIntoActivePanel(Organism o) {

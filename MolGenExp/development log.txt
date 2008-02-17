@@ -438,3 +438,11 @@ preparing to add evolution
 needed to fix random update bug 
 	background colors of hist list items not showing up
 		need to button.setOpaque(true)
+		now ok
+
+2/17/08
+got it to save FoldedProteinArchive to a zip file in the greenhouse on quitting
+	(close window or File-->Quit)
+	apple-q requires adding stuff from com.apple.eawt that was too much of a pain to add
+	see http://lists.apple.com/archives/Java-dev/2004/Sep/msg00195.html
+got it to read in the archive zip file
