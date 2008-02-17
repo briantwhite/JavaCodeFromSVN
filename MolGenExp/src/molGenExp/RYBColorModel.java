@@ -40,7 +40,7 @@ public class RYBColorModel extends ColorModel {
 	ArrayList coreColors;
 
 	private Color[] numberToColorMap = {
-			// colors are odeled by bits in integer
+			// colors are modeled by bits in integer
 			//    	1's = blue
 			//		2's = yellow
 			//		4's = red

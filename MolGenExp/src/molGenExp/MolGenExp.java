@@ -1,5 +1,6 @@
 package molGenExp;
 
+import evolution.EvolutionWorkArea;
 import genetics.GeneticsWorkPanel;
 import genetics.GeneticsWorkbench;
 import genetics.Tray;
@@ -155,6 +156,7 @@ public class MolGenExp extends JFrame {
 	
 	private BiochemistryWorkbench biochemistryWorkbench;
 	private MolBiolWorkbench molBiolWorkbench;
+	private EvolutionWorkArea evolutionWorkArea;
 	
 	public MolGenExp() {
 		super("Molecular Genetics Explorer " + version);
@@ -246,6 +248,9 @@ public class MolGenExp extends JFrame {
 		
 		molBiolWorkbench = new MolBiolWorkbench(this);
 		explorerPane.addTab("Molecular Biology", molBiolWorkbench);
+		
+		evolutionWorkArea = new EvolutionWorkArea(this);
+		explorerPane.addTab("Evolution", evolutionWorkArea);
 		
 		innerPanel.add(explorerPane);
 		
@@ -899,6 +904,10 @@ public class MolGenExp extends JFrame {
 	
 	public void setAddToGreenhouseButtonEnabled(boolean b) {
 		addToGreenhouseButton.setEnabled(b);
+	}
+	
+	public void startEvolving() {
+		
 	}
 	
 }
