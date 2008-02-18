@@ -11,6 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
 
 import molGenExp.MolGenExp;
@@ -22,6 +23,7 @@ public class EvolutionWorkArea extends JPanel {
 	private JPanel controlPanel;
 	private JButton loadButton;
 	private JButton startButton;
+	private JProgressBar evolverProgressBar;
 	private JButton stopButton;
 	private JPanel fitnessPanel;
 	private JPanel rightPanel;
@@ -82,6 +84,10 @@ public class EvolutionWorkArea extends JPanel {
 		controlPanel.add(stopButton);
 		leftPanel.add(controlPanel);
 		
+		evolverProgressBar = new JProgressBar(1, 
+				((MolGenExp.worldSize * MolGenExp.worldSize)));
+		leftPanel.add(evolverProgressBar);
+		
 		this.add(leftPanel);
 		
 		rightPanel = new JPanel();
@@ -125,6 +131,12 @@ public class EvolutionWorkArea extends JPanel {
 		return running;
 	}
 	
+	public void setReadyToRun() {
+		startButton.setEnabled(true);
+		stopButton.setEnabled(false);
+		running = false;
+	}
+	
 	public void updateGenerationLabel() {
 		generation++;
 		generationLabel.setText("Generation " + generation);
@@ -140,6 +152,10 @@ public class EvolutionWorkArea extends JPanel {
 			values[i] = sliders[i].getValue();
 		}
 		return values;
+	}
+	
+	public void setProgress(int progress) {
+		evolverProgressBar.setValue(progress);
 	}
 
 }

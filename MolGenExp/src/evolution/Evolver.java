@@ -14,6 +14,7 @@ public class Evolver implements Runnable {
 	private EvolutionWorkArea evolutionWorkArea;
 	private World world;
 	private ArrayList genePool;
+	private int current;
 	
 	public Evolver(final MolGenExp mge) {
 		this.mge = mge;
@@ -24,6 +25,7 @@ public class Evolver implements Runnable {
 	public void run() {
 		createGenePool();
 		makeNextGeneration();
+		mge.notifyDone();
 	}
 
 	private void createGenePool() {
@@ -49,6 +51,7 @@ public class Evolver implements Runnable {
 	}
 	
 	private void makeNextGeneration() {
+		current = 0;
 		System.out.println("starting next generation");
 		ThinOrganism[][] nextGeneration = 
 			new ThinOrganism[MolGenExp.worldSize][MolGenExp.worldSize];
@@ -61,7 +64,8 @@ public class Evolver implements Runnable {
 				nextGeneration[i][j] = new ThinOrganism(
 						MutantGenerator.mutateDNASequence(getRandomAlleleFromPool()),
 						MutantGenerator.mutateDNASequence(getRandomAlleleFromPool()));
-				System.out.println("making org " + i + "," + j);
+				current++;
+				System.out.println(current);
 			}
 		}
 		world.setOrganisms(nextGeneration);
@@ -71,6 +75,21 @@ public class Evolver implements Runnable {
 		Random r = new Random();
 		int x = r.nextInt(genePool.size());
 		return (String)genePool.get(x);
+	}
+	
+	public boolean done() {
+		if (current == getLengthOfTask()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public int getLengthOfTask() {
+		return MolGenExp.worldSize * MolGenExp.worldSize;
+	}
+	
+	public int getCurrent() {
+		return current;
 	}
 
 }

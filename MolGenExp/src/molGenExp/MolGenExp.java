@@ -96,7 +96,7 @@ public class MolGenExp extends JFrame {
 	
 	//world is a worldSize x worldSize array of orgs
 	// needs to divide 500 evenly
-	public final static int worldSize = 2;
+	public final static int worldSize = 10;
 	
 	private final static String version = "1.3.4";
 	
@@ -114,6 +114,8 @@ public class MolGenExp extends JFrame {
 	
 	public static final StandardTable aaTable = new StandardTable();
 		
+	public static final MolBiolParams molBiolParams = new MolBiolParams();
+	
 	private ImageIcon geneticCodeTableImage;
 	
 	private JPanel mainPanel;
@@ -148,13 +150,16 @@ public class MolGenExp extends JFrame {
 	private JDialog greenhouseLoadingDialog;
 	private JLabel greenhouseLoadingLabel;
 	private JProgressBar greenhouseLoadingProgressBar;
-	private Timer timer;
+	private Timer greenhouseLoaderTimer;
+	private Timer evolverTimer;
 	private Greenhouse greenhouse;
 	private JButton addToGreenhouseButton;
 	
 	JTabbedPane explorerPane;
 	
 	private GeneticsWorkbench geneticsWorkbench;
+	
+	private Evolver evolver;
 	
 	//for genetics only; the two selected organisms
 	private OrganismAndLocation oal1;
@@ -320,7 +325,7 @@ public class MolGenExp extends JFrame {
 		
 		//make a greenhouse directory if one doesn't exist
 		//  if one exists, load contents
-		timer = new Timer(100, new TimerListener());	//timer for greenhouse loading progress bar
+		greenhouseLoaderTimer = new Timer(100, new GrenhouseLoaderTimerListener());	//timer for greenhouse loading progress bar
 		greenhouseDirectory = new File(greenhouseDirName);
 		if(!greenhouseDirectory.exists() 
 				|| !greenhouseDirectory.isDirectory()) {
@@ -336,6 +341,8 @@ public class MolGenExp extends JFrame {
 		} else {
 			loadGreenhouse(greenhouseDirectory);
 		}
+		
+		evolverTimer = new Timer(100, new EvolverTimerListener());
 		
 		quitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -662,7 +669,6 @@ public class MolGenExp extends JFrame {
 
 		//need this to go from DNA to protein
 		MolBiolWorkpanel mbwp = new MolBiolWorkpanel("", 
-				new MolBiolParams(), 
 				molBiolWorkbench, 
 				this);
 		
@@ -670,7 +676,7 @@ public class MolGenExp extends JFrame {
 		
 		Thread t = new Thread(greenhouseLoader);
 		t.start();
-		timer.start();
+		greenhouseLoaderTimer.start();
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 		greenhouseLoadingDialog = new JDialog(this,
@@ -698,11 +704,11 @@ public class MolGenExp extends JFrame {
 		greenhouseLoadingDialog.setVisible(true);
 	}
 	
-	private class TimerListener implements ActionListener {
+	private class GrenhouseLoaderTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			if (greenhouseLoader.done()) {
 
-				timer.stop();
+				greenhouseLoaderTimer.stop();
 				MolGenExp.this.setCursor(
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				greenhouseLoadingDialog.dispose();
@@ -930,9 +936,30 @@ public class MolGenExp extends JFrame {
 	}
 	
 	public void startEvolving() {
-		Evolver evolver = new Evolver(this);
+		evolver = new Evolver(this);
 		Thread t = new Thread(evolver);
 		t.start();
+		evolverTimer.start();
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+	}
+	
+	private class EvolverTimerListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			if (evolver.done()) {
+				evolverTimer.stop();
+				MolGenExp.this.setCursor(
+						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				evolutionWorkArea.setProgress(0);
+			} else {
+				evolutionWorkArea.setProgress(evolver.getCurrent());
+			}
+		}
+	}
+
+	
+	public void notifyDone() {
+		evolutionWorkArea.updateGenerationLabel();
+		evolutionWorkArea.setReadyToRun();
 	}
 	
 }

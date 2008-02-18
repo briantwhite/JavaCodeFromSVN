@@ -11,7 +11,7 @@ public class ColorFitnessSlider extends JSlider {
 	private String colorString;
 	
 	public ColorFitnessSlider(String colorString) {
-		super(JSlider.HORIZONTAL, 0, 10, 0);
+		super(JSlider.HORIZONTAL, 0, 10, 5);
 		this.colorString = colorString;
 		color = getColorFromString(colorString);
 		setMajorTickSpacing(1);
