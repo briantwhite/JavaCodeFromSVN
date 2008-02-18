@@ -1,6 +1,7 @@
 package molGenExp;
 
 import evolution.EvolutionWorkArea;
+import evolution.Evolver;
 import genetics.GeneticsWorkPanel;
 import genetics.GeneticsWorkbench;
 import genetics.Tray;
@@ -92,6 +93,10 @@ public class MolGenExp extends JFrame {
 	
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;
+	
+	//world is a worldSize x worldSize array of orgs
+	// needs to divide 500 evenly
+	public final static int worldSize = 2;
 	
 	private final static String version = "1.3.4";
 	
@@ -925,7 +930,9 @@ public class MolGenExp extends JFrame {
 	}
 	
 	public void startEvolving() {
-		
+		Evolver evolver = new Evolver(this);
+		Thread t = new Thread(evolver);
+		t.start();
 	}
 	
 }

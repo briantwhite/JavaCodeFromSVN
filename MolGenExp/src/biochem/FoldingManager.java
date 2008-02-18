@@ -130,6 +130,10 @@ public class FoldingManager {
 		return currentGrid.getEnergy(currentFolder.hpIndex,
 				currentFolder.hIndex, currentFolder.iIndex);
 	}
+	
+	public Grid getGrid() {
+		return currentGrid;
+	}
 
 	/**
 	 * 

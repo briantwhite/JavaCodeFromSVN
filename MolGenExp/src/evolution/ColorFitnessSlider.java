@@ -11,12 +11,14 @@ public class ColorFitnessSlider extends JSlider {
 	private String colorString;
 	
 	public ColorFitnessSlider(String colorString) {
-		super(JSlider.HORIZONTAL, 0, 1, 0);
+		super(JSlider.HORIZONTAL, 0, 10, 0);
 		this.colorString = colorString;
 		color = getColorFromString(colorString);
 		setMajorTickSpacing(1);
+		setMinorTickSpacing(1);
 		setPaintLabels(true);
 		setPaintTicks(true);
+		setSnapToTicks(true);
 	}
 	
 	public JSlider getSlider() {

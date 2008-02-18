@@ -1,8 +1,15 @@
 package evolution;
 
 import java.awt.Color;
+import java.util.Random;
 
+import molGenExp.MolGenExp;
 import molGenExp.Organism;
+import biochem.Attributes;
+import biochem.FoldingException;
+import biochem.FoldingManager;
+import biochem.HexCanvas;
+import biochem.HexGrid;
 
 // class with just DNA and color - so it's smaller
 //  for use with evolution
@@ -20,7 +27,9 @@ public class ThinOrganism {
 	}
 	
 	public ThinOrganism(String dna1, String dna2) {
-		//need to implement this
+		color = MolGenExp.colorModel.mixTwoColors(
+				foldAndComputeColor(dna1), 
+				foldAndComputeColor(dna2));
 	}
 	
 	public ThinOrganism(Organism o) {
@@ -32,5 +41,36 @@ public class ThinOrganism {
 	public Color getColor() {
 		return color;
 	}
+	
+	public String getRandomDNASequence() {
+		Random r = new Random();
+		if (r.nextDouble() > 0.5) {
+			return dna1;
+		} else {
+			return dna2;
+		}
+	}
+	
+	private Color foldAndComputeColor(String aaSeq) {
+			HexGrid grid = foldOntoHexGrid(aaSeq);
+			HexCanvas canvas = new HexCanvas();
+			canvas.setGrid(grid);
+			MolGenExp.colorModel.categorizeAcids(grid);
+			return grid.getProteinColor();
+	}
+	
+	public HexGrid foldOntoHexGrid(String aaSeq) {
+		FoldingManager manager = FoldingManager.getInstance();
+		String ssBondIndex = "0.0";
+		Attributes attributes = new Attributes(aaSeq.trim(), 
+				1,  "straight");
+		try {
+			manager.fold(attributes);
+		} catch (FoldingException e) {
+			e.printStackTrace();
+		}
+		return (HexGrid)manager.getGrid();
+	}
+
 
 }

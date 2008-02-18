@@ -30,6 +30,11 @@ public class EvolutionWorkArea extends JPanel {
 	private int generation = 0;
 	private boolean running = false;
 	
+	String[] colorList = {"White", "Blue", "Yellow", "Green",
+			"Red", "Purple", "Orange", "Black"};
+	ColorFitnessSlider[] sliders = new ColorFitnessSlider[colorList.length];
+
+	
 	public EvolutionWorkArea(MolGenExp mge) {
 		this.mge = mge;
 		setupUI();
@@ -43,13 +48,10 @@ public class EvolutionWorkArea extends JPanel {
 		leftPanel.add(Box.createRigidArea(new Dimension(200,1)));
 		
 		fitnessPanel = new JPanel();
-		fitnessPanel.setBorder(BorderFactory.createTitledBorder("Fitness Selection"));
+		fitnessPanel.setBorder(BorderFactory.createTitledBorder("Relative Fitness Selection"));
 		Color backgroundColor = new Color(128,128,128);
 		fitnessPanel.setBackground(backgroundColor);
 		fitnessPanel.setLayout(new SpringLayout());
-		String[] colorList = {"White", "Blue", "Yellow", "Green",
-				"Red", "Purple", "Orange", "Black"};
-		ColorFitnessSlider[] sliders = new ColorFitnessSlider[colorList.length];
 		JLabel[] colorLabels = new JLabel[colorList.length];
 		for (int i = 0; i < colorList.length; i++) {
 			sliders[i] = new ColorFitnessSlider(colorList[i]);
@@ -130,6 +132,14 @@ public class EvolutionWorkArea extends JPanel {
 	
 	public World getWorld() {
 		return world;
+	}
+	
+	public int[] getFitnessValues() {
+		int[] values = new int[sliders.length];
+		for (int i = 0; i < sliders.length; i++) {
+			values[i] = sliders[i].getValue();
+		}
+		return values;
 	}
 
 }

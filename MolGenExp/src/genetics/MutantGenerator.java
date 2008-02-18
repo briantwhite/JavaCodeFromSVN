@@ -86,20 +86,8 @@ public class MutantGenerator implements Runnable {
 		if (gene.getDNASequenceLength() == 0) {
 			return eg;
 		}
-		String DNASequence = gene.getDNASequence();
-		StringBuffer DNABuffer = new StringBuffer(DNASequence);
-
-		//mutation: 1/100 chance of hitting each base
-		Random r = new Random();
-		for (int i = 0; i < DNABuffer.length(); i++) {
-			if (r.nextInt(100) == 0) {
-				int base = r.nextInt(4);
-				String newBase = "AGCT".substring(base, base + 1);
-				DNABuffer = DNABuffer.replace(i, i + 1, newBase);
-			}
-		}
 		Gene newGene = 
-			new Gene(DNABuffer.toString(), 
+			new Gene(mutateDNASequence(gene.getDNASequence()), 
 					gw.getMGE().getMolBiolWorkbench().getParams());
 		newGene.transcribe();
 		newGene.process();
@@ -160,5 +148,20 @@ public class MutantGenerator implements Runnable {
 		images = null;
 
 		return newEg;
+	}
+
+	public static String mutateDNASequence(String DNASequence) {
+		StringBuffer DNABuffer = new StringBuffer(DNASequence);
+
+		//mutation: 1/100 chance of hitting each base
+		Random r = new Random();
+		for (int i = 0; i < DNABuffer.length(); i++) {
+			if (r.nextInt(100) == 0) {
+				int base = r.nextInt(4);
+				String newBase = "AGCT".substring(base, base + 1);
+				DNABuffer = DNABuffer.replace(i, i + 1, newBase);
+			}
+		}
+		return DNABuffer.toString();
 	}
 }

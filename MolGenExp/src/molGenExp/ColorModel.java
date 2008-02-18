@@ -42,6 +42,9 @@ public abstract class ColorModel implements Serializable {
 		
 	}
 
+	public abstract int getColorNumber(Color c);
+	
+	public abstract void categorizeAcids(Grid grid);
 
 	/**
 	 * compute the color of a protein folded on a grid
