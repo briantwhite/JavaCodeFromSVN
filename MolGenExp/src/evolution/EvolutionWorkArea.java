@@ -122,6 +122,7 @@ public class EvolutionWorkArea extends JPanel {
 				stopButton.setEnabled(false);
 				startButton.setEnabled(true);
 				running = false;
+				mge.stopEvolving();
 			}
 		});
 

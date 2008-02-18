@@ -9,32 +9,35 @@ import java.util.Random;
 import molGenExp.MolGenExp;
 
 public class Evolver implements Runnable {
-	
+
 	private MolGenExp mge;
 	private EvolutionWorkArea evolutionWorkArea;
 	private World world;
 	private ArrayList genePool;
 	private int current;
-	
+	private boolean keepGoing;
+
 	public Evolver(final MolGenExp mge) {
 		this.mge = mge;
 		this.evolutionWorkArea = mge.getEvolutionWorkArea();
 		this.world = mge.getEvolutionWorkArea().getWorld();
+		keepGoing = true;
 	}
 
 	public void run() {
-		createGenePool();
-		makeNextGeneration();
-		mge.notifyDone();
+		while (keepGoing) {
+			createGenePool();
+			makeNextGeneration();
+		}
 	}
 
 	private void createGenePool() {
 		// find the gene pool
 		// get the fitness settings
 		int[] fitnessSettings = evolutionWorkArea.getFitnessValues();
-		
+
 		System.out.println("creating gene pool");
-		
+
 		// each organism in the world contributes fitness # of alleles to pool		
 		genePool = new ArrayList();
 		for (int i = 0; i < MolGenExp.worldSize; i++) {
@@ -47,9 +50,8 @@ public class Evolver implements Runnable {
 				}
 			}
 		}
-		System.out.println("gene pool has " + genePool.size() + " members");
 	}
-	
+
 	private void makeNextGeneration() {
 		current = 0;
 		System.out.println("starting next generation");
@@ -65,31 +67,35 @@ public class Evolver implements Runnable {
 						MutantGenerator.mutateDNASequence(getRandomAlleleFromPool()),
 						MutantGenerator.mutateDNASequence(getRandomAlleleFromPool()));
 				current++;
-				System.out.println(current);
 			}
 		}
+		genePool = null;
 		world.setOrganisms(nextGeneration);
+		evolutionWorkArea.updateGenerationLabel();
 	}
-	
+
 	private String getRandomAlleleFromPool() {
 		Random r = new Random();
 		int x = r.nextInt(genePool.size());
 		return (String)genePool.get(x);
 	}
-	
+
 	public boolean done() {
 		if (current == getLengthOfTask()) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public int getLengthOfTask() {
 		return MolGenExp.worldSize * MolGenExp.worldSize;
 	}
-	
+
 	public int getCurrent() {
 		return current;
 	}
 
+	public void setKeepGoing(boolean b) {
+		keepGoing = b;
+	}
 }

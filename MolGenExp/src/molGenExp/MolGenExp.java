@@ -743,6 +743,11 @@ public class MolGenExp extends JFrame {
 			//need to express and fold the proteins
 			molBiolWorkbench.saveOrganismToGreenhouse();
 			break;
+			
+		case EVOLUTION:
+			//get from world
+			
+			break;
 		}
 		
 	}
@@ -937,6 +942,7 @@ public class MolGenExp extends JFrame {
 	
 	public void startEvolving() {
 		evolver = new Evolver(this);
+		evolver.setKeepGoing(true);
 		Thread t = new Thread(evolver);
 		t.start();
 		evolverTimer.start();
@@ -956,10 +962,7 @@ public class MolGenExp extends JFrame {
 		}
 	}
 
-	
-	public void notifyDone() {
-		evolutionWorkArea.updateGenerationLabel();
-		evolutionWorkArea.setReadyToRun();
+	public void stopEvolving() {
+		evolver.setKeepGoing(false);
 	}
-	
 }
