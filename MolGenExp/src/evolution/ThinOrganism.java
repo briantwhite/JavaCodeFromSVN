@@ -40,6 +40,14 @@ public class ThinOrganism {
 		dna2 = o.getGene2().getGene().getDNASequence();
 		color = o.getColor();
 	}
+	
+	public String getDNA1() {
+		return dna1;
+	}
+	
+	public String getDNA2() {
+		return dna2;
+	}
 
 	public Color getColor() {
 		return color;

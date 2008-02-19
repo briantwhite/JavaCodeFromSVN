@@ -63,8 +63,11 @@ public class World extends JPanel implements MouseListener {
 		repaint();
 	}
 	
-	public Point getSelectedCell() {
-		return new Point(selectedCelli, selectedCellj);
+	public Organism getSelectedOrganism() {
+		if ((selectedCelli < 0) && (selectedCellj < 0)) {
+			return null;
+		}
+		return new Organism(organisms[selectedCelli][ selectedCellj]);
 	}
 
 	public void mouseClicked(MouseEvent e) {

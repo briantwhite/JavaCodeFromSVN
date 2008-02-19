@@ -80,6 +80,9 @@ public class Greenhouse extends JList implements Serializable {
 	}
 
 	public Organism getSelectedOrganism() {
+		if (getSelectedIndex() < 0) {
+			return null;
+		}
 		return (Organism)greenhouseDataModel.getElementAt(
 				getSelectedIndex());
 	}

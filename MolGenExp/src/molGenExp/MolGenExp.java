@@ -2,6 +2,7 @@ package molGenExp;
 
 import evolution.EvolutionWorkArea;
 import evolution.Evolver;
+import evolution.ThinOrganism;
 import genetics.GeneticsWorkPanel;
 import genetics.GeneticsWorkbench;
 import genetics.Tray;
@@ -84,67 +85,67 @@ import biochem.StandardTable;
 
 
 public class MolGenExp extends JFrame {
-	
+
 	//indices for tabbed panes
 	private final static int GENETICS = 0;
 	private final static int BIOCHEMISTRY = 1;
 	private final static int MOLECULAR_BIOLOGY = 2;
 	private final static int EVOLUTION = 3;
-	
+
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;
-	
+
 	//world is a worldSize x worldSize array of orgs
 	// needs to divide 500 evenly
 	public final static int worldSize = 10;
-	
+
 	private final static String version = "1.3.4";
-	
+
 	public final static String sampleDNA = 
 		new String("CAGCTATAACCGAGATTGATGTCTAG"
 				+ "TGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATA"
 				+ "CAAAGGTTAGTGGTCTGTCGGCAGTAGTAGGGGGCGT");
-	
+
 	public final static String sampleProtein =
 		new String("MSNRHILLVVCRQ");
-	
+
 	public static final String greenhouseDirName = "Greenhouse";
-	
+
 	public static final ColorModel colorModel = new RYBColorModel();
-	
+
 	public static final StandardTable aaTable = new StandardTable();
-		
+
 	public static final MolBiolParams molBiolParams = new MolBiolParams();
-	
+
 	private ImageIcon geneticCodeTableImage;
-	
+
 	private JPanel mainPanel;
-	
+
 	JMenuBar menuBar;
-	
+
 	JMenu fileMenu;
 	JMenuItem quitMenuItem;
-	
+
 	JMenu editMenu;
 	JMenuItem copyUpperToClipboardItem;
 	JMenuItem copyLowerToClipboardItem;	
-	
+
 	JMenu compareMenu;
 	JMenuItem u_lMenuItem;
 	JMenuItem u_sMenuItem;
 	JMenuItem l_sMenuItem;
 	JMenuItem u_cbMenuItem;
 	JMenuItem l_cbMenuItem;
-	
-	
+
+
 	JMenu greenhouseMenu;
 	JMenuItem loadGreenhouseMenuItem;
 	JMenuItem saveGreenhouseMenuItem;
 	JMenuItem saveAsGreenhouseMenuItem;
 	JMenuItem deleteSelectedOrganismMenuItem;
-	
+
 	private JPanel innerPanel;
-	
+
 	private File greenhouseDirectory;
 	private GreenhouseLoader greenhouseLoader;
 	private JDialog greenhouseLoadingDialog;
@@ -154,53 +155,53 @@ public class MolGenExp extends JFrame {
 	private Timer evolverTimer;
 	private Greenhouse greenhouse;
 	private JButton addToGreenhouseButton;
-	
+
 	JTabbedPane explorerPane;
-	
+
 	private GeneticsWorkbench geneticsWorkbench;
-	
+
 	private Evolver evolver;
-	
+
 	//for genetics only; the two selected organisms
 	private OrganismAndLocation oal1;
 	private OrganismAndLocation oal2;
-	
+
 	private BiochemistryWorkbench biochemistryWorkbench;
 	private MolBiolWorkbench molBiolWorkbench;
 	private EvolutionWorkArea evolutionWorkArea;
-	
+
 	public MolGenExp() {
 		super("Molecular Genetics Explorer " + version);
 		setupUI();
 		addWindowListener(new ApplicationCloser());
 	}
-	
+
 	public static void main(String[] args) {
 		MolGenExp mge = new MolGenExp();
 		mge.pack();
 		mge.setVisible(true);
 	}
-	
+
 	class ApplicationCloser extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			FoldedProteinArchive.getInstance().saveArchiveToZipFile();
 			System.exit(0);
 		}
 	}
-	
+
 	private void setupUI() {
-				
+
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
-		
+
 		menuBar = new JMenuBar();
 		menuBar.setBorder(new BevelBorder(BevelBorder.RAISED));
-		
+
 		fileMenu = new JMenu("File");
 		quitMenuItem = new JMenuItem("Quit");
 		fileMenu.add(quitMenuItem);
 		menuBar.add(fileMenu);
-		
+
 		editMenu = new JMenu("Edit");
 		copyUpperToClipboardItem = 
 			new JMenuItem("Copy Upper Sequence to Clipboard");
@@ -210,7 +211,7 @@ public class MolGenExp extends JFrame {
 		editMenu.add(copyLowerToClipboardItem);
 		menuBar.add(editMenu);
 		editMenu.setEnabled(false);
-		
+
 		compareMenu = new JMenu("Compare");
 		u_lMenuItem = new JMenuItem("Upper vs. Lower");
 		compareMenu.add(u_lMenuItem);
@@ -226,7 +227,7 @@ public class MolGenExp extends JFrame {
 		compareMenu.add(l_cbMenuItem);
 		menuBar.add(compareMenu);
 		compareMenu.setEnabled(false);
-		
+
 		greenhouseMenu = new JMenu("Greenhouse");
 		loadGreenhouseMenuItem = new JMenuItem("Load Greenhouse...");
 		greenhouseMenu.add(loadGreenhouseMenuItem);
@@ -240,31 +241,31 @@ public class MolGenExp extends JFrame {
 		greenhouseMenu.add(deleteSelectedOrganismMenuItem);
 		menuBar.add(greenhouseMenu);
 		mainPanel.add(menuBar, BorderLayout.NORTH);
-		
+
 		innerPanel = new JPanel();
 		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
-		
+
 		explorerPane = new JTabbedPane();
-		
+
 		addToGreenhouseButton = new JButton("Add...");
-		
+
 		geneticsWorkbench = new GeneticsWorkbench(this);
 		explorerPane.addTab("Genetics", geneticsWorkbench);
 		oal1 = null;
 		oal2 = null;
-		
-		
+
+
 		biochemistryWorkbench = new BiochemistryWorkbench(this);
 		explorerPane.addTab("Biochemistry", biochemistryWorkbench);
-		
+
 		molBiolWorkbench = new MolBiolWorkbench(this);
 		explorerPane.addTab("Molecular Biology", molBiolWorkbench);
-		
+
 		evolutionWorkArea = new EvolutionWorkArea(this);
 		explorerPane.addTab("Evolution", evolutionWorkArea);
-		
+
 		innerPanel.add(explorerPane);
-		
+
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		rightPanel.setMaximumSize(new Dimension(120,1000));
@@ -272,20 +273,20 @@ public class MolGenExp extends JFrame {
 		addToGreenhouseButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		rightPanel.add(addToGreenhouseButton);
 		addToGreenhouseButton.setEnabled(false);
-		
+
 		greenhouse = new Greenhouse(new DefaultListModel(), this);
 		greenhouse.setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		rightPanel.setBorder(BorderFactory.createTitledBorder("Greenhouse"));
 		JScrollPane greenhouseScrollPane = new JScrollPane(greenhouse);
 		rightPanel.add(greenhouseScrollPane);
-		
+
 		innerPanel.add(rightPanel);
-		
+
 		mainPanel.add(innerPanel, BorderLayout.CENTER);
-		
+
 		getContentPane().add(mainPanel);
-		
+
 		explorerPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				int currentPane = explorerPane.getSelectedIndex();
@@ -320,9 +321,9 @@ public class MolGenExp extends JFrame {
 					break;
 				}
 			}
-			
+
 		});
-		
+
 		//make a greenhouse directory if one doesn't exist
 		//  if one exists, load contents
 		greenhouseLoaderTimer = new Timer(100, new GrenhouseLoaderTimerListener());	//timer for greenhouse loading progress bar
@@ -341,16 +342,16 @@ public class MolGenExp extends JFrame {
 		} else {
 			loadGreenhouse(greenhouseDirectory);
 		}
-		
+
 		evolverTimer = new Timer(100, new EvolverTimerListener());
-		
+
 		quitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FoldedProteinArchive.getInstance().saveArchiveToZipFile();
 				System.exit(0);
 			}
 		});
-		
+
 		copyUpperToClipboardItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String selectedPane = 
@@ -374,7 +375,7 @@ public class MolGenExp extends JFrame {
 				}
 			}
 		});
-		
+
 		copyLowerToClipboardItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String selectedPane = 
@@ -398,39 +399,39 @@ public class MolGenExp extends JFrame {
 				}
 			}
 		});
-		
+
 		// the compare menu items
 		u_lMenuItem.addActionListener(new SequenceComparatorMenuItemListener(
 				this, 
 				SequenceComparator.UPPER,
 				SequenceComparator.LOWER));
-		
+
 		u_sMenuItem.addActionListener(new SequenceComparatorMenuItemListener(
 				this, 
 				SequenceComparator.UPPER,
 				SequenceComparator.SAMPLE));
-		
+
 		l_sMenuItem.addActionListener(new SequenceComparatorMenuItemListener(
 				this, 
 				SequenceComparator.LOWER,
 				SequenceComparator.SAMPLE));
-		
+
 		u_cbMenuItem.addActionListener(new SequenceComparatorMenuItemListener(
 				this, 
 				SequenceComparator.UPPER,
 				SequenceComparator.CLIPBOARD));
-		
+
 		l_cbMenuItem.addActionListener(new SequenceComparatorMenuItemListener(
 				this, 
 				SequenceComparator.LOWER,
 				SequenceComparator.CLIPBOARD));
-		
+
 		loadGreenhouseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				loadGreenhouseFromChosenFolder();
 			}
 		});
-		
+
 		saveGreenhouseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Object[] all = greenhouse.getAll();
@@ -442,7 +443,7 @@ public class MolGenExp extends JFrame {
 							JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				
+
 				//save it
 				if (greenhouseDirectory != null) {
 					saveToFolder(all);
@@ -451,7 +452,7 @@ public class MolGenExp extends JFrame {
 				}
 			}
 		});
-		
+
 		saveAsGreenhouseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Object[] all = greenhouse.getAll();
@@ -466,22 +467,22 @@ public class MolGenExp extends JFrame {
 				saveToChosenFolder(all)	;
 			}
 		});
-		
+
 		deleteSelectedOrganismMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				greenhouse.deleteSelected();
 				clearSelectedOrganisms();
 			}
 		});
-		
+
 		addToGreenhouseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				saveSelectedOrganismToGreenhouse();
 			}
 		});
-		
+
 	}
-	
+
 	public DNASequenceComparator getDNASequences() {
 		String clipSeq = "";
 		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -493,7 +494,7 @@ public class MolGenExp extends JFrame {
 			} catch (Exception e) {
 				clipSeq = "";
 			}
-			
+
 			// if not a DNA sequence
 			Pattern p = Pattern.compile("[^AGCT]+");
 			if (p.matcher(clipSeq).find()) {
@@ -505,7 +506,7 @@ public class MolGenExp extends JFrame {
 				sampleDNA,
 				clipSeq);
 	}
-	
+
 	public ProteinSequenceComparator getProteinSequences() {
 		String clipSeq = "";
 		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -517,7 +518,7 @@ public class MolGenExp extends JFrame {
 			} catch (Exception e) {
 				clipSeq = "";
 			}
-			
+
 			//try to see if it's a 3-letter code sequence
 			if (clipSeq.indexOf(" ") != -1) {
 				clipSeq = convert3LetterTo1Letter(clipSeq);
@@ -538,9 +539,9 @@ public class MolGenExp extends JFrame {
 								((BiochemistryWorkpanel)(biochemistryWorkbench.getLowerPanel())).getAaSeq()),
 								sampleProtein,
 								clipSeq);
-		
+
 	}
-	
+
 	public String convert3LetterTo1Letter(String aaSeq) {
 		StandardTable table = new StandardTable();
 		StringBuffer abAASeq = new StringBuffer();
@@ -555,52 +556,52 @@ public class MolGenExp extends JFrame {
 		}
 		return abAASeq.toString();
 	}
-	
+
 	public MolBiolWorkbench getMolBiolWorkbench() {
 		return molBiolWorkbench;
 	}
-	
+
 	public BiochemistryWorkbench getBiochemistryWorkbench() {
 		return biochemistryWorkbench;
 	}
-	
+
 	public GeneticsWorkbench getGeneticsWorkbench() {
 		return geneticsWorkbench;
 	}
-	
+
 	public Greenhouse getGreenhouse() {
 		return greenhouse;
 	}
-	
+
 	public String getCurrentWorkingPanel() {
 		return explorerPane.getSelectedComponent().getClass().toString();
 	}
-	
+
 	public void saveToGreenhouse(Organism o) {
 		greenhouse.add(o);
 	}
-	
+
 	public String getGreenhouseDirectory() {
 		return greenhouseDirectory.toString();
 	}
-	
+
 	public EvolutionWorkArea getEvolutionWorkArea() {
 		return evolutionWorkArea;
 	}
-		
+
 	public void loadOrganismIntoActivePanel(Organism o) {
 		String selectedPane = 
 			explorerPane.getSelectedComponent().getClass().toString();
-		
+
 		if (selectedPane.equals("class molBiol.MolBiolWorkbench")) {
 			molBiolWorkbench.loadOrganism(o);
 		}
-		
+
 		if (selectedPane.equals("class biochem.BiochemistryWorkbench")) {
 			biochemistryWorkbench.loadOrganism(o);
 		}
 	}
-	
+
 	public void loadGreenhouseFromChosenFolder() {
 		clearSelectedOrganisms();
 		JFileChooser inFolderChooser = new JFileChooser();
@@ -611,7 +612,7 @@ public class MolGenExp extends JFrame {
 			loadGreenhouse(greenhouseDirectory);
 		}
 	}
-	
+
 	public void saveToChosenFolder(Object[] all) {
 		JFileChooser outFolderChooser = new JFileChooser();
 		outFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -621,7 +622,7 @@ public class MolGenExp extends JFrame {
 			saveToFolder(all);
 		}
 	}
-	
+
 	public void saveToFolder(Object[] all) {
 		//first, clear out all the old organims
 		String[] oldOrganisms = greenhouseDirectory.list();
@@ -632,7 +633,7 @@ public class MolGenExp extends JFrame {
 				f.delete();
 			}
 		}
-		
+
 		for (int i = 0; i < all.length; i++) {
 			Organism o = (Organism)all[i];
 			String name = o.getName();
@@ -641,28 +642,28 @@ public class MolGenExp extends JFrame {
 			+ name
 			+ ".organism";
 			Writer output = null;
-		    try {
-		      output = new BufferedWriter(new FileWriter(fileName) );
-		      output.write(o.getGene1().getGene().getDNASequence());
-		      output.write("\n");
-		      output.write(o.getGene2().getGene().getDNASequence());
-		      output.write("\n");
-		    }
-		    catch (Exception e) {
+			try {
+				output = new BufferedWriter(new FileWriter(fileName) );
+				output.write(o.getGene1().getGene().getDNASequence());
+				output.write("\n");
+				output.write(o.getGene2().getGene().getDNASequence());
+				output.write("\n");
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 			}
-		    finally {
-		      if (output != null)
-				try {
-					output.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		    }
-			
+			finally {
+				if (output != null)
+					try {
+						output.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+			}
+
 		}
 	}
-	
+
 	public void loadGreenhouse(File greenhouseDir) {
 		clearSelectedOrganisms();
 		greenhouse.clearList();
@@ -671,9 +672,9 @@ public class MolGenExp extends JFrame {
 		MolBiolWorkpanel mbwp = new MolBiolWorkpanel("", 
 				molBiolWorkbench, 
 				this);
-		
-		greenhouseLoader = new GreenhouseLoader(greenhouseDir, mbwp, greenhouse);
-		
+
+		greenhouseLoader = new GreenhouseLoader(greenhouseDir, greenhouse);
+
 		Thread t = new Thread(greenhouseLoader);
 		t.start();
 		greenhouseLoaderTimer.start();
@@ -703,7 +704,7 @@ public class MolGenExp extends JFrame {
 		greenhouseLoadingDialog.setLocation(200,200);
 		greenhouseLoadingDialog.setVisible(true);
 	}
-	
+
 	private class GrenhouseLoaderTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			if (greenhouseLoader.done()) {
@@ -723,7 +724,7 @@ public class MolGenExp extends JFrame {
 		}
 	}
 
-	
+
 	public void saveSelectedOrganismToGreenhouse() {
 		int currentPane = explorerPane.getSelectedIndex();
 		switch (currentPane) {
@@ -734,26 +735,29 @@ public class MolGenExp extends JFrame {
 			}
 			saveOrganismToGreenhouse(oal1.getOrganism());
 			break;
-			
+
 		case BIOCHEMISTRY:
 			// should not happen - button should be disabled
 			break;
-			
+
 		case MOLECULAR_BIOLOGY:
 			//need to express and fold the proteins
 			molBiolWorkbench.saveOrganismToGreenhouse();
 			break;
-			
+
 		case EVOLUTION:
 			//get from world
-			
+			Organism o = evolutionWorkArea.getWorld().getSelectedOrganism();
+			if (o != null) {
+				saveOrganismToGreenhouse(o);
+			}
 			break;
 		}
-		
+
 	}
-	
+
 	public void saveOrganismToGreenhouse(Organism o) {
-		
+
 		String name = "";
 		String warning = "";
 		Pattern p = Pattern.compile("[^A-Za-z0-9\\_\\-]+");
@@ -771,7 +775,7 @@ public class MolGenExp extends JFrame {
 			if (name == null) {
 				return;
 			}
-			
+
 			if(greenhouse.nameExistsAlready(name)) {
 				warning = "<html><font color=red>"
 					+ "The name you entered exists already,"
@@ -785,18 +789,18 @@ public class MolGenExp extends JFrame {
 		saveToGreenhouse(new Organism(name,o));
 		clearSelectedOrganisms();
 	}
-	
-	
+
+
 	//handlers for selections of creatures in Genetics mode
 	//  max of two at a time.
 	//these are called by the CustomListSelectionMode
 	public void deselectOrganism(OrganismAndLocation oal) {
-		
+
 		// only do this in genetics
 		if (explorerPane.getSelectedIndex() != GENETICS) {
 			return;
 		}
-		
+
 		//remove from list of selected organisms
 		//if #1 is being deleted, delete it and move #2 up
 		if ((oal.getOrganism()).equals(oal1.getOrganism())) {
@@ -805,33 +809,33 @@ public class MolGenExp extends JFrame {
 			updateGeneticsButtonStatus();
 			return;
 		}
-		
+
 		//otherwise just delete #2
 		if ((oal.getOrganism()).equals(oal2.getOrganism())) {
 			oal2 = null;
 			updateGeneticsButtonStatus();
 			return;
 		}
-		
+
 		//should not get to here
 		updateGeneticsButtonStatus();
 		return;
 	}
-	
+
 	public void addSelectedOrganism(OrganismAndLocation oal) {
-		
+
 		// only do this in genetics
 		if (explorerPane.getSelectedIndex() != GENETICS) {
 			return;
 		}
-		
+
 		//if none selected so far, put it in #1
 		if ((oal1 == null) && (oal2 == null)) {
 			oal1 = oal;
 			updateGeneticsButtonStatus();
 			return;
 		}
-		
+
 		// if only one selected so far, it should be in #1
 		// so move #1 to #2 and put this in #1
 		if ((oal1 != null) && (oal2 == null)) {
@@ -840,7 +844,7 @@ public class MolGenExp extends JFrame {
 			updateGeneticsButtonStatus();
 			return;
 		}
-		
+
 		//it must be that there are 2 selected orgs
 		// so you have to drop #2, move 1 to 2 and put the
 		// new one in 1.
@@ -853,48 +857,48 @@ public class MolGenExp extends JFrame {
 			oal1 = oal;
 			updateGeneticsButtonStatus();
 		}
-		
+
 		//should not get to here
 		return;
 	}
-	
+
 	public void clearSelectedOrganisms() {
 		if (oal1 != null) {
 			oal1.getListLocation().removeSelectionIntervalDirectly(oal1);
 		}
-		
+
 		if (oal2 != null) {
 			oal2.getListLocation().removeSelectionIntervalDirectly(oal2);
 		}
-		
+
 		oal1 = null;
 		oal2 = null;
 		updateGeneticsButtonStatus();
 	}
-	
+
 	public Organism getOrg1() {
 		return oal1.getOrganism();
 	}
-	
+
 	public Organism getOrg2() {
 		return oal2.getOrganism();
 	}
-	
-	
+
+
 	//if no orgs selected - no buttons active;
 	// if only one - save to greenhouse, mutate, and self are active;
 	// if two - cross only
 	public void updateGeneticsButtonStatus() {
 		int numSelectedOrgs = 0;
-		
+
 		if (oal1 != null) {
 			numSelectedOrgs++;
 		}
-		
+
 		if (oal2 != null) {
 			numSelectedOrgs++;
 		}
-		
+
 		switch (numSelectedOrgs) {
 		case 0:
 			addToGreenhouseButton.setEnabled(false);
@@ -902,44 +906,47 @@ public class MolGenExp extends JFrame {
 			geneticsWorkbench.setSelfCrossButtonsEnabled(false);
 			geneticsWorkbench.setMutateButtonsEnabled(false);
 			break;
-			
+
 		case 1:
 			addToGreenhouseButton.setEnabled(true);
 			geneticsWorkbench.setCrossTwoButtonsEnabled(false);
 			geneticsWorkbench.setSelfCrossButtonsEnabled(true);
 			geneticsWorkbench.setMutateButtonsEnabled(true);
 			break;
-			
+
 		case 2:
 			addToGreenhouseButton.setEnabled(false);
 			geneticsWorkbench.setCrossTwoButtonsEnabled(true);
 			geneticsWorkbench.setSelfCrossButtonsEnabled(false);
 			geneticsWorkbench.setMutateButtonsEnabled(false);
 			break;
-			
+
 		}
 	}
-	
+
 	public void setDefaultSelectionSettings() {
 		greenhouse.setDefaultSelectionSettings();
 		geneticsWorkbench.setDefaultSelectionSettings();
 	}
-	
+
 	public void setCustomSelectionSettings() {
 		greenhouse.setCustomSelectionSettings();
 		geneticsWorkbench.setCustomSelectionSettings();
 	}
-	
+
 	public void setAddToGreenhouseButtonEnabled(boolean b) {
 		addToGreenhouseButton.setEnabled(b);
 	}
-	
+
 	public void loadSelectedIntoWorld() {
-		evolutionWorkArea.getWorld().initialize(
-				greenhouse.getSelectedOrganism());
-		evolutionWorkArea.repaint();
+		Organism o = greenhouse.getSelectedOrganism();
+		if (o != null) {
+			evolutionWorkArea.getWorld().initialize(o);
+			evolutionWorkArea.repaint();
+			evolutionWorkArea.setReadyToRun();
+		}
 	}
-	
+
 	public void startEvolving() {
 		evolver = new Evolver(this);
 		evolver.setKeepGoing(true);
@@ -948,7 +955,7 @@ public class MolGenExp extends JFrame {
 		evolverTimer.start();
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 	}
-	
+
 	private class EvolverTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			if (evolver.done()) {

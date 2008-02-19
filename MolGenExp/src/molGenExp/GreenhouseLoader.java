@@ -23,15 +23,11 @@ public class GreenhouseLoader implements Runnable {
 	
 	File greenhouseDir;
 	ArrayList organismFiles;
-	MolBiolWorkpanel mbwp;
 	Greenhouse greenhouse;
 	int i;
 	
-	public GreenhouseLoader(File greenhouseDir,
-			MolBiolWorkpanel mbwp,
-			Greenhouse greenhouse) {
+	public GreenhouseLoader(File greenhouseDir, Greenhouse greenhouse) {
 		this.greenhouseDir = greenhouseDir;
-		this.mbwp = mbwp;
 		this.greenhouse = greenhouse;
 		String[] files = greenhouseDir.list();
 		organismFiles = new ArrayList();
@@ -90,9 +86,9 @@ public class GreenhouseLoader implements Runnable {
 				// be sure there are only 2 DNA sequences in the organism
 				if (geneSequences.size() == 2) {
 					ExpressedGene eg1 = 
-						mbwp.expressGene((String)geneSequences.get(0), -1);
+						MolBiolWorkpanel.expressGene((String)geneSequences.get(0), -1);
 					ExpressedGene eg2 = 
-						mbwp.expressGene((String)geneSequences.get(1), -1);
+						MolBiolWorkpanel.expressGene((String)geneSequences.get(1), -1);
 					eg1.setFoldedPolypeptide(foldProtein(eg1.getGene().getProteinString()));
 					eg2.setFoldedPolypeptide(foldProtein(eg2.getGene().getProteinString()));
 					Organism o = new Organism(organismName, eg1, eg2);
@@ -118,7 +114,7 @@ public class GreenhouseLoader implements Runnable {
 		
 	}
 	
-	public FoldedPolypeptide foldProtein(String aaSeq) {
+	public static FoldedPolypeptide foldProtein(String aaSeq) {
 		if (aaSeq.indexOf("none") != -1) {
 			aaSeq = "";
 		} else {

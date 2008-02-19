@@ -10,7 +10,10 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
+import evolution.ThinOrganism;
+
 import molBiol.ExpressedGene;
+import molBiol.MolBiolWorkpanel;
 
 public class Organism {
 	
@@ -86,6 +89,18 @@ public class Organism {
 	//  with name changed
 	public Organism (String name, Organism o) {
 		this(name, o.getGene1(), o.getGene2());
+	}
+	
+	public Organism(ThinOrganism thinOrg) {
+		gene1 = MolBiolWorkpanel.expressGene(thinOrg.getDNA1(), -1);
+		gene1.setFoldedPolypeptide(
+				GreenhouseLoader.foldProtein(
+						gene1.getGene().getProteinString()));
+		gene2 = MolBiolWorkpanel.expressGene(thinOrg.getDNA2(), -1);
+		gene2.setFoldedPolypeptide(
+				GreenhouseLoader.foldProtein(
+						gene2.getGene().getProteinString()));
+		color = thinOrg.getColor();
 	}
 	
 	public String getName() {

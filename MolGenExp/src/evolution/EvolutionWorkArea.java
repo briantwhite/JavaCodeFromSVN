@@ -78,6 +78,7 @@ public class EvolutionWorkArea extends JPanel {
 		loadButton = new JButton("Load");
 		controlPanel.add(loadButton);
 		startButton = new JButton("Start");
+		startButton.setEnabled(false);
 		controlPanel.add(startButton);
 		stopButton = new JButton("Stop");
 		stopButton.setEnabled(false);
@@ -112,6 +113,7 @@ public class EvolutionWorkArea extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				startButton.setEnabled(false);
 				stopButton.setEnabled(true);
+				loadButton.setEnabled(false);
 				running = true;
 				mge.startEvolving();
 			}
@@ -121,6 +123,7 @@ public class EvolutionWorkArea extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				stopButton.setEnabled(false);
 				startButton.setEnabled(true);
+				loadButton.setEnabled(true);
 				running = false;
 				mge.stopEvolving();
 			}
