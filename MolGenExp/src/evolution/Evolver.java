@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+import sun.tools.tree.LengthExpression;
+
 import molGenExp.MolGenExp;
 
 public class Evolver implements Runnable {
@@ -67,6 +69,12 @@ public class Evolver implements Runnable {
 						MutantGenerator.mutateDNASequence(getRandomAlleleFromPool()),
 						MutantGenerator.mutateDNASequence(getRandomAlleleFromPool()));
 				current++;
+				if (!keepGoing) {
+					nextGeneration = null;
+					genePool = null;
+					current = getLengthOfTask();
+					return;
+				}
 			}
 		}
 		genePool = null;
