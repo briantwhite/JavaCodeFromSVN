@@ -5,18 +5,17 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+import molBiol.ExpressedGene;
+import molBiol.Gene;
+import molGenExp.MolGenExp;
+import molGenExp.Organism;
+import molGenExp.ProteinImageFactory;
+import molGenExp.ProteinImageSet;
 import biochem.Attributes;
 import biochem.FoldedPolypeptide;
 import biochem.FoldingException;
 import biochem.FoldingManager;
 import biochem.OutputPalette;
-
-import molBiol.ExpressedGene;
-import molBiol.Gene;
-import molGenExp.Organism;
-import molGenExp.ProteinImageFactory;
-import molGenExp.ProteinImageSet;
-import molGenExp.RYBColorModel;
 
 public class MutantGenerator implements Runnable {
 
@@ -119,7 +118,7 @@ public class MutantGenerator implements Runnable {
 		Attributes attributes = new Attributes(
 				proteinSequence, 
 				3,
-				"straight");
+		"straight");
 		FoldingManager manager = FoldingManager.getInstance();
 		try {
 			manager.fold(attributes);
@@ -144,24 +143,51 @@ public class MutantGenerator implements Runnable {
 
 		ExpressedGene newEg = new ExpressedGene(html, newGene);
 		newEg.setFoldedPolypeptide(fp);
-		
+
 		images = null;
 
 		return newEg;
 	}
 
 	public static String mutateDNASequence(String DNASequence) {
+		Random r = new Random();
+
 		StringBuffer DNABuffer = new StringBuffer(DNASequence);
 
-		//mutation: 1/100 chance of hitting each base
-		Random r = new Random();
-		for (int i = 0; i < DNABuffer.length(); i++) {
-			if (r.nextInt(100) == 0) {
-				int base = r.nextInt(4);
-				String newBase = "AGCT".substring(base, base + 1);
-				DNABuffer = DNABuffer.replace(i, i + 1, newBase);
+		//mutation: pointMutationRate chance of changing each base
+		if (MolGenExp.pointMutationRate != 0) {
+			int pointOdds = Math.round(1/MolGenExp.pointMutationRate);
+			for (int i = 0; i < DNABuffer.length(); i++) {
+				if (r.nextInt(pointOdds) == 0) {
+					int base = r.nextInt(4);
+					String newBase = "AGCT".substring(base, base + 1);
+					DNABuffer = DNABuffer.replace(i, i + 1, newBase);
+				}
 			}
 		}
+
+		//deletion mutations
+		if (MolGenExp.deletionMutationRate != 0) {
+			int delOdds = Math.round(1/MolGenExp.deletionMutationRate);
+			for (int i = 0; i < DNABuffer.length(); i++) {
+				if (r.nextInt(delOdds) == 0) {
+					DNABuffer = DNABuffer.deleteCharAt(i);
+				}
+			}
+		}
+
+		//insertion mutations
+		if (MolGenExp.insertionMutationRate != 0) {
+			int insOdds = Math.round(1/MolGenExp.insertionMutationRate);
+			for (int i = 0; i < DNABuffer.length(); i++) {
+				if (r.nextInt(insOdds) == 0) {
+					int base = r.nextInt(4);
+					String newBase = "AGCT".substring(base, base + 1);
+					DNABuffer = DNABuffer.insert(i, newBase);
+				}
+			}
+		}
+
 		return DNABuffer.toString();
 	}
 }

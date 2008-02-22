@@ -461,5 +461,8 @@ added features
 	set the fitnesses to zero
 - it lets you load the world with more than one organism (it randomly places all you select)
 - clear selection in World when you switch into Evolution mode
+- added mutation freqs dialog
+	now can run without mutation
+
 
 

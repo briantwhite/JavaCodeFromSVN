@@ -116,6 +116,10 @@ public class MolGenExp extends JFrame {
 	public static final StandardTable aaTable = new StandardTable();
 
 	public static final MolBiolParams molBiolParams = new MolBiolParams();
+	
+	public static float pointMutationRate = 0.01f;
+	public static float deletionMutationRate = 0.01f;
+	public static float insertionMutationRate = 0.01f;
 
 	private ImageIcon geneticCodeTableImage;
 
@@ -125,6 +129,7 @@ public class MolGenExp extends JFrame {
 
 	JMenu fileMenu;
 	JMenuItem quitMenuItem;
+	JMenuItem mutationPrefsItem;
 
 	JMenu editMenu;
 	JMenuItem copyUpperToClipboardItem;
@@ -169,6 +174,8 @@ public class MolGenExp extends JFrame {
 	private BiochemistryWorkbench biochemistryWorkbench;
 	private MolBiolWorkbench molBiolWorkbench;
 	private EvolutionWorkArea evolutionWorkArea;
+	
+	private MutationSettingsDialog mutationSettingsDialog;
 
 	public MolGenExp() {
 		super("Molecular Genetics Explorer " + version);
@@ -199,7 +206,9 @@ public class MolGenExp extends JFrame {
 
 		fileMenu = new JMenu("File");
 		quitMenuItem = new JMenuItem("Quit");
+		mutationPrefsItem = new JMenuItem("Set Mutation Rates");
 		fileMenu.add(quitMenuItem);
+		fileMenu.add(mutationPrefsItem);
 		menuBar.add(fileMenu);
 
 		editMenu = new JMenu("Edit");
@@ -286,6 +295,8 @@ public class MolGenExp extends JFrame {
 		mainPanel.add(innerPanel, BorderLayout.CENTER);
 
 		getContentPane().add(mainPanel);
+		
+		mutationSettingsDialog = new MutationSettingsDialog(this);
 
 		explorerPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
@@ -350,6 +361,12 @@ public class MolGenExp extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				FoldedProteinArchive.getInstance().saveArchiveToZipFile();
 				System.exit(0);
+			}
+		});
+		
+		mutationPrefsItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mutationSettingsDialog.setVisible(true);
 			}
 		});
 
@@ -942,6 +959,12 @@ public class MolGenExp extends JFrame {
 
 	public void setAddToGreenhouseButtonEnabled(boolean b) {
 		addToGreenhouseButton.setEnabled(b);
+	}
+	
+	public void mutationPrefsChanged(MutationFreqList mfl) {
+		pointMutationRate = mfl.getPointFreq();
+		deletionMutationRate = mfl.getDeleteFreq();
+		insertionMutationRate = mfl.getInsertFreq();
 	}
 
 	public void loadSelectedIntoWorld() {
