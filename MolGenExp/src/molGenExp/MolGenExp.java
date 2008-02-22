@@ -314,10 +314,11 @@ public class MolGenExp extends JFrame {
 					break;
 				case EVOLUTION:
 					clearSelectedOrganisms();
+					evolutionWorkArea.clearSelection();
 					compareMenu.setEnabled(false);
 					editMenu.setEnabled(false);
 					addToGreenhouseButton.setEnabled(true);
-					setDefaultSelectionSettings();
+					setEvolutionSelectionSettings();
 					break;
 				}
 			}
@@ -933,15 +934,20 @@ public class MolGenExp extends JFrame {
 		greenhouse.setCustomSelectionSettings();
 		geneticsWorkbench.setCustomSelectionSettings();
 	}
+	
+	public void setEvolutionSelectionSettings() {
+		greenhouse.setEvolutionSelectionSettings();
+		geneticsWorkbench.setDefaultSelectionSettings();
+	}
 
 	public void setAddToGreenhouseButtonEnabled(boolean b) {
 		addToGreenhouseButton.setEnabled(b);
 	}
 
 	public void loadSelectedIntoWorld() {
-		Organism o = greenhouse.getSelectedOrganism();
-		if (o != null) {
-			evolutionWorkArea.getWorld().initialize(o);
+		Organism[] orgs = greenhouse.getSelectedOrganisms();
+		if (orgs != null) {
+			evolutionWorkArea.getWorld().initialize(orgs);
 			evolutionWorkArea.repaint();
 			evolutionWorkArea.setReadyToRun();
 		}

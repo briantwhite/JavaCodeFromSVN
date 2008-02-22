@@ -455,3 +455,11 @@ it'd freeze when making mutants
 		made the default be white
 now OK
 
+2/22/08
+added features
+- it warns you (instead of error) that there's nothing in the gene pool because you
+	set the fitnesses to zero
+- it lets you load the world with more than one organism (it randomly places all you select)
+- clear selection in World when you switch into Evolution mode
+
+

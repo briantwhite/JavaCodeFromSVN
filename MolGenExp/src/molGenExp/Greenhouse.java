@@ -87,6 +87,18 @@ public class Greenhouse extends JList implements Serializable {
 				getSelectedIndex());
 	}
 	
+	public Organism[] getSelectedOrganisms() {
+		if (getSelectedIndex() < 0) {
+			return null;
+		}
+		Object[] values = getSelectedValues();
+		Organism[] orgs = new Organism[values.length];
+		for (int i = 0; i < orgs.length; i++) {
+			orgs[i] = (Organism)values[i];
+		}
+		return orgs;
+	}
+	
 	public void setDefaultSelectionSettings() {
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setSelectionModel(new DefaultListSelectionModel());
@@ -95,6 +107,11 @@ public class Greenhouse extends JList implements Serializable {
 	public void setCustomSelectionSettings() {
 		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		setSelectionModel(new CustomListSelectionModel(mge, this));
+	}
+	
+	public void setEvolutionSelectionSettings() {
+		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		setSelectionModel(new DefaultListSelectionModel());
 	}
 
 }

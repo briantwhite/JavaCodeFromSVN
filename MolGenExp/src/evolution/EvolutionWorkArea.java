@@ -106,6 +106,7 @@ public class EvolutionWorkArea extends JPanel {
 		loadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mge.loadSelectedIntoWorld();
+				mge.getGreenhouse().clearSelection();
 			}
 		});
 
@@ -160,6 +161,10 @@ public class EvolutionWorkArea extends JPanel {
 	
 	public void setProgress(int progress) {
 		evolverProgressBar.setValue(progress);
+	}
+	
+	public void clearSelection() {
+		world.clearSelectedOrganism();
 	}
 
 }

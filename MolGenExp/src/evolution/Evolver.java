@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import sun.tools.tree.LengthExpression;
 
 import molGenExp.MolGenExp;
@@ -38,8 +40,6 @@ public class Evolver implements Runnable {
 		// get the fitness settings
 		int[] fitnessSettings = evolutionWorkArea.getFitnessValues();
 
-		System.out.println("creating gene pool");
-
 		// each organism in the world contributes fitness # of alleles to pool		
 		genePool = new ArrayList();
 		for (int i = 0; i < MolGenExp.worldSize; i++) {
@@ -55,8 +55,20 @@ public class Evolver implements Runnable {
 	}
 
 	private void makeNextGeneration() {
+		if (genePool.size() == 0) {
+			JOptionPane.showMessageDialog(null, "<html><body>" 
+					+ "<font color=red>No organisms contributed to the gene pool.<br>"
+					+ "</font>You should be sure that the fitness of at least one of the<br>"
+					+ "organisms in the world has a non-zero fitness.</body></html>",
+					"Empty Gene Pool",
+					JOptionPane.ERROR_MESSAGE);
+			keepGoing = false;
+			current = getLengthOfTask();
+			evolutionWorkArea.setReadyToRun();
+			return;
+		}
+		
 		current = 0;
-		System.out.println("starting next generation");
 		ThinOrganism[][] nextGeneration = 
 			new ThinOrganism[MolGenExp.worldSize][MolGenExp.worldSize];
 		//make next generation

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -24,10 +25,11 @@ public class World extends JPanel implements MouseListener {
 		this.addMouseListener(this);
 	}
 
-	public void initialize(Organism o) {
+	public void initialize(Organism[] orgs) {
+		Random r = new Random();
 		for (int i = 0; i < MolGenExp.worldSize; i++) {
 			for (int j = 0; j < MolGenExp.worldSize; j++) {
-				organisms[i][j] = new ThinOrganism(o);
+				organisms[i][j] = new ThinOrganism(orgs[r.nextInt(orgs.length)]);
 			}
 		}
 	}
@@ -68,6 +70,11 @@ public class World extends JPanel implements MouseListener {
 			return null;
 		}
 		return new Organism(organisms[selectedCelli][ selectedCellj]);
+	}
+	
+	public void clearSelectedOrganism() {
+		selectedCelli = -1;
+		selectedCellj = -1;
 	}
 
 	public void mouseClicked(MouseEvent e) {
