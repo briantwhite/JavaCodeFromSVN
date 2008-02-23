@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
 
+import utilities.GlobalDefaults;
+
 import molGenExp.MolGenExp;
 
 public class EvolutionWorkArea extends JPanel {
@@ -86,7 +88,7 @@ public class EvolutionWorkArea extends JPanel {
 		leftPanel.add(controlPanel);
 		
 		evolverProgressBar = new JProgressBar(1, 
-				((MolGenExp.worldSize * MolGenExp.worldSize)));
+				((GlobalDefaults.worldSize * GlobalDefaults.worldSize)));
 		leftPanel.add(evolverProgressBar);
 		
 		this.add(leftPanel);

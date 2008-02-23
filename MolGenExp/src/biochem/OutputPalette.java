@@ -49,7 +49,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import molGenExp.ColorModel;
+import utilities.ColorModel;
+
 
 /**
  * OutputPalette displays folding results.

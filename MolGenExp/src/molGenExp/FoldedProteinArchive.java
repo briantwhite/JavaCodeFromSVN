@@ -16,6 +16,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import utilities.GlobalDefaults;
+
 public class FoldedProteinArchive {
 
 	private static FoldedProteinArchive singleton;
@@ -82,7 +84,8 @@ public class FoldedProteinArchive {
 		ZipOutputStream archiveWriter = null;
 		try {
 			archiveWriter = 
-				new ZipOutputStream(new FileOutputStream(MolGenExp.greenhouseDirName + 
+				new ZipOutputStream(new FileOutputStream(
+						GlobalDefaults.greenhouseDirName + 
 						System.getProperty("file.separator") +
 						archiveFileName + ".zip"));
 			archiveWriter.setLevel(Deflater.DEFAULT_COMPRESSION);
@@ -104,9 +107,10 @@ public class FoldedProteinArchive {
 	}
 
 	private void loadArchiveFromFile() {
-		String fullArchiveFileName = MolGenExp.greenhouseDirName + 
-		System.getProperty("file.separator") +
-		archiveFileName + ".zip";
+		String fullArchiveFileName = 
+			GlobalDefaults.greenhouseDirName + 
+			System.getProperty("file.separator") +
+			archiveFileName + ".zip";
 
 		File archiveFile = new File(fullArchiveFileName);
 		if (archiveFile.exists()) {

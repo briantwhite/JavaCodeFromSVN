@@ -1,4 +1,4 @@
-package molBiol;
+package utilities;
 
 import molGenExp.MolGenExp;
 /*
@@ -21,7 +21,7 @@ public class MolBiolParams {
 
 
 	public MolBiolParams() {
-		defaultDNA = MolGenExp.sampleDNA;
+		defaultDNA = GlobalDefaults.sampleDNA;
 		promoterSequence = "TATAA";
 		terminatorSequence = "GGGGG";
 		intronStartSequence = "GUGCG";

@@ -40,7 +40,7 @@
 
 package biochem;
 
-import molGenExp.ColorModel;
+import utilities.ColorModel;
 import molGenExp.RYBColorModel;
 
 /**

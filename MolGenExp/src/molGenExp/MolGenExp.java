@@ -68,12 +68,13 @@ import javax.swing.Timer;
 
 import preferences.MGEPreferences;
 import preferences.PreferencesDialog;
+import utilities.GlobalDefaults;
+import utilities.MolBiolParams;
 
 import match.Blosum50;
 import match.DNAidentity;
 import match.NWSmart;
 import molBiol.ExpressedGene;
-import molBiol.MolBiolParams;
 import molBiol.MolBiolWorkbench;
 import molBiol.MolBiolWorkpanel;
 import biochem.AminoAcid;
@@ -94,31 +95,6 @@ public class MolGenExp extends JFrame {
 	private final static int BIOCHEMISTRY = 1;
 	private final static int MOLECULAR_BIOLOGY = 2;
 	private final static int EVOLUTION = 3;
-
-	//radius of aas as drawn in big images
-	public final static int aaRadius = 20;
-
-	//world is a worldSize x worldSize array of orgs
-	// needs to divide 500 evenly
-	public final static int worldSize = 10;
-
-	private final static String version = "1.3.4";
-
-	public final static String sampleDNA = 
-		new String("CAGCTATAACCGAGATTGATGTCTAG"
-				+ "TGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATA"
-				+ "CAAAGGTTAGTGGTCTGTCGGCAGTAGTAGGGGGCGT");
-
-	public final static String sampleProtein =
-		new String("MSNRHILLVVCRQ");
-
-	public static final String greenhouseDirName = "Greenhouse";
-
-	public static final ColorModel colorModel = new RYBColorModel();
-
-	public static final StandardTable aaTable = new StandardTable();
-
-	public static final MolBiolParams molBiolParams = new MolBiolParams();
 	
 	private ImageIcon geneticCodeTableImage;
 
@@ -177,7 +153,7 @@ public class MolGenExp extends JFrame {
 	private PreferencesDialog preferencesDialog;
 
 	public MolGenExp() {
-		super("Molecular Genetics Explorer " + version);
+		super("Molecular Genetics Explorer " + GlobalDefaults.version);
 		setupUI();
 		addWindowListener(new ApplicationCloser());
 	}
@@ -338,7 +314,7 @@ public class MolGenExp extends JFrame {
 		//make a greenhouse directory if one doesn't exist
 		//  if one exists, load contents
 		greenhouseLoaderTimer = new Timer(100, new GrenhouseLoaderTimerListener());	//timer for greenhouse loading progress bar
-		greenhouseDirectory = new File(greenhouseDirName);
+		greenhouseDirectory = new File(GlobalDefaults.greenhouseDirName);
 		if(!greenhouseDirectory.exists() 
 				|| !greenhouseDirectory.isDirectory()) {
 			boolean success = greenhouseDirectory.mkdir();
@@ -520,7 +496,7 @@ public class MolGenExp extends JFrame {
 		}
 		return new DNASequenceComparator(((MolBiolWorkpanel)molBiolWorkbench.getUpperPanel()).getDNA(),
 				((MolBiolWorkpanel)molBiolWorkbench.getLowerPanel()).getDNA(),
-				sampleDNA,
+				GlobalDefaults.sampleDNA,
 				clipSeq);
 	}
 
@@ -551,10 +527,12 @@ public class MolGenExp extends JFrame {
 		}
 		return new ProteinSequenceComparator(
 				convert3LetterTo1Letter(
-						((BiochemistryWorkpanel)(biochemistryWorkbench.getUpperPanel())).getAaSeq()),
+						((BiochemistryWorkpanel)
+								(biochemistryWorkbench.getUpperPanel())).getAaSeq()),
 						convert3LetterTo1Letter(
-								((BiochemistryWorkpanel)(biochemistryWorkbench.getLowerPanel())).getAaSeq()),
-								sampleProtein,
+								((BiochemistryWorkpanel)
+										(biochemistryWorkbench.getLowerPanel())).getAaSeq()),
+								GlobalDefaults.sampleProtein,
 								clipSeq);
 
 	}

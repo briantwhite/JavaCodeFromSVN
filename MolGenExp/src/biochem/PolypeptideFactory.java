@@ -37,6 +37,8 @@ package biochem;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import utilities.GlobalDefaults;
+
 import molGenExp.MolGenExp;
 
 public class PolypeptideFactory {
@@ -254,10 +256,10 @@ public class PolypeptideFactory {
 		AminoAcid acid;
 		switch (numAALetterCode) {
 		case 1:
-			acid = MolGenExp.aaTable.getFromAbName(acidString);
+			acid = GlobalDefaults.aaTable.getFromAbName(acidString);
 			break;
 		case 3:
-			acid = MolGenExp.aaTable.get(acidString);
+			acid = GlobalDefaults.aaTable.get(acidString);
 			break;
 		default:
 			acid = null;
@@ -267,7 +269,7 @@ public class PolypeptideFactory {
 
 		if (acid == null)
 			throw new FoldingException("acid not found. ACID: " + acidString
-					+ " TABLE: " + MolGenExp.aaTable.getName());
+					+ " TABLE: " + GlobalDefaults.aaTable.getName());
 		return acid;
 	}
 

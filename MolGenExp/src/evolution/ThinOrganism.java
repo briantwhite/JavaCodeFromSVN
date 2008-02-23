@@ -3,6 +3,8 @@ package evolution;
 import java.awt.Color;
 import java.util.Random;
 
+import utilities.GlobalDefaults;
+
 import molBiol.Gene;
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
@@ -30,7 +32,7 @@ public class ThinOrganism {
 	public ThinOrganism(String dna1, String dna2) {
 		this.dna1 = dna1;
 		this.dna2 = dna2;
-		color = MolGenExp.colorModel.mixTwoColors(
+		color = GlobalDefaults.colorModel.mixTwoColors(
 				foldAndComputeColor(dna1), 
 				foldAndComputeColor(dna2));
 	}
@@ -64,7 +66,7 @@ public class ThinOrganism {
 
 	private Color foldAndComputeColor(String DNASeq) {
 		Gene newGene = 
-			new Gene(DNASeq, MolGenExp.molBiolParams);
+			new Gene(DNASeq, GlobalDefaults.molBiolParams);
 		newGene.transcribe();
 		newGene.process();
 		newGene.translate();
@@ -94,7 +96,7 @@ public class ThinOrganism {
 			String[] aminoAcidStrings = proteinSequence.split(" ");
 			StringBuffer buf = new StringBuffer();
 			for (int i = 0; i < aminoAcidStrings.length; i++) {
-				buf.append(MolGenExp.aaTable.get(aminoAcidStrings[i]).getAbName());
+				buf.append(GlobalDefaults.aaTable.get(aminoAcidStrings[i]).getAbName());
 			}
 
 			aaSeq = buf.toString();
@@ -102,7 +104,7 @@ public class ThinOrganism {
 		HexGrid grid = foldOntoHexGrid(aaSeq);
 		HexCanvas canvas = new HexCanvas();
 		canvas.setGrid(grid);
-		MolGenExp.colorModel.categorizeAcids(grid);
+		GlobalDefaults.colorModel.categorizeAcids(grid);
 		return grid.getProteinColor();
 	}
 

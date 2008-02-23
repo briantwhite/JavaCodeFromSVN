@@ -466,5 +466,8 @@ added features
 
 2/23/08
 working on preferences and preferences panes
+working on moving global defaults
+working on moving generally-used methods (express, fold, etc) to MGEUtilities
+
 
 

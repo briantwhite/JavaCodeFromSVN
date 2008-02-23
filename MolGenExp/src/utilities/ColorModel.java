@@ -11,7 +11,7 @@
  * option) any later version.
  */
 
-package molGenExp;
+package utilities;
 
 import java.awt.Color;
 import java.io.Serializable;

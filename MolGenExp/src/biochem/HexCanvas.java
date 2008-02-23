@@ -15,7 +15,9 @@ package biochem;
 
 import java.awt.Polygon;
 
-import molGenExp.ColorModel;
+import utilities.ColorModel;
+import utilities.GlobalDefaults;
+
 
 /**
  * Display a Grid of hexagons.
@@ -27,7 +29,7 @@ import molGenExp.ColorModel;
 public class HexCanvas extends GridCanvas {
 	private static final int sqrt3 = (int) Math.sqrt(3);
 
-	private int cellHeight = (int) (cellRadius * Math.sqrt(3));
+	private int cellHeight = (int) (GlobalDefaults.aaRadius * Math.sqrt(3));
 
 	private Polygon hexagon;
 
@@ -46,25 +48,27 @@ public class HexCanvas extends GridCanvas {
 	 */
 	private void createHexagon() {
 		hexagon = new Polygon();
-		hexagon.addPoint(cellRadius / 2, 0);
-		hexagon.addPoint(3 * cellRadius / 2, 0);
-		hexagon.addPoint(2 * cellRadius, sqrt3 * cellRadius);
-		hexagon.addPoint(3 * cellRadius / 2, 2 * sqrt3 * cellRadius);
-		hexagon.addPoint(cellRadius / 2, 2 * sqrt3 * cellRadius);
-		hexagon.addPoint(0, sqrt3 * cellRadius);
+		hexagon.addPoint(GlobalDefaults.aaRadius / 2, 
+				0);
+		hexagon.addPoint(3 * GlobalDefaults.aaRadius / 2, 
+				0);
+		hexagon.addPoint(2 * GlobalDefaults.aaRadius, 
+				sqrt3 * GlobalDefaults.aaRadius);
+		hexagon.addPoint(3 * GlobalDefaults.aaRadius / 2, 
+				2 * sqrt3 * GlobalDefaults.aaRadius);
+		hexagon.addPoint(GlobalDefaults.aaRadius / 2, 
+				2 * sqrt3 * GlobalDefaults.aaRadius);
+		hexagon.addPoint(0, 
+				sqrt3 * GlobalDefaults.aaRadius);
 	}
 
 	public void setGrid(Grid grid) {
 		super.setGrid(grid);
 	}
 
-	protected int getAcidRadius() {
-		return cellRadius;
-	}
-
 	protected GridPoint project(GridPoint p) {
-		GridPoint spot = new GridPoint((1 + 2 * p.x + p.y) * cellRadius, p.y
-				* cellHeight + cellRadius);
+		GridPoint spot = new GridPoint((1 + 2 * p.x + p.y) * GlobalDefaults.aaRadius, 
+				p.y * cellHeight + GlobalDefaults.aaRadius);
 		return spot;
 	}
 }

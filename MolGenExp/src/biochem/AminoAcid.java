@@ -20,6 +20,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
+import utilities.GlobalDefaults;
+
 import molGenExp.MolGenExp;
 
 /**
@@ -105,11 +107,11 @@ public class AminoAcid {
 
 		final int AB_Y_OFFSET = 13;
 
-		int aminoAcidDiameter = MolGenExp.aaRadius * 2;
+		int aminoAcidDiameter = GlobalDefaults.aaRadius * 2;
 
 		Graphics2D g2d = (Graphics2D)g;
 
-		int offset = getStringIndentationConstant(name, MolGenExp.aaRadius);
+		int offset = getStringIndentationConstant(name, GlobalDefaults.aaRadius);
 
 		g2d.setColor(cc.getCellColor(normalizedHydrophobicIndex));
 
@@ -123,14 +125,18 @@ public class AminoAcid {
 				name.equals("Lys") ||
 				name.equals("His")) {
 			g2d.setColor(Color.blue);
-			g2d.drawString("+", x + MolGenExp.aaRadius - 15, y + MolGenExp.aaRadius);
+			g2d.drawString("+", 
+					x + GlobalDefaults.aaRadius - 15, 
+					y + GlobalDefaults.aaRadius);
 			g2d.setColor(Color.BLACK);
 		}
 
 		if (name.equals("Asp") ||
 				name.equals("Glu")) {
 			g2d.setColor(Color.red);
-			g2d.drawString("-", x + MolGenExp.aaRadius - 15, y + MolGenExp.aaRadius);
+			g2d.drawString("-", 
+					x + GlobalDefaults.aaRadius - 15, 
+					y + GlobalDefaults.aaRadius);
 			g2d.setColor(Color.BLACK);
 		}
 
@@ -140,12 +146,18 @@ public class AminoAcid {
 				name.equals("Thr") ||
 				name.equals("Tyr")) {
 			g2d.setColor(Color.green);
-			g2d.drawString("*", x + MolGenExp.aaRadius - 15, y + MolGenExp.aaRadius);
+			g2d.drawString("*", 
+					x + GlobalDefaults.aaRadius - 15, 
+					y + GlobalDefaults.aaRadius);
 			g2d.setColor(Color.BLACK);
 		}
 		
-		g2d.drawString(name, x + MolGenExp.aaRadius - offset, y + MolGenExp.aaRadius);
-		g2d.drawString(abName, x + MolGenExp.aaRadius , y + MolGenExp.aaRadius + AB_Y_OFFSET);
+		g2d.drawString(name, 
+				x + GlobalDefaults.aaRadius - offset, 
+				y + GlobalDefaults.aaRadius);
+		g2d.drawString(abName, 
+				x + GlobalDefaults.aaRadius , 
+				y + GlobalDefaults.aaRadius + AB_Y_OFFSET);
 	}
 
 	/**

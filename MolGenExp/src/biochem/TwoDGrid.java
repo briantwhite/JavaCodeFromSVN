@@ -16,7 +16,9 @@ package biochem;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import molGenExp.ColorModel;
+import utilities.ColorModel;
+import utilities.GlobalDefaults;
+
 import molGenExp.MolGenExp;
 
 /**
@@ -154,7 +156,7 @@ public abstract class TwoDGrid extends Grid {
 	}
 
 	public Color getProteinColor() {
-		return MolGenExp.colorModel.getProteinColor(this);
+		return GlobalDefaults.colorModel.getProteinColor(this);
 	}
 
 	/**

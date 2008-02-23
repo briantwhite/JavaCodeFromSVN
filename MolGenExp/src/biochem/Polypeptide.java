@@ -45,6 +45,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import utilities.GlobalDefaults;
+
 import molGenExp.MolGenExp;
 
 /**
@@ -225,7 +227,7 @@ public class Polypeptide implements Serializable {
 	protected Polypeptide(int length, int seed) {
 
 		// ASSUMES: length >0, seed >=0, table != null
-		this(MolGenExp.aaTable.getRandom(length, seed));
+		this(GlobalDefaults.aaTable.getRandom(length, seed));
 	}
 
 	/**
@@ -260,7 +262,7 @@ public class Polypeptide implements Serializable {
 	protected Polypeptide(AminoAcid[] realAcids) {
 
 		// ASSUMES: all acids in realAcids are from table.
-		maxEnergy = MolGenExp.aaTable.getMaxEnergy();
+		maxEnergy = GlobalDefaults.aaTable.getMaxEnergy();
 		acids = new ArrayList(); // duplicated code
 		for (int i = 0; i < realAcids.length; i++) {
 			acids.add(new AcidInChain(realAcids[i], i));

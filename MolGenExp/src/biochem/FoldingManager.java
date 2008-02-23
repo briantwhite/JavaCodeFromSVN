@@ -44,7 +44,8 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
-import molGenExp.ColorModel;
+import utilities.ColorModel;
+
 import molGenExp.FoldedProteinArchive;
 import molGenExp.FoldedProteinArchiveEntry;
 import molGenExp.MolGenExp;

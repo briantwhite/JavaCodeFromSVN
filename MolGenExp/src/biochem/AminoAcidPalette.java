@@ -55,7 +55,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
-import molGenExp.ColorModel;
+import utilities.ColorModel;
+
 
 /**
  * AminoAcidPalette displays all of the AminoAcid objects. 

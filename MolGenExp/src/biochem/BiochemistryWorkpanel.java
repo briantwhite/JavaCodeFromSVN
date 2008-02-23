@@ -18,7 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import molGenExp.ColorModel;
+import utilities.ColorModel;
+import utilities.GlobalDefaults;
+
 import molGenExp.MolGenExp;
 import molGenExp.ProteinImageFactory;
 import molGenExp.ProteinImageSet;
@@ -139,7 +141,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 
 		loadSampleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				proteinSequence.setText(MolGenExp.sampleProtein);
+				proteinSequence.setText(GlobalDefaults.sampleProtein);
 				aaSeqChanged();
 			}
 		});

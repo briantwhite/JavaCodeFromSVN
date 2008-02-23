@@ -23,7 +23,9 @@ import java.util.Comparator;
 
 import javax.swing.JPanel;
 
-import molGenExp.ColorModel;
+import utilities.ColorModel;
+import utilities.GlobalDefaults;
+
 import molGenExp.MolGenExp;
 
 /**
@@ -31,9 +33,8 @@ import molGenExp.MolGenExp;
  *  
  */
 public abstract class GridCanvas extends JPanel {
-	protected int cellRadius = 20;
 
-	protected int cellDiameter = 2 * cellRadius;
+	protected int cellDiameter = 2 * GlobalDefaults.aaRadius;
 
 	protected int size; // 2*numAcids + 1
 
@@ -134,10 +135,6 @@ public abstract class GridCanvas extends JPanel {
 	 */
 	protected abstract GridPoint project(GridPoint p);
 
-	protected int getAcidRadius() {
-		return cellRadius;
-	}
-
 	/**
 	 * Returns constants used for center the name of the polypeptide
 	 */
@@ -224,7 +221,7 @@ private void paintProtein(Graphics g) {
 	ColorCoder cc = null;
 	
 	setBackground(BiochemistryWorkbench.BACKGROUND_COLOR);
-	cc = new ShadingColorCoder(MolGenExp.aaTable.getContrastScaler());
+	cc = new ShadingColorCoder(GlobalDefaults.aaTable.getContrastScaler());
 	g.setColor(BiochemistryWorkbench.BACKGROUND_COLOR);
 	g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
 	
@@ -241,7 +238,7 @@ private void paintProtein(Graphics g) {
 		spots[i] = spots[i].subtract(min);
 	}
 	Arrays.sort(acidsByZ, new SortByZ());
-	int r = getAcidRadius();
+	int r = GlobalDefaults.aaRadius;
 	for (int i = 0; i < numAcids; i++) {
 		AcidInChain a = acidsByZ[i];
 		GridPoint here = project(a.xyz).subtract(min);	

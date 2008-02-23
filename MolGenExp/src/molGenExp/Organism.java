@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
+import utilities.GlobalDefaults;
+
 import evolution.ThinOrganism;
 
 import molBiol.ExpressedGene;
@@ -33,7 +35,7 @@ public class Organism {
 		this.gene2 = gene2;
 		
 		//calculate color
-		color = MolGenExp.colorModel.mixTwoColors(
+		color = GlobalDefaults.colorModel.mixTwoColors(
 				gene1.getFoldedPolypeptide().getColor(), 
 				gene2.getFoldedPolypeptide().getColor());
 		

@@ -22,6 +22,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
+
 import molBiol.ExpressedGene;
 import molGenExp.Organism;
 import molGenExp.WorkPanel;

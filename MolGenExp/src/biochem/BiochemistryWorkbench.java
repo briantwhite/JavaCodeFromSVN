@@ -14,7 +14,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import molGenExp.ColorModel;
+import utilities.ColorModel;
+import utilities.GlobalDefaults;
+
 import molGenExp.CombinedColorPanel;
 import molGenExp.HistoryList;
 import molGenExp.MolGenExp;
@@ -106,7 +108,7 @@ public class BiochemistryWorkbench extends Workbench {
 	public void updateCombinedColor() {
 		Color u = upperWorkPanel.getColor();
 		Color l = lowerWorkPanel.getColor();
-		Color combined = MolGenExp.colorModel.mixTwoColors(u, l);
+		Color combined = GlobalDefaults.colorModel.mixTwoColors(u, l);
 		combinedColorPanel.setCombinedColor(combined);
 	}
 

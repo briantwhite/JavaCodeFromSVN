@@ -1,6 +1,5 @@
 package evolution;
 
-import genetics.MutantGenerator;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,11 +12,11 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import preferences.MGEPreferences;
-
-import sun.tools.tree.LengthExpression;
-
 import molGenExp.MolGenExp;
+import preferences.MGEPreferences;
+import utilities.GlobalDefaults;
+import utilities.MGEUtilities;
+import genetics.MutantGenerator;
 
 public class Evolver implements Runnable {
 
@@ -29,6 +28,7 @@ public class Evolver implements Runnable {
 	private boolean keepGoing;
 
 	private MGEPreferences preferences;
+	private MGEUtilities utilities;
 
 	public Evolver(final MolGenExp mge) {
 		this.mge = mge;
@@ -36,6 +36,7 @@ public class Evolver implements Runnable {
 		this.world = mge.getEvolutionWorkArea().getWorld();
 		keepGoing = true;
 		preferences = MGEPreferences.getInstance();
+		utilities = new MGEUtilities();
 	}
 
 	public void run() {
@@ -53,11 +54,11 @@ public class Evolver implements Runnable {
 
 		// each organism in the world contributes fitness # of alleles to pool		
 		genePool = new ArrayList();
-		for (int i = 0; i < MolGenExp.worldSize; i++) {
-			for (int j = 0; j < MolGenExp.worldSize; j++) {
+		for (int i = 0; i < GlobalDefaults.worldSize; i++) {
+			for (int j = 0; j < GlobalDefaults.worldSize; j++) {
 				ThinOrganism org = world.getThinOrganism(i, j);
 				int colorNumber = 
-					MolGenExp.colorModel.getColorNumber(org.getColor());
+					GlobalDefaults.colorModel.getColorNumber(org.getColor());
 				for (int x = 0; x < fitnessSettings[colorNumber]; x++) {
 					genePool.add(org.getRandomDNASequence());
 				}
@@ -81,16 +82,16 @@ public class Evolver implements Runnable {
 
 		current = 0;
 		ThinOrganism[][] nextGeneration = 
-			new ThinOrganism[MolGenExp.worldSize][MolGenExp.worldSize];
+			new ThinOrganism[GlobalDefaults.worldSize][GlobalDefaults.worldSize];
 		//make next generation
 		// choose random alleles from gene pool, mutate and make new organisms
-		for (int i = 0; i < MolGenExp.worldSize; i++) {
-			for (int j = 0; j < MolGenExp.worldSize; j++) {
+		for (int i = 0; i < GlobalDefaults.worldSize; i++) {
+			for (int j = 0; j < GlobalDefaults.worldSize; j++) {
 				String alleleDNA = getRandomAlleleFromPool();
-				String newAlleleDNA = MutantGenerator.mutateDNASequence(alleleDNA);
+				String newAlleleDNA = utilities.mutateDNASequence(alleleDNA);
 				nextGeneration[i][j] = new ThinOrganism(
-						MutantGenerator.mutateDNASequence(getRandomAlleleFromPool()),
-						MutantGenerator.mutateDNASequence(getRandomAlleleFromPool()));
+						utilities.mutateDNASequence(getRandomAlleleFromPool()),
+						utilities.mutateDNASequence(getRandomAlleleFromPool()));
 				current++;
 				if (!keepGoing) {
 					nextGeneration = null;
@@ -145,7 +146,7 @@ public class Evolver implements Runnable {
 	}
 
 	public int getLengthOfTask() {
-		return MolGenExp.worldSize * MolGenExp.worldSize;
+		return GlobalDefaults.worldSize * GlobalDefaults.worldSize;
 	}
 
 	public int getCurrent() {
