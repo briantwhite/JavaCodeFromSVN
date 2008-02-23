@@ -17,7 +17,8 @@ public class World extends JPanel implements MouseListener {
 	ThinOrganism[][] organisms = 
 		new ThinOrganism[MolGenExp.worldSize][MolGenExp.worldSize];
 	
-	private int cellSize = 500/MolGenExp.worldSize;
+	public final static int pictureSize = 500;
+	private int cellSize = pictureSize/MolGenExp.worldSize;
 	private int selectedCelli = -1;
 	private int selectedCellj = -1;
 

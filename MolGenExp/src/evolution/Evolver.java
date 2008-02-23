@@ -3,10 +3,17 @@ package evolution;
 import genetics.MutantGenerator;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+
+import preferences.MGEPreferences;
 
 import sun.tools.tree.LengthExpression;
 
@@ -21,15 +28,19 @@ public class Evolver implements Runnable {
 	private int current;
 	private boolean keepGoing;
 
+	private MGEPreferences preferences;
+
 	public Evolver(final MolGenExp mge) {
 		this.mge = mge;
 		this.evolutionWorkArea = mge.getEvolutionWorkArea();
 		this.world = mge.getEvolutionWorkArea().getWorld();
 		keepGoing = true;
+		preferences = MGEPreferences.getInstance();
 	}
 
 	public void run() {
 		while (keepGoing) {
+			savePic();
 			createGenePool();
 			makeNextGeneration();
 		}
@@ -67,7 +78,7 @@ public class Evolver implements Runnable {
 			evolutionWorkArea.setReadyToRun();
 			return;
 		}
-		
+
 		current = 0;
 		ThinOrganism[][] nextGeneration = 
 			new ThinOrganism[MolGenExp.worldSize][MolGenExp.worldSize];
@@ -98,6 +109,32 @@ public class Evolver implements Runnable {
 		Random r = new Random();
 		int x = r.nextInt(genePool.size());
 		return (String)genePool.get(x);
+	}
+
+	private void savePic() {
+		if (preferences.isGenerationPixOn()) {
+			//draw it
+			BufferedImage pic = new BufferedImage(
+					world.pictureSize, 
+					world.pictureSize,
+					BufferedImage.TYPE_INT_RGB);
+			Graphics g = pic.getGraphics();
+			world.paint(g);
+			g.setColor(Color.DARK_GRAY);
+			g.drawString("Generation: " + evolutionWorkArea.getGeneration(), 
+					20, 20);
+
+			//save it
+			File imageFile = new File(preferences.getSavePixToPath() 
+					+ System.getProperty("file.separator")
+					+ evolutionWorkArea.getGeneration()
+					+ ".png");
+			try {
+				ImageIO.write(pic, "png", imageFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public boolean done() {

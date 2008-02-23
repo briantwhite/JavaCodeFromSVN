@@ -147,6 +147,10 @@ public class EvolutionWorkArea extends JPanel {
 		generationLabel.setText("Generation " + generation);
 	}
 	
+	public int getGeneration() {
+		return generation;
+	}
+	
 	public World getWorld() {
 		return world;
 	}

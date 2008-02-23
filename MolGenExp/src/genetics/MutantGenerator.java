@@ -155,6 +155,7 @@ public class MutantGenerator implements Runnable {
 	}
 
 	public static String mutateDNASequence(String DNASequence) {
+		preferences = MGEPreferences.getInstance();
 		Random r = new Random();
 
 		StringBuffer DNABuffer = new StringBuffer(DNASequence);

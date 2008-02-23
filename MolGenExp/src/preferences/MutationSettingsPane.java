@@ -54,7 +54,6 @@ public class MutationSettingsPane extends PreferencePane {
 				6, 6,
 				6, 6);
 
-
 		return settingsPanel;
 	}
 
