@@ -3,17 +3,9 @@ package preferences;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-
-import molGenExp.MolGenExp;
-import molGenExp.MutationFreqList;
-import evolution.SpringUtilities;
 
 public abstract class PreferencePane extends JPanel {
 	
@@ -22,9 +14,12 @@ public abstract class PreferencePane extends JPanel {
 	private JButton okButton;
 	private JButton restoreDefaultsButton;
 	private JButton cancelButton;
+	
+	protected MGEPreferences preferences;
 
 	public PreferencePane(PreferencesDialog parentDialog) {
 		super();
+		preferences = MGEPreferences.getInstance();
 		this.parentDialog = parentDialog;
 		setupUI(setupCustomPanel());
 	}

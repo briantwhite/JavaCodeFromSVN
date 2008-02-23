@@ -464,5 +464,7 @@ added features
 - added mutation freqs dialog
 	now can run without mutation
 
+2/23/08
+working on preferences and preferences panes
 
 

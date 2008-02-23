@@ -960,16 +960,6 @@ public class MolGenExp extends JFrame {
 		addToGreenhouseButton.setEnabled(b);
 	}
 	
-	public void mutationPrefsChanged(MutationFreqList mfl) {
-		MGEPreferences.pointMutationRate = mfl.getPointFreq();
-		MGEPreferences.deletionMutationRate = mfl.getDeleteFreq();
-		MGEPreferences.insertionMutationRate = mfl.getInsertFreq();
-	}
-	
-	public void generationPixPrefsChanged(boolean b) {
-		MGEPreferences.generationPixOn = b;
-	}
-
 	public void loadSelectedIntoWorld() {
 		Organism[] orgs = greenhouse.getSelectedOrganisms();
 		if (orgs != null) {

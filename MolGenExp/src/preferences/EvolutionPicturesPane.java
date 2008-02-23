@@ -11,42 +11,46 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
+
+import evolution.SpringUtilities;
 
 public class EvolutionPicturesPane extends PreferencePane {
 
-	JCheckBox pixOnCheckBox;
-	JTextField saveToPath;
-	JButton browseButton;
-
+	private JCheckBox pixOnCheckBox;
+	private JTextField saveToPath;
+	private JButton browseButton;
+	
 	public EvolutionPicturesPane(PreferencesDialog parentDialog) {
 		super(parentDialog);
 	}
 
 	protected JPanel setupCustomPanel() {
 		JPanel customPanel = new JPanel();
-		customPanel.setLayout(new BoxLayout(customPanel, BoxLayout.Y_AXIS));
+		customPanel.setLayout(new SpringLayout());
 
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 		JLabel pixOnLabel = new JLabel("Save an image of each generation");
 		pixOnCheckBox = new JCheckBox();
-		pixOnCheckBox.setSelected(Defaults.DEFAULT_GENERATION_PIX);
+		pixOnCheckBox.setSelected(preferences.isGenerationPixOn());
 		pixOnLabel.setLabelFor(pixOnCheckBox);
-		topPanel.add(pixOnLabel);
-		topPanel.add(pixOnCheckBox);
-		customPanel.add(topPanel);
+		customPanel.add(pixOnLabel);
+		customPanel.add(pixOnCheckBox);
 
 		JLabel pathLabel = new JLabel("Save to:");
+		JLabel nullLabel = new JLabel("");
+		nullLabel.setLabelFor(pathLabel);
 		customPanel.add(pathLabel);
+		customPanel.add(nullLabel);
 
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
-		saveToPath = new JTextField(Defaults.SAVE_PIX_PATH, 60);
-		saveToPath.setMaximumSize(new Dimension(200,20));
+		saveToPath = new JTextField(preferences.getSavePixToPath(), 40);
 		browseButton = new JButton("Browse");
-		bottomPanel.add(saveToPath);
-		bottomPanel.add(browseButton);
-		customPanel.add(bottomPanel);
+		customPanel.add(saveToPath);
+		customPanel.add(browseButton);
+		
+		SpringUtilities.makeCompactGrid(customPanel,
+				3, 2,
+				6, 6,
+				6, 6);
 
 		browseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -69,13 +73,14 @@ public class EvolutionPicturesPane extends PreferencePane {
 	}
 
 	protected void ok() {
-		parentDialog.generationPixPrefsChanged(pixOnCheckBox.isSelected());
+		preferences.setGenerationPixOn(pixOnCheckBox.isSelected());
+		preferences.setSavePixToPath(saveToPath.getText());
 		parentDialog.setVisible(false);
 	}
 
 	protected void restoreDefaults() {
-		pixOnCheckBox.setSelected(Defaults.DEFAULT_GENERATION_PIX);
-		parentDialog.generationPixPrefsChanged(pixOnCheckBox.isSelected());
+		preferences.setGenerationPixOn(preferences.DEFAULT_GENERATION_PIX_ON);
+		preferences.setSavePixToPath(preferences.DEFAULT_SAVE_PIX_TO_PATH);
 		parentDialog.setVisible(false);
 	}
 

@@ -27,6 +27,8 @@ public class MutantGenerator implements Runnable {
 	private int trayNum;
 	private GeneticsWorkbench gw;
 	private OffspringList offspringList;
+	
+	private static MGEPreferences preferences;
 
 	MutantGenerator (Organism o,
 			int mutantCount,
@@ -38,6 +40,7 @@ public class MutantGenerator implements Runnable {
 		this.gw = gw;
 		this.offspringList = offspringList;
 		this.mutantCount = mutantCount;
+		preferences = MGEPreferences.getInstance();
 	}
 
 	public int getLengthOfTask() {
@@ -157,8 +160,8 @@ public class MutantGenerator implements Runnable {
 		StringBuffer DNABuffer = new StringBuffer(DNASequence);
 
 		//mutation: pointMutationRate chance of changing each base
-		if (MGEPreferences.pointMutationRate != 0) {
-			int pointOdds = Math.round(1/MGEPreferences.pointMutationRate);
+		if (preferences.getPointMutationRate() != 0) {
+			int pointOdds = Math.round(1/preferences.getPointMutationRate());
 			for (int i = 0; i < DNABuffer.length(); i++) {
 				if (r.nextInt(pointOdds) == 0) {
 					int base = r.nextInt(4);
@@ -169,8 +172,8 @@ public class MutantGenerator implements Runnable {
 		}
 
 		//deletion mutations
-		if (MGEPreferences.deletionMutationRate != 0) {
-			int delOdds = Math.round(1/MGEPreferences.deletionMutationRate);
+		if (preferences.getDeletionMutationRate() != 0) {
+			int delOdds = Math.round(1/preferences.getDeletionMutationRate());
 			for (int i = 0; i < DNABuffer.length(); i++) {
 				if (r.nextInt(delOdds) == 0) {
 					DNABuffer = DNABuffer.deleteCharAt(i);
@@ -179,8 +182,8 @@ public class MutantGenerator implements Runnable {
 		}
 
 		//insertion mutations
-		if (MGEPreferences.insertionMutationRate != 0) {
-			int insOdds = Math.round(1/MGEPreferences.insertionMutationRate);
+		if (preferences.getInsertionMutationRate() != 0) {
+			int insOdds = Math.round(1/preferences.getInsertionMutationRate());
 			for (int i = 0; i < DNABuffer.length(); i++) {
 				if (r.nextInt(insOdds) == 0) {
 					int base = r.nextInt(4);

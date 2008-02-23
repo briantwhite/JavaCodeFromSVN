@@ -1,13 +1,10 @@
 package preferences;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import molGenExp.MolGenExp;
-import molGenExp.MutationFreqList;
 
 public class PreferencesDialog extends JDialog {
 	
@@ -41,13 +38,4 @@ public class PreferencesDialog extends JDialog {
 				
 		pack();
 	}
-	
-	protected void mutationPrefsChanged(MutationFreqList mfl) {
-		mge.mutationPrefsChanged(mfl);
-	}
-	
-	protected void generationPixPrefsChanged(boolean b) {
-		mge.generationPixPrefsChanged(b);
-	}
-
 }
