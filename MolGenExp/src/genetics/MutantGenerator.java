@@ -5,6 +5,8 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+import preferences.MGEPreferences;
+
 import molBiol.ExpressedGene;
 import molBiol.Gene;
 import molGenExp.MolGenExp;
@@ -155,8 +157,8 @@ public class MutantGenerator implements Runnable {
 		StringBuffer DNABuffer = new StringBuffer(DNASequence);
 
 		//mutation: pointMutationRate chance of changing each base
-		if (MolGenExp.pointMutationRate != 0) {
-			int pointOdds = Math.round(1/MolGenExp.pointMutationRate);
+		if (MGEPreferences.pointMutationRate != 0) {
+			int pointOdds = Math.round(1/MGEPreferences.pointMutationRate);
 			for (int i = 0; i < DNABuffer.length(); i++) {
 				if (r.nextInt(pointOdds) == 0) {
 					int base = r.nextInt(4);
@@ -167,8 +169,8 @@ public class MutantGenerator implements Runnable {
 		}
 
 		//deletion mutations
-		if (MolGenExp.deletionMutationRate != 0) {
-			int delOdds = Math.round(1/MolGenExp.deletionMutationRate);
+		if (MGEPreferences.deletionMutationRate != 0) {
+			int delOdds = Math.round(1/MGEPreferences.deletionMutationRate);
 			for (int i = 0; i < DNABuffer.length(); i++) {
 				if (r.nextInt(delOdds) == 0) {
 					DNABuffer = DNABuffer.deleteCharAt(i);
@@ -177,8 +179,8 @@ public class MutantGenerator implements Runnable {
 		}
 
 		//insertion mutations
-		if (MolGenExp.insertionMutationRate != 0) {
-			int insOdds = Math.round(1/MolGenExp.insertionMutationRate);
+		if (MGEPreferences.insertionMutationRate != 0) {
+			int insOdds = Math.round(1/MGEPreferences.insertionMutationRate);
 			for (int i = 0; i < DNABuffer.length(); i++) {
 				if (r.nextInt(insOdds) == 0) {
 					int base = r.nextInt(4);

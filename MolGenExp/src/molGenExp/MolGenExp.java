@@ -66,6 +66,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.Timer;
 
+import preferences.MGEPreferences;
+import preferences.PreferencesDialog;
+
 import match.Blosum50;
 import match.DNAidentity;
 import match.NWSmart;
@@ -117,10 +120,6 @@ public class MolGenExp extends JFrame {
 
 	public static final MolBiolParams molBiolParams = new MolBiolParams();
 	
-	public static float pointMutationRate = 0.01f;
-	public static float deletionMutationRate = 0.01f;
-	public static float insertionMutationRate = 0.01f;
-
 	private ImageIcon geneticCodeTableImage;
 
 	private JPanel mainPanel;
@@ -129,7 +128,7 @@ public class MolGenExp extends JFrame {
 
 	JMenu fileMenu;
 	JMenuItem quitMenuItem;
-	JMenuItem mutationPrefsItem;
+	JMenuItem prefsItem;
 
 	JMenu editMenu;
 	JMenuItem copyUpperToClipboardItem;
@@ -175,7 +174,7 @@ public class MolGenExp extends JFrame {
 	private MolBiolWorkbench molBiolWorkbench;
 	private EvolutionWorkArea evolutionWorkArea;
 	
-	private MutationSettingsDialog mutationSettingsDialog;
+	private PreferencesDialog preferencesDialog;
 
 	public MolGenExp() {
 		super("Molecular Genetics Explorer " + version);
@@ -205,10 +204,10 @@ public class MolGenExp extends JFrame {
 		menuBar.setBorder(new BevelBorder(BevelBorder.RAISED));
 
 		fileMenu = new JMenu("File");
+		prefsItem = new JMenuItem("Preferences...");
 		quitMenuItem = new JMenuItem("Quit");
-		mutationPrefsItem = new JMenuItem("Set Mutation Rates");
+		fileMenu.add(prefsItem);
 		fileMenu.add(quitMenuItem);
-		fileMenu.add(mutationPrefsItem);
 		menuBar.add(fileMenu);
 
 		editMenu = new JMenu("Edit");
@@ -296,7 +295,7 @@ public class MolGenExp extends JFrame {
 
 		getContentPane().add(mainPanel);
 		
-		mutationSettingsDialog = new MutationSettingsDialog(this);
+		preferencesDialog = new PreferencesDialog(this);
 
 		explorerPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
@@ -364,9 +363,9 @@ public class MolGenExp extends JFrame {
 			}
 		});
 		
-		mutationPrefsItem.addActionListener(new ActionListener() {
+		prefsItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mutationSettingsDialog.setVisible(true);
+				preferencesDialog.setVisible(true);
 			}
 		});
 
@@ -962,9 +961,13 @@ public class MolGenExp extends JFrame {
 	}
 	
 	public void mutationPrefsChanged(MutationFreqList mfl) {
-		pointMutationRate = mfl.getPointFreq();
-		deletionMutationRate = mfl.getDeleteFreq();
-		insertionMutationRate = mfl.getInsertFreq();
+		MGEPreferences.pointMutationRate = mfl.getPointFreq();
+		MGEPreferences.deletionMutationRate = mfl.getDeleteFreq();
+		MGEPreferences.insertionMutationRate = mfl.getInsertFreq();
+	}
+	
+	public void generationPixPrefsChanged(boolean b) {
+		MGEPreferences.generationPixOn = b;
 	}
 
 	public void loadSelectedIntoWorld() {
