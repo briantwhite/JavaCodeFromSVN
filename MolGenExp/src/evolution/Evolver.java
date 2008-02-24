@@ -131,21 +131,23 @@ public class Evolver implements Runnable {
 							DNA1, protein1, DNA2, protein2);
 				}
 			}
-			
+
 			if (!keepGoing) {
 				nextGeneration = null;
 				genePool = null;
 				current = getLengthOfTask();
 				return;
 			}
-			
+
 			// send the sequences out to be folded
 			StringBuffer b = new StringBuffer();
 			Iterator it = sequencesToBeFolded.iterator();
 			while (it.hasNext()) {
 				b.append((String)it.next() + ",");
 			}
-			b.deleteCharAt(b.length() -1);
+			if (b.length() > 0) {
+				b.deleteCharAt(b.length() -1);
+			}
 			evolutionWorkArea.setStatusLabelText("Sending " 
 					+ sequencesToBeFolded.size() 
 					+ " sequences to be folded");
@@ -162,7 +164,7 @@ public class Evolver implements Runnable {
 					evolutionWorkArea.setStatusLabelText(line);
 				}
 			}
-			
+
 			//make new generation using updated archive
 			for (int i = 0; i < GlobalDefaults.worldSize; i++) {
 				for (int j = 0; j < GlobalDefaults.worldSize; j++) {
@@ -173,8 +175,8 @@ public class Evolver implements Runnable {
 							GlobalDefaults.colorModel.mixTwoColors(
 									(archive.getArchiveEntry(
 											pair.getProtein1())).getColor(), 
-									(archive.getArchiveEntry(
-											pair.getProtein2())).getColor()));
+											(archive.getArchiveEntry(
+													pair.getProtein2())).getColor()));
 					current++;
 				}
 			}
@@ -230,7 +232,7 @@ public class Evolver implements Runnable {
 			}
 		}
 	}
-	
+
 	public String convertThreeLetterProteinStringToOneLetterProteinString(
 			String threeLetter) {
 		//insert spaces between amino acid codes
