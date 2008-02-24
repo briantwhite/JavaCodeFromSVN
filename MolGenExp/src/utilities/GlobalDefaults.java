@@ -11,7 +11,7 @@ public class GlobalDefaults {
 
 	//world is a worldSize x worldSize array of orgs
 	// needs to divide 500 evenly
-	public final static int worldSize = 10;
+	public final static int worldSize = 20;
 
 	public final static String version = "1.3.4";
 

@@ -477,8 +477,27 @@ made fold take any string as an arg and automoatically figure out the right way 
 2/24/08
 got server connection working
 benchmarking:
+- 10x10 world
 - load all with green1
 - all mut rates .01
-run 10 generations
-	- local folding: 
+- all fitnesses 5
+- don't save archive between runs
+run 10 generations (when "Generation 10" appears in window)
+	- local folding: 5:40, 5:12, 4:26, 3:47
+	- server folding: 1:40, 1:33, 1:51, 1:59
+therefore 2-3 times faster with server
+try with bigger world to see if a bigger factor
+
+- 20x20 world
+	- local 20:23
+	- server 4:35
+  looks even better
+  
+- 50x50 world
+	-local: 1hr 52 mins only @ gen 8
+		had a null pointer exception at BruteForceFolder.recurse(BruteForceFolder.java:125)
+	- server failed - couldn't find it in the archive
+		probably, in doing request to fold 1300+ sequences something got lost
+
+
 
