@@ -23,14 +23,14 @@ public class DNAHistoryCellRenderer extends JButton
 
 	public Component getListCellRendererComponent(JList list, 
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
-		ExpressedGene gene = (ExpressedGene)value;
+		MolBiolHistListItem mbhli = (MolBiolHistListItem)value;
 		JButton button = 
-			new JButton(gene.getFoldedPolypeptide().getThumbnailPic());
+			new JButton(mbhli.getFoldedPolypeptide().getThumbnailPic());
 		button.setOpaque(true);
-		button.setBackground(gene.getFoldedPolypeptide().getColor());
+		button.setBackground(mbhli.getFoldedPolypeptide().getColor());
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));
-		button.setToolTipText(gene.getToolTipText());
+		button.setToolTipText(mbhli.getToolTipText());
 		return button;
 	}
 

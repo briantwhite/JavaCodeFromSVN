@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+
+
 /**
  * Model a grid containing a polypeptide chain.
  */

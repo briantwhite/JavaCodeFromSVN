@@ -16,6 +16,7 @@ package biochem;
 import java.io.Serializable;
 import java.util.Iterator;
 
+
 /**
  * Model a table of AminoAcids. Serves too as a table factory.
  */

@@ -22,8 +22,11 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
+import utilities.ExpressedGene;
 
-import molBiol.ExpressedGene;
+
+import molBiol.MolBiolHistListItem;
+import molGenExp.ExpressedAndFoldedGene;
 import molGenExp.Organism;
 import molGenExp.WorkPanel;
 
@@ -136,8 +139,8 @@ public class GeneticsWorkPanel extends WorkPanel {
 		trayNum = gw.getNextTrayNum();		
 		offspringList.clearList();
 
-		ExpressedGene eg1 = null;
-		ExpressedGene eg2 = null;
+		ExpressedAndFoldedGene efg1 = null;
+		ExpressedAndFoldedGene efg2 = null;
 
 		if (o1.equals(o2)) {
 			parentInfo = o1.getName() + " self-cross";
@@ -155,19 +158,19 @@ public class GeneticsWorkPanel extends WorkPanel {
 
 			//contribution from first parent
 			if (random.nextInt(2) == 0) {
-				eg1 = o1.getGene1();
+				efg1 = o1.getGene1();
 			} else {
-				eg1 = o1.getGene2();
+				efg1 = o1.getGene2();
 			}
 
 			//contribution from other parent
 			if (random.nextInt(2) == 0) {
-				eg2 = o2.getGene1();
+				efg2 = o2.getGene1();
 			} else {
-				eg2 = o2.getGene2(); 
+				efg2 = o2.getGene2(); 
 			}
 
-			Organism o = new Organism(trayNum + "-" + i, eg1, eg2);
+			Organism o = new Organism(trayNum + "-" + i, efg1, efg2);
 
 			offspringList.add(o);
 		}

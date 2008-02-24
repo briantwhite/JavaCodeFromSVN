@@ -14,6 +14,7 @@
 
 package biochem;
 
+
 /**
  * A virtual table of acids contains one for each possible hydrophobic index.
  */

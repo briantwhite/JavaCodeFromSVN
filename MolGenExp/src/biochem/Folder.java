@@ -13,6 +13,8 @@
 
 package biochem;
 
+
+
 /**
  * Abstract base class for folding algorithms.
  *  

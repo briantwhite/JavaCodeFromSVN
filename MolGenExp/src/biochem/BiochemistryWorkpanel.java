@@ -42,7 +42,6 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	JLabel colorChip;
 
 	Polypeptide polypeptide;
-	Attributes attributes;
 	FoldingManager manager;
 
 	StandardTable table;
@@ -100,13 +99,10 @@ public class BiochemistryWorkpanel extends WorkPanel {
 
 		foldButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				attributes = new Attributes(
-						proteinSequence.getText().trim(), 
-						3, "straight");
 
 				//fold the polypeptide
 				try {
-					manager.fold(attributes);
+					manager.fold(proteinSequence.getText().trim());
 				} catch (FoldingException e) {
 					e.printStackTrace();
 				}	

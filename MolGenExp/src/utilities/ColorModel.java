@@ -17,7 +17,6 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import biochem.AcidInChain;
 import biochem.AminoAcid;
 import biochem.Grid;
 

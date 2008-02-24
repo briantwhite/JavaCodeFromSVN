@@ -56,6 +56,8 @@ import molGenExp.MolGenExp;
  * just one instance; there is no public constructor. See getInstance() method.
  */
 public class FoldingManager {
+	
+	private BiochemAttributes attributes;
 
 	// accessor methods
 
@@ -274,15 +276,13 @@ public class FoldingManager {
 	 *            Attributes.
 	 * @throws FoldingException
 	 */
-	public void fold(Attributes attrib) throws FoldingException {
+	public void fold(String sequence) throws FoldingException {
 		//first, see if it's already been folded
 		FoldedProteinArchive foldedProteinArchive = 
 			FoldedProteinArchive.getInstance();
 		//get the aa seq as a single letter string with no separators
 		AminoAcid[] acids = 
-			factory.parseInputStringToAmAcArray(
-					attrib.getNumAALetterCode(), 
-					attrib.getInputString());
+			factory.parseInputStringToAmAcArray(sequence);
 		StringBuffer buf = new StringBuffer();
 		for (int i = 0; i < acids.length; i++) {
 			buf.append(acids[i].getAbName());
@@ -293,15 +293,14 @@ public class FoldingManager {
 		if (foldedProteinArchive.isInArchive(aaSeq)) {
 			FoldedProteinArchiveEntry entry = 
 				foldedProteinArchive.getArchiveEntry(aaSeq);
-			currentPP = factory.createFromProteinString(
-					1, entry.getProteinString());
+			currentPP = factory.createFromProteinString(entry.getProteinString());
 			currentPP.setFolded();
 			currentGrid = new HexGrid(currentPP);
 		} else {
 			//fold it the regular way
 			resetCurrent();
-			currentAttrib = attrib;
-			foldPP(attrib);
+			currentAttrib = attributes;
+			foldPP(aaSeq);
 			currentPP.setColor(currentGrid.getProteinColor());
 			//save it in the archive
 			foldedProteinArchive.add(
@@ -356,7 +355,7 @@ public class FoldingManager {
 
 	// buffers
 
-	private Attributes currentAttrib;
+	private BiochemAttributes currentAttrib;
 	private Polypeptide currentPP;
 	private Folder currentFolder;
 	private Grid currentGrid;
@@ -376,6 +375,7 @@ public class FoldingManager {
 		observers = new Vector();
 		factory = PolypeptideFactory.getInstance();
 		resetCurrent(); // provides initialization
+		attributes = new BiochemAttributes();
 	}
 
 	/**
@@ -397,11 +397,11 @@ public class FoldingManager {
 	 *            Attributes object.
 	 * @throws FoldingException
 	 */
-	private void foldPP(Attributes attrib) 
+	private void foldPP(String aaSeq) 
 	throws FoldingException {
-		createPP(attrib);
-		createGrid(attrib);
-		createFolder(attrib);
+		createPP(aaSeq);
+		createGrid();
+		createFolder();
 		currentFolder.fold();
 	}
 
@@ -412,16 +412,15 @@ public class FoldingManager {
 	 * @param attrib Attributes.
 	 * @throws FoldingException.
 	 */
-	private void createPP(Attributes attrib) 
+	private void createPP(String aaSeq) 
 	throws FoldingException {
 		try {
 			currentPP = factory.createPolypeptide(
-					attrib.getInputString(),
-					attrib.getIsFolded(), 
-					attrib.getIsRandom(), 
-					attrib.getLength(), 
-					attrib.getSeed(), 
-					attrib.getNumAALetterCode());
+					aaSeq,
+					attributes.getIsFolded(), 
+					attributes.getIsRandom(), 
+					attributes.getLength(), 
+					attributes.getSeed());
 		} 
 		catch (FoldingException ex) {
 			throw new FoldingException("Polypeptide Creation: "
@@ -436,8 +435,8 @@ public class FoldingManager {
 	 *            Attributes object.
 	 * @throws FoldingException
 	 */
-	private void createGrid(Attributes attrib) throws FoldingException {
-		String grid = attrib.getGrid();
+	private void createGrid() throws FoldingException {
+		String grid = attributes.getGrid();
 		if (grid.equalsIgnoreCase("hexagonal")) {
 			currentGrid = new HexGrid(currentPP);
 		} else {
@@ -452,17 +451,17 @@ public class FoldingManager {
 	 *            Attributes object.
 	 * @throws FoldingException
 	 */
-	private void createFolder(Attributes attrib) throws FoldingException {
-		String folder = attrib.getFolder();
+	private void createFolder() throws FoldingException {
+		String folder = attributes.getFolder();
 		if (folder.equalsIgnoreCase("bruteforce")) {
 			currentFolder = new BruteForceFolder(currentPP, currentGrid);
 		} else if (folder.equalsIgnoreCase("incremental")) {
 			currentFolder = new IncrementalFolder(currentPP, currentGrid);
-			String lookupString = attrib.getLookup();
-			String stepString = attrib.getStep();
-			String hpIndexString = attrib.getHydroPhobicIndex();
-			String hIndexString = attrib.getHydrogenIndex();
-			String iIndexString = attrib.getIonicIndex();
+			String lookupString = attributes.getLookup();
+			String stepString = attributes.getStep();
+			String hpIndexString = attributes.getHydroPhobicIndex();
+			String hIndexString = attributes.getHydrogenIndex();
+			String iIndexString = attributes.getIonicIndex();
 			int lookup = 0;
 			int step = 0;
 			double hpIndex = 0;

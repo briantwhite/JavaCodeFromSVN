@@ -3,12 +3,11 @@ package evolution;
 import java.awt.Color;
 import java.util.Random;
 
-import utilities.GlobalDefaults;
-
-import molBiol.Gene;
-import molGenExp.MolGenExp;
 import molGenExp.Organism;
-import biochem.Attributes;
+import utilities.ExpressedGene;
+import utilities.GeneExpresser;
+import utilities.GlobalDefaults;
+import biochem.BiochemAttributes;
 import biochem.FoldingException;
 import biochem.FoldingManager;
 import biochem.HexCanvas;
@@ -21,7 +20,9 @@ public class ThinOrganism {
 	private String dna1;
 	private String dna2;
 	private Color color;
-
+	
+	private GeneExpresser geneExpresser;
+	
 	//empty organism for testing purposes
 	public ThinOrganism(Color color) {
 		dna1 = "";
@@ -30,6 +31,7 @@ public class ThinOrganism {
 	}
 
 	public ThinOrganism(String dna1, String dna2) {
+		geneExpresser = GeneExpresser.getInstance();
 		this.dna1 = dna1;
 		this.dna2 = dna2;
 		color = GlobalDefaults.colorModel.mixTwoColors(
@@ -38,8 +40,8 @@ public class ThinOrganism {
 	}
 
 	public ThinOrganism(Organism o) {
-		dna1 = o.getGene1().getGene().getDNASequence();
-		dna2 = o.getGene2().getGene().getDNASequence();
+		dna1 = o.getGene1().getExpressedGene().getDNA();
+		dna2 = o.getGene2().getExpressedGene().getDNA();
 		color = o.getColor();
 	}
 	
@@ -65,27 +67,14 @@ public class ThinOrganism {
 	}
 
 	private Color foldAndComputeColor(String DNASeq) {
-		Gene newGene = 
-			new Gene(DNASeq, GlobalDefaults.molBiolParams);
-		newGene.transcribe();
-		newGene.process();
-		newGene.translate();
-		newGene.generateHTML(0);
-		String proteinSequence = newGene.getProteinString();
+		ExpressedGene newGene = geneExpresser.expressGene(DNASeq, -1);
+		String proteinSequence = newGene.getProtein();
 		String aaSeq = "";
 
 		//convert to single-letter code amino acid seq
-		if (proteinSequence.indexOf("none") != -1) {
+		if (proteinSequence.equals("")) {
 			aaSeq = "";
 		} else {
-			//remove leading/trailing spaces and the N- and C-
-			proteinSequence = 
-				proteinSequence.replaceAll(" ", "");
-			proteinSequence = 
-				proteinSequence.replaceAll("N-", "");
-			proteinSequence = 
-				proteinSequence.replaceAll("-C", "");
-
 			//insert spaces between amino acid codes
 			StringBuffer psBuffer = new StringBuffer(proteinSequence);
 			for (int i = 3; i < psBuffer.length(); i = i + 4) {
@@ -111,10 +100,8 @@ public class ThinOrganism {
 	public HexGrid foldOntoHexGrid(String aaSeq) {
 		FoldingManager manager = FoldingManager.getInstance();
 		String ssBondIndex = "0.0";
-		Attributes attributes = new Attributes(aaSeq.trim(), 
-				1,  "straight");
 		try {
-			manager.fold(attributes);
+			manager.fold(aaSeq);
 		} catch (FoldingException e) {
 			e.printStackTrace();
 		}

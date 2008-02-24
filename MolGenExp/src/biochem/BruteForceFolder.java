@@ -18,6 +18,8 @@ package biochem;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
 /**
  * Recursive backtracking search for minimum energy folding. Assumes the grid is
  * allocated and large enough so that we won't run over if we start in the

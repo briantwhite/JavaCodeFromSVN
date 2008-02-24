@@ -21,6 +21,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 
+
 /**
  * Model the standard table of amino acids.
  */

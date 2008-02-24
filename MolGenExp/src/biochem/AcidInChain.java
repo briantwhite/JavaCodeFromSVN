@@ -44,6 +44,8 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
+
+
 /**
  * An AcidInChain refers to an AminoAcid and has fields and methods to manage
  * the placement of that AminoAcid in a Polypeptide on a Grid.

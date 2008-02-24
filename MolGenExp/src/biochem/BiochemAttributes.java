@@ -40,22 +40,19 @@
 
 package biochem;
 
-import utilities.ColorModel;
-import molGenExp.RYBColorModel;
 
 /**
  * Class Attributes contains the attributes needed to fold or plot a
- * polypeptide. It serves to transfer data between Observers and FoldingManager.
+ * polypeptide. 
  */
-public class Attributes {
+public class BiochemAttributes {
 
 	/**
 	 * A complete default constructor.
 	 *  
 	 */
-	public Attributes() {
-		this("Ser:Leu:Glu:Leu:Asn:Ile:Thr:Met:Glu:Val:Asp:Phe:Trp:",
-				3, "straight");
+	public BiochemAttributes() {
+		this("straight");
 	}
 
 	/**
@@ -67,12 +64,9 @@ public class Attributes {
 	 * @param breakTies
 	 *            String.
 	 */
-	public Attributes(String inputString, 
-		int numAALetterCode,
-		String breakTies) {
+	public BiochemAttributes(String breakTies) {
 		
-		this(inputString, numAALetterCode, breakTies, 
-				"hexagonal", "incremental",
+		this(breakTies, "hexagonal", "incremental",
 				"8", "4", "0.1", "0.5", "1.0");
 	}
 
@@ -103,9 +97,7 @@ public class Attributes {
 	 * @param ppId
 	 *            String.
 	 */
-	public Attributes(String inputString, 
-			int numAALetterCode,
-			String breakTies,
+	public BiochemAttributes(String breakTies,
 			String grid, 
 			String folder, 
 			String lookup, 
@@ -114,8 +106,6 @@ public class Attributes {
 			String h2indx, 
 			String ionindx) {
 		
-		this.inputString = inputString;
-		this.numAALetterCode = numAALetterCode;
 		this.breakTies = breakTies;
 		this.grid = grid;
 		this.folder = folder;
@@ -136,10 +126,6 @@ public class Attributes {
 		return isRandom;
 	}
 
-	public String getInputString() {
-		return inputString;
-	}
-
 	public String getLength() {
 		return length;
 	}
@@ -148,10 +134,6 @@ public class Attributes {
 		return seed;
 	}
 
-	public int getNumAALetterCode() {
-		return numAALetterCode;
-	}
-	
 	public String getGrid() {
 		return grid;
 	}
@@ -225,17 +207,15 @@ public class Attributes {
 	 *            String filename holding the existing state parameters.
 	 * @return Attributes object.
 	 */
-	public Attributes loadState(String filename) {
-		return new Attributes();
+	public BiochemAttributes loadState(String filename) {
+		return new BiochemAttributes();
 	}
 
 	private boolean isFolded = false;
 	private boolean isRandom = false;
 
-	private String inputString = "";
 	private String length = "";
 	private String seed = "";
-	private int numAALetterCode = 0;
 	private String grid = "";
 	private String breakTies = "";
 	private String folder = "";

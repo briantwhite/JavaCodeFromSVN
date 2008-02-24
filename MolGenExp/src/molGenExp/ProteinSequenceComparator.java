@@ -4,6 +4,7 @@ import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
 
+
 import match.Blosum50;
 import match.NWSmart;
 import biochem.AminoAcid;

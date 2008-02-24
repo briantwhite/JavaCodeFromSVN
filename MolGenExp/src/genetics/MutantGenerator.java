@@ -1,25 +1,10 @@
 package genetics;
 
 
-import java.awt.Dimension;
-import java.util.Random;
-
-import javax.swing.ImageIcon;
-
-import preferences.MGEPreferences;
-import utilities.MGEUtilities;
-
-import molBiol.ExpressedGene;
-import molBiol.Gene;
-import molGenExp.MolGenExp;
+import molGenExp.ExpressedAndFoldedGene;
 import molGenExp.Organism;
-import molGenExp.ProteinImageFactory;
-import molGenExp.ProteinImageSet;
-import biochem.Attributes;
-import biochem.FoldedPolypeptide;
-import biochem.FoldingException;
-import biochem.FoldingManager;
-import biochem.OutputPalette;
+import preferences.MGEPreferences;
+import utilities.Mutator;
 
 public class MutantGenerator implements Runnable {
 
@@ -31,7 +16,7 @@ public class MutantGenerator implements Runnable {
 	private OffspringList offspringList;
 	
 	private MGEPreferences preferences;
-	private MGEUtilities utilities;
+	private Mutator mutator;
 
 	MutantGenerator (Organism o,
 			int mutantCount,
@@ -44,7 +29,7 @@ public class MutantGenerator implements Runnable {
 		this.offspringList = offspringList;
 		this.mutantCount = mutantCount;
 		preferences = MGEPreferences.getInstance();
-		utilities = new MGEUtilities();
+		mutator = Mutator.getInstance();
 	}
 
 	public int getLengthOfTask() {
@@ -73,15 +58,15 @@ public class MutantGenerator implements Runnable {
 
 	public void run() {
 		for (current = 0; current < mutantCount; current++) {
-			ExpressedGene eg1 = null;
-			ExpressedGene eg2 = null;
-			eg1 = utilities.mutateGene(o.getGene1());
-			eg2 = utilities.mutateGene(o.getGene2());
+			ExpressedAndFoldedGene efg1 = null;
+			ExpressedAndFoldedGene efg2 = null;
+			efg1 = mutator.mutateGene(o.getGene1());
+			efg2 = mutator.mutateGene(o.getGene2());
 
 			if (current < mutantCount) {
 				offspringList.add(new Organism(trayNum + "-" + (current + 1),
-						eg1,
-						eg2));
+						efg1,
+						efg2));
 			}
 		}
 	}

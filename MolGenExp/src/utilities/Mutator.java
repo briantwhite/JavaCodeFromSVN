@@ -5,12 +5,12 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-import molBiol.ExpressedGene;
-import molBiol.Gene;
+import molBiol.MolBiolHistListItem;
+import molGenExp.ExpressedAndFoldedGene;
 import molGenExp.ProteinImageFactory;
 import molGenExp.ProteinImageSet;
 import preferences.MGEPreferences;
-import biochem.Attributes;
+import biochem.BiochemAttributes;
 import biochem.FoldedPolypeptide;
 import biochem.FoldingException;
 import biochem.FoldingManager;
@@ -18,56 +18,37 @@ import biochem.OutputPalette;
 
 public class Mutator {
 	
-	private MGEPreferences preferences;
+	private static Mutator instance;
 	
-	protected Mutator() {
+	private MGEPreferences preferences;
+	private GeneExpresser expresser;
+	
+	private Mutator() {
 		preferences = MGEPreferences.getInstance();
+		expresser = GeneExpresser.getInstance();
 	}
 	
-	protected ExpressedGene mutateGene(ExpressedGene eg) {
+	public static Mutator getInstance() {
+		if (instance == null) {
+			instance = new Mutator();
+		}
+		return instance;
+	}
+	
+	public ExpressedAndFoldedGene mutateGene(ExpressedAndFoldedGene efg) {
 		//change one base in the DNA
-		Gene gene = eg.getGene();
-
-		if (gene.getDNASequenceLength() == 0) {
-			return eg;
+		if (efg.getExpressedGene().getDNA().length() == 0) {
+			return efg;
 		}
-		Gene newGene = 
-			new Gene(mutateDNASequence(gene.getDNASequence()), 
-					GlobalDefaults.molBiolParams);
-		newGene.transcribe();
-		newGene.process();
-		newGene.translate();
-		String html = newGene.generateHTML(0);
+		ExpressedGene newGene = expresser.expressGene(
+				mutateDNASequence(efg.getExpressedGene().getDNA()), -1);
 
-		String proteinSequence = newGene.getProteinString();
-
-		if (proteinSequence.indexOf("none") != -1) {
-			proteinSequence = "";
-		} else {
-			//remove leading/trailing spaces and the N- and C-
-			proteinSequence = 
-				proteinSequence.replaceAll(" ", "");
-			proteinSequence = 
-				proteinSequence.replaceAll("N-", "");
-			proteinSequence = 
-				proteinSequence.replaceAll("-C", "");
-
-			//insert spaces between amino acid codes
-			StringBuffer psBuffer = new StringBuffer(proteinSequence);
-			for (int i = 3; i < psBuffer.length(); i = i + 4) {
-				psBuffer = psBuffer.insert(i, " ");
-			}
-			proteinSequence = psBuffer.toString();
-		}
+		String proteinSequence = newGene.getProtein();
 
 		//fold it
-		Attributes attributes = new Attributes(
-				proteinSequence, 
-				3,
-		"straight");
 		FoldingManager manager = FoldingManager.getInstance();
 		try {
-			manager.fold(attributes);
+			manager.fold(proteinSequence);
 		} catch (FoldingException e) {
 			e.printStackTrace();
 		}
@@ -87,15 +68,14 @@ public class Mutator {
 				new ImageIcon(images.getThumbnailImage()), 
 				op.getProteinColor());
 
-		ExpressedGene newEg = new ExpressedGene(html, newGene);
-		newEg.setFoldedPolypeptide(fp);
+		ExpressedAndFoldedGene newEfg = new ExpressedAndFoldedGene(newGene, fp);
 
 		images = null;
 
-		return newEg;
+		return newEfg;
 	}
 
-	protected String mutateDNASequence(String DNASequence) {
+	public String mutateDNASequence(String DNASequence) {
 		preferences = MGEPreferences.getInstance();
 		Random r = new Random();
 

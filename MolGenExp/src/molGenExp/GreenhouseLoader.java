@@ -10,21 +10,22 @@ import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 
-import biochem.Attributes;
+import utilities.ExpressedGene;
+import utilities.GeneExpresser;
+import biochem.BiochemAttributes;
 import biochem.FoldedPolypeptide;
 import biochem.FoldingException;
 import biochem.FoldingManager;
 import biochem.OutputPalette;
 
-import molBiol.ExpressedGene;
-import molBiol.MolBiolWorkpanel;
-
 public class GreenhouseLoader implements Runnable {
 	
-	File greenhouseDir;
-	ArrayList organismFiles;
-	Greenhouse greenhouse;
-	int i;
+	private File greenhouseDir;
+	private ArrayList organismFiles;
+	private Greenhouse greenhouse;
+	private int i;
+	private GeneExpresser geneExpresser;
+	
 	
 	public GreenhouseLoader(File greenhouseDir, Greenhouse greenhouse) {
 		this.greenhouseDir = greenhouseDir;
@@ -37,6 +38,7 @@ public class GreenhouseLoader implements Runnable {
 				organismFiles.add(fileName);
 			}
 		}
+		geneExpresser = GeneExpresser.getInstance();
 	}
 	
 	public int getLengthOfTask() {
@@ -82,16 +84,20 @@ public class GreenhouseLoader implements Runnable {
 						geneSequences.add(line);
 					} 
 				}
-				
+								
 				// be sure there are only 2 DNA sequences in the organism
 				if (geneSequences.size() == 2) {
 					ExpressedGene eg1 = 
-						MolBiolWorkpanel.expressGene((String)geneSequences.get(0), -1);
+						geneExpresser.expressGene((String)geneSequences.get(0), -1);
 					ExpressedGene eg2 = 
-						MolBiolWorkpanel.expressGene((String)geneSequences.get(1), -1);
-					eg1.setFoldedPolypeptide(foldProtein(eg1.getGene().getProteinString()));
-					eg2.setFoldedPolypeptide(foldProtein(eg2.getGene().getProteinString()));
-					Organism o = new Organism(organismName, eg1, eg2);
+						geneExpresser.expressGene((String)geneSequences.get(1), -1);
+					Organism o = new Organism(organismName, 
+							new ExpressedAndFoldedGene(
+									eg1,
+									foldProtein(eg1.getProtein())), 
+							new ExpressedAndFoldedGene(
+									eg2,
+									foldProtein(eg2.getProtein())));
 					greenhouse.add(o);
 				}
 				input.close();
@@ -115,27 +121,10 @@ public class GreenhouseLoader implements Runnable {
 	}
 	
 	public static FoldedPolypeptide foldProtein(String aaSeq) {
-		if (aaSeq.indexOf("none") != -1) {
-			aaSeq = "";
-		} else {
-			//remove leading/trailing spaces and the N- and C-
-			aaSeq = aaSeq.replaceAll(" ", "");
-			aaSeq = aaSeq.replaceAll("N-", "");
-			aaSeq = aaSeq.replaceAll("-C", "");
-			
-			//insert spaces between amino acid codes
-			StringBuffer psBuffer = new StringBuffer(aaSeq);
-			for (int i = 3; i < psBuffer.length(); i = i + 4) {
-				psBuffer = psBuffer.insert(i, " ");
-			}
-			aaSeq = psBuffer.toString();
-		}
-		
 		//fold it
-		Attributes attributes = new Attributes(aaSeq, 3, "straight");
 		FoldingManager manager = FoldingManager.getInstance();
 		try {
-			manager.fold(attributes);
+			manager.fold(aaSeq);
 		} catch (FoldingException e) {
 			e.printStackTrace();
 		}

@@ -469,5 +469,10 @@ working on preferences and preferences panes
 working on moving global defaults
 working on moving generally-used methods (express, fold, etc) to MGEUtilities
 
+got it working
+moved gene expression to one place
+working on doing this with protein
+made fold take any string as an arg and automoatically figure out the right way to parse it
+
 
 

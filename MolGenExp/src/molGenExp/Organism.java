@@ -5,31 +5,31 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
+import utilities.ExpressedGene;
+import utilities.GeneExpresser;
 import utilities.GlobalDefaults;
-
+import biochem.FoldedPolypeptide;
 import evolution.ThinOrganism;
-
-import molBiol.ExpressedGene;
-import molBiol.MolBiolWorkpanel;
 
 public class Organism {
 	
 	private static int imageSize = 50; //size of image for greenhouse
 	private String name;
 	
-	private ExpressedGene gene1;
-	private ExpressedGene gene2;
+	private ExpressedAndFoldedGene gene1;
+	private ExpressedAndFoldedGene gene2;
 	private Color color;
 	private ImageIcon image;
 	
 	private static HashMap iconCache = new HashMap();
+	
+	private GeneExpresser geneExpresser;
 
-	public Organism(String name, ExpressedGene gene1, ExpressedGene gene2) {
+	public Organism(String name, ExpressedAndFoldedGene gene1, ExpressedAndFoldedGene gene2) {
 		this.name = name;
 		this.gene1 = gene1;
 		this.gene2 = gene2;
@@ -47,6 +47,8 @@ public class Organism {
 			image = makeIcon(color);
 			iconCache.put(color.toString(), image);
 		}
+		
+		geneExpresser = GeneExpresser.getInstance();
 
 	}
 	
@@ -94,14 +96,14 @@ public class Organism {
 	}
 	
 	public Organism(ThinOrganism thinOrg) {
-		gene1 = MolBiolWorkpanel.expressGene(thinOrg.getDNA1(), -1);
-		gene1.setFoldedPolypeptide(
-				GreenhouseLoader.foldProtein(
-						gene1.getGene().getProteinString()));
-		gene2 = MolBiolWorkpanel.expressGene(thinOrg.getDNA2(), -1);
-		gene2.setFoldedPolypeptide(
-				GreenhouseLoader.foldProtein(
-						gene2.getGene().getProteinString()));
+		ExpressedGene eg1 = geneExpresser.expressGene(thinOrg.getDNA1(), -1);
+		FoldedPolypeptide fp1 = GreenhouseLoader.foldProtein(eg1.getProtein());
+		gene1 = new ExpressedAndFoldedGene(eg1, fp1);
+
+		ExpressedGene eg2 = geneExpresser.expressGene(thinOrg.getDNA2(), -1);
+		FoldedPolypeptide fp2 = GreenhouseLoader.foldProtein(eg2.getProtein());
+		gene2 = new ExpressedAndFoldedGene(eg2, fp2);
+		
 		color = thinOrg.getColor();
 	}
 	
@@ -109,11 +111,11 @@ public class Organism {
 		return name;
 	}
 
-	public ExpressedGene getGene1() {
+	public ExpressedAndFoldedGene getGene1() {
 		return gene1;
 	}
 
-	public ExpressedGene getGene2() {
+	public ExpressedAndFoldedGene getGene2() {
 		return gene2;
 	}
 

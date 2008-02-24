@@ -16,6 +16,7 @@ package biochem;
 import java.awt.Color;
 import java.util.Iterator;
 
+
 /**
  * just shade between different intensities of one color.
  */

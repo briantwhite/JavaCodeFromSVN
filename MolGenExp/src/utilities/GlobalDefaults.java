@@ -1,6 +1,7 @@
 package utilities;
 
 import molGenExp.RYBColorModel;
+import biochem.BiochemAttributes;
 import biochem.StandardTable;
 
 public class GlobalDefaults {
@@ -29,6 +30,9 @@ public class GlobalDefaults {
 	public static final StandardTable aaTable = new StandardTable();
 
 	public static final MolBiolParams molBiolParams = new MolBiolParams();
+	
+	public static final BiochemAttributes biochemAttributes = 
+		new BiochemAttributes();
 
 	
 	public GlobalDefaults() {

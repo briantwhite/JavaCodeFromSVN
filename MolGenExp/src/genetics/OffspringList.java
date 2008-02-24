@@ -16,7 +16,8 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
-import molBiol.ExpressedGene;
+import utilities.ExpressedGene;
+
 import molGenExp.CustomListSelectionModel;
 import molGenExp.MolGenExp;
 import molGenExp.Organism;

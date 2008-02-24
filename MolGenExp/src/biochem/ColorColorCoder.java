@@ -16,6 +16,7 @@ package biochem;
 import java.awt.Color;
 import java.util.Iterator;
 
+
 /**
  * Interpolate between colors in HSB model.
  */

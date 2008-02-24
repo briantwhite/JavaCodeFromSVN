@@ -36,8 +36,16 @@ package biochem;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import utilities.GlobalDefaults;
+
+
+
+
+
+
 
 import molGenExp.MolGenExp;
 
@@ -74,7 +82,7 @@ public class PolypeptideFactory {
 			int numAALetterCode) throws FoldingException {
 
 		return this.createPolypeptide(arrayToString(args), isSolution,
-				isRandom, length, seed, numAALetterCode);
+				isRandom, length, seed);
 	}
 
 	/**
@@ -92,15 +100,14 @@ public class PolypeptideFactory {
 	 *            seed of the random polypeptide.
 	 */
 	public Polypeptide createPolypeptide(String input, boolean isFolded,
-			boolean isRandom, String length, String seed,
-			int numAALetterCode) throws FoldingException {
+			boolean isRandom, String length, String seed) throws FoldingException {
 
 		if (isFolded) {
-			return createFromProteinString(numAALetterCode, input);
+			return createFromProteinString(input);
 		} else if (isRandom) {
 			return createRandom(length, seed);
 		} else {
-			return createFromAcids(numAALetterCode, input);
+			return createFromAcids(input);
 		}
 	}
 
@@ -114,8 +121,7 @@ public class PolypeptideFactory {
 	 * @throws FoldingException
 	 */
 	// 
-	public Polypeptide createFromProteinString(
-			int numAALetterCode, String input) throws FoldingException {
+	public Polypeptide createFromProteinString(String input) throws FoldingException {
 
 		// parse input into strings representing an acid or a direction
 		ArrayList acidString = getTokens(input);
@@ -134,7 +140,7 @@ public class PolypeptideFactory {
 		for (int i = 0; i < numberOfTokens; i = i + 2) {
 
 			// parse acid string( found on even positions)
-			acids[acidIndex++] = parseAcid((String) acidString.get(i), numAALetterCode);
+			acids[acidIndex++] = parseAcid((String) acidString.get(i), 1);
 
 			// parse direction string( found on odd positions)
 			directions[directionIndex++] = parseDirection((String) acidString
@@ -189,14 +195,29 @@ public class PolypeptideFactory {
 	 * @return Polypeptide
 	 * @throws FoldingException
 	 */
-	public Polypeptide createFromAcids(int numAALetterCode, String input) throws FoldingException {
-		AminoAcid[] acids = parseInputStringToAmAcArray(numAALetterCode, input);
+	public Polypeptide createFromAcids(String input) throws FoldingException {
+		AminoAcid[] acids = parseInputStringToAmAcArray(input);
 		return new Polypeptide(acids);
 	}
 
-	public AminoAcid[] parseInputStringToAmAcArray(int numAALetterCode,
-			String input) throws FoldingException {
+	public AminoAcid[] parseInputStringToAmAcArray(String input) throws FoldingException {
+
 		AminoAcid[] acids;
+
+		//figure out what kind of protein sequence it is
+		int numAALetterCode = 1;
+
+		Pattern p = Pattern.compile("[a-z]{1,}");
+		Matcher m = p.matcher(input);
+		if (m.find()) {
+			numAALetterCode = 3;
+		}
+
+		// take out any labels and other useless stuff
+		input = input.replaceAll(" ", "");
+		input = input.replaceAll("N-", "");
+		input = input.replaceAll("-C", "");
+
 
 		switch (numAALetterCode) {
 		case 1:
@@ -207,6 +228,13 @@ public class PolypeptideFactory {
 			}
 			break;
 		case 3:
+			//insert spaces between amino acid codes
+			StringBuffer psBuffer = new StringBuffer(input);
+			for (int i = 3; i < psBuffer.length(); i = i + 4) {
+				psBuffer = psBuffer.insert(i, " ");
+			}
+			input = psBuffer.toString();
+
 			// parse input into strings, each representing an acid
 			ArrayList acidString = getTokens(input);
 
@@ -223,7 +251,7 @@ public class PolypeptideFactory {
 		}
 		return acids;
 	}
-	
+
 
 
 	/**
@@ -251,8 +279,10 @@ public class PolypeptideFactory {
 	 * @return AminoAcid
 	 * @throws FoldingException
 	 */
-	public AminoAcid parseAcid(String acidString, int numAALetterCode)
-	throws FoldingException {
+	public AminoAcid parseAcid(
+			String acidString, 
+			int numAALetterCode) throws FoldingException {
+
 		AminoAcid acid;
 		switch (numAALetterCode) {
 		case 1:

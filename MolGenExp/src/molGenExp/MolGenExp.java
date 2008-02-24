@@ -68,17 +68,17 @@ import javax.swing.Timer;
 
 import preferences.MGEPreferences;
 import preferences.PreferencesDialog;
+import utilities.ExpressedGene;
 import utilities.GlobalDefaults;
 import utilities.MolBiolParams;
 
 import match.Blosum50;
 import match.DNAidentity;
 import match.NWSmart;
-import molBiol.ExpressedGene;
 import molBiol.MolBiolWorkbench;
 import molBiol.MolBiolWorkpanel;
 import biochem.AminoAcid;
-import biochem.Attributes;
+import biochem.BiochemAttributes;
 import biochem.BiochemistryWorkbench;
 import biochem.BiochemistryWorkpanel;
 import biochem.FoldedPolypeptide;
@@ -639,9 +639,9 @@ public class MolGenExp extends JFrame {
 			Writer output = null;
 			try {
 				output = new BufferedWriter(new FileWriter(fileName) );
-				output.write(o.getGene1().getGene().getDNASequence());
+				output.write(o.getGene1().getExpressedGene().getDNA());
 				output.write("\n");
-				output.write(o.getGene2().getGene().getDNASequence());
+				output.write(o.getGene2().getExpressedGene().getDNA());
 				output.write("\n");
 			}
 			catch (Exception e) {

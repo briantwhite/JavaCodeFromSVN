@@ -15,8 +15,7 @@ import javax.swing.JOptionPane;
 import molGenExp.MolGenExp;
 import preferences.MGEPreferences;
 import utilities.GlobalDefaults;
-import utilities.MGEUtilities;
-import genetics.MutantGenerator;
+import utilities.Mutator;
 
 public class Evolver implements Runnable {
 
@@ -28,7 +27,7 @@ public class Evolver implements Runnable {
 	private boolean keepGoing;
 
 	private MGEPreferences preferences;
-	private MGEUtilities utilities;
+	private Mutator mutator;
 
 	public Evolver(final MolGenExp mge) {
 		this.mge = mge;
@@ -36,7 +35,7 @@ public class Evolver implements Runnable {
 		this.world = mge.getEvolutionWorkArea().getWorld();
 		keepGoing = true;
 		preferences = MGEPreferences.getInstance();
-		utilities = new MGEUtilities();
+		mutator = Mutator.getInstance();
 	}
 
 	public void run() {
@@ -88,10 +87,10 @@ public class Evolver implements Runnable {
 		for (int i = 0; i < GlobalDefaults.worldSize; i++) {
 			for (int j = 0; j < GlobalDefaults.worldSize; j++) {
 				String alleleDNA = getRandomAlleleFromPool();
-				String newAlleleDNA = utilities.mutateDNASequence(alleleDNA);
+				String newAlleleDNA = mutator.mutateDNASequence(alleleDNA);
 				nextGeneration[i][j] = new ThinOrganism(
-						utilities.mutateDNASequence(getRandomAlleleFromPool()),
-						utilities.mutateDNASequence(getRandomAlleleFromPool()));
+						mutator.mutateDNASequence(getRandomAlleleFromPool()),
+						mutator.mutateDNASequence(getRandomAlleleFromPool()));
 				current++;
 				if (!keepGoing) {
 					nextGeneration = null;

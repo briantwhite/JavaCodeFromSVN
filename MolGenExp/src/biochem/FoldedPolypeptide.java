@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 import molGenExp.HistListItem;
 
-public class FoldedPolypeptide extends HistListItem implements Serializable {
+public class FoldedPolypeptide extends HistListItem {
 	private String aaSeq;
 	private Grid fullSizeGrid;
 	private ImageIcon thumbnailPic;

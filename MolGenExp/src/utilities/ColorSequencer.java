@@ -1,4 +1,4 @@
-package molBiol;
+package utilities;
 /*
  * Created on Dec 12, 2004
  *
