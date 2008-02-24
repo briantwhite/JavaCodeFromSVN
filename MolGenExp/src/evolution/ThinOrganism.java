@@ -23,11 +23,15 @@ public class ThinOrganism {
 	
 	private GeneExpresser geneExpresser;
 	
+	public ThinOrganism(String dna1, String dna2, Color color) {
+		this.dna1 = dna1;
+		this.dna2 = dna2;
+		this.color = color;
+	}
+	
 	//empty organism for testing purposes
 	public ThinOrganism(Color color) {
-		dna1 = "";
-		dna2 = "";
-		this.color = color;
+		this("", "", color);
 	}
 
 	public ThinOrganism(String dna1, String dna2) {

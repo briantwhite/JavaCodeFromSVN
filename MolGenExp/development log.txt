@@ -474,5 +474,11 @@ moved gene expression to one place
 working on doing this with protein
 made fold take any string as an arg and automoatically figure out the right way to parse it
 
-
+2/24/08
+got server connection working
+benchmarking:
+- load all with green1
+- all mut rates .01
+run 10 generations
+	- local folding: 
 

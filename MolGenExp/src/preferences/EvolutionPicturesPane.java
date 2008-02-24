@@ -64,8 +64,6 @@ public class EvolutionPicturesPane extends PreferencePane {
 		});
 		
 		return customPanel;
-
-
 	}
 
 	protected void cancel() {

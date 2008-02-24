@@ -7,13 +7,21 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import biochem.AminoAcid;
+import biochem.PolypeptideFactory;
+
+import molGenExp.FoldedProteinArchive;
 import molGenExp.MolGenExp;
+import molGenExp.ServerCommunicator;
 import preferences.MGEPreferences;
+import utilities.GeneExpresser;
 import utilities.GlobalDefaults;
 import utilities.Mutator;
 
@@ -26,8 +34,12 @@ public class Evolver implements Runnable {
 	private int current;
 	private boolean keepGoing;
 
+	private FoldedProteinArchive archive;
+
 	private MGEPreferences preferences;
 	private Mutator mutator;
+	private GeneExpresser expresser;
+	private ServerCommunicator communicator;
 
 	public Evolver(final MolGenExp mge) {
 		this.mge = mge;
@@ -36,9 +48,13 @@ public class Evolver implements Runnable {
 		keepGoing = true;
 		preferences = MGEPreferences.getInstance();
 		mutator = Mutator.getInstance();
+		archive = FoldedProteinArchive.getInstance();
+		expresser = GeneExpresser.getInstance();
+		communicator = new ServerCommunicator(mge);
 	}
 
 	public void run() {
+		evolutionWorkArea.setStatusLabelText("Running");
 		while (keepGoing) {
 			savePic();
 			createGenePool();
@@ -84,19 +100,97 @@ public class Evolver implements Runnable {
 			new ThinOrganism[GlobalDefaults.worldSize][GlobalDefaults.worldSize];
 		//make next generation
 		// choose random alleles from gene pool, mutate and make new organisms
-		for (int i = 0; i < GlobalDefaults.worldSize; i++) {
-			for (int j = 0; j < GlobalDefaults.worldSize; j++) {
-				String alleleDNA = getRandomAlleleFromPool();
-				String newAlleleDNA = mutator.mutateDNASequence(alleleDNA);
-				nextGeneration[i][j] = new ThinOrganism(
-						mutator.mutateDNASequence(getRandomAlleleFromPool()),
-						mutator.mutateDNASequence(getRandomAlleleFromPool()));
-				current++;
-				if (!keepGoing) {
-					nextGeneration = null;
-					genePool = null;
-					current = getLengthOfTask();
-					return;
+		// procedure depends on if using a server or not
+		//  if server - save all requests and send at once
+		//  if locally-folded - fold as you go
+
+		if (preferences.isUseFoldingServer()) {
+			evolutionWorkArea.setStatusLabelText("Using Folding Server");
+			PairOfProteinAndDNASequences[][] pairs =
+				new PairOfProteinAndDNASequences[GlobalDefaults.worldSize][GlobalDefaults.worldSize];
+			HashSet sequencesToBeFolded = new HashSet();
+			// make the new protein sequences and see which are in archive
+			//  make a list of those that need to be folded
+			for (int i = 0; i < GlobalDefaults.worldSize; i++) {
+				for (int j = 0; j < GlobalDefaults.worldSize; j++) {
+					String DNA1 = mutator.mutateDNASequence(getRandomAlleleFromPool());
+					String protein1 = 
+						convertThreeLetterProteinStringToOneLetterProteinString((
+								expresser.expressGene(DNA1, -1)).getProtein());
+					if (!archive.isInArchive(protein1)) {
+						sequencesToBeFolded.add(protein1);
+					}
+					String DNA2 = mutator.mutateDNASequence(getRandomAlleleFromPool());
+					String protein2 = 
+						convertThreeLetterProteinStringToOneLetterProteinString((
+								expresser.expressGene(DNA2, -1)).getProtein());
+					if (!archive.isInArchive(protein2)) {
+						sequencesToBeFolded.add(protein2);
+					}
+					pairs[i][j] = new PairOfProteinAndDNASequences(
+							DNA1, protein1, DNA2, protein2);
+				}
+			}
+			
+			if (!keepGoing) {
+				nextGeneration = null;
+				genePool = null;
+				current = getLengthOfTask();
+				return;
+			}
+			
+			// send the sequences out to be folded
+			StringBuffer b = new StringBuffer();
+			Iterator it = sequencesToBeFolded.iterator();
+			while (it.hasNext()) {
+				b.append((String)it.next() + ",");
+			}
+			b.deleteCharAt(b.length() -1);
+			evolutionWorkArea.setStatusLabelText("Sending " 
+					+ sequencesToBeFolded.size() 
+					+ " sequences to be folded");
+			String response = communicator.sendSequencesToServer(b.toString());
+
+			//parse the reply and add to archive
+			String[] responseLines = response.split("<br>");
+			for (int i = 0; i < responseLines.length; i++) {
+				String line = responseLines[i];
+				if (line.contains(";")) {
+					archive.addEntryToArchive(line);
+				}
+				if (line.contains("it took")) {
+					evolutionWorkArea.setStatusLabelText(line);
+				}
+			}
+			
+			//make new generation using updated archive
+			for (int i = 0; i < GlobalDefaults.worldSize; i++) {
+				for (int j = 0; j < GlobalDefaults.worldSize; j++) {
+					PairOfProteinAndDNASequences pair = pairs[i][j];
+					nextGeneration[i][j] = new ThinOrganism(
+							pair.getDNA1(),
+							pair.getDNA2(),
+							GlobalDefaults.colorModel.mixTwoColors(
+									(archive.getArchiveEntry(
+											pair.getProtein1())).getColor(), 
+									(archive.getArchiveEntry(
+											pair.getProtein2())).getColor()));
+					current++;
+				}
+			}
+		} else {
+			for (int i = 0; i < GlobalDefaults.worldSize; i++) {
+				for (int j = 0; j < GlobalDefaults.worldSize; j++) {
+					nextGeneration[i][j] = new ThinOrganism(
+							mutator.mutateDNASequence(getRandomAlleleFromPool()),
+							mutator.mutateDNASequence(getRandomAlleleFromPool()));
+					current++;
+					if (!keepGoing) {
+						nextGeneration = null;
+						genePool = null;
+						current = getLengthOfTask();
+						return;
+					}
 				}
 			}
 		}
@@ -135,6 +229,29 @@ public class Evolver implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public String convertThreeLetterProteinStringToOneLetterProteinString(
+			String threeLetter) {
+		//insert spaces between amino acid codes
+		StringBuffer psBuffer = new StringBuffer(threeLetter);
+		for (int i = 3; i < psBuffer.length(); i = i + 4) {
+			psBuffer = psBuffer.insert(i, " ");
+		}
+		threeLetter = psBuffer.toString();
+
+		// parse input into strings, each representing an acid
+		ArrayList acidStrings = 
+			PolypeptideFactory.getInstance().getTokens(threeLetter);
+
+		// parsing each acid string into AminoAcids using the AminoAcidTable.
+		StringBuffer b = new StringBuffer();
+		for (int i = 0; i < acidStrings.size(); i++) {
+			b.append((
+					GlobalDefaults.aaTable.get(
+							(String)acidStrings.get(i))).getAbName());
+		}
+		return b.toString();
 	}
 
 	public boolean done() {

@@ -18,6 +18,13 @@ public class MGEPreferences {
 	private String savePixToPath;
 	protected static String DEFAULT_SAVE_PIX_TO_PATH = 
 		System.getProperty("user.dir");
+	
+	//stuff for using the folding server
+	private boolean useFoldingServer;
+	protected static boolean DEFAULT_USE_FOLDING_SERVER = false;
+	private String foldingServerURL;
+	protected static String DEFAULT_FOLDING_SERVER_URL = 
+		"http://cluster.bio.whe.umb.edu/cgi-bin/fold.pl";
 
 	
 	public static MGEPreferences getInstance() {
@@ -35,6 +42,9 @@ public class MGEPreferences {
 		
 		generationPixOn = DEFAULT_GENERATION_PIX_ON;
 		savePixToPath = DEFAULT_SAVE_PIX_TO_PATH;
+		
+		useFoldingServer = DEFAULT_USE_FOLDING_SERVER;
+		foldingServerURL = DEFAULT_FOLDING_SERVER_URL;
 	}
 
 	public float getPointMutationRate() {
@@ -75,6 +85,22 @@ public class MGEPreferences {
 
 	public void setSavePixToPath(String savePixToPath) {
 		this.savePixToPath = savePixToPath;
+	}
+
+	public boolean isUseFoldingServer() {
+		return useFoldingServer;
+	}
+
+	public void setUseFoldingServer(boolean useFoldingServer) {
+		this.useFoldingServer = useFoldingServer;
+	}
+
+	public String getFoldingServerURL() {
+		return foldingServerURL;
+	}
+
+	public void setFoldingServerURL(String foldingServerURL) {
+		this.foldingServerURL = foldingServerURL;
 	}
 	
 
