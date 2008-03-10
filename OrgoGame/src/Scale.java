@@ -2,7 +2,7 @@ import javax.microedition.lcdui.Font;
 
 
 public abstract class Scale {
-
+	
 	private int bondLength;
 	private Font font;
 	private int multiBondOffset;
@@ -49,5 +49,5 @@ public abstract class Scale {
 		yOffset = y;
 	}
 	
-	
+	public abstract String toString();
 }

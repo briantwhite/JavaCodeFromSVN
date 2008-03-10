@@ -53,7 +53,7 @@ public class OrgoGame extends MIDlet {
 	}
 		
 	protected void startApp() throws MIDletStateChangeException {
-		controller.startGame();
+		controller.showSplashScreen();
 	}
 	
 	protected void destroyApp(boolean arg0) throws MIDletStateChangeException {}

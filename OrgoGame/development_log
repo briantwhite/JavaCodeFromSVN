@@ -491,3 +491,6 @@ when eclipse would check out into wtk, it would not include the bin dir
 so there was no jad file and wtk wouldn't open it
 had to specifically select bin in cvs view and check out into existing project
 that seems to work
+
+3/9/08
+added splash screen that shows screen measurements, scale used, and java specs

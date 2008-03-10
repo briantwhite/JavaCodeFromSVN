@@ -31,6 +31,19 @@ public class Controller implements CommandListener {
 		timer = new Timer();
 		timerDisplay = new TimerDisplay(this);
 	}
+	
+	public void showSplashScreen() {
+		display = Display.getDisplay(orgoGame);
+		display.setCurrent(new SplashScreen(this, 
+				"Screen HxW=" +
+				orgoGame.screenSizeMeasurer.getHeight() +
+				"x" +
+				orgoGame.screenSizeMeasurer.getWidth() +
+				";" +
+				problemSet.scale.toString() + "\n" +
+				System.getProperty("microedition.configuration") + " " +
+				System.getProperty("microedition.profiles")));
+	}
 
 	public void startGame() {
 		display = Display.getDisplay(orgoGame);
@@ -164,6 +177,15 @@ public class Controller implements CommandListener {
 	public String getFractionCompletedString() {
 		return problemSet.getNumSuccessfullyCompletedProblems()
 		+ " out of " + problemSet.getTotalNumberOfProblems();
+	}
+	
+	public void quit() {
+		try {
+			orgoGame.destroyApp(true);
+		} catch (MIDletStateChangeException e) {
+			e.printStackTrace();
+		}
+		orgoGame.notifyDestroyed();
 	}
 
 }

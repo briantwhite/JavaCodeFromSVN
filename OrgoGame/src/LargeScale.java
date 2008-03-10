@@ -10,4 +10,8 @@ public class LargeScale extends Scale {
 				4, 100, 100);
 	}
 
+	public String toString() {
+		return "Large";
+	}
+
 }

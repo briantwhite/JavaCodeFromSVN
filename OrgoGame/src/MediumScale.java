@@ -10,4 +10,8 @@ public class MediumScale extends Scale {
 				3, 75, 75);
 	}
 
+	public String toString() {
+		return "Medium";
+	}
+
 }
