@@ -9,10 +9,6 @@ public class GlobalDefaults {
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;
 
-	//world is a worldSize x worldSize array of orgs
-	// needs to divide 500 evenly
-	public final static int worldSize = 20;
-
 	public final static String version = "1.3.4";
 
 	public final static String sampleDNA = 

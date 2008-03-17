@@ -4,6 +4,10 @@ public class MGEPreferences {
 	
 	private static MGEPreferences instance;
 	
+	//world info
+	private int worldSize;
+	protected static int DEFAULT_WORLD_SIZE = 10;
+	
 	//mutation rates
 	private float pointMutationRate;
 	protected static float DEFAULT_POINT_MUTATION_RATE = 0.01f;
@@ -36,6 +40,8 @@ public class MGEPreferences {
 	
 	private MGEPreferences() {
 		// set default values
+		worldSize = DEFAULT_WORLD_SIZE;
+		
 		pointMutationRate = DEFAULT_POINT_MUTATION_RATE;
 		deletionMutationRate = DEFAULT_DELETION_MUTATION_RATE;
 		insertionMutationRate = DEFAULT_INSERTION_MUTATION_RATE;
@@ -45,6 +51,14 @@ public class MGEPreferences {
 		
 		useFoldingServer = DEFAULT_USE_FOLDING_SERVER;
 		foldingServerURL = DEFAULT_FOLDING_SERVER_URL;
+	}
+	
+	public int getWorldSize() {
+		return worldSize;
+	}
+	
+	public void setWorldSize(int size) {
+		worldSize = size;
 	}
 
 	public float getPointMutationRate() {

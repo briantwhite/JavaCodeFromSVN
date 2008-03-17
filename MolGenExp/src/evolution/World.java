@@ -9,6 +9,8 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import preferences.MGEPreferences;
+
 import utilities.GlobalDefaults;
 
 import molGenExp.MolGenExp;
@@ -16,22 +18,31 @@ import molGenExp.Organism;
 
 public class World extends JPanel implements MouseListener {
 
-	ThinOrganism[][] organisms = 
-		new ThinOrganism[GlobalDefaults.worldSize][GlobalDefaults.worldSize];
+	private MGEPreferences preferences;
+	
+	ThinOrganism[][] organisms;
 	
 	public final static int pictureSize = 500;
-	private int cellSize = pictureSize/GlobalDefaults.worldSize;
+	private int cellSize ;
 	private int selectedCelli = -1;
 	private int selectedCellj = -1;
 
 	public World() {
+		preferences = MGEPreferences.getInstance();
+		resizeWorld();
 		this.addMouseListener(this);
+	}
+	
+	public void resizeWorld() {
+		organisms = 
+			new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()]; 
+		cellSize = pictureSize/preferences.getWorldSize();
 	}
 
 	public void initialize(Organism[] orgs) {
 		Random r = new Random();
-		for (int i = 0; i < GlobalDefaults.worldSize; i++) {
-			for (int j = 0; j < GlobalDefaults.worldSize; j++) {
+		for (int i = 0; i < preferences.getWorldSize(); i++) {
+			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				organisms[i][j] = new ThinOrganism(orgs[r.nextInt(orgs.length)]);
 			}
 		}
@@ -39,8 +50,13 @@ public class World extends JPanel implements MouseListener {
 
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		for (int i = 0; i < GlobalDefaults.worldSize; i++) {
-			for (int j = 0; j < GlobalDefaults.worldSize; j++) {
+		
+		if (preferences.getWorldSize() != organisms.length) {
+			resizeWorld();
+		}
+		
+		for (int i = 0; i < preferences.getWorldSize(); i++) {
+			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				if (organisms[i][j] == null) {
 					g.setColor(Color.DARK_GRAY);
 				} else {

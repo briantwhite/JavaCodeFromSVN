@@ -15,6 +15,8 @@ import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
+import preferences.MGEPreferences;
+
 import utilities.GlobalDefaults;
 
 import molGenExp.MolGenExp;
@@ -22,6 +24,8 @@ import molGenExp.MolGenExp;
 public class EvolutionWorkArea extends JPanel {
 	
 	private MolGenExp mge;
+	private MGEPreferences preferences;
+	
 	private JPanel leftPanel;
 	private JPanel controlPanel;
 	private JButton loadButton;
@@ -43,6 +47,7 @@ public class EvolutionWorkArea extends JPanel {
 	
 	public EvolutionWorkArea(MolGenExp mge) {
 		this.mge = mge;
+		preferences = MGEPreferences.getInstance();
 		setupUI();
 	}
 	
@@ -95,7 +100,7 @@ public class EvolutionWorkArea extends JPanel {
 		leftPanel.add(statusLabel);
 		
 		evolverProgressBar = new JProgressBar(1, 
-				((GlobalDefaults.worldSize * GlobalDefaults.worldSize)));
+				((preferences.getWorldSize() * preferences.getWorldSize())));
 		leftPanel.add(evolverProgressBar);
 		
 		this.add(leftPanel);

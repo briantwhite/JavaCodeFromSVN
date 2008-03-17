@@ -499,5 +499,6 @@ try with bigger world to see if a bigger factor
 	- server failed - couldn't find it in the archive
 		probably, in doing request to fold 1300+ sequences something got lost
 
-
+3/16/08
+added preferences to set world size without recompiling
 

@@ -69,8 +69,8 @@ public class Evolver implements Runnable {
 
 		// each organism in the world contributes fitness # of alleles to pool		
 		genePool = new ArrayList();
-		for (int i = 0; i < GlobalDefaults.worldSize; i++) {
-			for (int j = 0; j < GlobalDefaults.worldSize; j++) {
+		for (int i = 0; i < preferences.getWorldSize(); i++) {
+			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				ThinOrganism org = world.getThinOrganism(i, j);
 				int colorNumber = 
 					GlobalDefaults.colorModel.getColorNumber(org.getColor());
@@ -97,7 +97,7 @@ public class Evolver implements Runnable {
 
 		current = 0;
 		ThinOrganism[][] nextGeneration = 
-			new ThinOrganism[GlobalDefaults.worldSize][GlobalDefaults.worldSize];
+			new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()];
 		//make next generation
 		// choose random alleles from gene pool, mutate and make new organisms
 		// procedure depends on if using a server or not
@@ -107,12 +107,12 @@ public class Evolver implements Runnable {
 		if (preferences.isUseFoldingServer()) {
 			evolutionWorkArea.setStatusLabelText("Using Folding Server");
 			PairOfProteinAndDNASequences[][] pairs =
-				new PairOfProteinAndDNASequences[GlobalDefaults.worldSize][GlobalDefaults.worldSize];
+				new PairOfProteinAndDNASequences[preferences.getWorldSize()][preferences.getWorldSize()];
 			HashSet sequencesToBeFolded = new HashSet();
 			// make the new protein sequences and see which are in archive
 			//  make a list of those that need to be folded
-			for (int i = 0; i < GlobalDefaults.worldSize; i++) {
-				for (int j = 0; j < GlobalDefaults.worldSize; j++) {
+			for (int i = 0; i < preferences.getWorldSize(); i++) {
+				for (int j = 0; j < preferences.getWorldSize(); j++) {
 					String DNA1 = mutator.mutateDNASequence(getRandomAlleleFromPool());
 					String protein1 = 
 						convertThreeLetterProteinStringToOneLetterProteinString((
@@ -166,8 +166,8 @@ public class Evolver implements Runnable {
 			}
 
 			//make new generation using updated archive
-			for (int i = 0; i < GlobalDefaults.worldSize; i++) {
-				for (int j = 0; j < GlobalDefaults.worldSize; j++) {
+			for (int i = 0; i < preferences.getWorldSize(); i++) {
+				for (int j = 0; j < preferences.getWorldSize(); j++) {
 					PairOfProteinAndDNASequences pair = pairs[i][j];
 					nextGeneration[i][j] = new ThinOrganism(
 							pair.getDNA1(),
@@ -181,8 +181,8 @@ public class Evolver implements Runnable {
 				}
 			}
 		} else {
-			for (int i = 0; i < GlobalDefaults.worldSize; i++) {
-				for (int j = 0; j < GlobalDefaults.worldSize; j++) {
+			for (int i = 0; i < preferences.getWorldSize(); i++) {
+				for (int j = 0; j < preferences.getWorldSize(); j++) {
 					nextGeneration[i][j] = new ThinOrganism(
 							mutator.mutateDNASequence(getRandomAlleleFromPool()),
 							mutator.mutateDNASequence(getRandomAlleleFromPool()));
@@ -264,7 +264,7 @@ public class Evolver implements Runnable {
 	}
 
 	public int getLengthOfTask() {
-		return GlobalDefaults.worldSize * GlobalDefaults.worldSize;
+		return preferences.getWorldSize() * preferences.getWorldSize();
 	}
 
 	public int getCurrent() {
