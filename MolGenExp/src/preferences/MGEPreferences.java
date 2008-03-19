@@ -10,11 +10,11 @@ public class MGEPreferences {
 	
 	//mutation rates
 	private float pointMutationRate;
-	protected static float DEFAULT_POINT_MUTATION_RATE = 0.01f;
+	protected static float DEFAULT_POINT_MUTATION_RATE = 0.005f;
 	private float deletionMutationRate;
-	protected static float DEFAULT_DELETION_MUTATION_RATE = 0.01f;
+	protected static float DEFAULT_DELETION_MUTATION_RATE = 0.005f;
 	private float insertionMutationRate;
-	protected static float DEFAULT_INSERTION_MUTATION_RATE = 0.01f;
+	protected static float DEFAULT_INSERTION_MUTATION_RATE = 0.005f;
 	
 	//info for saving pix of each generation in evolve
 	private boolean generationPixOn;

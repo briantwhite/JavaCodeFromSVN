@@ -42,7 +42,7 @@ public class PreferencesDialog extends JDialog {
 		
 		topPanel.add(tabPane);
 		
-		add(topPanel);
+		getContentPane().add(topPanel);
 				
 		pack();
 	}

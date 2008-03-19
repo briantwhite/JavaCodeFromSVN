@@ -157,10 +157,10 @@ public class Evolver implements Runnable {
 			String[] responseLines = response.split("<br>");
 			for (int i = 0; i < responseLines.length; i++) {
 				String line = responseLines[i];
-				if (line.contains(";")) {
+				if (line.indexOf(";") != -1) {
 					archive.addEntryToArchive(line);
 				}
-				if (line.contains("it took")) {
+				if (line.indexOf("it took") != -1) {
 					mge.setStatusLabelText(line);
 				}
 			}
