@@ -54,7 +54,7 @@ public class Evolver implements Runnable {
 	}
 
 	public void run() {
-		evolutionWorkArea.setStatusLabelText("Running");
+		mge.setStatusLabelText("Running");
 		while (keepGoing) {
 			savePic();
 			createGenePool();
@@ -105,7 +105,7 @@ public class Evolver implements Runnable {
 		//  if locally-folded - fold as you go
 
 		if (preferences.isUseFoldingServer()) {
-			evolutionWorkArea.setStatusLabelText("Using Folding Server");
+			mge.setStatusLabelText("Using Folding Server");
 			PairOfProteinAndDNASequences[][] pairs =
 				new PairOfProteinAndDNASequences[preferences.getWorldSize()][preferences.getWorldSize()];
 			HashSet sequencesToBeFolded = new HashSet();
@@ -148,7 +148,7 @@ public class Evolver implements Runnable {
 			if (b.length() > 0) {
 				b.deleteCharAt(b.length() -1);
 			}
-			evolutionWorkArea.setStatusLabelText("Sending " 
+			mge.setStatusLabelText("Sending " 
 					+ sequencesToBeFolded.size() 
 					+ " sequences to be folded");
 			String response = communicator.sendSequencesToServer(b.toString());
@@ -161,7 +161,7 @@ public class Evolver implements Runnable {
 					archive.addEntryToArchive(line);
 				}
 				if (line.contains("it took")) {
-					evolutionWorkArea.setStatusLabelText(line);
+					mge.setStatusLabelText(line);
 				}
 			}
 

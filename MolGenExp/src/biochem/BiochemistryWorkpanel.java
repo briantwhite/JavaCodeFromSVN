@@ -173,18 +173,23 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	public void setFoldedPolypeptide(FoldedPolypeptide fp){
 
 		foldedPolypeptide = fp;
-
-		//replace amino acid sequence
-		String aaSeq = fp.getAaSeq();
-		StringBuffer abAASeq = new StringBuffer();
-		StringTokenizer st = new StringTokenizer(aaSeq);
-		while (st.hasMoreTokens()){
-			AminoAcid aa = table.get(st.nextToken());
-			abAASeq.append(aa.getAbName());
+		
+		//process amino acid sequence
+		PolypeptideFactory factory = PolypeptideFactory.getInstance();
+		AminoAcid[] acids = null;
+		try {
+			acids = factory.parseInputStringToAmAcArray(fp.getAaSeq());
+		} catch (FoldingException e) {
+			e.printStackTrace();
 		}
 		((TripleLetterCodeDocument)
 				proteinSequence.getDocument()).removeAll();
+		StringBuffer abAASeq = new StringBuffer();
+		for (int i = 0; i < acids.length; i++) {
+			abAASeq.append(acids[i].getAbName());
+		}
 		proteinSequence.setText(abAASeq.toString());
+
 
 		//send the picture of the folded protein
 		foldedProtein.getDrawingPane().setGrid(fp.getFullSizeGrid());

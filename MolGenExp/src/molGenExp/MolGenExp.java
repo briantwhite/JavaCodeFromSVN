@@ -128,13 +128,13 @@ public class MolGenExp extends JFrame {
 
 	private File greenhouseDirectory;
 	private GreenhouseLoader greenhouseLoader;
-	private JDialog greenhouseLoadingDialog;
-	private JLabel greenhouseLoadingLabel;
-	private JProgressBar greenhouseLoadingProgressBar;
 	private Timer greenhouseLoaderTimer;
 	private Timer evolverTimer;
 	private Greenhouse greenhouse;
 	private JButton addToGreenhouseButton;
+	
+	private JProgressBar progressBar;
+	private JLabel statusLabel;
 
 	JTabbedPane explorerPane;
 
@@ -151,9 +151,11 @@ public class MolGenExp extends JFrame {
 	private EvolutionWorkArea evolutionWorkArea;
 	
 	private PreferencesDialog preferencesDialog;
+	private MGEPreferences preferences;
 
 	public MolGenExp() {
 		super("Molecular Genetics Explorer " + GlobalDefaults.version);
+		preferences = MGEPreferences.getInstance();
 		setupUI();
 		addWindowListener(new ApplicationCloser());
 	}
@@ -268,6 +270,18 @@ public class MolGenExp extends JFrame {
 		innerPanel.add(rightPanel);
 
 		mainPanel.add(innerPanel, BorderLayout.CENTER);
+		
+		JPanel statusPanel = new JPanel();
+		statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
+		statusPanel.add(Box.createHorizontalStrut(10));
+		progressBar = new JProgressBar();
+		progressBar.setMaximumSize(new Dimension(200,20));
+		statusPanel.add(progressBar);
+		statusPanel.add(Box.createHorizontalStrut(20));
+		statusLabel = new JLabel("Welcome");
+		statusPanel.add(statusLabel);
+		
+		mainPanel.add(statusPanel, BorderLayout.SOUTH);
 
 		getContentPane().add(mainPanel);
 		
@@ -675,46 +689,28 @@ public class MolGenExp extends JFrame {
 		greenhouseLoaderTimer.start();
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-		greenhouseLoadingDialog = new JDialog(this,
-				"MGX is Loading " + greenhouseLoader.getLengthOfTask() + " Organisms into the Greenhouse",
-				true);
-		greenhouseLoadingDialog.setDefaultCloseOperation(
-				JDialog.DO_NOTHING_ON_CLOSE);
-		greenhouseLoadingLabel = new JLabel("Starting up...");
-		greenhouseLoadingProgressBar = new JProgressBar(0, greenhouseLoader.getLengthOfTask());
-		greenhouseLoadingProgressBar.setValue(0);
-		Container cp = greenhouseLoadingDialog.getContentPane();
-		cp.setLayout(
-				new BoxLayout(cp, BoxLayout.Y_AXIS));
-		cp.add(greenhouseLoadingLabel);
-		cp.add(greenhouseLoadingProgressBar);
-		JButton cancelButton = new JButton("Cancel");
-		cp.add(cancelButton);
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				greenhouseLoader.stop();
-			}
-		});
-		greenhouseLoadingDialog.setSize(new Dimension(400,100));
-		greenhouseLoadingDialog.setLocation(200,200);
-		greenhouseLoadingDialog.setVisible(true);
+		statusLabel.setText("MGX is Loading " 
+				+ greenhouseLoader.getLengthOfTask() 
+				+ " Organisms into the Greenhouse");
+		progressBar.setMinimum(0);
+		progressBar.setMaximum(greenhouseLoader.getLengthOfTask());
+		progressBar.setValue(0);
 	}
 
 	private class GrenhouseLoaderTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			if (greenhouseLoader.done()) {
-
 				greenhouseLoaderTimer.stop();
 				MolGenExp.this.setCursor(
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				greenhouseLoadingDialog.dispose();
+				progressBar.setValue(0);
+				statusLabel.setText("Ready");
 			} else {
-				greenhouseLoadingLabel.setText("Loading Organism number " 
+				statusLabel.setText("Loading Organism number " 
 						+ (greenhouseLoader.getCurrent() + 1) 
 						+ " of "
 						+ greenhouseLoader.getLengthOfTask());
-				greenhouseLoadingProgressBar.setValue(greenhouseLoader.getCurrent() + 1);
-
+				progressBar.setValue(greenhouseLoader.getCurrent() + 1);
 			}
 		}
 	}
@@ -938,6 +934,14 @@ public class MolGenExp extends JFrame {
 		addToGreenhouseButton.setEnabled(b);
 	}
 	
+	public void setStatusLabelText(String text) {
+		statusLabel.setText(text);
+	}
+	
+	public JProgressBar getProgressBar() {
+		return progressBar;
+	}
+	
 	public void loadSelectedIntoWorld() {
 		Organism[] orgs = greenhouse.getSelectedOrganisms();
 		if (orgs != null) {
@@ -954,6 +958,9 @@ public class MolGenExp extends JFrame {
 		t.start();
 		evolverTimer.start();
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		progressBar.setMinimum(1);
+		progressBar.setMaximum(preferences.getWorldSize() * preferences.getWorldSize());
+		progressBar.setValue(1);
 	}
 
 	private class EvolverTimerListener implements ActionListener {
@@ -962,9 +969,9 @@ public class MolGenExp extends JFrame {
 				evolverTimer.stop();
 				MolGenExp.this.setCursor(
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				evolutionWorkArea.setProgress(0);
+				progressBar.setValue(1);
 			} else {
-				evolutionWorkArea.setProgress(evolver.getCurrent());
+				progressBar.setValue(evolver.getCurrent());
 			}
 		}
 	}

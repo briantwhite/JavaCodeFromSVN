@@ -502,3 +502,13 @@ try with bigger world to see if a bigger factor
 3/16/08
 added preferences to set world size without recompiling
 
+3/18/08
+moved all progress bars to bottom of main panel - modeless feedback
+
+fixed bug in evolution
+	a saved org wouldn't load into biochem (null pointer)
+		because aaseq was MetTrpArg (no spaces)
+	so used polypeptide factory's parsestringtoAAs method
+	now AOK
+
+

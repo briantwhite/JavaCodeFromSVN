@@ -53,10 +53,6 @@ public class GeneticsWorkPanel extends WorkPanel {
 	private MutantGenerator mutantGenerator;
 	private Timer timer;
 
-	private JDialog mutantsBeingMadeDialog;
-	private JLabel mutantProgressLabel;
-	private JProgressBar mutantProgressBar;
-
 	public GeneticsWorkPanel(String upperOrLower, GeneticsWorkbench gw) {
 		super();
 		this.upperOrLower = upperOrLower;
@@ -219,30 +215,12 @@ public class GeneticsWorkPanel extends WorkPanel {
 		gw.setSelfCrossButtonsEnabled(false);
 		gw.setMutateButtonsEnabled(false);
 
-		mutantsBeingMadeDialog = new JDialog(gw.getMGE(),
-				"Making mutants of Organism " + o.getName(),
-				true);
-		mutantsBeingMadeDialog.setDefaultCloseOperation(
-				JDialog.DO_NOTHING_ON_CLOSE);
-		mutantProgressLabel = new JLabel("Starting up...");
-		mutantProgressBar = new JProgressBar(0, mutantGenerator.getLengthOfTask());
-		mutantProgressBar.setValue(0);
-		Container cp = mutantsBeingMadeDialog.getContentPane();
-		cp.setLayout(
-				new BoxLayout(cp, BoxLayout.Y_AXIS));
-		cp.add(mutantProgressLabel);
-		cp.add(mutantProgressBar);
-		JButton cancelButton = new JButton("Cancel");
-		cp.add(cancelButton);
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mutantGenerator.stop();
-			}
-		});
-		mutantsBeingMadeDialog.setSize(new Dimension(400,100));
-		mutantsBeingMadeDialog.setLocation(200,200);
-		mutantsBeingMadeDialog.setVisible(true);
-
+		gw.getMGE().setStatusLabelText("Making mutants of Organism " 
+				+ o.getName());
+		JProgressBar progressBar = gw.getMGE().getProgressBar();
+		progressBar.setMinimum(0);
+		progressBar.setMaximum(mutantGenerator.getLengthOfTask());
+		progressBar.setValue(0);
 	}
 
 	private class TimerListener implements ActionListener {
@@ -254,8 +232,8 @@ public class GeneticsWorkPanel extends WorkPanel {
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				gw.setSelfCrossButtonsEnabled(true);
 				gw.setMutateButtonsEnabled(true);
-				mutantsBeingMadeDialog.dispose();
-
+				gw.getMGE().setStatusLabelText("Ready");
+				gw.getMGE().getProgressBar().setValue(0);
 				parentInfo = "Mutant variants of " 
 					+ mutantGenerator.getOrganism().getName();
 				upperLabel.setText("<html><h1>" 
@@ -268,11 +246,11 @@ public class GeneticsWorkPanel extends WorkPanel {
 				gw.addToHistoryList(tray);
 			} else {
 
-				mutantProgressLabel.setText("Making Mutant number " 
+				gw.getMGE().setStatusLabelText("Making Mutant number " 
 						+ (mutantGenerator.getCurrent() + 1) 
 						+ " of "
 						+ mutantGenerator.getLengthOfTask());
-				mutantProgressBar.setValue(mutantGenerator.getCurrent() + 1);
+				gw.getMGE().getProgressBar().setValue(mutantGenerator.getCurrent() + 1);
 
 			}
 		}

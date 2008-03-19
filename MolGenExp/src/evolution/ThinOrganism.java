@@ -20,15 +20,25 @@ public class ThinOrganism {
 	private String dna1;
 	private String dna2;
 	private Color color;
-	
+
 	private GeneExpresser geneExpresser;
-	
+
 	public ThinOrganism(String dna1, String dna2, Color color) {
-		this.dna1 = dna1;
-		this.dna2 = dna2;
+		if (dna1 == null) {
+			this.dna1 = "";
+		} else {
+			this.dna1 = dna1;
+		}
+
+		if (dna2 == null) {
+			this.dna2 = "";
+		} else {
+			this.dna2 = dna2;
+		}
+
 		this.color = color;
 	}
-	
+
 	//empty organism for testing purposes
 	public ThinOrganism(Color color) {
 		this("", "", color);
@@ -48,11 +58,11 @@ public class ThinOrganism {
 		dna2 = o.getGene2().getExpressedGene().getDNA();
 		color = o.getColor();
 	}
-	
+
 	public String getDNA1() {
 		return dna1;
 	}
-	
+
 	public String getDNA2() {
 		return dna2;
 	}

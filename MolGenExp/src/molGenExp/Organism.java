@@ -30,6 +30,8 @@ public class Organism {
 	private GeneExpresser geneExpresser;
 
 	public Organism(String name, ExpressedAndFoldedGene gene1, ExpressedAndFoldedGene gene2) {
+		geneExpresser = GeneExpresser.getInstance();
+		
 		this.name = name;
 		this.gene1 = gene1;
 		this.gene2 = gene2;
@@ -47,9 +49,6 @@ public class Organism {
 			image = makeIcon(color);
 			iconCache.put(color.toString(), image);
 		}
-		
-		geneExpresser = GeneExpresser.getInstance();
-
 	}
 	
 	private ImageIcon makeIcon(Color color) {
@@ -96,6 +95,8 @@ public class Organism {
 	}
 	
 	public Organism(ThinOrganism thinOrg) {
+		geneExpresser = GeneExpresser.getInstance();
+
 		ExpressedGene eg1 = geneExpresser.expressGene(thinOrg.getDNA1(), -1);
 		FoldedPolypeptide fp1 = GreenhouseLoader.foldProtein(eg1.getProtein());
 		gene1 = new ExpressedAndFoldedGene(eg1, fp1);

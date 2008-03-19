@@ -30,8 +30,6 @@ public class EvolutionWorkArea extends JPanel {
 	private JPanel controlPanel;
 	private JButton loadButton;
 	private JButton startButton;
-	private JLabel statusLabel;
-	private JProgressBar evolverProgressBar;
 	private JButton stopButton;
 	private JPanel fitnessPanel;
 	private JPanel rightPanel;
@@ -93,16 +91,7 @@ public class EvolutionWorkArea extends JPanel {
 		stopButton.setEnabled(false);
 		controlPanel.add(stopButton);
 		leftPanel.add(controlPanel);
-		
-		statusLabel = new JLabel("Ready", SwingConstants.LEFT);
-		statusLabel.setHorizontalTextPosition(SwingConstants.LEFT);
-		
-		leftPanel.add(statusLabel);
-		
-		evolverProgressBar = new JProgressBar(1, 
-				((preferences.getWorldSize() * preferences.getWorldSize())));
-		leftPanel.add(evolverProgressBar);
-		
+				
 		this.add(leftPanel);
 		
 		rightPanel = new JPanel();
@@ -176,15 +165,7 @@ public class EvolutionWorkArea extends JPanel {
 		}
 		return values;
 	}
-	
-	public void setProgress(int progress) {
-		evolverProgressBar.setValue(progress);
-	}
-	
-	public void setStatusLabelText(String text) {
-		statusLabel.setText(text);
-	}
-	
+		
 	public void clearSelection() {
 		world.clearSelectedOrganism();
 	}
