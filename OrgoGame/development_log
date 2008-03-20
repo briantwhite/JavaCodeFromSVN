@@ -494,3 +494,11 @@ that seems to work
 
 3/9/08
 added splash screen that shows screen measurements, scale used, and java specs
+sent OrgoGame.jar and OrgoGame.jad to website
+
+size mismatch from jad
+edited with word pad to set size right
+  tested by double-clicking .jad - OK
+put new .jad on web AOK!
+deleted jar binary (not the .jar file) from bin
+can't put in CVS - but OK, the latest version of source is there
