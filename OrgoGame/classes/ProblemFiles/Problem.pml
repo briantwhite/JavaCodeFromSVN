@@ -56,10 +56,10 @@
 
 <reactionList>
 <reaction num="0" "SOCl2">
-<reaction num="1" "Oxidation">
+<reaction num="1" "Chromic Acid">
 <reaction num="2" "NH3">
 <reaction num="3" "CH3OH">
-<reaction num="4" "Reduction">
+<reaction num="4" "LiAlH4">
 <reaction num="5" "H3O+">
 <reaction num="6" "OH-">
 <reaction num="7" "None of the above">

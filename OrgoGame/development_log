@@ -506,5 +506,6 @@ can't put in CVS - but OK, the latest version of source is there
 4/23/08
 added VERSION to OrgoGame 0.9.0
 put in splash screen
-
+changed problem file so that "oxidation" is "chromic acid" and 
+  "reduction" is "LiAlH4"
 
