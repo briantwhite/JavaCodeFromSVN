@@ -13,6 +13,8 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 public class OrgoGame extends MIDlet {
 	
+	public final static String VERSION = "0.9.0";
+	
 	//button labels
 	public final static String QUIT = "Quit";
 	public final static String NEW_PROBLEM = "New Problem";

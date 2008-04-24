@@ -1,0 +1,5 @@
+-libraryjars C:\WTK2.5.2\lib\midpapi10.jar;C:\WTK2.5.2\lib\cldcapi10.jar;C:\WTK2.5.2\lib\cldcapi10.jar
+-injars C:\Documents and Settings\Administrator\j2mewtk\2.5.2\apps\OrgoGame\bin\OrgoGame.jar
+-outjar C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\OrgoGame.jar
+-keep public class * extends javax.microedition.midlet.MIDlet 
+-dontusemixedcaseclassnames

@@ -35,6 +35,7 @@ public class Controller implements CommandListener {
 	public void showSplashScreen() {
 		display = Display.getDisplay(orgoGame);
 		display.setCurrent(new SplashScreen(this, 
+				"Version: " + OrgoGame.VERSION + "\n" +
 				"Screen HxW=" +
 				orgoGame.screenSizeMeasurer.getHeight() +
 				"x" +
