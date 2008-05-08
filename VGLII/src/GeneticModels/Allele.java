@@ -1,6 +1,6 @@
 package GeneticModels;
 
-public class Allele extends GeneticObject{
+public class Allele {
 	
 	public static final int NULL = 0;
 	public static final int ONE = 1;
@@ -11,10 +11,24 @@ public class Allele extends GeneticObject{
 	private String name;
 	
 	public Allele(int intVal, String name) {
-		super(intVal, name);
+		this.intVal = intVal;
+		this.name = name;
 	}
 	
 	public Allele(int intVal) {
-		super(intVal);
+		this.intVal = intVal;
+		name = "";
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getIntVal() {
+		return intVal;
 	}
 }
