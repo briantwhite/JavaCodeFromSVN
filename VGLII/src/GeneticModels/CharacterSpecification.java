@@ -3,11 +3,11 @@ package GeneticModels;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Character {
+public class CharacterSpecification {
 
 	ArrayList<TraitSet> possibleTraitSets;
 	
-	public Character() {
+	public CharacterSpecification() {
 		possibleTraitSets = new ArrayList();
 	}
 	
@@ -21,6 +21,10 @@ public class Character {
 	
 	//get TraitSet and remove it from list to prevent re-use
 	public TraitSet getRandomTraitSet() {
+		if (possibleTraitSets.size() == 0) {
+			return null;
+		}
+		
 		Random r = new Random();
 		int i = r.nextInt(possibleTraitSets.size());
 		TraitSet ts = possibleTraitSets.get(i);

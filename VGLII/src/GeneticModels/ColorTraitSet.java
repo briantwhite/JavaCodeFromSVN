@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class ColorTraitSet extends TraitSet {
 	
-	public ColorTraitSet() {
+	public ColorTraitSet(String bodyPart) {
 		traits = new ArrayList();
-		traits.add(new ColorTrait("Red"));
-		traits.add(new ColorTrait("Green"));
-		traits.add(new ColorTrait("Blue"));
-		traits.add(new ColorTrait("Yellow"));
-		traits.add(new ColorTrait("Purple"));
-		traits.add(new ColorTrait("Black"));
-		traits.add(new ColorTrait("Brown"));
+		traits.add(new ColorTrait("Red", bodyPart));
+		traits.add(new ColorTrait("Green", bodyPart));
+		traits.add(new ColorTrait("Blue", bodyPart));
+		traits.add(new ColorTrait("Yellow", bodyPart));
+		traits.add(new ColorTrait("Purple", bodyPart));
+		traits.add(new ColorTrait("Black", bodyPart));
+		traits.add(new ColorTrait("Brown", bodyPart));
 	}
 	
 }

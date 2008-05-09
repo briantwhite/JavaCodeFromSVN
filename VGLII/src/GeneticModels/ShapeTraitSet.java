@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class ShapeTraitSet extends TraitSet {
 	
-	public ShapeTraitSet() {
+	public ShapeTraitSet(String bodyPart) {
 		traits = new ArrayList();
-		traits.add(new ShapeTrait("Normal"));
-		traits.add(new ShapeTrait("Long"));
-		traits.add(new ShapeTrait("Short"));
-		traits.add(new ShapeTrait("Bent"));
-		traits.add(new ShapeTrait("Pointy"));
-		traits.add(new ShapeTrait("Knobbed"));
-		traits.add(new ShapeTrait("Zigzag"));
+		traits.add(new ShapeTrait("Normal", bodyPart));
+		traits.add(new ShapeTrait("Long", bodyPart));
+		traits.add(new ShapeTrait("Short", bodyPart));
+		traits.add(new ShapeTrait("Bent", bodyPart));
+		traits.add(new ShapeTrait("Pointy", bodyPart));
+		traits.add(new ShapeTrait("Knobbed", bodyPart));
+		traits.add(new ShapeTrait("Zigzag", bodyPart));
 	}
 
 }
