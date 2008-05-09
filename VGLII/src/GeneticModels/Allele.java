@@ -17,4 +17,8 @@ public class Allele {
 	public int getIntVal() {
 		return intVal;
 	}
+	
+	public String toString() {
+		return "#" + intVal + " " + trait.toString();
+	}
 }

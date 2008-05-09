@@ -11,5 +11,9 @@ public class Phenotype {
 	public Trait getTrait() {
 		return trait;
 	}
+	
+	public String toString() {
+		return trait.toString();
+	}
 
 }
