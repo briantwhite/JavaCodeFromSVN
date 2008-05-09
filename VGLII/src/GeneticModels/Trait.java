@@ -3,20 +3,20 @@ package GeneticModels;
 public abstract class Trait {
 	
 	//eg. yellow
-	private String name;
+	private String traitName;
 	//eg. color
 	private String type;
 	// eg. eye
 	private String bodyPart;
 	
-	public Trait(String name, String type, String bodyPart) {
-		this.name = name;
+	public Trait(String traitName, String type, String bodyPart) {
+		this.traitName = traitName;
 		this.type = type;
 		this.bodyPart = bodyPart;
 	}
 	
-	public String getName() {
-		return name;
+	public String getTraitName() {
+		return traitName;
 	}
 
 	public String getType() {
@@ -28,7 +28,7 @@ public abstract class Trait {
 	}
 	
 	public String toString() {
-		return bodyPart + ":" + type + ":" + name;
+		return bodyPart + ":" + type + ":" + traitName;
 	}
 
 }

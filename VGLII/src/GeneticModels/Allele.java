@@ -1,31 +1,17 @@
 package GeneticModels;
 
 public class Allele {
-	
-	public static final int NULL = 0;
-	public static final int ONE = 1;
-	public static final int TWO = 2;
-	public static final int THREE = 3;
-	
+		
 	private int intVal;
-	private String name;
+	private Trait trait;
 	
-	public Allele(int intVal, String name) {
+	public Allele(Trait trait, int intVal) {
+		this.trait = trait;
 		this.intVal = intVal;
-		this.name = name;
 	}
 	
-	public Allele(int intVal) {
-		this.intVal = intVal;
-		name = "";
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public Trait getTrait() {
+		return trait;
 	}
 
 	public int getIntVal() {
