@@ -15,9 +15,4 @@ public class ColorTraitSet extends TraitSet {
 		traits.add(new ColorTrait("Brown"));
 	}
 	
-	public int getNumberOfMembers() {
-		return traits.size();
-	}
-	
-
 }
