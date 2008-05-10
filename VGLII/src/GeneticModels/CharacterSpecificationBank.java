@@ -35,7 +35,7 @@ public class CharacterSpecificationBank {
 
 	public void refreshAll() {
 		//build the bank of possible characters
-		allCharSpecs = new ArrayList();
+		allCharSpecs = new ArrayList<CharacterSpecification>();
 
 		//add in the body-related characters
 		// only color and shape allowed (number doesn't make sense)

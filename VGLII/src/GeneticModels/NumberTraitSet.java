@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class NumberTraitSet extends TraitSet {
 	
 	public NumberTraitSet(String bodyPart) {
-		traits = new ArrayList();
+		traits = new ArrayList<Trait>();
 		traits.add(new NumberTrait("One", bodyPart));
 		traits.add(new NumberTrait("Two", bodyPart));
 		traits.add(new NumberTrait("Three", bodyPart));

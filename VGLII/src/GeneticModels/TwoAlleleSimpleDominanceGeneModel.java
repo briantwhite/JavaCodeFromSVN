@@ -3,7 +3,7 @@ package GeneticModels;
 import java.util.Random;
 
 public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
-	
+
 	private Trait t1;  // recessive trait
 	private Trait t2;  // dominant trait
 
@@ -45,7 +45,7 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 
 	public void setupGenoPhenoTable() {
 		genoPhenoTable = new Phenotype[3][3];
-		
+
 		//there are two alleles and two possible phenos
 		// get the phenos first; then load table
 		t1 = traitSet.getRandomTrait();   // recessive

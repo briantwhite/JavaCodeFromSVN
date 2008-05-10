@@ -1,6 +1,7 @@
 package GeneticModels;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ChromosomeModel {
 	
@@ -45,11 +46,29 @@ public class ChromosomeModel {
 		//if sex-chromo, one chromo needs to be all null alleles
 		// half of the time
 		if (sexChromosome) {
-			
+			Random r = new Random();
+			//a male - so make one chromo nulls
+			if (r.nextInt(2) == 0) {
+				//choose which one
+				if (r.nextInt(2) == 0) {
+					maternalAlleles = makeAllNulls(maternalAlleles);
+				} else {
+					paternalAlleles = makeAllNulls(paternalAlleles);
+				}
+			}
 		}
 		chromos[0] = new Chromosome(maternalAlleles);
 		chromos[1] = new Chromosome(paternalAlleles);
 		return chromos;
+	}
+	
+	private ArrayList<Allele> makeAllNulls(ArrayList<Allele> input) {
+		ArrayList<Allele> output = new ArrayList<Allele>();
+		for (int i = 0; i < input.size(); i++) {
+			output.add(new Allele(
+					Trait.getNullVersion((input.get(i)).getTrait()), 0));
+		}
+		return output;
 	}
 	
 	public Chromosome getGamete(Organism o) {

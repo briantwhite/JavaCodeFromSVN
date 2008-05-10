@@ -8,7 +8,7 @@ public class CharacterSpecification {
 	ArrayList<TraitSet> possibleTraitSets;
 	
 	public CharacterSpecification() {
-		possibleTraitSets = new ArrayList();
+		possibleTraitSets = new ArrayList<TraitSet>();
 	}
 	
 	public void add(TraitSet ts) {

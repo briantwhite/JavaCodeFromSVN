@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ShapeTraitSet extends TraitSet {
 	
 	public ShapeTraitSet(String bodyPart) {
-		traits = new ArrayList();
+		traits = new ArrayList<Trait>();
 		traits.add(new ShapeTrait("Normal", bodyPart));
 		traits.add(new ShapeTrait("Long", bodyPart));
 		traits.add(new ShapeTrait("Short", bodyPart));

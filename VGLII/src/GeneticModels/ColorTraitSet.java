@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ColorTraitSet extends TraitSet {
 	
 	public ColorTraitSet(String bodyPart) {
-		traits = new ArrayList();
+		traits = new ArrayList<Trait>();
 		traits.add(new ColorTrait("Red", bodyPart));
 		traits.add(new ColorTrait("Green", bodyPart));
 		traits.add(new ColorTrait("Blue", bodyPart));
