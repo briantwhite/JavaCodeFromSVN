@@ -42,6 +42,11 @@ public class ChromosomeModel {
 			maternalAlleles.add(allelePair[0]);
 			paternalAlleles.add(allelePair[1]);
 		}
+		//if sex-chromo, one chromo needs to be all null alleles
+		// half of the time
+		if (sexChromosome) {
+			
+		}
 		chromos[0] = new Chromosome(maternalAlleles);
 		chromos[1] = new Chromosome(paternalAlleles);
 		return chromos;

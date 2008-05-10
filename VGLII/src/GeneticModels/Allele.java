@@ -9,6 +9,10 @@ public class Allele {
 		this.trait = trait;
 		this.intVal = intVal;
 	}
+		
+	public Allele makeNullAllele(Allele a) {
+		return new Allele(Trait.getNullVersion(a.getTrait()), 0);
+	}
 	
 	public Trait getTrait() {
 		return trait;

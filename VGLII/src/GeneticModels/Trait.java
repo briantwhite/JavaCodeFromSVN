@@ -27,6 +27,19 @@ public abstract class Trait {
 		return bodyPart;
 	}
 	
+	public static Trait getNullVersion(Trait t) {
+		if (t instanceof ColorTrait) {
+			return new ColorTrait("-", t.getBodyPart());
+		}
+		if (t instanceof NumberTrait) {
+			return new NumberTrait("-", t.getBodyPart());
+		}
+		if (t instanceof ShapeTrait) {
+			return new ShapeTrait("-", t.getBodyPart());
+		}
+		return null;
+	}
+		
 	public String toString() {
 		return bodyPart + ":" + type + ":" + traitName;
 	}
