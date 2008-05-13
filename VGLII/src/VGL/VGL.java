@@ -21,7 +21,7 @@ public class VGL {
 	}
 
 	private void run() {
-		GeneModel model = new TwoAlleleSimpleDominanceGeneModel(false);
+		GeneModel model = new TwoAlleleSimpleDominanceGeneModel();
 		System.out.println(model.toString());
 		for (int j = 0; j < 20; j++) {
 			Allele[] alleles = model.getRandomAllelePair();

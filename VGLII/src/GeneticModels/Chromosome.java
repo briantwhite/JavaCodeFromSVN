@@ -13,5 +13,9 @@ public class Chromosome {
 	public Allele getAllele(int i) {
 		return alleles.get(i);
 	}
+	
+	public ArrayList<Allele> getAllAlleles() {
+		return alleles;
+	}
 
 }

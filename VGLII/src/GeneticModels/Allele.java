@@ -10,8 +10,10 @@ public class Allele {
 		this.intVal = intVal;
 	}
 		
-	public Allele makeNullAllele(Allele a) {
-		return new Allele(Trait.getNullVersion(a.getTrait()), 0);
+	// make into a null allele (for Y or W chromo)
+	public void nullify() {
+		intVal = 0;
+		trait.nullify();
 	}
 	
 	public Trait getTrait() {

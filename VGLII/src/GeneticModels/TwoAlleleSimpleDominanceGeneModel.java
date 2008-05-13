@@ -7,8 +7,8 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 	private Trait t1;  // recessive trait
 	private Trait t2;  // dominant trait
 
-	public TwoAlleleSimpleDominanceGeneModel(boolean sexLinked) {
-		super(sexLinked);
+	public TwoAlleleSimpleDominanceGeneModel() {
+		super();
 	}
 
 	public Phenotype getPhenotype(Allele a1, Allele a2) {
@@ -63,8 +63,7 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 
 	public String toString() {
 		return "Two Allele " 
-		+ getSexLinkageString()
-		+ " Simple Dominance; " 
+		+ "Simple Dominance; " 
 		+ t1.toString()
 		+ " is recessive, "
 		+ t2.toString()

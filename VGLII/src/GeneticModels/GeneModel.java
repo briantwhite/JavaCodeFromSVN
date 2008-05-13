@@ -5,11 +5,9 @@ public abstract class GeneModel {
 	CharacterSpecificationBank charSpecBank;
 	TraitSet traitSet;
 	
-	boolean sexLinked;
 	Phenotype[][] genoPhenoTable;
 	
-	public GeneModel(boolean sexLinked) {
-		this.sexLinked = sexLinked;
+	public GeneModel() {
 		charSpecBank = CharacterSpecificationBank.getInstance();
 		traitSet = charSpecBank.getRandomTraitSet();
 		setupGenoPhenoTable();
@@ -23,15 +21,4 @@ public abstract class GeneModel {
 	
 	public abstract String toString();
 	
-	public boolean isSexLinked() {
-		return sexLinked;
-	}
-	
-	public String getSexLinkageString() {
-		if (sexLinked) {
-			return "Sex-Linked";
-		} else {
-			return "Autosomal";
-		}
-	}
 }
