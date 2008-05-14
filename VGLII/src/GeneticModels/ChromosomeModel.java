@@ -24,6 +24,10 @@ public class ChromosomeModel {
 	public void addRecombinationFrequency(float rf) {
 		recombinationFrequencies.add(rf);
 	}
+	
+	public int getNumberOfGeneModels() {
+		return geneModels.size();
+	}
 
 	public ArrayList<Phenotype> getPhenotypes(Chromosome cr1, Chromosome cr2) 
 	throws GeneticsException {
@@ -58,9 +62,9 @@ public class ChromosomeModel {
 			if (r.nextInt(2) == 0) {
 				//choose which one
 				if (r.nextInt(2) == 0) {
-					makeAllNulls(maternalAlleles);
+					maternalAlleles = makeAllNulls(maternalAlleles);
 				} else {
-					makeAllNulls(paternalAlleles);
+					paternalAlleles = makeAllNulls(paternalAlleles);
 				}
 			}
 		}
@@ -69,19 +73,18 @@ public class ChromosomeModel {
 		return chromos;
 	}
 
-	private void makeAllNulls(ArrayList<Allele> input) {
+	private ArrayList<Allele> makeAllNulls(ArrayList<Allele> input) {
 		ArrayList<Allele> output = new ArrayList<Allele>();
 		for (int i = 0; i < input.size(); i++) {
-			input.get(i).nullify();
+			output.add(Allele.makeNullVersion(input.get(i)));
 		}
+		return output;
 	}
 
 	//generate a random gamete from a pair of homologous chromosomes
 	//  using recombination
-	public Chromosome getGamete(Chromosome[] chromos) throws GeneticsException {
+	public Chromosome getGamete(Chromosome cr1, Chromosome cr2) throws GeneticsException {
 		Random r = new Random();
-		Chromosome cr1 = chromos[0];
-		Chromosome cr2 = chromos[1];
 
 		if ((cr1.getAllAlleles().size() != geneModels.size()) ||
 				(cr2.getAllAlleles().size() != geneModels.size())) {
@@ -97,9 +100,9 @@ public class ChromosomeModel {
 				((cr1.getAllele(0).getIntVal() == 0) ||
 						(cr2.getAllele(0).getIntVal() == 0))) {
 			if (r.nextInt(2) == 0) {
-				return cr1;
+				return new Chromosome(cr1);
 			} else {
-				return cr2;
+				return new Chromosome(cr2);
 			}
 		}
 

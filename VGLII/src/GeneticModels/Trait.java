@@ -1,6 +1,6 @@
 package GeneticModels;
 
-public abstract class Trait {
+public abstract class Trait implements Cloneable {
 	
 	//eg. yellow
 	private String traitName;
@@ -15,6 +15,16 @@ public abstract class Trait {
 		this.bodyPart = bodyPart;
 	}
 	
+	public Object clone() {
+		Object o = null;
+		try {
+			o = super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return o;
+	}
+		
 	public String getTraitName() {
 		return traitName;
 	}
@@ -27,12 +37,10 @@ public abstract class Trait {
 		return bodyPart;
 	}
 	
-	// make null trait for Y or W chromo
-	//  keep the character but make the trait "-"
-	public void nullify() {
-		traitName = "-";
+	public void setTraitName(String s) {
+		traitName = s;
 	}
-		
+	
 	public String toString() {
 		return bodyPart + ":" + type + ":" + traitName;
 	}

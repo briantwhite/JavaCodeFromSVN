@@ -10,6 +10,10 @@ public class Chromosome {
 		this.alleles = alleles;
 	}
 	
+	public Chromosome(Chromosome c) {
+		this(c.getAllAlleles());
+	}
+	
 	public Allele getAllele(int i) {
 		return alleles.get(i);
 	}
