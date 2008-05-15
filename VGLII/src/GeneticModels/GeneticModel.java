@@ -3,6 +3,9 @@ package GeneticModels;
 import java.util.ArrayList;
 
 public class GeneticModel {
+	
+	public static final boolean XX_XY = true;
+	public static final boolean ZZ_ZW = false;
 
 	private ChromosomeModel autosomeModel;
 	private ChromosomeModel sexChromosomeModel;
@@ -139,6 +142,21 @@ public class GeneticModel {
 				return true;
 			}
 		}
+	}
+	
+	public String toString() {
+		StringBuffer b = new StringBuffer();
+		b.append("Genetic Model: ");
+		if (XX_XYsexLinkage) {
+			b.append("XX/XY sex linkage");
+		} else {
+			b.append("ZZ/ZW sex linkage");
+		}
+		b.append("\n");
+		b.append(autosomeModel.toString());
+		b.append(sexChromosomeModel.toString());
+		b.append("$$$$$$$$\n");
+		return b.toString();
 	}
 
 }

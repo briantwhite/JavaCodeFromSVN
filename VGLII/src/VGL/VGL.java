@@ -1,10 +1,10 @@
 package VGL;
 
-import GeneticModels.Allele;
 import GeneticModels.CharacterSpecificationBank;
-import GeneticModels.GeneModel;
-import GeneticModels.Trait;
-import GeneticModels.TraitSet;
+import GeneticModels.GeneticModel;
+import GeneticModels.GeneticsException;
+import GeneticModels.Organism;
+import GeneticModels.PlaceHolderGeneModel;
 import GeneticModels.TwoAlleleSimpleDominanceGeneModel;
 
 public class VGL {
@@ -21,15 +21,29 @@ public class VGL {
 	}
 
 	private void run() {
-		GeneModel model = new TwoAlleleSimpleDominanceGeneModel();
+		GeneticModel model = new GeneticModel(GeneticModel.XX_XY);
+		try {
+			model.addFirstAutosomalGeneModel(new TwoAlleleSimpleDominanceGeneModel());
+			model.addFirstSexLinkedGeneModel(new TwoAlleleSimpleDominanceGeneModel());
+		} catch (GeneticsException e) {
+			e.printStackTrace();
+		}
 		System.out.println(model.toString());
-		for (int j = 0; j < 20; j++) {
-			Allele[] alleles = model.getRandomAllelePair();
-			System.out.println("-----");
-			System.out.println("a1: " + alleles[0].toString());
-			System.out.println("a2: " + alleles[1].toString());
-			System.out.println("ph: " + (model.getPhenotype(alleles[0], alleles[1])).toString());
-			System.out.println(".......");
+		Organism dad = null;
+		Organism mom = null;
+		for (int i = 0; i < 10; i++ ) {
+			Organism o = model.getRandomOrganism();
+			if (o.isMale()) {
+				dad = o;
+			} else {
+				mom = o;
+			}
+		}
+		System.out.println("mom:\n" + mom.toString());
+		System.out.println("dad:\n" + dad.toString());
+		System.out.println("kids:\n");
+		for (int i = 0; i < 10; i++) {
+			System.out.println(model.getOffspringOrganism(mom, dad) + "\n");
 		}
 	}
 }

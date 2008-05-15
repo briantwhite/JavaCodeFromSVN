@@ -28,7 +28,7 @@ public class ChromosomeModel {
 	public int getNumberOfGeneModels() {
 		return geneModels.size();
 	}
-
+	
 	public ArrayList<Phenotype> getPhenotypes(Chromosome cr1, Chromosome cr2) 
 	throws GeneticsException {
 		if((cr1.getAllAlleles().size() != geneModels.size()) ||
@@ -144,4 +144,17 @@ public class ChromosomeModel {
 		return new Chromosome(newAlleles);
 	}
 
+	public String toString() {
+		StringBuffer b = new StringBuffer();
+		if(sexChromosome) {
+			b.append("Sex Chromosome:\n");
+		} else {
+			b.append("Autosome:\n");
+		}
+		for (GeneModel gm: geneModels) {
+			b.append(gm.toString() + "\n");
+		}
+		b.append("*******\n");
+		return b.toString();
+	}
 }

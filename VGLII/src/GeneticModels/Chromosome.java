@@ -21,5 +21,13 @@ public class Chromosome {
 	public ArrayList<Allele> getAllAlleles() {
 		return alleles;
 	}
+	
+	public String toString() {
+		StringBuffer b = new StringBuffer();
+		for(Allele a: alleles) {
+			b.append(a.toString() + "\n");
+		}
+		return b.toString();
+	}
 
 }

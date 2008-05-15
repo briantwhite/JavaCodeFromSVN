@@ -50,4 +50,28 @@ public class Organism {
 	public boolean isMale() {
 		return male;
 	}
+	
+	public String toString() {
+		StringBuffer b = new StringBuffer();
+		b.append("Organism: [");
+		if (!male) {
+			b.append("fe");
+		}
+		b.append("male]\n");
+		b.append("Genotype:\n");
+		b.append("Maternal auto:\n");
+		b.append(maternalAutosome.toString() + "\n");
+		b.append("Paternal auto:\n");
+		b.append(paternalAutosome.toString() + "\n");
+		b.append("Maternal sex chr:\n");
+		b.append(maternalSexChromosome.toString() + "\n");
+		b.append("Paternal sex chr:\n");
+		b.append(paternalSexChromosome.toString() + "\n");
+		b.append("Phenotypes:\n");
+		for (Phenotype p: phenotypes) {
+			b.append(p.toString() + "\n");
+		}
+		b.append("**organism**\n");
+		return b.toString();
+	}
 }
