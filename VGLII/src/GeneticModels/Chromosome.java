@@ -25,9 +25,13 @@ public class Chromosome {
 	public String toString() {
 		StringBuffer b = new StringBuffer();
 		for(Allele a: alleles) {
-			b.append(a.toString() + "\n");
+			b.append(a.getTrait().getTraitName().toString()
+					+ "-"
+					+ a.getTrait().getBodyPart().toString()
+					+ ";");
 		}
+		b.deleteCharAt(b.length() - 1);
 		return b.toString();
 	}
-
+	
 }

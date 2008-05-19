@@ -29,13 +29,7 @@ public class ChromosomeModel {
 		return geneModels.size();
 	}
 	
-	public ArrayList<Phenotype> getPhenotypes(Chromosome cr1, Chromosome cr2) 
-	throws GeneticsException {
-		if((cr1.getAllAlleles().size() != geneModels.size()) ||
-				(cr2.getAllAlleles().size() != geneModels.size())) {
-			throw new GeneticsException("Number of genes in chromosome does not" 
-					+ " match number of genes in model");
-		}
+	public ArrayList<Phenotype> getPhenotypes(Chromosome cr1, Chromosome cr2) {
 		ArrayList<Phenotype> phenos = new ArrayList<Phenotype>();
 		for (int i = 0; i < geneModels.size(); i++) {
 			phenos.add( 
@@ -54,6 +48,9 @@ public class ChromosomeModel {
 			maternalAlleles.add(allelePair[0]);
 			paternalAlleles.add(allelePair[1]);
 		}
+		chromos[0] = new Chromosome(maternalAlleles);
+		chromos[1] = new Chromosome(paternalAlleles);
+
 		//if sex-chromo, one chromo needs to be all null alleles
 		// half of the time
 		if (sexChromosome) {
@@ -62,47 +59,29 @@ public class ChromosomeModel {
 			if (r.nextInt(2) == 0) {
 				//choose which one
 				if (r.nextInt(2) == 0) {
-					maternalAlleles = makeAllNulls(maternalAlleles);
+					chromos[0] = NullSexChromosome.getInstance();
 				} else {
-					paternalAlleles = makeAllNulls(paternalAlleles);
+					chromos[1] = NullSexChromosome.getInstance();;
 				}
 			}
 		}
-		chromos[0] = new Chromosome(maternalAlleles);
-		chromos[1] = new Chromosome(paternalAlleles);
 		return chromos;
-	}
-
-	private ArrayList<Allele> makeAllNulls(ArrayList<Allele> input) {
-		ArrayList<Allele> output = new ArrayList<Allele>();
-		for (int i = 0; i < input.size(); i++) {
-			output.add(Allele.makeNullVersion(input.get(i)));
-		}
-		return output;
 	}
 
 	//generate a random gamete from a pair of homologous chromosomes
 	//  using recombination
-	public Chromosome getGamete(Chromosome cr1, Chromosome cr2) throws GeneticsException {
+	public Chromosome getGamete(Chromosome cr1, Chromosome cr2) {
 		Random r = new Random();
-
-		if ((cr1.getAllAlleles().size() != geneModels.size()) ||
-				(cr2.getAllAlleles().size() != geneModels.size())) {
-			throw new GeneticsException("Number of genes in chromosome does not" 
-					+ " match number of genes in model");
-		}
 
 		//first, see if it's a heterogametic sex chromosome pair (XY or ZW)
 		//  if so, then return without recombination
-		// get first allele from each chromosome and see if its a null
-		//  that would show it as the null sex chromosome
 		if(sexChromosome && 
-				((cr1.getAllele(0).getIntVal() == 0) ||
-						(cr2.getAllele(0).getIntVal() == 0))) {
+				((cr1 == NullSexChromosome.getInstance()) ||
+						(cr2 == NullSexChromosome.getInstance()))) {
 			if (r.nextInt(2) == 0) {
-				return new Chromosome(cr1);
+				return cr1;
 			} else {
-				return new Chromosome(cr2);
+				return cr2;
 			}
 		}
 
@@ -151,7 +130,16 @@ public class ChromosomeModel {
 		} else {
 			b.append("Autosome:\n");
 		}
-		for (GeneModel gm: geneModels) {
+		for (int i = 0; i < geneModels.size(); i++) {
+			GeneModel gm = geneModels.get(i);
+			if (i >= 1) {
+				float rf = recombinationFrequencies.get(i - 1);
+				if (rf == 0.5f) {
+					b.append("unlinked to:\n");
+				} else {
+					b.append("recombination frequency = " + rf + " to:\n");
+				}
+			}
 			b.append(gm.toString() + "\n");
 		}
 		b.append("*******\n");

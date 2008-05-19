@@ -1,6 +1,6 @@
 package GeneticModels;
 
-public abstract class Trait implements Cloneable {
+public abstract class Trait {
 	
 	//eg. yellow
 	private String traitName;
@@ -15,16 +15,6 @@ public abstract class Trait implements Cloneable {
 		this.bodyPart = bodyPart;
 	}
 	
-	public Object clone() {
-		Object o = null;
-		try {
-			o = super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return o;
-	}
-		
 	public String getTraitName() {
 		return traitName;
 	}

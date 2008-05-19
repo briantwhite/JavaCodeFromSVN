@@ -56,7 +56,7 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 		genoPhenoTable[1][0] = new Phenotype(t1);  	// 1,Y = 1
 		genoPhenoTable[1][1] = new Phenotype(t1);  	// 1,1 = 1
 		genoPhenoTable[1][2] = new Phenotype(t2);   // 1,2 = 2 (2 is dom)
-		genoPhenoTable[2][0] = new Phenotype(t1);  	// 1,Y
+		genoPhenoTable[2][0] = new Phenotype(t2);  	// 2,Y
 		genoPhenoTable[2][1] = new Phenotype(t2);   // 1,2 = 2 (2 is dom)
 		genoPhenoTable[2][2] = new Phenotype(t2);   // 2,2
 	}
