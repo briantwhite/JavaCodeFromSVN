@@ -2,6 +2,59 @@ package GeneticModels;
 
 import java.util.ArrayList;
 
+// This is the wrapper class for the entire genetic model
+//  - it chooses from the characters and traits randomly to set up 
+//  each gene model.
+//  - it generates random organisms to populate the field cage
+//  - it generates offspring from selected parents
+//
+//  It works like this:
+//  - organisms contain 4 chromosomes
+// 		- 2 copies of the autosome (maternal and paternal)
+//		- 2 copies of the sex chromosome (maternal and paternal)
+//  - each chromosome is an ArrayList of Alleles
+//
+//  - there is a ChromosomeModel for each type of chromosome (auto & sex)
+//	- each ChromosomeModel consists of 0 or more GeneModels
+//	- the GeneModels handle the genotype-phenotype conversion for one gene each
+//
+//  - there is a NullSexChromosome with no alleles (actually all Null alleles)
+//		this is the Y or W chromosome
+//
+//  - to make a random organism
+//		1) the GeneticModel asks each GeneModel for 2 random alleles
+//			chosen to give roughly equal #s of each phenotype
+//		2) the GeneticModel builds these into a chromosome pair
+//			and turns this into an Organism
+//
+//  - cross 2 organisms
+//		1) the genetic model takes care of recombination in each parent
+//			using the CHromosomeModel to make 2 gametes
+//		2) the gametes are combined in to an Organism and its phenotype
+//			is determined
+//
+//  - phenotypes are determined :
+//		1) the GeneticModel has each ChromosomeModel distribute its Alleles
+//			to the GeneModels to get a Phenotype from each
+//		2) these are pooled into a set of phenotypes for display, sorting, etc.
+//
+//  - An Allele consists of:
+//		- an intVal = used as an integer index to the genotype-phenotype table
+//			(0 = the null allele - from the Y or W chromosome)
+//		- a Trait which contains:
+//			bodyPart (eye, antenna, etc)
+//			type (shape, colo, etc)
+//			traitName (green, long, etc)
+//
+// to build a GeneticModel: 
+//	1) Choose XX/XY or ZZ/ZW sex-linkage when you build one
+//	2) add the gene models to the autosome or sex chromosome as needed
+//		- the first one is added just as a model
+//		- any more on the same chromo must be added with a recombination freq
+//			unlinked genes have a 50% rf.
+//			(therefore, autosomes are modeled as one big autosome where the
+//			total rf can be bigger than 100%)
+
 public class GeneticModel {
 
 	public static final boolean XX_XY = true;
