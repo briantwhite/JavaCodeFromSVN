@@ -10,11 +10,14 @@ public class ChromosomeModel {
 	private ArrayList<Float> recombinationFrequencies;
 
 	private boolean sexChromosome;
+	
+	private Random rand;
 
 	public ChromosomeModel(boolean sexChromosome) {
 		this.sexChromosome = sexChromosome;
 		geneModels = new ArrayList<GeneModel>();
 		recombinationFrequencies = new ArrayList<Float>();
+		rand = new Random();
 	}
 
 	public void addGeneModel(GeneModel gm) {
@@ -54,11 +57,10 @@ public class ChromosomeModel {
 		//if sex-chromo, one chromo needs to be all null alleles
 		// half of the time
 		if (sexChromosome) {
-			Random r = new Random();
 			//a male - so make one chromo nulls
-			if (r.nextInt(2) == 0) {
+			if (rand.nextInt(2) == 0) {
 				//choose which one
-				if (r.nextInt(2) == 0) {
+				if (rand.nextInt(2) == 0) {
 					chromos[0] = NullSexChromosome.getInstance();
 				} else {
 					chromos[1] = NullSexChromosome.getInstance();;
@@ -71,14 +73,12 @@ public class ChromosomeModel {
 	//generate a random gamete from a pair of homologous chromosomes
 	//  using recombination
 	public Chromosome getGamete(Chromosome cr1, Chromosome cr2) {
-		Random r = new Random();
 
 		//first, see if it's a heterogametic sex chromosome pair (XY or ZW)
 		//  if so, then return without recombination
-		if(sexChromosome && 
-				((cr1 == NullSexChromosome.getInstance()) ||
-						(cr2 == NullSexChromosome.getInstance()))) {
-			if (r.nextInt(2) == 0) {
+		if((cr1 == NullSexChromosome.getInstance()) ||
+						(cr2 == NullSexChromosome.getInstance())) {
+			if (rand.nextInt(2) == 0) {
 				return cr1;
 			} else {
 				return cr2;
@@ -99,7 +99,7 @@ public class ChromosomeModel {
 		Iterator<Float> rfIt = recombinationFrequencies.iterator();
 
 		for (int i = 0; i < oldAlleles1.size(); i++) {
-			if(r.nextFloat() >= choiceBias) {
+			if(rand.nextFloat() >= choiceBias) {
 				newAlleles.add(oldAlleles1.get(i));
 				pickedFrom1LastTime = true;
 			} else {

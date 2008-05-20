@@ -3,3 +3,241 @@ started over
 
 5/8/08
 got CharacterSpecBank to output all possible character-trait combos
+
+5/19/08
+got recombination working
+
+parents:
+Genetic Model: XX/XY sex linkage
+Autosome:
+Two Allele Simple Dominance; Eye:Color:Brown is recessive, Eye:Color:Purple is dominant.
+recombination frequency = 0.1 to:
+Two Allele Simple Dominance; Antenna:Shape:Pointy is recessive, Antenna:Shape:Short is dominant.
+*******
+Sex Chromosome:
+*******
+$$$$$$$$
+
+mom:
+Organism: [female]
+Genotype:
+Maternal auto:
+Brown-Eye;Pointy-Antenna
+Paternal auto:
+Purple-Eye;Short-Antenna
+Maternal sex chr:
+
+Paternal sex chr:
+
+Phenotypes:
+Eye:Color:Purple
+Antenna:Shape:Short
+pheno string=Purple-Eye/Short-Antenna
+**organism**
+
+dad:
+Organism: [male]
+Genotype:
+Maternal auto:
+Brown-Eye;Pointy-Antenna
+Paternal auto:
+Brown-Eye;Pointy-Antenna
+Maternal sex chr:
+
+Paternal sex chr:
+null sex chromosome
+Phenotypes:
+Eye:Color:Brown
+Antenna:Shape:Pointy
+pheno string=Brown-Eye/Pointy-Antenna
+**organism**
+
+100 offspring
+
+Purple-Eye/Pointy-Antenna: 5, 5 males, 0 females
+Purple-Eye/Short-Antenna: 45, 25 males, 20 females
+Brown-Eye/Short-Antenna: 12, 5 males, 7 females
+Brown-Eye/Pointy-Antenna: 42, 12 males, 30 females
+
+this gives rf = (12 + 5)/100 = 17% 
+real rf = 10% this is pretty close!
+
+another try
+1000 offspring
+Genetic Model: XX/XY sex linkage
+Autosome:
+Two Allele Simple Dominance; Antenna:Shape:Knobbed is recessive, Antenna:Shape:Bent is dominant.
+recombination frequency = 0.1 to:
+Two Allele Simple Dominance; Antenna:Color:Red is recessive, Antenna:Color:Green is dominant.
+*******
+Sex Chromosome:
+*******
+$$$$$$$$
+
+mom:
+Organism: [female]
+Genotype:
+Maternal auto:
+Knobbed-Antenna;Green-Antenna
+Paternal auto:
+Bent-Antenna;Red-Antenna
+Maternal sex chr:
+
+Paternal sex chr:
+
+Phenotypes:
+Antenna:Shape:Bent
+Antenna:Color:Green
+pheno string=Bent-Antenna/Green-Antenna
+**organism**
+
+dad:
+Organism: [male]
+Genotype:
+Maternal auto:
+Knobbed-Antenna;Red-Antenna
+Paternal auto:
+Knobbed-Antenna;Red-Antenna
+Maternal sex chr:
+null sex chromosome
+Paternal sex chr:
+
+Phenotypes:
+Antenna:Shape:Knobbed
+Antenna:Color:Red
+pheno string=Knobbed-Antenna/Red-Antenna
+**organism**
+
+kids:
+
+results:
+Bent-Antenna/Red-Antenna: 468, 280 males, 188 females
+Knobbed-Antenna/Green-Antenna: 440, 198 males, 242 females
+Bent-Antenna/Green-Antenna: 53, 29 males, 24 females
+Knobbed-Antenna/Red-Antenna: 43, 15 males, 28 females
+
+gives rf = (53 + 43)/1000 = 9.6% 
+looks like it works
+
+do a 3-point cross
+blue short brown/yel long black
+10% rf between each
+
+NR
+Blue-Eye/Short-Antenna/Brown-Body: 385, 281 males, 104 females
+Yellow-Eye/Long-Antenna/Black-Body: 404, 114 males, 290 females
+
+single at 1st
+Blue-Eye/Long-Antenna/Black-Body: 54, 29 males, 25 females
+Yellow-Eye/Short-Antenna/Brown-Body: 60, 25 males, 35 females
+
+single at 2nd
+Blue-Eye/Short-Antenna/Black-Body: 43, 32 males, 11 females
+Yellow-Eye/Long-Antenna/Brown-Body: 49, 19 males, 30 females
+
+doubles
+Blue-Eye/Long-Antenna/Brown-Body: 6, 4 males, 2 females
+Yellow-Eye/Short-Antenna/Black-Body: 7, 2 males, 5 females
+
+looks OK
+the doubles are the least freq
+
+rf1 (should be 10%) is (54 + 60 + 6 + 7)/1000 = 12.7%
+rf2 (should be 10%) is (43 + 49 + 6 + 7)/1000 = 10.5%
+ doubles should be 1% is 13/1000 = 1.3%
+ 
+looks OK
+but what if rf1 is usually higher than rf2?
+try again
+
+bent yel brn/norm pur yel
+10% b/w each
+1000 offspring
+
+NR
+Bent-Body/Yellow-Body/Brown-Leg: 407, 278 males, 129 females
+Normal-Body/Purple-Body/Yellow-Leg: 410, 125 males, 285 females
+
+single at 1st
+Bent-Body/Purple-Body/Yellow-Leg: 50, 33 males, 17 females
+Normal-Body/Yellow-Body/Brown-Leg: 37, 10 males, 27 females
+
+single at 2nd
+Bent-Body/Yellow-Body/Yellow-Leg: 47, 34 males, 13 females
+Normal-Body/Purple-Body/Brown-Leg: 44, 6 males, 38 females
+
+doubles
+Bent-Body/Purple-Body/Brown-Leg: 8, 5 males, 3 females
+Normal-Body/Yellow-Body/Yellow-Leg: 5, 1 males, 4 females
+
+again looks OK
+
+rf1 (10%) = (50 + 37 + 8 + 5)/1000 = 10.0%
+rf2 (10%) = (47 + 44 + 8 + 5)/1000 = 10.4%
+now, rf2 is higher
+so it was probably a statistical fluke
+
+but something strange - the sex ratios are rather skewed
+and reciprocally skewed in  reciprocal classes...
+shouldn't be linked (this is strictly autosomal)
+
+also the total is not 1000
+fixed bug in cage
+	it was counting the first member of each phenotype twice...
+try again
+now getting 1000 organisms always
+
+but still getting sex ratios that are almost 2:1
+but not always...
+
+maybe its a Random thing
+put random in the constructor of ChromosomeModel
+rather than making a new one each time you call getOffspring or getRandomOrg
+looks better
+
+green bent 5/pur short two
+10% rf b/w each
+
+NR
+Green-Antenna/Bent-Body/Five-Leg: 394, 218 males, 176 females
+Purple-Antenna/Short-Body/Two-Leg: 409, 218 males, 191 females
+
+single at 1st
+Green-Antenna/Short-Body/Two-Leg: 41, 27 males, 14 females
+Purple-Antenna/Bent-Body/Five-Leg: 51, 26 males, 25 females
+
+single in 2nd
+Green-Antenna/Bent-Body/Two-Leg: 48, 24 males, 24 females
+Purple-Antenna/Short-Body/Five-Leg: 45, 20 males, 25 females
+
+double
+Purple-Antenna/Bent-Body/Two-Leg: 8, 4 males, 4 females
+Green-Antenna/Short-Body/Five-Leg: 4, 2 males, 2 females
+
+looks much better
+
+now try diff rfs
+10% then 20%
+
+brn brn blk/blk blk red
+
+NR
+Brown-Leg/Brown-Body/Black-Eye: 353, 180 males, 173 females
+Black-Leg/Black-Body/Red-Eye: 391, 196 males, 195 females
+
+single at 1
+Brown-Leg/Black-Body/Red-Eye: 37, 16 males, 21 females
+Black-Leg/Brown-Body/Black-Eye: 39, 19 males, 20 females
+
+single at 2
+Brown-Leg/Brown-Body/Red-Eye: 92, 40 males, 52 females
+Black-Leg/Black-Body/Black-Eye: 67, 37 males, 30 females
+
+double
+Brown-Leg/Black-Body/Black-Eye: 12, 5 males, 7 females
+Black-Leg/Brown-Body/Red-Eye: 9, 7 males, 2 females
+
+rf1 (should be 10%) = (37 + 39 + 12 + 9)/1000 = 9.7%
+rf2 (should be 20%) = (92 + 67 + 12 + 9)/1000 = 18.0%
+double (should be 2%) = (12 + 9)/1000 = 2.1%
+yahoo!

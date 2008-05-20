@@ -30,8 +30,10 @@ public class VGL {
 		try {
 			geneticModel.addFirstAutosomalGeneModel(new TwoAlleleSimpleDominanceGeneModel());
 			geneticModel.addNextAutosomalGeneModel(0.1f, new TwoAlleleSimpleDominanceGeneModel());
-			geneticModel.addFirstSexLinkedGeneModel(new TwoAlleleSimpleDominanceGeneModel());
-			geneticModel.addNextSexLinkedGeneModel(0.2f, new TwoAlleleSimpleDominanceGeneModel());
+			geneticModel.addNextAutosomalGeneModel(0.2f, new TwoAlleleSimpleDominanceGeneModel());
+
+//			geneticModel.addFirstSexLinkedGeneModel(new TwoAlleleSimpleDominanceGeneModel());
+//			geneticModel.addNextSexLinkedGeneModel(0.2f, new TwoAlleleSimpleDominanceGeneModel());
 		} catch (GeneticsException e) {
 			e.printStackTrace();
 		}
@@ -50,9 +52,9 @@ public class VGL {
 		System.out.println("dad:\n" + dad.toString());
 		System.out.println("kids:\n");
 		Cage cage = new Cage();
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 1000; i++) {
 			Organism o = geneticModel.getOffspringOrganism(mom, dad);
-			System.out.println(o.getToolTipTextString());
+//			System.out.println(o.getToolTipTextString());
 			cage.add(o);
 		}
 		System.out.println(cage);
