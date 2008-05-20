@@ -70,40 +70,75 @@ public class Organism {
 	//shows genotype
 	public String getToolTipTextString() {
 		StringBuffer b = new StringBuffer();
-		b.append("A:{");
-		b.append(maternalAutosome.toString());
-		b.append("}/{");
-		b.append(paternalAutosome.toString());
-		b.append("} ");
+		if (maternalAutosome.getAllAlleles().size() > 0) {
+			b.append("A:{");
+			b.append(maternalAutosome.toString());
+			b.append("}/{");
+			b.append(paternalAutosome.toString());
+			b.append("} ");
+		}
+
 		if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
 			b.append("X");
 		} else {
 			b.append("Z");
 		}
-		b.append(":[");
-		if (maternalSexChromosome != NullSexChromosome.getInstance()) {
-			b.append(maternalSexChromosome.toString());
-			b.append("]/");
-		} 
-		if (paternalSexChromosome != NullSexChromosome.getInstance()) {	
+
+		// see if there's any alleles on the sex chromosomes
+		if ((maternalSexChromosome.getAllAlleles().size() > 0) ||
+				(paternalSexChromosome.getAllAlleles().size() > 0)){
+			
+			// if so, print them, unless they're a null
+			b.append(":");
+			
 			if (maternalSexChromosome != NullSexChromosome.getInstance()) {
 				b.append("[");
+				b.append(maternalSexChromosome.toString());
+				b.append("]/");
 			}
-			b.append(paternalSexChromosome.toString());
-			b.append("]/");
-		}
+			
+			if (paternalSexChromosome != NullSexChromosome.getInstance()) {	
+				b.append("[");
+				b.append(paternalSexChromosome.toString());
+				b.append("]/");
+			} 
 
-		if ((maternalSexChromosome == NullSexChromosome.getInstance()) || 
-				(paternalSexChromosome == NullSexChromosome.getInstance())) {
-			if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
-				b.append("Y");
+			// if heterogametic, need to finish with Y or W
+			if ((maternalSexChromosome == NullSexChromosome.getInstance()) ||
+					(paternalSexChromosome == NullSexChromosome.getInstance())){
+				if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
+					b.append("Y");
+				} else {
+					b.append("W");
+				}
 			} else {
-				b.append("W");
+				// trim trailing slash
+				b.deleteCharAt(b.length() - 1);
 			}
+			
 		} else {
-			b.deleteCharAt(b.length() - 1);
+			
+			// no alleles on sex chromosomes, so just show XX, XY, ZZ, or ZW as appropriate
+			//  see if homo or heterogametic
+			if ((maternalSexChromosome == NullSexChromosome.getInstance()) ||
+					(paternalSexChromosome == NullSexChromosome.getInstance())) {
+				
+				//heterogametic
+				if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
+					b.append("Y");
+				} else {
+					b.append("W");
+				}
+			} else {
+				
+				//homogametic
+				if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
+					b.append("X");
+				} else {
+					b.append("Z");
+				}
+			}
 		}
-
 		return b.toString();
 	}
 

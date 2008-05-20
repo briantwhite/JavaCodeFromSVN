@@ -68,8 +68,8 @@ public class GeneticModel {
 
 	public GeneticModel(boolean XX_XYsexLinkage) {
 		this.XX_XYsexLinkage = XX_XYsexLinkage;
-		autosomeModel = new ChromosomeModel(false);
-		sexChromosomeModel = new ChromosomeModel(true);
+		autosomeModel = new AutosomeModel();
+		sexChromosomeModel = new SexChromosomeModel();
 	}
 
 	public void addFirstAutosomalGeneModel(GeneModel gm) throws GeneticsException {

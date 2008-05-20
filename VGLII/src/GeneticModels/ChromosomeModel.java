@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-public class ChromosomeModel {
+public abstract class ChromosomeModel {
 
 	private ArrayList<GeneModel> geneModels;
 	private ArrayList<Float> recombinationFrequencies;
@@ -13,7 +13,7 @@ public class ChromosomeModel {
 	
 	private Random rand;
 
-	public ChromosomeModel(boolean sexChromosome) {
+	protected ChromosomeModel(boolean sexChromosome) {
 		this.sexChromosome = sexChromosome;
 		geneModels = new ArrayList<GeneModel>();
 		recombinationFrequencies = new ArrayList<Float>();
