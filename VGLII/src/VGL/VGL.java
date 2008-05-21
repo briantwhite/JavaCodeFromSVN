@@ -5,6 +5,8 @@ import GeneticModels.CharacterSpecificationBank;
 import GeneticModels.GeneticModel;
 import GeneticModels.GeneticsException;
 import GeneticModels.Organism;
+import GeneticModels.ThreeAlleleHierarchicalDominanceGeneModel;
+import GeneticModels.TwoAlleleIncompleteDominanceGeneModel;
 import GeneticModels.TwoAlleleSimpleDominanceGeneModel;
 
 public class VGL {
@@ -28,11 +30,9 @@ public class VGL {
 	private void run() {
 		geneticModel = new GeneticModel(GeneticModel.XX_XY);
 		try {
-			geneticModel.addFirstAutosomalGeneModel(new TwoAlleleSimpleDominanceGeneModel());
-			geneticModel.addNextAutosomalGeneModel(0.1f, new TwoAlleleSimpleDominanceGeneModel());
+			geneticModel.addFirstAutosomalGeneModel(new ThreeAlleleHierarchicalDominanceGeneModel());
 
-			geneticModel.addFirstSexLinkedGeneModel(new TwoAlleleSimpleDominanceGeneModel());
-			geneticModel.addNextSexLinkedGeneModel(0.2f, new TwoAlleleSimpleDominanceGeneModel());
+//			geneticModel.addFirstSexLinkedGeneModel(new TwoAlleleIncompleteDominanceGeneModel());
 		} catch (GeneticsException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +53,7 @@ public class VGL {
 		Cage cage = new Cage();
 		for (int i = 0; i < 100; i++) {
 			Organism o = geneticModel.getOffspringOrganism(mom, dad);
-			System.out.println(o.getToolTipTextString());
+//			System.out.println(o.getToolTipTextString());
 			cage.add(o);
 		}
 		System.out.println(cage);

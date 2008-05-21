@@ -1,13 +1,18 @@
 package GeneticModels;
 
+import java.util.Random;
+
 public abstract class GeneModel {
 	
 	CharacterSpecificationBank charSpecBank;
 	TraitSet traitSet;
 	
+	Random rand;
+	
 	Phenotype[][] genoPhenoTable;
 	
 	public GeneModel() {
+		rand = new Random();
 		charSpecBank = CharacterSpecificationBank.getInstance();
 		traitSet = charSpecBank.getRandomTraitSet();
 		setupGenoPhenoTable();

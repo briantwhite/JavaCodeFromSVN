@@ -130,17 +130,19 @@ public abstract class ChromosomeModel {
 		} else {
 			b.append("Autosome:\n");
 		}
+		
+		Iterator<Float> rfIt = recombinationFrequencies.iterator();
 		for (int i = 0; i < geneModels.size(); i++) {
 			GeneModel gm = geneModels.get(i);
-			if (i >= 1) {
-				float rf = recombinationFrequencies.get(i - 1);
+			b.append(gm.toString() + "\n");
+			if (rfIt.hasNext()) {
+				float rf = rfIt.next();
 				if (rf == 0.5f) {
 					b.append("unlinked to:\n");
 				} else {
 					b.append("recombination frequency = " + rf + " to:\n");
 				}
 			}
-			b.append(gm.toString() + "\n");
 		}
 		b.append("*******\n");
 		return b.toString();
