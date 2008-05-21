@@ -154,7 +154,7 @@ public class MolGenExp extends JFrame {
 	private MGEPreferences preferences;
 
 	public MolGenExp() {
-		super("Molecular Genetics Explorer " + GlobalDefaults.version);
+		super("Aipotu " + GlobalDefaults.version);
 		preferences = MGEPreferences.getInstance();
 		setupUI();
 		addWindowListener(new ApplicationCloser());
@@ -717,8 +717,7 @@ public class MolGenExp extends JFrame {
 
 
 	public void saveSelectedOrganismToGreenhouse() {
-		int currentPane = explorerPane.getSelectedIndex();
-		switch (currentPane) {
+		switch (explorerPane.getSelectedIndex()) {
 		case GENETICS:
 			//should not happen - only works if one org selected
 			if ((oal1 == null) || (oal2 != null)) {
@@ -881,7 +880,7 @@ public class MolGenExp extends JFrame {
 	// if two - cross only
 	public void updateGeneticsButtonStatus() {
 		int numSelectedOrgs = 0;
-
+		
 		if (oal1 != null) {
 			numSelectedOrgs++;
 		}
@@ -889,6 +888,14 @@ public class MolGenExp extends JFrame {
 		if (oal2 != null) {
 			numSelectedOrgs++;
 		}
+		
+		// in the case of evolution, the selected org is not in oal1 or oal2
+		//  so need a special case
+		if ((explorerPane.getSelectedIndex() == EVOLUTION) 
+				&& (evolutionWorkArea.getWorld().getSelectedOrganism() != null)) {
+			numSelectedOrgs = 1;
+		}
+
 
 		switch (numSelectedOrgs) {
 		case 0:
@@ -952,6 +959,7 @@ public class MolGenExp extends JFrame {
 	}
 
 	public void startEvolving() {
+		setButtonStatusWhileEvolving();
 		evolver = new Evolver(this);
 		evolver.setKeepGoing(true);
 		Thread t = new Thread(evolver);
@@ -978,5 +986,20 @@ public class MolGenExp extends JFrame {
 
 	public void stopEvolving() {
 		evolver.setKeepGoing(false);
+		restoreButtonStatusWhenDoneEvolving();
+	}
+	
+	private void setButtonStatusWhileEvolving() {
+		addToGreenhouseButton.setEnabled(false);
+		fileMenu.setEnabled(false);
+		greenhouseMenu.setEnabled(false);
+		explorerPane.setEnabled(false);
+	}
+	
+	private void restoreButtonStatusWhenDoneEvolving() {
+		addToGreenhouseButton.setEnabled(true);
+		fileMenu.setEnabled(true);
+		greenhouseMenu.setEnabled(true);
+		explorerPane.setEnabled(true);		
 	}
 }

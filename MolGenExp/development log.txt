@@ -511,4 +511,18 @@ fixed bug in evolution
 	so used polypeptide factory's parsestringtoAAs method
 	now AOK
 
+5/21/08
+renamed to Aipotu 0.8
+turned off the folding server - not much speed improvement
+	GlobalDefaults.foldingServerEnabled controls this
+
+need to make buttons behave properly
+can't access any menus or the Add.. button when running an evolution run
+
+bug fixes
+- could only save one organism from evolution world
+  after saved, the Add.. button was disabled
+  modified MGX's updateGeneticsButtonStatus
+  
+
 

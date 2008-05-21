@@ -6,10 +6,12 @@ import biochem.StandardTable;
 
 public class GlobalDefaults {
 	
+	public static final boolean foldingServerAllowed = false;
+	
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;
 
-	public final static String version = "1.3.4";
+	public final static String version = "0.8";
 
 	public final static String sampleDNA = 
 		new String("CAGCTATAACCGAGATTGATGTCTAG"
