@@ -524,5 +524,10 @@ bug fixes
   after saved, the Add.. button was disabled
   modified MGX's updateGeneticsButtonStatus
   
+speed up mutation by not creating a string & doing substring every time
+	just make String[4] AGCT to do it
+	
+allowed organism names to include <space>
 
+made dumpWorld - saves world contents to csv file.
 

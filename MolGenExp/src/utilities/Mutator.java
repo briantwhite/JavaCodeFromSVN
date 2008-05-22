@@ -23,9 +23,14 @@ public class Mutator {
 	private MGEPreferences preferences;
 	private GeneExpresser expresser;
 	
+	private Random rand;
+	
+	private String[] baseArray = {"A", "G", "C", "T"};
+	
 	private Mutator() {
 		preferences = MGEPreferences.getInstance();
 		expresser = GeneExpresser.getInstance();
+		rand = new Random();
 	}
 	
 	public static Mutator getInstance() {
@@ -77,18 +82,16 @@ public class Mutator {
 
 	public String mutateDNASequence(String DNASequence) {
 		preferences = MGEPreferences.getInstance();
-		Random r = new Random();
-
+		 
 		StringBuffer DNABuffer = new StringBuffer(DNASequence);
 
 		//mutation: pointMutationRate chance of changing each base
 		if (preferences.getPointMutationRate() != 0) {
 			int pointOdds = Math.round(1/preferences.getPointMutationRate());
 			for (int i = 0; i < DNABuffer.length(); i++) {
-				if (r.nextInt(pointOdds) == 0) {
-					int base = r.nextInt(4);
-					String newBase = "AGCT".substring(base, base + 1);
-					DNABuffer = DNABuffer.replace(i, i + 1, newBase);
+				if (rand.nextInt(pointOdds) == 0) {
+					DNABuffer = DNABuffer.replace(i, i + 1, 
+							baseArray[rand.nextInt(4)]);
 				}
 			}
 		}
@@ -97,7 +100,7 @@ public class Mutator {
 		if (preferences.getDeletionMutationRate() != 0) {
 			int delOdds = Math.round(1/preferences.getDeletionMutationRate());
 			for (int i = 0; i < DNABuffer.length(); i++) {
-				if (r.nextInt(delOdds) == 0) {
+				if (rand.nextInt(delOdds) == 0) {
 					DNABuffer = DNABuffer.deleteCharAt(i);
 				}
 			}
@@ -107,10 +110,8 @@ public class Mutator {
 		if (preferences.getInsertionMutationRate() != 0) {
 			int insOdds = Math.round(1/preferences.getInsertionMutationRate());
 			for (int i = 0; i < DNABuffer.length(); i++) {
-				if (r.nextInt(insOdds) == 0) {
-					int base = r.nextInt(4);
-					String newBase = "AGCT".substring(base, base + 1);
-					DNABuffer = DNABuffer.insert(i, newBase);
+				if (rand.nextInt(insOdds) == 0) {
+					DNABuffer = DNABuffer.insert(i, baseArray[rand.nextInt(4)]);
 				}
 			}
 		}

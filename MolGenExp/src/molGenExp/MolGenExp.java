@@ -103,8 +103,9 @@ public class MolGenExp extends JFrame {
 	JMenuBar menuBar;
 
 	JMenu fileMenu;
-	JMenuItem quitMenuItem;
 	JMenuItem prefsItem;
+	JMenuItem dumpWorldItem;
+	JMenuItem quitMenuItem;
 
 	JMenu editMenu;
 	JMenuItem copyUpperToClipboardItem;
@@ -183,8 +184,11 @@ public class MolGenExp extends JFrame {
 
 		fileMenu = new JMenu("File");
 		prefsItem = new JMenuItem("Preferences...");
+		dumpWorldItem = new JMenuItem("Save World to file...");
 		quitMenuItem = new JMenuItem("Quit");
 		fileMenu.add(prefsItem);
+		fileMenu.add(dumpWorldItem);
+		dumpWorldItem.setEnabled(false);
 		fileMenu.add(quitMenuItem);
 		menuBar.add(fileMenu);
 
@@ -296,6 +300,7 @@ public class MolGenExp extends JFrame {
 					compareMenu.setEnabled(false);
 					editMenu.setEnabled(false);
 					addToGreenhouseButton.setEnabled(false);
+					dumpWorldItem.setEnabled(false);
 					setCustomSelectionSettings();
 					break;
 				case BIOCHEMISTRY:			
@@ -303,6 +308,7 @@ public class MolGenExp extends JFrame {
 					compareMenu.setEnabled(true);
 					editMenu.setEnabled(true);
 					addToGreenhouseButton.setEnabled(false);
+					dumpWorldItem.setEnabled(false);
 					setDefaultSelectionSettings();
 					break;
 				case MOLECULAR_BIOLOGY:			
@@ -310,6 +316,7 @@ public class MolGenExp extends JFrame {
 					compareMenu.setEnabled(true);
 					editMenu.setEnabled(true);
 					addToGreenhouseButton.setEnabled(true);
+					dumpWorldItem.setEnabled(false);
 					setDefaultSelectionSettings();
 					break;
 				case EVOLUTION:
@@ -318,6 +325,7 @@ public class MolGenExp extends JFrame {
 					compareMenu.setEnabled(false);
 					editMenu.setEnabled(false);
 					addToGreenhouseButton.setEnabled(true);
+					dumpWorldItem.setEnabled(true);
 					setEvolutionSelectionSettings();
 					break;
 				}
@@ -356,6 +364,12 @@ public class MolGenExp extends JFrame {
 		prefsItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				preferencesDialog.setVisible(true);
+			}
+		});
+		
+		dumpWorldItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				evolutionWorkArea.saveWorldToFile();
 			}
 		});
 
@@ -750,7 +764,7 @@ public class MolGenExp extends JFrame {
 
 		String name = "";
 		String warning = "";
-		Pattern p = Pattern.compile("[^A-Za-z0-9\\_\\-]+");
+		Pattern p = Pattern.compile("[^ A-Za-z0-9\\_\\-]+");
 		while (name.equals("") || 
 				p.matcher(name).find() ||
 				greenhouse.nameExistsAlready(name)){
@@ -758,7 +772,7 @@ public class MolGenExp extends JFrame {
 					this,
 					warning +
 					"Give a unique name for your new organism.\n"
-					+ "This can only include letters, numbers, -, and "
+					+ "This can only include letters, numbers, -, <space> and "
 					+ "_.",
 					"Name your organism.",
 					JOptionPane.PLAIN_MESSAGE);

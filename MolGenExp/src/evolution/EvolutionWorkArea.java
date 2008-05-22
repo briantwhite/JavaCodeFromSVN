@@ -2,13 +2,20 @@ package evolution;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -20,6 +27,7 @@ import preferences.MGEPreferences;
 import utilities.GlobalDefaults;
 
 import molGenExp.MolGenExp;
+import molGenExp.Organism;
 
 public class EvolutionWorkArea extends JPanel {
 	
@@ -170,4 +178,63 @@ public class EvolutionWorkArea extends JPanel {
 		world.clearSelectedOrganism();
 	}
 
+	public void saveWorldToFile() {
+		if (world.getThinOrganism(0, 0) == null) {
+			Toolkit.getDefaultToolkit().beep();
+			return;
+		}
+		JFileChooser outfileChooser = new JFileChooser();
+		int resultVal = outfileChooser.showSaveDialog(this);
+		if (resultVal == JFileChooser.APPROVE_OPTION) {
+			File outFile = outfileChooser.getSelectedFile();
+			Writer output = null;
+			try {
+				output = new BufferedWriter(new FileWriter(outFile) );
+				output.write("X,Y,Gene#,DNA,Protein,R,G,B\n");
+				for (int x = 0; x < preferences.getWorldSize(); x++) {
+					for (int y = 0; y < preferences.getWorldSize(); y++) {
+						Organism o = new Organism(world.getThinOrganism(x, y));
+						output.write(x + "," + y + ",0,");
+						output.write(o.getGene1().getExpressedGene().getDNA() + ",");
+						output.write(o.getGene1().getFoldedPolypeptide().getAaSeq() + ",");
+						output.write(
+								o.getGene1().getFoldedPolypeptide().getColor().getRed() 
+								+ ",");
+						output.write(
+								o.getGene1().getFoldedPolypeptide().getColor().getGreen() 
+								+ ",");
+						output.write(
+								o.getGene1().getFoldedPolypeptide().getColor().getBlue() 
+								+ "\n");
+						
+						output.write(x + "," + y + ",1,");
+						output.write(o.getGene2().getExpressedGene().getDNA() + ",");
+						output.write(o.getGene2().getFoldedPolypeptide().getAaSeq() + ",");
+						output.write(
+								o.getGene2().getFoldedPolypeptide().getColor().getRed() 
+								+ ",");
+						output.write(
+								o.getGene2().getFoldedPolypeptide().getColor().getGreen() 
+								+ ",");
+						output.write(
+								o.getGene2().getFoldedPolypeptide().getColor().getBlue() 
+								+ "\n");
+					}
+				}
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			finally {
+				if (output != null)
+					try {
+						output.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+			}
+
+		}
+
+	}
 }
