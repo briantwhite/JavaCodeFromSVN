@@ -57,7 +57,7 @@ import molGenExp.MolGenExp;
  * Model a polypeptide as a List of AminoAcids.
  *  
  */
-public class Polypeptide implements Serializable {
+public class Polypeptide {
 
 	// public accessors
 
@@ -77,7 +77,7 @@ public class Polypeptide implements Serializable {
 		return acids.size();
 	}
 
-	public Iterator iterator() {
+	public Iterator<AcidInChain> iterator() {
 		return acids.iterator();
 	}
 
@@ -102,21 +102,30 @@ public class Polypeptide implements Serializable {
 	}
 
 	public String toString() {
-		Iterator i = iterator();
+		Iterator<AcidInChain> i = iterator();
 		StringBuffer buf = new StringBuffer();
 		while (i.hasNext()) {
-			buf.append((AcidInChain) i.next() + " : ");
+			buf.append(i.next() + " : ");
 		}
 		return buf.toString();
+	}
+	
+	public String getSingleLetterAASequence() {
+		StringBuffer b = new StringBuffer();
+		Iterator<AcidInChain> i = iterator();
+		while (i.hasNext()) {
+			b.append((i.next()).getAbName());
+		}
+		return b.toString();
 	}
 	
 	// string representation for use in FoldedProteinArchive
 	//   aa:direction:aa:direction
 	public String getProteinString() {
 		StringBuffer b = new StringBuffer();
-		Iterator i = iterator();
+		Iterator<AcidInChain> i = iterator();
 		while (i.hasNext()) {
-			AcidInChain a = (AcidInChain) i.next();
+			AcidInChain a = i.next();
 			b.append(a.getAbName() + ":");
 			b.append(a.getNext() + ":");
 		}
@@ -124,10 +133,10 @@ public class Polypeptide implements Serializable {
 	}
 
 	public String toCSV() {
-		Iterator i = iterator();
+		Iterator<AcidInChain> i = iterator();
 		StringBuffer buf = new StringBuffer();
 		while (i.hasNext()) {
-			buf.append(((AcidInChain) i.next()).getHydrophobicIndex() + ", ");
+			buf.append((i.next()).getHydrophobicIndex() + ", ");
 		}
 		return buf.toString();
 	}
@@ -149,10 +158,10 @@ public class Polypeptide implements Serializable {
 	}
 
 	public String getDirectionSequence() {
-		Iterator i = iterator();
+		Iterator<AcidInChain> i = iterator();
 		StringBuffer buf = new StringBuffer();
 		while (i.hasNext()) {
-			buf.append(((AcidInChain) i.next()).getNext() + " : ");
+			buf.append((i.next()).getNext() + " : ");
 		}
 		return buf.toString();
 	}
@@ -204,7 +213,7 @@ public class Polypeptide implements Serializable {
 
 	private double maxEnergy = 1.0; // to scale histogram
 
-	private ArrayList acids;
+	private ArrayList<AcidInChain> acids;
 
 	// for efficiency, mirror the ArrayList as an array,
 	// and mirror the next Directions (dynamic)
@@ -267,7 +276,7 @@ public class Polypeptide implements Serializable {
 
 		// ASSUMES: all acids in realAcids are from table.
 		maxEnergy = GlobalDefaults.aaTable.getMaxEnergy();
-		acids = new ArrayList(); // duplicated code
+		acids = new ArrayList<AcidInChain>(); // duplicated code
 		for (int i = 0; i < realAcids.length; i++) {
 			acids.add(new AcidInChain(realAcids[i], i));
 		}

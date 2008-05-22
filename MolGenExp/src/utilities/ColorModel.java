@@ -28,7 +28,7 @@ import biochem.Grid;
  * 
 
  */
-public abstract class ColorModel implements Serializable {
+public abstract class ColorModel {
 
 	private Color[] numberToColorMap;
 	

@@ -531,3 +531,15 @@ allowed organism names to include <space>
 
 made dumpWorld - saves world contents to csv file.
 
+5/22/08
+made loadWorld - loads from world file
+
+want to have it use both processors to run faster
+need to benchmark again (since fixing the mutation code)
+- 10x10 world
+- load all with green1
+- all mut rates .005
+- all fitnesses 5
+- don't save archive between runs
+run 10 generations (when "Generation 10" appears in window)
+- mins: 4:23  

@@ -105,6 +105,7 @@ public class MolGenExp extends JFrame {
 	JMenu fileMenu;
 	JMenuItem prefsItem;
 	JMenuItem dumpWorldItem;
+	JMenuItem loadWorldItem;
 	JMenuItem quitMenuItem;
 
 	JMenu editMenu;
@@ -185,10 +186,13 @@ public class MolGenExp extends JFrame {
 		fileMenu = new JMenu("File");
 		prefsItem = new JMenuItem("Preferences...");
 		dumpWorldItem = new JMenuItem("Save World to file...");
+		loadWorldItem = new JMenuItem("Load World from file...");
 		quitMenuItem = new JMenuItem("Quit");
 		fileMenu.add(prefsItem);
 		fileMenu.add(dumpWorldItem);
 		dumpWorldItem.setEnabled(false);
+		fileMenu.add(loadWorldItem);
+		loadWorldItem.setEnabled(false);
 		fileMenu.add(quitMenuItem);
 		menuBar.add(fileMenu);
 
@@ -301,6 +305,7 @@ public class MolGenExp extends JFrame {
 					editMenu.setEnabled(false);
 					addToGreenhouseButton.setEnabled(false);
 					dumpWorldItem.setEnabled(false);
+					loadWorldItem.setEnabled(false);
 					setCustomSelectionSettings();
 					break;
 				case BIOCHEMISTRY:			
@@ -309,6 +314,7 @@ public class MolGenExp extends JFrame {
 					editMenu.setEnabled(true);
 					addToGreenhouseButton.setEnabled(false);
 					dumpWorldItem.setEnabled(false);
+					loadWorldItem.setEnabled(false);
 					setDefaultSelectionSettings();
 					break;
 				case MOLECULAR_BIOLOGY:			
@@ -317,6 +323,7 @@ public class MolGenExp extends JFrame {
 					editMenu.setEnabled(true);
 					addToGreenhouseButton.setEnabled(true);
 					dumpWorldItem.setEnabled(false);
+					loadWorldItem.setEnabled(false);
 					setDefaultSelectionSettings();
 					break;
 				case EVOLUTION:
@@ -326,6 +333,7 @@ public class MolGenExp extends JFrame {
 					editMenu.setEnabled(false);
 					addToGreenhouseButton.setEnabled(true);
 					dumpWorldItem.setEnabled(true);
+					loadWorldItem.setEnabled(true);
 					setEvolutionSelectionSettings();
 					break;
 				}
@@ -370,6 +378,12 @@ public class MolGenExp extends JFrame {
 		dumpWorldItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				evolutionWorkArea.saveWorldToFile();
+			}
+		});
+		
+		loadWorldItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				evolutionWorkArea.loadWorldFromFile();
 			}
 		});
 

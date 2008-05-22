@@ -5,11 +5,15 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -17,6 +21,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
@@ -30,10 +35,10 @@ import molGenExp.MolGenExp;
 import molGenExp.Organism;
 
 public class EvolutionWorkArea extends JPanel {
-	
+
 	private MolGenExp mge;
 	private MGEPreferences preferences;
-	
+
 	private JPanel leftPanel;
 	private JPanel controlPanel;
 	private JButton loadButton;
@@ -45,25 +50,25 @@ public class EvolutionWorkArea extends JPanel {
 	private JLabel generationLabel;
 	private int generation = 0;
 	private boolean running = false;
-	
+
 	String[] colorList = {"White", "Blue", "Yellow", "Green",
 			"Red", "Purple", "Orange", "Black"};
 	ColorFitnessSlider[] sliders = new ColorFitnessSlider[colorList.length];
 
-	
+
 	public EvolutionWorkArea(MolGenExp mge) {
 		this.mge = mge;
 		preferences = MGEPreferences.getInstance();
 		setupUI();
 	}
-	
+
 	private void setupUI() {
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		
+
 		leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(Box.createRigidArea(new Dimension(200,1)));
-		
+
 		fitnessPanel = new JPanel();
 		fitnessPanel.setBorder(BorderFactory.createTitledBorder("Relative Fitness Selection"));
 		Color backgroundColor = new Color(128,128,128);
@@ -84,9 +89,9 @@ public class EvolutionWorkArea extends JPanel {
 				colorList.length, 2,
 				6, 6,
 				6, 6);
-		
+
 		leftPanel.add(fitnessPanel);
-		
+
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
 		controlPanel.setBorder(BorderFactory.createTitledBorder("Controls"));
@@ -99,9 +104,9 @@ public class EvolutionWorkArea extends JPanel {
 		stopButton.setEnabled(false);
 		controlPanel.add(stopButton);
 		leftPanel.add(controlPanel);
-				
+
 		this.add(leftPanel);
-		
+
 		rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		rightPanel.setBorder(BorderFactory.createTitledBorder("World"));
@@ -113,7 +118,7 @@ public class EvolutionWorkArea extends JPanel {
 		rightPanel.add(generationLabel);
 
 		this.add(rightPanel);
-		
+
 		loadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mge.loadSelectedIntoWorld();
@@ -130,7 +135,7 @@ public class EvolutionWorkArea extends JPanel {
 				mge.startEvolving();
 			}
 		});
-		
+
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				stopButton.setEnabled(false);
@@ -142,30 +147,30 @@ public class EvolutionWorkArea extends JPanel {
 		});
 
 	}
-	
+
 	public boolean running() {
 		return running;
 	}
-	
+
 	public void setReadyToRun() {
 		startButton.setEnabled(true);
 		stopButton.setEnabled(false);
 		running = false;
 	}
-	
+
 	public void updateGenerationLabel() {
 		generation++;
 		generationLabel.setText("Generation " + generation);
 	}
-	
+
 	public int getGeneration() {
 		return generation;
 	}
-	
+
 	public World getWorld() {
 		return world;
 	}
-	
+
 	public int[] getFitnessValues() {
 		int[] values = new int[sliders.length];
 		for (int i = 0; i < sliders.length; i++) {
@@ -173,7 +178,7 @@ public class EvolutionWorkArea extends JPanel {
 		}
 		return values;
 	}
-		
+
 	public void clearSelection() {
 		world.clearSelectedOrganism();
 	}
@@ -184,19 +189,27 @@ public class EvolutionWorkArea extends JPanel {
 			return;
 		}
 		JFileChooser outfileChooser = new JFileChooser();
+		outfileChooser.setDialogTitle("Enter a file name...");
 		int resultVal = outfileChooser.showSaveDialog(this);
 		if (resultVal == JFileChooser.APPROVE_OPTION) {
 			File outFile = outfileChooser.getSelectedFile();
 			Writer output = null;
 			try {
 				output = new BufferedWriter(new FileWriter(outFile) );
+				output.write("Aipotu world file\n");
+				output.write("#" + preferences.getWorldSize() + "\n");
 				output.write("X,Y,Gene#,DNA,Protein,R,G,B\n");
 				for (int x = 0; x < preferences.getWorldSize(); x++) {
 					for (int y = 0; y < preferences.getWorldSize(); y++) {
 						Organism o = new Organism(world.getThinOrganism(x, y));
 						output.write(x + "," + y + ",0,");
 						output.write(o.getGene1().getExpressedGene().getDNA() + ",");
-						output.write(o.getGene1().getFoldedPolypeptide().getAaSeq() + ",");
+						output.write(
+								o.getGene1()
+								.getFoldedPolypeptide()
+								.getFullSizeGrid()
+								.getPP()
+								.getSingleLetterAASequence() + ",");
 						output.write(
 								o.getGene1().getFoldedPolypeptide().getColor().getRed() 
 								+ ",");
@@ -206,10 +219,15 @@ public class EvolutionWorkArea extends JPanel {
 						output.write(
 								o.getGene1().getFoldedPolypeptide().getColor().getBlue() 
 								+ "\n");
-						
+
 						output.write(x + "," + y + ",1,");
 						output.write(o.getGene2().getExpressedGene().getDNA() + ",");
-						output.write(o.getGene2().getFoldedPolypeptide().getAaSeq() + ",");
+						output.write(
+								o.getGene2()
+								.getFoldedPolypeptide()
+								.getFullSizeGrid()
+								.getPP()
+								.getSingleLetterAASequence() + ",");
 						output.write(
 								o.getGene2().getFoldedPolypeptide().getColor().getRed() 
 								+ ",");
@@ -233,8 +251,100 @@ public class EvolutionWorkArea extends JPanel {
 						e.printStackTrace();
 					}
 			}
-
 		}
+	}
 
+	public void loadWorldFromFile() {
+
+		ThinOrganism[][] newWorld = null;
+
+		String DNA1 = "";
+		String DNA2 = "";
+		Color color1 = null;
+		Color color2 = null;
+
+		JFileChooser infileChooser = new JFileChooser();
+		infileChooser.setDialogTitle(
+		"Choose a file of organisms to load into the world");
+		int resultVal = infileChooser.showOpenDialog(this);
+		if (resultVal == JFileChooser.APPROVE_OPTION) {
+			File infile = infileChooser.getSelectedFile();
+			BufferedReader input = null;
+			try {
+				input = new BufferedReader(new FileReader(infile));
+				String line = null;
+				boolean haveReadFirstLine = false;
+				boolean haveSetWorldSize = false;
+				while ((line = input.readLine()) != null) {
+					//check first line to be sure it's a world file
+					if (!line.equals("Aipotu world file") && !haveReadFirstLine) {
+						JOptionPane.showMessageDialog(
+								null, 
+								"<html>Aipotu cannot read the file,<br>"
+								+ "it is probably the wrong format.<br>"
+								+ "You should check it or try another.</html>",
+								"Unreadable file format", 
+								JOptionPane.WARNING_MESSAGE);
+						break;
+					} else {
+						haveReadFirstLine = true;
+					}
+
+					// read second line to get world size
+					if (line.startsWith("#")) {
+						line = line.replaceAll("#", "");
+						int worldSize = Integer.parseInt(line);
+						newWorld = new ThinOrganism[worldSize][worldSize];
+						haveSetWorldSize = true;
+					}
+
+					//now, the rest - parse each line
+					if (haveSetWorldSize) {
+						//ignore the header line
+						if (!line.startsWith("X")) {
+							String[] lineParts = line.split(",");
+							if (lineParts.length == 8) {
+								int x = Integer.parseInt(lineParts[0]);
+								int y = Integer.parseInt(lineParts[1]);
+								int geneNum = Integer.parseInt(lineParts[2]);
+								if (geneNum == 0) {
+									DNA1 = lineParts[3];
+									color1 = new Color(
+											Integer.parseInt(lineParts[5]),
+											Integer.parseInt(lineParts[6]),
+											Integer.parseInt(lineParts[7]));
+								} else {
+									DNA2 = lineParts[3];
+									color2 = new Color(
+											Integer.parseInt(lineParts[5]),
+											Integer.parseInt(lineParts[6]),
+											Integer.parseInt(lineParts[7]));
+									newWorld[x][y] = new ThinOrganism(
+											DNA1, 
+											DNA2, 
+											GlobalDefaults.colorModel.mixTwoColors(
+													color1, color2));
+								}
+							}
+						}
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			finally {
+				try {
+					if (input!= null) {
+						input.close();
+					}
+				}
+				catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+		world.setOrganisms(newWorld);
+		setReadyToRun();
+		world.repaint();
 	}
 }
