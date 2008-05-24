@@ -536,6 +536,9 @@ made loadWorld - loads from world file
 
 want to have it use both processors to run faster
 need to benchmark again (since fixing the mutation code)
+- on laptop 10.5.2; 3Gb ram; 2.33ghz intel core duo
+- run from Eclipse
+- nothing else running
 - 10x10 world
 - load all with green1
 - all mut rates .005
@@ -543,3 +546,12 @@ need to benchmark again (since fixing the mutation code)
 - don't save archive between runs
 run 10 generations (when "Generation 10" appears in window)
 - mins: 4:23  
+
+5/24/08
+fixed bug in World - could select "cells" outside of world.
+
+resume benchmarking as 5/22
+- mins 3:37, 4:40
+
+
+

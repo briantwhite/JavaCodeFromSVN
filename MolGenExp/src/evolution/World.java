@@ -19,9 +19,9 @@ import molGenExp.Organism;
 public class World extends JPanel implements MouseListener {
 
 	private MGEPreferences preferences;
-	
+
 	ThinOrganism[][] organisms;
-	
+
 	public final static int pictureSize = 500;
 	private int cellSize ;
 	private int selectedCelli = -1;
@@ -32,7 +32,7 @@ public class World extends JPanel implements MouseListener {
 		resizeWorld();
 		this.addMouseListener(this);
 	}
-	
+
 	public void resizeWorld() {
 		organisms = 
 			new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()]; 
@@ -50,11 +50,11 @@ public class World extends JPanel implements MouseListener {
 
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		
+
 		if (preferences.getWorldSize() != organisms.length) {
 			resizeWorld();
 		}
-		
+
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				if (organisms[i][j] == null) {
@@ -73,32 +73,41 @@ public class World extends JPanel implements MouseListener {
 					cellSize, cellSize);
 		}
 	}
-	
+
 	public ThinOrganism getThinOrganism(int i, int j) {
 		return organisms[i][j];
 	}
-	
+
 	public void setOrganisms(ThinOrganism[][] newOrgs) {
 		organisms = null;
 		organisms = newOrgs;
 		repaint();
 	}
-	
+
 	public Organism getSelectedOrganism() {
 		if ((selectedCelli < 0) && (selectedCellj < 0)) {
 			return null;
 		}
 		return new Organism(organisms[selectedCelli][ selectedCellj]);
 	}
-	
+
 	public void clearSelectedOrganism() {
 		selectedCelli = -1;
 		selectedCellj = -1;
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		selectedCelli = e.getX()/cellSize;
-		selectedCellj = e.getY()/cellSize;
+		
+		int newCelli = e.getX()/cellSize;
+		if (newCelli < preferences.getWorldSize()) {
+			selectedCelli = newCelli;
+		}
+		
+		int newCellj = e.getY()/cellSize;
+		if (newCellj < preferences.getWorldSize()) {
+			selectedCellj = newCellj;
+		}
+		
 		repaint();
 	}
 
