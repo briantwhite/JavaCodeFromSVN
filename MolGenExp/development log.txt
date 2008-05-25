@@ -553,5 +553,15 @@ fixed bug in World - could select "cells" outside of world.
 resume benchmarking as 5/22
 - mins 3:37, 4:40
 
+to use both processors
+1) find all sequences to be folded - put in object SequencesToBeFolded
+2) for n processors, use n threads, each of which draws sequences from the
+   Seqs2BFolded in a synchronized method
+3) progress is total - (# left in Seqs2BFolded)
+4) when the Seq2BFolded is empty; all done
+
+will need to rearrange 
+- no more Evolver threads; have ProtenFolder threads that draw from Seqs2BFolded
+- keep Evolver, but don't make threads of it.
 
 
