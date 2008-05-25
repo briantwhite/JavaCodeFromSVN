@@ -564,4 +564,4 @@ will need to rearrange
 - no more Evolver threads; have ProtenFolder threads that draw from Seqs2BFolded
 - keep Evolver, but don't make threads of it.
 
-
+probably should use a BlockingQueue and a ThreadPool
