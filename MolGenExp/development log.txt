@@ -565,3 +565,9 @@ will need to rearrange
 - keep Evolver, but don't make threads of it.
 
 probably should use a BlockingQueue and a ThreadPool
+
+5/26/08
+fixed bug in setting save pix to directory preference - it would add a filename
+and make it un savable
+now, if the filechooser returns something other than a directory, the
+parent directory is used.
