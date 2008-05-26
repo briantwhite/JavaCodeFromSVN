@@ -20,7 +20,7 @@ public class EvolutionPicturesPane extends PreferencePane {
 	private JCheckBox pixOnCheckBox;
 	private JTextField saveToPath;
 	private JButton browseButton;
-	
+
 	public EvolutionPicturesPane(PreferencesDialog parentDialog) {
 		super(parentDialog);
 	}
@@ -46,7 +46,7 @@ public class EvolutionPicturesPane extends PreferencePane {
 		browseButton = new JButton("Browse");
 		customPanel.add(saveToPath);
 		customPanel.add(browseButton);
-		
+
 		SpringUtilities.makeCompactGrid(customPanel,
 				3, 2,
 				6, 6,
@@ -56,13 +56,18 @@ public class EvolutionPicturesPane extends PreferencePane {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser(saveToPath.getText());
 				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fc.setDialogTitle("Choose a directory in which to save the image files");
 				int returnVal = fc.showSaveDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					saveToPath.setText(fc.getSelectedFile().toString());
+					if (fc.getSelectedFile().isDirectory()) {
+						saveToPath.setText(fc.getSelectedFile().toString());
+					} else {
+						saveToPath.setText(fc.getSelectedFile().getParent().toString());						
+					}
 				}
 			}
 		});
-		
+
 		return customPanel;
 	}
 

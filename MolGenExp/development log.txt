@@ -571,3 +571,5 @@ fixed bug in setting save pix to directory preference - it would add a filename
 and make it un savable
 now, if the filechooser returns something other than a directory, the
 parent directory is used.
+
+made it version 0.9

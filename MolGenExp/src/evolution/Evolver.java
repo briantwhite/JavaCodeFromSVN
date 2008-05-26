@@ -221,10 +221,10 @@ public class Evolver implements Runnable {
 					20, 20);
 
 			//save it
-			File imageFile = new File(preferences.getSavePixToPath() 
-					+ System.getProperty("file.separator")
-					+ evolutionWorkArea.getGeneration()
-					+ ".png");
+			File imageFile  = new File(preferences.getSavePixToPath() 
+						+ System.getProperty("file.separator")
+						+ evolutionWorkArea.getGeneration()
+						+ ".png");				
 			try {
 				ImageIO.write(pic, "png", imageFile);
 			} catch (IOException e) {
