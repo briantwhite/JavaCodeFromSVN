@@ -147,7 +147,7 @@ public class EvolutionWorkArea extends JPanel {
 		});
 
 	}
-
+	
 	public boolean running() {
 		return running;
 	}

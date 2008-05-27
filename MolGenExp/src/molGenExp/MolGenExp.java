@@ -13,6 +13,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -23,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -95,8 +98,6 @@ public class MolGenExp extends JFrame {
 	private final static int BIOCHEMISTRY = 1;
 	private final static int MOLECULAR_BIOLOGY = 2;
 	private final static int EVOLUTION = 3;
-	
-	private ImageIcon geneticCodeTableImage;
 
 	private JPanel mainPanel;
 
@@ -109,8 +110,10 @@ public class MolGenExp extends JFrame {
 	JMenuItem quitMenuItem;
 
 	JMenu editMenu;
-	JMenuItem copyUpperToClipboardItem;
-	JMenuItem copyLowerToClipboardItem;	
+	JMenuItem copyUpperSequenceToClipboardItem;
+	JMenuItem copyLowerSequenceToClipboardItem;	
+	JMenuItem copyUpperImageToClipboardItem;
+	JMenuItem copyLowerImageToClipboardItem;
 
 	JMenu compareMenu;
 	JMenuItem u_lMenuItem;
@@ -134,7 +137,7 @@ public class MolGenExp extends JFrame {
 	private Timer evolverTimer;
 	private Greenhouse greenhouse;
 	private JButton addToGreenhouseButton;
-	
+
 	private JProgressBar progressBar;
 	private JLabel statusLabel;
 
@@ -151,7 +154,7 @@ public class MolGenExp extends JFrame {
 	private BiochemistryWorkbench biochemistryWorkbench;
 	private MolBiolWorkbench molBiolWorkbench;
 	private EvolutionWorkArea evolutionWorkArea;
-	
+
 	private PreferencesDialog preferencesDialog;
 	private MGEPreferences preferences;
 
@@ -197,14 +200,21 @@ public class MolGenExp extends JFrame {
 		menuBar.add(fileMenu);
 
 		editMenu = new JMenu("Edit");
-		copyUpperToClipboardItem = 
+		copyUpperSequenceToClipboardItem = 
 			new JMenuItem("Copy Upper Sequence to Clipboard");
-		editMenu.add(copyUpperToClipboardItem);
-		copyLowerToClipboardItem = 
+		editMenu.add(copyUpperSequenceToClipboardItem);
+		copyLowerSequenceToClipboardItem = 
 			new JMenuItem("Copy Lower Sequence to Clipboard");
-		editMenu.add(copyLowerToClipboardItem);
+		editMenu.add(copyLowerSequenceToClipboardItem);
+		editMenu.addSeparator();
+		copyUpperImageToClipboardItem = 
+			new JMenuItem("Copy Image of Upper Panel to Clipboard");
+		editMenu.add(copyUpperImageToClipboardItem);
+		copyLowerImageToClipboardItem = 
+			new JMenuItem("Copy Image of Lower Panel to Clipboard");
+		editMenu.add(copyLowerImageToClipboardItem);
 		menuBar.add(editMenu);
-		editMenu.setEnabled(false);
+		turnOffSequenceClipboardItems();
 
 		compareMenu = new JMenu("Compare");
 		u_lMenuItem = new JMenuItem("Upper vs. Lower");
@@ -278,7 +288,7 @@ public class MolGenExp extends JFrame {
 		innerPanel.add(rightPanel);
 
 		mainPanel.add(innerPanel, BorderLayout.CENTER);
-		
+
 		JPanel statusPanel = new JPanel();
 		statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
 		statusPanel.add(Box.createHorizontalStrut(10));
@@ -288,11 +298,11 @@ public class MolGenExp extends JFrame {
 		statusPanel.add(Box.createHorizontalStrut(20));
 		statusLabel = new JLabel("Welcome");
 		statusPanel.add(statusLabel);
-		
+
 		mainPanel.add(statusPanel, BorderLayout.SOUTH);
 
 		getContentPane().add(mainPanel);
-		
+
 		preferencesDialog = new PreferencesDialog(this);
 
 		explorerPane.addChangeListener(new ChangeListener() {
@@ -302,7 +312,10 @@ public class MolGenExp extends JFrame {
 				case GENETICS:			
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(false);
-					editMenu.setEnabled(false);
+					turnOffSequenceClipboardItems();
+					copyLowerImageToClipboardItem.setEnabled(true);
+					copyUpperImageToClipboardItem.setText(
+					"Copy Image of Upper Panel to Clipboard");
 					addToGreenhouseButton.setEnabled(false);
 					dumpWorldItem.setEnabled(false);
 					loadWorldItem.setEnabled(false);
@@ -311,7 +324,10 @@ public class MolGenExp extends JFrame {
 				case BIOCHEMISTRY:			
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(true);
-					editMenu.setEnabled(true);
+					turnOnSequenceClipboardItems();
+					copyLowerImageToClipboardItem.setEnabled(true);
+					copyUpperImageToClipboardItem.setText(
+					"Copy Image of Upper Panel to Clipboard");
 					addToGreenhouseButton.setEnabled(false);
 					dumpWorldItem.setEnabled(false);
 					loadWorldItem.setEnabled(false);
@@ -320,7 +336,10 @@ public class MolGenExp extends JFrame {
 				case MOLECULAR_BIOLOGY:			
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(true);
-					editMenu.setEnabled(true);
+					turnOnSequenceClipboardItems();
+					copyLowerImageToClipboardItem.setEnabled(true);
+					copyUpperImageToClipboardItem.setText(
+					"Copy Image of Upper Panel to Clipboard");
 					addToGreenhouseButton.setEnabled(true);
 					dumpWorldItem.setEnabled(false);
 					loadWorldItem.setEnabled(false);
@@ -330,7 +349,10 @@ public class MolGenExp extends JFrame {
 					clearSelectedOrganisms();
 					evolutionWorkArea.clearSelection();
 					compareMenu.setEnabled(false);
-					editMenu.setEnabled(false);
+					turnOffSequenceClipboardItems();
+					copyUpperImageToClipboardItem.setText(
+					"Copy Image of Panel to Clipboard");
+					copyLowerImageToClipboardItem.setEnabled(false);
 					addToGreenhouseButton.setEnabled(true);
 					dumpWorldItem.setEnabled(true);
 					loadWorldItem.setEnabled(true);
@@ -338,8 +360,8 @@ public class MolGenExp extends JFrame {
 					break;
 				}
 			}
-
 		});
+
 
 		//make a greenhouse directory if one doesn't exist
 		//  if one exists, load contents
@@ -368,26 +390,26 @@ public class MolGenExp extends JFrame {
 				System.exit(0);
 			}
 		});
-		
+
 		prefsItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				preferencesDialog.setVisible(true);
 			}
 		});
-		
+
 		dumpWorldItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				evolutionWorkArea.saveWorldToFile();
 			}
 		});
-		
+
 		loadWorldItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				evolutionWorkArea.loadWorldFromFile();
 			}
 		});
 
-		copyUpperToClipboardItem.addActionListener(new ActionListener() {
+		copyUpperSequenceToClipboardItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String selectedPane = 
 					explorerPane.getSelectedComponent().getClass().toString();
@@ -411,7 +433,7 @@ public class MolGenExp extends JFrame {
 			}
 		});
 
-		copyLowerToClipboardItem.addActionListener(new ActionListener() {
+		copyLowerSequenceToClipboardItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String selectedPane = 
 					explorerPane.getSelectedComponent().getClass().toString();
@@ -428,11 +450,32 @@ public class MolGenExp extends JFrame {
 						Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
 						new StringSelection(
-								((BiochemistryWorkpanel)(biochemistryWorkbench.getLowerPanel())).getAaSeq());
+								((BiochemistryWorkpanel)(biochemistryWorkbench
+										.getLowerPanel())).getAaSeq());
 					c.setContents(s, null);
 					return;
 				}
 			}
+		});
+
+		copyUpperImageToClipboardItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (explorerPane.getSelectedIndex() == EVOLUTION) {
+					copyWorkPanelImageToClipboard(evolutionWorkArea);
+				} else {
+					copyWorkPanelImageToClipboard(
+							((Workbench)explorerPane
+									.getSelectedComponent())
+									.getUpperPanel());
+				}
+			}
+		});
+
+		copyLowerImageToClipboardItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				copyWorkPanelImageToClipboard(
+						((Workbench)explorerPane.getSelectedComponent()).getLowerPanel());
+			}			
 		});
 
 		// the compare menu items
@@ -571,11 +614,11 @@ public class MolGenExp extends JFrame {
 				convert3LetterTo1Letter(
 						((BiochemistryWorkpanel)
 								(biochemistryWorkbench.getUpperPanel())).getAaSeq()),
-						convert3LetterTo1Letter(
-								((BiochemistryWorkpanel)
-										(biochemistryWorkbench.getLowerPanel())).getAaSeq()),
-								GlobalDefaults.sampleProtein,
-								clipSeq);
+								convert3LetterTo1Letter(
+										((BiochemistryWorkpanel)
+												(biochemistryWorkbench.getLowerPanel())).getAaSeq()),
+												GlobalDefaults.sampleProtein,
+												clipSeq);
 
 	}
 
@@ -808,6 +851,18 @@ public class MolGenExp extends JFrame {
 		clearSelectedOrganisms();
 	}
 
+	private void copyWorkPanelImageToClipboard(JPanel currentWorkPanel) {
+		BufferedImage imageBuffer = new BufferedImage(
+				currentWorkPanel.getWidth(),
+				currentWorkPanel.getHeight(),
+				BufferedImage.TYPE_INT_RGB);
+		Graphics g = imageBuffer.getGraphics();
+		currentWorkPanel.paint(g);
+		ImageForClipboard ifc = new ImageForClipboard(imageBuffer);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ifc, null);
+	}
+
+
 
 	//handlers for selections of creatures in Genetics mode
 	//  max of two at a time.
@@ -908,7 +963,7 @@ public class MolGenExp extends JFrame {
 	// if two - cross only
 	public void updateGeneticsButtonStatus() {
 		int numSelectedOrgs = 0;
-		
+
 		if (oal1 != null) {
 			numSelectedOrgs++;
 		}
@@ -916,7 +971,7 @@ public class MolGenExp extends JFrame {
 		if (oal2 != null) {
 			numSelectedOrgs++;
 		}
-		
+
 		// in the case of evolution, the selected org is not in oal1 or oal2
 		//  so need a special case
 		if ((explorerPane.getSelectedIndex() == EVOLUTION) 
@@ -959,7 +1014,7 @@ public class MolGenExp extends JFrame {
 		greenhouse.setCustomSelectionSettings();
 		geneticsWorkbench.setCustomSelectionSettings();
 	}
-	
+
 	public void setEvolutionSelectionSettings() {
 		greenhouse.setEvolutionSelectionSettings();
 		geneticsWorkbench.setDefaultSelectionSettings();
@@ -968,15 +1023,25 @@ public class MolGenExp extends JFrame {
 	public void setAddToGreenhouseButtonEnabled(boolean b) {
 		addToGreenhouseButton.setEnabled(b);
 	}
-	
+
+	private void turnOnSequenceClipboardItems() {
+		copyUpperSequenceToClipboardItem.setEnabled(true);
+		copyLowerSequenceToClipboardItem.setEnabled(true);
+	}
+
+	private void turnOffSequenceClipboardItems() {
+		copyUpperSequenceToClipboardItem.setEnabled(false);
+		copyLowerSequenceToClipboardItem.setEnabled(false);
+	}
+
 	public void setStatusLabelText(String text) {
 		statusLabel.setText(text);
 	}
-	
+
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
-	
+
 	public void loadSelectedIntoWorld() {
 		Organism[] orgs = greenhouse.getSelectedOrganisms();
 		if (orgs != null) {
@@ -1016,14 +1081,14 @@ public class MolGenExp extends JFrame {
 		evolver.setKeepGoing(false);
 		restoreButtonStatusWhenDoneEvolving();
 	}
-	
+
 	private void setButtonStatusWhileEvolving() {
 		addToGreenhouseButton.setEnabled(false);
 		fileMenu.setEnabled(false);
 		greenhouseMenu.setEnabled(false);
 		explorerPane.setEnabled(false);
 	}
-	
+
 	private void restoreButtonStatusWhenDoneEvolving() {
 		addToGreenhouseButton.setEnabled(true);
 		fileMenu.setEnabled(true);

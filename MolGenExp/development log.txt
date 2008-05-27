@@ -576,3 +576,4 @@ made it version 0.9
 
 got it to save images of the workpanels to the clipboard!
 but - in evolution, the slider scales show up BUT NOT THE SLIDER thingy!
+maybe use spinners - they'll take up less space anyway...
