@@ -2,10 +2,12 @@ package evolution;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,7 +15,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.HashMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -26,6 +30,7 @@ import javax.swing.JPanel;
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import preferences.MGEPreferences;
+import utilities.ColorUtilities;
 import utilities.GlobalDefaults;
 
 public class EvolutionWorkArea extends JPanel {
@@ -146,6 +151,7 @@ public class EvolutionWorkArea extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				mge.loadSelectedIntoWorld();
 				mge.getGreenhouse().clearSelection();
+				updateCounts();
 			}
 		});
 
@@ -170,10 +176,6 @@ public class EvolutionWorkArea extends JPanel {
 		});
 
 	}
-
-
-
-
 
 	public boolean running() {
 		return running;
@@ -373,5 +375,50 @@ public class EvolutionWorkArea extends JPanel {
 		world.setOrganisms(newWorld);
 		setReadyToRun();
 		world.repaint();
+		updateCounts();
+	}
+	
+	public void savePic() {
+		if (preferences.isGenerationPixOn()) {
+			//draw it
+			BufferedImage pic = new BufferedImage(
+					world.pictureSize, 
+					world.pictureSize,
+					BufferedImage.TYPE_INT_RGB);
+			Graphics g = pic.getGraphics();
+			world.paint(g);
+			g.setColor(Color.DARK_GRAY);
+			g.drawString("Generation: " + generation, 
+					20, 20);
+
+			//save it
+			File imageFile  = new File(preferences.getSavePixToPath() 
+						+ System.getProperty("file.separator")
+						+ generation
+						+ ".png");				
+			try {
+				ImageIO.write(pic, "png", imageFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void updateCounts() {
+		HashMap<Color, Integer> colorCountsMap = new HashMap<Color, Integer>();
+		for (int i = 0; i < colorList.length; i++) {
+			colorCountsMap.put(ColorUtilities.getColorFromString(colorList[i]), 0);
+		}
+		for (int i = 0; i < preferences.getWorldSize(); i++) {
+			for (int j = 0; j < preferences.getWorldSize(); j++) {
+				ThinOrganism o = world.getThinOrganism(i, j);
+				int oldVal = colorCountsMap.get(o.getColor());
+				colorCountsMap.put(o.getColor(), oldVal + 1);
+			}
+		}
+		for (int i = 0; i < colorList.length; i++) {
+			populationLabels[i].setText(
+					(colorCountsMap.get(ColorUtilities.getColorFromString(colorList[i]))).toString());
+		}		
 	}
 }

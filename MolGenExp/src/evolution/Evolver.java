@@ -56,7 +56,8 @@ public class Evolver implements Runnable {
 	public void run() {
 		mge.setStatusLabelText("Running");
 		while (keepGoing) {
-			savePic();
+			evolutionWorkArea.updateCounts();
+			evolutionWorkArea.savePic();
 			createGenePool();
 			makeNextGeneration();
 		}
@@ -205,32 +206,6 @@ public class Evolver implements Runnable {
 		Random r = new Random();
 		int x = r.nextInt(genePool.size());
 		return (String)genePool.get(x);
-	}
-
-	private void savePic() {
-		if (preferences.isGenerationPixOn()) {
-			//draw it
-			BufferedImage pic = new BufferedImage(
-					world.pictureSize, 
-					world.pictureSize,
-					BufferedImage.TYPE_INT_RGB);
-			Graphics g = pic.getGraphics();
-			world.paint(g);
-			g.setColor(Color.DARK_GRAY);
-			g.drawString("Generation: " + evolutionWorkArea.getGeneration(), 
-					20, 20);
-
-			//save it
-			File imageFile  = new File(preferences.getSavePixToPath() 
-						+ System.getProperty("file.separator")
-						+ evolutionWorkArea.getGeneration()
-						+ ".png");				
-			try {
-				ImageIO.write(pic, "png", imageFile);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	public String convertThreeLetterProteinStringToOneLetterProteinString(

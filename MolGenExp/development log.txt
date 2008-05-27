@@ -581,3 +581,4 @@ maybe use spinners - they'll take up less space anyway...
 5/27/08
 set it to use spinners
 also added population count labels - to show # of each color
+got counting to work!
