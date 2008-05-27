@@ -3,28 +3,25 @@ package evolution;
 import java.awt.Color;
 
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import utilities.ColorUtilities;
 
-public class ColorFitnessSlider extends JSlider {
+public class ColorFitnessSpinner extends JSpinner {
 	
-	private JSlider slider;
+	private JSpinner spinner;
 	private Color color;
 	private String colorString;
 	
-	public ColorFitnessSlider(String colorString) {
-		super(JSlider.HORIZONTAL, 0, 10, 5);
+	public ColorFitnessSpinner(String colorString) {
+		super(new SpinnerNumberModel(5, 0, 10, 1));
 		this.colorString = colorString;
 		color = ColorUtilities.getColorFromString(colorString);
-		setMajorTickSpacing(1);
-		setMinorTickSpacing(1);
-		setPaintLabels(true);
-		setPaintTicks(true);
-		setSnapToTicks(true);
 	}
 	
-	public JSlider getSlider() {
-		return slider;
+	public JSpinner getSpinner() {
+		return spinner;
 	}
 	
 	public Color getColor() {
@@ -34,5 +31,4 @@ public class ColorFitnessSlider extends JSlider {
 	public String getColorString() {
 		return colorString;
 	}
-	
 }

@@ -2,18 +2,17 @@ package evolution;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -23,16 +22,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
-
-import preferences.MGEPreferences;
-
-import utilities.GlobalDefaults;
 
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
+import preferences.MGEPreferences;
+import utilities.GlobalDefaults;
 
 public class EvolutionWorkArea extends JPanel {
 
@@ -51,10 +45,12 @@ public class EvolutionWorkArea extends JPanel {
 	private int generation = 0;
 	private boolean running = false;
 
+	Color backgroundColor = new Color(128,128,128);
+
 	String[] colorList = {"White", "Blue", "Yellow", "Green",
 			"Red", "Purple", "Orange", "Black"};
-	ColorFitnessSlider[] sliders = new ColorFitnessSlider[colorList.length];
-
+	ColorFitnessSpinner[] spinners = new ColorFitnessSpinner[colorList.length];
+	ColorPopulationLabel[] populationLabels = new ColorPopulationLabel[colorList.length];
 
 	public EvolutionWorkArea(MolGenExp mge) {
 		this.mge = mge;
@@ -70,25 +66,52 @@ public class EvolutionWorkArea extends JPanel {
 		leftPanel.add(Box.createRigidArea(new Dimension(200,1)));
 
 		fitnessPanel = new JPanel();
-		fitnessPanel.setBorder(BorderFactory.createTitledBorder("Relative Fitness Selection"));
-		Color backgroundColor = new Color(128,128,128);
+		fitnessPanel.setBorder(BorderFactory.createTitledBorder("Color Fitness and Population Counts"));
 		fitnessPanel.setBackground(backgroundColor);
-		fitnessPanel.setLayout(new SpringLayout());
+
+		JPanel settingsAndCountPanel = new JPanel();
+		settingsAndCountPanel.setOpaque(true);
+		settingsAndCountPanel.setBackground(Color.BLACK);
+		
+		settingsAndCountPanel.setLayout(new GridLayout(9, 3, 2, 2));
+		
+		JLabel cLabel = new JLabel("Color");
+		cLabel.setOpaque(true);
+		cLabel.setBackground(backgroundColor);
+		settingsAndCountPanel.add(cLabel);
+		
+		JLabel rfLabel = new JLabel("Relative Fitness");
+		rfLabel.setOpaque(true);
+		rfLabel.setBackground(backgroundColor);
+		settingsAndCountPanel.add(rfLabel);
+		
+		JLabel pcLabel = new JLabel("Population Count");
+		pcLabel.setOpaque(true);
+		pcLabel.setBackground(backgroundColor);
+		settingsAndCountPanel.add(pcLabel);
+		
 		JLabel[] colorLabels = new JLabel[colorList.length];
 		for (int i = 0; i < colorList.length; i++) {
-			sliders[i] = new ColorFitnessSlider(colorList[i]);
-			colorLabels[i] = new JLabel(sliders[i].getColorString());
+			spinners[i] = new ColorFitnessSpinner(colorList[i]);
+			colorLabels[i] = new JLabel(spinners[i].getColorString());
 			colorLabels[i].setBackground(backgroundColor);
-			colorLabels[i].setForeground(sliders[i].getColor());
+			colorLabels[i].setForeground(spinners[i].getColor());
 			colorLabels[i].setOpaque(true);
-			fitnessPanel.add(colorLabels[i]);
-			colorLabels[i].setLabelFor(sliders[i]);
-			fitnessPanel.add(sliders[i]);
+			settingsAndCountPanel.add(colorLabels[i]);
+			colorLabels[i].setLabelFor(spinners[i]);
+
+			spinners[i].setOpaque(true);
+			spinners[i].setBackground(backgroundColor);
+			settingsAndCountPanel.add(spinners[i]);
+
+			populationLabels[i] = new ColorPopulationLabel(colorList[i]);
+			populationLabels[i].setOpaque(true);
+			populationLabels[i].setBackground(backgroundColor);
+			
+			settingsAndCountPanel.add(populationLabels[i]);
 		}
-		SpringUtilities.makeCompactGrid(fitnessPanel,
-				colorList.length, 2,
-				6, 6,
-				6, 6);
+
+		fitnessPanel.add(settingsAndCountPanel);
 
 		leftPanel.add(fitnessPanel);
 
@@ -147,7 +170,11 @@ public class EvolutionWorkArea extends JPanel {
 		});
 
 	}
-	
+
+
+
+
+
 	public boolean running() {
 		return running;
 	}
@@ -172,9 +199,9 @@ public class EvolutionWorkArea extends JPanel {
 	}
 
 	public int[] getFitnessValues() {
-		int[] values = new int[sliders.length];
-		for (int i = 0; i < sliders.length; i++) {
-			values[i] = sliders[i].getValue();
+		int[] values = new int[spinners.length];
+		for (int i = 0; i < spinners.length; i++) {
+			values[i] = ((Integer)spinners[i].getValue()).intValue();
 		}
 		return values;
 	}
