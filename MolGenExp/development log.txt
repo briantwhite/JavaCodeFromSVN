@@ -573,3 +573,6 @@ now, if the filechooser returns something other than a directory, the
 parent directory is used.
 
 made it version 0.9
+
+got it to save images of the workpanels to the clipboard!
+but - in evolution, the slider scales show up BUT NOT THE SLIDER thingy!
