@@ -582,3 +582,6 @@ maybe use spinners - they'll take up less space anyway...
 set it to use spinners
 also added population count labels - to show # of each color
 got counting to work!
+
+5/28/08
+set evolution table labels to bold underlined

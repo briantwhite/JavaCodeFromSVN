@@ -80,17 +80,17 @@ public class EvolutionWorkArea extends JPanel {
 		
 		settingsAndCountPanel.setLayout(new GridLayout(9, 3, 2, 2));
 		
-		JLabel cLabel = new JLabel("Color");
+		JLabel cLabel = new JLabel("<html><b><u>Color</u></b></html>");
 		cLabel.setOpaque(true);
 		cLabel.setBackground(backgroundColor);
 		settingsAndCountPanel.add(cLabel);
 		
-		JLabel rfLabel = new JLabel("Relative Fitness");
+		JLabel rfLabel = new JLabel("<html><b><u>Relative Fitness</u></b></html>");
 		rfLabel.setOpaque(true);
 		rfLabel.setBackground(backgroundColor);
 		settingsAndCountPanel.add(rfLabel);
 		
-		JLabel pcLabel = new JLabel("Population Count");
+		JLabel pcLabel = new JLabel("<html><b><u>Population Count</u></b></html>");
 		pcLabel.setOpaque(true);
 		pcLabel.setBackground(backgroundColor);
 		settingsAndCountPanel.add(pcLabel);
