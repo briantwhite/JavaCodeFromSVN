@@ -22,6 +22,7 @@ public class ProteinUtilities {
 			manager.fold(aaSeq);
 		} catch (FoldingException e) {
 			e.printStackTrace();
+			System.out.println("the aa seq was-" + aaSeq + "-");
 		}
 		
 		//make an icon and display it in a dialog

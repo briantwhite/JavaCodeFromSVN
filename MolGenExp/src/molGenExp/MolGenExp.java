@@ -305,6 +305,8 @@ public class MolGenExp extends JFrame {
 
 		preferencesDialog = new PreferencesDialog(this);
 
+		evolverTimer = new Timer(100, new EvolverTimerListener());
+
 		explorerPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				int currentPane = explorerPane.getSelectedIndex();
@@ -381,8 +383,6 @@ public class MolGenExp extends JFrame {
 		} else {
 			loadGreenhouse(greenhouseDirectory);
 		}
-
-		evolverTimer = new Timer(100, new EvolverTimerListener());
 
 		quitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1054,25 +1054,28 @@ public class MolGenExp extends JFrame {
 	public void startEvolving() {
 		setButtonStatusWhileEvolving();
 		evolver = new Evolver(this);
-		evolver.run();
+		Thread t = new Thread(evolver);
+		t.start();
 		evolverTimer.start();
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		progressBar.setMinimum(1);
-		progressBar.setMaximum(preferences.getWorldSize() * preferences.getWorldSize());
-		progressBar.setValue(1);
+		progressBar.setMinimum(0);
 	}
-
+	
 	private class EvolverTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			if (evolver.done()) {
 				evolverTimer.stop();
 				MolGenExp.this.setCursor(
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				progressBar.setValue(1);
+				progressBar.setValue(0);
 			} else {
 				progressBar.setValue(evolver.getProgress());
 			}
 		}
+	}
+
+	public void notifyLengthOfTask(int i) {
+		progressBar.setMaximum(i);
 	}
 
 	public void stopEvolving() {

@@ -15,14 +15,11 @@ public class MultiSequenceThreadedFolder implements Runnable {
 	private LinkedBlockingQueue<String> sequencesToFold;
 	private FoldedProteinArchive archive;
 
-	public MultiSequenceThreadedFolder(int id,
-			Evolver evolver,
-			LinkedBlockingQueue<String> sequencesToFold, 
-			FoldedProteinArchive archive) {
+	public MultiSequenceThreadedFolder(int id, Evolver evolver) {
 		this.id = id;
 		this.evolver = evolver;
-		this.sequencesToFold = sequencesToFold;
-		this.archive = archive;
+		this.sequencesToFold = evolver.getSequencesToFold();
+		this.archive = evolver.getArchive();
 	}
 
 
@@ -32,13 +29,11 @@ public class MultiSequenceThreadedFolder implements Runnable {
 			try {
 				aaSeq = sequencesToFold.take();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				return;
 			}
 			FoldedPolypeptide fp = ProteinUtilities.foldProtein(aaSeq);
-System.out.println("thread " + id + "folded:" + aaSeq);
 			archive.add(aaSeq, fp.getAaSeq(), fp.getColor());
 		}
-System.out.println("thread " + id + " done");
 		evolver.informThreadDone(id);
 	}
 

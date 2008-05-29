@@ -604,3 +604,25 @@ all other workpanels seem OK
 but evolution locks up - requires force quit.
 
 got it to work - it uses both procesors, BUT gui is unresponsive
+
+5/29/08
+put evolver in its own Thread
+now works - uses both processors
+but:
+	1) progress bar is wrong
+	2) stop makes an error
+fixed (1)
+fixed (2)
+but now, progress bar has 2 problems
+- it does not go back to 0 when Stop
+- second run without switching out of Evolution flickers (like it's trying to do 0,n,0,n,..)
+
+looks OK now
+but strange bug
+every once in a while, parseAcid gives an error that it can't find the amino acid "MSGFNT.."
+(some long aa seq)
+it looks like, instead of being fed a single char, it is getting the whole string
+why??
+it does not always happen...
+put in a tracer in ProteinUtilities (the responsible calling routine)
+

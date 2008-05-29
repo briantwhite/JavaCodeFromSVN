@@ -33,6 +33,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 import biochem.MultiSequenceThreadedFolder;
 
@@ -56,9 +57,9 @@ public class EvolutionWorkArea extends JPanel {
 	private JButton stopButton;
 	private JPanel fitnessPanel;
 	private JPanel rightPanel;
-	
+
 	private World world;
-	
+
 	private JLabel generationLabel;
 	private int generation = 0;
 	private boolean running = false;
@@ -193,14 +194,6 @@ public class EvolutionWorkArea extends JPanel {
 
 	}
 
-	public void startEvolving() {
-
-	}
-
-	public void stopEvolving() {
-
-	}
-
 	public boolean running() {
 		return running;
 	}
@@ -223,7 +216,7 @@ public class EvolutionWorkArea extends JPanel {
 	public World getWorld() {
 		return world;
 	}
-	
+
 	public LinkedBlockingQueue<String> getSequencesToFold() {
 		return sequencesToFold;
 	}
@@ -433,20 +426,23 @@ public class EvolutionWorkArea extends JPanel {
 	}
 
 	public void updateCounts() {
-		HashMap<Color, Integer> colorCountsMap = new HashMap<Color, Integer>();
-		for (int i = 0; i < colorList.length; i++) {
-			colorCountsMap.put(ColorUtilities.getColorFromString(colorList[i]), 0);
-		}
-		for (int i = 0; i < preferences.getWorldSize(); i++) {
-			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				ThinOrganism o = world.getThinOrganism(i, j);
-				int oldVal = colorCountsMap.get(o.getColor());
-				colorCountsMap.put(o.getColor(), oldVal + 1);
+		//first, be sure that there are organisms in the world
+		if (world.getThinOrganism(0,0) != null) {
+			HashMap<Color, Integer> colorCountsMap = new HashMap<Color, Integer>();
+			for (int i = 0; i < colorList.length; i++) {
+				colorCountsMap.put(ColorUtilities.getColorFromString(colorList[i]), 0);
+			}
+			for (int i = 0; i < preferences.getWorldSize(); i++) {
+				for (int j = 0; j < preferences.getWorldSize(); j++) {
+					ThinOrganism o = world.getThinOrganism(i, j);
+					int oldVal = colorCountsMap.get(o.getColor());
+					colorCountsMap.put(o.getColor(), oldVal + 1);
+				}
+			}
+			for (int i = 0; i < colorList.length; i++) {
+				populationLabels[i].setText(
+						(colorCountsMap.get(ColorUtilities.getColorFromString(colorList[i]))).toString());
 			}
 		}
-		for (int i = 0; i < colorList.length; i++) {
-			populationLabels[i].setText(
-					(colorCountsMap.get(ColorUtilities.getColorFromString(colorList[i]))).toString());
-		}		
 	}
 }
