@@ -15,7 +15,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -27,11 +34,15 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import biochem.MultiSequenceThreadedFolder;
+
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import preferences.MGEPreferences;
 import utilities.ColorUtilities;
 import utilities.GlobalDefaults;
+import utilities.Mutator;
+import utilities.ProteinUtilities;
 
 public class EvolutionWorkArea extends JPanel {
 
@@ -45,7 +56,9 @@ public class EvolutionWorkArea extends JPanel {
 	private JButton stopButton;
 	private JPanel fitnessPanel;
 	private JPanel rightPanel;
+	
 	private World world;
+	
 	private JLabel generationLabel;
 	private int generation = 0;
 	private boolean running = false;
@@ -57,9 +70,12 @@ public class EvolutionWorkArea extends JPanel {
 	ColorFitnessSpinner[] spinners = new ColorFitnessSpinner[colorList.length];
 	ColorPopulationLabel[] populationLabels = new ColorPopulationLabel[colorList.length];
 
+	LinkedBlockingQueue<String> sequencesToFold;
+
 	public EvolutionWorkArea(MolGenExp mge) {
 		this.mge = mge;
 		preferences = MGEPreferences.getInstance();
+		sequencesToFold = new LinkedBlockingQueue<String>();
 		setupUI();
 	}
 
@@ -77,24 +93,24 @@ public class EvolutionWorkArea extends JPanel {
 		JPanel settingsAndCountPanel = new JPanel();
 		settingsAndCountPanel.setOpaque(true);
 		settingsAndCountPanel.setBackground(Color.BLACK);
-		
+
 		settingsAndCountPanel.setLayout(new GridLayout(9, 3, 2, 2));
-		
+
 		JLabel cLabel = new JLabel("<html><b><u>Color</u></b></html>");
 		cLabel.setOpaque(true);
 		cLabel.setBackground(backgroundColor);
 		settingsAndCountPanel.add(cLabel);
-		
+
 		JLabel rfLabel = new JLabel("<html><b><u>Relative Fitness</u></b></html>");
 		rfLabel.setOpaque(true);
 		rfLabel.setBackground(backgroundColor);
 		settingsAndCountPanel.add(rfLabel);
-		
+
 		JLabel pcLabel = new JLabel("<html><b><u>Population Count</u></b></html>");
 		pcLabel.setOpaque(true);
 		pcLabel.setBackground(backgroundColor);
 		settingsAndCountPanel.add(pcLabel);
-		
+
 		JLabel[] colorLabels = new JLabel[colorList.length];
 		for (int i = 0; i < colorList.length; i++) {
 			spinners[i] = new ColorFitnessSpinner(colorList[i]);
@@ -112,7 +128,7 @@ public class EvolutionWorkArea extends JPanel {
 			populationLabels[i] = new ColorPopulationLabel(colorList[i]);
 			populationLabels[i].setOpaque(true);
 			populationLabels[i].setBackground(backgroundColor);
-			
+
 			settingsAndCountPanel.add(populationLabels[i]);
 		}
 
@@ -177,6 +193,14 @@ public class EvolutionWorkArea extends JPanel {
 
 	}
 
+	public void startEvolving() {
+
+	}
+
+	public void stopEvolving() {
+
+	}
+
 	public boolean running() {
 		return running;
 	}
@@ -198,6 +222,10 @@ public class EvolutionWorkArea extends JPanel {
 
 	public World getWorld() {
 		return world;
+	}
+	
+	public LinkedBlockingQueue<String> getSequencesToFold() {
+		return sequencesToFold;
 	}
 
 	public int[] getFitnessValues() {
@@ -377,7 +405,7 @@ public class EvolutionWorkArea extends JPanel {
 		world.repaint();
 		updateCounts();
 	}
-	
+
 	public void savePic() {
 		if (preferences.isGenerationPixOn()) {
 			//draw it
@@ -393,9 +421,9 @@ public class EvolutionWorkArea extends JPanel {
 
 			//save it
 			File imageFile  = new File(preferences.getSavePixToPath() 
-						+ System.getProperty("file.separator")
-						+ generation
-						+ ".png");				
+					+ System.getProperty("file.separator")
+					+ generation
+					+ ".png");				
 			try {
 				ImageIO.write(pic, "png", imageFile);
 			} catch (IOException e) {
@@ -403,7 +431,7 @@ public class EvolutionWorkArea extends JPanel {
 			}
 		}
 	}
-	
+
 	public void updateCounts() {
 		HashMap<Color, Integer> colorCountsMap = new HashMap<Color, Integer>();
 		for (int i = 0; i < colorList.length; i++) {

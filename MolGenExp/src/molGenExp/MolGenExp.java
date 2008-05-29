@@ -1054,9 +1054,7 @@ public class MolGenExp extends JFrame {
 	public void startEvolving() {
 		setButtonStatusWhileEvolving();
 		evolver = new Evolver(this);
-		evolver.setKeepGoing(true);
-		Thread t = new Thread(evolver);
-		t.start();
+		evolver.run();
 		evolverTimer.start();
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		progressBar.setMinimum(1);
@@ -1072,13 +1070,13 @@ public class MolGenExp extends JFrame {
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				progressBar.setValue(1);
 			} else {
-				progressBar.setValue(evolver.getCurrent());
+				progressBar.setValue(evolver.getProgress());
 			}
 		}
 	}
 
 	public void stopEvolving() {
-		evolver.setKeepGoing(false);
+		evolver.stop();
 		restoreButtonStatusWhenDoneEvolving();
 	}
 

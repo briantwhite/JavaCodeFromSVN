@@ -585,3 +585,8 @@ got counting to work!
 
 5/28/08
 set evolution table labels to bold underlined
+
+now, try to use threadpool to use both processors
+will need some serious rearrangement
+
+

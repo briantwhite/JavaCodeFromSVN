@@ -2,19 +2,18 @@ package evolution;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.JPanel;
 
-import preferences.MGEPreferences;
+import biochem.MultiSequenceThreadedFolder;
 
-import utilities.GlobalDefaults;
-
-import molGenExp.MolGenExp;
 import molGenExp.Organism;
+import preferences.MGEPreferences;
 
 public class World extends JPanel implements MouseListener {
 
@@ -26,7 +25,7 @@ public class World extends JPanel implements MouseListener {
 	private int cellSize ;
 	private int selectedCelli = -1;
 	private int selectedCellj = -1;
-
+	
 	public World() {
 		preferences = MGEPreferences.getInstance();
 		resizeWorld();
@@ -47,7 +46,7 @@ public class World extends JPanel implements MouseListener {
 			}
 		}
 	}
-
+	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 

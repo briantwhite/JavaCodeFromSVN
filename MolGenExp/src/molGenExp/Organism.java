@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import utilities.ExpressedGene;
 import utilities.GeneExpresser;
 import utilities.GlobalDefaults;
+import utilities.ProteinUtilities;
 import biochem.FoldedPolypeptide;
 import evolution.ThinOrganism;
 
@@ -98,11 +99,11 @@ public class Organism {
 		geneExpresser = GeneExpresser.getInstance();
 
 		ExpressedGene eg1 = geneExpresser.expressGene(thinOrg.getDNA1(), -1);
-		FoldedPolypeptide fp1 = GreenhouseLoader.foldProtein(eg1.getProtein());
+		FoldedPolypeptide fp1 = ProteinUtilities.foldProtein(eg1.getProtein());
 		gene1 = new ExpressedAndFoldedGene(eg1, fp1);
 
 		ExpressedGene eg2 = geneExpresser.expressGene(thinOrg.getDNA2(), -1);
-		FoldedPolypeptide fp2 = GreenhouseLoader.foldProtein(eg2.getProtein());
+		FoldedPolypeptide fp2 = ProteinUtilities.foldProtein(eg2.getProtein());
 		gene2 = new ExpressedAndFoldedGene(eg2, fp2);
 		
 		color = thinOrg.getColor();

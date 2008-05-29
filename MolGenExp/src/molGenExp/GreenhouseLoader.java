@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 
 import utilities.ExpressedGene;
 import utilities.GeneExpresser;
+import utilities.ProteinUtilities;
 import biochem.BiochemAttributes;
 import biochem.FoldedPolypeptide;
 import biochem.FoldingException;
@@ -94,10 +95,10 @@ public class GreenhouseLoader implements Runnable {
 					Organism o = new Organism(organismName, 
 							new ExpressedAndFoldedGene(
 									eg1,
-									foldProtein(eg1.getProtein())), 
+									ProteinUtilities.foldProtein(eg1.getProtein())), 
 							new ExpressedAndFoldedGene(
 									eg2,
-									foldProtein(eg2.getProtein())));
+									ProteinUtilities.foldProtein(eg2.getProtein())));
 					greenhouse.add(o);
 				}
 				input.close();
@@ -119,31 +120,5 @@ public class GreenhouseLoader implements Runnable {
 		
 		
 	}
-	
-	public static FoldedPolypeptide foldProtein(String aaSeq) {
-		//fold it
-		FoldingManager manager = FoldingManager.getInstance();
-		try {
-			manager.fold(aaSeq);
-		} catch (FoldingException e) {
-			e.printStackTrace();
-		}
 		
-		//make an icon and display it in a dialog
-		OutputPalette op = new OutputPalette();
-		manager.createCanvas(op);
-		Dimension requiredCanvasSize = 
-			op.getDrawingPane().getRequiredCanvasSize();
-		
-		ProteinImageSet images = 
-			ProteinImageFactory.generateImages(op, requiredCanvasSize);
-		
-		return new FoldedPolypeptide(
-				aaSeq,
-				op.getDrawingPane().getGrid(), 
-				new ImageIcon(images.getThumbnailImage()), 
-				op.getProteinColor());
-		
-	}
-	
 }
