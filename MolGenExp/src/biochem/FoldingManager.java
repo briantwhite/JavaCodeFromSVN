@@ -52,23 +52,23 @@ import molGenExp.MolGenExp;
 
 /**
  * Manages the process of folding the polypeptide chains; serves as a subject
- * for FoldingObservers. FoldingManager is a singleton class. Therefore, it has
- * just one instance; there is no public constructor. See getInstance() method.
+ * for FoldingObservers. FoldingManager was originally a singleton class. 
+ * BW in 2008, when making Aipotu needed to make it a regular class
+ * in order to accommodate multiple simultaneous folding threads.
  */
 public class FoldingManager {
 	
 	private BiochemAttributes attributes;
 
-	// accessor methods
 
 	/**
-	 * 
-	 * @return FoldingManager instance.
+	 *  constructor.
+	 *  
 	 */
-	public static FoldingManager getInstance() {
-		if (instance == null)
-			instance = new FoldingManager();
-		return instance;
+	public FoldingManager() {
+		factory = PolypeptideFactory.getInstance();
+		resetCurrent(); // provides initialization
+		attributes = new BiochemAttributes();
 	}
 
 	/**
@@ -351,7 +351,6 @@ public class FoldingManager {
 	private int lastPPId;
 	private static FoldingManager instance;
 	private PolypeptideFactory factory;
-	private Vector observers;
 
 	// buffers
 
@@ -367,16 +366,6 @@ public class FoldingManager {
 	private boolean blackColoring = false; // flag for canvas
 	protected boolean DEBUG = false; // flag for debug info
 
-	/**
-	 * Private constructor.
-	 *  
-	 */
-	private FoldingManager() {
-		observers = new Vector();
-		factory = PolypeptideFactory.getInstance();
-		resetCurrent(); // provides initialization
-		attributes = new BiochemAttributes();
-	}
 
 	/**
 	 * Initialize or resets current state for each folding.

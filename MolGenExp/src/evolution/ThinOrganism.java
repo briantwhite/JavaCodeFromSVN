@@ -112,7 +112,7 @@ public class ThinOrganism {
 	}
 
 	public HexGrid foldOntoHexGrid(String aaSeq) {
-		FoldingManager manager = FoldingManager.getInstance();
+		FoldingManager manager = new FoldingManager();
 		String ssBondIndex = "0.0";
 		try {
 			manager.fold(aaSeq);

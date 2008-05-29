@@ -589,4 +589,18 @@ set evolution table labels to bold underlined
 now, try to use threadpool to use both processors
 will need some serious rearrangement
 
+when making parallel threads, the singleton FoldingManager gets really
+  messed up - two threads using the same manager
+so made it a regular class
+	- nuke getInstance method
+	- look for compilation errors & replace with new FoldingManager()
+		BiochemWorkPanel
+		ThinOrganism
+		MolBiolWorkpanel
+		Mutator
+		ProteinUtilities
 
+all other workpanels seem OK
+but evolution locks up - requires force quit.
+
+got it to work - it uses both procesors, BUT gui is unresponsive

@@ -17,7 +17,7 @@ public class ProteinUtilities {
 	
 	public static FoldedPolypeptide foldProtein(String aaSeq) {
 		//fold it
-		FoldingManager manager = FoldingManager.getInstance();
+		FoldingManager manager = new FoldingManager();
 		try {
 			manager.fold(aaSeq);
 		} catch (FoldingException e) {
