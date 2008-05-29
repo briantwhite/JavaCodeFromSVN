@@ -619,10 +619,35 @@ but now, progress bar has 2 problems
 
 looks OK now
 but strange bug
-every once in a while, parseAcid gives an error that it can't find the amino acid "MSGFNT.."
+every once in a while, parseAcid gives an error that it can't find the amino acid "MSNRHILCSYTKVSVLAAVVKKKK"
 (some long aa seq)
 it looks like, instead of being fed a single char, it is getting the whole string
 why??
 it does not always happen...
 put in a tracer in ProteinUtilities (the responsible calling routine)
+
+somehow, the archive entry, instead of having aa;dir;aa;dir, is just having a protein sequence...
+it's not in the saved archive
+try saving the archive when it happens
+
+strange, it blew up on
+MSNRHILFAIQG
+the entry in archive.txt is:
+MSNRHILFAIQG;MSNRHILFAIQG;255/255/255
+- no directions were inserted into the protein string 
+(a normal entry looks like: MMSS;M: E:M: E:S: E:S:none:;255/255/255)
+why!?!?
+set up a flag on entry into archive if no ":" present
+- it reports many!
+     [java] bad one:MSSAISPIDRHILCAIIS MSSAISPIDRHILCAIIS java.awt.Color[r=255,g=255,b=255]
+     [java] bad one:MSNRHILLV MSNRHILLV java.awt.Color[r=255,g=255,b=255]
+     [java] bad one:MSS MSS java.awt.Color[r=255,g=255,b=255]
+     [java] bad one:MSSR MSSR java.awt.Color[r=255,g=255,b=255]
+     [java] the aa seq was-MSS-
+     [java] biochem.FoldingException: acid not found. ACID: MSS TABLE: standard
+- it only happened to gag on one..
+
+it looks like, in Multi.. I was submitting the sequence to the DB twice
+  since FoldingManager.fold automatically does it
+
 

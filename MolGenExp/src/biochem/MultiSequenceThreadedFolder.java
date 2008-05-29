@@ -32,7 +32,6 @@ public class MultiSequenceThreadedFolder implements Runnable {
 				return;
 			}
 			FoldedPolypeptide fp = ProteinUtilities.foldProtein(aaSeq);
-			archive.add(aaSeq, fp.getAaSeq(), fp.getColor());
 		}
 		evolver.informThreadDone(id);
 	}

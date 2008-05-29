@@ -19,6 +19,7 @@ import utilities.GeneExpresser;
 import utilities.GlobalDefaults;
 import utilities.Mutator;
 import utilities.ProteinUtilities;
+import biochem.FoldingException;
 import biochem.MultiSequenceThreadedFolder;
 
 public class Evolver implements Runnable {
@@ -45,7 +46,7 @@ public class Evolver implements Runnable {
 	private boolean[] doneFolders;
 
 	private int progress;  // -1 means indeterminate
-	
+
 	public Evolver(final MolGenExp mge) {
 		this.mge = mge;
 		this.evolutionWorkArea = mge.getEvolutionWorkArea();
@@ -74,11 +75,11 @@ public class Evolver implements Runnable {
 			makeNextGeneration();
 		}
 	}
-	
+
 	public int getProgress() {
 		return progress;
 	}
-	
+
 	public boolean done() {
 		return !keepGoing;
 	}
@@ -172,7 +173,7 @@ public class Evolver implements Runnable {
 							DNA1, protein1, DNA2, protein2);
 				}
 			}
-			
+
 			if (!keepGoing) {
 				return;
 			}

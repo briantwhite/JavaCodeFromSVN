@@ -16,6 +16,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import biochem.FoldingException;
+
 import utilities.GlobalDefaults;
 
 public class FoldedProteinArchive {
@@ -37,6 +39,9 @@ public class FoldedProteinArchive {
 	}
 
 	public void add(String aaSeq, String proteinString, Color color) {
+		if ((proteinString.length() != 0) && (proteinString.indexOf(":") == -1)) {
+			System.out.println("bad one:" + proteinString);
+		}
 		archive.put(aaSeq, 
 				new FoldedProteinArchiveEntry(proteinString, color));
 	}
