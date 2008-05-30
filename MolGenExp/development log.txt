@@ -672,6 +672,6 @@ but I'm using the threads wrong
 2) no need for thread pool 
 3) use join() to wait for completion of the threads
 
-now 7:49, 
+now 7:49, 4:44
 
 made version 1.0
