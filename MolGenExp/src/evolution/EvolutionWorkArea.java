@@ -71,12 +71,9 @@ public class EvolutionWorkArea extends JPanel {
 	ColorFitnessSpinner[] spinners = new ColorFitnessSpinner[colorList.length];
 	ColorPopulationLabel[] populationLabels = new ColorPopulationLabel[colorList.length];
 
-	LinkedBlockingQueue<String> sequencesToFold;
-
 	public EvolutionWorkArea(MolGenExp mge) {
 		this.mge = mge;
 		preferences = MGEPreferences.getInstance();
-		sequencesToFold = new LinkedBlockingQueue<String>();
 		setupUI();
 	}
 
@@ -215,10 +212,6 @@ public class EvolutionWorkArea extends JPanel {
 
 	public World getWorld() {
 		return world;
-	}
-
-	public LinkedBlockingQueue<String> getSequencesToFold() {
-		return sequencesToFold;
 	}
 
 	public int[] getFitnessValues() {

@@ -650,4 +650,28 @@ set up a flag on entry into archive if no ":" present
 it looks like, in Multi.. I was submitting the sequence to the DB twice
   since FoldingManager.fold automatically does it
 
+5/30/08
+but it runs soooo slowly
+probably thread issues.
+benchmark on office mac dual 2.5ghz G5 with 2gb ram
+(with stuff running in background: word, firefox playing internet radio)
+10x10
+mut freqs all 0.005
+start with green 1
+all fitness = 5
+10 generations = 7:16, 10:08
 
+try setting numProcessors = 1;
+10 generations = 12:00, 13:25
+
+somewhat slower
+but I'm using the threads wrong
+1) make the receiver of folded sequences be a LinkedBlockingQueue
+	- actually, can't do that since archive is a HashMap
+	- so use Collections.synchronizedMap(archive) for access 
+2) no need for thread pool 
+3) use join() to wait for completion of the threads
+
+now 7:49, 
+
+made version 1.0

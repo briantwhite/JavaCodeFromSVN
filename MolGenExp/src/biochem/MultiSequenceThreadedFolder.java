@@ -12,28 +12,26 @@ public class MultiSequenceThreadedFolder implements Runnable {
 
 	private int id;
 	private Evolver evolver;
-	private LinkedBlockingQueue<String> sequencesToFold;
-	private FoldedProteinArchive archive;
 
 	public MultiSequenceThreadedFolder(int id, Evolver evolver) {
 		this.id = id;
 		this.evolver = evolver;
-		this.sequencesToFold = evolver.getSequencesToFold();
-		this.archive = evolver.getArchive();
+	}
+	
+	public int getId() {
+		return id;
 	}
 
-
 	public void run() {
-		while(sequencesToFold.peek() != null) {
+		while(evolver.getSequencesToFold().peek() != null) {
 			String aaSeq = "";
 			try {
-				aaSeq = sequencesToFold.take();
+				aaSeq = evolver.getSequencesToFold().take();
 			} catch (InterruptedException e) {
 				return;
 			}
 			FoldedPolypeptide fp = ProteinUtilities.foldProtein(aaSeq);
 		}
-		evolver.informThreadDone(id);
 	}
 
 }

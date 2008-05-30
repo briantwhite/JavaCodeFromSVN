@@ -301,6 +301,7 @@ public class MolGenExp extends JFrame {
 
 		mainPanel.add(statusPanel, BorderLayout.SOUTH);
 
+		setPreferredSize(new Dimension(1000,800));
 		getContentPane().add(mainPanel);
 
 		preferencesDialog = new PreferencesDialog(this);

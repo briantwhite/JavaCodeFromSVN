@@ -4,12 +4,10 @@ package evolution;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
 
 import molGenExp.FoldedProteinArchive;
 import molGenExp.MolGenExp;
@@ -19,7 +17,6 @@ import utilities.GeneExpresser;
 import utilities.GlobalDefaults;
 import utilities.Mutator;
 import utilities.ProteinUtilities;
-import biochem.FoldingException;
 import biochem.MultiSequenceThreadedFolder;
 
 public class Evolver implements Runnable {
@@ -41,11 +38,9 @@ public class Evolver implements Runnable {
 	private ServerCommunicator communicator;
 
 	private int numProcessors;
-	private ExecutorService foldingThreadPool;
 	private MultiSequenceThreadedFolder[] folders;
-	private boolean[] doneFolders;
-
-	private int progress;  // -1 means indeterminate
+	private Thread[] foldingThreads;
+	private LinkedBlockingQueue<String> sequencesToFold;
 
 	public Evolver(final MolGenExp mge) {
 		this.mge = mge;
@@ -57,11 +52,8 @@ public class Evolver implements Runnable {
 		expresser = GeneExpresser.getInstance();
 		communicator = new ServerCommunicator(mge);
 		numProcessors = Runtime.getRuntime().availableProcessors();
-		foldingThreadPool = null;
+		sequencesToFold = new LinkedBlockingQueue<String>();
 		lengthOfTask = 0;
-		folders = new MultiSequenceThreadedFolder[numProcessors];
-		doneFolders = new boolean[numProcessors];
-		progress = 0;
 		keepGoing = true;
 	}
 
@@ -77,7 +69,11 @@ public class Evolver implements Runnable {
 	}
 
 	public int getProgress() {
-		return progress;
+		if (lengthOfTask == 0) {
+			return -1;
+		} else {
+			return lengthOfTask - sequencesToFold.size();
+		}
 	}
 
 	public boolean done() {
@@ -86,17 +82,13 @@ public class Evolver implements Runnable {
 
 	public void stop() {
 		keepGoing = false;
-		if (foldingThreadPool != null) {
-			foldingThreadPool.shutdownNow();
+		for (int i = 0; i < numProcessors; i++) {
+			foldingThreads[i].stop();
 		}
 	}
 
 	public LinkedBlockingQueue<String> getSequencesToFold() {
-		return evolutionWorkArea.getSequencesToFold();
-	}
-
-	public FoldedProteinArchive getArchive() {
-		return archive;
+		return sequencesToFold;
 	}
 
 	private void createGenePool() {
@@ -105,7 +97,6 @@ public class Evolver implements Runnable {
 			// get the fitness settings
 			int[] fitnessSettings = evolutionWorkArea.getFitnessValues();
 			mge.setStatusLabelText("Generating Gene Pool");
-			progress = -1;
 
 			// each organism in the world contributes fitness # of alleles to pool		
 			genePool = new ArrayList<String>();
@@ -146,7 +137,6 @@ public class Evolver implements Runnable {
 			//  if locally-folded - fold using local thread(s)
 
 			mge.setStatusLabelText("Making Next Generation's DNA and Protein");
-			progress = -1;
 
 			PairOfProteinAndDNASequences[][] pairs =
 				new PairOfProteinAndDNASequences[preferences.getWorldSize()][preferences.getWorldSize()];
@@ -160,14 +150,14 @@ public class Evolver implements Runnable {
 						ProteinUtilities.convertThreeLetterProteinStringToOneLetterProteinString((
 								expresser.expressGene(DNA1, -1)).getProtein());
 					if (!archive.isInArchive(protein1)) {
-						evolutionWorkArea.getSequencesToFold().add(protein1);
+						sequencesToFold.add(protein1);
 					}
 					String DNA2 = mutator.mutateDNASequence(getRandomAlleleFromPool());
 					String protein2 = 
 						ProteinUtilities.convertThreeLetterProteinStringToOneLetterProteinString((
 								expresser.expressGene(DNA2, -1)).getProtein());
 					if (!archive.isInArchive(protein2)) {
-						evolutionWorkArea.getSequencesToFold().add(protein2);
+						sequencesToFold.add(protein2);
 					}
 					pairs[i][j] = new PairOfProteinAndDNASequences(
 							DNA1, protein1, DNA2, protein2);
@@ -182,7 +172,7 @@ public class Evolver implements Runnable {
 			if (preferences.isUseFoldingServer()) {
 
 				StringBuffer b = new StringBuffer();
-				Iterator<String> it = evolutionWorkArea.getSequencesToFold().iterator();
+				Iterator<String> it = sequencesToFold.iterator();
 				while (it.hasNext()) {
 					b.append(it.next() + ",");
 				}
@@ -190,7 +180,7 @@ public class Evolver implements Runnable {
 					b.deleteCharAt(b.length() -1);
 				}
 				mge.setStatusLabelText("Sending " 
-						+ evolutionWorkArea.getSequencesToFold().size() 
+						+ sequencesToFold.size() 
 						+ " new proteins to be folded");
 				String response = communicator.sendSequencesToServer(b.toString());
 
@@ -207,31 +197,46 @@ public class Evolver implements Runnable {
 				}
 			} else {
 				// fold locally using threadPool with one thread per processor
-				foldingThreadPool = Executors.newFixedThreadPool(numProcessors);
-
 				folders = new MultiSequenceThreadedFolder[numProcessors];
-				lengthOfTask = evolutionWorkArea.getSequencesToFold().size();
-				mge.setStatusLabelText("Folding " + 
-						lengthOfTask +
-						" new proteins using " +
-						numProcessors + " processors.");
+				foldingThreads = new Thread[numProcessors];
+
+				lengthOfTask = sequencesToFold.size();
+				if (numProcessors == 1) {
+					mge.setStatusLabelText("Folding " + 
+							lengthOfTask +
+					" new proteins using 1 processor.");
+				} else {
+					mge.setStatusLabelText("Folding " + 
+							lengthOfTask +
+							" new proteins using " +
+							numProcessors + " processors.");
+				}
 
 				mge.notifyLengthOfTask(lengthOfTask + 1);
-				progress = 0;
 
 				// start the threads
 				for (int i = 0; i < numProcessors; i++) {
-					doneFolders[i] = false;
 					folders[i] = new MultiSequenceThreadedFolder(i, this);
-					foldingThreadPool.execute(folders[i]);
+					foldingThreads[i] = new Thread(folders[i]);
+					foldingThreads[i].start();
 				}
 
 				// wait for all threads to finish
-
-				while (!allThreadsDone()) {
-					progress = lengthOfTask - evolutionWorkArea.getSequencesToFold().size();
+				try {
+					for (int i = 0; i < numProcessors; i++) {
+						foldingThreads[i].join();
+					}
+				} catch (InterruptedException e) {
+					for (int i = 0; i < numProcessors; i++) {
+						foldingThreads[i].stop();
+					}
 				}
-				foldingThreadPool.shutdown();
+
+				// kill them all
+				for (int i = 0; i < numProcessors; i++) {
+					foldingThreads[i] = null;
+					folders[i] = null;
+				}
 			}
 
 			//make new generation using updated archive
@@ -259,18 +264,4 @@ public class Evolver implements Runnable {
 		int x = r.nextInt(genePool.size());
 		return (String)genePool.get(x);
 	}
-
-	public void informThreadDone(int i) {
-		doneFolders[i] = true;
-	}
-
-	public boolean allThreadsDone() {
-		for (int i = 0; i < numProcessors; i++) {
-			if (!doneFolders[i]) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 }
