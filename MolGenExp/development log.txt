@@ -675,3 +675,27 @@ but I'm using the threads wrong
 now 7:49, 4:44
 
 made version 1.0
+
+runs very unreliably
+null pointer exceptions
+PUNT the thread stuff
+- archived the semi-working code to a cd (in binder at home)
+
+go back to old version
+- fold as you go and folding server
+
+5/31/08
+go back to old version as above
+(actually keep some changes & roll back others)
+- make FoldingManager a singleton
+- change stop to "pause" and start to "run"
+
+seems OK
+set default mutation rates lower
+
+weird bug - only when saving pix of generations, the progress bar
+   stops updating (and cursor goes back to normal) after the first generation
+  probably because ALL the things that are called in Evolver
+  need to be in Evolver (for thread stuff)
+ - still NG (unclear why...)
+

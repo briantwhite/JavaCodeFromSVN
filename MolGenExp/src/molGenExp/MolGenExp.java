@@ -301,7 +301,7 @@ public class MolGenExp extends JFrame {
 
 		mainPanel.add(statusPanel, BorderLayout.SOUTH);
 
-		setPreferredSize(new Dimension(1000,800));
+		setPreferredSize(new Dimension(1100,800));
 		getContentPane().add(mainPanel);
 
 		preferencesDialog = new PreferencesDialog(this);
@@ -1047,19 +1047,21 @@ public class MolGenExp extends JFrame {
 		Organism[] orgs = greenhouse.getSelectedOrganisms();
 		if (orgs != null) {
 			evolutionWorkArea.getWorld().initialize(orgs);
+			evolutionWorkArea.setGeneration(0);
 			evolutionWorkArea.repaint();
 			evolutionWorkArea.setReadyToRun();
 		}
 	}
-
+	
 	public void startEvolving() {
-		setButtonStatusWhileEvolving();
 		evolver = new Evolver(this);
 		Thread t = new Thread(evolver);
 		t.start();
 		evolverTimer.start();
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		progressBar.setMinimum(0);
+		progressBar.setMaximum(preferences.getWorldSize() * preferences.getWorldSize());
+		setButtonStatusWhileEvolving();
 	}
 	
 	private class EvolverTimerListener implements ActionListener {
@@ -1073,10 +1075,6 @@ public class MolGenExp extends JFrame {
 				progressBar.setValue(evolver.getProgress());
 			}
 		}
-	}
-
-	public void notifyLengthOfTask(int i) {
-		progressBar.setMaximum(i);
 	}
 
 	public void stopEvolving() {

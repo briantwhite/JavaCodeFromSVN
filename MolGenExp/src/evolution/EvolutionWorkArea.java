@@ -15,14 +15,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -33,17 +26,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-
-import biochem.MultiSequenceThreadedFolder;
 
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import preferences.MGEPreferences;
 import utilities.ColorUtilities;
 import utilities.GlobalDefaults;
-import utilities.Mutator;
-import utilities.ProteinUtilities;
 
 public class EvolutionWorkArea extends JPanel {
 
@@ -53,8 +41,8 @@ public class EvolutionWorkArea extends JPanel {
 	private JPanel leftPanel;
 	private JPanel controlPanel;
 	private JButton loadButton;
-	private JButton startButton;
-	private JButton stopButton;
+	private JButton runButton;
+	private JButton pauseButton;
 	private JPanel fitnessPanel;
 	private JPanel rightPanel;
 
@@ -62,7 +50,6 @@ public class EvolutionWorkArea extends JPanel {
 
 	private JLabel generationLabel;
 	private int generation = 0;
-	private boolean running = false;
 
 	Color backgroundColor = new Color(128,128,128);
 
@@ -85,7 +72,8 @@ public class EvolutionWorkArea extends JPanel {
 		leftPanel.add(Box.createRigidArea(new Dimension(200,1)));
 
 		fitnessPanel = new JPanel();
-		fitnessPanel.setBorder(BorderFactory.createTitledBorder("Color Fitness and Population Counts"));
+		fitnessPanel.setBorder(BorderFactory.createTitledBorder(
+				"Color Fitness and Population Counts"));
 		fitnessPanel.setBackground(backgroundColor);
 
 		JPanel settingsAndCountPanel = new JPanel();
@@ -139,12 +127,12 @@ public class EvolutionWorkArea extends JPanel {
 		controlPanel.setBorder(BorderFactory.createTitledBorder("Controls"));
 		loadButton = new JButton("Load");
 		controlPanel.add(loadButton);
-		startButton = new JButton("Start");
-		startButton.setEnabled(false);
-		controlPanel.add(startButton);
-		stopButton = new JButton("Stop");
-		stopButton.setEnabled(false);
-		controlPanel.add(stopButton);
+		runButton = new JButton("Run");
+		runButton.setEnabled(false);
+		controlPanel.add(runButton);
+		pauseButton = new JButton("Pause");
+		pauseButton.setEnabled(false);
+		controlPanel.add(pauseButton);
 		leftPanel.add(controlPanel);
 
 		this.add(leftPanel);
@@ -169,36 +157,33 @@ public class EvolutionWorkArea extends JPanel {
 			}
 		});
 
-		startButton.addActionListener(new ActionListener() {
+		runButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				startButton.setEnabled(false);
-				stopButton.setEnabled(true);
+				runButton.setEnabled(false);
+				pauseButton.setEnabled(true);
 				loadButton.setEnabled(false);
-				running = true;
 				mge.startEvolving();
 			}
 		});
 
-		stopButton.addActionListener(new ActionListener() {
+		pauseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				stopButton.setEnabled(false);
-				startButton.setEnabled(true);
+				pauseButton.setEnabled(false);
+				runButton.setEnabled(true);
 				loadButton.setEnabled(true);
-				running = false;
 				mge.stopEvolving();
 			}
 		});
 
 	}
 
-	public boolean running() {
-		return running;
+	public ColorPopulationLabel[] getPopulationLabels() {
+		return populationLabels;
 	}
 
 	public void setReadyToRun() {
-		startButton.setEnabled(true);
-		stopButton.setEnabled(false);
-		running = false;
+		runButton.setEnabled(true);
+		pauseButton.setEnabled(false);
 	}
 
 	public void updateGenerationLabel() {
@@ -208,6 +193,11 @@ public class EvolutionWorkArea extends JPanel {
 
 	public int getGeneration() {
 		return generation;
+	}
+	
+	public void setGeneration(int i) {
+		generation = i;
+		generationLabel.setText("Generation " + generation);
 	}
 
 	public World getWorld() {
@@ -392,38 +382,13 @@ public class EvolutionWorkArea extends JPanel {
 		updateCounts();
 	}
 
-	public void savePic() {
-		if (preferences.isGenerationPixOn()) {
-			//draw it
-			BufferedImage pic = new BufferedImage(
-					world.pictureSize, 
-					world.pictureSize,
-					BufferedImage.TYPE_INT_RGB);
-			Graphics g = pic.getGraphics();
-			world.paint(g);
-			g.setColor(Color.DARK_GRAY);
-			g.drawString("Generation: " + generation, 
-					20, 20);
-
-			//save it
-			File imageFile  = new File(preferences.getSavePixToPath() 
-					+ System.getProperty("file.separator")
-					+ generation
-					+ ".png");				
-			try {
-				ImageIO.write(pic, "png", imageFile);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	public void updateCounts() {
 		//first, be sure that there are organisms in the world
 		if (world.getThinOrganism(0,0) != null) {
 			HashMap<Color, Integer> colorCountsMap = new HashMap<Color, Integer>();
 			for (int i = 0; i < colorList.length; i++) {
-				colorCountsMap.put(ColorUtilities.getColorFromString(colorList[i]), 0);
+				colorCountsMap.put(ColorUtilities.getColorFromString(
+						colorList[i]), 0);
 			}
 			for (int i = 0; i < preferences.getWorldSize(); i++) {
 				for (int j = 0; j < preferences.getWorldSize(); j++) {
@@ -434,8 +399,10 @@ public class EvolutionWorkArea extends JPanel {
 			}
 			for (int i = 0; i < colorList.length; i++) {
 				populationLabels[i].setText(
-						(colorCountsMap.get(ColorUtilities.getColorFromString(colorList[i]))).toString());
+						(colorCountsMap.get(ColorUtilities.getColorFromString(
+								colorList[i]))).toString());
 			}
 		}
 	}
+
 }

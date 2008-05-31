@@ -93,7 +93,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		this.add(proteinPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		manager = new FoldingManager();
+		manager = FoldingManager.getInstance();
 
 		table = new StandardTable();
 

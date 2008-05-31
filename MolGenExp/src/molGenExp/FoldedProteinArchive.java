@@ -7,31 +7,25 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import biochem.FoldingException;
-
 import utilities.GlobalDefaults;
 
 public class FoldedProteinArchive {
 
 	private static FoldedProteinArchive singleton;
-	private HashMap<String, FoldedProteinArchiveEntry> archive;    // never actually refer to this!
-	private Map<String, FoldedProteinArchiveEntry> synchronizedArchive;
+	private HashMap<String, FoldedProteinArchiveEntry> archive;    
 	private static final String archiveFileName = "FoldedProteinArchive";
 
 	private FoldedProteinArchive() {
 		archive = new HashMap<String, FoldedProteinArchiveEntry>();
-		synchronizedArchive = Collections.synchronizedMap(archive);
 		loadArchiveFromFile();
 	}
 
@@ -43,73 +37,71 @@ public class FoldedProteinArchive {
 	}
 
 	public void add(String aaSeq, String proteinString, Color color) {
-		synchronizedArchive.put(aaSeq, 
+		archive.put(aaSeq, 
 				new FoldedProteinArchiveEntry(proteinString, color));
 	}
 
 	public boolean isInArchive(String aaSeq) {
-		return synchronizedArchive.containsKey(aaSeq);
+		return archive.containsKey(aaSeq);
 	}
 
 	public FoldedProteinArchiveEntry getArchiveEntry(String aaSeq) {
-		return synchronizedArchive.get(aaSeq);
+		return archive.get(aaSeq);
 	}
 
 	public int getNumSequencesInArchive() {
-		return synchronizedArchive.size();
+		return archive.size();
 	}
 
 	public void saveArchiveToZipFile() {
 		StringBuffer buf = new StringBuffer();
-		Set keySet = archive.keySet();
-		Iterator it = keySet.iterator();
-		synchronized(synchronizedArchive) {
-			while (it.hasNext()) {
-				String seq = (String)it.next();
-				FoldedProteinArchiveEntry entry = 
-					(FoldedProteinArchiveEntry)synchronizedArchive.get(seq);
-				buf.append(seq);
-				buf.append(";");
-				buf.append(entry.getProteinString());
-				buf.append(";");
-				String colorString = entry.getColor().toString();
-				colorString = colorString.replaceAll("java.awt.Color\\[r=", "");
-				colorString = colorString.replaceAll(",g=", "/");
-				colorString = colorString.replaceAll(",b=", "/");
-				colorString = colorString.replaceAll("]", "");
-				buf.append(colorString);
-				buf.append("\n");
-			}
+		Set<String> keySet = archive.keySet();
+		Iterator<String> it = keySet.iterator();
 
-			String archiveString = buf.toString();
-			byte[] archiveBytes = null;
+		while (it.hasNext()) {
+			String seq = (String)it.next();
+			FoldedProteinArchiveEntry entry = archive.get(seq);
+			buf.append(seq);
+			buf.append(";");
+			buf.append(entry.getProteinString());
+			buf.append(";");
+			String colorString = entry.getColor().toString();
+			colorString = colorString.replaceAll("java.awt.Color\\[r=", "");
+			colorString = colorString.replaceAll(",g=", "/");
+			colorString = colorString.replaceAll(",b=", "/");
+			colorString = colorString.replaceAll("]", "");
+			buf.append(colorString);
+			buf.append("\n");
+		}
+
+		String archiveString = buf.toString();
+		byte[] archiveBytes = null;
+		try {
+			archiveBytes = archiveString.getBytes("US-ASCII");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		ZipOutputStream archiveWriter = null;
+		try {
+			archiveWriter = 
+				new ZipOutputStream(new FileOutputStream(
+						GlobalDefaults.greenhouseDirName + 
+						System.getProperty("file.separator") +
+						archiveFileName + ".zip"));
+			archiveWriter.setLevel(Deflater.DEFAULT_COMPRESSION);
+			archiveWriter.putNextEntry(new ZipEntry(archiveFileName + ".txt"));
+			archiveWriter.write(archiveBytes, 0, archiveBytes.length);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
 			try {
-				archiveBytes = archiveString.getBytes("US-ASCII");
-			} catch (UnsupportedEncodingException e1) {
-				e1.printStackTrace();
+				if (archiveWriter != null) {
+					archiveWriter.close();
+				}
 			}
-			ZipOutputStream archiveWriter = null;
-			try {
-				archiveWriter = 
-					new ZipOutputStream(new FileOutputStream(
-							GlobalDefaults.greenhouseDirName + 
-							System.getProperty("file.separator") +
-							archiveFileName + ".zip"));
-				archiveWriter.setLevel(Deflater.DEFAULT_COMPRESSION);
-				archiveWriter.putNextEntry(new ZipEntry(archiveFileName + ".txt"));
-				archiveWriter.write(archiveBytes, 0, archiveBytes.length);
-			} catch (IOException e) {
+			catch (Exception e) {
 				e.printStackTrace();
-			}
-			finally {
-				try {
-					if (archiveWriter != null) {
-						archiveWriter.close();
-					}
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
 			}
 		}
 	}

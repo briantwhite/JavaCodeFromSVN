@@ -51,7 +51,7 @@ public class Mutator {
 		String proteinSequence = newGene.getProtein();
 
 		//fold it
-		FoldingManager manager = new FoldingManager();
+		FoldingManager manager = FoldingManager.getInstance();
 		try {
 			manager.fold(proteinSequence);
 		} catch (FoldingException e) {

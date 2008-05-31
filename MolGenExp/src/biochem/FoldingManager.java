@@ -60,12 +60,22 @@ public class FoldingManager {
 	
 	private BiochemAttributes attributes;
 
+	/**
+	 * 
+	 * @return FoldingManager instance.
+	 */
+	public static FoldingManager getInstance() {
+		if (instance == null)
+			instance = new FoldingManager();
+		return instance;
+	}
+
 
 	/**
 	 *  constructor.
 	 *  
 	 */
-	public FoldingManager() {
+	private FoldingManager() {
 		factory = PolypeptideFactory.getInstance();
 		resetCurrent(); // provides initialization
 		attributes = new BiochemAttributes();

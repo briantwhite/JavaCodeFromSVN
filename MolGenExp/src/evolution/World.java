@@ -2,15 +2,12 @@ package evolution;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.swing.JPanel;
-
-import biochem.MultiSequenceThreadedFolder;
 
 import molGenExp.Organism;
 import preferences.MGEPreferences;
@@ -48,8 +45,7 @@ public class World extends JPanel implements MouseListener {
 	}
 	
 	public void paint(Graphics g) {
-		super.paintComponent(g);
-
+		
 		if (preferences.getWorldSize() != organisms.length) {
 			resizeWorld();
 		}
@@ -71,6 +67,7 @@ public class World extends JPanel implements MouseListener {
 					(cellSize * selectedCellj) - 1, 
 					cellSize, cellSize);
 		}
+		
 	}
 
 	public ThinOrganism getThinOrganism(int i, int j) {
@@ -117,5 +114,5 @@ public class World extends JPanel implements MouseListener {
 	public void mousePressed(MouseEvent e) {}
 
 	public void mouseReleased(MouseEvent e) {}
-
+	
 }

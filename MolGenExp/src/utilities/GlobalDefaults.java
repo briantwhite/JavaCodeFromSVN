@@ -6,7 +6,7 @@ import biochem.StandardTable;
 
 public class GlobalDefaults {
 	
-	public static final boolean foldingServerAllowed = false;
+	public static final boolean foldingServerAllowed = true;
 	
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;

@@ -10,18 +10,17 @@ public class MGEPreferences {
 	
 	//mutation rates
 	private float pointMutationRate;
-	protected static float DEFAULT_POINT_MUTATION_RATE = 0.005f;
+	protected static float DEFAULT_POINT_MUTATION_RATE = 0.001f;
 	private float deletionMutationRate;
-	protected static float DEFAULT_DELETION_MUTATION_RATE = 0.005f;
+	protected static float DEFAULT_DELETION_MUTATION_RATE = 0.001f;
 	private float insertionMutationRate;
-	protected static float DEFAULT_INSERTION_MUTATION_RATE = 0.005f;
+	protected static float DEFAULT_INSERTION_MUTATION_RATE = 0.001f;
 	
 	//info for saving pix of each generation in evolve
 	private boolean generationPixOn;
 	protected static boolean DEFAULT_GENERATION_PIX_ON = false;
 	private String savePixToPath;
-	protected static String DEFAULT_SAVE_PIX_TO_PATH = 
-		System.getProperty("user.dir");
+	protected static String DEFAULT_SAVE_PIX_TO_PATH = "";
 	
 	//stuff for using the folding server
 	private boolean useFoldingServer;
