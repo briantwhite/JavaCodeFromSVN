@@ -82,8 +82,8 @@ public class EvolutionPicturesPane extends PreferencePane {
 	}
 
 	protected void restoreDefaults() {
-		preferences.setGenerationPixOn(preferences.DEFAULT_GENERATION_PIX_ON);
-		preferences.setSavePixToPath(preferences.DEFAULT_SAVE_PIX_TO_PATH);
+		preferences.setGenerationPixOn(MGEPreferences.DEFAULT_GENERATION_PIX_ON);
+		preferences.setSavePixToPath(MGEPreferences.DEFAULT_SAVE_PIX_TO_PATH);
 		parentDialog.setVisible(false);
 	}
 

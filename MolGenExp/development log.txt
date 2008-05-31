@@ -699,3 +699,5 @@ weird bug - only when saving pix of generations, the progress bar
   need to be in Evolver (for thread stuff)
  - still NG (unclear why...)
 
+added ability to show the colors of the two alleles in the upper left
+  corner of each cell in the world

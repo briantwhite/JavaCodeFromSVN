@@ -7,6 +7,8 @@ public class MGEPreferences {
 	//world info
 	private int worldSize;
 	protected static int DEFAULT_WORLD_SIZE = 10;
+	private boolean showBothAllelesInWorld;
+	protected static boolean DEFAULT_SHOW_BOTH_ALLELES = false;
 	
 	//mutation rates
 	private float pointMutationRate;
@@ -40,6 +42,7 @@ public class MGEPreferences {
 	private MGEPreferences() {
 		// set default values
 		worldSize = DEFAULT_WORLD_SIZE;
+		showBothAllelesInWorld = DEFAULT_SHOW_BOTH_ALLELES;
 		
 		pointMutationRate = DEFAULT_POINT_MUTATION_RATE;
 		deletionMutationRate = DEFAULT_DELETION_MUTATION_RATE;
@@ -58,6 +61,14 @@ public class MGEPreferences {
 	
 	public void setWorldSize(int size) {
 		worldSize = size;
+	}
+	
+	public boolean isShowBothAllelesInWorld() {
+		return showBothAllelesInWorld;
+	}
+	
+	public void setShowBothAllelesInWorld(boolean b) {
+		showBothAllelesInWorld = b;
 	}
 
 	public float getPointMutationRate() {

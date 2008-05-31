@@ -14,7 +14,7 @@ public class PreferencesDialog extends JDialog {
 
 	private JTabbedPane tabPane;
 
-	private WorldSizeSettingsPane worldSizeSettingsPane;
+	private WorldSettingsPane worldSettingsPane;
 	private MutationSettingsPane mutationSettingsPane;
 	private EvolutionPicturesPane evolutionPicturesPane;
 	private ServerPreferencesPane serverPreferencesPane;
@@ -30,8 +30,8 @@ public class PreferencesDialog extends JDialog {
 		JPanel topPanel = new JPanel();
 		tabPane = new JTabbedPane();
 
-		worldSizeSettingsPane = new WorldSizeSettingsPane(this);
-		tabPane.add(worldSizeSettingsPane, "World Size");
+		worldSettingsPane = new WorldSettingsPane(this);
+		tabPane.add(worldSettingsPane, "World Settings");
 
 		mutationSettingsPane = new MutationSettingsPane(this);
 		tabPane.add(mutationSettingsPane, "Mutation Rates");

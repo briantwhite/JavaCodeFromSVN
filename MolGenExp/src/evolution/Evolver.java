@@ -99,7 +99,7 @@ public class Evolver implements Runnable {
 				for (int j = 0; j < preferences.getWorldSize(); j++) {
 					ThinOrganism org = world.getThinOrganism(i, j);
 					int colorNumber = 
-						GlobalDefaults.colorModel.getColorNumber(org.getColor());
+						GlobalDefaults.colorModel.getColorNumber(org.getOverallColor());
 					for (int x = 0; x < fitnessSettings[colorNumber]; x++) {
 						genePool.add(org.getRandomDNASequence());
 					}

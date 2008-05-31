@@ -1,5 +1,6 @@
 package utilities;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
@@ -10,6 +11,8 @@ import molGenExp.ProteinImageSet;
 import biochem.FoldedPolypeptide;
 import biochem.FoldingException;
 import biochem.FoldingManager;
+import biochem.HexCanvas;
+import biochem.HexGrid;
 import biochem.OutputPalette;
 import biochem.PolypeptideFactory;
 
@@ -63,6 +66,5 @@ public class ProteinUtilities {
 		}
 		return b.toString();
 	}
-
 
 }

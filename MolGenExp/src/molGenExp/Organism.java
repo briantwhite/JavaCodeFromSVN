@@ -106,7 +106,7 @@ public class Organism {
 		FoldedPolypeptide fp2 = ProteinUtilities.foldProtein(eg2.getProtein());
 		gene2 = new ExpressedAndFoldedGene(eg2, fp2);
 		
-		color = thinOrg.getColor();
+		color = thinOrg.getOverallColor();
 	}
 	
 	public String getName() {

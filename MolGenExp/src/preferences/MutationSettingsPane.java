@@ -30,21 +30,21 @@ public class MutationSettingsPane extends PreferencePane {
 
 		JLabel pointLabel = new JLabel("Point Mutations");
 		pointMutations = new JTextField(
-				Float.toString(preferences.DEFAULT_POINT_MUTATION_RATE), 6);
+				Float.toString(MGEPreferences.DEFAULT_POINT_MUTATION_RATE), 6);
 		pointLabel.setLabelFor(pointMutations);
 		settingsPanel.add(pointLabel);
 		settingsPanel.add(pointMutations);
 
 		JLabel deletionLabel = new JLabel("Deletion Mutations");
 		deletionMutations = new JTextField(
-				Float.toString(preferences.DEFAULT_DELETION_MUTATION_RATE), 6);
+				Float.toString(MGEPreferences.DEFAULT_DELETION_MUTATION_RATE), 6);
 		deletionLabel.setLabelFor(deletionMutations);
 		settingsPanel.add(deletionLabel);
 		settingsPanel.add(deletionMutations);
 
 		JLabel insertionLabel = new JLabel("Insertion Mutations");
 		insertionMutations = new JTextField(
-				Float.toString(preferences.DEFAULT_INSERTION_MUTATION_RATE), 6);
+				Float.toString(MGEPreferences.DEFAULT_INSERTION_MUTATION_RATE), 6);
 		insertionLabel.setLabelFor(insertionMutations);
 		settingsPanel.add(insertionLabel);
 		settingsPanel.add(insertionMutations);
@@ -95,17 +95,17 @@ public class MutationSettingsPane extends PreferencePane {
 
 	protected void restoreDefaults() {
 		pointMutations.setText(
-				Float.toString(preferences.DEFAULT_POINT_MUTATION_RATE));
+				Float.toString(MGEPreferences.DEFAULT_POINT_MUTATION_RATE));
 		deletionMutations.setText(
-				Float.toString(preferences.DEFAULT_DELETION_MUTATION_RATE));
+				Float.toString(MGEPreferences.DEFAULT_DELETION_MUTATION_RATE));
 		insertionMutations.setText(
-				Float.toString(preferences.DEFAULT_INSERTION_MUTATION_RATE));
+				Float.toString(MGEPreferences.DEFAULT_INSERTION_MUTATION_RATE));
 		preferences.setPointMutationRate(
-				preferences.DEFAULT_POINT_MUTATION_RATE);
+				MGEPreferences.DEFAULT_POINT_MUTATION_RATE);
 		preferences.setDeletionMutationRate(
-				preferences.DEFAULT_DELETION_MUTATION_RATE);
+				MGEPreferences.DEFAULT_DELETION_MUTATION_RATE);
 		preferences.setInsertionMutationRate(
-				preferences.DEFAULT_INSERTION_MUTATION_RATE);
+				MGEPreferences.DEFAULT_INSERTION_MUTATION_RATE);
 		parentDialog.setVisible(false);
 	}
 

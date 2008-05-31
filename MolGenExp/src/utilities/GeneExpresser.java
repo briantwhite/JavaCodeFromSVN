@@ -7,13 +7,13 @@ import molBiol.Codon;
 public class GeneExpresser {
 	
 	private static GeneExpresser instance;
-
+	
 	//common variables for the several steps
 	private String DNASequence;
 	private int promoterStart;
 	private int terminatorStart;
 	private int numSpacesBeforeRNA_Start;
-	private ArrayList DNANucleotides;
+	private ArrayList<Nucleotide> DNANucleotides;
 	private String premRNASequence;
 	private int numberOfExons;
 	private int numCharsInDisplayBeforeFirstDNA_Base;
@@ -30,15 +30,14 @@ public class GeneExpresser {
 		}
 		return instance;
 	}
-
+	
 	public ExpressedGene expressGene(String DNA, int selectedDNABase) {
-		DNANucleotides = new ArrayList();
-		this.DNASequence = DNA;
+		DNANucleotides = new ArrayList<Nucleotide>();
+		DNASequence = DNA;
 		//read in the gene
 		for (int i = 0; i < DNASequence.length(); i++) {
 			DNANucleotides.add(new Nucleotide(DNASequence.charAt(i), i ));
 		}
-		this.DNASequence = DNASequence;
 		transcribe();
 		process();
 		translate();
@@ -336,7 +335,7 @@ public class GeneExpresser {
 		StringBuffer ColorBottomStrandBuffer = new StringBuffer();
 
 		for (int i = 0; i < DNASequence.length(); i++) {
-			Nucleotide n = (Nucleotide)DNANucleotides.get(i);
+			Nucleotide n = DNANucleotides.get(i);
 			if (i == promoterStart) {
 				highlighted = true;
 			}            

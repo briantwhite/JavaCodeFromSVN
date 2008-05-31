@@ -9,8 +9,17 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import biochem.FoldingException;
+import biochem.FoldingManager;
+import biochem.HexCanvas;
+import biochem.HexGrid;
+
 import molGenExp.Organism;
 import preferences.MGEPreferences;
+import utilities.ExpressedGene;
+import utilities.GeneExpresser;
+import utilities.GlobalDefaults;
+import utilities.ProteinUtilities;
 
 public class World extends JPanel implements MouseListener {
 
@@ -46,16 +55,18 @@ public class World extends JPanel implements MouseListener {
 	
 	public void paint(Graphics g) {
 		
-		if (preferences.getWorldSize() != organisms.length) {
+		int worldSize = preferences.getWorldSize();
+		
+		if (worldSize != organisms.length) {
 			resizeWorld();
 		}
 
-		for (int i = 0; i < preferences.getWorldSize(); i++) {
-			for (int j = 0; j < preferences.getWorldSize(); j++) {
+		for (int i = 0; i < worldSize; i++) {
+			for (int j = 0; j < worldSize; j++) {
 				if (organisms[i][j] == null) {
 					g.setColor(Color.DARK_GRAY);
 				} else {
-					g.setColor(organisms[i][j].getColor());
+					g.setColor(organisms[i][j].getOverallColor());
 				}
 				g.fillRect((cellSize * i), (cellSize * j), (cellSize - 1), (cellSize - 1));
 			}
@@ -68,6 +79,24 @@ public class World extends JPanel implements MouseListener {
 					cellSize, cellSize);
 		}
 		
+		//if enabled, show the colors of both alleles in upper left corner of cell
+		if (preferences.isShowBothAllelesInWorld()) {
+			for (int i = 0; i < worldSize; i++) {
+				for (int j = 0; j < worldSize; j++) {
+					if (organisms[i][j] == null) {
+						return;
+					} else {
+						ThinOrganism o = organisms[i][j];
+						g.setColor(o.getColor1());
+						g.fillRect((cellSize * i), (cellSize * j), 
+								(cellSize/4), (cellSize/8));
+						g.setColor(o.getColor2());
+						g.fillRect((cellSize * i), ((cellSize * j) + (cellSize/8)),
+								(cellSize/4), (cellSize/8));
+					}
+				}
+			}
+		}
 	}
 
 	public ThinOrganism getThinOrganism(int i, int j) {

@@ -393,8 +393,8 @@ public class EvolutionWorkArea extends JPanel {
 			for (int i = 0; i < preferences.getWorldSize(); i++) {
 				for (int j = 0; j < preferences.getWorldSize(); j++) {
 					ThinOrganism o = world.getThinOrganism(i, j);
-					int oldVal = colorCountsMap.get(o.getColor());
-					colorCountsMap.put(o.getColor(), oldVal + 1);
+					int oldVal = colorCountsMap.get(o.getOverallColor());
+					colorCountsMap.put(o.getOverallColor(), oldVal + 1);
 				}
 			}
 			for (int i = 0; i < colorList.length; i++) {
