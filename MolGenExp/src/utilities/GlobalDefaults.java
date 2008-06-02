@@ -32,6 +32,9 @@ public class GlobalDefaults {
 	public static final BiochemAttributes biochemAttributes = 
 		new BiochemAttributes();
 
+	public static String[] colorList = {"White", "Blue", "Yellow", "Green",
+			"Red", "Purple", "Orange", "Black"};
+
 	
 	public GlobalDefaults() {
 		

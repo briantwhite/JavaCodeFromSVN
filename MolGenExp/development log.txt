@@ -783,3 +783,45 @@ try synchronizing the World
 ran 2460 generations overnight!
 (but had not chnaged fitnesses as it ran...)
 try again
+
+6/2/08
+ran on pc
+died 2x after about 180 generations
+
+C:\Documents and Settings\Brian\Desktop>java -jar MGX.jar
+Exception in thread "Thread-5" java.lang.NullPointerException
+        at biochem.BruteForceFolder.recurse(BruteForceFolder.java:125)
+        at biochem.IncrementalFolder.placeRestOfAcids(IncrementalFolder.java:74)
+        at biochem.BruteForceFolder.realFold(BruteForceFolder.java:107)
+        at biochem.Folder.fold(Folder.java:59)
+        at biochem.FoldingManager.foldPP(FoldingManager.java:393)
+        at biochem.FoldingManager.fold(FoldingManager.java:303)
+        at evolution.ThinOrganismFactory.foldOntoHexGrid(ThinOrganismFactory.java:100)
+        at evolution.ThinOrganismFactory.foldAndComputeColor(ThinOrganismFactory.java:91)
+        at evolution.ThinOrganismFactory.createThinOrganism(ThinOrganismFactory.java:52)
+        at evolution.Evolver.makeNextGeneration(Evolver.java:223)
+        at evolution.Evolver.run(Evolver.java:64)
+        at java.lang.Thread.run(Unknown Source)
+
+C:\Documents and Settings\Brian\Desktop>java -jar MGX.jar
+Exception in thread "Thread-3" java.lang.NullPointerException
+        at biochem.BruteForceFolder.recurse(BruteForceFolder.java:125)
+        at biochem.IncrementalFolder.placeRestOfAcids(IncrementalFolder.java:74)
+        at biochem.BruteForceFolder.realFold(BruteForceFolder.java:107)
+        at biochem.Folder.fold(Folder.java:59)
+        at biochem.FoldingManager.foldPP(FoldingManager.java:393)
+        at biochem.FoldingManager.fold(FoldingManager.java:303)
+        at evolution.ThinOrganismFactory.foldOntoHexGrid(ThinOrganismFactory.java:100)
+        at evolution.ThinOrganismFactory.foldAndComputeColor(ThinOrganismFactory.java:91)
+        at evolution.ThinOrganismFactory.createThinOrganism(ThinOrganismFactory.java:52)
+        at evolution.Evolver.makeNextGeneration(Evolver.java:223)
+        at evolution.Evolver.run(Evolver.java:64)
+        at java.lang.Thread.run(Unknown Source)
+
+same failures as before on mac...
+
+the only thing left to deal with is the counts of each color
+- keep the counts in a synchronized class
+- updateCounts is currently in EvolutionWorkArea (out of the evolver thread, which calls it)
+- try putting updateCounts in Evolver
+	with a call-back to mge to let it know that there's a new generation

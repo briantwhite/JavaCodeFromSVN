@@ -655,6 +655,10 @@ public class MolGenExp extends JFrame {
 	public Greenhouse getGreenhouse() {
 		return greenhouse;
 	}
+	
+	public Evolver getEvolver() {
+		return evolver;
+	}
 
 	public String getCurrentWorkingPanel() {
 		return explorerPane.getSelectedComponent().getClass().toString();
@@ -1097,4 +1101,5 @@ public class MolGenExp extends JFrame {
 		greenhouseMenu.setEnabled(true);
 		explorerPane.setEnabled(true);		
 	}
+	
 }

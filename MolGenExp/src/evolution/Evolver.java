@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -20,6 +21,7 @@ import molGenExp.FoldedProteinArchive;
 import molGenExp.MolGenExp;
 import molGenExp.ServerCommunicator;
 import preferences.MGEPreferences;
+import utilities.ColorUtilities;
 import utilities.GeneExpresser;
 import utilities.GlobalDefaults;
 import utilities.Mutator;
@@ -34,7 +36,8 @@ public class Evolver implements Runnable {
 	private boolean keepGoing;
 
 	private FoldedProteinArchive archive;
-
+	private ColorCountsRecorder colorCountsRecorder;
+	
 	private MGEPreferences preferences;
 	private Mutator mutator;
 	private GeneExpresser expresser;
@@ -49,6 +52,7 @@ public class Evolver implements Runnable {
 		preferences = MGEPreferences.getInstance();
 		mutator = Mutator.getInstance();
 		archive = FoldedProteinArchive.getInstance();
+		colorCountsRecorder = ColorCountsRecorder.getInstance();
 		expresser = new GeneExpresser();
 		thinOrganismFactory = new ThinOrganismFactory();
 		communicator = new ServerCommunicator(mge);
@@ -58,10 +62,11 @@ public class Evolver implements Runnable {
 		mge.setStatusLabelText("Running");
 		keepGoing = true;
 		while (keepGoing) {
-			evolutionWorkArea.updateCounts();
+			updateCounts();
 			savePic();
 			createGenePool();
 			makeNextGeneration();
+			evolutionWorkArea.notifyColorCountsChanged();
 		}
 	}
 
@@ -71,6 +76,10 @@ public class Evolver implements Runnable {
 
 	public int getLengthOfTask() {
 		return preferences.getWorldSize() * preferences.getWorldSize();
+	}
+	
+	public ColorCountsRecorder getColorCountsRecorder() {
+		return colorCountsRecorder;
 	}
 
 	public boolean done() {
@@ -292,5 +301,18 @@ public class Evolver implements Runnable {
 		}
 		return b.toString();
 	}
-
+	
+	public void updateCounts() {
+		//first, be sure that there are organisms in the world
+		if (world.getThinOrganism(0,0) != null) {
+			colorCountsRecorder.setAllToZero();
+			for (int i = 0; i < preferences.getWorldSize(); i++) {
+				for (int j = 0; j < preferences.getWorldSize(); j++) {
+					ThinOrganism o = world.getThinOrganism(i, j);
+					colorCountsRecorder.incrementCount(
+							world.getThinOrganism(i, j).getOverallColor());
+				}
+			}
+		}
+	}
 }

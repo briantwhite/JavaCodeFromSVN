@@ -13,7 +13,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -37,7 +36,8 @@ public class EvolutionWorkArea extends JPanel {
 	private MGEPreferences preferences;
 
 	private OrganismFactory organismFactory;
-	private ThinOrganismFactory thinOrganismFactory;
+	
+	private ColorCountsRecorder colorCountsRecorder;
 
 	private JPanel leftPanel;
 	private JPanel controlPanel;
@@ -54,16 +54,14 @@ public class EvolutionWorkArea extends JPanel {
 
 	Color backgroundColor = new Color(128,128,128);
 
-	String[] colorList = {"White", "Blue", "Yellow", "Green",
-			"Red", "Purple", "Orange", "Black"};
-	ColorFitnessSpinner[] spinners = new ColorFitnessSpinner[colorList.length];
-	ColorPopulationLabel[] populationLabels = new ColorPopulationLabel[colorList.length];
+	ColorFitnessSpinner[] spinners = new ColorFitnessSpinner[GlobalDefaults.colorList.length];
+	ColorPopulationLabel[] populationLabels = new ColorPopulationLabel[GlobalDefaults.colorList.length];
 
 	public EvolutionWorkArea(MolGenExp mge) {
 		this.mge = mge;
 		preferences = MGEPreferences.getInstance();
 		organismFactory = new OrganismFactory();
-		thinOrganismFactory = new ThinOrganismFactory();
+		colorCountsRecorder = ColorCountsRecorder.getInstance();
 		setupUI();
 	}
 
@@ -100,9 +98,9 @@ public class EvolutionWorkArea extends JPanel {
 		pcLabel.setBackground(backgroundColor);
 		settingsAndCountPanel.add(pcLabel);
 
-		JLabel[] colorLabels = new JLabel[colorList.length];
-		for (int i = 0; i < colorList.length; i++) {
-			spinners[i] = new ColorFitnessSpinner(colorList[i]);
+		JLabel[] colorLabels = new JLabel[GlobalDefaults.colorList.length];
+		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
+			spinners[i] = new ColorFitnessSpinner(GlobalDefaults.colorList[i]);
 			colorLabels[i] = new JLabel(spinners[i].getColorString());
 			colorLabels[i].setBackground(backgroundColor);
 			colorLabels[i].setForeground(spinners[i].getColor());
@@ -114,7 +112,7 @@ public class EvolutionWorkArea extends JPanel {
 			spinners[i].setBackground(backgroundColor);
 			settingsAndCountPanel.add(spinners[i]);
 
-			populationLabels[i] = new ColorPopulationLabel(colorList[i]);
+			populationLabels[i] = new ColorPopulationLabel(GlobalDefaults.colorList[i]);
 			populationLabels[i].setOpaque(true);
 			populationLabels[i].setBackground(backgroundColor);
 
@@ -156,7 +154,7 @@ public class EvolutionWorkArea extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				mge.loadSelectedIntoWorld();
 				mge.getGreenhouse().clearSelection();
-				updateCounts();
+				mge.getEvolver().updateCounts();
 				setFitnessSpinnersEnabled(true);
 			}
 		});
@@ -395,30 +393,19 @@ public class EvolutionWorkArea extends JPanel {
 		world.setOrganisms(newWorld);
 		setReadyToRun();
 		world.repaint();
-		updateCounts();
+		mge.getEvolver().updateCounts();
+		notifyColorCountsChanged();
 	}
 
-	public void updateCounts() {
-		//first, be sure that there are organisms in the world
-		if (world.getThinOrganism(0,0) != null) {
-			HashMap<Color, Integer> colorCountsMap = new HashMap<Color, Integer>();
-			for (int i = 0; i < colorList.length; i++) {
-				colorCountsMap.put(ColorUtilities.getColorFromString(
-						colorList[i]), 0);
-			}
-			for (int i = 0; i < preferences.getWorldSize(); i++) {
-				for (int j = 0; j < preferences.getWorldSize(); j++) {
-					ThinOrganism o = world.getThinOrganism(i, j);
-					int oldVal = colorCountsMap.get(o.getOverallColor());
-					colorCountsMap.put(o.getOverallColor(), oldVal + 1);
-				}
-			}
-			for (int i = 0; i < colorList.length; i++) {
-				populationLabels[i].setText(
-						(colorCountsMap.get(ColorUtilities.getColorFromString(
-								colorList[i]))).toString());
-			}
+	public void notifyColorCountsChanged() {
+		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
+			populationLabels[i].setText(String.valueOf(
+					colorCountsRecorder.getCount(
+							ColorUtilities.getColorFromString(
+							GlobalDefaults.colorList[i]))));
 		}
+		
 	}
+
 
 }
