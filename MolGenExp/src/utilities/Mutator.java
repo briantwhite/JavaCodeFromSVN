@@ -29,7 +29,7 @@ public class Mutator {
 	
 	private Mutator() {
 		preferences = MGEPreferences.getInstance();
-		expresser = GeneExpresser.getInstance();
+		expresser = new GeneExpresser();
 		rand = new Random();
 	}
 	
@@ -51,7 +51,7 @@ public class Mutator {
 		String proteinSequence = newGene.getProtein();
 
 		//fold it
-		FoldingManager manager = FoldingManager.getInstance();
+		FoldingManager manager = new FoldingManager();
 		try {
 			manager.fold(proteinSequence);
 		} catch (FoldingException e) {

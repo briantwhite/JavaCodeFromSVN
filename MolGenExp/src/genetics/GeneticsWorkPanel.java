@@ -2,10 +2,8 @@ package genetics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -15,19 +13,15 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
-import utilities.ExpressedGene;
-
-
-import molBiol.MolBiolHistListItem;
 import molGenExp.ExpressedAndFoldedGene;
 import molGenExp.Organism;
+import molGenExp.OrganismFactory;
 import molGenExp.WorkPanel;
 
 public class GeneticsWorkPanel extends WorkPanel {
@@ -50,6 +44,8 @@ public class GeneticsWorkPanel extends WorkPanel {
 	private JButton selfCrossButton;
 	private JButton mutateButton;
 
+	private OrganismFactory organismFactory;
+	
 	private MutantGenerator mutantGenerator;
 	private Timer timer;
 
@@ -58,6 +54,7 @@ public class GeneticsWorkPanel extends WorkPanel {
 		this.upperOrLower = upperOrLower;
 		title = upperOrLower + " GeneticsWindow";
 		this.gw = gw;
+		organismFactory = new OrganismFactory();
 		setupUI();
 	}
 
@@ -166,7 +163,8 @@ public class GeneticsWorkPanel extends WorkPanel {
 				efg2 = o2.getGene2(); 
 			}
 
-			Organism o = new Organism(trayNum + "-" + i, efg1, efg2);
+			Organism o = 
+				organismFactory.createOrganism(trayNum + "-" + i, efg1, efg2);
 
 			offspringList.add(o);
 		}
@@ -180,7 +178,7 @@ public class GeneticsWorkPanel extends WorkPanel {
 		offspringList.clearList();
 		Organism[] organisms = tray.getAllOrganisms();
 		for (int i = 0; i < organisms.length; i++) {
-			Organism o = new Organism(organisms[i].getName(),
+			Organism o = organismFactory.createOrganism(organisms[i].getName(),
 					organisms[i]);
 			offspringList.add(o);
 		}

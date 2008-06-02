@@ -3,7 +3,7 @@ package genetics;
 
 import molGenExp.ExpressedAndFoldedGene;
 import molGenExp.Organism;
-import preferences.MGEPreferences;
+import molGenExp.OrganismFactory;
 import utilities.Mutator;
 
 public class MutantGenerator implements Runnable {
@@ -14,8 +14,8 @@ public class MutantGenerator implements Runnable {
 	private int trayNum;
 	private GeneticsWorkbench gw;
 	private OffspringList offspringList;
-	
-	private MGEPreferences preferences;
+
+	private OrganismFactory organismFactory;
 	private Mutator mutator;
 
 	MutantGenerator (Organism o,
@@ -28,8 +28,8 @@ public class MutantGenerator implements Runnable {
 		this.gw = gw;
 		this.offspringList = offspringList;
 		this.mutantCount = mutantCount;
-		preferences = MGEPreferences.getInstance();
 		mutator = Mutator.getInstance();
+		organismFactory = new OrganismFactory();
 	}
 
 	public int getLengthOfTask() {
@@ -64,9 +64,11 @@ public class MutantGenerator implements Runnable {
 			efg2 = mutator.mutateGene(o.getGene2());
 
 			if (current < mutantCount) {
-				offspringList.add(new Organism(trayNum + "-" + (current + 1),
-						efg1,
-						efg2));
+				offspringList.add(
+						organismFactory.createOrganism(
+								trayNum + "-" + (current + 1),
+								efg1,
+								efg2));
 			}
 		}
 	}

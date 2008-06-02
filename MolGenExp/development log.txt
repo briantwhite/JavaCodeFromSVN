@@ -701,3 +701,83 @@ weird bug - only when saving pix of generations, the progress bar
 
 added ability to show the colors of the two alleles in the upper left
   corner of each cell in the world
+  
+6/1/08
+it runs a long time but always ends in random errors
+probably bad thread safety.
+
+try adding synchronization
+first, benchmark the new version
+on laptop thru Eclipse
+10x10 - don't show stuff in corner
+green 1
+all = fitness
+run until you see "generation 10"
+all mut freq's 0.001
+- 1:43, 1:38, 1:58
+
+synchronize all methods in FoldedProteinArchive
+benchmark again:
+- 1:58, 1:30, 1:51
+	no significant difference! good
+
+now try a really long run to look for crashes
+
+still does
+
+the singletons are also trouble.
+fix them to be multiples
+	and be sure they're not shared with other objects
+1) folding manager
+	need to fix
+		- biochemworkpanel
+		- moboworkpanel
+		- mutator
+		- proteinUtilities
+	need to move this out of ThinOrganism
+		make ThinOrganismFactory that builds ThinOrganisms from incomplete ones
+2) geneExpresser (also needed for ThinOrganism)
+
+still fails
+168 generations
+     [java] Exception in thread "Thread-5" java.lang.NullPointerException
+     [java] 	at biochem.BruteForceFolder.recurse(BruteForceFolder.java:125)
+     [java] 	at biochem.IncrementalFolder.placeRestOfAcids(IncrementalFolder.java:74)
+     [java] 	at biochem.BruteForceFolder.realFold(BruteForceFolder.java:107)
+     [java] 	at biochem.Folder.fold(Folder.java:59)
+     [java] 	at biochem.FoldingManager.foldPP(FoldingManager.java:393)
+     [java] 	at biochem.FoldingManager.fold(FoldingManager.java:303)
+     [java] 	at evolution.ThinOrganismFactory.foldOntoHexGrid(ThinOrganismFactory.java:100)
+     [java] 	at evolution.ThinOrganismFactory.foldAndComputeColor(ThinOrganismFactory.java:91)
+     [java] 	at evolution.ThinOrganismFactory.createThinOrganism(ThinOrganismFactory.java:51)
+     [java] 	at evolution.Evolver.makeNextGeneration(Evolver.java:223)
+     [java] 	at evolution.Evolver.run(Evolver.java:64)
+     [java] 	at java.lang.Thread.run(Thread.java:613)
+
+- thread 5!?!
+try again to see if same error
+ran to 1300+ generations OK!
+
+try again
+
+generation 109
+     [java] Exception in thread "Thread-3" java.lang.NullPointerException
+     [java] 	at biochem.BruteForceFolder.recurse(BruteForceFolder.java:125)
+     [java] 	at biochem.IncrementalFolder.placeRestOfAcids(IncrementalFolder.java:74)
+     [java] 	at biochem.BruteForceFolder.realFold(BruteForceFolder.java:107)
+     [java] 	at biochem.Folder.fold(Folder.java:59)
+     [java] 	at biochem.FoldingManager.foldPP(FoldingManager.java:393)
+     [java] 	at biochem.FoldingManager.fold(FoldingManager.java:303)
+     [java] 	at evolution.ThinOrganismFactory.foldOntoHexGrid(ThinOrganismFactory.java:100)
+     [java] 	at evolution.ThinOrganismFactory.foldAndComputeColor(ThinOrganismFactory.java:91)
+     [java] 	at evolution.ThinOrganismFactory.createThinOrganism(ThinOrganismFactory.java:52)
+     [java] 	at evolution.Evolver.makeNextGeneration(Evolver.java:223)
+     [java] 	at evolution.Evolver.run(Evolver.java:64)
+     [java] 	at java.lang.Thread.run(Thread.java:613)
+
+
+same place - different generation
+
+try synchronizing the World
+
+

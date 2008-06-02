@@ -7,25 +7,22 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+
+import biochem.PolypeptideFactory;
 
 import molGenExp.FoldedProteinArchive;
 import molGenExp.MolGenExp;
 import molGenExp.ServerCommunicator;
 import preferences.MGEPreferences;
-import utilities.ColorUtilities;
 import utilities.GeneExpresser;
 import utilities.GlobalDefaults;
 import utilities.Mutator;
-import utilities.ProteinUtilities;
 
 public class Evolver implements Runnable {
 
@@ -41,6 +38,7 @@ public class Evolver implements Runnable {
 	private MGEPreferences preferences;
 	private Mutator mutator;
 	private GeneExpresser expresser;
+	private ThinOrganismFactory thinOrganismFactory;
 	private ServerCommunicator communicator;
 
 	public Evolver(final MolGenExp mge) {
@@ -51,7 +49,8 @@ public class Evolver implements Runnable {
 		preferences = MGEPreferences.getInstance();
 		mutator = Mutator.getInstance();
 		archive = FoldedProteinArchive.getInstance();
-		expresser = GeneExpresser.getInstance();
+		expresser = new GeneExpresser();
+		thinOrganismFactory = new ThinOrganismFactory();
 		communicator = new ServerCommunicator(mge);
 	}
 
@@ -142,7 +141,6 @@ public class Evolver implements Runnable {
 				for (int j = 0; j < preferences.getWorldSize(); j++) {
 					String DNA1 = mutator.mutateDNASequence(getRandomAlleleFromPool());
 					String protein1 = 
-						ProteinUtilities.
 						convertThreeLetterProteinStringToOneLetterProteinString((
 								expresser.expressGene(DNA1, -1)).getProtein());
 					if (!archive.isInArchive(protein1)) {
@@ -150,7 +148,6 @@ public class Evolver implements Runnable {
 					}
 					String DNA2 = mutator.mutateDNASequence(getRandomAlleleFromPool());
 					String protein2 = 
-						ProteinUtilities.
 						convertThreeLetterProteinStringToOneLetterProteinString((
 								expresser.expressGene(DNA2, -1)).getProtein());
 					if (!archive.isInArchive(protein2)) {
@@ -201,11 +198,19 @@ public class Evolver implements Runnable {
 					nextGeneration[i][j] = new ThinOrganism(
 							pair.getDNA1(),
 							pair.getDNA2(),
-							GlobalDefaults.colorModel.mixTwoColors(
+							(archive.getArchiveEntry(
+									pair.getProtein1())
+									).getColor(),
 									(archive.getArchiveEntry(
-											pair.getProtein1())).getColor(), 
-											(archive.getArchiveEntry(
-													pair.getProtein2())).getColor()));
+											pair.getProtein2())
+											).getColor(),
+											GlobalDefaults.colorModel.mixTwoColors(
+													(archive.getArchiveEntry(
+															pair.getProtein1())
+															).getColor(), 
+															(archive.getArchiveEntry(
+																	pair.getProtein2())
+																	).getColor()));
 					progress++;
 				}
 			}
@@ -213,7 +218,7 @@ public class Evolver implements Runnable {
 			mge.setStatusLabelText("Populating the next generation");
 			for (int i = 0; i < preferences.getWorldSize(); i++) {
 				for (int j = 0; j < preferences.getWorldSize(); j++) {
-					nextGeneration[i][j] = new ThinOrganism(
+					nextGeneration[i][j] = thinOrganismFactory.createThinOrganism(
 							mutator.mutateDNASequence(getRandomAlleleFromPool()),
 							mutator.mutateDNASequence(getRandomAlleleFromPool()));
 					progress++;
@@ -236,7 +241,7 @@ public class Evolver implements Runnable {
 		int x = r.nextInt(genePool.size());
 		return (String)genePool.get(x);
 	}
-	
+
 	public void savePic() {
 		if (preferences.isGenerationPixOn()) {
 			//draw it
@@ -250,7 +255,7 @@ public class Evolver implements Runnable {
 			g.drawString("Generation: " + evolutionWorkArea.getGeneration(), 
 					20, 20);
 			g.dispose();
-			
+
 			//save it
 			File imageFile  = new File(preferences.getSavePixToPath() 
 					+ System.getProperty("file.separator")
@@ -263,6 +268,29 @@ public class Evolver implements Runnable {
 			}
 			pic = null;
 		}
+	}
+
+	private String convertThreeLetterProteinStringToOneLetterProteinString(
+			String threeLetter) {
+		//insert spaces between amino acid codes
+		StringBuffer psBuffer = new StringBuffer(threeLetter);
+		for (int i = 3; i < psBuffer.length(); i = i + 4) {
+			psBuffer = psBuffer.insert(i, " ");
+		}
+		threeLetter = psBuffer.toString();
+
+		// parse input into strings, each representing an acid
+		ArrayList acidStrings = 
+			PolypeptideFactory.getInstance().getTokens(threeLetter);
+
+		// parsing each acid string into AminoAcids using the AminoAcidTable.
+		StringBuffer b = new StringBuffer();
+		for (int i = 0; i < acidStrings.size(); i++) {
+			b.append((
+					GlobalDefaults.aaTable.get(
+							(String)acidStrings.get(i))).getAbName());
+		}
+		return b.toString();
 	}
 
 }

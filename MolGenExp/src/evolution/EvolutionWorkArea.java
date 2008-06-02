@@ -2,12 +2,10 @@ package evolution;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,6 +26,7 @@ import javax.swing.JPanel;
 
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
+import molGenExp.OrganismFactory;
 import preferences.MGEPreferences;
 import utilities.ColorUtilities;
 import utilities.GlobalDefaults;
@@ -37,6 +35,9 @@ public class EvolutionWorkArea extends JPanel {
 
 	private MolGenExp mge;
 	private MGEPreferences preferences;
+
+	private OrganismFactory organismFactory;
+	private ThinOrganismFactory thinOrganismFactory;
 
 	private JPanel leftPanel;
 	private JPanel controlPanel;
@@ -61,6 +62,8 @@ public class EvolutionWorkArea extends JPanel {
 	public EvolutionWorkArea(MolGenExp mge) {
 		this.mge = mge;
 		preferences = MGEPreferences.getInstance();
+		organismFactory = new OrganismFactory();
+		thinOrganismFactory = new ThinOrganismFactory();
 		setupUI();
 	}
 
@@ -73,7 +76,7 @@ public class EvolutionWorkArea extends JPanel {
 
 		fitnessPanel = new JPanel();
 		fitnessPanel.setBorder(BorderFactory.createTitledBorder(
-				"Color Fitness and Population Counts"));
+		"Color Fitness and Population Counts"));
 		fitnessPanel.setBackground(backgroundColor);
 
 		JPanel settingsAndCountPanel = new JPanel();
@@ -154,6 +157,7 @@ public class EvolutionWorkArea extends JPanel {
 				mge.loadSelectedIntoWorld();
 				mge.getGreenhouse().clearSelection();
 				updateCounts();
+				setFitnessSpinnersEnabled(true);
 			}
 		});
 
@@ -162,6 +166,7 @@ public class EvolutionWorkArea extends JPanel {
 				runButton.setEnabled(false);
 				pauseButton.setEnabled(true);
 				loadButton.setEnabled(false);
+				setFitnessSpinnersEnabled(false);
 				mge.startEvolving();
 			}
 		});
@@ -171,6 +176,7 @@ public class EvolutionWorkArea extends JPanel {
 				pauseButton.setEnabled(false);
 				runButton.setEnabled(true);
 				loadButton.setEnabled(true);
+				setFitnessSpinnersEnabled(true);
 				mge.stopEvolving();
 			}
 		});
@@ -185,6 +191,12 @@ public class EvolutionWorkArea extends JPanel {
 		runButton.setEnabled(true);
 		pauseButton.setEnabled(false);
 	}
+	
+	public void setFitnessSpinnersEnabled(boolean b) {
+		for (int i = 0; i < spinners.length; i++) {
+			spinners[i].setEnabled(b);
+		}
+	}
 
 	public void updateGenerationLabel() {
 		generation++;
@@ -194,7 +206,7 @@ public class EvolutionWorkArea extends JPanel {
 	public int getGeneration() {
 		return generation;
 	}
-	
+
 	public void setGeneration(int i) {
 		generation = i;
 		generationLabel.setText("Generation " + generation);
@@ -234,7 +246,8 @@ public class EvolutionWorkArea extends JPanel {
 				output.write("X,Y,Gene#,DNA,Protein,R,G,B\n");
 				for (int x = 0; x < preferences.getWorldSize(); x++) {
 					for (int y = 0; y < preferences.getWorldSize(); y++) {
-						Organism o = new Organism(world.getThinOrganism(x, y));
+						Organism o = organismFactory.createOrganism(
+								world.getThinOrganism(x, y));
 						output.write(x + "," + y + ",0,");
 						output.write(o.getGene1().getExpressedGene().getDNA() + ",");
 						output.write(
@@ -352,11 +365,14 @@ public class EvolutionWorkArea extends JPanel {
 											Integer.parseInt(lineParts[5]),
 											Integer.parseInt(lineParts[6]),
 											Integer.parseInt(lineParts[7]));
-									newWorld[x][y] = new ThinOrganism(
-											DNA1, 
-											DNA2, 
-											GlobalDefaults.colorModel.mixTwoColors(
-													color1, color2));
+									newWorld[x][y] = 
+										new ThinOrganism(
+												DNA1, 
+												DNA2, 
+												color1,
+												color2,
+												GlobalDefaults.colorModel.mixTwoColors(
+														color1, color2));
 								}
 							}
 						}

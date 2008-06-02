@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import molBiol.Codon;
 
 public class GeneExpresser {
-	
-	private static GeneExpresser instance;
-	
+		
 	//common variables for the several steps
 	private String DNASequence;
 	private int promoterStart;
@@ -21,16 +19,19 @@ public class GeneExpresser {
 	private String proteinSequence;
 	private String markedUpProteinSequence;
 
-	private GeneExpresser() {
+	public GeneExpresser() {
+		DNASequence = "";
+		promoterStart = 0;
+		terminatorStart = 0;
+		numSpacesBeforeRNA_Start = 0;
+		premRNASequence = "";
+		numberOfExons = 0;
+		numCharsInDisplayBeforeFirstDNA_Base = 0;
+		mRNASequence = "";
+		proteinSequence = "";
+		markedUpProteinSequence = "";
 	}
-	
-	public static GeneExpresser getInstance() {
-		if (instance == null) {
-			instance = new GeneExpresser();
-		}
-		return instance;
-	}
-	
+		
 	public ExpressedGene expressGene(String DNA, int selectedDNABase) {
 		DNANucleotides = new ArrayList<Nucleotide>();
 		DNASequence = DNA;

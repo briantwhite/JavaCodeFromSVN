@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
 import molGenExp.HistListItem;
 import molGenExp.Organism;
+import molGenExp.OrganismFactory;
 
 public class Tray extends HistListItem {
 	
@@ -18,6 +18,8 @@ public class Tray extends HistListItem {
 	private Organism[] allOrganisms;
 	private ImageIcon thumbImage;
 	
+	private OrganismFactory organismFactory;
+	
 	public Tray(int trayNumber, 
 			String parentInfo, 
 			OffspringList offspringList) {
@@ -25,6 +27,7 @@ public class Tray extends HistListItem {
 		this.parentInfo = parentInfo;
 		this.trayNumber = trayNumber;
 		toolTipText = parentInfo;
+		organismFactory = new OrganismFactory();
 		
 		Object[] organisms = offspringList.getAll();
 		allOrganisms = new Organism[organisms.length];
@@ -44,7 +47,7 @@ public class Tray extends HistListItem {
 			Organism o = (Organism)organisms[i];
 			
 			//save a copy in the tray with a new location
-			allOrganisms[i] = new Organism(o.getName(), o);
+			allOrganisms[i] = organismFactory.createOrganism(o.getName(), o);
 			
 			//add to the icon
 			g.setColor(o.getColor());

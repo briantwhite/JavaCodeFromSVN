@@ -36,24 +36,24 @@ public class FoldedProteinArchive {
 		return singleton;
 	}
 
-	public void add(String aaSeq, String proteinString, Color color) {
+	public synchronized void add(String aaSeq, String proteinString, Color color) {
 		archive.put(aaSeq, 
 				new FoldedProteinArchiveEntry(proteinString, color));
 	}
 
-	public boolean isInArchive(String aaSeq) {
+	public synchronized boolean isInArchive(String aaSeq) {
 		return archive.containsKey(aaSeq);
 	}
 
-	public FoldedProteinArchiveEntry getArchiveEntry(String aaSeq) {
+	public synchronized FoldedProteinArchiveEntry getArchiveEntry(String aaSeq) {
 		return archive.get(aaSeq);
 	}
 
-	public int getNumSequencesInArchive() {
+	public synchronized int getNumSequencesInArchive() {
 		return archive.size();
 	}
 
-	public void saveArchiveToZipFile() {
+	public synchronized void saveArchiveToZipFile() {
 		StringBuffer buf = new StringBuffer();
 		Set<String> keySet = archive.keySet();
 		Iterator<String> it = keySet.iterator();
@@ -106,7 +106,7 @@ public class FoldedProteinArchive {
 		}
 	}
 
-	private void loadArchiveFromFile() {
+	private synchronized void loadArchiveFromFile() {
 		String fullArchiveFileName = 
 			GlobalDefaults.greenhouseDirName + 
 			System.getProperty("file.separator") +
@@ -140,7 +140,7 @@ public class FoldedProteinArchive {
 
 	//take it in format <num;>aaseq;direction string; color (as R/G/B)
 	// first num is optional (it comes from the folding server and can be ignored
-	public void addEntryToArchive(String s) {
+	public synchronized void addEntryToArchive(String s) {
 		String[] parts = s.split(";");
 		int startIndex = 0;
 		// if the first part is a number; ignore it

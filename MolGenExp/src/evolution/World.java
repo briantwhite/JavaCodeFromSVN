@@ -2,30 +2,24 @@ package evolution;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 
 import javax.swing.JPanel;
 
-import biochem.FoldingException;
-import biochem.FoldingManager;
-import biochem.HexCanvas;
-import biochem.HexGrid;
-
 import molGenExp.Organism;
+import molGenExp.OrganismFactory;
 import preferences.MGEPreferences;
-import utilities.ExpressedGene;
-import utilities.GeneExpresser;
-import utilities.GlobalDefaults;
-import utilities.ProteinUtilities;
 
 public class World extends JPanel implements MouseListener {
 
 	private MGEPreferences preferences;
+	
+	private ThinOrganismFactory thinOrganismFactory;
+	private OrganismFactory organismFactory;
 
-	ThinOrganism[][] organisms;
+	private ThinOrganism[][] organisms;
 
 	public final static int pictureSize = 500;
 	private int cellSize ;
@@ -34,6 +28,8 @@ public class World extends JPanel implements MouseListener {
 	
 	public World() {
 		preferences = MGEPreferences.getInstance();
+		thinOrganismFactory = new ThinOrganismFactory();
+		organismFactory = new OrganismFactory();
 		resizeWorld();
 		this.addMouseListener(this);
 	}
@@ -48,7 +44,9 @@ public class World extends JPanel implements MouseListener {
 		Random r = new Random();
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				organisms[i][j] = new ThinOrganism(orgs[r.nextInt(orgs.length)]);
+				organisms[i][j] = 
+					thinOrganismFactory.createThinOrganism(
+							orgs[r.nextInt(orgs.length)]);
 			}
 		}
 	}
@@ -99,11 +97,11 @@ public class World extends JPanel implements MouseListener {
 		}
 	}
 
-	public ThinOrganism getThinOrganism(int i, int j) {
+	public synchronized ThinOrganism getThinOrganism(int i, int j) {
 		return organisms[i][j];
 	}
 
-	public void setOrganisms(ThinOrganism[][] newOrgs) {
+	public synchronized void setOrganisms(ThinOrganism[][] newOrgs) {
 		organisms = null;
 		organisms = newOrgs;
 		repaint();
@@ -113,7 +111,8 @@ public class World extends JPanel implements MouseListener {
 		if ((selectedCelli < 0) && (selectedCellj < 0)) {
 			return null;
 		}
-		return new Organism(organisms[selectedCelli][ selectedCellj]);
+		return organismFactory.createOrganism(
+				organisms[selectedCelli][ selectedCellj]);
 	}
 
 	public void clearSelectedOrganism() {

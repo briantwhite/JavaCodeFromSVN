@@ -1,6 +1,5 @@
 package molGenExp;
 
-import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,38 +7,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import javax.swing.ImageIcon;
-
-import utilities.ExpressedGene;
-import utilities.GeneExpresser;
-import utilities.ProteinUtilities;
-import biochem.BiochemAttributes;
-import biochem.FoldedPolypeptide;
-import biochem.FoldingException;
-import biochem.FoldingManager;
-import biochem.OutputPalette;
-
 public class GreenhouseLoader implements Runnable {
 	
 	private File greenhouseDir;
-	private ArrayList organismFiles;
+	private ArrayList<String> organismFiles;
 	private Greenhouse greenhouse;
 	private int i;
-	private GeneExpresser geneExpresser;
-	
+	private OrganismFactory organismFactory;
 	
 	public GreenhouseLoader(File greenhouseDir, Greenhouse greenhouse) {
 		this.greenhouseDir = greenhouseDir;
 		this.greenhouse = greenhouse;
 		String[] files = greenhouseDir.list();
-		organismFiles = new ArrayList();
+		organismFiles = new ArrayList<String>();
 		for (int counter = 0; counter < files.length; counter++) {
 			String fileName = files[counter];
 			if (fileName.endsWith(".organism")) {
 				organismFiles.add(fileName);
 			}
 		}
-		geneExpresser = GeneExpresser.getInstance();
+		organismFactory = new OrganismFactory();
 	}
 	
 	public int getLengthOfTask() {
@@ -67,7 +54,7 @@ public class GreenhouseLoader implements Runnable {
 		for (i = 0; i < organismFiles.size(); i++){
 			String fileString = (String)organismFiles.get(i);
 			
-			ArrayList geneSequences = new ArrayList();
+			ArrayList<String> geneSequences = new ArrayList<String>();
 			
 			String organismName = 
 				fileString.replaceAll(".organism", "");
@@ -88,18 +75,11 @@ public class GreenhouseLoader implements Runnable {
 								
 				// be sure there are only 2 DNA sequences in the organism
 				if (geneSequences.size() == 2) {
-					ExpressedGene eg1 = 
-						geneExpresser.expressGene((String)geneSequences.get(0), -1);
-					ExpressedGene eg2 = 
-						geneExpresser.expressGene((String)geneSequences.get(1), -1);
-					Organism o = new Organism(organismName, 
-							new ExpressedAndFoldedGene(
-									eg1,
-									ProteinUtilities.foldProtein(eg1.getProtein())), 
-							new ExpressedAndFoldedGene(
-									eg2,
-									ProteinUtilities.foldProtein(eg2.getProtein())));
-					greenhouse.add(o);
+					greenhouse.add(
+							organismFactory.createOrganism(
+									organismName, 
+									geneSequences.get(0),
+									geneSequences.get(1)));
 				}
 				input.close();
 			} 
@@ -117,8 +97,6 @@ public class GreenhouseLoader implements Runnable {
 				}
 			}
 		}
-		
-		
 	}
 		
 }

@@ -146,6 +146,7 @@ public class MolGenExp extends JFrame {
 	private GeneticsWorkbench geneticsWorkbench;
 
 	private Evolver evolver;
+	private OrganismFactory organismFactory;
 
 	//for genetics only; the two selected organisms
 	private OrganismAndLocation oal1;
@@ -258,6 +259,7 @@ public class MolGenExp extends JFrame {
 		oal1 = null;
 		oal2 = null;
 
+		organismFactory = new OrganismFactory();
 
 		biochemistryWorkbench = new BiochemistryWorkbench(this);
 		explorerPane.addTab("Biochemistry", biochemistryWorkbench);
@@ -848,7 +850,7 @@ public class MolGenExp extends JFrame {
 					+ " please cancel or try again.</font>\n";
 			}
 		}
-		saveToGreenhouse(new Organism(name,o));
+		saveToGreenhouse(organismFactory.createOrganism(name,o));
 		clearSelectedOrganisms();
 	}
 
