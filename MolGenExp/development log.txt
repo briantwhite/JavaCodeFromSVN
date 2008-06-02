@@ -756,7 +756,7 @@ still fails
 
 - thread 5!?!
 try again to see if same error
-ran to 1300+ generations OK!
+ran to 1300+ generations OK! (but was runing very fast at end because most had no mRNA)
 
 try again
 
@@ -780,4 +780,6 @@ same place - different generation
 
 try synchronizing the World
 
-
+ran 2460 generations overnight!
+(but had not chnaged fitnesses as it ran...)
+try again
