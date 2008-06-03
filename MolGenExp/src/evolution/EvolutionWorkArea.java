@@ -1,6 +1,7 @@
 package evolution;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -22,6 +23,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
@@ -48,6 +50,8 @@ public class EvolutionWorkArea extends JPanel {
 	private JPanel rightPanel;
 
 	private World world;
+	private Evolver evolver;
+	private Timer evolverTimer;
 
 	private JLabel generationLabel;
 	private int generation = 0;
@@ -62,6 +66,7 @@ public class EvolutionWorkArea extends JPanel {
 		preferences = MGEPreferences.getInstance();
 		organismFactory = new OrganismFactory();
 		colorCountsRecorder = ColorCountsRecorder.getInstance();
+		evolverTimer = new Timer(100, new EvolverTimerListener());
 		setupUI();
 	}
 
@@ -154,7 +159,7 @@ public class EvolutionWorkArea extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				mge.loadSelectedIntoWorld();
 				mge.getGreenhouse().clearSelection();
-				mge.getEvolver().updateCounts();
+				world.updateCounts();
 				setFitnessSpinnersEnabled(true);
 			}
 		});
@@ -165,7 +170,7 @@ public class EvolutionWorkArea extends JPanel {
 				pauseButton.setEnabled(true);
 				loadButton.setEnabled(false);
 				setFitnessSpinnersEnabled(false);
-				mge.startEvolving();
+				startEvolving();
 			}
 		});
 
@@ -175,7 +180,7 @@ public class EvolutionWorkArea extends JPanel {
 				runButton.setEnabled(true);
 				loadButton.setEnabled(true);
 				setFitnessSpinnersEnabled(true);
-				mge.stopEvolving();
+				stopEvolving();
 			}
 		});
 
@@ -225,6 +230,50 @@ public class EvolutionWorkArea extends JPanel {
 	public void clearSelection() {
 		world.clearSelectedOrganism();
 	}
+	
+	public void startEvolving() {
+		world.updateCounts();
+		updateColorCountDisplay();
+		mge.getProgressBar().setMinimum(0);
+		mge.getProgressBar().setMaximum(preferences.getWorldSize() * preferences.getWorldSize());
+		mge.setButtonStatusWhileEvolving();
+		evolver = new Evolver(mge);
+		Thread t = new Thread(evolver);
+		t.start();
+		evolverTimer.start();
+	}
+	
+	private class EvolverTimerListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			if (evolver.done()) {
+				evolverTimer.stop();
+				mge.setCursor(
+						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				mge.getProgressBar().setValue(0);
+			} else {
+				mge.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				mge.getProgressBar().setValue(evolver.getProgress());
+			}
+		}
+	}
+
+	public void stopEvolving() {
+		evolver.stop();
+		evolverTimer.stop();
+		mge.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		mge.restoreButtonStatusWhenDoneEvolving();
+	}
+	
+	public void updateColorCountDisplay() {
+		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
+			populationLabels[i].setText(String.valueOf(
+					colorCountsRecorder.getCount(
+							ColorUtilities.getColorFromString(
+							GlobalDefaults.colorList[i]))));
+		}	
+	}
+
+
 
 	public void saveWorldToFile() {
 		if (world.getThinOrganism(0, 0) == null) {
@@ -393,19 +442,8 @@ public class EvolutionWorkArea extends JPanel {
 		world.setOrganisms(newWorld);
 		setReadyToRun();
 		world.repaint();
-		mge.getEvolver().updateCounts();
-		notifyColorCountsChanged();
+		world.updateCounts();
+		updateColorCountDisplay();
 	}
-
-	public void notifyColorCountsChanged() {
-		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
-			populationLabels[i].setText(String.valueOf(
-					colorCountsRecorder.getCount(
-							ColorUtilities.getColorFromString(
-							GlobalDefaults.colorList[i]))));
-		}
-		
-	}
-
 
 }

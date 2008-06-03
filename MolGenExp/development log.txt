@@ -825,3 +825,27 @@ the only thing left to deal with is the counts of each color
 - updateCounts is currently in EvolutionWorkArea (out of the evolver thread, which calls it)
 - try putting updateCounts in Evolver
 	with a call-back to mge to let it know that there's a new generation
+
+
+6/3/08
+- but it runs AOK on the 2-processor mac
+only dies on 1-processor pc
+- so probably a thread thing
+
+tried extensive refactoring to put just the folding in a thread
+but GUI wouldn't update while waiting for join.
+
+so go back to this version and try to get gui OK
+(it still has the problem that the progress bar disappears...)
+
+move Evolver and EvolverTimer from mgx to EvolWArea
+
+it MAY be OK...
+
+new bug
+- in genex, a sequence w/o promoter or term shows a term highlighted
+- OK fixed
+
+run a long time on mac and pc
+
+

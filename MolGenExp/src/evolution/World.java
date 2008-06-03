@@ -20,6 +20,7 @@ public class World extends JPanel implements MouseListener {
 	private OrganismFactory organismFactory;
 
 	private ThinOrganism[][] organisms;
+	private ColorCountsRecorder colorCountsRecorder;
 
 	public final static int pictureSize = 500;
 	private int cellSize ;
@@ -30,6 +31,7 @@ public class World extends JPanel implements MouseListener {
 		preferences = MGEPreferences.getInstance();
 		thinOrganismFactory = new ThinOrganismFactory();
 		organismFactory = new OrganismFactory();
+		colorCountsRecorder = ColorCountsRecorder.getInstance();
 		resizeWorld();
 		this.addMouseListener(this);
 	}
@@ -47,6 +49,20 @@ public class World extends JPanel implements MouseListener {
 				organisms[i][j] = 
 					thinOrganismFactory.createThinOrganism(
 							orgs[r.nextInt(orgs.length)]);
+			}
+		}
+	}
+	
+	public void updateCounts() {
+		//first, be sure that there are organisms in the world
+		if (getThinOrganism(0,0) != null) {
+			colorCountsRecorder.setAllToZero();
+			for (int i = 0; i < preferences.getWorldSize(); i++) {
+				for (int j = 0; j < preferences.getWorldSize(); j++) {
+					ThinOrganism o = getThinOrganism(i, j);
+					colorCountsRecorder.incrementCount(
+							getThinOrganism(i, j).getOverallColor());
+				}
 			}
 		}
 	}

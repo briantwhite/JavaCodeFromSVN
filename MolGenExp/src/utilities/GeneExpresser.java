@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import molBiol.Codon;
 
 public class GeneExpresser {
-		
+
 	//common variables for the several steps
 	private String DNASequence;
 	private int promoterStart;
@@ -20,18 +20,8 @@ public class GeneExpresser {
 	private String markedUpProteinSequence;
 
 	public GeneExpresser() {
-		DNASequence = "";
-		promoterStart = 0;
-		terminatorStart = 0;
-		numSpacesBeforeRNA_Start = 0;
-		premRNASequence = "";
-		numberOfExons = 0;
-		numCharsInDisplayBeforeFirstDNA_Base = 0;
-		mRNASequence = "";
-		proteinSequence = "";
-		markedUpProteinSequence = "";
 	}
-		
+
 	public ExpressedGene expressGene(String DNA, int selectedDNABase) {
 		DNANucleotides = new ArrayList<Nucleotide>();
 		DNASequence = DNA;
@@ -51,16 +41,32 @@ public class GeneExpresser {
 	}
 
 	private void transcribe() {
+		promoterStart = -1;
+		terminatorStart = -1;
+		
+		// find promoter
 		int promoterSite = DNASequence.indexOf(
 				GlobalDefaults.molBiolParams.promoterSequence);
-		int terminatorSite = DNASequence.indexOf(
-				GlobalDefaults.molBiolParams.terminatorSequence, promoterSite);
+		
+		//find terminator even if no promoter
+		int terminatorSite = -1;
+		if (promoterSite == -1) {
+			terminatorSite = DNASequence.indexOf(
+					GlobalDefaults.molBiolParams.terminatorSequence);	
+		} else {
+			// if there's a promoter, look for term AFTER it
+			promoterStart = promoterSite;
+			terminatorSite = DNASequence.indexOf(
+					GlobalDefaults.molBiolParams.terminatorSequence, promoterSite);
+		}
+		if (terminatorSite != -1) {
+			terminatorStart = terminatorSite;
+		}
+		
 		StringBuffer pre_mRNAbuffer = new StringBuffer();
 		if ((promoterSite != -1) && (terminatorSite != -1)) {  // if we have a gene
 			int mRNANucleotideNumber = 0;
 			//set the values for this gene
-			promoterStart = promoterSite;
-			terminatorStart = terminatorSite;
 			numSpacesBeforeRNA_Start = promoterStart 
 			+ GlobalDefaults.molBiolParams.promoterSequence.length();
 
@@ -637,6 +643,6 @@ public class GeneExpresser {
 		s = s.replaceAll("<u>","");
 		return s.replaceAll("</u>", "");
 	}
-	
+
 
 }

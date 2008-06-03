@@ -134,7 +134,6 @@ public class MolGenExp extends JFrame {
 	private File greenhouseDirectory;
 	private GreenhouseLoader greenhouseLoader;
 	private Timer greenhouseLoaderTimer;
-	private Timer evolverTimer;
 	private Greenhouse greenhouse;
 	private JButton addToGreenhouseButton;
 
@@ -145,7 +144,6 @@ public class MolGenExp extends JFrame {
 
 	private GeneticsWorkbench geneticsWorkbench;
 
-	private Evolver evolver;
 	private OrganismFactory organismFactory;
 
 	//for genetics only; the two selected organisms
@@ -308,7 +306,6 @@ public class MolGenExp extends JFrame {
 
 		preferencesDialog = new PreferencesDialog(this);
 
-		evolverTimer = new Timer(100, new EvolverTimerListener());
 
 		explorerPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
@@ -656,10 +653,6 @@ public class MolGenExp extends JFrame {
 		return greenhouse;
 	}
 	
-	public Evolver getEvolver() {
-		return evolver;
-	}
-
 	public String getCurrentWorkingPanel() {
 		return explorerPane.getSelectedComponent().getClass().toString();
 	}
@@ -1059,43 +1052,14 @@ public class MolGenExp extends JFrame {
 		}
 	}
 	
-	public void startEvolving() {
-		evolver = new Evolver(this);
-		Thread t = new Thread(evolver);
-		t.start();
-		evolverTimer.start();
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		progressBar.setMinimum(0);
-		progressBar.setMaximum(preferences.getWorldSize() * preferences.getWorldSize());
-		setButtonStatusWhileEvolving();
-	}
-	
-	private class EvolverTimerListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-			if (evolver.done()) {
-				evolverTimer.stop();
-				MolGenExp.this.setCursor(
-						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				progressBar.setValue(0);
-			} else {
-				progressBar.setValue(evolver.getProgress());
-			}
-		}
-	}
-
-	public void stopEvolving() {
-		evolver.stop();
-		restoreButtonStatusWhenDoneEvolving();
-	}
-
-	private void setButtonStatusWhileEvolving() {
+	public void setButtonStatusWhileEvolving() {
 		addToGreenhouseButton.setEnabled(false);
 		fileMenu.setEnabled(false);
 		greenhouseMenu.setEnabled(false);
 		explorerPane.setEnabled(false);
 	}
 
-	private void restoreButtonStatusWhenDoneEvolving() {
+	public void restoreButtonStatusWhenDoneEvolving() {
 		addToGreenhouseButton.setEnabled(true);
 		fileMenu.setEnabled(true);
 		greenhouseMenu.setEnabled(true);

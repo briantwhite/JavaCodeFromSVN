@@ -36,8 +36,7 @@ public class Evolver implements Runnable {
 	private boolean keepGoing;
 
 	private FoldedProteinArchive archive;
-	private ColorCountsRecorder colorCountsRecorder;
-	
+
 	private MGEPreferences preferences;
 	private Mutator mutator;
 	private GeneExpresser expresser;
@@ -52,7 +51,6 @@ public class Evolver implements Runnable {
 		preferences = MGEPreferences.getInstance();
 		mutator = Mutator.getInstance();
 		archive = FoldedProteinArchive.getInstance();
-		colorCountsRecorder = ColorCountsRecorder.getInstance();
 		expresser = new GeneExpresser();
 		thinOrganismFactory = new ThinOrganismFactory();
 		communicator = new ServerCommunicator(mge);
@@ -62,11 +60,11 @@ public class Evolver implements Runnable {
 		mge.setStatusLabelText("Running");
 		keepGoing = true;
 		while (keepGoing) {
-			updateCounts();
+			world.updateCounts();
+			evolutionWorkArea.updateColorCountDisplay();
 			savePic();
 			createGenePool();
 			makeNextGeneration();
-			evolutionWorkArea.notifyColorCountsChanged();
 		}
 	}
 
@@ -77,17 +75,9 @@ public class Evolver implements Runnable {
 	public int getLengthOfTask() {
 		return preferences.getWorldSize() * preferences.getWorldSize();
 	}
-	
-	public ColorCountsRecorder getColorCountsRecorder() {
-		return colorCountsRecorder;
-	}
 
 	public boolean done() {
-		if (progress == getLengthOfTask()) {
-			return true;
-		} else {
-			return false;
-		}
+		return !keepGoing;
 	}
 
 	public void stop() {
@@ -187,7 +177,7 @@ public class Evolver implements Runnable {
 					+ sequencesToBeFolded.size() 
 					+ " sequences to be folded");
 			String response = communicator.sendSequencesToServer(b.toString());
-
+System.out.println(response);
 			//parse the reply and add to archive
 			String[] responseLines = response.split("<br>");
 			for (int i = 0; i < responseLines.length; i++) {
@@ -209,17 +199,17 @@ public class Evolver implements Runnable {
 							pair.getDNA2(),
 							(archive.getArchiveEntry(
 									pair.getProtein1())
-									).getColor(),
+							).getColor(),
+							(archive.getArchiveEntry(
+									pair.getProtein2())
+							).getColor(),
+							GlobalDefaults.colorModel.mixTwoColors(
+									(archive.getArchiveEntry(
+											pair.getProtein1())
+									).getColor(), 
 									(archive.getArchiveEntry(
 											pair.getProtein2())
-											).getColor(),
-											GlobalDefaults.colorModel.mixTwoColors(
-													(archive.getArchiveEntry(
-															pair.getProtein1())
-															).getColor(), 
-															(archive.getArchiveEntry(
-																	pair.getProtein2())
-																	).getColor()));
+									).getColor()));
 					progress++;
 				}
 			}
@@ -300,19 +290,5 @@ public class Evolver implements Runnable {
 							(String)acidStrings.get(i))).getAbName());
 		}
 		return b.toString();
-	}
-	
-	public void updateCounts() {
-		//first, be sure that there are organisms in the world
-		if (world.getThinOrganism(0,0) != null) {
-			colorCountsRecorder.setAllToZero();
-			for (int i = 0; i < preferences.getWorldSize(); i++) {
-				for (int j = 0; j < preferences.getWorldSize(); j++) {
-					ThinOrganism o = world.getThinOrganism(i, j);
-					colorCountsRecorder.incrementCount(
-							world.getThinOrganism(i, j).getOverallColor());
-				}
-			}
-		}
 	}
 }
