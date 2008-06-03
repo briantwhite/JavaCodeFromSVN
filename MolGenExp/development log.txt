@@ -848,4 +848,22 @@ new bug
 
 run a long time on mac and pc
 
+it still crashes on mac (office mac with 2 g5 processors and other stuff running..)
+     [java] Exception in thread "Thread-3" java.lang.NullPointerException
+     [java] 	at biochem.BruteForceFolder.recurse(BruteForceFolder.java:125)
+     [java] 	at biochem.IncrementalFolder.placeRestOfAcids(IncrementalFolder.java:74)
+     [java] 	at biochem.BruteForceFolder.realFold(BruteForceFolder.java:107)
+     [java] 	at biochem.Folder.fold(Folder.java:59)
+     [java] 	at biochem.FoldingManager.foldPP(FoldingManager.java:393)
+     [java] 	at biochem.FoldingManager.fold(FoldingManager.java:303)
+     [java] 	at evolution.ThinOrganismFactory.foldOntoHexGrid(ThinOrganismFactory.java:100)
+     [java] 	at evolution.ThinOrganismFactory.foldAndComputeColor(ThinOrganismFactory.java:91)
+     [java] 	at evolution.ThinOrganismFactory.createThinOrganism(ThinOrganismFactory.java:51)
+     [java] 	at evolution.Evolver.makeNextGeneration(Evolver.java:222)
+     [java] 	at evolution.Evolver.run(Evolver.java:67)
+     [java] 	at java.lang.Thread.run(Thread.java:613)
+
+try synchronizing the createThinOrganism methods
+
+
 

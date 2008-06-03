@@ -22,7 +22,7 @@ public class ThinOrganismFactory {
 		foldingManager = new FoldingManager();
 	}
 	
-	public ThinOrganism createThinOrganism(String dna1, String dna2, Color overallColor) {
+	public synchronized ThinOrganism createThinOrganism(String dna1, String dna2, Color overallColor) {
 		String newDNA1 = "";
 		if (dna1 != null) {
 			newDNA1 = dna1;
@@ -39,7 +39,7 @@ public class ThinOrganismFactory {
 				overallColor);
 	}
 	
-	public ThinOrganism createThinOrganism(String dna1, String dna2) {
+	public synchronized ThinOrganism createThinOrganism(String dna1, String dna2) {
 		String newDNA1 = "";
 		if (dna1 != null) {
 			newDNA1 = dna1;
@@ -56,7 +56,7 @@ public class ThinOrganismFactory {
 				GlobalDefaults.colorModel.mixTwoColors(color1, color2));
 	}
 	
-	public ThinOrganism createThinOrganism(Organism o) {
+	public synchronized ThinOrganism createThinOrganism(Organism o) {
 		return new ThinOrganism(o.getGene1().getExpressedGene().getDNA(),
 		o.getGene2().getExpressedGene().getDNA(),
 		o.getGene1().getFoldedPolypeptide().getColor(),
