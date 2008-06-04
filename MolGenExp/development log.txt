@@ -878,6 +878,9 @@ make change & rerun
 then run a looong time
 
 still dies at 170 generations on office mac (dual g5)
-on PC (single processor), it goes much longer
+on PC (single processor), it goes much longer (334) but still dies
 
 made it look for Desktop directory in save pix and save world
+
+try synchronizing Evolver.makeNextgeneration()
+

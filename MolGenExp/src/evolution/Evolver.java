@@ -106,7 +106,7 @@ public class Evolver implements Runnable {
 		}
 	}
 
-	private void makeNextGeneration() {
+	private synchronized void makeNextGeneration() {
 		if (genePool.size() == 0) {
 			JOptionPane.showMessageDialog(null, "<html><body>" 
 					+ "<font color=red>No organisms contributed to the gene pool.<br>"
@@ -177,7 +177,7 @@ public class Evolver implements Runnable {
 					+ sequencesToBeFolded.size() 
 					+ " sequences to be folded");
 			String response = communicator.sendSequencesToServer(b.toString());
-System.out.println(response);
+
 			//parse the reply and add to archive
 			String[] responseLines = response.split("<br>");
 			for (int i = 0; i < responseLines.length; i++) {
