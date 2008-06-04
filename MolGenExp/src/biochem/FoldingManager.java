@@ -276,7 +276,7 @@ public class FoldingManager {
 	 *            Attributes.
 	 * @throws FoldingException
 	 */
-	public void fold(String sequence) throws FoldingException {
+	public synchronized void fold(String sequence) throws FoldingException {
 		//first, see if it's already been folded
 		FoldedProteinArchive foldedProteinArchive = 
 			FoldedProteinArchive.getInstance();

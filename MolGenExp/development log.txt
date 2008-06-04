@@ -865,5 +865,15 @@ it still crashes on mac (office mac with 2 g5 processors and other stuff running
 
 try synchronizing the createThinOrganism methods
 
+still NG
 
+6/4/08
+try synchronizing FoldingManager.fold()
+first benchmark 10 generations on office PC (2.4ghz single processor 1gb ram win xp)
+1:32, 1:45, 1:47
+
+make change & rerun
+1:19, 0:57, 1:22
+- actually FASTER!
+then run a looong time
 
