@@ -280,7 +280,8 @@ public class EvolutionWorkArea extends JPanel {
 			Toolkit.getDefaultToolkit().beep();
 			return;
 		}
-		JFileChooser outfileChooser = new JFileChooser();
+		JFileChooser outfileChooser = new JFileChooser(
+				System.getProperty("user.home") + "/Desktop");
 		outfileChooser.setDialogTitle("Enter a file name...");
 		int resultVal = outfileChooser.showSaveDialog(this);
 		if (resultVal == JFileChooser.APPROVE_OPTION) {

@@ -1,5 +1,7 @@
 package preferences;
 
+import java.io.File;
+
 public class MGEPreferences {
 	
 	private static MGEPreferences instance;
@@ -49,7 +51,12 @@ public class MGEPreferences {
 		insertionMutationRate = DEFAULT_INSERTION_MUTATION_RATE;
 		
 		generationPixOn = DEFAULT_GENERATION_PIX_ON;
-		savePixToPath = DEFAULT_SAVE_PIX_TO_PATH;
+		
+		File desktopFile = new File(System.getProperty(
+				"user.home") +  "/Desktop");
+		if (desktopFile.canWrite()) {
+			savePixToPath = desktopFile.getAbsolutePath();
+		} 
 		
 		useFoldingServer = DEFAULT_USE_FOLDING_SERVER;
 		foldingServerURL = DEFAULT_FOLDING_SERVER_URL;
