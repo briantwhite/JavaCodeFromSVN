@@ -884,3 +884,55 @@ made it look for Desktop directory in save pix and save world
 
 try synchronizing Evolver.makeNextgeneration()
 
+still NG
+PC dies after 227 generations
+Exception in thread "Thread-3" java.lang.NullPointerException
+        at biochem.BruteForceFolder.recurse(BruteForceFolder.java:125)
+        at biochem.IncrementalFolder.placeRestOfAcids(IncrementalFolder.java:74)
+        at biochem.BruteForceFolder.realFold(BruteForceFolder.java:107)
+        at biochem.Folder.fold(Folder.java:59)
+        at biochem.FoldingManager.foldPP(FoldingManager.java:393)
+        at biochem.FoldingManager.fold(FoldingManager.java:303)
+        at evolution.ThinOrganismFactory.foldOntoHexGrid(ThinOrganismFactory.java:100)
+        at evolution.ThinOrganismFactory.foldAndComputeColor(ThinOrganismFactory.java:91)
+        at evolution.ThinOrganismFactory.createThinOrganism(ThinOrganismFactory.java:51)
+        at evolution.Evolver.makeNextGeneration(Evolver.java:222)
+        at evolution.Evolver.run(Evolver.java:67)
+        at java.lang.Thread.run(Unknown Source)
+
+Mac dies after 485 generations
+Exception in thread "Thread-3" java.lang.NullPointerException
+	at biochem.BruteForceFolder.recurse(BruteForceFolder.java:125)
+	at biochem.IncrementalFolder.placeRestOfAcids(IncrementalFolder.java:74)
+	at biochem.BruteForceFolder.realFold(BruteForceFolder.java:107)
+	at biochem.Folder.fold(Folder.java:59)
+	at biochem.FoldingManager.foldPP(FoldingManager.java:393)
+	at biochem.FoldingManager.fold(FoldingManager.java:303)
+	at evolution.ThinOrganismFactory.foldOntoHexGrid(ThinOrganismFactory.java:100)
+	at evolution.ThinOrganismFactory.foldAndComputeColor(ThinOrganismFactory.java:91)
+	at evolution.ThinOrganismFactory.createThinOrganism(ThinOrganismFactory.java:51)
+	at evolution.Evolver.makeNextGeneration(Evolver.java:222)
+	at evolution.Evolver.run(Evolver.java:67)
+	at java.lang.Thread.run(Thread.java:613)
+
+they both die at the SAME place 
+maybe it's not a thread thing
+maybe it's a 'poison sequence' that somehow gets parsed to cause trouble
+put in a tracer to see what's up.
+
+BruteForceFolder 125 is 		for (int i = 0; i < next.length; i++) {
+the null is probably next (a Direction[])
+
+IncrementalFolder 74 is 			
+	recurse(grid.getNextDirection(acids[current - 2].next), current,
+					localLookAhead);
+so, put in a trap for when grid.getNextDirection(acids[current - 2].next) == null
+	have it print grid.aaseq
+
+if (grid.getNextDirection(acids[current - 2].next) == null) {
+	System.out.println("the sequence was:" + grid.getPP().getSingleLetterAASequence() + "!"
+			+ "\n" + grid.getPP().getLength() 
+			+ "\n" + grid.getPP().toCSV());
+}
+run this on PC while doing other things...
+
