@@ -71,11 +71,6 @@ public class IncrementalFolder extends BruteForceFolder {
 		while (current < numAcids) {
 			resetEnergy();
 			int localLookAhead = Math.min(current + lookAhead, numAcids);
-if (grid.getNextDirection(acids[current - 2].next) == null) {
-	System.out.println("the sequence was:" + grid.getPP().getSingleLetterAASequence() + "!"
-			+ "\n" + grid.getPP().getLength() 
-			+ "\n" + grid.getPP().toCSV());
-}
 			recurse(grid.getNextDirection(acids[current - 2].next), current,
 					localLookAhead);
 			restore();
