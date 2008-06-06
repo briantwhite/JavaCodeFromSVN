@@ -1,7 +1,7 @@
-// IncrementalFolder.java
-//
-//
-// Copyright 2004, Ethan Bolker and Bogdan Calota
+//IncrementalFolder.java
+
+
+//Copyright 2004, Ethan Bolker and Bogdan Calota
 /* 
  * License Information
  * 
@@ -12,6 +12,8 @@
  */
 
 package biochem;
+
+import java.util.Random;
 
 
 
@@ -32,17 +34,17 @@ public class IncrementalFolder extends BruteForceFolder {
 
 	// number of acids to pin down
 	private int step = defaultStep;
-	
+
 	//current amino acid being worked in
 	int current;
-	
+
 	public int getCurrent() {
 		return current;
 	}
 
 	public String getName() {
 		return "Incremental folding - " + "lookahead: " + lookAhead + " step: "
-				+ step;
+		+ step;
 	}
 
 	public IncrementalFolder(Polypeptide pp, Grid g, int lookAhead, int step) {
@@ -73,7 +75,7 @@ public class IncrementalFolder extends BruteForceFolder {
 			int localLookAhead = Math.min(current + lookAhead, numAcids);
 			recurse(grid.getNextDirection(acids[current - 2].next), current,
 					localLookAhead);
-			restore();
+				restore();
 			// unplace some acids
 			for (int i = current + step; i < localLookAhead; i++) {
 				grid.unset(acids[i]);
@@ -87,29 +89,29 @@ public class IncrementalFolder extends BruteForceFolder {
 	 *
 	 */
 //	public static void main(String[] args) {
-//		Options opts = new Options("help",
-//				"step:4 lookahead:8 table:standard length:10 seed:10", args);
-//		if (opts.isOpt("help")) {
-//			System.out.println("usage: java IncrementalFolder "
-//					+ "\n    [-help] [-lookahead n] [-step s] "
-//					+ "\n    [-table standard|virtual] "
-//					+ "\n    [-length len] [-seed seed ]");
-//			System.exit(0);
-//		}
-//		args = opts.getShiftArray();
-//		Polypeptide pp = null;
-//		try {
-//			pp = PolypeptideFactory.getInstance().createPolypeptide("", false,
-//					true, "" + opts.getIntOpt("length"),
-//					"" + opts.getIntOpt("seed"), opts.getOpt("table"), null);
-//		} catch (FoldingException e) {
-//			System.out.println(e);
-//			System.exit(0);
-//		}
-//		IncrementalFolder folder = new IncrementalFolder(pp, new HexGrid(pp));
-//		folder.setLookAhead(opts.getIntOpt("lookahead"));
-//		folder.setStep(opts.getIntOpt("step"));
-//		folder.fold();
-//		System.out.println(folder.report());
+//	Options opts = new Options("help",
+//	"step:4 lookahead:8 table:standard length:10 seed:10", args);
+//	if (opts.isOpt("help")) {
+//	System.out.println("usage: java IncrementalFolder "
+//	+ "\n    [-help] [-lookahead n] [-step s] "
+//	+ "\n    [-table standard|virtual] "
+//	+ "\n    [-length len] [-seed seed ]");
+//	System.exit(0);
+//	}
+//	args = opts.getShiftArray();
+//	Polypeptide pp = null;
+//	try {
+//	pp = PolypeptideFactory.getInstance().createPolypeptide("", false,
+//	true, "" + opts.getIntOpt("length"),
+//	"" + opts.getIntOpt("seed"), opts.getOpt("table"), null);
+//	} catch (FoldingException e) {
+//	System.out.println(e);
+//	System.exit(0);
+//	}
+//	IncrementalFolder folder = new IncrementalFolder(pp, new HexGrid(pp));
+//	folder.setLookAhead(opts.getIntOpt("lookahead"));
+//	folder.setStep(opts.getIntOpt("step"));
+//	folder.fold();
+//	System.out.println(folder.report());
 //	}
 }

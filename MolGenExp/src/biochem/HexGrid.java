@@ -105,6 +105,10 @@ public class HexGrid extends TwoDGrid {
 	}
 
 	public GridPoint nextCell(Direction direction, GridPoint p) {
+		if (p == null) {
+			System.out.println("died at hex grid 108\n" 
+					+ "\t" + getPP().getDirectionSequence());
+		}
 		int x = p.x;
 		int y = p.y;
 		if (direction == E)

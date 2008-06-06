@@ -68,7 +68,8 @@ public class BruteForceFolder extends Folder {
 			buckets[i] = 0;
 		}
 		topologies = new HashSet();
-
+		grid.setPaintedIntoACorner(false);
+		
 		scale = 100.0 / (pp.getMaxEnergy() * (4 * numAcids + 2));
 		offset = 100.0 / pp.getMaxEnergy();
 
@@ -122,6 +123,19 @@ public class BruteForceFolder extends Folder {
 	}
 
 	public void recurse(Direction[] next, int current, int stop) {
+		//if the next is null, it means there's no open places
+		//  for the next aa, so we're 'painted into a corner'
+		//  so need to abort this branch here (or it'll get a
+		//  NullPointerException) AND notify the grid.getEnergy
+		//  method that this is a BAD fold.
+//		if (next == null) {
+//			System.out.println(grid.getPP().getSingleLetterAASequence() 
+//					+ " painted into a corner!"
+//					+ "\n\t" + grid.getPP().getDirectionSequence()
+//					+ "\n\t" + current);
+//			grid.setPaintedIntoACorner(true);
+//			return;
+//		}
 		for (int i = 0; i < next.length; i++) {
 			tryDirection(next[i], current, stop);
 		}

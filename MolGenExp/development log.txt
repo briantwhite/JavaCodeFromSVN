@@ -1103,3 +1103,99 @@ ng
 still not right.
 
 - maybe the energy is getting re-computed and over-writing my value
+
+more poison sequences:
+MAGVRAVRVLRYAACCVCMFCAPMHLRITLKKKK
+MSKCFKPQRTAARFCVSTNVSVLETLVDSKKKK
+
+6/6/08
+- the energy gets recalculated in saveIfNecessary(), so setting it along the way 
+  won't work
+- need to set a boolean in grid paintedIntoACorner
+  and check that in grid.getEnergy
+  if it's set, make energy max.
+
+in BruteForceFolder.recurse()
+
+now dies in coloring algorithm
+     [java] MSSAISPKIRHHFWRSKTGYVYVAAVGKKKK painted into a corner!
+     [java] 	 E : NE :  W :  W :  W : NE : NW :  E : NE : NE :  E : SE : SE :  E : 
+             SW : SW : NW : NW :  W : SW :  E : none : none : none : none : none :    
+             none : none : none : none : none : 
+     [java] MSSAISPKIRHHFWRSKTGYVYVAAVGKKKK painted into a corner!
+     [java] 	 E : NE :  W :  W :  W : NE : NW :  E : NE : NE :  E : SE : SE :  E : 
+             SW : SW : NW : NW :  W : SW :  E : none : none : none : none : none : 
+             none : none : none : none : none : 
+     [java] tried to calculate energy of painted into corner
+     [java] Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException
+     [java] 	at biochem.HexGrid.nextCell(HexGrid.java:108)
+     [java] 	at molGenExp.RYBColorModel.getProteinColor(RYBColorModel.java:92)
+
+why?
+see what fold is there in HexGrid 108
+- it is the partly-folded one
+why is it stopping with that one?
+
+try in BruteForceFolder.tryDirection()
+NG - it hits the nullPointer before being trapped (unclear why)
+
+put back in recurse
+- trouble because it never fully folds the protein
+	so the saveIfNecessary is not reached
+- somehow, need to make it think all placed, so it checks the energy and abandons it
+
+try in IncrementalFolder.placeRestOfAcids()
+	protected void placeRestOfAcids() {
+		current = 2; // ready to place 3rd acid
+		while (current < numAcids) {
+			resetEnergy();
+			int localLookAhead = Math.min(current + lookAhead, numAcids);
+			//if the next is null, it means there's no open places
+			//  for the next aa, so we're 'painted into a corner'
+			//  so need to abort this branch here (or it'll get a
+			//  NullPointerException) AND notify the grid.getEnergy
+			//  method that this is a BAD fold.
+			if (grid.getNextDirection(acids[current - 2].next) == null) {
+				System.out.println(grid.getPP().getSingleLetterAASequence() 
+						+ " painted into a corner!"
+						+ "\n\t" + grid.getPP().getDirectionSequence());
+				grid.setPaintedIntoACorner(true);
+			} else {
+				recurse(grid.getNextDirection(acids[current - 2].next), current,
+						localLookAhead);
+			}
+			restore();
+			// unplace some acids
+			for (int i = current + step; i < localLookAhead; i++) {
+				grid.unset(acids[i]);
+			}
+			current += step;
+		}
+	}
+
+ng
+     [java] MSSAISPKIRHHFWRSKTGYVYVAAVGKKKK painted into a corner!
+     [java] 	 E : NE :  W :  W :  W : NE : NW :  E : NE : NE :  E : SE : SE :  E : SW : SW : NW : NW :  
+              W : SW :  E : none : none : none : none : none : none : none : none : none : none : 
+     [java] MSSAISPKIRHHFWRSKTGYVYVAAVGKKKK painted into a corner!
+     [java] 	 E : NE :  W :  W :  W : NE : NW :  E : NE : NE :  E : SE : SE :  E : SW : SW : NW : NW :  
+               W : SW :  E : none : none : none : none : none : none : none : none : none : none : 
+     [java] Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException
+     [java] 	at biochem.HexGrid.nextCell(HexGrid.java:112)
+     [java] tried to calculate energy of painted into corner
+     [java] 	at molGenExp.RYBColorModel.getProteinColor(RYBColorModel.java:92)
+     [java] died at hex grid 108
+     [java] 	at biochem.TwoDGrid.getProteinColor(TwoDGrid.java:164)
+     [java] 	at biochem.FoldingManager.fold(FoldingManager.java:304)
+     [java] 	 E : NE :  W :  W :  W : NE : NW :  E : NE : NE :  E : SE : SE :  E : SW : SW : NW : NW :  
+             W : SW :  E : none : none : none : none : none : none : none : none : none : none : 
+     [java] 	at biochem.BiochemistryWorkpanel$1.actionPerformed(BiochemistryWorkpanel.java:105)
+
+it is never getting to getEnergy from saveIfNecessary()
+the getEnergy() call generating the "tried to calculate energy of painted into corner"
+  is probably when it's all done and decided that this is the best fold
+
+
+the problem is, because it's incremental, it keeps digging itself into the same hole
+need a way to start over but not follow the same path
+
