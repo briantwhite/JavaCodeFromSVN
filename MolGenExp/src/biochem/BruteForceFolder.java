@@ -1,7 +1,7 @@
-// BruteForceFolder.java
-//
-//
-// Copyright 2004, Ethan Bolker and Bogdan Calota
+//BruteForceFolder.java
+
+
+//Copyright 2004, Ethan Bolker and Bogdan Calota
 /* 
  * License Information
  * 
@@ -11,7 +11,7 @@
  * option) any later version.
  */
 
-// histogram is broken - need to get right value for offset
+//histogram is broken - need to get right value for offset
 
 package biochem;
 
@@ -35,7 +35,7 @@ public class BruteForceFolder extends Folder {
 	protected int energyTies = 1;
 
 	protected double infiniteEnergy;
-	
+
 
 	// For a histogram.
 	protected long[] buckets = new long[201];
@@ -49,7 +49,7 @@ public class BruteForceFolder extends Folder {
 	public String getName() {
 		return "Brute force folding";
 	}
-	
+
 	// for progress bar - not properly implemented
 	public int getCurrent() {
 		return 0;
@@ -63,13 +63,12 @@ public class BruteForceFolder extends Folder {
 		infiniteEnergy = grid.getInfiniteEnergy();
 	}
 
-	public void realFold() {
+	public void realFold() throws PaintedInACornerFoldingException {
 		for (int i = 0; i < buckets.length; i++) {
 			buckets[i] = 0;
 		}
 		topologies = new HashSet();
-		grid.setPaintedIntoACorner(false);
-		
+
 		scale = 100.0 / (pp.getMaxEnergy() * (4 * numAcids + 2));
 		offset = 100.0 / pp.getMaxEnergy();
 
@@ -81,7 +80,7 @@ public class BruteForceFolder extends Folder {
 			grid.unset(acids[i]);
 		}
 		resetEnergy();
-		
+
 		//if nothing to fold
 		if (numAcids == 0) {
 			return;
@@ -111,7 +110,8 @@ public class BruteForceFolder extends Folder {
 
 	// else place the third AminoAcid E,NE,NW
 	// (symmetry ==> no need to try SE or SW)
-	protected void placeRestOfAcids() {
+	protected void placeRestOfAcids() throws 
+	PaintedInACornerFoldingException {
 		Direction[] thirdPlacement = grid.getThirdPlacement();
 		for (int i = 0; i < thirdPlacement.length; i++) {
 			tryDirection(thirdPlacement[i], 2, numAcids);
@@ -122,26 +122,23 @@ public class BruteForceFolder extends Folder {
 		energy = infiniteEnergy;
 	}
 
-	public void recurse(Direction[] next, int current, int stop) {
+	public void recurse(Direction[] next, int current, int stop) 
+	throws PaintedInACornerFoldingException {
 		//if the next is null, it means there's no open places
 		//  for the next aa, so we're 'painted into a corner'
 		//  so need to abort this branch here (or it'll get a
-		//  NullPointerException) AND notify the grid.getEnergy
-		//  method that this is a BAD fold.
-//		if (next == null) {
-//			System.out.println(grid.getPP().getSingleLetterAASequence() 
-//					+ " painted into a corner!"
-//					+ "\n\t" + grid.getPP().getDirectionSequence()
-//					+ "\n\t" + current);
-//			grid.setPaintedIntoACorner(true);
-//			return;
-//		}
+		//  NullPointerException) AND fire an exception.
+		if (next == null) {
+			throw new PaintedInACornerFoldingException(
+					grid.getPP().getSingleLetterAASequence());
+		}
 		for (int i = 0; i < next.length; i++) {
 			tryDirection(next[i], current, stop);
 		}
 	}
 
-	protected void tryDirection(Direction direction, int current, int stop) {
+	protected void tryDirection(Direction direction, int current, int stop) 
+	throws PaintedInACornerFoldingException {
 		AcidInChain lastA = acids[current - 1];
 		GridPoint p = grid.nextCell(direction, lastA.xyz);
 		if (grid.get(p) == null) {
@@ -191,7 +188,7 @@ public class BruteForceFolder extends Folder {
 
 	public String getStatistics() {
 		return "explored " + chainCount + " chains in " + getTime()
-				+ " seconds";
+		+ " seconds";
 	}
 
 	public String getEnergyHistogram() {

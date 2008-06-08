@@ -13,16 +13,18 @@ import utilities.GeneExpresser;
 import utilities.GlobalDefaults;
 
 public class ThinOrganismFactory {
-	
+
 	private GeneExpresser geneExpresser;
 	private FoldingManager foldingManager;
-	
+
 	public ThinOrganismFactory() {
 		geneExpresser = new GeneExpresser();
 		foldingManager = new FoldingManager();
 	}
-	
-	public synchronized ThinOrganism createThinOrganism(String dna1, String dna2, Color overallColor) {
+
+	public synchronized ThinOrganism createThinOrganism(
+			String dna1, String dna2, Color overallColor) 
+	throws FoldingException {
 		String newDNA1 = "";
 		if (dna1 != null) {
 			newDNA1 = dna1;
@@ -38,8 +40,9 @@ public class ThinOrganismFactory {
 				color1, color2, 
 				overallColor);
 	}
-	
-	public synchronized ThinOrganism createThinOrganism(String dna1, String dna2) {
+
+	public synchronized ThinOrganism createThinOrganism(String dna1, String dna2) 
+	throws FoldingException {
 		String newDNA1 = "";
 		if (dna1 != null) {
 			newDNA1 = dna1;
@@ -50,21 +53,21 @@ public class ThinOrganismFactory {
 		} 
 		Color color1 = foldAndComputeColor(dna1);
 		Color color2 = foldAndComputeColor(dna2);
-	
+
 		return new ThinOrganism(newDNA1, newDNA2, 
 				color1, color2, 
 				GlobalDefaults.colorModel.mixTwoColors(color1, color2));
 	}
-	
+
 	public synchronized ThinOrganism createThinOrganism(Organism o) {
 		return new ThinOrganism(o.getGene1().getExpressedGene().getDNA(),
-		o.getGene2().getExpressedGene().getDNA(),
-		o.getGene1().getFoldedPolypeptide().getColor(),
-		o.getGene2().getFoldedPolypeptide().getColor(),
-		o.getColor());
+				o.getGene2().getExpressedGene().getDNA(),
+				o.getGene1().getFoldedPolypeptide().getColor(),
+				o.getGene2().getFoldedPolypeptide().getColor(),
+				o.getColor());
 	}
-	
-	private Color foldAndComputeColor(String DNASeq) {
+
+	private Color foldAndComputeColor(String DNASeq) throws FoldingException {
 		ExpressedGene newGene = geneExpresser.expressGene(DNASeq, -1);
 		String proteinSequence = newGene.getProtein();
 		String aaSeq = "";
@@ -95,12 +98,8 @@ public class ThinOrganismFactory {
 		return grid.getProteinColor();
 	}
 
-	private  HexGrid foldOntoHexGrid(String aaSeq) {
-		try {
-			foldingManager.fold(aaSeq);
-		} catch (FoldingException e) {
-			e.printStackTrace();
-		}
+	private  HexGrid foldOntoHexGrid(String aaSeq) throws FoldingException {
+		foldingManager.fold(aaSeq);
 		return (HexGrid)foldingManager.getGrid();
 	}
 

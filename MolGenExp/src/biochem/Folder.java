@@ -54,7 +54,7 @@ public abstract class Folder {
 		acids = pp.getAcidArray();
 	}
 
-	public void fold() {
+	public void fold() throws PaintedInACornerFoldingException {
 		time = System.currentTimeMillis();
 		realFold();
 		time = System.currentTimeMillis() - time;
@@ -62,7 +62,7 @@ public abstract class Folder {
 		pp.setFolded();
 	}
 	
-	public abstract void realFold();
+	public abstract void realFold() throws PaintedInACornerFoldingException;
 
 	public abstract String getStatistics();
 

@@ -15,6 +15,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import biochem.FoldingException;
 import biochem.PolypeptideFactory;
 
 import molGenExp.FoldedProteinArchive;
@@ -214,12 +215,35 @@ public class Evolver implements Runnable {
 				}
 			}
 		} else {
+			// fold locally
 			mge.setStatusLabelText("Populating the next generation");
 			for (int i = 0; i < preferences.getWorldSize(); i++) {
 				for (int j = 0; j < preferences.getWorldSize(); j++) {
-					nextGeneration[i][j] = thinOrganismFactory.createThinOrganism(
-							mutator.mutateDNASequence(getRandomAlleleFromPool()),
-							mutator.mutateDNASequence(getRandomAlleleFromPool()));
+					//loop over making new organisms
+					//  if one has an un-foldable protein
+					//  (one that paints itself into a corner)
+					//  need to go back and try other sequences
+					//  until you get one that works
+					boolean gotAGoodOne = false;
+					while(!gotAGoodOne) {
+						try {
+							nextGeneration[i][j] = thinOrganismFactory.createThinOrganism(
+									mutator.mutateDNASequence(getRandomAlleleFromPool()),
+									mutator.mutateDNASequence(getRandomAlleleFromPool()));
+							gotAGoodOne = true;
+						} catch (FoldingException e) {
+							FoldedProteinArchive.hadToReplaceABadSequence();
+							System.out.println(
+									"Had to replace sequence: " + e.getMessage() + "\n"
+									+ "\tGeneration " + evolutionWorkArea.getGeneration() + "\n"
+									+ "\tTotalFolded=" 
+									+ FoldedProteinArchive.getTotalFoldedSequences() + "\n"
+									+ "\tTotal replaced=" 
+									+ FoldedProteinArchive.getTotalReplacedSequences());
+							gotAGoodOne = false;
+						}
+					}
+					
 					progress++;
 					if (!keepGoing) {
 						nextGeneration = null;

@@ -23,10 +23,14 @@ public class FoldedProteinArchive {
 	private static FoldedProteinArchive singleton;
 	private HashMap<String, FoldedProteinArchiveEntry> archive;    
 	private static final String archiveFileName = "FoldedProteinArchive";
+	private static int totalFoldedSequences;
+	private static int totalReplacedSequences;
 
 	private FoldedProteinArchive() {
 		archive = new HashMap<String, FoldedProteinArchiveEntry>();
 		loadArchiveFromFile();
+		totalFoldedSequences = 0;
+		totalReplacedSequences = 0;
 	}
 
 	public static FoldedProteinArchive getInstance() {
@@ -39,6 +43,7 @@ public class FoldedProteinArchive {
 	public synchronized void add(String aaSeq, String proteinString, Color color) {
 		archive.put(aaSeq, 
 				new FoldedProteinArchiveEntry(proteinString, color));
+		totalFoldedSequences++;
 	}
 
 	public synchronized boolean isInArchive(String aaSeq) {
@@ -49,11 +54,23 @@ public class FoldedProteinArchive {
 		return archive.get(aaSeq);
 	}
 
-	public synchronized int getNumSequencesInArchive() {
+	public int getNumSequencesInArchive() {
 		return archive.size();
 	}
+	
+	public static int getTotalFoldedSequences() {
+		return totalFoldedSequences;
+	}
+	
+	public static void hadToReplaceABadSequence() {
+		totalReplacedSequences++;
+	}
+	
+	public static int getTotalReplacedSequences() {
+		return totalReplacedSequences;
+	}
 
-	public synchronized void saveArchiveToZipFile() {
+	public void saveArchiveToZipFile() {
 		StringBuffer buf = new StringBuffer();
 		Set<String> keySet = archive.keySet();
 		Iterator<String> it = keySet.iterator();

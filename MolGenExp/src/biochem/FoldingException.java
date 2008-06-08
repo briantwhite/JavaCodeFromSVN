@@ -1,7 +1,7 @@
-// FoldingException.java
-//
-//
-// Copyright 2004, Ethan Bolker and Bogdan Calota
+//FoldingException.java
+
+
+//Copyright 2004, Ethan Bolker and Bogdan Calota
 /* 
  * License Information
  * 
@@ -32,4 +32,6 @@ class IntegerFormatFoldingException extends InputFormatFoldingException {
 	public IntegerFormatFoldingException(String s) {
 		super(s);
 	}
+
+
 }

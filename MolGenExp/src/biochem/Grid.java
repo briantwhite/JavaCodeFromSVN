@@ -66,14 +66,6 @@ public abstract class Grid implements Serializable {
 		return pp;
 	}
 	
-	public boolean isPaintedIntoACorner() {
-		return paintedIntoACorner;
-	}
-	
-	public void setPaintedIntoACorner(boolean b) {
-		paintedIntoACorner = b;
-	}
-
 	// override for dodecahedral grid.
 	protected Direction getFirstDirection() {
 		return Direction.E;
@@ -205,16 +197,7 @@ public abstract class Grid implements Serializable {
 
 	protected int freeEdges;
 	
-	protected boolean paintedIntoACorner;   // if a non-terminal aa is placed in 
-											// the middle of a solid ring, you can't
-											// place the next one
-											// so make energy infinite (bad)
-
 	public double getEnergy(double hpIndex, double hIndex, double iIndex) {
-		// if it was painted into a corner, this is a bad fold
-		if (isPaintedIntoACorner()) {
-			return Double.MAX_VALUE;
-		}
 		energy = 0;
 		freeEdges = 0;
 		for (int i = 0; i < numAcids; i++) {

@@ -122,10 +122,6 @@ public abstract class TwoDGrid extends Grid {
 
 	public double getEnergy(double hpIndex, double hIndex, double iIndex) {
 		// if it was painted into a corner, this is a bad fold
-		if (isPaintedIntoACorner()) {
-			System.out.println("tried to calculate energy of painted into corner");		
-			return getInfiniteEnergy();
-		}
 		energy = 0;
 		freeEdges = 0;
 		for (int i = 0; i < numAcids; i++) {

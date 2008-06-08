@@ -68,7 +68,7 @@ public class IncrementalFolder extends BruteForceFolder {
 		this.step = step;
 	}
 
-	protected void placeRestOfAcids() {
+	protected void placeRestOfAcids() throws PaintedInACornerFoldingException {
 		current = 2; // ready to place 3rd acid
 		while (current < numAcids) {
 			resetEnergy();

@@ -1199,3 +1199,42 @@ the getEnergy() call generating the "tried to calculate energy of painted into c
 the problem is, because it's incremental, it keeps digging itself into the same hole
 need a way to start over but not follow the same path
 
+6/7/08
+punt - if it paints itself into a corner, just fire an exception
+and pick a new sequence from the gene pool
+- make a subclass of FoldingException PaintedInACornerFoldingException
+- delete the paintedInACorner boolean from Grid
+- build into BruteForceFolder recurse()
+	 a trap for null reference that fires PaintedInACornerFoldingException
+	 
+ran overnight 742 generations:
+     [java] Had to replace sequence: MSIAIIPKHRHGFVRSLAQGMLLAGSSKKKK
+     [java] 	Generation 137
+     [java] 	TotalFolded=2600
+     [java] 	Total replaced=1
+     [java] Had to replace sequence: MSIAMNPQRIGRVCALLAQGMLLAGSSKKKK
+     [java] 	Generation 141
+     [java] 	TotalFolded=2701
+     [java] 	Total replaced=2
+     [java] Had to replace sequence: MSIGIIPNIRQRFGPTEARYGNSEQVVKKKK
+     [java] 	Generation 198
+     [java] 	TotalFolded=4150
+     [java] 	Total replaced=3
+     [java] Had to replace sequence: MSYCLVRPKTRQRLFVAMPEMLLVMRQQVKKKK
+     [java] 	Generation 357
+     [java] 	TotalFolded=8636
+     [java] 	Total replaced=4
+     [java] Had to replace sequence: MSYCLLPKTRHRLFVAWPEMVMVSDTQVKKKK
+     [java] 	Generation 381
+     [java] 	TotalFolded=9394
+     [java] 	Total replaced=5
+     [java] Had to replace sequence: MFNAAAYAPESERLWVSWTYSLLPVWEVVARQKKK
+     [java] 	Generation 616
+     [java] 	TotalFolded=16887
+     [java] 	Total replaced=6
+
+replaced 6 out of 16887 = 1/2800 or 0.03%
+pretty low; so leave it as is
+
+maybe take out some of the synchronized things?
+
