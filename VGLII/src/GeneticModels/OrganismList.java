@@ -2,6 +2,8 @@ package GeneticModels;
 
 import java.util.ArrayList;
 
+import VGL.GeneticsException;
+
 public class OrganismList {
 	
 	private ArrayList<Organism> organisms;
@@ -23,6 +25,34 @@ public class OrganismList {
 		}
 	}
 	
+	/**
+	 * Return the organism which is at the given index.
+	 * 
+	 * @param index
+	 *            the index
+	 * @return the organism at the given index
+	 */
+	public Organism get(int index) {
+		return organisms.get(index);
+	}
+	
+	/**
+	 * Return the organism which has the given id.
+	 * 
+	 * @param id
+	 *            the organism's id
+	 * @return the organism which has the given id
+	 */
+	public Organism find(int id) throws Exception {
+		for (int i = 0; i < organisms.size(); i++) {
+			Organism o = organisms.get(i);
+			if (o.getId() == id)
+				return o;
+		}
+		throw new GeneticsException("Cannot find Organism");
+	}
+
+	
 	public int getNumberOfMales() {
 		return numberOfMales;
 	}
@@ -35,5 +65,8 @@ public class OrganismList {
 		return numberOfMales + numberOfFemales;
 	}
 	
+	public ArrayList<Organism> getAllOrganisms() {
+		return organisms;
+	}
 
 }

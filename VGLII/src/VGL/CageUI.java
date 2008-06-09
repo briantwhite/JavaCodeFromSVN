@@ -34,6 +34,9 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 
+import GeneticModels.Organism;
+import GeneticModels.OrganismList;
+
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
  * CustomizedFileFilter.java - Instances of this class provide for file filters
@@ -146,13 +149,13 @@ public class CageUI extends JDialog implements WindowListener {
 	 * This variable stores a reference to the hashmap of children associated
 	 * with this cage
 	 */
-	private HashMap m_Children;
+	private HashMap<String, OrganismList> m_Children;
 
 	/**
 	 * This variable stores a reference to the list of parents associated with
 	 * this cage
 	 */
-	private ArrayList m_Parents;
+	private ArrayList<Organism> m_Parents;
 
 	/**
 	 * Holds the array of labels associated with each of the phenotypes
@@ -185,7 +188,7 @@ public class CageUI extends JDialog implements WindowListener {
 	 * organims of a particular phenotype along with other details about the
 	 * set.
 	 */
-	private OList[] m_Set;
+	private OrganismList[] m_Set;
 
 	/**
 	 * A reference to the Cage object being displayed through this UI
@@ -320,24 +323,24 @@ public class CageUI extends JDialog implements WindowListener {
 	 * about the various phenotypes associated with the cage.
 	 */
 	private void setupSubComponents() {
-		Set phenotypes = m_Children.keySet();
-		Iterator it1 = phenotypes.iterator();
+		Set<String> phenotypes = m_Children.keySet();
+		Iterator<String> it1 = phenotypes.iterator();
 		m_Size = phenotypes.size();
 		String[] phenotypeNames = new String[m_Size];
 		m_Phenotypes = new JLabel[m_Size];
 		m_ImagesSmall = new ImageIcon[m_Size];
 		m_Images = new ImageIcon[m_Size];
 		m_PhenotypeImages = new JButton[m_Size];
-		m_Set = new OList[m_Size];
+		m_Set = new OrganismList[m_Size];
 		m_ASet = new ArrayList[m_Size];
 		int i = 0;
 		String directory = "UIimages/";
 		String fileName;
 		String fileNameSmall;
 		while (it1.hasNext()) {
-			phenotypeNames[i] = new String((String) it1.next());
-			m_Set[i] = (OList) m_Children.get(phenotypeNames[i]);
-			m_ASet[i] = m_Set[i].getArrayList();
+			phenotypeNames[i] = new String(it1.next());
+			m_Set[i] = m_Children.get(phenotypeNames[i]);
+			m_ASet[i] = m_Set[i].getAllOrganisms();
 			if (m_Trait.equals("Legs"))
 				m_Phenotypes[i] = new JLabel(phenotypeNames[i] + " " + m_Trait);
 			else
@@ -497,7 +500,7 @@ public class CageUI extends JDialog implements WindowListener {
 		organisms2Panel.setLayout(gridlt);
 		OrganismUI[] organism1Images = m_OrganismImages[2 * number];
 		OrganismUI[] organism2Images = m_OrganismImages[2 * number + 1];
-		Iterator it = m_ASet[number].iterator();
+		Iterator<Organism> it = m_ASet[number].iterator();
 		int count = 0;
 		int i = 0;
 		int j = 0;
@@ -546,13 +549,13 @@ public class CageUI extends JDialog implements WindowListener {
 		URL femaleLabelURL = CageUI.class
 				.getResource("UIimages/femaleblack.gif");
 		JLabel femaleLabel = new JLabel(new ImageIcon(femaleLabelURL));
-		String mCount = (new Integer(m_Set[number].getMaleCount())).toString();
-		if (m_Set[number].getMaleCount() < 10)
+		String mCount = (new Integer(m_Set[number].getNumberOfMales())).toString();
+		if (m_Set[number].getNumberOfMales() < 10)
 			mCount = "0" + mCount;
 		JLabel maleCountLabel = new JLabel(mCount);
-		String fCount = (new Integer(m_Set[number].getFemaleCount()))
+		String fCount = (new Integer(m_Set[number].getNumberOfFemales()))
 				.toString();
-		if (m_Set[number].getFemaleCount() < 10)
+		if (m_Set[number].getNumberOfFemales() < 10)
 			fCount = "0" + fCount;
 		JLabel femaleCountLabel = new JLabel(fCount);
 		maleCountLabel.setPreferredSize(new Dimension(25, 15));
@@ -612,7 +615,7 @@ public class CageUI extends JDialog implements WindowListener {
 			Organism o1 = (Organism) m_Parents.get(0);
 			Organism o2 = (Organism) m_Parents.get(1);
 			int cageId = o1.getCageId() + 1;
-			String phenoName1 = o1.getPhenotype();
+			String phenoName1 = o1.getPhenotypeString();
 			m_ParentImages[0] = new OrganismUI(o1, true, m_IsBeginner, m_Vial);
 			m_ParentInfoPanel.add(m_ParentImages[0]);
 			m_ParentInfoPanel.add(new JLabel("(" + cageId + ")"));
@@ -622,7 +625,7 @@ public class CageUI extends JDialog implements WindowListener {
 				m_ParentInfoPanel.add(new JLabel(phenoName1));
 			}
 			cageId = o2.getCageId() + 1;
-			String phenoName2 = o2.getPhenotype();
+			String phenoName2 = o2.getPhenotypeString();
 			m_ParentImages[1] = new OrganismUI(o2, true, m_IsBeginner, m_Vial);
 			m_ParentInfoPanel.add(m_ParentImages[1]);
 			m_ParentInfoPanel.add(new JLabel("(" + cageId + ")"));

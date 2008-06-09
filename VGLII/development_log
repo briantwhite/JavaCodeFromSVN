@@ -254,5 +254,29 @@ went to http://www.jdom.org/ to get jdom 1.1.tar.gz
 	./build.sh
 	- it made build/jdom.jar
 	- put that in VGLII
+	- in VGLII properties, add Jar 
+		select jdom.jar
+	Now AOK!
+
+start the migration
+1) nuke all model stuff in VGL
+
+2) in GM.organism, add stuff from VGL.organism
+	- id, cageId, constructors
+
+3) nuke VGL.organism and make VGL's refs refer to GM.organism
+	- makes many bugs
+		go thru & delete all stuff for reading/saving to/from files
+			(didn't finish this..)
+
+4) do same with VGL.OList and GM.OrganismList
+	- add get() and find()
 	
-	
+5) nuke VGL.Traits, VGL.Configuration
+
+6) go back and finish removing the load/save stuff (for now)
+   & fix bugs as you find them to make it work
+
+nuke VGL.Genetics
+
+

@@ -2,6 +2,8 @@ package VGL;
 
 import javax.swing.JLabel;
 
+import GeneticModels.Organism;
+
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
  * SelectionVial.java
@@ -117,13 +119,13 @@ public class SelectionVial {
 			if (m_MaleParent != null) {
 				Organism o1 = m_MaleParent.getOrganism();
 				maleInfo = "[ male (Cage# " + (o1.getCageId() + 1) + ") "
-						+ o1.getPhenotype() + "]";
+						+ o1.getPhenotypeString() + "]";
 			}
 
 			if (m_FemaleParent != null) {
 				Organism o2 = m_FemaleParent.getOrganism();
 				femaleInfo = "[ female (Cage# " + (o2.getCageId() + 1) + ") "
-						+ o2.getPhenotype() + "]";
+						+ o2.getPhenotypeString() + "]";
 			}
 			m_DisplayLabel.setText(" ");
 			m_DisplayLabel.repaint();

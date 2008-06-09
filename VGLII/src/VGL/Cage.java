@@ -3,10 +3,9 @@ package VGL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
-import org.jdom.Attribute;
-import org.jdom.Element;
+import GeneticModels.Organism;
+import GeneticModels.OrganismList;
 
 /**
  * Naing Naing Maw cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -39,7 +38,7 @@ public class Cage {
 
 	private Organism parent2;
 
-	private HashMap children;
+	private HashMap<String, OrganismList> children;
 
 	/**
 	 * Constructor for field population which has no parent.
@@ -66,61 +65,7 @@ public class Cage {
 		this.parent1 = p1;
 		this.parent2 = p2;
 		this.count = 0;
-		this.children = new HashMap();
-	}
-
-	/**
-	 * Constructor for reopening the file.
-	 * 
-	 * @param root
-	 *            the cage information in JDom Element object
-	 * @param cages
-	 *            the list of cages
-	 */
-	public Cage(Element root, ArrayList cages) throws Exception {
-		this(-1);
-		count = 0;
-		children.clear();
-
-		List elements1 = root.getAttributes();
-		Iterator i1 = elements1.iterator();
-		Attribute current1 = (Attribute) i1.next();
-		String name1 = current1.getName();
-		if (name1.equals("Id"))
-			id = Integer.parseInt(current1.getValue());
-
-		List elements = root.getChildren(); // Parents and Phenotype
-		for (Iterator i = elements.iterator(); i.hasNext();) {
-			Element current = (Element) i.next();
-			String name = current.getName();
-			if (name.equals("Parents")) {
-				List innerE = current.getChildren(); // Organism
-				Iterator innerI = innerE.iterator();
-
-				// get parent1
-				Element innerC = (Element) innerI.next();
-				Organism o = new Organism(innerC);
-				Cage tempC = findCage(cages, o.getCageId());
-				parent1 = tempC.getOrganism(o.getPhenotype(), o.getId());
-
-				// get parent2
-				innerC = (Element) innerI.next();
-				o = new Organism(innerC);
-				tempC = findCage(cages, o.getCageId());
-				parent2 = tempC.getOrganism(o.getPhenotype(), o.getId());
-			} else if (name.equals("Phenotype")) {
-				String phe = current.getAttributeValue("Value");
-				OList a = new OList();
-				List innerE = current.getChildren(); // Organism
-				for (Iterator innerI = innerE.iterator(); innerI.hasNext();) {
-					Element innerC = (Element) innerI.next();
-					Organism o = new Organism(innerC);
-					count++;
-					a.add(o);
-				}
-				children.put(phe, a);
-			}
-		}
+		this.children = new HashMap<String, OrganismList>();
 	}
 
 	/**
@@ -163,9 +108,9 @@ public class Cage {
 		o.setId(count);
 		count++;
 
-		OList l = (OList) children.get(phenotype);
+		OrganismList l = children.get(phenotype);
 		if (l == null) // no such phenotype, so create new array
-			l = new OList();
+			l = new OrganismList();
 		l.add(o);
 		children.put(phenotype, l);
 	}
@@ -180,7 +125,7 @@ public class Cage {
 	 * @return the organism at the given index
 	 */
 	public Organism getOrganism(String p, int id) throws Exception {
-		OList l = (OList) children.get(p);
+		OrganismList l = children.get(p);
 		if (l != null)
 			return (Organism) l.find(id);
 		throw new GeneticsException("Cannot find the specified phenotype");
@@ -191,8 +136,8 @@ public class Cage {
 	 * 
 	 * @return the two parents
 	 */
-	public ArrayList getParents() {
-		ArrayList temp = new ArrayList();
+	public ArrayList<Organism> getParents() {
+		ArrayList<Organism> temp = new ArrayList<Organism>();
 		temp.add(parent1);
 		temp.add(parent2);
 		return temp;
@@ -203,45 +148,10 @@ public class Cage {
 	 * 
 	 * @return the children
 	 */
-	public HashMap getChildren() {
+	public HashMap<String, OrganismList> getChildren() {
 		return children;
 	}
 
-	/**
-	 * Save this cage in the JDom Element format.
-	 * 
-	 * @return this cage in JDom Element format
-	 */
-	public Element save() throws Exception {
-		Element ec = new Element("Cage");
-		ec.setAttribute("Id", String.valueOf(id));
-
-		// parents
-		if ((parent1 != null) || (parent2 != null)) {
-			Element ep = new Element("Parents");
-			if (parent1 != null)
-				ep.addContent(parent1.save());
-			if (parent2 != null)
-				ep.addContent(parent2.save());
-			ec.addContent(ep);
-		}
-
-		// children
-		Iterator i = children.keySet().iterator();
-		while (i.hasNext()) {
-			String phenotype = (String) i.next();
-			Element eph = new Element("Phenotype");
-			eph.setAttribute("Value", phenotype);
-
-			OList l = (OList) children.get(phenotype);
-			for (int j = 0; j < l.size(); j++) {
-				Organism o = (Organism) l.get(j);
-				eph.addContent(o.save());
-			}
-			ec.addContent(eph);
-		}
-		return ec;
-	}
 
 	/**
 	 * Return the cage's information in String format for print purpose.
@@ -255,27 +165,27 @@ public class Cage {
 		s.append("Parents\n");
 		if (parent1 != null) {
 			s.append("\t").append(parent1.getSexString());
-			s.append(" ").append(parent1.getPhenotype());
+			s.append(" ").append(parent1.getPhenotypeString());
 			s.append(" from Cage ").append(parent1.getCageId() + 1);
 			s.append("\n");
 		}
 		if (parent2 != null) {
 			s.append("\t").append(parent2.getSexString());
-			s.append(" ").append(parent2.getPhenotype());
+			s.append(" ").append(parent2.getPhenotypeString());
 			s.append(" from Cage ").append(parent2.getCageId() + 1);
 			s.append("\n");
 		}
 
 		s.append("Offspring\n");
 		s.append("\tPhenotype\tSex\t\tCount(#)\n");
-		Iterator i = children.keySet().iterator();
+		Iterator<String> i = children.keySet().iterator();
 		while (i.hasNext()) {
-			String phenotype = (String) i.next();
-			OList l = (OList) children.get(phenotype);
+			String phenotype = i.next();
+			OrganismList l = children.get(phenotype);
 			s.append("\t").append(phenotype);
-			s.append("\t\tMale\t\t").append(l.getMaleCount());
+			s.append("\t\tMale\t\t").append(l.getNumberOfMales());
 			s.append("\n\t").append(phenotype);
-			s.append("\t\tFemale\t").append(l.getFemaleCount());
+			s.append("\t\tFemale\t").append(l.getNumberOfFemales());
 			s.append("\n");
 		}
 		s.append("\n\n");
@@ -299,23 +209,21 @@ public class Cage {
 			s.append(parent2.toString()).append("\n");
 
 		s.append("Children\n");
-		Iterator i = children.keySet().iterator();
+		Iterator<String> i = children.keySet().iterator();
 		while (i.hasNext()) {
-			String phenotype = (String) i.next();
+			String phenotype = i.next();
 			s.append("Phenotype=").append(phenotype).append("\n");
-			int male = 0;
-			int female = 0;
 
-			OList l = (OList) children.get(phenotype);
-			for (int j = 0; j < l.size(); j++) {
+			OrganismList l = children.get(phenotype);
+			for (int j = 0; j < l.getTotalNumber(); j++) {
 				try {
-					Organism o = (Organism) l.get(j);
+					Organism o = l.get(j);
 					s.append(o.toString());
 				} catch (Exception e) {
 				}
 			}
-			s.append(l.getMaleCount()).append(" male, ");
-			s.append(l.getFemaleCount()).append(" female\n");
+			s.append(l.getNumberOfMales()).append(" male, ");
+			s.append(l.getNumberOfFemales()).append(" female\n");
 		}
 		return s.toString();
 	}

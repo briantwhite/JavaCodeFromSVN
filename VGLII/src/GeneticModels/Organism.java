@@ -3,6 +3,9 @@ package GeneticModels;
 import java.util.ArrayList;
 
 public class Organism {
+	
+	private int id;  //organism's id#
+	private int cageId; // cage's id#
 
 	private Chromosome maternalAutosome;
 	private Chromosome paternalAutosome;
@@ -15,13 +18,16 @@ public class Organism {
 
 	private GeneticModel geneticModel;
 
-	public Organism(Chromosome maternalAutosome,
+	//full constructor
+	public Organism(int cageId,
+			Chromosome maternalAutosome,
 			Chromosome paternalAutosome,
 			Chromosome maternalSexChromosome,
 			Chromosome paternalSexChromosome,
 			ArrayList<Phenotype> phenotypes,
 			boolean male,
 			GeneticModel geneticModel) {
+		this.cageId = cageId;
 		this.maternalAutosome = maternalAutosome;
 		this.paternalAutosome = paternalAutosome;
 		this.maternalSexChromosome = maternalSexChromosome;
@@ -29,6 +35,43 @@ public class Organism {
 		this.phenotypes = phenotypes;
 		this.male = male;
 		this.geneticModel = geneticModel;
+	}
+	
+	//constructor for field population
+	//  where cageId = 1
+	public Organism(Chromosome maternalAutosome,
+			Chromosome paternalAutosome,
+			Chromosome maternalSexChromosome,
+			Chromosome paternalSexChromosome,
+			ArrayList<Phenotype> phenotypes,
+			boolean male,
+			GeneticModel geneticModel) {
+		
+		this(1, 
+				maternalAutosome, 
+				paternalAutosome,
+				maternalSexChromosome,
+				paternalSexChromosome,
+				phenotypes,
+				male,
+				geneticModel);
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getCageId() {
+		return cageId;
+	}
+
+	public void setCageId(int cageId) {
+		this.cageId = cageId;
 	}
 
 	public Chromosome getMaternalAutosome() {
@@ -141,6 +184,14 @@ public class Organism {
 		}
 		return b.toString();
 	}
+	
+	public String getSexString() {
+		if (male) {
+			return "male";
+		} else {
+			return "female";
+		}
+	}
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
@@ -166,4 +217,5 @@ public class Organism {
 		b.append("**organism**\n");
 		return b.toString();
 	}
+
 }

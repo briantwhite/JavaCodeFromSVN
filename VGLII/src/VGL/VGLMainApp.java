@@ -52,6 +52,8 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
 
+import GeneticModels.Organism;
+
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
  * VGLMainApp.java - the UI controller class. Its the heart of almost all UI
@@ -74,7 +76,7 @@ import javax.swing.text.html.HTMLDocument;
  * @author Nikunj Koolar
  * @version 1.0 $Id$
  */
-public class VGLMainApp extends JApplet {
+public class VGLMainApp extends JFrame {
 	/**
 	 * Allows or disallows the "Save To Server" option
 	 */
@@ -135,11 +137,6 @@ public class VGLMainApp extends JApplet {
 	 * crossing
 	 */
 	private SelectionVial m_SelectionVial;
-
-	/**
-	 * A reference to the genetics object
-	 */
-	private Genetics m_Genetics;
 
 	/**
 	 * This widget holds the buttons
@@ -392,8 +389,7 @@ public class VGLMainApp extends JApplet {
 	}
 
 	/**
-	 * Initializes the applet and sets up the various components of the
-	 * application
+	 * Initializes the application and sets up the various components
 	 */
 	public void init() {
 		super.init(); //  Perform JApplet initialization.
@@ -432,8 +428,6 @@ public class VGLMainApp extends JApplet {
 			saveProblem();
 		else if (cmd.equals("SaveAs"))
 			saveAsProblem();
-		else if (cmd.equals("SaveToServer"))
-			saveToServer();
 		else if (cmd.equals("PrintToFile"))
 			printToFile();
 		else if (cmd.equals("PageSetup"))
@@ -852,45 +846,6 @@ public class VGLMainApp extends JApplet {
 	 * Method to set up a new problem for the user
 	 */
 	private void newProblem() {
-		if (m_CageCollection == null) {
-			File problemsDirectory = new File(m_DefaultDirectory.toString()
-					+ "/Problems");
-			if (!problemsDirectory.exists()) {
-				problemsDirectory = m_DefaultDirectory;
-			}
-			File newFile = selectFile(problemsDirectory,
-					"New Problem Type Selection", "Select Problem Type", false,
-					m_PrbFilterString, "Problem Type Files",
-					JFileChooser.OPEN_DIALOG);
-
-			if (newFile != null) {
-				m_NextCageId = 0;
-				m_SelectionVial = new SelectionVial(m_StatusLabel);
-				m_Genetics = new Genetics(newFile);
-				m_Trait = m_Genetics.getModel().getCharacter();
-				if (m_Genetics.getPracticeMode()) {
-					JFrame frame = m_DialogFrame;
-					int selection;
-					ExpertiseLevel dlg = new ExpertiseLevel(frame,
-							"Display Mode", true);
-					dlg.setVisible(true);
-					selection = dlg.getSelection();
-					if (selection == 0)
-						m_IsBeginner = false;
-					else if (selection == 1)
-						m_IsBeginner = true;
-					dlg = null;
-				} else
-					m_IsBeginner = false;
-				if (m_IsBeginner)
-					balloonHelp();
-				Cage c = m_Genetics.populateFieldPopulation();
-				m_CageCollection = new ArrayList();
-				createCageUI(c);
-				m_DialogFrame.setTitle(m_DialogFrame.getTitle());
-				enableAll(true);
-			}
-		}
 	}
 
 	/**
@@ -898,100 +853,13 @@ public class VGLMainApp extends JApplet {
 	 * the cages of that problem.
 	 */
 	public void openProblem(URL workFileURL) {
-		ArrayList al = null;
-		
-		if (m_CageCollection == null) {
-			
-			File newFile = null;
-			m_Genetics = new Genetics();
-			m_SelectionVial = new SelectionVial(m_StatusLabel);
-			
-			if (workFileURL == null) {
-				newFile = selectFile(m_DefaultDirectory, "Open Work",
-						"Select Work File", false, m_WrkFilterString, "Work Files",
-						JFileChooser.OPEN_DIALOG);
-				
-				if (newFile != null) {					
-					try {
-						al = m_Genetics.open(newFile);
-					} catch (Exception e) {
-						System.out.print(e.getMessage());
-					}
-				}  else {
-					return;
-				}
-				
-			} else {
-
-				try {
-					al = m_Genetics.open(workFileURL);
-				} catch (Exception e) {
-					System.out.print(e.getMessage());
-				}
-			}
-
-			try {
-
-				m_Trait = m_Genetics.getModel().getCharacter();
-				if (m_Genetics.getPracticeMode()) {
-					JFrame frame = m_DialogFrame;
-					int selection;
-					ExpertiseLevel dlg = new ExpertiseLevel(frame,
-							"Display", true);
-					dlg.setVisible(true);
-					selection = dlg.getSelection();
-					if (selection == 0)
-						m_IsBeginner = false;
-					else if (selection == 1)
-						m_IsBeginner = true;
-					dlg = null;
-				} else
-					m_IsBeginner = false;
-				if (m_IsBeginner)
-					balloonHelp();
-				m_CageCollection = null;
-				m_NextCageId = 0;
-				m_CageCollection = new ArrayList();
-				reopenCages(al);
-				enableAll(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	/**
 	 * Saves the current work done by the user to a file.
 	 */
 	private boolean saveProblem() {
-		boolean success = false;
-		if (m_CageCollection != null) {
-			if (m_CurrentSavedFile == null)
-				m_CurrentSavedFile = selectFile(m_DefaultDirectory,
-						"Save Work", "Enter File Name to Save", false,
-						m_WrkFilterString, "Work Files",
-						JFileChooser.SAVE_DIALOG);
-			try {
-				ArrayList al = new ArrayList();
-				Iterator it = m_CageCollection.iterator();
-				while (it.hasNext()) {
-					CageUI cui = (CageUI) it.next();
-					Cage c = cui.getCage();
-					al.add(c);
-				}
-				if (m_CurrentSavedFile != null) {
-					if (!m_CurrentSavedFile.getPath().endsWith(".wrk")) {
-						m_CurrentSavedFile = convertTo(m_CurrentSavedFile,
-						".wrk");
-					}
-					m_Genetics.save(al, m_CurrentSavedFile);
-					success = true;
-				}
-			} catch (Exception e) {
-			}
-		}
-
-		return success;
+		return false;
 	}
 
 	/**
@@ -1003,218 +871,11 @@ public class VGLMainApp extends JApplet {
 		saveProblem();
 	}
 
-	/**
-	 * Save the current work to a server
-	 *
-	 */
-	private void saveToServer() {
-		// start by testing for server availablilty
-		URL getSectionListURL = null;
-		try {
-			getSectionListURL = new URL(m_GetSectionListScript);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		
-		String serverResponseLine = new String("");
-		ArrayList sectionsAvailable = new ArrayList();
-		sectionsAvailable.add("Choose...");
-		
-		BufferedReader fromServerStream;
-		try {
-			URLConnection serverConnection = getSectionListURL.openConnection();
-			fromServerStream = new BufferedReader(new InputStreamReader(
-					serverConnection.getInputStream()));
-			while (null != ((serverResponseLine = fromServerStream.readLine()))) {
-				sectionsAvailable.add(serverResponseLine);
-			}
-		} catch (IOException e5) {
-			JOptionPane.showMessageDialog(m_DialogFrame,
-				    "Server not responding to transmission.\n" + e5.toString(),
-				    "Connection Error",
-				    JOptionPane.ERROR_MESSAGE);					
-		}
-		String[] sections = new String[sectionsAvailable.size()];
-		for (int i = 0; i < sectionsAvailable.size(); i++) {
-			sections[i] = (String)sectionsAvailable.get(i);
-		}
-		
-		//ok, so the server is available, let's try to save it
-		final JDialog saveToServerDialog = new JDialog(m_DialogFrame, "Save To Server");
-		saveToServerDialog.getContentPane().setLayout(new GridLayout(3,1));
-		
-		final JTextField proposedFileName = new JTextField(25);
-		final JComboBox sectionList = new JComboBox(sections);
-		final JPasswordField password = new JPasswordField(10);
-		JButton cancelButton = new JButton("Cancel");
-		JButton saveToServerButton = new JButton("Save To Server");
-		
-		JPanel fileNamePanel = new JPanel();
-		fileNamePanel.add(new JLabel("Proposed File Name:"));
-		fileNamePanel.add(proposedFileName);
-		
-		JPanel sectionPanel = new JPanel();
-		sectionPanel.add(new JLabel("Lab Section:"));
-		sectionPanel.add(sectionList);
-		
-		JPanel passwordPanel = new JPanel();
-		passwordPanel.add(new JLabel("Password:"));
-		passwordPanel.add(password);
-		
-		JPanel middlePanel = new JPanel();
-		middlePanel.add(sectionPanel);
-		middlePanel.add(passwordPanel);
-		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.add(cancelButton);
-		bottomPanel.add(saveToServerButton);
-		
-		saveToServerDialog.getContentPane().add(fileNamePanel);
-		saveToServerDialog.getContentPane().add(middlePanel);
-		saveToServerDialog.getContentPane().add(bottomPanel);
-				
-		saveToServerDialog.pack();
-		saveToServerDialog.show();
-		
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				saveToServerDialog.dispose();
-			}
-		});
-		
-		saveToServerButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String inputFileName = proposedFileName.getText();
-				String inputPassword = new String(password.getPassword());
-				String inputSection = sectionList.getSelectedItem().toString();
-				if (inputFileName.equals("") || inputPassword.equals("")
-						|| inputSection.equals("Choose...")) {
-					JOptionPane.showMessageDialog(m_DialogFrame,
-						    "Please be sure to choose a section, fill out a file name,\n"
-							+ "and give a password.",
-						    "Incomplete Submission ",
-						    JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				
-				//now actually send the data to the server
-				URL serverScriptURL = null;
-				try {
-					serverScriptURL = new URL(m_SaveToServerScript);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
-				
-				URLConnection serverConnection = null;
-				try {
-					serverConnection = serverScriptURL.openConnection();
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(m_DialogFrame,
-						    "Unable to contact the server.\n" + e1.toString(),
-						    "Connection Error",
-						    JOptionPane.ERROR_MESSAGE);
-				}
-				
-				serverConnection.setDoInput(true);
-				serverConnection.setDoOutput(true);
-				serverConnection.setUseCaches(false);
-				
-				serverConnection.setRequestProperty("Content-Type",
-						"application/x-www-form-urlencoded");
-				
-				DataOutputStream toServerStream = null;
-				try {
-					toServerStream = new DataOutputStream(serverConnection.getOutputStream());
-				} catch (IOException e2) {
-					JOptionPane.showMessageDialog(m_DialogFrame,
-						    "Unable to contact the server.\n" + e2.toString(),
-						    "Connection Error",
-						    JOptionPane.ERROR_MESSAGE);					
-				}
-				
-				// get the XML representaiton of this problem
-				String XMLString = new String();
-				try {
-					ArrayList al = new ArrayList();
-					Iterator it = m_CageCollection.iterator();
-					while (it.hasNext()) {
-						CageUI cui = (CageUI) it.next();
-						Cage c = cui.getCage();
-						al.add(c);
-					}
-					XMLString = m_Genetics.saveAsString(al);
-				} catch (Exception e) {
-				}
-
-				String toServerContent = new String("");
-				try {
-					toServerContent = 
-						"fileName=" + URLEncoder.encode(inputFileName, "UTF-8") 
-						+ "&section=" + URLEncoder.encode(inputSection, "UTF-8")
-						+ "&password=" + URLEncoder.encode(inputPassword, "UTF-8")
-					    + "&XMLdata=" + URLEncoder.encode(XMLString, "UTF-8")
-						+ "&HTMLdata=" + URLEncoder.encode(getWorkAsHTML(), "UTF-8");
-					
-				} catch (UnsupportedEncodingException e3) {
-					e3.printStackTrace();
-				}
-				
-				try {
-					toServerStream.writeBytes(toServerContent);
-					toServerStream.flush();
-					toServerStream.close();
-				} catch (IOException e4) {
-					JOptionPane.showMessageDialog(m_DialogFrame,
-						    "Unable to send to the server.\n" + e4.toString(),
-						    "Connection Error",
-						    JOptionPane.ERROR_MESSAGE);					
-				}
-				
-				//get response from server
-				String serverResponseLine = new String("");
-				StringBuffer fromServerBuffer = new StringBuffer();
-				BufferedReader fromServerStream;
-				try {
-					fromServerStream = new BufferedReader(new InputStreamReader(
-							serverConnection.getInputStream()));
-					while (null != ((serverResponseLine = fromServerStream.readLine()))) {
-						fromServerBuffer.append(serverResponseLine);
-					}
-				} catch (IOException e5) {
-					JOptionPane.showMessageDialog(m_DialogFrame,
-						    "Server not responding to transmission.\n" + e5.toString(),
-						    "Connection Error",
-						    JOptionPane.ERROR_MESSAGE);					
-				}
-				String serverResponse = fromServerBuffer.toString();
-				JOptionPane.showMessageDialog(m_DialogFrame,
-					    serverResponse,
-					    "Server Response",
-					    JOptionPane.INFORMATION_MESSAGE);
-				JOptionPane.showMessageDialog(m_DialogFrame,
-					    serverResponse,
-					    "Reminder",
-					    JOptionPane.PLAIN_MESSAGE);
-				saveToServerDialog.dispose();
-			}
-			
-		});
-	}
 	
 	/**
 	 * Prints the current work done by the user to a .html file
 	 */
 	private void printToFile() {
-		if (m_CageCollection != null) {
-			File printFile = selectFile(m_DefaultDirectory,
-					"Print Work To File", "Enter File Name to Print to", false,
-					m_PrtFilterString, "Print Files", -1);
-			if (printFile != null) {
-				if (!printFile.getPath().endsWith(".html"))
-					printFile = convertTo(printFile, ".html");
-				createHTMLFile(printFile, m_CageCollection, m_Trait);
-			}
-		}
 	}
 
 	/**
@@ -1244,53 +905,6 @@ public class VGLMainApp extends JApplet {
 	 */
 	private String getWorkAsHTML() {
 		StringBuffer htmlString = new StringBuffer();
-		htmlString.append("<html><body>");
-		for (int i = 0; i < m_CageCollection.size(); i++) {
-			Cage c = ((CageUI) m_CageCollection.get(i)).getCage();
-			ArrayList parents = c.getParents();
-			Organism parent1 = (Organism) parents.get(0);
-			Organism parent2 = (Organism) parents.get(1);
-			HashMap children = c.getChildren();
-			int id = c.getId();
-			htmlString.append("<table border=1><tr><td align=center colspan=3"
-					+ " bgcolor=#C0C0C0>Cage " + (id + 1) + "</td></tr>");
-			htmlString.append("<tr><td nowrap colspan=3>Parents");
-			if (parent1 != null && parent2 != null) {
-				htmlString.append("<ul><li>" + parent1.getSexString() + " "
-						+ parent1.getPhenotype() + " from Cage "
-						+ (parent1.getCageId() + 1));
-				htmlString.append("<li>" + parent2.getSexString() + " "
-						+ parent2.getPhenotype() + " from Cage "
-						+ (parent2.getCageId() + 1) + "</ul>");
-			}
-			htmlString.append("</td></tr>");
-			htmlString
-					.append("<tr><td nowrap align=center colspan=3>Offspring</td></tr>");
-			htmlString.append("<tr><td nowrap align=center>Phenotype</td>"
-					+ "<td nowrap align=center>Sex</td>"
-					+ "<td nowrap align=center>Count</td></tr>");
-			Iterator it = children.keySet().iterator();
-			while (it.hasNext()) {
-				String phenotype = (String) it.next();
-				OList l = (OList) children.get(phenotype);
-				String phenoName;
-				if (m_Trait.equals("Legs"))
-					phenoName = phenotype + " " + m_Trait;
-				else
-					phenoName = phenotype;
-
-				htmlString.append("<tr><td nowrap align=center>" + phenoName
-						+ "</td>" + "<td nowrap align=center>Male</td>"
-						+ "<td nowrap align=center>" + l.getMaleCount()
-						+ "</td></tr>");
-				htmlString.append("<tr><td nowrap align=center>" + phenoName
-						+ "</td>" + "<td nowrap align=center>Female</td>"
-						+ "<td nowrap align=center>" + l.getFemaleCount()
-						+ "</td></tr>");
-			}
-			htmlString.append("</table><p></p>");
-		}
-		htmlString.append("</body></html>");
 		return htmlString.toString();
 	}
 
@@ -1442,7 +1056,7 @@ public class VGLMainApp extends JApplet {
 		Dimension screenSize = getToolkit().getScreenSize();
 		helpDialog.setBounds((screenSize.width / 8), (screenSize.height / 8),
 				(screenSize.width * 8 / 10), (screenSize.height * 8 / 10));
-		helpDialog.show();
+		helpDialog.setVisible(true);
 
 		helpPane.addHyperlinkListener(new HyperlinkListener() {
 			public void hyperlinkUpdate(HyperlinkEvent e) {
@@ -1568,67 +1182,67 @@ public class VGLMainApp extends JApplet {
 	 * @throws Exception
 	 *             in case any or all of the cages are not correct
 	 */
-	private void reopenCages(ArrayList cages) throws Exception {
-		Iterator it = cages.iterator();
-		while (it.hasNext()) {
-			Cage c = (Cage) it.next();
-			CageUI cageUI = createCageUI(c);
-			if (c.getId() > 0) {
-				OrganismUI[] parentUIs = cageUI.getParentUIs();
-				if (parentUIs == null)
-					System.out.println("No parents found for Cage#: "
-							+ c.getId());
-				if (parentUIs[0] == null)
-					System.out.println("No parent0 found for Cage#: "
-							+ c.getId());
-				if (parentUIs[1] == null)
-					System.out.println("No parent1 found for Cage#: "
-							+ c.getId());
-				Organism o1 = parentUIs[0].getOrganism();
-				Organism o2 = parentUIs[1].getOrganism();
-				int o1_Id = o1.getId();
-				int o2_Id = o2.getId();
-				CageUI cage1 = (CageUI) m_CageCollection.get(o1.getCageId());
-				CageUI cage2 = (CageUI) m_CageCollection.get(o2.getCageId());
-				if (cage1 != null && cage2 != null) {
-					OrganismUI originalOUI1 = cage1.getOrganismUIFor(o1_Id);
-					OrganismUI originalOUI2 = cage2.getOrganismUIFor(o2_Id);
-					if (originalOUI1 != null && originalOUI2 != null) {
-						if (parentUIs[0].getOrganism().getSexType() == originalOUI1
-								.getOrganism().getSexType()) {
-							originalOUI1.getReferencesList().add(parentUIs[0]);
-							originalOUI2.getReferencesList().add(parentUIs[1]);
-							parentUIs[0].setCentralOrganismUI(originalOUI1);
-							parentUIs[1].setCentralOrganismUI(originalOUI2);
-						} else {
-							originalOUI1.getReferencesList().add(parentUIs[1]);
-							originalOUI2.getReferencesList().add(parentUIs[0]);
-							parentUIs[1].setCentralOrganismUI(originalOUI1);
-							parentUIs[0].setCentralOrganismUI(originalOUI2);
-						}
-					} else {
-						System.out
-								.println("For Original Organisms of Parents of Cage#: "
-										+ c.getId());
-						if (originalOUI1 == null)
-							System.out.println("Organism for: " + o1.getId()
-									+ " " + o1.getCageId() + " not found!");
-						if (originalOUI2 == null)
-							System.out.println("Organism for: " + o2.getId()
-									+ " " + o2.getCageId() + " not found!");
-					}
-				} else {
-					System.out.println("For Parents of Cage#: " + c.getId());
-					if (cage1 == null)
-						System.out.println("Cage for Organism: " + o1.getId()
-								+ " " + o1.getCageId() + " not found!");
-					if (cage2 == null)
-						System.out.println("Cage for Organism: " + o2.getId()
-								+ " " + o2.getCageId() + " not found!");
-				}
-			}
-		}
-	}
+//	private void reopenCages(ArrayList cages) throws Exception {
+//		Iterator it = cages.iterator();
+//		while (it.hasNext()) {
+//			Cage c = (Cage) it.next();
+//			CageUI cageUI = createCageUI(c);
+//			if (c.getId() > 0) {
+//				OrganismUI[] parentUIs = cageUI.getParentUIs();
+//				if (parentUIs == null)
+//					System.out.println("No parents found for Cage#: "
+//							+ c.getId());
+//				if (parentUIs[0] == null)
+//					System.out.println("No parent0 found for Cage#: "
+//							+ c.getId());
+//				if (parentUIs[1] == null)
+//					System.out.println("No parent1 found for Cage#: "
+//							+ c.getId());
+//				Organism o1 = parentUIs[0].getOrganism();
+//				Organism o2 = parentUIs[1].getOrganism();
+//				int o1_Id = o1.getId();
+//				int o2_Id = o2.getId();
+//				CageUI cage1 = (CageUI) m_CageCollection.get(o1.getCageId());
+//				CageUI cage2 = (CageUI) m_CageCollection.get(o2.getCageId());
+//				if (cage1 != null && cage2 != null) {
+//					OrganismUI originalOUI1 = cage1.getOrganismUIFor(o1_Id);
+//					OrganismUI originalOUI2 = cage2.getOrganismUIFor(o2_Id);
+//					if (originalOUI1 != null && originalOUI2 != null) {
+//						if (parentUIs[0].getOrganism().getSexType() == originalOUI1
+//								.getOrganism().getSexType()) {
+//							originalOUI1.getReferencesList().add(parentUIs[0]);
+//							originalOUI2.getReferencesList().add(parentUIs[1]);
+//							parentUIs[0].setCentralOrganismUI(originalOUI1);
+//							parentUIs[1].setCentralOrganismUI(originalOUI2);
+//						} else {
+//							originalOUI1.getReferencesList().add(parentUIs[1]);
+//							originalOUI2.getReferencesList().add(parentUIs[0]);
+//							parentUIs[1].setCentralOrganismUI(originalOUI1);
+//							parentUIs[0].setCentralOrganismUI(originalOUI2);
+//						}
+//					} else {
+//						System.out
+//								.println("For Original Organisms of Parents of Cage#: "
+//										+ c.getId());
+//						if (originalOUI1 == null)
+//							System.out.println("Organism for: " + o1.getId()
+//									+ " " + o1.getCageId() + " not found!");
+//						if (originalOUI2 == null)
+//							System.out.println("Organism for: " + o2.getId()
+//									+ " " + o2.getCageId() + " not found!");
+//					}
+//				} else {
+//					System.out.println("For Parents of Cage#: " + c.getId());
+//					if (cage1 == null)
+//						System.out.println("Cage for Organism: " + o1.getId()
+//								+ " " + o1.getCageId() + " not found!");
+//					if (cage2 == null)
+//						System.out.println("Cage for Organism: " + o2.getId()
+//								+ " " + o2.getCageId() + " not found!");
+//				}
+//			}
+//		}
+//	}
 
 	/**
 	 * Method to calculate the position of a cage on the screen
@@ -1687,69 +1301,7 @@ public class VGLMainApp extends JApplet {
 	}
 
 	private void createHTMLFile(File printFile, ArrayList cages, String trait) {
-		try {
-			printFile.delete();
-			printFile.createNewFile();
-			FileWriter op = new FileWriter(printFile);
-			op.write("<html>");
-			String header = "<head><title>Cross Data</title></head>";
-			op.write(header);
-			op.write("<body><h1>Cross Data</h1>");
-			op.write("<table><tr><td bgcolor=#C0C0C0>Character: " + trait
-					+ "</td></tr></table>");
-			op.write("<p></p><p></p>");
 
-			for (int i = 0; i < cages.size(); i++) {
-				Cage c = ((CageUI) cages.get(i)).getCage();
-				ArrayList parents = c.getParents();
-				Organism parent1 = (Organism) parents.get(0);
-				Organism parent2 = (Organism) parents.get(1);
-				HashMap children = c.getChildren();
-				int id = c.getId();
-				StringBuffer s = new StringBuffer();
-				op
-						.write("<table border=1><tr><td align=center colspan=3 bgcolor=#C0C0C0>Cage "
-								+ (id + 1) + "</td></tr>");
-				op.write("<tr><td nowrap colspan=3>Parents");
-				if (parent1 != null && parent2 != null) {
-					op.write("<ul><li>" + parent1.getSexString() + " "
-							+ parent1.getPhenotype() + " from Cage "
-							+ (parent1.getCageId() + 1));
-					op.write("<li>" + parent2.getSexString() + " "
-							+ parent2.getPhenotype() + " from Cage "
-							+ (parent2.getCageId() + 1) + "</ul>");
-				}
-				op.write("</td></tr>");
-				op
-						.write("<tr><td nowrap align=center colspan=3>Offspring</td></tr>");
-				op.write("<tr><td nowrap align=center>Phenotype</td>"
-						+ "<td nowrap align=center>Sex</td>"
-						+ "<td nowrap align=center>Count</td></tr>");
-				Iterator it = children.keySet().iterator();
-				while (it.hasNext()) {
-					String phenotype = (String) it.next();
-					OList l = (OList) children.get(phenotype);
-					String phenoName;
-					if (trait.equals("Legs"))
-						phenoName = phenotype + " " + trait;
-					else
-						phenoName = phenotype;
-					op.write("<tr><td nowrap align=center>" + phenoName
-							+ "</td>" + "<td nowrap align=center>Male</td>"
-							+ "<td nowrap align=center>" + l.getMaleCount()
-							+ "</td></tr>");
-					op.write("<tr><td nowrap align=center>" + phenoName
-							+ "</td>" + "<td nowrap align=center>Female</td>"
-							+ "<td nowrap align=center>" + l.getFemaleCount()
-							+ "</td></tr>");
-				}
-				op.write("</table><p></p>");
-			}
-			op.write("</body></html>");
-			op.flush();
-			op.close();
-		} catch (IOException exp) {
-		}
 	}
 }
 

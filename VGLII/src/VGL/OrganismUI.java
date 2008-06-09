@@ -9,6 +9,8 @@ import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import GeneticModels.Organism;
+
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
  * OrganismUI.java - this class handles the UI associated with the Organism
@@ -109,7 +111,7 @@ public class OrganismUI extends JLabel implements MouseListener {
 		m_IsParent = isParent;
 		m_IsBeginnersMode = isbeginnersmode;
 		m_Vial = sv;
-		if (m_Organism.getSexType() == 0) {
+		if (m_Organism.isMale()) {
 			if (m_IsParent) {
 				URL m_ImageSelectedURL = OrganismUI.class
 						.getResource("UIimages/malegreen.gif");
@@ -238,7 +240,7 @@ public class OrganismUI extends JLabel implements MouseListener {
 	private void refreshOrganism(boolean selected, OrganismUI organismUI) {
 		if (!m_IsParent) {
 			setSelected(selected);
-			if (m_Organism.getSexType() == 0)
+			if (m_Organism.isMale())
 				m_Vial.setMaleParent(organismUI);
 			else
 				m_Vial.setFemaleParent(organismUI);
@@ -248,7 +250,7 @@ public class OrganismUI extends JLabel implements MouseListener {
 				setterUI = m_CentralOrganismUI;
 			else
 				setterUI = null;
-			if (m_Organism.getSexType() == 0)
+			if (m_Organism.isMale())
 				m_Vial.setMaleParent(setterUI);
 			else
 				m_Vial.setFemaleParent(setterUI);
@@ -307,10 +309,9 @@ public class OrganismUI extends JLabel implements MouseListener {
 		String info = "";
 		if (selected) {
 			if (m_IsBeginnersMode)
-				info = "Genotype: " + m_Organism.getGenotype1()
-						+ " ; " + m_Organism.getGenotype2();
+				info = "Genotype: " + m_Organism.getToolTipTextString();
 			else
-				info = " Phenotype: " + m_Organism.getPhenotype();
+				info = " Phenotype: " + m_Organism.getPhenotypeString();
 		}
 		setToolTipText(info);
 	}
