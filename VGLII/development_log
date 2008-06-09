@@ -248,5 +248,6 @@ started linking to VGL
 made package VGL & put all VGL stuff there
 put in /Resources
 went to http://www.jdom.org/ to get jdom 1.1.tar.gz
-	put in VGLII
+	made lib/
+	exploded .tar.gz there
 	
