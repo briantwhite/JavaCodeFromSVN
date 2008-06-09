@@ -248,6 +248,11 @@ started linking to VGL
 made package VGL & put all VGL stuff there
 put in /Resources
 went to http://www.jdom.org/ to get jdom 1.1.tar.gz
-	made lib/
-	exploded .tar.gz there
+	exploded on desktop
+	cd Desktop/jdom1.1
+	setenv JAVA_HOME /usr/
+	./build.sh
+	- it made build/jdom.jar
+	- put that in VGLII
+	
 	
