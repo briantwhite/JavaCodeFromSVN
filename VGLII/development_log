@@ -241,3 +241,12 @@ rf1 (should be 10%) = (37 + 39 + 12 + 9)/1000 = 9.7%
 rf2 (should be 20%) = (92 + 67 + 12 + 9)/1000 = 18.0%
 double (should be 2%) = (12 + 9)/1000 = 2.1%
 yahoo!
+
+
+6/9/08
+started linking to VGL
+made package VGL & put all VGL stuff there
+put in /Resources
+went to http://www.jdom.org/ to get jdom 1.1.tar.gz
+	put in VGLII
+	
