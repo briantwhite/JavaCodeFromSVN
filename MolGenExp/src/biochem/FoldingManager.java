@@ -98,8 +98,9 @@ public class FoldingManager {
 	/**
 	 * 
 	 * @return String.
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public String getEnergyString() {
+	public String getEnergyString() throws PaintedInACornerFoldingException {
 		return String.valueOf(currentGrid.getEnergy(currentFolder.hpIndex,
 				currentFolder.hIndex, currentFolder.iIndex));
 	}
@@ -109,8 +110,10 @@ public class FoldingManager {
 	 * @param pattern
 	 *            String.
 	 * @return String.
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public String getEnergyString(String pattern) {
+	public String getEnergyString(String pattern) 
+	throws PaintedInACornerFoldingException {
 		return getEnergy(pattern);
 	}
 
@@ -119,8 +122,9 @@ public class FoldingManager {
 	 * @param pattern
 	 *            String.
 	 * @return String.
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public String getEnergy(String pattern) {
+	public String getEnergy(String pattern) throws PaintedInACornerFoldingException {
 		DecimalFormat formatter = new java.text.DecimalFormat(pattern);
 		return (formatter.format(getEnergy()));
 	}
@@ -128,8 +132,9 @@ public class FoldingManager {
 	/**
 	 * 
 	 * @return double.
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public double getEnergy() {
+	public double getEnergy() throws PaintedInACornerFoldingException {
 		return currentGrid.getEnergy(currentFolder.hpIndex,
 				currentFolder.hIndex, currentFolder.iIndex);
 	}
@@ -141,8 +146,9 @@ public class FoldingManager {
 	/**
 	 * 
 	 * @return Color.
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public Color getProteinColor() {
+	public Color getProteinColor() throws PaintedInACornerFoldingException {
 		return currentGrid.getProteinColor();
 	}
 
@@ -151,8 +157,10 @@ public class FoldingManager {
 	 * @param pattern
 	 *            String.
 	 * @return String.
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public String getFoldingIndex(String pattern) {
+	public String getFoldingIndex(String pattern) 
+	throws PaintedInACornerFoldingException {
 		DecimalFormat formatter = new java.text.DecimalFormat(pattern);
 		return (formatter.format(getFoldingIndex()));
 	}
@@ -160,16 +168,18 @@ public class FoldingManager {
 	/**
 	 * 
 	 * @return String.
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public String getFoldingIndexString() {
+	public String getFoldingIndexString() throws PaintedInACornerFoldingException {
 		return "" + getFoldingIndex();
 	}
 
 	/**
 	 * 
 	 * @return double.
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public double getFoldingIndex() {
+	public double getFoldingIndex() throws PaintedInACornerFoldingException {
 		return currentGrid.getFoldingIndex(currentFolder.hpIndex,
 				currentFolder.hIndex, currentFolder.iIndex);
 	}
@@ -195,8 +205,9 @@ public class FoldingManager {
 	/**
 	 * 
 	 * @return String.
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public String report() {
+	public String report() throws PaintedInACornerFoldingException {
 		if (isPlotting) {
 			StringBuffer buf = new StringBuffer();
 			buf.append("\n " + "Polypeptide:   " + getPolypeptide().toString());

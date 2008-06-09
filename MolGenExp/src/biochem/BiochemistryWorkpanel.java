@@ -8,23 +8,20 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import utilities.ColorModel;
-import utilities.GlobalDefaults;
-
-import molGenExp.MolGenExp;
 import molGenExp.ProteinImageFactory;
 import molGenExp.ProteinImageSet;
 import molGenExp.WorkPanel;
+import utilities.GlobalDefaults;
 
 public class BiochemistryWorkpanel extends WorkPanel {
 
@@ -103,34 +100,37 @@ public class BiochemistryWorkpanel extends WorkPanel {
 				//fold the polypeptide
 				try {
 					manager.fold(proteinSequence.getText().trim());
+
+					//display it
+					manager.createCanvas(foldedProtein);
+					Dimension requiredCanvasSize = 
+						foldedProtein.getDrawingPane().getRequiredCanvasSize();
+					foldedProtein.repaint();
+					Color proteinColor = foldedProtein.getProteinColor();
+					colorChip.setBackground(proteinColor);
+
+					//make full size and thumbnail images
+					ProteinImageSet images = 
+						ProteinImageFactory.generateImages(
+								foldedProtein,
+								requiredCanvasSize);
+
+					foldedPolypeptide = new FoldedPolypeptide(
+							proteinSequence.getText().trim(),
+							foldedProtein.getDrawingPane().getGrid(), 
+							new ImageIcon(images.getThumbnailImage()), 
+							proteinColor);
+					protex.addToHistoryList(foldedPolypeptide);
+					images = null; 
+
+					foldButton.setEnabled(false);
+					foldedProtein.setBackground(Color.lightGray);
+					
 				} catch (FoldingException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(protex, 
+							GlobalDefaults.paintedInACornerNotice,
+							"Folding Error", JOptionPane.WARNING_MESSAGE);
 				}	
-
-				//display it
-				manager.createCanvas(foldedProtein);
-				Dimension requiredCanvasSize = 
-					foldedProtein.getDrawingPane().getRequiredCanvasSize();
-				foldedProtein.repaint();
-				Color proteinColor = foldedProtein.getProteinColor();
-				colorChip.setBackground(proteinColor);
-
-				//make full size and thumbnail images
-				ProteinImageSet images = 
-					ProteinImageFactory.generateImages(
-							foldedProtein,
-							requiredCanvasSize);
-
-				foldedPolypeptide = new FoldedPolypeptide(
-						proteinSequence.getText().trim(),
-						foldedProtein.getDrawingPane().getGrid(), 
-						new ImageIcon(images.getThumbnailImage()), 
-						proteinColor);
-				protex.addToHistoryList(foldedPolypeptide);
-				images = null; 
-
-				foldButton.setEnabled(false);
-				foldedProtein.setBackground(Color.lightGray);
 
 			}	
 		});
@@ -148,7 +148,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		return proteinSequence.getText();
 	}
 
-	public Color getColor() {
+	public Color getColor() throws PaintedInACornerFoldingException {
 		if (foldedProtein.getProteinColor() == null) {
 			return Color.WHITE;
 		}
@@ -170,10 +170,11 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		foldedProtein.setBackground(Color.PINK);		
 	}
 
-	public void setFoldedPolypeptide(FoldedPolypeptide fp){
+	public void setFoldedPolypeptide(FoldedPolypeptide fp) 
+	throws PaintedInACornerFoldingException{
 
 		foldedPolypeptide = fp;
-		
+
 		//process amino acid sequence
 		PolypeptideFactory factory = PolypeptideFactory.getInstance();
 		AminoAcid[] acids = null;

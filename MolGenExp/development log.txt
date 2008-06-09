@@ -1273,4 +1273,14 @@ it DIED!
      [java] 	at java.lang.Thread.run(Thread.java:613)
 
 - it tried to color a folded-in-the-corner one
+- interesting that it did not fail in the folding 
+ 	maybe because it's the second-to-last aa? (why is that important?)
 => need to put a trap in HexGrid also
+
+- this one percolates up to a LOT of places (anywhere that asks for color)
+
+- when this fails in any "fold" button - need to pop up a dialog warning that protein 
+	couldn't be folded
+	
+seems OK
+do a long run

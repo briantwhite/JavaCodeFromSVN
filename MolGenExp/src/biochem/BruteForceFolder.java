@@ -152,7 +152,7 @@ public class BruteForceFolder extends Folder {
 		}
 	}
 
-	protected void saveIfNecessary() {
+	protected void saveIfNecessary() throws PaintedInACornerFoldingException {
 		chainCount++;
 		double localEnergy = grid.getEnergy(hpIndex, hIndex, iIndex);
 
@@ -199,7 +199,7 @@ public class BruteForceFolder extends Folder {
 		return buf.toString();
 	}
 
-	public String report() {
+	public String report() throws PaintedInACornerFoldingException {
 		StringBuffer buf = new StringBuffer(super.report());
 		buf.append("\nexplored " + chainCount + " chains");
 		buf.append("\nminimum occurred " + getEnergyTies() + " times");

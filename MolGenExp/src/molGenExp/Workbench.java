@@ -2,6 +2,8 @@ package molGenExp;
 
 import javax.swing.JPanel;
 
+import biochem.PaintedInACornerFoldingException;
+
 public abstract class Workbench extends JPanel {
 	
 	public MolGenExp mge;
@@ -17,8 +19,11 @@ public abstract class Workbench extends JPanel {
 	public abstract WorkPanel getUpperPanel();
 	public abstract WorkPanel getLowerPanel();
 	
-	public abstract void sendToUpperPanel(Object o);
-	public abstract void sendToLowerPanel(Object o);
-	public abstract void addToHistoryList(Object o);
+	public abstract void sendToUpperPanel(Object o) 
+	throws PaintedInACornerFoldingException;
+	public abstract void sendToLowerPanel(Object o) 
+	throws PaintedInACornerFoldingException;
+	public abstract void addToHistoryList(Object o) 
+	throws PaintedInACornerFoldingException;
 	
 }

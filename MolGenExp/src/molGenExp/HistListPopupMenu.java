@@ -11,6 +11,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
+import utilities.GlobalDefaults;
+
+import biochem.PaintedInACornerFoldingException;
+
 import molBiol.MolBiolWorkbench;
 
 public class HistListPopupMenu extends JPopupMenu {
@@ -52,13 +56,25 @@ public class HistListPopupMenu extends JPopupMenu {
 
 		toUpperItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				workbench.sendToUpperPanel((((HistoryList)list).getSelectedValue()));
+				try {
+					workbench.sendToUpperPanel((((HistoryList)list).getSelectedValue()));
+				} catch (PaintedInACornerFoldingException e1) {
+					JOptionPane.showMessageDialog(workbench, 
+							GlobalDefaults.paintedInACornerNotice,
+							"Folding Error", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		
 		toLowerItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				workbench.sendToLowerPanel((((HistoryList)list).getSelectedValue()));
+				try {
+					workbench.sendToLowerPanel((((HistoryList)list).getSelectedValue()));
+				} catch (PaintedInACornerFoldingException e1) {
+					JOptionPane.showMessageDialog(workbench, 
+							GlobalDefaults.paintedInACornerNotice,
+							"Folding Error", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		

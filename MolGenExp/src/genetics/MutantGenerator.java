@@ -1,7 +1,9 @@
 package genetics;
 
 
+import biochem.FoldingException;
 import molGenExp.ExpressedAndFoldedGene;
+import molGenExp.FoldedProteinArchive;
 import molGenExp.Organism;
 import molGenExp.OrganismFactory;
 import utilities.Mutator;
@@ -60,8 +62,8 @@ public class MutantGenerator implements Runnable {
 		for (current = 0; current < mutantCount; current++) {
 			ExpressedAndFoldedGene efg1 = null;
 			ExpressedAndFoldedGene efg2 = null;
-			efg1 = mutator.mutateGene(o.getGene1());
-			efg2 = mutator.mutateGene(o.getGene2());
+			efg1 = makeAGoodMutant(o.getGene1());
+			efg2 = makeAGoodMutant(o.getGene2());
 
 			if (current < mutantCount) {
 				offspringList.add(
@@ -71,5 +73,26 @@ public class MutantGenerator implements Runnable {
 								efg2));
 			}
 		}
+	}
+	
+	private ExpressedAndFoldedGene makeAGoodMutant(ExpressedAndFoldedGene efg) {
+		//loop over making new organisms
+		//  if one has an un-foldable protein
+		//  (one that paints itself into a corner)
+		//  need to go back and try other sequences
+		//  until you get one that works
+		ExpressedAndFoldedGene result = null;
+		
+		boolean gotAGoodOne = false;
+		while(!gotAGoodOne) {
+			try {
+				mutator.mutateGene(efg);
+				gotAGoodOne = true;
+			} catch (FoldingException e) {
+				FoldedProteinArchive.hadToReplaceABadSequence();
+				gotAGoodOne = false;
+			}
+		}
+		return result;
 	}
 }

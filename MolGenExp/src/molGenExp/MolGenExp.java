@@ -88,6 +88,7 @@ import biochem.FoldedPolypeptide;
 import biochem.FoldingException;
 import biochem.FoldingManager;
 import biochem.OutputPalette;
+import biochem.PaintedInACornerFoldingException;
 import biochem.StandardTable;
 
 
@@ -139,6 +140,7 @@ public class MolGenExp extends JFrame {
 
 	private JProgressBar progressBar;
 	private JLabel statusLabel;
+	private JLabel foldingStatsLabel;
 
 	JTabbedPane explorerPane;
 
@@ -298,6 +300,13 @@ public class MolGenExp extends JFrame {
 		statusPanel.add(Box.createHorizontalStrut(20));
 		statusLabel = new JLabel("Welcome");
 		statusPanel.add(statusLabel);
+		statusPanel.add(Box.createHorizontalGlue());
+		foldingStatsLabel = new JLabel("No sequences folded yet");
+		statusPanel.add(foldingStatsLabel);
+		foldingStatsLabel.setToolTipText("<html>Certain protein sequences cannot be folded properly<br>"
+				+ "with the 2-dimensional algorithm Aipotu uses.<br>These sequences are "
+				+ "automatically replaced with new sequences as needed.</html>");
+		statusPanel.add(Box.createHorizontalStrut(20));
 
 		mainPanel.add(statusPanel, BorderLayout.SOUTH);
 
@@ -381,7 +390,13 @@ public class MolGenExp extends JFrame {
 				System.exit(0);
 			}
 		} else {
-			loadGreenhouse(greenhouseDirectory);
+			try {
+				loadGreenhouse(greenhouseDirectory);
+			} catch (FoldingException e1) {
+				JOptionPane.showMessageDialog(null, 
+						GlobalDefaults.paintedInACornerNotice,
+						"Folding Error", JOptionPane.WARNING_MESSAGE);
+			}
 		}
 
 		quitMenuItem.addActionListener(new ActionListener() {
@@ -506,7 +521,13 @@ public class MolGenExp extends JFrame {
 
 		loadGreenhouseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadGreenhouseFromChosenFolder();
+				try {
+					loadGreenhouseFromChosenFolder();
+				} catch (FoldingException e1) {
+					JOptionPane.showMessageDialog(null, 
+							GlobalDefaults.paintedInACornerNotice,
+							"Folding Error", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
@@ -555,7 +576,13 @@ public class MolGenExp extends JFrame {
 
 		addToGreenhouseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				saveSelectedOrganismToGreenhouse();
+				try {
+					saveSelectedOrganismToGreenhouse();
+				} catch (FoldingException e) {
+					JOptionPane.showMessageDialog(null, 
+							GlobalDefaults.paintedInACornerNotice,
+							"Folding Error", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
@@ -669,7 +696,8 @@ public class MolGenExp extends JFrame {
 		return evolutionWorkArea;
 	}
 
-	public void loadOrganismIntoActivePanel(Organism o) {
+	public void loadOrganismIntoActivePanel(Organism o) 
+	throws PaintedInACornerFoldingException {
 		String selectedPane = 
 			explorerPane.getSelectedComponent().getClass().toString();
 
@@ -682,7 +710,7 @@ public class MolGenExp extends JFrame {
 		}
 	}
 
-	public void loadGreenhouseFromChosenFolder() {
+	public void loadGreenhouseFromChosenFolder() throws FoldingException {
 		clearSelectedOrganisms();
 		JFileChooser inFolderChooser = new JFileChooser();
 		inFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -744,7 +772,7 @@ public class MolGenExp extends JFrame {
 		}
 	}
 
-	public void loadGreenhouse(File greenhouseDir) {
+	public void loadGreenhouse(File greenhouseDir) throws FoldingException {
 		clearSelectedOrganisms();
 		greenhouse.clearList();
 
@@ -787,7 +815,7 @@ public class MolGenExp extends JFrame {
 	}
 
 
-	public void saveSelectedOrganismToGreenhouse() {
+	public void saveSelectedOrganismToGreenhouse() throws FoldingException {
 		switch (explorerPane.getSelectedIndex()) {
 		case GENETICS:
 			//should not happen - only works if one org selected
@@ -817,7 +845,7 @@ public class MolGenExp extends JFrame {
 
 	}
 
-	public void saveOrganismToGreenhouse(Organism o) {
+	public void saveOrganismToGreenhouse(Organism o) throws FoldingException {
 
 		String name = "";
 		String warning = "";
@@ -974,9 +1002,15 @@ public class MolGenExp extends JFrame {
 
 		// in the case of evolution, the selected org is not in oal1 or oal2
 		//  so need a special case
-		if ((explorerPane.getSelectedIndex() == EVOLUTION) 
-				&& (evolutionWorkArea.getWorld().getSelectedOrganism() != null)) {
-			numSelectedOrgs = 1;
+		try {
+			if ((explorerPane.getSelectedIndex() == EVOLUTION) 
+					&& (evolutionWorkArea.getWorld().getSelectedOrganism() != null)) {
+				numSelectedOrgs = 1;
+			}
+		} catch (FoldingException e) {
+			JOptionPane.showMessageDialog(null, 
+					GlobalDefaults.paintedInACornerNotice,
+					"Folding Error", JOptionPane.WARNING_MESSAGE);
 		}
 
 
@@ -1040,6 +1074,10 @@ public class MolGenExp extends JFrame {
 
 	public JProgressBar getProgressBar() {
 		return progressBar;
+	}
+	
+	public JLabel getFoldingStatsLabel() {
+		return foldingStatsLabel;
 	}
 
 	public void loadSelectedIntoWorld() {

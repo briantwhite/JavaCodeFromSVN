@@ -105,21 +105,22 @@ public class BiochemistryWorkbench extends Workbench {
 		add(mainPanel, BorderLayout.CENTER);
 	}
 
-	public void updateCombinedColor() {
+	public void updateCombinedColor() throws PaintedInACornerFoldingException {
 		Color u = upperWorkPanel.getColor();
 		Color l = lowerWorkPanel.getColor();
 		Color combined = GlobalDefaults.colorModel.mixTwoColors(u, l);
 		combinedColorPanel.setCombinedColor(combined);
 	}
 
-	public void loadOrganism(Organism o) {
+	public void loadOrganism(Organism o) throws PaintedInACornerFoldingException {
 		upperWorkPanel.setFoldedPolypeptide(
 				o.getGene1().getFoldedPolypeptide());
 		lowerWorkPanel.setFoldedPolypeptide(
 				o.getGene2().getFoldedPolypeptide());
 	}
 
-	public void addToHistoryList(Object o) {
+	public void addToHistoryList(Object o) 
+	throws PaintedInACornerFoldingException {
 		proteinHistoryList.add(o);
 		histListScrollPane.revalidate();
 		histListScrollPane.repaint();
@@ -134,11 +135,11 @@ public class BiochemistryWorkbench extends Workbench {
 		return upperWorkPanel;
 	}
 
-	public void sendToLowerPanel(Object o) {
+	public void sendToLowerPanel(Object o) throws PaintedInACornerFoldingException {
 		lowerWorkPanel.setFoldedPolypeptide((FoldedPolypeptide)o);
 	}
 
-	public void sendToUpperPanel(Object o) {
+	public void sendToUpperPanel(Object o) throws PaintedInACornerFoldingException {
 		upperWorkPanel.setFoldedPolypeptide((FoldedPolypeptide)o);
 	}
 }

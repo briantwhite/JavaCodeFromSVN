@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 import biochem.AminoAcid;
 import biochem.Grid;
+import biochem.PaintedInACornerFoldingException;
 
 /**
  * Class representing a generic color model for coloring proteins by 
@@ -49,8 +50,9 @@ public abstract class ColorModel {
 	 * compute the color of a protein folded on a grid
 	 * @param grid
 	 * @return
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public abstract Color getProteinColor(Grid grid);
+	public abstract Color getProteinColor(Grid grid) throws PaintedInACornerFoldingException;
 
 	/**
 	 * Mix two colors and return the result

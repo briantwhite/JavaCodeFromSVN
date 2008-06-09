@@ -85,8 +85,9 @@ public class OutputPalette extends JPanel {
 	 * Get the color of protein on this canvas
 	 * 
 	 * @return protein color
+	 * @throws PaintedInACornerFoldingException 
 	 */
-	public Color getProteinColor() {
+	public Color getProteinColor() throws PaintedInACornerFoldingException {
 		if (drawingPane.grid == null) {
 			return Color.WHITE;
 		}

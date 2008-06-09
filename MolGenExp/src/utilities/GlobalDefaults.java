@@ -35,6 +35,11 @@ public class GlobalDefaults {
 	public static String[] colorList = {"White", "Blue", "Yellow", "Green",
 			"Red", "Purple", "Orange", "Black"};
 
+	public static final String paintedInACornerNotice = "<html>"
+		+ "I'm sorry, I cannot fold that protein.<br>"
+		+ "The folding algorithm gets stuck because "
+		+ "it only works in two dimensions.<br>"
+		+ "Please try another sequence.</html>";
 	
 	public GlobalDefaults() {
 		

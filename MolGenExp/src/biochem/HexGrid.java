@@ -40,7 +40,7 @@ public class HexGrid extends TwoDGrid {
 
 	public final Direction NE = Direction.NE;
 
-	public HexGrid(Polypeptide pp) {
+	public HexGrid(Polypeptide pp) throws PaintedInACornerFoldingException {
 		super(pp);
 		allDirections = getAllDirections();
 		setNextDirectionsStraight();
@@ -104,10 +104,10 @@ public class HexGrid extends TwoDGrid {
 		return NE;
 	}
 
-	public GridPoint nextCell(Direction direction, GridPoint p) {
+	public GridPoint nextCell(Direction direction, GridPoint p) 
+	throws PaintedInACornerFoldingException {
 		if (p == null) {
-			System.out.println("died at hex grid 108\n" 
-					+ "\t" + getPP().getDirectionSequence());
+			throw new PaintedInACornerFoldingException(getPP().getSingleLetterAASequence());
 		}
 		int x = p.x;
 		int y = p.y;

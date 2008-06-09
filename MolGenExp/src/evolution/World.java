@@ -8,6 +8,8 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import biochem.FoldingException;
+
 import molGenExp.Organism;
 import molGenExp.OrganismFactory;
 import preferences.MGEPreferences;
@@ -123,7 +125,7 @@ public class World extends JPanel implements MouseListener {
 		repaint();
 	}
 
-	public Organism getSelectedOrganism() {
+	public Organism getSelectedOrganism() throws FoldingException {
 		if ((selectedCelli < 0) && (selectedCellj < 0)) {
 			return null;
 		}

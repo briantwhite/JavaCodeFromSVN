@@ -40,7 +40,8 @@ public class Mutator {
 		return instance;
 	}
 	
-	public ExpressedAndFoldedGene mutateGene(ExpressedAndFoldedGene efg) {
+	public ExpressedAndFoldedGene mutateGene(ExpressedAndFoldedGene efg) 
+	throws FoldingException {
 		//change one base in the DNA
 		if (efg.getExpressedGene().getDNA().length() == 0) {
 			return efg;
@@ -48,35 +49,11 @@ public class Mutator {
 		ExpressedGene newGene = expresser.expressGene(
 				mutateDNASequence(efg.getExpressedGene().getDNA()), -1);
 
-		String proteinSequence = newGene.getProtein();
-
-		//fold it
-		FoldingManager manager = new FoldingManager();
-		try {
-			manager.fold(proteinSequence);
-		} catch (FoldingException e) {
-			e.printStackTrace();
-		}
-
-		//make an icon and display it in a dialog
-		OutputPalette op = new OutputPalette();
-		manager.createCanvas(op);
-		Dimension requiredCanvasSize = 
-			op.getDrawingPane().getRequiredCanvasSize();
-
-		ProteinImageSet images = 
-			ProteinImageFactory.generateImages(op, requiredCanvasSize);
-
-		FoldedPolypeptide fp = new FoldedPolypeptide(
-				proteinSequence,
-				op.getDrawingPane().getGrid(), 
-				new ImageIcon(images.getThumbnailImage()), 
-				op.getProteinColor());
-
-		ExpressedAndFoldedGene newEfg = new ExpressedAndFoldedGene(newGene, fp);
-
-		images = null;
-
+		//fold it & get color etc
+		ExpressedAndFoldedGene newEfg = 
+			new ExpressedAndFoldedGene(
+					newGene, ProteinFolder.foldProtein(newGene.getProtein()));
+		
 		return newEfg;
 	}
 

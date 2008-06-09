@@ -17,6 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
 import utilities.ExpressedGene;
+import utilities.GlobalDefaults;
 
 import molGenExp.CustomListSelectionModel;
 import molGenExp.MolGenExp;
@@ -24,6 +25,7 @@ import molGenExp.Organism;
 import molGenExp.OrganismCellRenderer;
 
 import biochem.FoldedPolypeptide;
+import biochem.PaintedInACornerFoldingException;
 
 // the panel that shows the reults of a cross or mutation
 public class OffspringList extends JList {
@@ -45,8 +47,14 @@ public class OffspringList extends JList {
 		this.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					mge.loadOrganismIntoActivePanel(
-							(Organism)getSelectedValue());
+					try {
+						mge.loadOrganismIntoActivePanel(
+								(Organism)getSelectedValue());
+					} catch (PaintedInACornerFoldingException e1) {
+						JOptionPane.showMessageDialog(mge, 
+								GlobalDefaults.paintedInACornerNotice,
+								"Folding Error", JOptionPane.WARNING_MESSAGE);
+					}
 				}
 			}
 			public void mouseEntered(MouseEvent arg0) {}

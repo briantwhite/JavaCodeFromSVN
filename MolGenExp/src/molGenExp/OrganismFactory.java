@@ -1,26 +1,22 @@
 package molGenExp;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-import evolution.ThinOrganism;
-
 import utilities.ExpressedGene;
 import utilities.GeneExpresser;
 import utilities.GlobalDefaults;
+import utilities.ProteinFolder;
 import biochem.FoldedPolypeptide;
 import biochem.FoldingException;
 import biochem.FoldingManager;
-import biochem.OutputPalette;
-import biochem.PolypeptideFactory;
+import evolution.ThinOrganism;
 
 public class OrganismFactory {
 	
@@ -42,13 +38,14 @@ public class OrganismFactory {
 		return createOrganism(name, o.getGene1(), o.getGene2());
 	}
 	
-	public Organism createOrganism(String name, String DNA1, String DNA2) {
+	public Organism createOrganism(String name, String DNA1, String DNA2) 
+	throws FoldingException {
 
 		ExpressedGene eg1 = geneExpresser.expressGene(DNA1, -1);
-		FoldedPolypeptide fp1 = foldProtein(eg1.getProtein());
+		FoldedPolypeptide fp1 = ProteinFolder.foldProtein(eg1.getProtein());
 
 		ExpressedGene eg2 = geneExpresser.expressGene(DNA2, -1);
-		FoldedPolypeptide fp2 = foldProtein(eg2.getProtein());
+		FoldedPolypeptide fp2 = ProteinFolder.foldProtein(eg2.getProtein());
 		
 		return createOrganism(name,
 				new ExpressedAndFoldedGene(eg1, fp1),
@@ -77,13 +74,13 @@ public class OrganismFactory {
 		return new Organism(name, gene1, gene2, color, image);
 	}
 	
-	public Organism createOrganism(ThinOrganism thinOrg) {
+	public Organism createOrganism(ThinOrganism thinOrg) throws FoldingException {
 
 		ExpressedGene eg1 = geneExpresser.expressGene(thinOrg.getDNA1(), -1);
-		FoldedPolypeptide fp1 = foldProtein(eg1.getProtein());
+		FoldedPolypeptide fp1 = ProteinFolder.foldProtein(eg1.getProtein());
 
 		ExpressedGene eg2 = geneExpresser.expressGene(thinOrg.getDNA2(), -1);
-		FoldedPolypeptide fp2 = foldProtein(eg2.getProtein());
+		FoldedPolypeptide fp2 = ProteinFolder.foldProtein(eg2.getProtein());
 		
 		return createOrganism("",
 				new ExpressedAndFoldedGene(eg1, fp1),
@@ -126,32 +123,6 @@ public class OrganismFactory {
 		g.dispose();
 		pic.flush();
 		return new ImageIcon(pic);
-	}
-
-	private FoldedPolypeptide foldProtein(String aaSeq) {
-		//fold it
-		FoldingManager manager = new FoldingManager();
-		try {
-			manager.fold(aaSeq);
-		} catch (FoldingException e) {
-			e.printStackTrace();
-		}
-		
-		//make an icon and display it in a dialog
-		OutputPalette op = new OutputPalette();
-		manager.createCanvas(op);
-		Dimension requiredCanvasSize = 
-			op.getDrawingPane().getRequiredCanvasSize();
-		
-		ProteinImageSet images = 
-			ProteinImageFactory.generateImages(op, requiredCanvasSize);
-		
-		return new FoldedPolypeptide(
-				aaSeq,
-				op.getDrawingPane().getGrid(), 
-				new ImageIcon(images.getThumbnailImage()), 
-				op.getProteinColor());
-		
 	}
 
 }

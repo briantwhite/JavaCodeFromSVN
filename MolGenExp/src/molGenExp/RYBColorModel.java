@@ -26,6 +26,7 @@ import biochem.AminoAcid;
 import biochem.Direction;
 import biochem.Grid;
 import biochem.HexGrid;
+import biochem.PaintedInACornerFoldingException;
 
 /**
  * Class representing RYBColor chart. Model the standard RYB color model.
@@ -69,7 +70,7 @@ public class RYBColorModel extends ColorModel {
 		}
 	}
 	
-	public Color getProteinColor(Grid grid) {
+	public Color getProteinColor(Grid grid) throws PaintedInACornerFoldingException {
 		Color color = Color.white;
 		hydrophobics = new ArrayList();
 		hydrophilics = new ArrayList();
@@ -89,7 +90,8 @@ public class RYBColorModel extends ColorModel {
 			AcidInChain a = (AcidInChain) hydrophobics.get(i);
 			int d;
 			for (d = 0; d < allDirections.length; d++) {
-				AcidInChain ac = realGrid.get(realGrid.nextCell(allDirections[d], a.xyz));
+				AcidInChain ac = realGrid.get(
+						realGrid.nextCell(allDirections[d], a.xyz));
 
 				if (ac == null || !hydrophobics.contains(ac))
 					break;

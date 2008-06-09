@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -25,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import molGenExp.FoldedProteinArchive;
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import molGenExp.OrganismFactory;
@@ -253,6 +255,12 @@ public class EvolutionWorkArea extends JPanel {
 			} else {
 				mge.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				mge.getProgressBar().setValue(evolver.getProgress());
+				DecimalFormat myFormatter = new DecimalFormat("###,###");
+				String output = myFormatter.format(FoldedProteinArchive.getTotalFoldedSequences());
+				mge.getFoldingStatsLabel().setText(output
+						+ " sequences folded; " 
+						+ FoldedProteinArchive.getTotalReplacedSequences()
+						+ " sequences replaced.");
 			}
 		}
 	}

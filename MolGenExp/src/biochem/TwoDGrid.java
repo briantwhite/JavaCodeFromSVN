@@ -110,7 +110,8 @@ public abstract class TwoDGrid extends Grid {
 
 	protected Direction[] allDirections = null;
 
-	protected abstract GridPoint nextCell(Direction direction, GridPoint p);
+	protected abstract GridPoint nextCell(Direction direction, GridPoint p) 
+	throws PaintedInACornerFoldingException;
 
 	public abstract Direction[] getThirdPlacement();
 
@@ -120,7 +121,8 @@ public abstract class TwoDGrid extends Grid {
 
 	protected int freeEdges;
 
-	public double getEnergy(double hpIndex, double hIndex, double iIndex) {
+	public double getEnergy(double hpIndex, double hIndex, double iIndex) 
+	throws PaintedInACornerFoldingException {
 		// if it was painted into a corner, this is a bad fold
 		energy = 0;
 		freeEdges = 0;
@@ -156,30 +158,34 @@ public abstract class TwoDGrid extends Grid {
 		return energy;
 	}
 
-	public Color getProteinColor() {
+	public Color getProteinColor() throws PaintedInACornerFoldingException {
 		return GlobalDefaults.colorModel.getProteinColor(this);
 	}
 
 	/**
+	 * @throws PaintedInACornerFoldingException 
 	 *  
 	 */
 
-	public double getFoldingIndex(double hpIndex, double hIndex, double iIndex) {
+	public double getFoldingIndex(double hpIndex, double hIndex, double iIndex) 
+	throws PaintedInACornerFoldingException {
 		computeStatistics(hpIndex, hIndex, iIndex);
 		return freeEdges / (double) (2 + 4 * pp.getLength());
 	}
 
-	public int getFreeEdges(double hpIndex, double hIndex, double iIndex) {
+	public int getFreeEdges(double hpIndex, double hIndex, double iIndex) 
+	throws PaintedInACornerFoldingException {
 		computeStatistics(hpIndex, hIndex, iIndex);
 		return freeEdges;
 	}
 
-	public void computeStatistics(double hpIndex, double hIndex, double iIndex) {
+	public void computeStatistics(double hpIndex, double hIndex, double iIndex) 
+	throws PaintedInACornerFoldingException {
 		getEnergy(hpIndex, hIndex, iIndex);
 		setNeighbors();
 	}
 
-	public void setNeighbors() {
+	public void setNeighbors() throws PaintedInACornerFoldingException {
 		pp.clearTopology();
 		for (int i = 0; i < numAcids; i++) {
 			setNeighbors(acids[i]);
@@ -190,7 +196,8 @@ public abstract class TwoDGrid extends Grid {
 		return (acids[numAcids - 1]).xyz != null;
 	}
 
-	protected void setNeighbors(AcidInChain to) {
+	protected void setNeighbors(AcidInChain to) 
+	throws PaintedInACornerFoldingException {
 		GridPoint p = to.xyz;
 		if (p == null) {
 			return;
@@ -200,7 +207,8 @@ public abstract class TwoDGrid extends Grid {
 		}
 	}
 
-	protected void setNeighbor(AcidInChain to, GridPoint p, Direction d) {
+	protected void setNeighbor(AcidInChain to, GridPoint p, Direction d) 
+	throws PaintedInACornerFoldingException {
 		AcidInChain from = get(nextCell(d, p));
 		if (from != null) {
 			pp.addNeighbor(to, from);

@@ -80,7 +80,7 @@ public abstract class Folder {
 		this.iIndex = iIndex;
 	}
 
-	public String report() {
+	public String report() throws PaintedInACornerFoldingException {
 		StringBuffer buf = new StringBuffer(getName());
 		buf.append("\n" + pp.toString());
 		buf.append("\nenergy "
@@ -93,7 +93,7 @@ public abstract class Folder {
 		return buf.toString();
 	}
 
-	public String csvReport() {
+	public String csvReport() throws PaintedInACornerFoldingException {
 		StringBuffer buf = new StringBuffer();
 		buf.append(""
 				+ formatter.format(grid.getEnergy(hpIndex, hIndex, iIndex)));
@@ -113,7 +113,7 @@ public abstract class Folder {
 		return time / 1000;
 	}
 
-	public double getEnergy() {
+	public double getEnergy() throws PaintedInACornerFoldingException {
 		return grid.getEnergy(hpIndex, hIndex, hIndex);
 	}
 }
