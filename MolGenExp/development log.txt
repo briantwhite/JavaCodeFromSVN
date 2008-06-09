@@ -1238,3 +1238,39 @@ pretty low; so leave it as is
 
 maybe take out some of the synchronized things?
 
+overight run on laptop
+generation 1250
+it DIED!
+
+     [java] Had to replace sequence: MSSAISPNIRHHFVRYTMVSVLAAVVKKKK
+     [java] 	Generation 64
+     [java] 	TotalFolded=1170
+     [java] 	Total replaced=1
+     [java] Had to replace sequence: MMSSAIAAKNAHFVALYMVLYGGSSKKKK
+     [java] 	Generation 143
+     [java] 	TotalFolded=3051
+     [java] 	Total replaced=2
+     [java] Had to replace sequence: MSSAENGKHGWFCWALIHMVMVLPLYTKKKK
+     [java] 	Generation 268
+     [java] 	TotalFolded=6164
+     [java] 	Total replaced=3
+     [java] Had to replace sequence: MKKQPLAAMLYLHLYPACTRFIYSTARKKKK
+     [java] 	Generation 1211
+     [java] 	TotalFolded=26048
+     [java] 	Total replaced=4
+     [java] died at hex grid 108
+     [java] 	 E :  E : NE : NW :  W : NW : NE :  W : SW :  W : SE : SW : SW : SW :  E :  E : NW : NE : NE : SE :  E : none : none : 
+     [java] Exception in thread "Thread-3" java.lang.NullPointerException
+     [java] 	at biochem.HexGrid.nextCell(HexGrid.java:112)
+     [java] 	at molGenExp.RYBColorModel.getProteinColor(RYBColorModel.java:92)
+     [java] 	at biochem.TwoDGrid.getProteinColor(TwoDGrid.java:160)
+     [java] 	at biochem.FoldingManager.fold(FoldingManager.java:304)
+     [java] 	at evolution.ThinOrganismFactory.foldOntoHexGrid(ThinOrganismFactory.java:102)
+     [java] 	at evolution.ThinOrganismFactory.foldAndComputeColor(ThinOrganismFactory.java:94)
+     [java] 	at evolution.ThinOrganismFactory.createThinOrganism(ThinOrganismFactory.java:55)
+     [java] 	at evolution.Evolver.makeNextGeneration(Evolver.java:232)
+     [java] 	at evolution.Evolver.run(Evolver.java:68)
+     [java] 	at java.lang.Thread.run(Thread.java:613)
+
+- it tried to color a folded-in-the-corner one
+=> need to put a trap in HexGrid also
