@@ -8,6 +8,7 @@ import GeneticModels.Organism;
 import GeneticModels.OrganismList;
 
 /**
+ * Brian White 2008
  * Naing Naing Maw cs681-3 Fall 2002 - Spring 2003 Project VGL File:
  * ~nnmaw/VGL/Cage.java
  * 
@@ -25,7 +26,7 @@ import GeneticModels.OrganismList;
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
- * @author Naing Naing Maw
+ * @author Naing Naing Maw & Brian White
  * @version 1.0 $Id$
  */
 

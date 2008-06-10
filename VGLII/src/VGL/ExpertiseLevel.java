@@ -20,6 +20,7 @@ import javax.swing.border.Border;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
+ * Brian White 2008
  * ExpertiseLevel.java - this class extends the JDialog class and is
  * instantiated if the practice mode option is true and allows the user to
  * select between the various modes of informative display.
@@ -38,7 +39,7 @@ import javax.swing.border.Border;
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
- * @author Nikunj Koolar
+ * @author Nikunj Koolar & Brian White
  * @version 1.0 $Id$
  */
 public class ExpertiseLevel extends JDialog {

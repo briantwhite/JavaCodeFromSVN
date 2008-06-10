@@ -279,4 +279,5 @@ start the migration
 
 nuke VGL.Genetics
 
-
+6/10/08
+- go thru and change all the m_fred to fred

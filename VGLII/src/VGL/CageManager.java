@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
+ * Brian White 2008
  * CageManager.java - This class provides the dialog for the user to set the
  * visibility of the cages. He can make the cages visible/invisible by
  * selecting/deselecting them from this dialog.
@@ -42,72 +43,72 @@ import javax.swing.table.DefaultTableCellRenderer;
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
- * @author Nikunj Koolar
+ * @author Nikunj Koolar & Brian White
  * @version 1.0 $Id$
  */
 public class CageManager extends JDialog {
 	/**
 	 * Parameter to the set the width of the dialog
 	 */
-	private int m_DialogWidth;
+	private int dialogWidth;
 
 	/**
 	 * Parameter to the set the height of the dialog
 	 */
-	private int m_DialogHeight;
+	private int dialogHeight;
 
 	/**
 	 * Parameter to the set the X-coordinate of the dialog
 	 */
-	private int m_DialogLocationX;
+	private int dialogLocationX;
 
 	/**
 	 * Parameter to the set the Y-coordinate of the dialog
 	 */
-	private int m_DialogLocationY;
+	private int dialogLocationY;
 
 	/**
 	 * The panel that contains all the subpanels.
 	 */
-	private JPanel m_OptionPanel;
+	private JPanel optionPanel;
 
 	/**
 	 * This panel contains the Dialog Label and the Table widget
 	 */
-	private JPanel m_SelectionPanel;
+	private JPanel selectionPanel;
 
 	/**
 	 * This panel contains the ok button
 	 */
-	private JPanel m_SouthButtonPanel;
+	private JPanel southButtonPanel;
 
 	/**
 	 * The ok button for the dialog
 	 */
-	private JButton m_OkButton;
+	private JButton okButton;
 
 	/**
 	 * The table widget that contains the listing of all the currently existing
 	 * Cage Objects
 	 */
-	private JTable m_SelectionTable;
+	private JTable selectionTable;
 
 	/**
 	 * The scrollPane for the table (to allow for vertical scrolling when number
 	 * of rows exceeds the displayable range)
 	 */
-	private JScrollPane m_ScrollPane;
+	private JScrollPane scrollPane;
 
 	/**
 	 * The model that stores the actual data for the table and from which the
 	 * table reads and displays data
 	 */
-	private SelectionTableModel m_SelectionTableModel;
+	private SelectionTableModel selectionTableModel;
 
 	/**
 	 * Reference to the collection of CageUIs
 	 */
-	private ArrayList m_CageCollection = null;
+	private ArrayList<CageUI> cageCollection = null;
 
 	/**
 	 * The constructor
@@ -119,11 +120,11 @@ public class CageManager extends JDialog {
 	 * @param cageCollection
 	 *            the list of Cages
 	 */
-	public CageManager(Frame importFrame, String title, ArrayList cageCollection) {
+	public CageManager(Frame importFrame, String title, ArrayList<CageUI> cageCollection) {
 		//initialize parent
 		super(importFrame, true);
 		setTitle(title);
-		m_CageCollection = cageCollection;
+		this.cageCollection = cageCollection;
 
 		//setup the GUI of its internal components
 		components();
@@ -139,7 +140,7 @@ public class CageManager extends JDialog {
 	private void components() {
 		setupSelectionTable();
 		setupPanels();
-		setContentPane(m_OptionPanel);
+		setContentPane(optionPanel);
 	}
 
 	/**
@@ -164,37 +165,37 @@ public class CageManager extends JDialog {
 	 * adds it to a panel
 	 */
 	private void setupSelectionTable() {
-		m_SelectionTableModel = new SelectionTableModel(m_CageCollection);
-		m_SelectionTable = new JTable(m_SelectionTableModel);
-		m_SelectionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		m_SelectionTable.setRowSelectionInterval(0, 0);
-		m_SelectionTable.getTableHeader().setReorderingAllowed(false);
-		m_SelectionTable.getTableHeader().getColumnModel()
+		selectionTableModel = new SelectionTableModel(cageCollection);
+		selectionTable = new JTable(selectionTableModel);
+		selectionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		selectionTable.setRowSelectionInterval(0, 0);
+		selectionTable.getTableHeader().setReorderingAllowed(false);
+		selectionTable.getTableHeader().getColumnModel()
 				.setColumnSelectionAllowed(false);
-		m_SelectionTable.setPreferredScrollableViewportSize(new Dimension(
-				m_DialogWidth - 50, 65));
-		m_SelectionTable.getColumnModel().getColumn(0).setMinWidth(0);
-		m_SelectionTable.getColumnModel().getColumn(0).setMaxWidth(85);
-		m_SelectionTable.getColumnModel().getColumn(0).setPreferredWidth(75);
+		selectionTable.setPreferredScrollableViewportSize(new Dimension(
+				dialogWidth - 50, 65));
+		selectionTable.getColumnModel().getColumn(0).setMinWidth(0);
+		selectionTable.getColumnModel().getColumn(0).setMaxWidth(85);
+		selectionTable.getColumnModel().getColumn(0).setPreferredWidth(75);
 		JLabel dialogLabel = new JLabel("Set Visibility");
 		DefaultTableCellRenderer tRenderer = new DefaultTableCellRenderer();
 		tRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		Font fn = new Font(dialogLabel.getFont().getName(), Font.BOLD,
 				dialogLabel.getFont().getSize());
 		tRenderer.setFont(fn);
-		m_SelectionTable.getColumnModel().getColumn(1).setCellRenderer(
+		selectionTable.getColumnModel().getColumn(1).setCellRenderer(
 				tRenderer);
-		m_ScrollPane = new JScrollPane(m_SelectionTable);
+		scrollPane = new JScrollPane(selectionTable);
 
 		BorderLayout bSelectionLayout = new BorderLayout();
 		bSelectionLayout.setVgap(10);
-		m_SelectionPanel = new JPanel();
-		m_SelectionPanel.setLayout(bSelectionLayout);
-		m_SelectionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0,
+		selectionPanel = new JPanel();
+		selectionPanel.setLayout(bSelectionLayout);
+		selectionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0,
 				10));
 
-		m_SelectionPanel.add(dialogLabel, BorderLayout.NORTH);
-		m_SelectionPanel.add(m_ScrollPane, BorderLayout.CENTER);
+		selectionPanel.add(dialogLabel, BorderLayout.NORTH);
+		selectionPanel.add(scrollPane, BorderLayout.CENTER);
 	}
 
 	/**
@@ -202,22 +203,22 @@ public class CageManager extends JDialog {
 	 */
 	private void setupPanels() {
 		setupButtons();
-		m_OptionPanel = new JPanel();
+		optionPanel = new JPanel();
 		BorderLayout bLayout = new BorderLayout();
 		bLayout.setVgap(10);
-		m_OptionPanel.setLayout(bLayout);
-		m_OptionPanel.add(new JPanel(), BorderLayout.WEST);
-		m_OptionPanel.add(m_SelectionPanel, BorderLayout.CENTER);
-		m_OptionPanel.add(new JPanel(), BorderLayout.EAST);
-		m_SouthButtonPanel = new JPanel();
+		optionPanel.setLayout(bLayout);
+		optionPanel.add(new JPanel(), BorderLayout.WEST);
+		optionPanel.add(selectionPanel, BorderLayout.CENTER);
+		optionPanel.add(new JPanel(), BorderLayout.EAST);
+		southButtonPanel = new JPanel();
 		JPanel okButtonPanel = new JPanel();
 		JPanel cancelButtonPanel = new JPanel();
 		okButtonPanel.setLayout(new BorderLayout());
 		cancelButtonPanel.setLayout(new BorderLayout());
-		okButtonPanel.add(m_OkButton, BorderLayout.CENTER);
-		m_SouthButtonPanel.add(okButtonPanel);
-		m_SouthButtonPanel.add(cancelButtonPanel);
-		m_OptionPanel.add(m_SouthButtonPanel, BorderLayout.SOUTH);
+		okButtonPanel.add(okButton, BorderLayout.CENTER);
+		southButtonPanel.add(okButtonPanel);
+		southButtonPanel.add(cancelButtonPanel);
+		optionPanel.add(southButtonPanel, BorderLayout.SOUTH);
 	}
 
 	/**
@@ -225,8 +226,8 @@ public class CageManager extends JDialog {
 	 * and close the dialog.
 	 */
 	private void setupButtons() {
-		m_OkButton = new JButton("OK");
-		m_OkButton.addActionListener(new ActionListener() {
+		okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ok();
 			}
@@ -237,14 +238,14 @@ public class CageManager extends JDialog {
 	 * The stuff to be done if user clicks on the OK button of the dialog
 	 */
 	private void ok() {
-		hide();
+		setVisible(false);
 	}
 
 	/**
 	 * The stuff to be done if user clicks on the CANCEL button of the dialog
 	 */
 	private void cancel() {
-		hide();
+		setVisible(false);
 	}
 
 	/**
@@ -265,7 +266,7 @@ public class CageManager extends JDialog {
 		/**
 		 * A reference to the list of cages.
 		 */
-		private ArrayList Cages;
+		private ArrayList<CageUI> cages;
 
 		/**
 		 * The constructor
@@ -273,12 +274,12 @@ public class CageManager extends JDialog {
 		 * @param cageCollection
 		 *            the list of cages
 		 */
-		public SelectionTableModel(ArrayList cageCollection) {
-			Cages = cageCollection;
+		public SelectionTableModel(ArrayList<CageUI> cageCollection) {
+			cages = cageCollection;
 			int i = 0;
 			m_RowData = new Object[cageCollection.size()][2];
-			for (Iterator it = cageCollection.iterator(); it.hasNext();) {
-				CageUI cageUI = (CageUI) it.next();
+			for (Iterator<CageUI> it = cageCollection.iterator(); it.hasNext();) {
+				CageUI cageUI = it.next();
 				String objName = "Cage# " + (cageUI.getCage().getId() + 1);
 				m_RowData[i][0] = new Boolean(cageUI.isVisible());
 				m_RowData[i][1] = objName;
@@ -343,7 +344,7 @@ public class CageManager extends JDialog {
 		public void setValueAt(Object value, int row, int col) {
 			m_RowData[row][col] = value;
 			fireTableCellUpdated(row, col);
-			((CageUI) Cages.get(row)).setVisible(((Boolean) value)
+			((CageUI) cages.get(row)).setVisible(((Boolean) value)
 					.booleanValue());
 		}
 	}

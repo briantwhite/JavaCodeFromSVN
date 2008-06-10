@@ -56,8 +56,9 @@ import GeneticModels.Organism;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
- * VGLMainApp.java - the UI controller class. Its the heart of almost all UI
- * rendations and manipulations.
+ * Brian White Summer 2008
+ * VGLII.java - the UI controller class. Its the heart of almost all UI
+ * renditions and manipulations.
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -73,28 +74,11 @@ import GeneticModels.Organism;
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
- * @author Nikunj Koolar
+ * @author Nikunj Koolar & Brian White
  * @version 1.0 $Id$
  */
-public class VGLMainApp extends JFrame {
-	/**
-	 * Allows or disallows the "Save To Server" option
-	 */
-	private boolean m_SaveToServerEnabled = true;
-	/**
-	 * The unique program id of the application
-	 */
-	private String m_ProgramId;
+public class VGLII extends JFrame {
 
-	/**
-	 * The logo image for the application
-	 */
-	private Image m_Image;
-
-	/**
-	 * The current character in the system
-	 */
-	private String m_Trait;
 
 	/**
 	 * The program id for the application if none is provided
@@ -346,7 +330,7 @@ public class VGLMainApp extends JFrame {
 	 * @param frame
 	 *            the reference frame for the application
 	 */
-	public VGLMainApp(JFrame frame) {
+	public VGLII(JFrame frame) {
 		super();
 		m_isAnApplet = false;
 		m_ProgramId = m_DefaultId;
@@ -358,7 +342,7 @@ public class VGLMainApp extends JFrame {
 	 * 
 	 * constructor for applet
 	 */
-	public VGLMainApp(Image image){
+	public VGLII(Image image){
 		super();
 		m_isAnApplet = true;
 		m_ProgramId = m_DefaultId;
@@ -378,7 +362,7 @@ public class VGLMainApp extends JFrame {
 	 * @param frame
 	 *            the reference frame for the application
 	 */
-	public VGLMainApp(String programId, File defaultDir, Image img, JFrame frame) {
+	public VGLII(String programId, File defaultDir, Image img, JFrame frame) {
 		super();
 		m_isAnApplet = false;
 		m_ProgramId = programId;
@@ -534,46 +518,46 @@ public class VGLMainApp extends JFrame {
 	 */
 	private void menuBar() {
 		JMenuBar mnuBar = new JMenuBar();
-		URL openImageURL = VGLMainApp.class.getResource("images/open16.gif");
+		URL openImageURL = VGLII.class.getResource("images/open16.gif");
 		ImageIcon openImage = new ImageIcon(openImageURL);
 		
-		URL newImageURL = VGLMainApp.class.getResource("images/new16.gif");
+		URL newImageURL = VGLII.class.getResource("images/new16.gif");
 		ImageIcon newImage = new ImageIcon(newImageURL);
 		
-		URL saveAsImageURL = VGLMainApp.class
+		URL saveAsImageURL = VGLII.class
 		.getResource("images/saveas16.gif");
 		ImageIcon saveAsImage = new ImageIcon(saveAsImageURL);
 		
-		URL saveToServerImageURL = VGLMainApp.class
+		URL saveToServerImageURL = VGLII.class
 		.getResource("images/savetoserver16.gif");
 		ImageIcon saveToServerImage = new ImageIcon(saveToServerImageURL);
 		
-		URL saveImageURL = VGLMainApp.class.getResource("images/save16.gif");
+		URL saveImageURL = VGLII.class.getResource("images/save16.gif");
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
 		
-		URL aboutImageURL = VGLMainApp.class.getResource("images/about16.gif");
+		URL aboutImageURL = VGLII.class.getResource("images/about16.gif");
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
 		
 		URL printFileImageURL = 
-			VGLMainApp.class.getResource("images/printtofile16.gif");
+			VGLII.class.getResource("images/printtofile16.gif");
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
 		
-		URL balloonHelpImageURL = VGLMainApp.class
+		URL balloonHelpImageURL = VGLII.class
 				.getResource("images/help16.gif");
 		ImageIcon balloonHelpImage = new ImageIcon(balloonHelpImageURL);
 
-		URL printImageURL = VGLMainApp.class.getResource("images/print16.gif");
+		URL printImageURL = VGLII.class.getResource("images/print16.gif");
 		ImageIcon printImage = new ImageIcon(printImageURL);
 
-		URL pageSetupImageURL = VGLMainApp.class
+		URL pageSetupImageURL = VGLII.class
 				.getResource("images/pagesetup16.gif");
 		ImageIcon pageSetupImage = new ImageIcon(pageSetupImageURL);
 
-		URL onlineHelpImageURL = VGLMainApp.class
+		URL onlineHelpImageURL = VGLII.class
 				.getResource("images/onlinehelp16.gif");
 		ImageIcon onlineHelpImage = new ImageIcon(onlineHelpImageURL);
 
-		URL closeImageURL = VGLMainApp.class
+		URL closeImageURL = VGLII.class
 				.getResource("images/closework16.gif");
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
@@ -662,43 +646,43 @@ public class VGLMainApp extends JFrame {
 	 */
 	private void toolBar() {
 		m_ToolBar = new JToolBar();
-		URL openImageURL = VGLMainApp.class.getResource("images/open.gif");
+		URL openImageURL = VGLII.class.getResource("images/open.gif");
 		ImageIcon openImage = new ImageIcon(openImageURL);
 
-		URL newImageURL = VGLMainApp.class.getResource("images/new.gif");
+		URL newImageURL = VGLII.class.getResource("images/new.gif");
 		ImageIcon newImage = new ImageIcon(newImageURL);
 
-		URL saveAsImageURL = VGLMainApp.class.getResource("images/saveas.gif");
+		URL saveAsImageURL = VGLII.class.getResource("images/saveas.gif");
 		ImageIcon saveAsImage = new ImageIcon(saveAsImageURL);
 
-		URL saveImageURL = VGLMainApp.class.getResource("images/save.gif");
+		URL saveImageURL = VGLII.class.getResource("images/save.gif");
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
 		
-		URL saveToServerURL = VGLMainApp.class.getResource("images/savetoserver.gif");
+		URL saveToServerURL = VGLII.class.getResource("images/savetoserver.gif");
 		ImageIcon saveToServerImage = new ImageIcon(saveToServerURL);
 
-		URL aboutImageURL = VGLMainApp.class.getResource("images/about.gif");
+		URL aboutImageURL = VGLII.class.getResource("images/about.gif");
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
 
-		URL printImageURL = VGLMainApp.class.getResource("images/print.gif");
+		URL printImageURL = VGLII.class.getResource("images/print.gif");
 		ImageIcon printImage = new ImageIcon(printImageURL);
 
-		URL printFileImageURL = VGLMainApp.class
+		URL printFileImageURL = VGLII.class
 				.getResource("images/printtofile.gif");
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
 
-		URL onlineHelpImageURL = VGLMainApp.class
+		URL onlineHelpImageURL = VGLII.class
 				.getResource("images/onlinehelp.gif");
 		ImageIcon onlineHelpImage = new ImageIcon(onlineHelpImageURL);
 
-		URL closeImageURL = VGLMainApp.class
+		URL closeImageURL = VGLII.class
 				.getResource("images/closework.gif");
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
-		URL crossTwoImageURL = VGLMainApp.class.getResource("images/cross.gif");
+		URL crossTwoImageURL = VGLII.class.getResource("images/cross.gif");
 		ImageIcon crossTwoImage = new ImageIcon(crossTwoImageURL);
 
-		URL exitImageURL = VGLMainApp.class.getResource("images/exit.gif");
+		URL exitImageURL = VGLII.class.getResource("images/exit.gif");
 		ImageIcon exitImage = new ImageIcon(exitImageURL);
 
 		m_NewButton = JButtonImageItem(newImage, "NewProblem",
@@ -1039,7 +1023,7 @@ public class VGLMainApp extends JFrame {
 		helpPane.setContentType("text/html");
 
 		try {
-			helpPane.setPage(VGLMainApp.class.getResource("Help/index.html"));
+			helpPane.setPage(VGLII.class.getResource("Help/index.html"));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(m_DialogFrame,
 					"Be sure the help folder is in the same folder as VGL.",
@@ -1074,7 +1058,7 @@ public class VGLMainApp extends JFrame {
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					helpPane.setPage(VGLMainApp.class.getResource("Help/index.html"));
+					helpPane.setPage(VGLII.class.getResource("Help/index.html"));
 				} catch (Exception e) {
 					System.err
 							.println("Couldn't open help file" + e.toString());

@@ -1,6 +1,7 @@
 package VGL;
 /**
  * Naing Naing Maw cs681-3 Fall 2002 - Spring 2003 Project VGL File:
+ * Brian White 2008
  * ~nnmaw/VGL/GeneticsException.java
  * 
  * This program is free software; you can redistribute it and/or modify it under
@@ -17,7 +18,7 @@ package VGL;
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
- * @author Naing Naing Maw
+ * @author Naing Naing Maw & Brian White
  * @version 1.0 $Id: GeneticsException.java,v 1.3 2003/05/11 16:00:28 nikunjk
  *          Exp $
  */
