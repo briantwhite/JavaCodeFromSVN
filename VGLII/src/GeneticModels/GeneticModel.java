@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.8 2008-06-10 15:34:26 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.9 2008-06-10 16:29:18 brian Exp $
  */
 
 // This is the wrapper class for the entire genetic model
@@ -87,13 +87,13 @@ public class GeneticModel {
 	private boolean XX_XYsexLinkage; 
 
 
-	public GeneticModel(boolean XX_XYsexLinkage) {
+	protected GeneticModel(boolean XX_XYsexLinkage) {
 		this.XX_XYsexLinkage = XX_XYsexLinkage;
 		autosomeModel = new AutosomeModel();
 		sexChromosomeModel = new SexChromosomeModel();
 	}
 
-	public void addFirstAutosomalGeneModel(GeneModel gm) throws GeneticsException {
+	protected void addFirstAutosomalGeneModel(GeneModel gm) throws GeneticsException {
 		if (autosomeModel.getNumberOfGeneModels() != 0) {
 			throw new GeneticsException("Can't add first autosomal model when" 
 					+ " one is already present");
@@ -101,7 +101,7 @@ public class GeneticModel {
 		autosomeModel.addGeneModel(gm);
 	}
 
-	public void addFirstSexLinkedGeneModel(GeneModel gm) throws GeneticsException {
+	protected void addFirstSexLinkedGeneModel(GeneModel gm) throws GeneticsException {
 		if (sexChromosomeModel.getNumberOfGeneModels() != 0) {
 			throw new GeneticsException("Can't add first sex-linked model when" 
 					+ " one is already present");
@@ -109,7 +109,7 @@ public class GeneticModel {
 		sexChromosomeModel.addGeneModel(gm);
 	}
 
-	public void addNextAutosomalGeneModel(float rf, GeneModel gm) throws GeneticsException {
+	protected void addNextAutosomalGeneModel(float rf, GeneModel gm) throws GeneticsException {
 		if (autosomeModel.getNumberOfGeneModels() == 0) {
 			throw new GeneticsException("Can't add next autosomal model to" 
 					+ " empty list");
@@ -118,7 +118,7 @@ public class GeneticModel {
 		autosomeModel.addRecombinationFrequency(rf);
 	}
 
-	public void addNextSexLinkedGeneModel(float rf, GeneModel gm) throws GeneticsException {
+	protected void addNextSexLinkedGeneModel(float rf, GeneModel gm) throws GeneticsException {
 		if (sexChromosomeModel.getNumberOfGeneModels() == 0) {
 			throw new GeneticsException("Can't add next sex-linked model to" 
 					+ " empty list");
