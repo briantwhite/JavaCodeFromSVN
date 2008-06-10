@@ -281,3 +281,6 @@ nuke VGL.Genetics
 
 6/10/08
 - go thru and change all the m_fred to fred
+- re-worked CageUI for new stuff
+- also put in the gpl header to all classes
+- reworked VGLII (nuked VGLMain and VGLMainApp)

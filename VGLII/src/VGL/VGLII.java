@@ -79,58 +79,47 @@ import GeneticModels.Organism;
  */
 public class VGLII extends JFrame {
 
-
 	/**
-	 * The program id for the application if none is provided
+	 * the version number
 	 */
-	private static final String m_DefaultId = "Virtual Genetics Lab Applet";
-
+	private final static String version = "0.9";
+	
 	/**
 	 * The common file chooser instance for the application
 	 */
 	private JFileChooser m_FChooser;
 	
 	/**
-	 * the server script for saving to server
-	 */
-	private static final String m_SaveToServerScript = "http://intro.bio.umb.edu/cgi-bin/saveWork.pl";
-	
-	/**
-	 * script on server to get list of sections available for saving work
-	 */
-	private static final String m_GetSectionListScript = "http://intro.bio.umb.edu/cgi-bin/getSectionList.pl";
-
-	/**
 	 * The collection of Cage UIs associated with the current problem
 	 */
-	private ArrayList m_CageCollection;
+	private ArrayList<CageUI> cageCollection;
 
 	/**
 	 * The id of the next cage that will be created
 	 */
-	private int m_NextCageId = 0;
+	private int nextCageId = 0;
 
 	/**
 	 * The mode in which to open/create an existing/new problem if the mode is
 	 * "show underlying model" then its value is true, false otherwise
 	 */
-	private boolean m_IsBeginner = false;
+	private boolean isBeginner = false;
 
 	/**
 	 * The singular instance that holds the current male-female selection for
 	 * crossing
 	 */
-	private SelectionVial m_SelectionVial;
+	private SelectionVial selectionVial;
 
 	/**
 	 * This widget holds the buttons
 	 */
-	private JToolBar m_ToolBar = null;
+	private JToolBar toolBar = null;
 
 	/**
 	 * The label for the status panel to display information
 	 */
-	private JLabel m_StatusLabel = null;
+	private JLabel statusLabel = null;
 
 	/**
 	 * The Document renderer to allow printing
@@ -140,237 +129,182 @@ public class VGLII extends JFrame {
 	/**
 	 * The filter type to display only Problem type files
 	 */
-	private static final String m_PrbFilterString = new String("prb");
+	private static final String prbFilterString = new String("prb");
 
 	/**
 	 * The filter type to display only Work files
 	 */
-	private static final String m_WrkFilterString = new String("wrk");
+	private static final String wrkFilterString = new String("wrk");
 
 	/**
 	 * The filter type to display Print files
 	 */
-	private static final String m_PrtFilterString = new String("html");
+	private static final String printFilterString = new String("html");
 
 	/**
 	 * Menu item to open a new problem type
 	 */
-	private JMenuItem m_NewProblemItem = null;
+	private JMenuItem newProblemItem = null;
 
 	/**
 	 * Menu item to open a saved problem
 	 */
-	private JMenuItem m_OpenProblemItem = null;
+	private JMenuItem openProblemItem = null;
 
 	/**
 	 * Menu item to save current work to a file
 	 */
-	private JMenuItem m_SaveProblemItem = null;
+	private JMenuItem saveProblemItem = null;
 
 	/**
 	 * Menu item to save current work to a different file than the current one
 	 */
-	private JMenuItem m_SaveProblemAsItem = null;
+	private JMenuItem saveProblemAsItem = null;
 	
-	/**
-	 * Meu item to save current work to server
-	 */
-	private JMenuItem m_SaveToServerItem = null;
-
 	/**
 	 * Menu item to close the current work
 	 */
-	private JMenuItem m_CloseProblemItem = null;
+	private JMenuItem closeProblemItem = null;
 
 	/**
 	 * Menu item to close application
 	 */
-	private JMenuItem m_ExitItem = null;
+	private JMenuItem exitItem = null;
 
 	/**
 	 * Menu item to cross two organisms
 	 */
-	private JMenuItem m_CrossTwoItem = null;
+	private JMenuItem crossTwoItem = null;
 
 	/**
 	 * Menu item to display "about VGL" box
 	 */
-	private JMenuItem m_AboutItem = null;
+	private JMenuItem aboutItem = null;
 
 	/**
 	 * Checkbox based menu item to set balloon help on/off
 	 */
-	private JCheckBoxMenuItem m_BalloonHelpItem = null;
+	private JCheckBoxMenuItem balloonHelpItem = null;
 
 	/**
 	 * Menu item to invoke cage manager dialog
 	 */
-	private JMenuItem m_CageManagerItem = null;
+	private JMenuItem cageManagerItem = null;
 
 	/**
 	 * Menu item to print current work to file
 	 */
-	private JMenuItem m_PrintToFileItem = null;
+	private JMenuItem printToFileItem = null;
 
 	/**
 	 * Menu item to print current work
 	 */
-	private JMenuItem m_PrintItem = null;
+	private JMenuItem printItem = null;
 
 	/**
 	 * Menu item to set up the printing page
 	 */
-	private JMenuItem m_PageSetupItem = null;
+	private JMenuItem pageSetupItem = null;
 
 	/**
 	 * Menu item to invoke help
 	 */
-	private JMenuItem m_OnlineHelpItem = null;
+	private JMenuItem onlineHelpItem = null;
 
 	/**
 	 * Menu item to re-arrange cages
 	 */
-	private JMenuItem m_RearrangeCagesItem = null;
+	private JMenuItem rearrangeCagesItem = null;
 
 	/**
 	 * Button to open a saved problem
 	 */
-	private JButton m_OpenButton = null;
+	private JButton openButton = null;
 
 	/**
 	 * Button to open a new problem type
 	 */
-	private JButton m_NewButton = null;
+	private JButton newButton = null;
 
 	/**
 	 * Button to close the current work
 	 */
-	private JButton m_CloseButton = null;
+	private JButton closeButton = null;
 
 	/**
 	 * Button to print the current work
 	 */
-	private JButton m_PrintButton = null;
+	private JButton printButton = null;
 
 	/**
 	 * Button to exit application
 	 */
-	private JButton m_ExitButton = null;
+	private JButton exitButton = null;
 
 	/**
 	 * Button to save current work
 	 */
-	private JButton m_SaveButton = null;
+	private JButton saveButton = null;
 	
-	/**
-	 * Button to save current work to server
-	 */
-	private JButton m_SaveToServerButton = null;
-
 	/**
 	 * Button to save to a different file than the current file
 	 */
-	private JButton m_SaveAsButton = null;
+	private JButton saveAsButton = null;
 
 	/**
 	 * Button to cross two organisms
 	 */
-	private JButton m_CrossTwoButton = null;
+	private JButton crossTwoButton = null;
 
 	/**
 	 * Button to display "about VGL" box
 	 */
-	private JButton m_AboutButton = null;
+	private JButton aboutButton = null;
 
 	/**
 	 * Button to print current work to file
 	 */
-	private JButton m_PrintToFileButton = null;
+	private JButton printToFileButton = null;
 
 	/**
 	 * Button to invoke help
 	 */
-	private JButton m_OnlineHelpButton = null;
+	private JButton onlineHelpButton = null;
 
 	/**
 	 * A reference to the frame of the application
 	 */
-	private JFrame m_DialogFrame = null;
+	private JFrame dialogFrame = null;
 
 	/**
 	 * The current file to which work is being saved to
 	 */
-	private File m_CurrentSavedFile = null;
+	private File currentSavedFile = null;
 
 	/**
 	 * The default path for the file dialogs to open in
 	 */
-	private File m_DefaultDirectory = new File(".");
+	private File defaultDirectory = new File(".");
 
 	/**
 	 * Boolean variable to keep track of whether balloon help is on or not
 	 */
-	private Boolean m_IsBalloonHelpActive = null;
+	private Boolean isBalloonHelpActive = null;
 
 	/**
 	 * Stores the value of the next position on the screen where a cage should
 	 * be displayed
 	 */
-	private Point m_NextCageScreenPosition;
-	
-	/**
-	 * Signals that this is running as an applet with reduced 
-	 * functionality
-	 */
-	private boolean m_isAnApplet;
-	
+	private Point nextCageScreenPosition;
+		
 	/**
 	 * The constructor
 	 * 
-	 * @param frame
-	 *            the reference frame for the application
 	 */
-	public VGLII(JFrame frame) {
-		super();
-		m_isAnApplet = false;
-		m_ProgramId = m_DefaultId;
-		m_FChooser = new JFileChooser();
-		m_DialogFrame = frame;
+	public VGLII() {
+		super("Virtual Genetics Lab II " + version);
 	}
 	
-	/** 
-	 * 
-	 * constructor for applet
-	 */
-	public VGLII(Image image){
-		super();
-		m_isAnApplet = true;
-		m_ProgramId = m_DefaultId;
-		m_DialogFrame = new JFrame(m_ProgramId);
-		m_Image = image;
-	}
-    
-	/**
-	 * The constructor for access via a parent application.
-	 * 
-	 * @param programId
-	 *            the unique name for the application
-	 * @param defaultDir
-	 *            the path for file dialogs to open up
-	 * @param img
-	 *            the image associated with the application
-	 * @param frame
-	 *            the reference frame for the application
-	 */
-	public VGLII(String programId, File defaultDir, Image img, JFrame frame) {
-		super();
-		m_isAnApplet = false;
-		m_ProgramId = programId;
-		m_Image = img;
-		m_DefaultDirectory = defaultDir;
-		m_FChooser = new JFileChooser(defaultDir);
-		m_DialogFrame = frame;
-	}
 
 	/**
 	 * Initializes the application and sets up the various components
@@ -378,7 +312,7 @@ public class VGLII extends JFrame {
 	public void init() {
 		super.init(); //  Perform JApplet initialization.
 		components(); //  Create and load all GUI components.
-		m_DialogFrame.addWindowListener(new WindowAdapter() {
+		dialogFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				exitApplication();
 			}
@@ -392,7 +326,7 @@ public class VGLII extends JFrame {
 	 *            the reference frame to be used
 	 */
 	public void dialogFrame(JFrame dialogFrame) {
-		m_DialogFrame = dialogFrame;
+		dialogFrame = dialogFrame;
 	}
 
 	/**
@@ -563,63 +497,63 @@ public class VGLII extends JFrame {
 
 		//  "File" options.
 		JMenu mnuFile = new JMenu("File");		
-		m_NewProblemItem = menuItem("New Problem", "NewProblem", newImage);
-		m_OpenProblemItem = menuItem("Open Work", "OpenWork", openImage);
-		m_SaveProblemItem = menuItem("Save Work", "SaveWork", saveImage);
-		m_SaveProblemAsItem = menuItem("Save Work As..", "SaveAs", saveAsImage);
+		newProblemItem = menuItem("New Problem", "NewProblem", newImage);
+		openProblemItem = menuItem("Open Work", "OpenWork", openImage);
+		saveProblemItem = menuItem("Save Work", "SaveWork", saveImage);
+		saveProblemAsItem = menuItem("Save Work As..", "SaveAs", saveAsImage);
 		m_SaveToServerItem = menuItem("Save To Server..", "SaveToServer", saveToServerImage);
-		m_PageSetupItem = menuItem("Page Setup", "PageSetup", pageSetupImage);
-		m_PrintItem = menuItem("Print Work", "PrintWork", printImage);
-		m_PrintToFileItem = menuItem("Print Work To File", "PrintToFile",
+		pageSetupItem = menuItem("Page Setup", "PageSetup", pageSetupImage);
+		printItem = menuItem("Print Work", "PrintWork", printImage);
+		printToFileItem = menuItem("Print Work To File", "PrintToFile",
 				printFileImage);
-		m_CloseProblemItem = menuItem("Close Work", "CloseWork", closeImage);
-		m_ExitItem = menuItem("Exit", "Exit", null);
+		closeProblemItem = menuItem("Close Work", "CloseWork", closeImage);
+		exitItem = menuItem("Exit", "Exit", null);
 
 		if (!m_isAnApplet){
-			mnuFile.add(m_NewProblemItem);
-			mnuFile.add(m_OpenProblemItem);
+			mnuFile.add(newProblemItem);
+			mnuFile.add(openProblemItem);
 			mnuFile.addSeparator();
-			mnuFile.add(m_SaveProblemItem);
-			mnuFile.add(m_SaveProblemAsItem);
+			mnuFile.add(saveProblemItem);
+			mnuFile.add(saveProblemAsItem);
 			mnuFile.addSeparator();
 		}
 		
 		if (m_SaveToServerEnabled) {
 			mnuFile.add(m_SaveToServerItem);
 		}
-		mnuFile.add(m_PageSetupItem);
-		mnuFile.add(m_PrintItem);
+		mnuFile.add(pageSetupItem);
+		mnuFile.add(printItem);
 		
 		if (!m_isAnApplet){
-			mnuFile.add(m_PrintToFileItem);
+			mnuFile.add(printToFileItem);
 			mnuFile.addSeparator();
-			mnuFile.add(m_CloseProblemItem);
+			mnuFile.add(closeProblemItem);
 			mnuFile.addSeparator();
-			mnuFile.add(m_ExitItem);
+			mnuFile.add(exitItem);
 		}
 		
 		mnuBar.add(mnuFile);
 
 		//  "Utilities" options.
 		JMenu mnuUtilities = new JMenu("Utilites");
-		m_CrossTwoItem = menuItem("Cross Two", "CrossTwo", null);
-		mnuUtilities.add(m_CrossTwoItem);
+		crossTwoItem = menuItem("Cross Two", "CrossTwo", null);
+		mnuUtilities.add(crossTwoItem);
 		mnuBar.add(mnuUtilities);
-		m_CageManagerItem = menuItem("Cages", "CageManager", null);
-		mnuUtilities.add(m_CageManagerItem);
-		m_RearrangeCagesItem = menuItem("Rearrange Cages", "RearrangeCages",
+		cageManagerItem = menuItem("Cages", "CageManager", null);
+		mnuUtilities.add(cageManagerItem);
+		rearrangeCagesItem = menuItem("Rearrange Cages", "RearrangeCages",
 				null);
-		mnuUtilities.add(m_RearrangeCagesItem);
+		mnuUtilities.add(rearrangeCagesItem);
 		mnuBar.add(mnuUtilities);
 
 		//  "Help" options.
 		JMenu mnuHelp = new JMenu("Help");
-		m_BalloonHelpItem = checkBoxMenuItem("Balloon Help", "BalloonHelp",
+		balloonHelpItem = checkBoxMenuItem("Balloon Help", "BalloonHelp",
 				balloonHelpImage);
-		mnuHelp.add(m_BalloonHelpItem);
-		m_OnlineHelpItem = menuItem("Help Page...", "OnlineHelp",
+		mnuHelp.add(balloonHelpItem);
+		onlineHelpItem = menuItem("Help Page...", "OnlineHelp",
 				onlineHelpImage);
-		mnuHelp.add(m_OnlineHelpItem);
+		mnuHelp.add(onlineHelpItem);
 		mnuHelp.add(menuItem("About Virtual Genetics Lab...", "About",
 				aboutImage));
 		mnuBar.add(mnuHelp);
@@ -633,11 +567,11 @@ public class VGLII extends JFrame {
 		JPanel sPanel = new JPanel();
 		sPanel.setLayout(new BorderLayout());
 
-		m_StatusLabel = new JLabel();
-		m_StatusLabel.setForeground(Color.black);
-		m_StatusLabel.setBorder(new SoftBevelBorder(1));
-		m_StatusLabel.setText(" ");
-		sPanel.add(m_StatusLabel, BorderLayout.CENTER);
+		statusLabel = new JLabel();
+		statusLabel.setForeground(Color.black);
+		statusLabel.setBorder(new SoftBevelBorder(1));
+		statusLabel.setText(" ");
+		sPanel.add(statusLabel, BorderLayout.CENTER);
 		getContentPane().add(sPanel, BorderLayout.SOUTH);
 	}
 
@@ -645,7 +579,7 @@ public class VGLII extends JFrame {
 	 * Create and load toolbar
 	 */
 	private void toolBar() {
-		m_ToolBar = new JToolBar();
+		toolBar = new JToolBar();
 		URL openImageURL = VGLII.class.getResource("images/open.gif");
 		ImageIcon openImage = new ImageIcon(openImageURL);
 
@@ -685,55 +619,55 @@ public class VGLII extends JFrame {
 		URL exitImageURL = VGLII.class.getResource("images/exit.gif");
 		ImageIcon exitImage = new ImageIcon(exitImageURL);
 
-		m_NewButton = JButtonImageItem(newImage, "NewProblem",
+		newButton = JButtonImageItem(newImage, "NewProblem",
 				"New Problem...", KeyEvent.VK_N);
-		m_OpenButton = JButtonImageItem(openImage, "OpenWork", "Open Work...",
+		openButton = JButtonImageItem(openImage, "OpenWork", "Open Work...",
 				KeyEvent.VK_O);
-		m_CloseButton = JButtonImageItem(closeImage, "CloseWork",
+		closeButton = JButtonImageItem(closeImage, "CloseWork",
 				"Close Work...", KeyEvent.VK_L);
-		m_ExitButton = JButtonImageItem(exitImage, "Exit", "Exit...",
+		exitButton = JButtonImageItem(exitImage, "Exit", "Exit...",
 				KeyEvent.VK_E);
-		m_SaveButton = JButtonImageItem(saveImage, "SaveWork", "Save Work...",
+		saveButton = JButtonImageItem(saveImage, "SaveWork", "Save Work...",
 				KeyEvent.VK_S);
-		m_SaveAsButton = JButtonImageItem(saveAsImage, "SaveAs", "Save as...",
+		saveAsButton = JButtonImageItem(saveAsImage, "SaveAs", "Save as...",
 				KeyEvent.VK_V);
 		m_SaveToServerButton = JButtonImageItem(saveToServerImage, "SaveToServer", "Save To Server...",
 				KeyEvent.VK_I);
-		m_CrossTwoButton = JButtonImageItem(crossTwoImage, "CrossTwo",
+		crossTwoButton = JButtonImageItem(crossTwoImage, "CrossTwo",
 				"Cross two organisms...", KeyEvent.VK_C);
-		m_AboutButton = JButtonImageItem(aboutImage, "About",
+		aboutButton = JButtonImageItem(aboutImage, "About",
 				"About Virtual Genetics Lab...", KeyEvent.VK_A);
 
-		m_PrintButton = JButtonImageItem(printImage, "PrintWork",
+		printButton = JButtonImageItem(printImage, "PrintWork",
 				"Print Work...", KeyEvent.VK_P);
 
-		m_PrintToFileButton = JButtonImageItem(printFileImage, "PrintToFile",
+		printToFileButton = JButtonImageItem(printFileImage, "PrintToFile",
 				"Print Work To File...", KeyEvent.VK_F);
-		m_OnlineHelpButton = JButtonImageItem(onlineHelpImage, "OnlineHelp",
+		onlineHelpButton = JButtonImageItem(onlineHelpImage, "OnlineHelp",
 				"Help Page", KeyEvent.VK_H);
 		
 		if(!m_isAnApplet){
-			m_ToolBar.add(m_NewButton);
-			m_ToolBar.add(m_OpenButton);
-			m_ToolBar.add(m_CloseButton);
-			m_ToolBar.add(m_ExitButton);
-			m_ToolBar.add(m_SaveButton);
-			m_ToolBar.add(m_SaveAsButton);
+			toolBar.add(newButton);
+			toolBar.add(openButton);
+			toolBar.add(closeButton);
+			toolBar.add(exitButton);
+			toolBar.add(saveButton);
+			toolBar.add(saveAsButton);
 		}
 		
 		if (m_SaveToServerEnabled) {
-			m_ToolBar.add(m_SaveToServerButton);
+			toolBar.add(m_SaveToServerButton);
 		}
 		
-		m_ToolBar.add(m_PrintButton);
+		toolBar.add(printButton);
 		
 		if(!m_isAnApplet){
-			m_ToolBar.add(m_PrintToFileButton);
+			toolBar.add(printToFileButton);
 		}
 		
-		m_ToolBar.add(m_CrossTwoButton);
-		m_ToolBar.add(m_OnlineHelpButton);
-		m_ToolBar.add(m_AboutButton);
+		toolBar.add(crossTwoButton);
+		toolBar.add(onlineHelpButton);
+		toolBar.add(aboutButton);
 	}
 
 	/**
@@ -745,7 +679,7 @@ public class VGLII extends JFrame {
 		toolBar();
 		JPanel panePanel = new JPanel();
 		panePanel.setLayout(new BorderLayout());
-		panePanel.add(m_ToolBar, BorderLayout.NORTH);
+		panePanel.add(toolBar, BorderLayout.NORTH);
 		getContentPane().add(panePanel, BorderLayout.CENTER);
 		cleanUp();
 		docRenderer = new DocumentRenderer(); //setup for printing
@@ -817,7 +751,7 @@ public class VGLII extends JFrame {
 		update(getGraphics());
 	
 		//need to kill the dialog so it won't re-appear on de-iconify
-		Window[] windows = m_DialogFrame.getOwnedWindows();
+		Window[] windows = dialogFrame.getOwnedWindows();
 		for (int i = 0; i < windows.length; i++) {
 			if (windows[i].toString().matches("title=New Problem Type Selection")) {
 				windows[i].dispose();
@@ -851,7 +785,7 @@ public class VGLII extends JFrame {
 	 * saving to new file
 	 */
 	private void saveAsProblem() {
-		m_CurrentSavedFile = null;
+		currentSavedFile = null;
 		saveProblem();
 	}
 
@@ -897,7 +831,7 @@ public class VGLII extends JFrame {
 	 * all related objects
 	 */
 	private void closeProblem() {
-		if (m_CageCollection != null) {
+		if (cageCollection != null) {
 			int ans1 = JOptionPane.showConfirmDialog(this,
 					"You are about to close the current work.\n"
 							+ "Do you wish to save before closing?",
@@ -914,7 +848,7 @@ public class VGLII extends JFrame {
 	 * Exits the application after doing the necessary cleanup
 	 */
 	private void exitApplication() {
-		if (m_CageCollection != null) {
+		if (cageCollection != null) {
 			int ans = JOptionPane.showConfirmDialog(this,
 					"You are about to quit. \n"
 							+ "Do you wish to save before quitting?",
@@ -941,36 +875,36 @@ public class VGLII extends JFrame {
 	 * variables before exiting the application or after closing a problem
 	 */
 	private void cleanUp() {
-		if (m_CageCollection != null) {
-			Iterator it = m_CageCollection.iterator();
+		if (cageCollection != null) {
+			Iterator it = cageCollection.iterator();
 			while (it.hasNext()) {
 				CageUI c = (CageUI) it.next();
 				it.remove();
 				c.setVisible(false);
 			}
 		}
-		m_CageCollection = null;
+		cageCollection = null;
 		m_Genetics = null;
-		m_SelectionVial = null;
-		m_CurrentSavedFile = null;
-		m_NextCageId = 1;
+		selectionVial = null;
+		currentSavedFile = null;
+		nextCageId = 1;
 		enableAll(false);
-		m_NextCageScreenPosition = new Point(this.getX() + 200,
+		nextCageScreenPosition = new Point(this.getX() + 200,
 				this.getY() + 100);
-		m_IsBalloonHelpActive = null;
-		m_StatusLabel.setText("");
+		isBalloonHelpActive = null;
+		statusLabel.setText("");
 	}
 
 	/**
 	 * Method that actually sets up the cross between two organisms
 	 */
 	private void crossTwo() {
-		OrganismUI organismUI1 = m_SelectionVial.getMaleParent();
-		OrganismUI organismUI2 = m_SelectionVial.getFemaleParent();
+		OrganismUI organismUI1 = selectionVial.getMaleParent();
+		OrganismUI organismUI2 = selectionVial.getFemaleParent();
 		if (organismUI1 != null && organismUI2 != null) {
 			Organism o1 = organismUI1.getOrganism();
 			Organism o2 = organismUI2.getOrganism();
-			Cage c = m_Genetics.crossTwo(m_NextCageId, o1, o2);
+			Cage c = m_Genetics.crossTwo(nextCageId, o1, o2);
 			CageUI cageUI = createCageUI(c);
 			OrganismUI[] parentUIs = cageUI.getParentUIs();
 			if (parentUIs[0].getOrganism().getSexType() == o1.getSexType()) {
@@ -997,19 +931,19 @@ public class VGLII extends JFrame {
 	 * objects
 	 */
 	private void balloonHelp() {
-		if (m_IsBalloonHelpActive != null) {
-			m_IsBalloonHelpActive = new Boolean(!m_IsBalloonHelpActive
+		if (isBalloonHelpActive != null) {
+			isBalloonHelpActive = new Boolean(!isBalloonHelpActive
 					.booleanValue());
-			m_BalloonHelpItem.setSelected(m_IsBalloonHelpActive.booleanValue());
+			balloonHelpItem.setSelected(isBalloonHelpActive.booleanValue());
 		} else {
-			m_IsBalloonHelpActive = new Boolean(true);
-			m_BalloonHelpItem.setSelected(true);
+			isBalloonHelpActive = new Boolean(true);
+			balloonHelpItem.setSelected(true);
 		}
-		if (m_CageCollection != null) {
-			Iterator it = m_CageCollection.iterator();
+		if (cageCollection != null) {
+			Iterator it = cageCollection.iterator();
 			while (it.hasNext()) {
 				CageUI cageUI = (CageUI) it.next();
-				cageUI.setBalloonHelp(m_IsBalloonHelpActive.booleanValue());
+				cageUI.setBalloonHelp(isBalloonHelpActive.booleanValue());
 			}
 		}
 	}
@@ -1025,14 +959,14 @@ public class VGLII extends JFrame {
 		try {
 			helpPane.setPage(VGLII.class.getResource("Help/index.html"));
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(m_DialogFrame,
+			JOptionPane.showMessageDialog(dialogFrame,
 					"Be sure the help folder is in the same folder as VGL.",
 					"Can't find help file.", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		JScrollPane helpScrollPane = new JScrollPane(helpPane);
-		JDialog helpDialog = new JDialog(m_DialogFrame, "VGL Help");
+		JDialog helpDialog = new JDialog(dialogFrame, "VGL Help");
 		JButton backButton = new JButton("Go Back to Top of Page");
 		helpDialog.getContentPane().setLayout(new BorderLayout());
 		helpDialog.getContentPane().add(backButton, BorderLayout.NORTH);
@@ -1071,8 +1005,8 @@ public class VGLII extends JFrame {
 	 * sets up the cage manager dialog and displays it
 	 */
 	private void cageManager() {
-		JFrame frame = m_DialogFrame;
-		CageManager dlg = new CageManager(frame, "Cages", m_CageCollection);
+		JFrame frame = dialogFrame;
+		CageManager dlg = new CageManager(frame, "Cages", cageCollection);
 		dlg.setVisible(true);
 		dlg = null;
 	}
@@ -1085,21 +1019,21 @@ public class VGLII extends JFrame {
 	 * @return the newly created cageUI
 	 */
 	private CageUI createCageUI(Cage c) {
-		JFrame frame = m_DialogFrame;
+		JFrame frame = dialogFrame;
 		HashMap children = c.getChildren();
 		ArrayList parents = c.getParents();
 		CageUI dlg = null;
 		String details = null;
 		details = m_Genetics.getModelInfo();
-		dlg = new CageUI(frame, m_IsBeginner, c, m_SelectionVial, m_Trait,
+		dlg = new CageUI(frame, isBeginner, c, selectionVial, m_Trait,
 				details);
-		m_NextCageId++;
+		nextCageId++;
 		if (dlg != null) {
-			m_CageCollection.add(dlg);
+			cageCollection.add(dlg);
 			calculateCagePosition(dlg);
 			dlg.setVisible(true);
-			if (m_IsBalloonHelpActive != null)
-				dlg.setBalloonHelp(m_IsBalloonHelpActive.booleanValue());
+			if (isBalloonHelpActive != null)
+				dlg.setBalloonHelp(isBalloonHelpActive.booleanValue());
 		}
 		return dlg;
 	}
@@ -1110,27 +1044,27 @@ public class VGLII extends JFrame {
 	 * @param value
 	 */
 	private void enableAll(boolean value) {
-		m_NewButton.setEnabled(!value);
-		m_OpenButton.setEnabled(!value);
-		m_NewProblemItem.setEnabled(!value);
-		m_OpenProblemItem.setEnabled(!value);
-		m_PrintItem.setEnabled(value);
-		m_PrintButton.setEnabled(value);
-		m_PrintToFileItem.setEnabled(value);
-		m_PrintToFileButton.setEnabled(value);
-		m_SaveButton.setEnabled(value);
-		m_SaveAsButton.setEnabled(value);
+		newButton.setEnabled(!value);
+		openButton.setEnabled(!value);
+		newProblemItem.setEnabled(!value);
+		openProblemItem.setEnabled(!value);
+		printItem.setEnabled(value);
+		printButton.setEnabled(value);
+		printToFileItem.setEnabled(value);
+		printToFileButton.setEnabled(value);
+		saveButton.setEnabled(value);
+		saveAsButton.setEnabled(value);
 		m_SaveToServerButton.setEnabled(value);
-		m_CrossTwoButton.setEnabled(value);
-		m_BalloonHelpItem.setEnabled(value);
-		m_CageManagerItem.setEnabled(value);
-		m_RearrangeCagesItem.setEnabled(value);
-		m_SaveProblemItem.setEnabled(value);
-		m_SaveProblemAsItem.setEnabled(value);
+		crossTwoButton.setEnabled(value);
+		balloonHelpItem.setEnabled(value);
+		cageManagerItem.setEnabled(value);
+		rearrangeCagesItem.setEnabled(value);
+		saveProblemItem.setEnabled(value);
+		saveProblemAsItem.setEnabled(value);
 		m_SaveToServerItem.setEnabled(value);
-		m_CloseProblemItem.setEnabled(value);
-		m_CloseButton.setEnabled(value);
-		m_CrossTwoItem.setEnabled(value);
+		closeProblemItem.setEnabled(value);
+		closeButton.setEnabled(value);
+		crossTwoItem.setEnabled(value);
 	}
 
 	/**
@@ -1237,16 +1171,16 @@ public class VGLII extends JFrame {
 	private void calculateCagePosition(CageUI cageUI) {
 		Dimension cageSize = cageUI.getSize();
 		Dimension screenSize = this.getSize();
-		int positionX = (int) m_NextCageScreenPosition.getX();
-		int positionY = (int) m_NextCageScreenPosition.getY();
+		int positionX = (int) nextCageScreenPosition.getX();
+		int positionY = (int) nextCageScreenPosition.getY();
 		if ((positionX + cageSize.getWidth() > screenSize.getWidth())
 				|| (positionY + cageSize.getHeight() > screenSize.getHeight())) {
-			m_NextCageScreenPosition = new Point(this.getX() + 200,
+			nextCageScreenPosition = new Point(this.getX() + 200,
 					this.getY() + 100);
-			positionX = (int) m_NextCageScreenPosition.getX();
-			positionY = (int) m_NextCageScreenPosition.getY();
+			positionX = (int) nextCageScreenPosition.getX();
+			positionY = (int) nextCageScreenPosition.getY();
 		}
-		m_NextCageScreenPosition = new Point(positionX + 30, positionY + 30);
+		nextCageScreenPosition = new Point(positionX + 30, positionY + 30);
 		cageUI.setLocation(positionX, positionY);
 	}
 
@@ -1255,32 +1189,32 @@ public class VGLII extends JFrame {
 	 */
 	private void reArrangeCages() {
 		Dimension screenSize = this.getSize();
-		Iterator it = m_CageCollection.iterator();
-		m_NextCageScreenPosition = new Point(this.getX() + 200,
+		Iterator it = cageCollection.iterator();
+		nextCageScreenPosition = new Point(this.getX() + 200,
 				this.getY() + 100);
 		double positionX;
 		double positionY;
 		Dimension cageSize;
 		while (it.hasNext()) {
 			CageUI cageUI = (CageUI) it.next();
-			positionX = m_NextCageScreenPosition.getX();
-			positionY = m_NextCageScreenPosition.getY();
+			positionX = nextCageScreenPosition.getX();
+			positionY = nextCageScreenPosition.getY();
 			cageSize = cageUI.getSize();
 			if ((positionX + cageSize.getWidth() > screenSize.getWidth())
 					|| (positionY + cageSize.getHeight() > screenSize
 							.getHeight())) {
-				m_NextCageScreenPosition = new Point(this.getX() + 200, this
+				nextCageScreenPosition = new Point(this.getX() + 200, this
 						.getY() + 100);
 			} else
-				m_NextCageScreenPosition = new Point((int) positionX + 30,
+				nextCageScreenPosition = new Point((int) positionX + 30,
 						(int) positionY + 30);
 			cageUI.setLocation((int) positionX, (int) positionY);
 			if (cageUI.isVisible())
 				cageUI.setVisible(true);
 		}
-		CageUI lastCageUI = (CageUI) m_CageCollection.get(m_CageCollection
+		CageUI lastCageUI = (CageUI) cageCollection.get(cageCollection
 				.size() - 1);
-		m_NextCageScreenPosition = new Point(lastCageUI.getX(), lastCageUI
+		nextCageScreenPosition = new Point(lastCageUI.getX(), lastCageUI
 				.getY());
 	}
 
