@@ -233,13 +233,13 @@ public class Evolver implements Runnable {
 							gotAGoodOne = true;
 						} catch (FoldingException e) {
 							FoldedProteinArchive.hadToReplaceABadSequence();
-							System.out.println(
-									"Had to replace sequence: " + e.getMessage() + "\n"
-									+ "\tGeneration " + evolutionWorkArea.getGeneration() + "\n"
-									+ "\tTotalFolded=" 
-									+ FoldedProteinArchive.getTotalFoldedSequences() + "\n"
-									+ "\tTotal replaced=" 
-									+ FoldedProteinArchive.getTotalReplacedSequences());
+//							System.out.println(
+//									"Had to replace sequence: " + e.getMessage() + "\n"
+//									+ "\tGeneration " + evolutionWorkArea.getGeneration() + "\n"
+//									+ "\tTotalFolded=" 
+//									+ FoldedProteinArchive.getTotalFoldedSequences() + "\n"
+//									+ "\tTotal replaced=" 
+//									+ FoldedProteinArchive.getTotalReplacedSequences());
 							gotAGoodOne = false;
 						}
 					}

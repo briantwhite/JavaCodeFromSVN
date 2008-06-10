@@ -1284,3 +1284,42 @@ it DIED!
 	
 seems OK
 do a long run
+
+ran on pc for 24 hrs
+Had to replace sequence: MSGAISPLQVTRTFIWPMHKGFELVASMLKKKK
+        Generation 281
+        TotalFolded=6159
+        Total replaced=1
+Had to replace sequence: MPEAKSPVQLRAGVHFFALARKLLATGSPSKKKK
+        Generation 499
+        TotalFolded=12483
+        Total replaced=2
+Had to replace sequence: MQAGKLLSNVCTLFILALLHIVCKYIVR
+        Generation 532
+        TotalFolded=13451
+        Total replaced=3
+Had to replace sequence: MPEAKIPVQLRAGAFFCPCTDCWLTVPYKKKK
+        Generation 546
+        TotalFolded=13856
+        Total replaced=4
+Had to replace sequence: MLTYDAESLTSFFTSCFLGGYQEPAGCASYLLSIKKKK
+        Generation 897
+        TotalFolded=24621
+        Total replaced=5
+Had to replace sequence: MLRVPRYTLQFFFTGFPGASEWDVFGT
+        Generation 1135
+        TotalFolded=31738
+        Total replaced=6
+Had to replace sequence: MWLRVPTLVNIFLFFAWLPGKCRWGFVKLKKKK
+        Generation 1186
+        TotalFolded=33176
+        Total replaced=7
+Had to replace sequence: MMDTNIASVVSVPFSEGLQGTAGGVYTIIKKKK
+        Generation 1193
+        TotalFolded=33389
+        Total replaced=8
+
+for this run 8/35857 = 0.02% or 1/4400 bad sequences
+also ~1500 sequences folded per hour or 25/min
+
+overall "bad sequence" rate: 18/78792 = 0.022% or 1/4300 bad sequennces
