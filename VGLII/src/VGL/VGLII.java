@@ -494,7 +494,21 @@ public class VGLII extends JFrame {
 				printFileImage);
 		closeProblemItem = menuItem("Close Work", "CloseWork", closeImage);
 		exitItem = menuItem("Exit", "Exit", null);
-		
+
+		mnuFile.add(newProblemItem);
+		mnuFile.add(openProblemItem);
+		mnuFile.addSeparator();
+		mnuFile.add(saveProblemItem);
+		mnuFile.add(saveProblemAsItem);
+		mnuFile.addSeparator();
+		mnuFile.add(pageSetupItem);
+		mnuFile.add(printItem);
+		mnuFile.add(printToFileItem);
+		mnuFile.addSeparator();
+		mnuFile.add(closeProblemItem);
+		mnuFile.addSeparator();
+		mnuFile.add(exitItem);
+
 		mnuBar.add(mnuFile);
 
 		//  "Utilities" options.
@@ -606,7 +620,14 @@ public class VGLII extends JFrame {
 				"Print Work To File...", KeyEvent.VK_F);
 		onlineHelpButton = JButtonImageItem(onlineHelpImage, "OnlineHelp",
 				"Help Page", KeyEvent.VK_H);
-				
+
+		toolBar.add(newButton);
+		toolBar.add(openButton);
+		toolBar.add(closeButton);
+		toolBar.add(exitButton);
+		toolBar.add(saveButton);
+		toolBar.add(saveAsButton);
+		toolBar.add(printButton);
 		toolBar.add(crossTwoButton);
 		toolBar.add(onlineHelpButton);
 		toolBar.add(aboutButton);
