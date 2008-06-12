@@ -29,8 +29,8 @@ public class GeneticModelFactory {
 		GeneticModel model = new GeneticModel(true);
 		try {
 			model.addFirstAutosomalGeneModel(new TwoAlleleSimpleDominanceGeneModel());
+			model.addNextAutosomalGeneModel(0.5f, new TwoAlleleSimpleDominanceGeneModel());
 		} catch (GeneticsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return model;
