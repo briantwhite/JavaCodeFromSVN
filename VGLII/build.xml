@@ -1,0 +1,22 @@
+<project name="VGLII" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/VGLII.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="VGL.VGLII"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    	    <fileset dir="resources/"/>
+	    </jar>
+        <move file="bin/VGLII.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run VGLII">
+		<java jar="VGLII.jar" fork="true"/>
+	</target>
+
+</project>

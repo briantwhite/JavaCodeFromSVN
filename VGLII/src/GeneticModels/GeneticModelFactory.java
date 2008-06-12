@@ -26,6 +26,13 @@ public class GeneticModelFactory {
 	}
 	
 	public GeneticModel createTestModel() {
-		return null;
+		GeneticModel model = new GeneticModel(true);
+		try {
+			model.addFirstAutosomalGeneModel(new TwoAlleleSimpleDominanceGeneModel());
+		} catch (GeneticsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return model;
 	}
 }

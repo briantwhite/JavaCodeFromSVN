@@ -1,6 +1,9 @@
 package GeneticModels;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import VGL.Preferences;
 
 /**
  * Brian White Summer 2008
@@ -20,7 +23,7 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.9 2008-06-10 16:29:18 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.10 2008-06-12 13:30:50 brian Exp $
  */
 
 // This is the wrapper class for the entire genetic model
@@ -85,12 +88,18 @@ public class GeneticModel {
 	private ChromosomeModel sexChromosomeModel;
 
 	private boolean XX_XYsexLinkage; 
+	
+	private Random random;
+	
+	private Preferences prefs;
 
 
 	protected GeneticModel(boolean XX_XYsexLinkage) {
 		this.XX_XYsexLinkage = XX_XYsexLinkage;
 		autosomeModel = new AutosomeModel();
 		sexChromosomeModel = new SexChromosomeModel();
+		random = new Random();
+		prefs = Preferences.getInstance();
 	}
 
 	protected void addFirstAutosomalGeneModel(GeneModel gm) throws GeneticsException {
@@ -126,8 +135,19 @@ public class GeneticModel {
 		sexChromosomeModel.addGeneModel(gm);
 		sexChromosomeModel.addRecombinationFrequency(rf);
 	}
+	
+	public Cage generateFieldPopulation() {
+		Cage cage = new Cage(1);
+		int numOffspring = 
+			random.nextInt(prefs.getMaxOffspring() - prefs.getMinOffspring()) 
+				+ prefs.getMinOffspring();
+		for (int i = 0; i < numOffspring; i++) {
+			cage.add(getRandomOrganism());
+		}
+		return cage;
+	}
 
-	public Organism getRandomOrganism() {
+	private Organism getRandomOrganism() {
 		Chromosome[] autosomes = 
 			autosomeModel.getChromosomePairWithRandomAlleles();
 		Chromosome[] sexChromosomes = 
@@ -146,8 +166,19 @@ public class GeneticModel {
 				isMale(sexChromosomes[0], sexChromosomes[1]),
 				this);
 	}
+	
+	public Cage crossTwo(int newCageID, Organism mom, Organism dad) {
+		Cage cage = new Cage(newCageID, mom, dad);
+		int numOffspring = 
+			random.nextInt(prefs.getMaxOffspring() - prefs.getMinOffspring()) 
+				+ prefs.getMinOffspring();
+		for (int i = 0; i < numOffspring; i++) {
+			cage.add(getOffspringOrganism(mom, dad));
+		}
+		return cage;
+	}
 
-	public Organism getOffspringOrganism(Organism mom, Organism dad) {
+	private Organism getOffspringOrganism(Organism mom, Organism dad) {
 		Chromosome maternalAutosomeContribution = null;
 		Chromosome maternalSexChromosomeContribution = null;
 		Chromosome paternalAutosomeContribution = null;

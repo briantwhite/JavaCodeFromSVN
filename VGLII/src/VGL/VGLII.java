@@ -3,8 +3,6 @@ package VGL;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -12,26 +10,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.ImageIcon;
-import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -42,9 +30,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.border.SoftBevelBorder;
@@ -52,7 +38,11 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
 
+import GeneticModels.Cage;
+import GeneticModels.GeneticModel;
+import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
+import GeneticModels.OrganismList;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -83,6 +73,11 @@ public class VGLII extends JFrame {
 	 * the version number
 	 */
 	private final static String version = "0.9";
+	
+	/**
+	 * the genetic model for the current problem
+	 */
+	private GeneticModel geneticModel;
 	
 	/**
 	 * The common file chooser instance for the application
@@ -303,30 +298,26 @@ public class VGLII extends JFrame {
 	 */
 	public VGLII() {
 		super("Virtual Genetics Lab II " + version);
+		addWindowListener(new ApplicationCloser());
+		setupUI(); 
+		geneticModel = GeneticModelFactory.getInstance().createTestModel();
+		Cage fieldPop = geneticModel.generateFieldPopulation();
+		CageUI fieldPopUI = createCageUI(fieldPop);
 	}
 	
 
 	/**
-	 * Initializes the application and sets up the various components
+	 * main method
 	 */
-	public void init() {
-		super.init(); //  Perform JApplet initialization.
-		components(); //  Create and load all GUI components.
-		dialogFrame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				exitApplication();
-			}
-		});
+	public static void main(String[] args) {
+		VGLII vgl2 = new VGLII();
+		vgl2.setVisible(true);
 	}
 
-	/**
-	 * Provides a JFrame from which dialog characteristics can be derived.
-	 * 
-	 * @param dialogFrame
-	 *            the reference frame to be used
-	 */
-	public void dialogFrame(JFrame dialogFrame) {
-		dialogFrame = dialogFrame;
+	class ApplicationCloser extends WindowAdapter {
+		public void windowClosing(WindowEvent e) {
+			System.exit(0);
+		}
 	}
 
 	/**
@@ -461,11 +452,7 @@ public class VGLII extends JFrame {
 		URL saveAsImageURL = VGLII.class
 		.getResource("images/saveas16.gif");
 		ImageIcon saveAsImage = new ImageIcon(saveAsImageURL);
-		
-		URL saveToServerImageURL = VGLII.class
-		.getResource("images/savetoserver16.gif");
-		ImageIcon saveToServerImage = new ImageIcon(saveToServerImageURL);
-		
+				
 		URL saveImageURL = VGLII.class.getResource("images/save16.gif");
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
 		
@@ -501,36 +488,12 @@ public class VGLII extends JFrame {
 		openProblemItem = menuItem("Open Work", "OpenWork", openImage);
 		saveProblemItem = menuItem("Save Work", "SaveWork", saveImage);
 		saveProblemAsItem = menuItem("Save Work As..", "SaveAs", saveAsImage);
-		m_SaveToServerItem = menuItem("Save To Server..", "SaveToServer", saveToServerImage);
 		pageSetupItem = menuItem("Page Setup", "PageSetup", pageSetupImage);
 		printItem = menuItem("Print Work", "PrintWork", printImage);
 		printToFileItem = menuItem("Print Work To File", "PrintToFile",
 				printFileImage);
 		closeProblemItem = menuItem("Close Work", "CloseWork", closeImage);
 		exitItem = menuItem("Exit", "Exit", null);
-
-		if (!m_isAnApplet){
-			mnuFile.add(newProblemItem);
-			mnuFile.add(openProblemItem);
-			mnuFile.addSeparator();
-			mnuFile.add(saveProblemItem);
-			mnuFile.add(saveProblemAsItem);
-			mnuFile.addSeparator();
-		}
-		
-		if (m_SaveToServerEnabled) {
-			mnuFile.add(m_SaveToServerItem);
-		}
-		mnuFile.add(pageSetupItem);
-		mnuFile.add(printItem);
-		
-		if (!m_isAnApplet){
-			mnuFile.add(printToFileItem);
-			mnuFile.addSeparator();
-			mnuFile.add(closeProblemItem);
-			mnuFile.addSeparator();
-			mnuFile.add(exitItem);
-		}
 		
 		mnuBar.add(mnuFile);
 
@@ -631,8 +594,6 @@ public class VGLII extends JFrame {
 				KeyEvent.VK_S);
 		saveAsButton = JButtonImageItem(saveAsImage, "SaveAs", "Save as...",
 				KeyEvent.VK_V);
-		m_SaveToServerButton = JButtonImageItem(saveToServerImage, "SaveToServer", "Save To Server...",
-				KeyEvent.VK_I);
 		crossTwoButton = JButtonImageItem(crossTwoImage, "CrossTwo",
 				"Cross two organisms...", KeyEvent.VK_C);
 		aboutButton = JButtonImageItem(aboutImage, "About",
@@ -645,26 +606,7 @@ public class VGLII extends JFrame {
 				"Print Work To File...", KeyEvent.VK_F);
 		onlineHelpButton = JButtonImageItem(onlineHelpImage, "OnlineHelp",
 				"Help Page", KeyEvent.VK_H);
-		
-		if(!m_isAnApplet){
-			toolBar.add(newButton);
-			toolBar.add(openButton);
-			toolBar.add(closeButton);
-			toolBar.add(exitButton);
-			toolBar.add(saveButton);
-			toolBar.add(saveAsButton);
-		}
-		
-		if (m_SaveToServerEnabled) {
-			toolBar.add(m_SaveToServerButton);
-		}
-		
-		toolBar.add(printButton);
-		
-		if(!m_isAnApplet){
-			toolBar.add(printToFileButton);
-		}
-		
+				
 		toolBar.add(crossTwoButton);
 		toolBar.add(onlineHelpButton);
 		toolBar.add(aboutButton);
@@ -673,7 +615,7 @@ public class VGLII extends JFrame {
 	/**
 	 * Create and load all GUI components
 	 */
-	private void components() {
+	private void setupUI() {
 		menuBar();
 		statusPanel();
 		toolBar();
@@ -689,12 +631,12 @@ public class VGLII extends JFrame {
 	 * Display about dialog
 	 */
 	private void aboutVGL() {
-		JOptionPane.showMessageDialog(this, m_ProgramId + "\n"
-				+ "Release Version 1.4.4\n" + "Copyright 2007\n" + "VGL Team.\n"
+		JOptionPane.showMessageDialog(this, "Virtual Genetics Lab II\n"
+				+ "Release Version " + version + "\n" + "Copyright 2008\n" + "VGL Team.\n"
 				+ "All Rights Reserved\n" + "GNU General Public License\n"
 				+ "http://www.gnu.org/copyleft/gpl.html",
-				"About Virtual Genetics Lab...",
-				JOptionPane.INFORMATION_MESSAGE, new ImageIcon(m_Image));
+				"About Virtual Genetics Lab II...",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**
@@ -876,15 +818,15 @@ public class VGLII extends JFrame {
 	 */
 	private void cleanUp() {
 		if (cageCollection != null) {
-			Iterator it = cageCollection.iterator();
+			Iterator<CageUI> it = cageCollection.iterator();
 			while (it.hasNext()) {
-				CageUI c = (CageUI) it.next();
+				CageUI c = it.next();
 				it.remove();
 				c.setVisible(false);
 			}
 		}
 		cageCollection = null;
-		m_Genetics = null;
+		geneticModel = null;
 		selectionVial = null;
 		currentSavedFile = null;
 		nextCageId = 1;
@@ -904,10 +846,10 @@ public class VGLII extends JFrame {
 		if (organismUI1 != null && organismUI2 != null) {
 			Organism o1 = organismUI1.getOrganism();
 			Organism o2 = organismUI2.getOrganism();
-			Cage c = m_Genetics.crossTwo(nextCageId, o1, o2);
+			Cage c = geneticModel.crossTwo(nextCageId, o1, o2);
 			CageUI cageUI = createCageUI(c);
 			OrganismUI[] parentUIs = cageUI.getParentUIs();
-			if (parentUIs[0].getOrganism().getSexType() == o1.getSexType()) {
+			if (parentUIs[0].getOrganism().isMale() == o1.isMale()) {
 				organismUI1.getReferencesList().add(parentUIs[0]);
 				organismUI2.getReferencesList().add(parentUIs[1]);
 				parentUIs[0].setCentralOrganismUI(organismUI1);
@@ -919,7 +861,7 @@ public class VGLII extends JFrame {
 				parentUIs[0].setCentralOrganismUI(organismUI2);
 			}
 		} else
-			JOptionPane.showMessageDialog(this, m_ProgramId + "\n"
+			JOptionPane.showMessageDialog(this, "Virtual Genetics Lab II\n"
 					+ "Cross Two cannot be carried out without two organisms\n"
 					+ "Please select two organisms and try again\n",
 					"Cross Two", JOptionPane.ERROR_MESSAGE);
@@ -940,9 +882,9 @@ public class VGLII extends JFrame {
 			balloonHelpItem.setSelected(true);
 		}
 		if (cageCollection != null) {
-			Iterator it = cageCollection.iterator();
+			Iterator<CageUI> it = cageCollection.iterator();
 			while (it.hasNext()) {
-				CageUI cageUI = (CageUI) it.next();
+				CageUI cageUI = it.next();
 				cageUI.setBalloonHelp(isBalloonHelpActive.booleanValue());
 			}
 		}
@@ -1020,12 +962,10 @@ public class VGLII extends JFrame {
 	 */
 	private CageUI createCageUI(Cage c) {
 		JFrame frame = dialogFrame;
-		HashMap children = c.getChildren();
-		ArrayList parents = c.getParents();
 		CageUI dlg = null;
 		String details = null;
-		details = m_Genetics.getModelInfo();
-		dlg = new CageUI(frame, isBeginner, c, selectionVial, m_Trait,
+		details = geneticModel.toString();
+		dlg = new CageUI(frame, isBeginner, c, selectionVial,
 				details);
 		nextCageId++;
 		if (dlg != null) {
@@ -1054,14 +994,12 @@ public class VGLII extends JFrame {
 		printToFileButton.setEnabled(value);
 		saveButton.setEnabled(value);
 		saveAsButton.setEnabled(value);
-		m_SaveToServerButton.setEnabled(value);
 		crossTwoButton.setEnabled(value);
 		balloonHelpItem.setEnabled(value);
 		cageManagerItem.setEnabled(value);
 		rearrangeCagesItem.setEnabled(value);
 		saveProblemItem.setEnabled(value);
 		saveProblemAsItem.setEnabled(value);
-		m_SaveToServerItem.setEnabled(value);
 		closeProblemItem.setEnabled(value);
 		closeButton.setEnabled(value);
 		crossTwoItem.setEnabled(value);

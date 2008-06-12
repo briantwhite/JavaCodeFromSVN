@@ -1,6 +1,10 @@
 package GeneticModels;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+
+import VGL.GeneticsException;
 
 /**
  * Brian White Summer 2008
@@ -25,31 +29,168 @@ import java.util.HashMap;
 
 public class Cage {
 
-	private HashMap<String, OrganismList> cageContents;
+	private int id;
 
-	public Cage() {
-		cageContents = new HashMap<String, OrganismList>();
+	private int count; // organism's id start from 0
+	
+	private Organism parent1;
+
+	private Organism parent2;
+
+	private HashMap<String, OrganismList> children;
+	
+	/**
+	 * Constructor for field population which has no parent.
+	 * 
+	 * @param id
+	 *            the cage's id
+	 */
+	public Cage(int id) {
+		this(id, null, null);
+	}
+
+	/**
+	 * Constructor for cross two which has parents and cage's id.
+	 * 
+	 * @param id
+	 *            the cage's id
+	 * @param p1
+	 *            the first parent
+	 * @param p2
+	 *            the second parent
+	 */
+	public Cage(int id, Organism p1, Organism p2) {
+		this.id = id;
+		this.parent1 = p1;
+		this.parent2 = p2;
+		this.count = 0;
+		children = new HashMap<String, OrganismList>();
 	}
 
 	public void add(Organism o) {
 		//if there isn't a list of organisms with this pheno
 		//  make one
-		if (!cageContents.containsKey(o.getPhenotypeString())) {
+		if (!children.containsKey(o.getPhenotypeString())) {
 			OrganismList oList = new OrganismList();
 			oList.add(o);
-			cageContents.put(o.getPhenotypeString(), oList);
+			children.put(o.getPhenotypeString(), oList);
 		} else {
 			// add the org to the list and add to the hash map
-			OrganismList oList = cageContents.get(o.getPhenotypeString());
+			OrganismList oList = children.get(o.getPhenotypeString());
 			oList.add(o);
 		}
+	}
+	
+	/**
+	 * Return the cage which id is the given cid.
+	 * 
+	 * @param cages
+	 *            the list of cages
+	 * @param cid
+	 *            the cage's id
+	 * @return the cage of the given cid
+	 */
+	private Cage findCage(ArrayList<Cage> cages, int cid) throws Exception {
+		for (int i = 0; i < cages.size(); i++) {
+			Cage c = cages.get(i);
+			if (c.getId() == cid)
+				return c;
+		}
+		throw new GeneticsException("Cannot find the specified cage.");
+	}
+
+	/**
+	 * Return the cage's id.
+	 * 
+	 * @return the cage's id
+	 */
+	public int getId() {
+		return id;
+	}
+
+
+	/**
+	 * Return the organism at the given phenotype and index.
+	 * 
+	 * @param p
+	 *            the organism's phenotype
+	 * @param id
+	 *            the organism's id
+	 * @return the organism at the given index
+	 */
+	public Organism getOrganism(String p, int id) throws Exception {
+		OrganismList l = children.get(p);
+		if (l != null)
+			return (Organism) l.find(id);
+		throw new GeneticsException("Cannot find the specified phenotype");
+	}
+
+	/**
+	 * Return the two parents in the ArrayList.
+	 * 
+	 * @return the two parents
+	 */
+	public ArrayList<Organism> getParents() {
+		ArrayList<Organism> temp = new ArrayList<Organism>();
+		temp.add(parent1);
+		temp.add(parent2);
+		return temp;
+	}
+
+	/**
+	 * Return the children.
+	 * 
+	 * @return the children
+	 */
+	public HashMap<String, OrganismList> getChildren() {
+		return children;
+	}
+
+
+	/**
+	 * Return the cage's information in String format for print purpose.
+	 * 
+	 * @return the cage's information in String format for print purpose
+	 */
+	public String print() {
+		StringBuffer s = new StringBuffer();
+		s.append("\t\t\tCage ").append(id + 1).append("\n");
+
+		s.append("Parents\n");
+		if (parent1 != null) {
+			s.append("\t").append(parent1.getSexString());
+			s.append(" ").append(parent1.getPhenotypeString());
+			s.append(" from Cage ").append(parent1.getCageId() + 1);
+			s.append("\n");
+		}
+		if (parent2 != null) {
+			s.append("\t").append(parent2.getSexString());
+			s.append(" ").append(parent2.getPhenotypeString());
+			s.append(" from Cage ").append(parent2.getCageId() + 1);
+			s.append("\n");
+		}
+
+		s.append("Offspring\n");
+		s.append("\tPhenotype\tSex\t\tCount(#)\n");
+		Iterator<String> i = children.keySet().iterator();
+		while (i.hasNext()) {
+			String phenotype = i.next();
+			OrganismList l = children.get(phenotype);
+			s.append("\t").append(phenotype);
+			s.append("\t\tMale\t\t").append(l.getNumberOfMales());
+			s.append("\n\t").append(phenotype);
+			s.append("\t\tFemale\t").append(l.getNumberOfFemales());
+			s.append("\n");
+		}
+		s.append("\n\n");
+		return s.toString();
 	}
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
 		b.append("results:\n");
-		for (String phenoString: cageContents.keySet()) {
-			OrganismList oList = cageContents.get(phenoString);
+		for (String phenoString: children.keySet()) {
+			OrganismList oList = children.get(phenoString);
 			b.append(phenoString + ": " 
 					+ oList.getTotalNumber() + ", "
 					+ oList.getNumberOfMales() + " males, " 

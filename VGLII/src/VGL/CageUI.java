@@ -14,7 +14,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +33,7 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 
+import GeneticModels.Cage;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
 
