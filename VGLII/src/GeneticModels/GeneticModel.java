@@ -23,61 +23,61 @@ import VGL.Preferences;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.11 2008-06-12 14:33:27 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.12 2008-06-12 16:29:21 brian Exp $
  */
 
-// This is the wrapper class for the entire genetic model
-//  - it chooses from the characters and traits randomly to set up 
-//  each gene model.
-//  - it generates random organisms to populate the field cage
-//  - it generates offspring from selected parents
-//
-//  It works like this:
-//  - organisms contain 4 chromosomes
-// 		- 2 copies of the autosome (maternal and paternal)
-//		- 2 copies of the sex chromosome (maternal and paternal)
-//  - each chromosome is an ArrayList of Alleles
-//
-//  - there is a ChromosomeModel for each type of chromosome (auto & sex)
-//	- each ChromosomeModel consists of 0 or more GeneModels
-//	- the GeneModels handle the genotype-phenotype conversion for one gene each
-//
-//  - there is a NullSexChromosome with no alleles (actually all Null alleles)
-//		this is the Y or W chromosome
-//
-//  - to make a random organism
-//		1) the GeneticModel asks each GeneModel for 2 random alleles
-//			chosen to give roughly equal #s of each phenotype
-//		2) the GeneticModel builds these into a chromosome pair
-//			and turns this into an Organism
-//
-//  - cross 2 organisms
-//		1) the genetic model takes care of recombination in each parent
-//			using the CHromosomeModel to make 2 gametes
-//		2) the gametes are combined in to an Organism and its phenotype
-//			is determined
-//
-//  - phenotypes are determined :
-//		1) the GeneticModel has each ChromosomeModel distribute its Alleles
-//			to the GeneModels to get a Phenotype from each
-//		2) these are pooled into a set of phenotypes for display, sorting, etc.
-//
-//  - An Allele consists of:
-//		- an intVal = used as an integer index to the genotype-phenotype table
-//			(0 = the null allele - from the Y or W chromosome)
-//		- a Trait which contains:
-//			bodyPart (eye, antenna, etc)
-//			type (shape, colo, etc)
-//			traitName (green, long, etc)
-//
-// to build a GeneticModel: 
-//	1) Choose XX/XY or ZZ/ZW sex-linkage when you build one
-//	2) add the gene models to the autosome or sex chromosome as needed
-//		- the first one is added just as a model
-//		- any more on the same chromo must be added with a recombination freq
-//			unlinked genes have a 50% rf.
-//			(therefore, autosomes are modeled as one big autosome where the
-//			total rf can be bigger than 100%)
+//This is the wrapper class for the entire genetic model
+//- it chooses from the characters and traits randomly to set up 
+//each gene model.
+//- it generates random organisms to populate the field cage
+//- it generates offspring from selected parents
+
+//It works like this:
+//- organisms contain 4 chromosomes
+//- 2 copies of the autosome (maternal and paternal)
+//- 2 copies of the sex chromosome (maternal and paternal)
+//- each chromosome is an ArrayList of Alleles
+
+//- there is a ChromosomeModel for each type of chromosome (auto & sex)
+//- each ChromosomeModel consists of 0 or more GeneModels
+//- the GeneModels handle the genotype-phenotype conversion for one gene each
+
+//- there is a NullSexChromosome with no alleles (actually all Null alleles)
+//this is the Y or W chromosome
+
+//- to make a random organism
+//1) the GeneticModel asks each GeneModel for 2 random alleles
+//chosen to give roughly equal #s of each phenotype
+//2) the GeneticModel builds these into a chromosome pair
+//and turns this into an Organism
+
+//- cross 2 organisms
+//1) the genetic model takes care of recombination in each parent
+//using the CHromosomeModel to make 2 gametes
+//2) the gametes are combined in to an Organism and its phenotype
+//is determined
+
+//- phenotypes are determined :
+//1) the GeneticModel has each ChromosomeModel distribute its Alleles
+//to the GeneModels to get a Phenotype from each
+//2) these are pooled into a set of phenotypes for display, sorting, etc.
+
+//- An Allele consists of:
+//- an intVal = used as an integer index to the genotype-phenotype table
+//(0 = the null allele - from the Y or W chromosome)
+//- a Trait which contains:
+//bodyPart (eye, antenna, etc)
+//type (shape, colo, etc)
+//traitName (green, long, etc)
+
+//to build a GeneticModel: 
+//1) Choose XX/XY or ZZ/ZW sex-linkage when you build one
+//2) add the gene models to the autosome or sex chromosome as needed
+//- the first one is added just as a model
+//- any more on the same chromo must be added with a recombination freq
+//unlinked genes have a 50% rf.
+//(therefore, autosomes are modeled as one big autosome where the
+//total rf can be bigger than 100%)
 
 public class GeneticModel {
 
@@ -88,9 +88,9 @@ public class GeneticModel {
 	private ChromosomeModel sexChromosomeModel;
 
 	private boolean XX_XYsexLinkage; 
-	
+
 	private Random random;
-	
+
 	private Preferences prefs;
 
 
@@ -135,12 +135,12 @@ public class GeneticModel {
 		sexChromosomeModel.addGeneModel(gm);
 		sexChromosomeModel.addRecombinationFrequency(rf);
 	}
-	
+
 	public Cage generateFieldPopulation() {
 		Cage cage = new Cage(0);
 		int numOffspring = 
 			random.nextInt(prefs.getMaxOffspring() - prefs.getMinOffspring()) 
-				+ prefs.getMinOffspring();
+			+ prefs.getMinOffspring();
 		for (int i = 0; i < numOffspring; i++) {
 			cage.add(getRandomOrganism());
 		}
@@ -166,12 +166,12 @@ public class GeneticModel {
 				isMale(sexChromosomes[0], sexChromosomes[1]),
 				this);
 	}
-	
+
 	public Cage crossTwo(int newCageID, Organism mom, Organism dad) {
 		Cage cage = new Cage(newCageID, mom, dad);
 		int numOffspring = 
 			random.nextInt(prefs.getMaxOffspring() - prefs.getMinOffspring()) 
-				+ prefs.getMinOffspring();
+			+ prefs.getMinOffspring();
 		for (int i = 0; i < numOffspring; i++) {
 			cage.add(getOffspringOrganism(newCageID, mom, dad));
 		}
@@ -241,6 +241,12 @@ public class GeneticModel {
 
 	public boolean getSexLinkageType() {
 		return XX_XYsexLinkage;
+	}
+
+	public int getNumberOfTraits() {
+		return autosomeModel.getNumberOfGeneModels() 
+		+ sexChromosomeModel.getNumberOfGeneModels();
+
 	}
 
 	public String toString() {

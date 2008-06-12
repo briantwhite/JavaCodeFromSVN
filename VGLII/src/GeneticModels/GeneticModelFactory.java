@@ -29,7 +29,7 @@ public class GeneticModelFactory {
 		GeneticModel model = new GeneticModel(true);
 		try {
 			model.addFirstAutosomalGeneModel(new TwoAlleleSimpleDominanceGeneModel());
-			model.addNextAutosomalGeneModel(0.5f, new TwoAlleleSimpleDominanceGeneModel());
+			model.addNextAutosomalGeneModel(0.2f, new TwoAlleleSimpleDominanceGeneModel());
 		} catch (GeneticsException e) {
 			e.printStackTrace();
 		}

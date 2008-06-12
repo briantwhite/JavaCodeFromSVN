@@ -985,7 +985,7 @@ public class VGLII extends JFrame {
 		String details = null;
 		details = geneticModel.toString();
 		dlg = new CageUI(this, isBeginner, c, selectionVial,
-				details);
+				details, geneticModel.getNumberOfTraits());
 		nextCageId++;
 		if (dlg != null) {
 			cageCollection.add(dlg);

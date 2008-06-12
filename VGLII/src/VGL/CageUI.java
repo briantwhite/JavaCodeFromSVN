@@ -1,7 +1,6 @@
 package VGL;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -22,6 +21,7 @@ import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -36,6 +36,7 @@ import javax.swing.border.Border;
 import GeneticModels.Cage;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
+import GeneticModels.Phenotype;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -69,6 +70,11 @@ public class CageUI extends JDialog implements WindowListener {
 	private int id;
 
 	/**
+	 * number of traits in this problem
+	 */
+	private int numberOfTraits;
+
+	/**
 	 * Parameter to the set the width of the dialog
 	 */
 	private int dialogWidth;
@@ -98,6 +104,11 @@ public class CageUI extends JDialog implements WindowListener {
 	 * present in the cage
 	 */
 	private JPanel countsPanel;
+
+	/**
+	 * this is an array of panels, one for each trait
+	 */
+	private JPanel[] traitPanels;
 
 	/**
 	 * This panel holds the Image for each phenotype associated with the
@@ -282,7 +293,7 @@ public class CageUI extends JDialog implements WindowListener {
 	 *            model
 	 */
 	public CageUI(Frame importFrame, boolean isbeginnersmode, Cage cage,
-			SelectionVial sv, String details) {
+			SelectionVial sv, String details, int numberOfTraits) {
 		//initialize parent
 		super(importFrame, false);
 		addWindowListener(this);
@@ -296,6 +307,7 @@ public class CageUI extends JDialog implements WindowListener {
 		if (id == 1)
 			if (details != null)
 				this.details = details;
+		this.numberOfTraits = numberOfTraits;
 		setTitle("Cage " + (new Integer(id)).toString());
 		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		setupSubComponents();
@@ -405,20 +417,36 @@ public class CageUI extends JDialog implements WindowListener {
 		fl.setHgap(1);
 		fl.setVgap(1);
 		individualPanel.setLayout(fl);
-		
+
 		organismsPanel = new JPanel();
 		organismsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		organismsPanel.setBorder(BorderFactory.createTitledBorder(
 				emptyBorder, "Individual Animals",
 				javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
-		
+
 		countsPanel = new JPanel();
 		countsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		countsPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
 				"Count", javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
-		
+
+		// headers for the different traits
+		traitPanels = new JPanel[numberOfTraits];
+		// need to get the type of each trait
+		//  get one organism's pheno (it doesn't matter which one)
+		ArrayList<Phenotype> phenotypes = 
+			childrenSortedByPhenotype[0].get(0).getPhenotypes();
+		for (int i = 0; i < numberOfTraits; i++) {
+			traitPanels[i] = new JPanel();
+			traitPanels[i].setLayout(new GridLayout(numPhenosPresent, 1));
+			traitPanels[i].setBorder(BorderFactory.createTitledBorder(
+					emptyBorder,
+					phenotypes.get(i).getTrait().getBodyPart(), 
+					javax.swing.border.TitledBorder.CENTER,
+					javax.swing.border.TitledBorder.ABOVE_TOP));
+		}
+
 		picturesPanel = new JPanel();
 		picturesPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		picturesPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
@@ -426,21 +454,28 @@ public class CageUI extends JDialog implements WindowListener {
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
 		childrenOrganismUIs = new OrganismUI[2 * numPhenosPresent][20];
-		
+
 		//For each phenotype, setup its own panels for organismUIs,count and
 		//pictures and add them to the right places in the organismpanel,
-		// countspanel
+		// countspanel, phenotype panels
 		//and the picturespanel
 		for (int i = 0; i < numPhenosPresent; i++) {
-			JPanel[] panels = setupIndividualPanel(i);
-			organismsPanel.add(panels[0]);
-			countsPanel.add(panels[1]);
-			picturesPanel.add(panels[2]);
+			IndividualPanelSet panelSet = setupIndividualPanel(i);
+			organismsPanel.add(panelSet.getOrganismPanel());
+			countsPanel.add(panelSet.getCountsPanel());
+			JPanel[] phenoPanels = panelSet.getPhenotypePanels();
+			for (int j = 0; j < numberOfTraits; j++) {
+				traitPanels[j].add(phenoPanels[j]);
+			}
+//			picturesPanel.add(panels[2]);
 		}
-		
+
 		individualPanel.add(organismsPanel);
 		individualPanel.add(countsPanel);
-		individualPanel.add(picturesPanel);
+		for (int i = 0; i < numberOfTraits; i++) {
+			individualPanel.add(traitPanels[i]);
+		}
+//		individualPanel.add(picturesPanel);
 		detailsPanel.add(individualPanel, BorderLayout.NORTH);
 		superPanel.add(detailsPanel, BorderLayout.NORTH);
 	}
@@ -453,17 +488,12 @@ public class CageUI extends JDialog implements WindowListener {
 	 *            index of the phenotype in the list of phenotypes for which the
 	 *            panels are being set up.
 	 */
-	private JPanel[] setupIndividualPanel(int number) {
-
-		JPanel[] resultPanels = new JPanel[3];
+	private IndividualPanelSet setupIndividualPanel(int number) {
 
 		Border etched = BorderFactory.createEtchedBorder();
-		Border emptyBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
 
 		JPanel topRowOfOrganismsPanel = new JPanel();
 		JPanel bottomRowOfOrganismsPanel = new JPanel();
-
-		Component filler = Box.createRigidArea(new Dimension(15, 15));
 
 		GridLayout gridlt = new GridLayout(1, 20);
 		gridlt.setHgap(1);
@@ -560,11 +590,23 @@ public class CageUI extends JDialog implements WindowListener {
 		picturePanel.add(phenotypeLabels[number], BorderLayout.CENTER);
 		picturePanel.add(phenotypeButtons[number], BorderLayout.EAST);
 
-		resultPanels[0] = organismPanel;
-		resultPanels[1] = countPanel;
-		resultPanels[2] = picturePanel;
+		JPanel[] phenotypePanels = new JPanel[numberOfTraits];
+		ArrayList<Phenotype> phenoList = 
+			childrenSortedByPhenotype[number].get(0).getPhenotypes();
+		for (int k = 0; k < numberOfTraits; k++) {
+			phenotypePanels[k] = new JPanel();
+			phenotypePanels[k].setLayout(
+					new BoxLayout(phenotypePanels[k], BoxLayout.X_AXIS));
+			phenotypePanels[k].setBorder(etched);
+			phenotypePanels[k].add(
+					new JLabel(phenoList.get(k).getTrait().getTraitName()));
+			phenotypePanels[k].add(Box.createRigidArea(new Dimension(1, 34)));
+		}
 
-		return resultPanels;
+		return new IndividualPanelSet(organismPanel,
+				countPanel,
+				phenotypePanels,
+				picturePanel);
 	}
 
 	/**
