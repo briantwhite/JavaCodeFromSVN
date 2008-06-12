@@ -72,17 +72,17 @@ public class VGLII extends JFrame {
 	 * the version number
 	 */
 	private final static String version = "0.9";
-	
+
 	/**
 	 * the genetic model for the current problem
 	 */
 	private GeneticModel geneticModel;
-	
+
 	/**
 	 * The common file chooser instance for the application
 	 */
 	private JFileChooser m_FChooser;
-	
+
 	/**
 	 * The collection of Cage UIs associated with the current problem
 	 */
@@ -154,7 +154,7 @@ public class VGLII extends JFrame {
 	 * Menu item to save current work to a different file than the current one
 	 */
 	private JMenuItem saveProblemAsItem = null;
-	
+
 	/**
 	 * Menu item to close the current work
 	 */
@@ -239,7 +239,7 @@ public class VGLII extends JFrame {
 	 * Button to save current work
 	 */
 	private JButton saveButton = null;
-	
+
 	/**
 	 * Button to save to a different file than the current file
 	 */
@@ -285,7 +285,7 @@ public class VGLII extends JFrame {
 	 * be displayed
 	 */
 	private Point nextCageScreenPosition;
-		
+
 	/**
 	 * The constructor
 	 * 
@@ -294,17 +294,9 @@ public class VGLII extends JFrame {
 		super("Virtual Genetics Lab II " + version);
 		addWindowListener(new ApplicationCloser());
 		setupUI(); 
-		
-		nextCageId = 0;
-		selectionVial = new SelectionVial(statusLabel);
-		cageCollection = new ArrayList<CageUI>();
 
-		geneticModel = GeneticModelFactory.getInstance().createTestModel();
-		Cage fieldPop = geneticModel.generateFieldPopulation();
-		createCageUI(fieldPop);
-		enableAll(true);
 	}
-	
+
 
 	/**
 	 * main method
@@ -445,41 +437,41 @@ public class VGLII extends JFrame {
 		JMenuBar mnuBar = new JMenuBar();
 		URL openImageURL = VGLII.class.getResource("images/open16.gif");
 		ImageIcon openImage = new ImageIcon(openImageURL);
-		
+
 		URL newImageURL = VGLII.class.getResource("images/new16.gif");
 		ImageIcon newImage = new ImageIcon(newImageURL);
-		
+
 		URL saveAsImageURL = VGLII.class
 		.getResource("images/saveas16.gif");
 		ImageIcon saveAsImage = new ImageIcon(saveAsImageURL);
-				
+
 		URL saveImageURL = VGLII.class.getResource("images/save16.gif");
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
-		
+
 		URL aboutImageURL = VGLII.class.getResource("images/about16.gif");
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
-		
+
 		URL printFileImageURL = 
 			VGLII.class.getResource("images/printtofile16.gif");
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
-		
+
 		URL balloonHelpImageURL = VGLII.class
-				.getResource("images/help16.gif");
+		.getResource("images/help16.gif");
 		ImageIcon balloonHelpImage = new ImageIcon(balloonHelpImageURL);
 
 		URL printImageURL = VGLII.class.getResource("images/print16.gif");
 		ImageIcon printImage = new ImageIcon(printImageURL);
 
 		URL pageSetupImageURL = VGLII.class
-				.getResource("images/pagesetup16.gif");
+		.getResource("images/pagesetup16.gif");
 		ImageIcon pageSetupImage = new ImageIcon(pageSetupImageURL);
 
 		URL onlineHelpImageURL = VGLII.class
-				.getResource("images/onlinehelp16.gif");
+		.getResource("images/onlinehelp16.gif");
 		ImageIcon onlineHelpImage = new ImageIcon(onlineHelpImageURL);
 
 		URL closeImageURL = VGLII.class
-				.getResource("images/closework16.gif");
+		.getResource("images/closework16.gif");
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
 		//  "File" options.
@@ -568,7 +560,7 @@ public class VGLII extends JFrame {
 
 		URL saveImageURL = VGLII.class.getResource("images/save.gif");
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
-		
+
 		URL aboutImageURL = VGLII.class.getResource("images/about.gif");
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
 
@@ -576,15 +568,15 @@ public class VGLII extends JFrame {
 		ImageIcon printImage = new ImageIcon(printImageURL);
 
 		URL printFileImageURL = VGLII.class
-				.getResource("images/printtofile.gif");
+		.getResource("images/printtofile.gif");
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
 
 		URL onlineHelpImageURL = VGLII.class
-				.getResource("images/onlinehelp.gif");
+		.getResource("images/onlinehelp.gif");
 		ImageIcon onlineHelpImage = new ImageIcon(onlineHelpImageURL);
 
 		URL closeImageURL = VGLII.class
-				.getResource("images/closework.gif");
+		.getResource("images/closework.gif");
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
 		URL crossTwoImageURL = VGLII.class.getResource("images/cross.gif");
@@ -643,7 +635,7 @@ public class VGLII extends JFrame {
 		getContentPane().add(panePanel, BorderLayout.CENTER);
 		cleanUp();
 		docRenderer = new DocumentRenderer(); //setup for printing
-		
+
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setSize(dim.width, (int)(dim.height * 0.9));
 	}
@@ -687,7 +679,7 @@ public class VGLII extends JFrame {
 		m_FChooser = new JFileChooser(workingDir);
 		m_FChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		javax.swing.filechooser.FileFilter ft = m_FChooser
-				.getAcceptAllFileFilter();
+		.getAcceptAllFileFilter();
 		m_FChooser.removeChoosableFileFilter(ft);
 		if (dialogType != -1)
 			m_FChooser.setDialogType(dialogType);
@@ -712,7 +704,7 @@ public class VGLII extends JFrame {
 				result = m_FChooser.getSelectedFile();
 		}
 		update(getGraphics());
-	
+
 		//need to kill the dialog so it won't re-appear on de-iconify
 		Window[] windows = this.getOwnedWindows();
 		for (int i = 0; i < windows.length; i++) {
@@ -727,6 +719,28 @@ public class VGLII extends JFrame {
 	 * Method to set up a new problem for the user
 	 */
 	private void newProblem() {
+		if (cageCollection == null) {
+			File problemsDirectory = new File(defaultDirectory.toString()
+					+ "/Problems");
+			if (!problemsDirectory.exists()) {
+				problemsDirectory = defaultDirectory;
+			}
+			File newFile = selectFile(problemsDirectory,
+					"New Problem Type Selection", "Select Problem Type", false,
+					prbFilterString, "Problem Type Files",
+					JFileChooser.OPEN_DIALOG);
+			geneticModel = 
+				GeneticModelFactory.getInstance().createRandomModel(newFile);
+			
+			nextCageId = 0;
+			selectionVial = new SelectionVial(statusLabel);
+			cageCollection = new ArrayList<CageUI>();
+
+			Cage fieldPop = geneticModel.generateFieldPopulation();
+			createCageUI(fieldPop);
+			enableAll(true);
+
+		}
 	}
 
 	/**
@@ -752,7 +766,7 @@ public class VGLII extends JFrame {
 		saveProblem();
 	}
 
-	
+
 	/**
 	 * Prints the current work done by the user to a .html file
 	 */
@@ -778,7 +792,7 @@ public class VGLII extends JFrame {
 		HTMLDocument htDoc = (HTMLDocument) printTextPane.getDocument();
 		docRenderer.print(htDoc);
 	}
-	
+
 	/**
 	 * geneate an html representaiton of the current work
 	 * used by print() and saveToServer()
@@ -797,7 +811,7 @@ public class VGLII extends JFrame {
 		if (cageCollection != null) {
 			int ans1 = JOptionPane.showConfirmDialog(this,
 					"You are about to close the current work.\n"
-							+ "Do you wish to save before closing?",
+					+ "Do you wish to save before closing?",
 					"Close Work", JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE);
 			if (ans1 == JOptionPane.YES_OPTION)
@@ -814,7 +828,7 @@ public class VGLII extends JFrame {
 		if (cageCollection != null) {
 			int ans = JOptionPane.showConfirmDialog(this,
 					"You are about to quit. \n"
-							+ "Do you wish to save before quitting?",
+					+ "Do you wish to save before quitting?",
 					"Exit VGL", JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE);
 			if (ans == JOptionPane.YES_OPTION) {
@@ -958,7 +972,7 @@ public class VGLII extends JFrame {
 					helpPane.setPage(VGLII.class.getResource("Help/index.html"));
 				} catch (Exception e) {
 					System.err
-							.println("Couldn't open help file" + e.toString());
+					.println("Couldn't open help file" + e.toString());
 				}
 			}
 		});
@@ -1058,65 +1072,65 @@ public class VGLII extends JFrame {
 	 *             in case any or all of the cages are not correct
 	 */
 //	private void reopenCages(ArrayList cages) throws Exception {
-//		Iterator it = cages.iterator();
-//		while (it.hasNext()) {
-//			Cage c = (Cage) it.next();
-//			CageUI cageUI = createCageUI(c);
-//			if (c.getId() > 0) {
-//				OrganismUI[] parentUIs = cageUI.getParentUIs();
-//				if (parentUIs == null)
-//					System.out.println("No parents found for Cage#: "
-//							+ c.getId());
-//				if (parentUIs[0] == null)
-//					System.out.println("No parent0 found for Cage#: "
-//							+ c.getId());
-//				if (parentUIs[1] == null)
-//					System.out.println("No parent1 found for Cage#: "
-//							+ c.getId());
-//				Organism o1 = parentUIs[0].getOrganism();
-//				Organism o2 = parentUIs[1].getOrganism();
-//				int o1_Id = o1.getId();
-//				int o2_Id = o2.getId();
-//				CageUI cage1 = (CageUI) m_CageCollection.get(o1.getCageId());
-//				CageUI cage2 = (CageUI) m_CageCollection.get(o2.getCageId());
-//				if (cage1 != null && cage2 != null) {
-//					OrganismUI originalOUI1 = cage1.getOrganismUIFor(o1_Id);
-//					OrganismUI originalOUI2 = cage2.getOrganismUIFor(o2_Id);
-//					if (originalOUI1 != null && originalOUI2 != null) {
-//						if (parentUIs[0].getOrganism().getSexType() == originalOUI1
-//								.getOrganism().getSexType()) {
-//							originalOUI1.getReferencesList().add(parentUIs[0]);
-//							originalOUI2.getReferencesList().add(parentUIs[1]);
-//							parentUIs[0].setCentralOrganismUI(originalOUI1);
-//							parentUIs[1].setCentralOrganismUI(originalOUI2);
-//						} else {
-//							originalOUI1.getReferencesList().add(parentUIs[1]);
-//							originalOUI2.getReferencesList().add(parentUIs[0]);
-//							parentUIs[1].setCentralOrganismUI(originalOUI1);
-//							parentUIs[0].setCentralOrganismUI(originalOUI2);
-//						}
-//					} else {
-//						System.out
-//								.println("For Original Organisms of Parents of Cage#: "
-//										+ c.getId());
-//						if (originalOUI1 == null)
-//							System.out.println("Organism for: " + o1.getId()
-//									+ " " + o1.getCageId() + " not found!");
-//						if (originalOUI2 == null)
-//							System.out.println("Organism for: " + o2.getId()
-//									+ " " + o2.getCageId() + " not found!");
-//					}
-//				} else {
-//					System.out.println("For Parents of Cage#: " + c.getId());
-//					if (cage1 == null)
-//						System.out.println("Cage for Organism: " + o1.getId()
-//								+ " " + o1.getCageId() + " not found!");
-//					if (cage2 == null)
-//						System.out.println("Cage for Organism: " + o2.getId()
-//								+ " " + o2.getCageId() + " not found!");
-//				}
-//			}
-//		}
+//	Iterator it = cages.iterator();
+//	while (it.hasNext()) {
+//	Cage c = (Cage) it.next();
+//	CageUI cageUI = createCageUI(c);
+//	if (c.getId() > 0) {
+//	OrganismUI[] parentUIs = cageUI.getParentUIs();
+//	if (parentUIs == null)
+//	System.out.println("No parents found for Cage#: "
+//	+ c.getId());
+//	if (parentUIs[0] == null)
+//	System.out.println("No parent0 found for Cage#: "
+//	+ c.getId());
+//	if (parentUIs[1] == null)
+//	System.out.println("No parent1 found for Cage#: "
+//	+ c.getId());
+//	Organism o1 = parentUIs[0].getOrganism();
+//	Organism o2 = parentUIs[1].getOrganism();
+//	int o1_Id = o1.getId();
+//	int o2_Id = o2.getId();
+//	CageUI cage1 = (CageUI) m_CageCollection.get(o1.getCageId());
+//	CageUI cage2 = (CageUI) m_CageCollection.get(o2.getCageId());
+//	if (cage1 != null && cage2 != null) {
+//	OrganismUI originalOUI1 = cage1.getOrganismUIFor(o1_Id);
+//	OrganismUI originalOUI2 = cage2.getOrganismUIFor(o2_Id);
+//	if (originalOUI1 != null && originalOUI2 != null) {
+//	if (parentUIs[0].getOrganism().getSexType() == originalOUI1
+//	.getOrganism().getSexType()) {
+//	originalOUI1.getReferencesList().add(parentUIs[0]);
+//	originalOUI2.getReferencesList().add(parentUIs[1]);
+//	parentUIs[0].setCentralOrganismUI(originalOUI1);
+//	parentUIs[1].setCentralOrganismUI(originalOUI2);
+//	} else {
+//	originalOUI1.getReferencesList().add(parentUIs[1]);
+//	originalOUI2.getReferencesList().add(parentUIs[0]);
+//	parentUIs[1].setCentralOrganismUI(originalOUI1);
+//	parentUIs[0].setCentralOrganismUI(originalOUI2);
+//	}
+//	} else {
+//	System.out
+//	.println("For Original Organisms of Parents of Cage#: "
+//	+ c.getId());
+//	if (originalOUI1 == null)
+//	System.out.println("Organism for: " + o1.getId()
+//	+ " " + o1.getCageId() + " not found!");
+//	if (originalOUI2 == null)
+//	System.out.println("Organism for: " + o2.getId()
+//	+ " " + o2.getCageId() + " not found!");
+//	}
+//	} else {
+//	System.out.println("For Parents of Cage#: " + c.getId());
+//	if (cage1 == null)
+//	System.out.println("Cage for Organism: " + o1.getId()
+//	+ " " + o1.getCageId() + " not found!");
+//	if (cage2 == null)
+//	System.out.println("Cage for Organism: " + o2.getId()
+//	+ " " + o2.getCageId() + " not found!");
+//	}
+//	}
+//	}
 //	}
 
 	/**

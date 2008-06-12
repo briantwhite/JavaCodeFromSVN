@@ -23,7 +23,7 @@ import VGL.Preferences;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.12 2008-06-12 16:29:21 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.13 2008-06-12 20:18:05 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -247,6 +247,22 @@ public class GeneticModel {
 		return autosomeModel.getNumberOfGeneModels() 
 		+ sexChromosomeModel.getNumberOfGeneModels();
 
+	}
+	
+	public boolean anyTraitsOnSexChromosome() {
+		if (sexChromosomeModel.getNumberOfGeneModels() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean anyTraitsOnAutosome() {
+		if (autosomeModel.getNumberOfGeneModels() > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public String toString() {
