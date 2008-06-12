@@ -288,3 +288,16 @@ nuke VGL.Genetics
 6/12/08
 - got it working in jar with pix and text only in dialogs (no pix yet)
 - nuked useless phenotype pix
+
+the jdom stuff failed as a jar...
+made lib/ 
+	put in stuff from VGL/lib
+	in properties, add Class Folder
+	edited build.xml to include lib
+	- now OK
+
+it can read in simple files!
+
+Format:
+
+
