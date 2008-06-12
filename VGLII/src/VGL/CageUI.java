@@ -388,12 +388,7 @@ public class CageUI extends JDialog implements WindowListener {
 		int dtWidth = (int) (getGraphicsConfiguration().getDevice()
 				.getDefaultConfiguration().getBounds().getWidth());
 		int ht = (int) (768 / 5.6);
-		if (panelCount == 1)
-			dialogHeight = ht;
-		else if (panelCount == 2)
-			dialogHeight = ht + (int) (ht / 3);
-		else if (panelCount == 3)
-			dialogHeight = ht + (int) ((2 * ht) / 3);
+		dialogHeight = ht + (int) ((panelCount - 1) * ht)/3;
 		dialogWidth = (int) (550);
 		dialogLocationX = (int) (dtWidth / 2) - dialogWidth / 2;
 		dialogLocationY = (int) (dtHeight / 2) - dialogHeight / 2;
