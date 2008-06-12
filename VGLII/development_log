@@ -298,6 +298,47 @@ made lib/
 
 it can read in simple files!
 
-Format:
+Format: all are floats between 0 and 1 (if not specified, they default to 0)
 
+minimal file:
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ZZ_ZW>0.0</ZZ_ZW>
+</root>
+
+- first, set the overall sex determining mechanism
+   even if not sex-linked
+   
+	* ZZ_ZW - chance of ZZ/ZW sex linkage
+
+- then the first gene - there must be at least one
+	* Gene1_SexLinked - chance that it'll be sex-linked
+							(if not, it'll be autosomal)
+	* Gene1_3Alleles - 	chance it's 3-alleles
+							(if not, it'll be 2 allele)
+	* Gene1_IncDom  - 	chance it's inc dom
+							(if not and 2 allele - simple dom)
+							(if not and 2 allele 50/50
+								chance of hierarch/circ dom)
+								
+- second gene - may or may not be there
+	* Gene2_Present -	chance it's present
+							(if not, it's a 1 gene model)
+	* Gene2_SameChrAsGene1	- chance gene2 and 1 are on same chromo
+								(if not, they are on different ones)
+								(that is, sex vs auto)
+	* Gene2_MinRfToGene1	- range of possible recombination freqs
+	* Gene2_MaxRfToGene1		(between gene 1 and gene 2 if on same chromo)
+	
+	* Gene2_3Alleles		- same as above
+	* Gene2_IncDom
+	
+- third and final gene - may or may not be there
+	* Gene3_Present	- 	chance it's present
+							(if not, it's a 2 gene model)
+	* Gene3_SameChrAsGene1	- same as above
+	* Gene3_MinRfToGene1
+	* Gene3_MaxRfToGene1
+	* Gene3_3Alleles
+	* Gene3_IncDom
 

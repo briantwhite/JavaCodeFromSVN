@@ -73,51 +73,51 @@ public class GeneticModelFactory {
 				problemSpec.setChZZ_ZW(
 						Float.parseFloat(current.getTextTrim()));
 
-			if (name.equals("Gene1:SexLinked"))
+			if (name.equals("Gene1_SexLinked"))
 				problemSpec.setGene1_chSexLinked(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene1:3Alleles"))
+			if (name.equals("Gene1_3Alleles"))
 				problemSpec.setGene1_ch3Alleles(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene1:IncDom"))
+			if (name.equals("Gene1_IncDom"))
 				problemSpec.setGene1_chIncDom(
 						Float.parseFloat(current.getTextTrim()));
 
-			if (name.equals("Gene2:Present"))
+			if (name.equals("Gene2_Present"))
 				problemSpec.setGene2_chPresent(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2:SameChrAsGene1"))
+			if (name.equals("Gene2_SameChrAsGene1"))
 				problemSpec.setGene2_chSameChrAsGene1(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2:MinRfToGene1"))
+			if (name.equals("Gene2_MinRfToGene1"))
 				problemSpec.setGene2_minRfToGene1(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2:MaxRfToGene1"))
+			if (name.equals("Gene2_MaxRfToGene1"))
 				problemSpec.setGene2_maxRfToGene1(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2:3Alleles"))
+			if (name.equals("Gene2_3Alleles"))
 				problemSpec.setGene2_ch3Alleles(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2:IncDom"))
+			if (name.equals("Gene2_IncDom"))
 				problemSpec.setGene2_chIncDom(
 						Float.parseFloat(current.getTextTrim()));
 
-			if (name.equals("Gene3:Present"))
+			if (name.equals("Gene3_Present"))
 				problemSpec.setGene3_chPresent(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3:SameChrAsGene1"))
+			if (name.equals("Gene3_SameChrAsGene1"))
 				problemSpec.setGene3_chSameChrAsGene1(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3:MinRfToGene1"))
+			if (name.equals("Gene3_MinRfToGene1"))
 				problemSpec.setGene3_minRfToGene1(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3:MaxRfToGene1"))
+			if (name.equals("Gene3_MaxRfToGene1"))
 				problemSpec.setGene3_maxRfToGene1(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3:3Alleles"))
+			if (name.equals("Gene3_3Alleles"))
 				problemSpec.setGene3_ch3Alleles(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3:IncDom"))
+			if (name.equals("Gene3_IncDom"))
 				problemSpec.setGene3_chIncDom(
 						Float.parseFloat(current.getTextTrim()));
 		}
