@@ -39,10 +39,11 @@ public class OrganismList {
 	}
 	
 	public void add(Organism o) {
-		organisms.add(o);
 		if (o.isMale()) {
+			organisms.add(0, o); // if male, add to start
 			numberOfMales++;
 		} else {
+			organisms.add(o);    //if female, add to end
 			numberOfFemales++;
 		}
 	}

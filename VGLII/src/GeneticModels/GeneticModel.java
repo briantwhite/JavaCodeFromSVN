@@ -23,7 +23,7 @@ import VGL.Preferences;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.10 2008-06-12 13:30:50 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.11 2008-06-12 14:33:27 brian Exp $
  */
 
 // This is the wrapper class for the entire genetic model
@@ -137,7 +137,7 @@ public class GeneticModel {
 	}
 	
 	public Cage generateFieldPopulation() {
-		Cage cage = new Cage(1);
+		Cage cage = new Cage(0);
 		int numOffspring = 
 			random.nextInt(prefs.getMaxOffspring() - prefs.getMinOffspring()) 
 				+ prefs.getMinOffspring();
@@ -173,12 +173,12 @@ public class GeneticModel {
 			random.nextInt(prefs.getMaxOffspring() - prefs.getMinOffspring()) 
 				+ prefs.getMinOffspring();
 		for (int i = 0; i < numOffspring; i++) {
-			cage.add(getOffspringOrganism(mom, dad));
+			cage.add(getOffspringOrganism(newCageID, mom, dad));
 		}
 		return cage;
 	}
 
-	private Organism getOffspringOrganism(Organism mom, Organism dad) {
+	private Organism getOffspringOrganism(int cageID, Organism mom, Organism dad) {
 		Chromosome maternalAutosomeContribution = null;
 		Chromosome maternalSexChromosomeContribution = null;
 		Chromosome paternalAutosomeContribution = null;
@@ -205,7 +205,7 @@ public class GeneticModel {
 				sexChromosomeModel.getPhenotypes(
 						maternalSexChromosomeContribution, 
 						paternalSexChromosomeContribution));
-		return new Organism(
+		return new Organism(cageID,
 				maternalAutosomeContribution,
 				paternalAutosomeContribution,
 				maternalSexChromosomeContribution,

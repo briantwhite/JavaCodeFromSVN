@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Organism.java,v 1.6 2008-06-10 15:34:27 brian Exp $
+ * @version 1.0 $Id: Organism.java,v 1.7 2008-06-12 14:33:27 brian Exp $
  */
 
 public class Organism {
@@ -59,7 +59,7 @@ public class Organism {
 	}
 	
 	//constructor for field population
-	//  where cageId = 1
+	//  where cageId = 0
 	public Organism(Chromosome maternalAutosome,
 			Chromosome paternalAutosome,
 			Chromosome maternalSexChromosome,
@@ -68,7 +68,7 @@ public class Organism {
 			boolean male,
 			GeneticModel geneticModel) {
 		
-		this(1, 
+		this(0, 
 				maternalAutosome, 
 				paternalAutosome,
 				maternalSexChromosome,

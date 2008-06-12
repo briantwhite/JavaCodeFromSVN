@@ -8,6 +8,8 @@ public class Preferences {
 	private int minOffspring;
 	
 	private Preferences() {
+		minOffspring = GlobalDefaults.DEFAULT_MIN_OFFSPRING;
+		maxOffspring = GlobalDefaults.DEFAULT_MAX_OFFSPRING;
 		
 	}
 	

@@ -68,6 +68,10 @@ public class Cage {
 	}
 
 	public void add(Organism o) {
+		o.setCageId(id);
+		o.setId(count);
+		count++;
+
 		//if there isn't a list of organisms with this pheno
 		//  make one
 		if (!children.containsKey(o.getPhenotypeString())) {

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.ImageIcon;
@@ -42,7 +42,6 @@ import GeneticModels.Cage;
 import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
-import GeneticModels.OrganismList;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -267,11 +266,6 @@ public class VGLII extends JFrame {
 	private JButton onlineHelpButton = null;
 
 	/**
-	 * A reference to the frame of the application
-	 */
-	private JFrame dialogFrame = null;
-
-	/**
 	 * The current file to which work is being saved to
 	 */
 	private File currentSavedFile = null;
@@ -300,9 +294,15 @@ public class VGLII extends JFrame {
 		super("Virtual Genetics Lab II " + version);
 		addWindowListener(new ApplicationCloser());
 		setupUI(); 
+		
+		nextCageId = 0;
+		selectionVial = new SelectionVial(statusLabel);
+		cageCollection = new ArrayList<CageUI>();
+
 		geneticModel = GeneticModelFactory.getInstance().createTestModel();
 		Cage fieldPop = geneticModel.generateFieldPopulation();
-		CageUI fieldPopUI = createCageUI(fieldPop);
+		createCageUI(fieldPop);
+		enableAll(true);
 	}
 	
 
@@ -625,6 +625,9 @@ public class VGLII extends JFrame {
 		getContentPane().add(panePanel, BorderLayout.CENTER);
 		cleanUp();
 		docRenderer = new DocumentRenderer(); //setup for printing
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setSize(dim.width, (int)(dim.height * 0.9));
 	}
 
 	/**
@@ -693,7 +696,7 @@ public class VGLII extends JFrame {
 		update(getGraphics());
 	
 		//need to kill the dialog so it won't re-appear on de-iconify
-		Window[] windows = dialogFrame.getOwnedWindows();
+		Window[] windows = this.getOwnedWindows();
 		for (int i = 0; i < windows.length; i++) {
 			if (windows[i].toString().matches("title=New Problem Type Selection")) {
 				windows[i].dispose();
@@ -901,14 +904,14 @@ public class VGLII extends JFrame {
 		try {
 			helpPane.setPage(VGLII.class.getResource("Help/index.html"));
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(dialogFrame,
+			JOptionPane.showMessageDialog(this,
 					"Be sure the help folder is in the same folder as VGL.",
 					"Can't find help file.", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		JScrollPane helpScrollPane = new JScrollPane(helpPane);
-		JDialog helpDialog = new JDialog(dialogFrame, "VGL Help");
+		JDialog helpDialog = new JDialog(this, "VGL Help");
 		JButton backButton = new JButton("Go Back to Top of Page");
 		helpDialog.getContentPane().setLayout(new BorderLayout());
 		helpDialog.getContentPane().add(backButton, BorderLayout.NORTH);
@@ -947,8 +950,7 @@ public class VGLII extends JFrame {
 	 * sets up the cage manager dialog and displays it
 	 */
 	private void cageManager() {
-		JFrame frame = dialogFrame;
-		CageManager dlg = new CageManager(frame, "Cages", cageCollection);
+		CageManager dlg = new CageManager(this, "Cages", cageCollection);
 		dlg.setVisible(true);
 		dlg = null;
 	}
@@ -961,11 +963,10 @@ public class VGLII extends JFrame {
 	 * @return the newly created cageUI
 	 */
 	private CageUI createCageUI(Cage c) {
-		JFrame frame = dialogFrame;
 		CageUI dlg = null;
 		String details = null;
 		details = geneticModel.toString();
-		dlg = new CageUI(frame, isBeginner, c, selectionVial,
+		dlg = new CageUI(this, isBeginner, c, selectionVial,
 				details);
 		nextCageId++;
 		if (dlg != null) {

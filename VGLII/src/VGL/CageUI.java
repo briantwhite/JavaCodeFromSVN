@@ -348,6 +348,7 @@ public class CageUI extends JDialog implements WindowListener {
 					imageDlg.setVisible(true);
 				}
 			});
+			phenotypeLabels[i] = new JLabel(phenotypeNames[i]);
 			phenotypeLabels[i]
 			                .setHorizontalTextPosition(javax.swing.JLabel.CENTER);
 			phenotypeLabels[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
@@ -583,12 +584,14 @@ public class CageUI extends JDialog implements WindowListener {
 			String phenoName1 = o1.getPhenotypeString();
 			parentOrganismUIs[0] = new OrganismUI(o1, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[0]);
-			parentInfoPanel.add(new JLabel("(" + cageId + ")"));
+			parentInfoPanel.add(new JLabel("(" + cageId + ")" 
+					+ " " + phenoName1));
 			cageId = o2.getCageId() + 1;
 			String phenoName2 = o2.getPhenotypeString();
 			parentOrganismUIs[1] = new OrganismUI(o2, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[1]);
-			parentInfoPanel.add(new JLabel("(" + cageId + ")"));
+			parentInfoPanel.add(new JLabel("(" + cageId + ")"
+					+ " " + phenoName2));
 		} else {
 			if (isBeginner) {
 				if (details != null) {
