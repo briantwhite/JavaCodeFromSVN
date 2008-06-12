@@ -569,9 +569,6 @@ public class VGLII extends JFrame {
 		URL saveImageURL = VGLII.class.getResource("images/save.gif");
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
 		
-		URL saveToServerURL = VGLII.class.getResource("images/savetoserver.gif");
-		ImageIcon saveToServerImage = new ImageIcon(saveToServerURL);
-
 		URL aboutImageURL = VGLII.class.getResource("images/about.gif");
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
 

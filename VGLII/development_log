@@ -284,3 +284,7 @@ nuke VGL.Genetics
 - re-worked CageUI for new stuff
 - also put in the gpl header to all classes
 - reworked VGLII (nuked VGLMain and VGLMainApp)
+
+6/12/08
+- got it working in jar with pix and text only in dialogs (no pix yet)
+- nuked useless phenotype pix
