@@ -715,7 +715,7 @@ public class VGLII extends JFrame {
 	private void newProblem() {
 		if (cageCollection == null) {
 			File problemsDirectory = new File(defaultDirectory.toString()
-					+ "/Problems");
+					+ System.getProperty("file.separator") + "Problems");
 			if (!problemsDirectory.exists()) {
 				problemsDirectory = defaultDirectory;
 			}
