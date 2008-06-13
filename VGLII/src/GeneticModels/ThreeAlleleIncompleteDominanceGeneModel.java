@@ -18,7 +18,7 @@ package GeneticModels;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleIncompleteDominanceGeneModel.java,v 1.2 2008-06-10 15:34:25 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleIncompleteDominanceGeneModel.java,v 1.3 2008-06-13 22:17:00 brian Exp $
  */
 
 public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
@@ -135,19 +135,20 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 	}
 
 	public String toString() {
-		return "Three Allele " 
+		return t1.getBodyPart() + "\n"
+		+ "   Three Allele " 
 		+ "Incomplete Dominance; " 
-		+ t1.toString()
-		+ " is one homozygote, "
-		+ t4.getTraitName()
+		+ "   " + t1.toString()
+		+ " is one homozygote\n"
+		+ "   " + t4.getTraitName()
 		+ " is in between that and "
 		+ t2.getTraitName()
-		+ " (another homozygote), "
-		+ t5.getTraitName()
+		+ " (another homozygote)\n"
+		+ "   " + t5.getTraitName()
 		+ " is in between that and "
 		+ t3.getTraitName()
-		+ " (another homozygote), and "
-		+ t6.getTraitName()
+		+ " (another homozygote), and\n"
+		+ "   " + t6.getTraitName()
 		+ " is a in between that and the "
 		+ " first homozygote.";
 	}

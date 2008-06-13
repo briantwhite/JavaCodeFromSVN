@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+	<BeginnerMode>False</BeginnerMode>
 	<ZZ_ZW>0.0</ZZ_ZW>
 	<Gene1_SexLinked>0.5</Gene1_SexLinked>
 </root>

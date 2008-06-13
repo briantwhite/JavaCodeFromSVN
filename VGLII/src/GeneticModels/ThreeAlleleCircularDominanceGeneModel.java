@@ -18,7 +18,7 @@ package GeneticModels;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleCircularDominanceGeneModel.java,v 1.2 2008-06-10 15:34:27 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleCircularDominanceGeneModel.java,v 1.3 2008-06-13 22:17:00 brian Exp $
  */
 
 public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
@@ -127,21 +127,21 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 	}
 
 	public String toString() {
-		return "Three Allele " 
+		return t1.getBodyPart()
+		+ "   Three Allele " 
 		+ "Circular Dominance; " 
-		+ t1.toString()
+		+ "   " + t1.toString()
 		+ " is dominant to "
-		+ t3.getTraitName()
+		+  t3.getTraitName()
 		+ " and recessive to "
-		+ t2.getTraitName()
-		+ ", "
-		+ t2.getTraitName()
+		+ t2.getTraitName() + "\n"
+		+ "   " + t2.getTraitName()
 		+ " is dominant to "
 		+ t1.getTraitName()
 		+ " and recessive to "
 		+ t3.getTraitName()
-		+ ", and "
-		+ t3.getTraitName()
+		+ "\n"
+		+ "   " + t3.getTraitName()
 		+ " is dominant to "
 		+ t2.getTraitName()
 		+ " and recessive to "

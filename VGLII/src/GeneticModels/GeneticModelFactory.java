@@ -69,6 +69,9 @@ public class GeneticModelFactory {
 		while(it.hasNext()) {
 			Element current = it.next();
 			String name = current.getName();
+			if (name.equals("BeginnerMode"))
+				problemSpec.setBeginnerMode(
+						Boolean.parseBoolean(current.getTextTrim()));
 			if (name.equals("ZZ_ZW")) 
 				problemSpec.setChZZ_ZW(
 						Float.parseFloat(current.getTextTrim()));
@@ -136,6 +139,9 @@ public class GeneticModelFactory {
 		} else {
 			model = new GeneticModel(true);
 		}
+		
+		//beginner mode
+		if (specs.isBeginnerMode()) model.setBeginnerMode(true);
 
 		try {
 			//first gene (always must be one)

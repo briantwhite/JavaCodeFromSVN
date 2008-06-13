@@ -83,11 +83,12 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 	}
 
 	public String toString() {
-		return "Two Allele " 
-		+ "Simple Dominance; " 
-		+ t1.toString()
-		+ " is recessive, "
-		+ t2.getTraitName()
+		return t1.getBodyPart() + "\n"
+		+ "   Two Allele " 
+		+ "Simple Dominance\n" 
+		+ "   " + t1.getTraitName()
+		+ " is recessive\n"
+		+ "   " + t2.getTraitName()
 		+ " is dominant.";
 	}
 

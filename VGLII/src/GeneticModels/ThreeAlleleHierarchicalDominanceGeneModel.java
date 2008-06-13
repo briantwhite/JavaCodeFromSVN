@@ -18,7 +18,7 @@ package GeneticModels;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleHierarchicalDominanceGeneModel.java,v 1.2 2008-06-10 15:34:26 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleHierarchicalDominanceGeneModel.java,v 1.3 2008-06-13 22:17:01 brian Exp $
  */
 
 public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
@@ -121,17 +121,18 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 	}
 
 	public String toString() {
-		return "Three Allele " 
+		return t1.getBodyPart()
+		+ "   Three Allele " 
 		+ "Hierarchical Dominance; " 
-		+ t1.toString()
-		+ " is recessive to all, "
-		+ t2.getTraitName()
+		+ "   " + t1.toString()
+		+ " is recessive to all\n"
+		+ "   " + t2.getTraitName()
 		+ " is dominant to "
 		+ t1.getTraitName()
 		+ " and recessive to "
 		+ t3.getTraitName()
-		+ ", and "
-		+ t3.getTraitName()
+		+ "\n"
+		+ "   " + t3.getTraitName()
 		+ " is dominant to all.";
 	}
 

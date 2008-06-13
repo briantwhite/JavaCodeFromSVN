@@ -18,7 +18,7 @@ package GeneticModels;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: TwoAlleleIncompleteDominanceGeneModel.java,v 1.2 2008-06-10 15:34:28 brian Exp $
+ * @version 1.0 $Id: TwoAlleleIncompleteDominanceGeneModel.java,v 1.3 2008-06-13 22:17:01 brian Exp $
  */
 
 public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
@@ -90,13 +90,14 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 	}
 
 	public String toString() {
-		return "Two Allele " 
-		+ "Incomplete Dominance; " 
-		+ t1.toString()
-		+ " is one homozygote, "
-		+ t2.getTraitName()
-		+ " is the other homozygote,"
-		+ t3.getTraitName()
+		return t1.getBodyPart() + "\n"
+		+ "   Two Allele " 
+		+ "Incomplete Dominance\n" 
+		+ "   " + t1.toString()
+		+ " is one homozygote\n"
+		+ "   " + t2.getTraitName()
+		+ " is the other homozygote\n"
+		+ "   " + t3.getTraitName()
 		+ " is the heterozygote.";
 	}
 

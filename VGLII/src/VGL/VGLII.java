@@ -94,12 +94,6 @@ public class VGLII extends JFrame {
 	private int nextCageId = 0;
 
 	/**
-	 * The mode in which to open/create an existing/new problem if the mode is
-	 * "show underlying model" then its value is true, false otherwise
-	 */
-	private boolean isBeginner = false;
-
-	/**
 	 * The singular instance that holds the current male-female selection for
 	 * crossing
 	 */
@@ -729,6 +723,7 @@ public class VGLII extends JFrame {
 					"New Problem Type Selection", "Select Problem Type", false,
 					prbFilterString, "Problem Type Files",
 					JFileChooser.OPEN_DIALOG);
+			if (newFile == null) return;
 			geneticModel = 
 				GeneticModelFactory.getInstance().createRandomModel(newFile);
 			
@@ -998,7 +993,7 @@ public class VGLII extends JFrame {
 		CageUI dlg = null;
 		String details = null;
 		details = geneticModel.toString();
-		dlg = new CageUI(this, isBeginner, c, selectionVial,
+		dlg = new CageUI(this, geneticModel.isBeginnerMode(), c, selectionVial,
 				details, geneticModel.getNumberOfTraits());
 		nextCageId++;
 		if (dlg != null) {

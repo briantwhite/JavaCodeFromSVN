@@ -2,6 +2,8 @@ package GeneticModels;
 
 public class ProblemTypeSpecification {
 	
+	private boolean beginnerMode;
+	
 	// all are probabilities 'ch' is short for 'chance of'
 	private float chZZ_ZW;
 	
@@ -24,6 +26,8 @@ public class ProblemTypeSpecification {
 	private float gene3_chIncDom;
 	
 	public ProblemTypeSpecification() {
+		beginnerMode = false;
+		
 		chZZ_ZW = 0.0f;
 		
 		gene1_chSexLinked = 0.0f;
@@ -45,6 +49,14 @@ public class ProblemTypeSpecification {
 		gene3_chIncDom = 0.0f;		
 	}
 
+	public boolean isBeginnerMode() {
+		return beginnerMode;
+	}
+	
+	public void setBeginnerMode(boolean b) {
+		beginnerMode = b;
+	}
+	
 	public float getChZZ_ZW() {
 		return chZZ_ZW;
 	}

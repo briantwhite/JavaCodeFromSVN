@@ -23,7 +23,7 @@ import VGL.Preferences;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.13 2008-06-12 20:18:05 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.14 2008-06-13 22:17:00 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -92,9 +92,12 @@ public class GeneticModel {
 	private Random random;
 
 	private Preferences prefs;
+	
+	private boolean beginnerMode;   //allows viewing of model and genotypes
 
 
 	protected GeneticModel(boolean XX_XYsexLinkage) {
+		beginnerMode = false;
 		this.XX_XYsexLinkage = XX_XYsexLinkage;
 		autosomeModel = new AutosomeModel();
 		sexChromosomeModel = new SexChromosomeModel();
@@ -134,6 +137,14 @@ public class GeneticModel {
 		}
 		sexChromosomeModel.addGeneModel(gm);
 		sexChromosomeModel.addRecombinationFrequency(rf);
+	}
+	
+	public boolean isBeginnerMode() {
+		return beginnerMode;
+	}
+	
+	protected void setBeginnerMode(boolean beginnerMode) {
+		this.beginnerMode = beginnerMode;
 	}
 
 	public Cage generateFieldPopulation() {
@@ -267,16 +278,14 @@ public class GeneticModel {
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
-		b.append("Genetic Model: ");
 		if (XX_XYsexLinkage) {
-			b.append("XX/XY sex linkage");
+			b.append("XX/XY sex determination");
 		} else {
-			b.append("ZZ/ZW sex linkage");
+			b.append("ZZ/ZW sex determination");
 		}
 		b.append("\n");
 		b.append(autosomeModel.toString());
 		b.append(sexChromosomeModel.toString());
-		b.append("$$$$$$$$\n");
 		return b.toString();
 	}
 

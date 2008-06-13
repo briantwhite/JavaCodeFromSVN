@@ -22,7 +22,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ChromosomeModel.java,v 1.11 2008-06-10 15:34:26 brian Exp $
+ * @version 1.0 $Id: ChromosomeModel.java,v 1.12 2008-06-13 22:17:01 brian Exp $
  */
 
 public abstract class ChromosomeModel {
@@ -31,7 +31,7 @@ public abstract class ChromosomeModel {
 	private ArrayList<Float> recombinationFrequencies;
 
 	private boolean sexChromosome;
-	
+
 	private Random rand;
 
 	protected ChromosomeModel(boolean sexChromosome) {
@@ -48,11 +48,11 @@ public abstract class ChromosomeModel {
 	public void addRecombinationFrequency(float rf) {
 		recombinationFrequencies.add(rf);
 	}
-	
+
 	public int getNumberOfGeneModels() {
 		return geneModels.size();
 	}
-	
+
 	public ArrayList<Phenotype> getPhenotypes(Chromosome cr1, Chromosome cr2) {
 		ArrayList<Phenotype> phenos = new ArrayList<Phenotype>();
 		for (int i = 0; i < geneModels.size(); i++) {
@@ -98,7 +98,7 @@ public abstract class ChromosomeModel {
 		//first, see if it's a heterogametic sex chromosome pair (XY or ZW)
 		//  if so, then return without recombination
 		if((cr1 == NullSexChromosome.getInstance()) ||
-						(cr2 == NullSexChromosome.getInstance())) {
+				(cr2 == NullSexChromosome.getInstance())) {
 			if (rand.nextInt(2) == 0) {
 				return cr1;
 			} else {
@@ -146,26 +146,28 @@ public abstract class ChromosomeModel {
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
-		if(sexChromosome) {
-			b.append("Sex Chromosome:\n");
-		} else {
-			b.append("Autosome:\n");
-		}
-		
-		Iterator<Float> rfIt = recombinationFrequencies.iterator();
-		for (int i = 0; i < geneModels.size(); i++) {
-			GeneModel gm = geneModels.get(i);
-			b.append(gm.toString() + "\n");
-			if (rfIt.hasNext()) {
-				float rf = rfIt.next();
-				if (rf == 0.5f) {
-					b.append("unlinked to:\n");
-				} else {
-					b.append("recombination frequency = " + rf + " to:\n");
+		if (geneModels.size() != 0) {
+			if(sexChromosome) {
+				b.append("Gene(s) on X or Z Sex Chromosome:\n");
+			} else {
+				b.append("Gene(s) on Autosome(s):\n");
+			}
+
+			Iterator<Float> rfIt = recombinationFrequencies.iterator();
+			for (int i = 0; i < geneModels.size(); i++) {
+				GeneModel gm = geneModels.get(i);
+				b.append("-Gene " + i + ":");
+				b.append(gm.toString() + "\n");
+				if (rfIt.hasNext()) {
+					float rf = rfIt.next();
+					if (rf == 0.5f) {
+						b.append("*Unlinked to:\n");
+					} else {
+						b.append("*Recombination frequency = " + rf + " to:\n");
+					}
 				}
 			}
 		}
-		b.append("*******\n");
 		return b.toString();
 	}
 }
