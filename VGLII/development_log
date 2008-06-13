@@ -342,3 +342,19 @@ minimal file:
 	* Gene3_3Alleles
 	* Gene3_IncDom
 
+6/13-rw-r--r--  1 brian  admin  147 Jun 13 12:50 OneGeneAutoIncDom.prb
+-rw-r--r--  1 brian  admin  147 Jun 13 12:49 OneGeneIncDom.prb
+-rw-r--r--  1 brian  admin  147 Jun 13 12:50 OneGeneSLIncDom.prb
+-rw-r--r--  1 brian  admin  113 Jun 13 12:45 OneGeneSimpleAutosomal.prb
+-rw-r--r--  1 brian  admin  113 Jun 13 12:44 OneGeneSimpleDominance.prb
+-rw-r--r--  1 brian  admin  113 Jun 13 12:45 OneGeneSimpleSexLinked.prb
+-rw-r--r--  1 brian  admin  476 Jun 13 12:58 ThreeLinkedAutosomalGenes.prb
+-rw-r--r--  1 brian  admin  476 Jun 13 12:59 ThreeSexLinkedGenes.prb
+-rw-r--r--  1 brian  admin  292 Jun 13 12:53 TwoAutoGenesIndep.prb
+-rw-r--r--  1 brian  admin  292 Jun 13 12:54 TwoAutoGenesLinked.prb
+-rw-r--r--  1 brian  admin  292 Jun 13 12:55 TwoGenesMixed.prb
+
+sent to Peter Russell (yeast@reed.edu) & Harry Roy (royh@rpi.edu)
+for testing and feedback
+
+

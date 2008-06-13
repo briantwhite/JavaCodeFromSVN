@@ -43,7 +43,7 @@ public class GeneticModelFactory {
 		} catch (JDOMException e2) {
 			System.err.println(e2.getMessage());
 		}
-		System.out.println(model);
+//		System.out.println(model);
 		return model;
 	}
 

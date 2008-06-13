@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ZZ_ZW>0.0</ZZ_ZW>
+	<Gene1_SexLinked>0.0</Gene1_SexLinked>
+	<Gene2_Present>1.0</Gene2_Present>
+	<Gene2_SameChrAsGene1>1.0</Gene2_SameChrAsGene1>
+	<Gene2_MinRfToGene1>0.5</Gene2_MinRfToGene1>
+	<Gene2_MaxRfToGene1>0.5</Gene2_MaxRfToGene1>	
+</root>
