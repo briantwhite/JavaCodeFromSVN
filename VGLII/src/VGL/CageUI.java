@@ -389,10 +389,10 @@ public class CageUI extends JDialog implements WindowListener {
 				.getDefaultConfiguration().getBounds().getWidth());
 		int ht = (int) (768 / 5.6);
 		dialogHeight = ht + (int) ((panelCount - 1) * ht)/3;
-		dialogWidth = (int) (550);
+		dialogWidth = 550;
 		dialogLocationX = (int) (dtWidth / 2) - dialogWidth / 2;
 		dialogLocationY = (int) (dtHeight / 2) - dialogHeight / 2;
-		setSize(dialogWidth, dialogHeight);
+		setSize(new Dimension(dialogWidth, dialogHeight));
 		setLocation(new Point(dialogLocationX, dialogLocationY));
 	}
 
@@ -428,6 +428,8 @@ public class CageUI extends JDialog implements WindowListener {
 
 		// headers for the different traits
 		traitPanels = new JPanel[numberOfTraits];
+		JPanel[] traitPanelWrappers = new JPanel[numberOfTraits];
+		
 		// need to get the type of each trait
 		//  get one organism's pheno (it doesn't matter which one)
 		ArrayList<Phenotype> phenotypes = 
@@ -440,6 +442,11 @@ public class CageUI extends JDialog implements WindowListener {
 					phenotypes.get(i).getTrait().getBodyPart(), 
 					javax.swing.border.TitledBorder.CENTER,
 					javax.swing.border.TitledBorder.ABOVE_TOP));
+			traitPanelWrappers[i] = new JPanel();
+			traitPanelWrappers[i].setLayout(
+					new BoxLayout(traitPanelWrappers[i], BoxLayout.Y_AXIS));
+			traitPanelWrappers[i].add(Box.createHorizontalStrut(70));
+			traitPanelWrappers[i].add(traitPanels[i]);
 		}
 
 		picturesPanel = new JPanel();
@@ -468,7 +475,7 @@ public class CageUI extends JDialog implements WindowListener {
 		individualPanel.add(organismsPanel);
 		individualPanel.add(countsPanel);
 		for (int i = 0; i < numberOfTraits; i++) {
-			individualPanel.add(traitPanels[i]);
+			individualPanel.add(traitPanelWrappers[i]);
 		}
 //		individualPanel.add(picturesPanel);
 		detailsPanel.add(individualPanel, BorderLayout.NORTH);
