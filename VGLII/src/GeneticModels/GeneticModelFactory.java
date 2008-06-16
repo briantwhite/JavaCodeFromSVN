@@ -72,6 +72,14 @@ public class GeneticModelFactory {
 			if (name.equals("BeginnerMode"))
 				problemSpec.setBeginnerMode(
 						Boolean.parseBoolean(current.getTextTrim()));
+			
+			if (name.equals("MinOffspring"))
+				problemSpec.setMinOffspring(
+						Integer.parseInt(current.getTextTrim()));
+			if (name.equals("MaxOffspring"))
+				problemSpec.setMaxOffspring(
+						Integer.parseInt(current.getTextTrim()));
+			
 			if (name.equals("ZZ_ZW")) 
 				problemSpec.setChZZ_ZW(
 						Float.parseFloat(current.getTextTrim()));
@@ -111,11 +119,11 @@ public class GeneticModelFactory {
 			if (name.equals("Gene3_SameChrAsGene1"))
 				problemSpec.setGene3_chSameChrAsGene1(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3_MinRfToGene1"))
-				problemSpec.setGene3_minRfToGene1(
+			if (name.equals("Gene3_MinRfToPrevGene"))
+				problemSpec.setGene3_minRfToPrevGene(
 						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3_MaxRfToGene1"))
-				problemSpec.setGene3_maxRfToGene1(
+			if (name.equals("Gene3_MaxRfToPrevGene"))
+				problemSpec.setGene3_maxRfToPrevGene(
 						Float.parseFloat(current.getTextTrim()));
 			if (name.equals("Gene3_3Alleles"))
 				problemSpec.setGene3_ch3Alleles(
@@ -142,6 +150,10 @@ public class GeneticModelFactory {
 		
 		//beginner mode
 		if (specs.isBeginnerMode()) model.setBeginnerMode(true);
+		
+		//# of offspring generated
+		model.setMinOffspring(specs.getMinOffspring());
+		model.setMaxOffspring(specs.getMaxOffspring());
 
 		try {
 			//first gene (always must be one)
@@ -182,8 +194,8 @@ public class GeneticModelFactory {
 						model, 
 						gene1SexLinked, 
 						specs.getGene3_chSameChrAsGene1(), 
-						specs.getGene3_minRfToGene1(), 
-						specs.getGene3_maxRfToGene1(), 
+						specs.getGene3_minRfToPrevGene(), 
+						specs.getGene3_maxRfToPrevGene(), 
 						gene3Model);
 			} else {
 				// no third gene (therefore no third)

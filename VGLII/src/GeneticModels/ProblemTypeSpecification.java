@@ -4,6 +4,9 @@ public class ProblemTypeSpecification {
 	
 	private boolean beginnerMode;
 	
+	private int minOffspring;
+	private int maxOffspring;
+	
 	// all are probabilities 'ch' is short for 'chance of'
 	private float chZZ_ZW;
 	
@@ -20,13 +23,16 @@ public class ProblemTypeSpecification {
 	
 	private float gene3_chPresent;
 	private float gene3_chSameChrAsGene1;
-	private float gene3_minRfToGene1;
-	private float gene3_maxRfToGene1;
+	private float gene3_minRfToPrevGene;
+	private float gene3_maxRfToPrevGene;
 	private float gene3_ch3Alleles;
 	private float gene3_chIncDom;
 	
 	public ProblemTypeSpecification() {
 		beginnerMode = false;
+		
+		minOffspring = 25;
+		maxOffspring = 35;
 		
 		chZZ_ZW = 0.0f;
 		
@@ -43,8 +49,8 @@ public class ProblemTypeSpecification {
 		
 		gene3_chPresent = 0.0f;
 		gene3_chSameChrAsGene1 = 0.0f;
-		gene3_minRfToGene1 = 0.0f;
-		gene3_maxRfToGene1 = 0.0f;
+		gene3_minRfToPrevGene = 0.0f;
+		gene3_maxRfToPrevGene = 0.0f;
 		gene3_ch3Alleles = 0.0f;
 		gene3_chIncDom = 0.0f;		
 	}
@@ -57,6 +63,22 @@ public class ProblemTypeSpecification {
 		beginnerMode = b;
 	}
 	
+	public int getMinOffspring() {
+		return minOffspring;
+	}
+
+	public void setMinOffspring(int minOffspring) {
+		this.minOffspring = minOffspring;
+	}
+
+	public int getMaxOffspring() {
+		return maxOffspring;
+	}
+
+	public void setMaxOffspring(int maxOffspring) {
+		this.maxOffspring = maxOffspring;
+	}
+
 	public float getChZZ_ZW() {
 		return chZZ_ZW;
 	}
@@ -153,20 +175,20 @@ public class ProblemTypeSpecification {
 		this.gene3_chSameChrAsGene1 = gene3_chSameChrAsGene1;
 	}
 
-	public float getGene3_minRfToGene1() {
-		return gene3_minRfToGene1;
+	public float getGene3_minRfToPrevGene() {
+		return gene3_minRfToPrevGene;
 	}
 
-	public void setGene3_minRfToGene1(float gene3_minRfToGene1) {
-		this.gene3_minRfToGene1 = gene3_minRfToGene1;
+	public void setGene3_minRfToPrevGene(float gene3_minRfToPrevGene) {
+		this.gene3_minRfToPrevGene = gene3_minRfToPrevGene;
 	}
 
-	public float getGene3_maxRfToGene1() {
-		return gene3_maxRfToGene1;
+	public float getGene3_maxRfToPrevGene() {
+		return gene3_maxRfToPrevGene;
 	}
 
-	public void setGene3_maxRfToGene1(float gene3_maxRfToGene1) {
-		this.gene3_maxRfToGene1 = gene3_maxRfToGene1;
+	public void setGene3_maxRfToPrevGene(float gene3_maxRfToPrevGene) {
+		this.gene3_maxRfToPrevGene = gene3_maxRfToPrevGene;
 	}
 
 	public float getGene3_ch3Alleles() {
@@ -184,5 +206,6 @@ public class ProblemTypeSpecification {
 	public void setGene3_chIncDom(float gene3_chIncDom) {
 		this.gene3_chIncDom = gene3_chIncDom;
 	}
+
 
 }

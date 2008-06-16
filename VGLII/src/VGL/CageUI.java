@@ -821,21 +821,4 @@ public class CageUI extends JDialog implements WindowListener {
 		return null;
 	}
 
-	public void setBalloonHelp(boolean value) {
-		for (int i = 0; i < 2 * numPhenosPresent; i++) {
-			for (int j = 0; j < 20; j++) {
-				OrganismUI organismUI = ((OrganismUI) (childrenOrganismUIs[i][j]));
-				if (organismUI != null) {
-					organismUI.setBalloonHelp(value);
-				} else
-					break;
-			}
-		}
-		if (parentOrganismUIs != null) {
-			if (parentOrganismUIs[0] != null && parentOrganismUIs[1] != null) {
-				parentOrganismUIs[0].setBalloonHelp(value);
-				parentOrganismUIs[1].setBalloonHelp(value);
-			}
-		}
-	}
 }

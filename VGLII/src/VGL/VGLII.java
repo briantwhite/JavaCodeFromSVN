@@ -170,11 +170,6 @@ public class VGLII extends JFrame {
 	private JMenuItem aboutItem = null;
 
 	/**
-	 * Checkbox based menu item to set balloon help on/off
-	 */
-	private JCheckBoxMenuItem balloonHelpItem = null;
-
-	/**
 	 * Menu item to invoke cage manager dialog
 	 */
 	private JMenuItem cageManagerItem = null;
@@ -270,11 +265,6 @@ public class VGLII extends JFrame {
 	private File defaultDirectory = new File(".");
 
 	/**
-	 * Boolean variable to keep track of whether balloon help is on or not
-	 */
-	private Boolean isBalloonHelpActive = null;
-
-	/**
 	 * Stores the value of the next position on the screen where a cage should
 	 * be displayed
 	 */
@@ -339,8 +329,6 @@ public class VGLII extends JFrame {
 			aboutVGL();
 		else if (cmd.equals("CageManager"))
 			cageManager();
-		else if (cmd.equals("BalloonHelp"))
-			balloonHelp();
 		else if (cmd.equals("OnlineHelp"))
 			onlineHelp();
 		else if (cmd.equals("RearrangeCages"))
@@ -511,9 +499,6 @@ public class VGLII extends JFrame {
 
 		//  "Help" options.
 		JMenu mnuHelp = new JMenu("Help");
-		balloonHelpItem = checkBoxMenuItem("Balloon Help", "BalloonHelp",
-				balloonHelpImage);
-		mnuHelp.add(balloonHelpItem);
 		onlineHelpItem = menuItem("Help Page...", "OnlineHelp",
 				onlineHelpImage);
 		mnuHelp.add(onlineHelpItem);
@@ -863,7 +848,6 @@ public class VGLII extends JFrame {
 		enableAll(false);
 		nextCageScreenPosition = new Point(this.getX() + 200,
 				this.getY() + 100);
-		isBalloonHelpActive = null;
 		statusLabel.setText("");
 	}
 
@@ -897,28 +881,6 @@ public class VGLII extends JFrame {
 					"Cross Two", JOptionPane.ERROR_MESSAGE);
 	}
 
-	/**
-	 * Depending on whether the m_IsBalloonHelpActive is true/false, this method
-	 * allows/disallows users to obtain tooltip based information about screen
-	 * objects
-	 */
-	private void balloonHelp() {
-		if (isBalloonHelpActive != null) {
-			isBalloonHelpActive = new Boolean(!isBalloonHelpActive
-					.booleanValue());
-			balloonHelpItem.setSelected(isBalloonHelpActive.booleanValue());
-		} else {
-			isBalloonHelpActive = new Boolean(true);
-			balloonHelpItem.setSelected(true);
-		}
-		if (cageCollection != null) {
-			Iterator<CageUI> it = cageCollection.iterator();
-			while (it.hasNext()) {
-				CageUI cageUI = it.next();
-				cageUI.setBalloonHelp(isBalloonHelpActive.booleanValue());
-			}
-		}
-	}
 
 	/**
 	 * This method invokes .html help into a JEditor pane
@@ -1000,8 +962,6 @@ public class VGLII extends JFrame {
 			cageCollection.add(dlg);
 			calculateCagePosition(dlg);
 			dlg.setVisible(true);
-			if (isBalloonHelpActive != null)
-				dlg.setBalloonHelp(isBalloonHelpActive.booleanValue());
 		}
 		return dlg;
 	}
@@ -1023,7 +983,6 @@ public class VGLII extends JFrame {
 		saveButton.setEnabled(value);
 		saveAsButton.setEnabled(value);
 		crossTwoButton.setEnabled(value);
-		balloonHelpItem.setEnabled(value);
 		cageManagerItem.setEnabled(value);
 		rearrangeCagesItem.setEnabled(value);
 		saveProblemItem.setEnabled(value);

@@ -3,8 +3,6 @@ package GeneticModels;
 import java.util.ArrayList;
 import java.util.Random;
 
-import VGL.Preferences;
-
 /**
  * Brian White Summer 2008
  * 
@@ -23,7 +21,7 @@ import VGL.Preferences;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.14 2008-06-13 22:17:00 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.15 2008-06-16 19:15:14 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -83,6 +81,9 @@ public class GeneticModel {
 
 	public static final boolean XX_XY = true;
 	public static final boolean ZZ_ZW = false;
+	
+	private int minOffspring;
+	private int maxOffspring;
 
 	private ChromosomeModel autosomeModel;
 	private ChromosomeModel sexChromosomeModel;
@@ -91,8 +92,6 @@ public class GeneticModel {
 
 	private Random random;
 
-	private Preferences prefs;
-	
 	private boolean beginnerMode;   //allows viewing of model and genotypes
 
 
@@ -102,7 +101,6 @@ public class GeneticModel {
 		autosomeModel = new AutosomeModel();
 		sexChromosomeModel = new SexChromosomeModel();
 		random = new Random();
-		prefs = Preferences.getInstance();
 	}
 
 	protected void addFirstAutosomalGeneModel(GeneModel gm) throws GeneticsException {
@@ -146,12 +144,19 @@ public class GeneticModel {
 	protected void setBeginnerMode(boolean beginnerMode) {
 		this.beginnerMode = beginnerMode;
 	}
+	
+	protected void setMinOffspring(int min) {
+		minOffspring = min;
+	}
+	
+	protected void setMaxOffspring(int max) {
+		maxOffspring = max;
+	}
 
 	public Cage generateFieldPopulation() {
 		Cage cage = new Cage(0);
 		int numOffspring = 
-			random.nextInt(prefs.getMaxOffspring() - prefs.getMinOffspring()) 
-			+ prefs.getMinOffspring();
+			random.nextInt(maxOffspring - minOffspring) + minOffspring;
 		for (int i = 0; i < numOffspring; i++) {
 			cage.add(getRandomOrganism());
 		}
@@ -181,8 +186,7 @@ public class GeneticModel {
 	public Cage crossTwo(int newCageID, Organism mom, Organism dad) {
 		Cage cage = new Cage(newCageID, mom, dad);
 		int numOffspring = 
-			random.nextInt(prefs.getMaxOffspring() - prefs.getMinOffspring()) 
-			+ prefs.getMinOffspring();
+			random.nextInt(maxOffspring - minOffspring) + minOffspring;
 		for (int i = 0; i < numOffspring; i++) {
 			cage.add(getOffspringOrganism(newCageID, mom, dad));
 		}

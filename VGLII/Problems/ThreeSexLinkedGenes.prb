@@ -10,7 +10,7 @@
 	
 	<Gene3_Present>1.0</Gene3_Present>
 	<Gene3_SameChrAsGene1>1.0</Gene3_SameChrAsGene1>
-	<Gene3_MinRfToGene1>0.1</Gene3_MinRfToGene1>
-	<Gene3_MaxRfToGene1>0.3</Gene3_MaxRfToGene1>
+	<Gene3_MinRfToPrevGene>0.1</Gene3_MinRfToPrevGene>
+	<Gene3_MaxRfToPrevGene>0.3</Gene3_MaxRfToPrevGene>
 		
 </root>

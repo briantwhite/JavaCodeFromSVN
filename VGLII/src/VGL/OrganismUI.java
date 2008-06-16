@@ -146,6 +146,13 @@ public class OrganismUI extends JLabel implements MouseListener {
 			m_SameOrganismReferences = new ArrayList();
 			m_CentralOrganismUI = this;
 		}
+		
+		if (m_IsBeginnersMode) {
+			setToolTipText("Genotype: " + m_Organism.getToolTipTextString());
+		} else {
+			setToolTipText("");
+		}
+		
 		addMouseListener(this);
 	}
 
@@ -297,23 +304,5 @@ public class OrganismUI extends JLabel implements MouseListener {
 	 */
 	public void setCentralOrganismUI(OrganismUI organismUI) {
 		m_CentralOrganismUI = organismUI;
-	}
-
-	/**
-	 * Set the tooltip text to be displayed depending whether the balloon help
-	 * is enabled or not.
-	 * 
-	 * @param selected
-	 *            true if balloon help is on, false if balloon help is off
-	 */
-	public void setBalloonHelp(boolean selected) {
-		String info = "";
-		if (selected) {
-			if (m_IsBeginnersMode)
-				info = "Genotype: " + m_Organism.getToolTipTextString();
-			else
-				info = " Phenotype: " + m_Organism.getPhenotypeString();
-		}
-		setToolTipText(info);
 	}
 }

@@ -360,3 +360,18 @@ for testing and feedback
 Harry's new problem opens in his home dir - not in Problems...
 
 got beginner mode working
+
+added parameter BeginnerMode (True/False)
+
+6/16/08
+- working on beginner mode:
+	- have balloon help always appear in beginnerMode and show only genotype
+		never show phenotype and never in non beginnerMode
+
+- added parameters MinOffspring; MaxOffspring
+
+renamed params
+	* Gene3_MinRfToGene1 - Gene3_MinRfToPrevGene
+	* Gene3_MaxRfToGene1 - Gene3_MaxRfToPrevGene
+since it's linkage to either gene 2 (of 1 and 2 are linked) or to 1 (if 1 and 2 aren't)
+
