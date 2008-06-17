@@ -375,3 +375,4 @@ renamed params
 	* Gene3_MaxRfToGene1 - Gene3_MaxRfToPrevGene
 since it's linkage to either gene 2 (of 1 and 2 are linked) or to 1 (if 1 and 2 aren't)
 
+working on summary chart
