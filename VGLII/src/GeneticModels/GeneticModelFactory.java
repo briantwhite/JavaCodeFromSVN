@@ -44,6 +44,7 @@ public class GeneticModelFactory {
 			System.err.println(e2.getMessage());
 		}
 //		System.out.println(model);
+		model.scrambleTraitOrder();
 		return model;
 	}
 

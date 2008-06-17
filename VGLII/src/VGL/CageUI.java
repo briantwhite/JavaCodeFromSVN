@@ -64,8 +64,8 @@ import GeneticModels.Phenotype;
  * @author Nikunj Koolar & Brian White
  * @version 1.0 $Id$
  */
-public class CageUI extends JDialog implements WindowListener,
-MouseListener {
+public class CageUI extends JDialog 
+implements WindowListener, MouseListener, Comparable<CageUI> {
 
 	/**
 	 * the background color when the Cage is selected
@@ -217,6 +217,12 @@ MouseListener {
 	 * Holds the array of smaller images associated with each of the phenotypes
 	 */
 	private ImageIcon[] smallPhenoImages;
+	
+	/**
+	 * holds array mapping real trait # to display order number
+	 * that way, the traits aren't displayed in chromosomal order
+	 */
+	private int[] scrambledTraitOrder;
 
 	/**
 	 * A reference to the Cage object being displayed through this UI
@@ -319,8 +325,13 @@ MouseListener {
 	 *            string containing information about the underlying genetics
 	 *            model
 	 */
-	public CageUI(Frame importFrame, boolean isbeginnersmode, Cage cage,
-			SelectionVial sv, String details, int numberOfTraits) {
+	public CageUI(Frame importFrame, 
+			boolean isbeginnersmode, 
+			Cage cage,
+			SelectionVial sv, 
+			String details, 
+			int numberOfTraits,
+			int[] scrambledTraitOrder) {
 		//initialize parent
 		super(importFrame, false);
 		addWindowListener(this);
@@ -332,6 +343,7 @@ MouseListener {
 		id = cage.getId() + 1;
 		children = cage.getChildren();
 		parents = cage.getParents();
+		this.scrambledTraitOrder = scrambledTraitOrder;
 		if (id == 1)
 			if (details != null)
 				this.details = details;
@@ -341,13 +353,15 @@ MouseListener {
 		setupSubComponents();
 		setupDialogBox(importFrame, numPhenosPresent);
 		setResizable(false);
+		
+		unselectedColor = getBackground();
+		isSelected = false;
+		summaryChartManager = SummaryChartManager.getInstance();
+
 		//setup the GUI of its internal components
 		components();
 		pack();
 		setVisible(true);
-		unselectedColor = getBackground();
-		isSelected = false;
-		summaryChartManager = SummaryChartManager.getInstance();
 	}
 
 	/**
@@ -470,7 +484,7 @@ MouseListener {
 			traitPanels[i].setLayout(new GridLayout(numPhenosPresent, 1));
 			traitPanels[i].setBorder(BorderFactory.createTitledBorder(
 					emptyBorder,
-					phenotypes.get(i).getTrait().getBodyPart(), 
+					phenotypes.get(scrambledTraitOrder[i]).getTrait().getBodyPart(), 
 					javax.swing.border.TitledBorder.CENTER,
 					javax.swing.border.TitledBorder.ABOVE_TOP));
 			traitPanelWrappers[i] = new JPanel();
@@ -498,7 +512,8 @@ MouseListener {
 			countsPanel.add(panelSet.getCountsPanel());
 			JPanel[] phenoPanels = panelSet.getPhenotypePanels();
 			for (int j = 0; j < numberOfTraits; j++) {
-				traitPanels[j].add(phenoPanels[j]);
+				traitPanels[j].add(
+						phenoPanels[scrambledTraitOrder[j]]);
 			}
 //			picturesPanel.add(panels[2]);
 		}
@@ -738,6 +753,10 @@ MouseListener {
 	public void setIsSelected(boolean b) {
 		isSelected = b;
 	}
+	
+	public int getId() {
+		return id;
+	}
 
 	/**
 	 * Default implementation for the windowlistener class method
@@ -861,11 +880,11 @@ MouseListener {
 			if (isSelected) {
 				setBackground(unselectedColor);
 				isSelected = false;
-				summaryChartManager.removeFromSelected(id);
+				summaryChartManager.removeFromSelected(this);
 			} else {
 				setBackground(selectedColor);
 				isSelected = true;
-				summaryChartManager.addToSelected(id);
+				summaryChartManager.addToSelected(this);
 			}
 		}
 	}
@@ -877,5 +896,9 @@ MouseListener {
 	public void mousePressed(MouseEvent e) {}
 
 	public void mouseReleased(MouseEvent e) {}
+
+	public int compareTo(CageUI o) {
+		return id - o.getId();
+	}
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import VGL.GeneticsException;
+import VGL.MFTotCounts;
 
 /**
  * Brian White Summer 2008
@@ -27,17 +28,17 @@ import VGL.GeneticsException;
  */
 
 public class OrganismList {
-	
+
 	private ArrayList<Organism> organisms;
 	private int numberOfMales;
 	private int numberOfFemales;
-	
+
 	public OrganismList() {
 		organisms = new ArrayList<Organism>();
 		numberOfFemales = 0;
 		numberOfMales = 0;
 	}
-	
+
 	public void add(Organism o) {
 		if (o.isMale()) {
 			organisms.add(0, o); // if male, add to start
@@ -47,7 +48,7 @@ public class OrganismList {
 			numberOfFemales++;
 		}
 	}
-	
+
 	/**
 	 * Return the organism which is at the given index.
 	 * 
@@ -58,7 +59,7 @@ public class OrganismList {
 	public Organism get(int index) {
 		return organisms.get(index);
 	}
-	
+
 	/**
 	 * Return the organism which has the given id.
 	 * 
@@ -75,25 +76,56 @@ public class OrganismList {
 		throw new GeneticsException("Cannot find Organism");
 	}
 
-	
+
 	public int getNumberOfMales() {
 		return numberOfMales;
 	}
-	
+
 	public int getNumberOfFemales() {
 		return numberOfFemales;
 	}
-	
+
 	public int getTotalNumber() {
 		return numberOfMales + numberOfFemales;
 	}
-	
+
+	public MFTotCounts getMFTotCounts() {
+		return new MFTotCounts(numberOfMales, numberOfFemales);
+	}
+
 	public ArrayList<Organism> getAllOrganisms() {
 		return organisms;
 	}
-	
+
 	public Iterator<Organism> iterator() {
 		return organisms.iterator();
+	}
+
+	/** 
+	 * Used by SummaryChart for counting purposes
+	 * returns a string including only some or all of the
+	 * parts of this phenotypeString
+	 * for example, if full pheno string is
+	 * 		red-eye, green-body; bent-leg
+	 * and traitsToCount = {0,2}
+	 * this will return "red-eye, bent-leg"
+	 * @param traitsToCount
+	 * @return
+	 */
+	public String getCustomPhenotypeString(int[] traitsToCount) {
+		StringBuffer b = new StringBuffer();
+		Organism o = organisms.get(0);
+		ArrayList<Phenotype> phenos = o.getPhenotypes();
+		for (int i = 0; i < traitsToCount.length; i++) {
+			b.append(phenos.get(traitsToCount[i]).getTrait().getTraitName());
+			b.append("-");
+			b.append(phenos.get(traitsToCount[i]).getTrait().getBodyPart());
+			b.append("/");
+		}
+		if (b.length() > 0) {
+			b.deleteCharAt(b.length() - 1);
+		}
+		return b.toString();
 	}
 
 }

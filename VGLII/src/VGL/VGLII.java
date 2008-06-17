@@ -198,6 +198,11 @@ public class VGLII extends JFrame {
 	 * Menu item to re-arrange cages
 	 */
 	private JMenuItem rearrangeCagesItem = null;
+	
+	/**
+	 * menu item to show summary charts
+	 */
+	private JMenuItem summaryChartItem = null;
 
 	/**
 	 * Button to open a saved problem
@@ -332,6 +337,8 @@ public class VGLII extends JFrame {
 			onlineHelp();
 		else if (cmd.equals("RearrangeCages"))
 			reArrangeCages();
+		else if (cmd.equals("SummaryChart"))
+			summaryChart();
 	}
 
 	/**
@@ -494,6 +501,9 @@ public class VGLII extends JFrame {
 		rearrangeCagesItem = menuItem("Rearrange Cages", "RearrangeCages",
 				null);
 		mnuUtilities.add(rearrangeCagesItem);
+		summaryChartItem = menuItem("Create Summary Chart", "SummaryChart",
+				null);
+		mnuUtilities.add(summaryChartItem);
 		mnuBar.add(mnuUtilities);
 
 		//  "Help" options.
@@ -942,6 +952,13 @@ public class VGLII extends JFrame {
 		dlg.setVisible(true);
 		dlg = null;
 	}
+	
+	/*
+	 * sets up and displays new summarychart
+	 */
+	private void summaryChart() {
+		SummaryChartManager.getInstance().showSummaryChart(this);
+	}
 
 	/**
 	 * This method acutally sets up the Cage's UI.
@@ -954,8 +971,13 @@ public class VGLII extends JFrame {
 		CageUI dlg = null;
 		String details = null;
 		details = geneticModel.toString();
-		dlg = new CageUI(this, geneticModel.isBeginnerMode(), c, selectionVial,
-				details, geneticModel.getNumberOfTraits());
+		dlg = new CageUI(this, 
+				geneticModel.isBeginnerMode(), 
+				c, 
+				selectionVial,
+				details, 
+				geneticModel.getNumberOfTraits(),
+				geneticModel.getScrambledTraitOrder());
 		nextCageId++;
 		if (dlg != null) {
 			cageCollection.add(dlg);

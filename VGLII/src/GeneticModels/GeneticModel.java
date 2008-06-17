@@ -21,7 +21,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.15 2008-06-16 19:15:14 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.16 2008-06-17 22:18:05 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -93,6 +93,14 @@ public class GeneticModel {
 	private Random random;
 
 	private boolean beginnerMode;   //allows viewing of model and genotypes
+	
+	/**
+	 * because we don't want to display the traits in the CageUI in the
+	 * order they appear on the chromosome, need a mapping
+	 * between the trait number and the displayed trait number
+	 * in this array,when i = trait number; sto[i] gives its display order
+	 */
+	private int[] scrambledTraitOrder;
 
 
 	protected GeneticModel(boolean XX_XYsexLinkage) {
@@ -153,6 +161,42 @@ public class GeneticModel {
 		maxOffspring = max;
 	}
 
+	/**
+	 * randomize the order in which traits are displayed in CageUI
+	 * DO NOT RUN THIS UNTIL MODEL IS COMPLETE
+	 */
+	protected void scrambleTraitOrder() {
+		scrambledTraitOrder = new int[getNumberOfTraits()];
+		
+		// fill array with blanks
+		for (int i = 0; i < scrambledTraitOrder.length; i++) {
+			scrambledTraitOrder[i] = -1;
+		}
+		
+		// fill array with possible values to draw from
+		int[] source = new int[getNumberOfTraits()];
+		for (int i = 0; i < source.length; i++) {
+			source[i] = i;
+		}
+		
+		//draw them randomly
+		for (int i = 0; i < scrambledTraitOrder.length; i++) {
+			scrambledTraitOrder[i] = pickRandomUnusedInt(source);
+		}
+		
+	}
+	
+	private int pickRandomUnusedInt(int[] source) {
+		int i = random.nextInt(source.length);
+		int val = source[i];
+		while (val == -1) {
+			i = random.nextInt(source.length);
+			val = source[i];
+		}
+		source[i] = -1;
+		return val;
+	}
+	
 	public Cage generateFieldPopulation() {
 		Cage cage = new Cage(0);
 		int numOffspring = 
@@ -262,6 +306,10 @@ public class GeneticModel {
 		return autosomeModel.getNumberOfGeneModels() 
 		+ sexChromosomeModel.getNumberOfGeneModels();
 
+	}
+	
+	public int[] getScrambledTraitOrder() {
+		return scrambledTraitOrder;
 	}
 	
 	public boolean anyTraitsOnSexChromosome() {
