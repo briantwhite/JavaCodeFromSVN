@@ -1,6 +1,7 @@
 package VGL;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -11,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.net.URL;
@@ -61,7 +64,26 @@ import GeneticModels.Phenotype;
  * @author Nikunj Koolar & Brian White
  * @version 1.0 $Id$
  */
-public class CageUI extends JDialog implements WindowListener {
+public class CageUI extends JDialog implements WindowListener,
+MouseListener {
+
+	/**
+	 * the background color when the Cage is selected
+	 * for membership in the summary chart
+	 */
+	private static Color selectedColor = new Color(255,255,230); 
+
+	/**
+	 * boolean to indicate membership in selected set for
+	 * summary chart
+	 */
+	private boolean isSelected;
+	
+	/**
+	 * manager for membership in selected set for summary chart
+	 */
+	private SummaryChartManager summaryChartManager;
+
 	/**
 	 * The Id for the Cage. This value is always one more than the id of the
 	 * cage it holds. This is because the Cage id's begin from 0, but on screen
@@ -150,6 +172,11 @@ public class CageUI extends JDialog implements WindowListener {
 	 * holding this cage
 	 */
 	private Image image;
+
+	/** 
+	 * keeps track of the default color of unselected cages
+	 */
+	private Color unselectedColor;
 
 	/**
 	 * This variable stores a reference to the hashmap of children associated
@@ -297,6 +324,7 @@ public class CageUI extends JDialog implements WindowListener {
 		//initialize parent
 		super(importFrame, false);
 		addWindowListener(this);
+		addMouseListener(this);
 		this.isBeginner = isbeginnersmode;
 		this.cage = cage;
 		vial = sv;
@@ -317,6 +345,9 @@ public class CageUI extends JDialog implements WindowListener {
 		components();
 		pack();
 		setVisible(true);
+		unselectedColor = getBackground();
+		isSelected = false;
+		summaryChartManager = SummaryChartManager.getInstance();
 	}
 
 	/**
@@ -429,7 +460,7 @@ public class CageUI extends JDialog implements WindowListener {
 		// headers for the different traits
 		traitPanels = new JPanel[numberOfTraits];
 		JPanel[] traitPanelWrappers = new JPanel[numberOfTraits];
-		
+
 		// need to get the type of each trait
 		//  get one organism's pheno (it doesn't matter which one)
 		ArrayList<Phenotype> phenotypes = 
@@ -704,6 +735,10 @@ public class CageUI extends JDialog implements WindowListener {
 		}
 	}
 
+	public void setIsSelected(boolean b) {
+		isSelected = b;
+	}
+
 	/**
 	 * Default implementation for the windowlistener class method
 	 * 
@@ -820,5 +855,27 @@ public class CageUI extends JDialog implements WindowListener {
 		}
 		return null;
 	}
+
+	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+			if (isSelected) {
+				setBackground(unselectedColor);
+				isSelected = false;
+				summaryChartManager.removeFromSelected(id);
+			} else {
+				setBackground(selectedColor);
+				isSelected = true;
+				summaryChartManager.addToSelected(id);
+			}
+		}
+	}
+
+	public void mouseEntered(MouseEvent e) {}
+
+	public void mouseExited(MouseEvent e) {}
+
+	public void mousePressed(MouseEvent e) {}
+
+	public void mouseReleased(MouseEvent e) {}
 
 }

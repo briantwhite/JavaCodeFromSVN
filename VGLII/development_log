@@ -376,3 +376,8 @@ renamed params
 since it's linkage to either gene 2 (of 1 and 2 are linked) or to 1 (if 1 and 2 aren't)
 
 working on summary chart
+- need a way to show that a cage has been added to the selected set of cages
+	for summarizing
+- shift-click toggles this addition
+- this is indicated by a change in background color
+	default bg color = 

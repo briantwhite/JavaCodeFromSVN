@@ -92,7 +92,7 @@ public class VGLII extends JFrame {
 	 * The id of the next cage that will be created
 	 */
 	private int nextCageId = 0;
-
+	
 	/**
 	 * The singular instance that holds the current male-female selection for
 	 * crossing
@@ -278,7 +278,6 @@ public class VGLII extends JFrame {
 		super("Virtual Genetics Lab II " + version);
 		addWindowListener(new ApplicationCloser());
 		setupUI(); 
-
 	}
 
 
