@@ -97,6 +97,9 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 			data[i][3] = result[i].getCounts().getTotal();
 		}
 		
+		//if none selected, the "phenotype" is "organism"
+		if (selectedTraits.size() == 0) data[0][0] = "Organism";
+			
 		int phenoStringWidth = data[0][0].toString().length() * 8;
 		
 		JPanel panel = new JPanel();
