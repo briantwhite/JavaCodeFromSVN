@@ -1,9 +1,12 @@
 package GeneticModels;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
+
+import org.jdom.Element;
 
 import VGL.GeneticsException;
 
@@ -149,6 +152,42 @@ public class Cage {
 	 */
 	public TreeMap<String, OrganismList> getChildren() {
 		return children;
+	}
+
+	/**
+	 * Save this cage in the JDom Element format.
+	 * 
+	 * @return this cage in JDom Element format
+	 */
+	public Element save() throws Exception {
+		Element ec = new Element("Cage");
+		ec.setAttribute("Id", String.valueOf(id));
+
+		// parents
+		if ((parent1 != null) || (parent2 != null)) {
+			Element ep = new Element("Parents");
+			if (parent1 != null)
+				ep.addContent(parent1.save());
+			if (parent2 != null)
+				ep.addContent(parent2.save());
+			ec.addContent(ep);
+		}
+
+		// children
+		Iterator<String> i = children.keySet().iterator();
+		while (i.hasNext()) {
+			String phenotype = i.next();
+			Element eph = new Element("Phenotype");
+			eph.setAttribute("Value", phenotype);
+
+			OrganismList l = children.get(phenotype);
+			for (int j = 0; j < l.getTotalNumber(); j++) {
+				Organism o = l.get(j);
+				eph.addContent(o.save());
+			}
+			ec.addContent(eph);
+		}
+		return ec;
 	}
 
 

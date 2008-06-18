@@ -1,5 +1,7 @@
 package GeneticModels;
 
+import org.jdom.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -18,7 +20,7 @@ package GeneticModels;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Allele.java,v 1.10 2008-06-10 15:34:28 brian Exp $
+ * @version 1.0 $Id: Allele.java,v 1.11 2008-06-18 20:16:40 brian Exp $
  */
 
 public class Allele {
@@ -41,5 +43,13 @@ public class Allele {
 	
 	public String toString() {
 		return "#" + intVal + " " + trait.toString();
+	}
+	
+	public Element save(int index) throws Exception {
+		Element e = new Element("Allele");
+		e.setAttribute("Index", String.valueOf(index));
+		e.setAttribute("Number", String.valueOf(intVal));
+		e.addContent(trait.save());
+		return e;
 	}
 }

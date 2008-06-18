@@ -3,6 +3,8 @@ package GeneticModels;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.jdom.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -21,7 +23,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.17 2008-06-18 18:26:33 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.18 2008-06-18 20:16:40 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -326,6 +328,13 @@ public class GeneticModel {
 		} else {
 			return false;
 		}
+	}
+	
+	public Element save() {
+		Element e = new Element("GeneticModel");
+		e.addContent(autosomeModel.save());
+		e.addContent(sexChromosomeModel.save());
+		return e;
 	}
 
 	public String toString() {

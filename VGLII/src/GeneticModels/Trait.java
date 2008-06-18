@@ -1,5 +1,7 @@
 package GeneticModels;
 
+import org.jdom.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -50,6 +52,14 @@ public abstract class Trait {
 	
 	public void setTraitName(String s) {
 		traitName = s;
+	}
+	
+	public Element save() throws Exception {
+		Element e = new Element("Trait");
+		e.setAttribute("TraitName", traitName);
+		e.setAttribute("Type", type);
+		e.setAttribute("BodyPart", bodyPart);
+		return e;
 	}
 	
 	public String toString() {

@@ -2,6 +2,8 @@ package GeneticModels;
 
 import java.util.ArrayList;
 
+import org.jdom.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -20,7 +22,7 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Organism.java,v 1.9 2008-06-18 15:39:02 brian Exp $
+ * @version 1.0 $Id: Organism.java,v 1.10 2008-06-18 20:16:40 brian Exp $
  */
 
 public class Organism {
@@ -218,6 +220,27 @@ public class Organism {
 			return "female";
 		}
 	}
+	
+	/**
+	 * Save this organism in the JDom Element format.
+	 * 
+	 * @return this organism in JDom Element format
+	 */
+	public Element save() throws Exception {
+		Element orga = new Element("Organism");
+		orga.setAttribute("Id", String.valueOf(id));
+		orga.setAttribute("CageId", String.valueOf(cageId));
+
+		orga.setAttribute("Male", String.valueOf(male));
+
+		orga.addContent(maternalAutosome.save("MaternalAutosome"));
+		orga.addContent(paternalAutosome.save("PaternalAutosome"));
+		orga.addContent(maternalSexChromosome.save("MaternalSexChromosome"));
+		orga.addContent(paternalSexChromosome.save("PaternalSexChromosome"));
+
+		return orga;
+	}
+
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();

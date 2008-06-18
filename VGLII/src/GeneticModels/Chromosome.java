@@ -2,6 +2,8 @@ package GeneticModels;
 
 import java.util.ArrayList;
 
+import org.jdom.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -20,7 +22,7 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Chromosome.java,v 1.7 2008-06-10 15:34:28 brian Exp $
+ * @version 1.0 $Id: Chromosome.java,v 1.8 2008-06-18 20:16:40 brian Exp $
  */
 
 public class Chromosome {
@@ -41,6 +43,15 @@ public class Chromosome {
 
 	public ArrayList<Allele> getAllAlleles() {
 		return alleles;
+	}
+	
+	public Element save(String id) throws Exception {
+		Element e = new Element("Chromosome");
+		e.setAttribute("Id", id);
+		for (int i = 0; i < alleles.size(); i++) {
+			e.addContent(alleles.get(i).save(i));
+		}
+		return e;
 	}
 
 	public String toString() {

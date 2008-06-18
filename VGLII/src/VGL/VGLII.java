@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -39,6 +40,11 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import GeneticModels.Cage;
 import GeneticModels.GeneticModel;
@@ -757,8 +763,62 @@ public class VGLII extends JFrame {
 	 * Saves the current work done by the user to a file.
 	 */
 	private boolean saveProblem() {
-		return false;
+		//don't forget to save the MODEL!
+		boolean success = false;
+		if (cageCollection != null) {
+			if (currentSavedFile == null)
+				currentSavedFile = selectFile(defaultDirectory,
+						"Save Work", "Enter File Name to Save", false,
+						wrkFilterString, "Work Files",
+						JFileChooser.SAVE_DIALOG);
+			try {
+				
+				
+				Iterator<CageUI> it = cageCollection.iterator();
+				ArrayList<Cage> al = new ArrayList<Cage>();
+				while (it.hasNext()) {
+					CageUI cui = it.next();
+					Cage c = cui.getCage();
+					al.add(c);
+				}
+				if (currentSavedFile != null) {
+					if (!currentSavedFile.getPath().endsWith(".wrk")) {
+						currentSavedFile = convertTo(currentSavedFile,
+						".wrk");
+					}
+					FileOutputStream output = new FileOutputStream(currentSavedFile);
+					Document doc = getXMLDoc(al); 
+					XMLOutputter outputter = 
+						new XMLOutputter(Format.getPrettyFormat());
+					outputter.output(doc, output);
+				}
+			} catch (Exception e) {
+			}
+		}
+
+		return success;
 	}
+	
+	private Document getXMLDoc(ArrayList<Cage> cages) throws Exception {
+		// creating the whole tree
+		Element root = new Element("Vgl");
+		
+		Element model = new Element("Model");
+		model.addContent(geneticModel.save());
+
+		Element organisms = new Element("Organisms");
+		for (int i = 0; i < cages.size(); i++) {
+			Cage c = cages.get(i);
+			organisms.addContent(c.save());
+		}
+		
+		root.addContent(model);
+		root.addContent(organisms);
+
+		Document doc = new Document(root);
+		return doc;
+	}
+
 
 	/**
 	 * Same as saveProblem, with current file set to null, so as to enable

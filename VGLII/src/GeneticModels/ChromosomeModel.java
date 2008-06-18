@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import org.jdom.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -22,7 +24,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ChromosomeModel.java,v 1.13 2008-06-18 18:26:33 brian Exp $
+ * @version 1.0 $Id: ChromosomeModel.java,v 1.14 2008-06-18 20:16:40 brian Exp $
  */
 
 public abstract class ChromosomeModel {
@@ -142,6 +144,12 @@ public abstract class ChromosomeModel {
 			}
 		}
 		return new Chromosome(newAlleles);
+	}
+	
+	public Element save() {
+		Element e = new Element("ChromosomeModel");
+		e.setAttribute("SexChromosome", String.valueOf(sexChromosome));
+		return e;
 	}
 
 	public String toString() {
