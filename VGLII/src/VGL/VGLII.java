@@ -12,10 +12,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -42,6 +44,7 @@ import GeneticModels.Cage;
 import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
+import GeneticModels.OrganismList;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -92,7 +95,7 @@ public class VGLII extends JFrame {
 	 * The id of the next cage that will be created
 	 */
 	private int nextCageId = 0;
-	
+
 	/**
 	 * The singular instance that holds the current male-female selection for
 	 * crossing
@@ -198,12 +201,12 @@ public class VGLII extends JFrame {
 	 * Menu item to re-arrange cages
 	 */
 	private JMenuItem rearrangeCagesItem = null;
-	
+
 	/**
 	 * menu item to show summary charts
 	 */
 	private JMenuItem summaryChartItem = null;
-	
+
 	/**
 	 * menu item to clear selected cages
 	 */
@@ -514,7 +517,7 @@ public class VGLII extends JFrame {
 		unselectAllItem = menuItem("Unselect All Cages", "UnselectAll",
 				null);
 		mnuUtilities.add(unselectAllItem);
-		
+
 		mnuBar.add(mnuUtilities);
 
 		//  "Help" options.
@@ -731,7 +734,7 @@ public class VGLII extends JFrame {
 			if (newFile == null) return;
 			geneticModel = 
 				GeneticModelFactory.getInstance().createRandomModel(newFile);
-			
+
 			nextCageId = 0;
 			selectionVial = new SelectionVial(statusLabel);
 			cageCollection = new ArrayList<CageUI>();
@@ -771,6 +774,29 @@ public class VGLII extends JFrame {
 	 * Prints the current work done by the user to a .html file
 	 */
 	private void printToFile() {
+		if (cageCollection != null) {
+			File printFile = selectFile(defaultDirectory,
+					"Print Work To File", "Enter File Name to Print to", false,
+					printFilterString, "Print Files", -1);
+			if (printFile != null) {
+				if (!printFile.getPath().endsWith(".html"))
+					printFile = convertTo(printFile, ".html");
+				createHTMLFile(printFile);
+			}
+		}
+	}
+	
+	private void createHTMLFile(File printFile) {
+		printFile.delete();
+		try {
+			printFile.createNewFile();
+			FileWriter op = new FileWriter(printFile);
+			op.write(getWorkAsHTML());
+			op.flush();
+			op.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -800,6 +826,48 @@ public class VGLII extends JFrame {
 	 */
 	private String getWorkAsHTML() {
 		StringBuffer htmlString = new StringBuffer();
+		htmlString.append("<html><body>");
+		for (int i = 0; i < cageCollection.size(); i++) {
+			Cage c = (cageCollection.get(i)).getCage();
+			ArrayList<Organism> parents = c.getParents();
+			Organism parent1 = (Organism) parents.get(0);
+			Organism parent2 = (Organism) parents.get(1);
+			TreeMap<String, OrganismList> children = c.getChildren();
+			int id = c.getId();
+			htmlString.append("<table border=1><tr><td align=center colspan=3"
+					+ " bgcolor=#C0C0C0>Cage " + (id + 1) + "</td></tr>");
+			htmlString.append("<tr><td nowrap colspan=3>Parents");
+			if (parent1 != null && parent2 != null) {
+				htmlString.append("<ul><li>" + parent1.getSexString() + " "
+						+ parent1.getPhenotypeString() + " from Cage "
+						+ (parent1.getCageId() + 1));
+				htmlString.append("<li>" + parent2.getSexString() + " "
+						+ parent2.getPhenotypeString() + " from Cage "
+						+ (parent2.getCageId() + 1) + "</ul>");
+			}
+			htmlString.append("</td></tr>");
+			htmlString
+			.append("<tr><td nowrap align=center colspan=3>Offspring</td></tr>");
+			htmlString.append("<tr><td nowrap align=center>Phenotype</td>"
+					+ "<td nowrap align=center>Sex</td>"
+					+ "<td nowrap align=center>Count</td></tr>");
+			Iterator<String> it = children.keySet().iterator();
+			while (it.hasNext()) {
+				String phenotype = it.next();
+				OrganismList l = children.get(phenotype);
+
+				htmlString.append("<tr><td nowrap align=center>" + phenotype
+						+ "</td>" + "<td nowrap align=center>Male</td>"
+						+ "<td nowrap align=center>" + l.getNumberOfMales()
+						+ "</td></tr>");
+				htmlString.append("<tr><td nowrap align=center>" + phenotype
+						+ "</td>" + "<td nowrap align=center>Female</td>"
+						+ "<td nowrap align=center>" + l.getNumberOfFemales()
+						+ "</td></tr>");
+			}
+			htmlString.append("</table><p></p>");
+		}
+		htmlString.append("</body></html>");
 		return htmlString.toString();
 	}
 
@@ -963,14 +1031,14 @@ public class VGLII extends JFrame {
 		dlg.setVisible(true);
 		dlg = null;
 	}
-	
+
 	/**
 	 * sets up and displays new summarychart
 	 */
 	private void summaryChart() {
 		SummaryChartManager.getInstance().showSummaryChart(this);
 	}
-	
+
 	/**
 	 * clears selected cages for summary chart
 	 */
@@ -1185,6 +1253,6 @@ public class VGLII extends JFrame {
 	private void createHTMLFile(File printFile, ArrayList cages, String trait) {
 
 	}
-	
+
 }
 

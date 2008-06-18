@@ -398,3 +398,4 @@ misc fixes
 - tested three allele models
 	needed to fix ThreeAlleleIncDom
 - made all models print their descriptions nicely
+- got print to file and print to printer working
