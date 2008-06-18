@@ -83,13 +83,27 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 	}
 
 	public String toString() {
-		return t1.getBodyPart() + "\n"
-		+ "   Two Allele " 
-		+ "Simple Dominance\n" 
-		+ "   " + t1.getTraitName()
-		+ " is recessive\n"
-		+ "   " + t2.getTraitName()
-		+ " is dominant.";
+		StringBuffer b = new StringBuffer();
+		b.append(t1.getBodyPart() + " " + t1.getType() + "<br>");
+		b.append("Two Allele Simple Dominance<br>");
+		b.append("<ul>");
+		b.append("<li>" + t1.getTraitName() + " is recessive</li>");
+		b.append("<li>" + t2.getTraitName() + " is dominant </li>");
+		b.append("</ul>");
+		
+		b.append("<table border=1>");
+		b.append("<tr><th>Genotype</th><th>Phenotype</th></tr>");
+		b.append("<tr><td>" + t1.getTraitName() + "/" + t1.getTraitName() + "</td>");
+		b.append("<td>" + t1.getTraitName() +"</td></tr>");
+		
+		b.append("<tr><td>" + t1.getTraitName() + "/" + t2.getTraitName() + "</td>");
+		b.append("<td>" + t2.getTraitName() +"</td></tr>");
+		
+		b.append("<tr><td>" + t2.getTraitName() + "/" + t2.getTraitName() + "</td>");
+		b.append("<td>" + t2.getTraitName() +"</td></tr>");
+				
+		b.append("</table>");
+		return b.toString();
 	}
 
 }

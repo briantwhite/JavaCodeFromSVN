@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-	<BeginnerMode>True</BeginnerMode>
+	<BeginnerMode>False</BeginnerMode>
 	<ZZ_ZW>0.0</ZZ_ZW>
 	<Gene1_SexLinked>0.0</Gene1_SexLinked>
-	<Gene1_IncDom>0.0</Gene1_IncDom>
+	<Gene1_IncDom>0.5</Gene1_IncDom>
 	<Gene1_3Alleles>1.0</Gene1_3Alleles>
 </root>

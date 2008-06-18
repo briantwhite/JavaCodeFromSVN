@@ -397,3 +397,4 @@ misc fixes
 	selected cages
 - tested three allele models
 	needed to fix ThreeAlleleIncDom
+- made all models print their descriptions nicely

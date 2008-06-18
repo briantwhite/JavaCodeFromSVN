@@ -33,7 +33,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 
@@ -247,6 +247,11 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 */
 	private JEditorPane textDetails;
 
+	/**
+	 * this is the scrollpane for the details
+	 */
+	private JScrollPane detailsScrollPane;
+	
 	/**
 	 * This is the button used to show/hide the Genetics information.
 	 */
@@ -695,9 +700,9 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					textDetails.setText(details);
 					showHideDetails = new JToggleButton();
 					textDetails.setFont(showHideDetails.getFont());
+					detailsScrollPane = new JScrollPane(textDetails);
 					showHideDetails.addItemListener(new ItemListener() {
 						public void itemStateChanged(ItemEvent e) {
-							JToggleButton jtb = (JToggleButton) e.getSource();
 							if (e.getStateChange() == ItemEvent.DESELECTED) {
 								showDetails();
 							} else if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -728,8 +733,8 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			dialogHeight += 200;
 			int dialogWidth = this.getWidth();
 			setSize(dialogWidth, dialogHeight);
-			int hgt = panel.getHeight();
-			panel.add(textDetails, BorderLayout.CENTER);
+			detailsScrollPane.setPreferredSize(new Dimension(320,200));
+			panel.add(detailsScrollPane, BorderLayout.CENTER);
 			pack();
 			repaint();
 		}
@@ -743,9 +748,8 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		showHideDetails.setIcon(closeIcon);
 		JPanel panel = (JPanel) showHideDetails.getParent();
 		if (panel.getComponentCount() == 2) {
-			panel.remove(textDetails);
+			panel.remove(detailsScrollPane);
 			int dialogWidth = this.getWidth();
-			int hgt = panel.getHeight();
 			dialogHeight -= 200;
 			setSize(dialogWidth, dialogHeight);
 			pack();
