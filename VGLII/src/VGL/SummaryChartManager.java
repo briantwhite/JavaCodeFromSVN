@@ -1,10 +1,11 @@
 package VGL;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import javax.swing.JOptionPane;
 
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
@@ -37,6 +38,10 @@ public class SummaryChartManager {
 	}
 
 	public void clearSelectedSet() {
+		Iterator<CageUI> it = selectedSet.iterator();
+		while (it.hasNext()) {
+			it.next().setIsSelected(false);
+		}
 		selectedSet = new TreeSet<CageUI>();
 	}
 	
@@ -121,6 +126,16 @@ public class SummaryChartManager {
 	}
 	
 	public void showSummaryChart(VGLII master) {
+		if(selectedSet.size() == 0) {
+			JOptionPane.showMessageDialog(master,
+				    "<html>You have not selected any cages to summarize.<br>" +
+				    "You should double-click on one or more cages <br>" +
+				    "to select them; they will turn pale yellow to <br>" +
+				    "indicate that they are selected.",
+				    "Summary Chart Warning",
+				    JOptionPane.WARNING_MESSAGE);
+			return;
+		}
 		SummaryChartUI summaryChartUI = new SummaryChartUI(master);
 	}
 

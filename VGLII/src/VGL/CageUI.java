@@ -255,13 +255,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * This string holds the heading to be displayed on the toggle button when
 	 * the Genetics Details are being shown
 	 */
-	private String hideDetails = "hide model & genotypes";
+	private String hideDetails = "Hide Genetic Model";
 
 	/**
 	 * This string holds the heading to be displayed on the toggle button when
 	 * the Genetics Details are not being shown
 	 */
-	private String showDetails = "show model & genotypes";
+	private String showDetails = "Show Genetic Model";
 
 	/**
 	 * This icon is displayed in the toggle button when the Genetics Details are
@@ -752,6 +752,11 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 
 	public void setIsSelected(boolean b) {
 		isSelected = b;
+		if (isSelected) {
+			setBackground(selectedColor);
+		} else {
+			setBackground(unselectedColor);
+		}
 	}
 	
 	public int getId() {

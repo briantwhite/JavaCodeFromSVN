@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Organism.java,v 1.8 2008-06-18 01:28:24 brian Exp $
+ * @version 1.0 $Id: Organism.java,v 1.9 2008-06-18 15:39:02 brian Exp $
  */
 
 public class Organism {
@@ -125,7 +125,8 @@ public class Organism {
 	
 	public String getPhenotypeString() {
 		StringBuffer b = new StringBuffer();
-		for (Phenotype p: phenotypes) {
+		for (int i = 0; i < phenotypes.size(); i++) {
+			Phenotype p = phenotypes.get(geneticModel.getScrambledTraitOrder()[i]);
 			b.append(p.getTrait().getTraitName());
 			b.append("-");
 			b.append(p.getTrait().getBodyPart());

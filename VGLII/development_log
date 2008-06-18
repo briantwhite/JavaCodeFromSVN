@@ -385,3 +385,13 @@ working on summary chart
 set it so that the traits are listed in random order when shown in CageUI
 
 working on summary chart
+- got it working!
+
+6/18/08
+misc fixes
+- add unselect all to utilities menu
+- in beginner mode "Show Genetic Model" (not "show model & genotypes")
+- use scrambled phenotype order for phenotype string
+	that way, it will sort properly in the CageUI
+- have it deal properly when you try to make a summary chart with no
+	selected cages

@@ -203,6 +203,11 @@ public class VGLII extends JFrame {
 	 * menu item to show summary charts
 	 */
 	private JMenuItem summaryChartItem = null;
+	
+	/**
+	 * menu item to clear selected cages
+	 */
+	private JMenuItem unselectAllItem = null;
 
 	/**
 	 * Button to open a saved problem
@@ -339,6 +344,8 @@ public class VGLII extends JFrame {
 			reArrangeCages();
 		else if (cmd.equals("SummaryChart"))
 			summaryChart();
+		else if (cmd.equals("UnselectAll"))
+			unselectAll();
 	}
 
 	/**
@@ -504,6 +511,10 @@ public class VGLII extends JFrame {
 		summaryChartItem = menuItem("Create Summary Chart", "SummaryChart",
 				null);
 		mnuUtilities.add(summaryChartItem);
+		unselectAllItem = menuItem("Unselect All Cages", "UnselectAll",
+				null);
+		mnuUtilities.add(unselectAllItem);
+		
 		mnuBar.add(mnuUtilities);
 
 		//  "Help" options.
@@ -953,11 +964,18 @@ public class VGLII extends JFrame {
 		dlg = null;
 	}
 	
-	/*
+	/**
 	 * sets up and displays new summarychart
 	 */
 	private void summaryChart() {
 		SummaryChartManager.getInstance().showSummaryChart(this);
+	}
+	
+	/**
+	 * clears selected cages for summary chart
+	 */
+	private void unselectAll() {
+		SummaryChartManager.getInstance().clearSelectedSet();
 	}
 
 	/**
