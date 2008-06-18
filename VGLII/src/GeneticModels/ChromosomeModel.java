@@ -22,7 +22,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ChromosomeModel.java,v 1.12 2008-06-13 22:17:01 brian Exp $
+ * @version 1.0 $Id: ChromosomeModel.java,v 1.13 2008-06-18 18:26:33 brian Exp $
  */
 
 public abstract class ChromosomeModel {
@@ -148,22 +148,22 @@ public abstract class ChromosomeModel {
 		StringBuffer b = new StringBuffer();
 		if (geneModels.size() != 0) {
 			if(sexChromosome) {
-				b.append("Gene(s) on X or Z Sex Chromosome:\n");
+				b.append("Gene(s) on X or Z Sex Chromosome:<br>\n");
 			} else {
-				b.append("Gene(s) on Autosome(s):\n");
+				b.append("Gene(s) on Autosome(s):<br>\n");
 			}
 
 			Iterator<Float> rfIt = recombinationFrequencies.iterator();
 			for (int i = 0; i < geneModels.size(); i++) {
 				GeneModel gm = geneModels.get(i);
 				b.append("-Gene " + i + ":");
-				b.append(gm.toString() + "\n");
+				b.append(gm.toString() + "<br>\n");
 				if (rfIt.hasNext()) {
 					float rf = rfIt.next();
 					if (rf == 0.5f) {
-						b.append("*Unlinked to:\n");
+						b.append("*Unlinked to:<br>\n");
 					} else {
-						b.append("*Recombination frequency = " + rf + " to:\n");
+						b.append("*Recombination frequency = " + rf + " to:<br>\n");
 					}
 				}
 			}

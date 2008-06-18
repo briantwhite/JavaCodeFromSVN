@@ -395,3 +395,5 @@ misc fixes
 	that way, it will sort properly in the CageUI
 - have it deal properly when you try to make a summary chart with no
 	selected cages
+- tested three allele models
+	needed to fix ThreeAlleleIncDom

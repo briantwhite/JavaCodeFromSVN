@@ -18,7 +18,7 @@ package GeneticModels;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleHierarchicalDominanceGeneModel.java,v 1.3 2008-06-13 22:17:01 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleHierarchicalDominanceGeneModel.java,v 1.4 2008-06-18 18:26:33 brian Exp $
  */
 
 public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
@@ -121,19 +121,37 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 	}
 
 	public String toString() {
-		return t1.getBodyPart()
-		+ "   Three Allele " 
-		+ "Hierarchical Dominance; " 
-		+ "   " + t1.toString()
-		+ " is recessive to all\n"
-		+ "   " + t2.getTraitName()
-		+ " is dominant to "
-		+ t1.getTraitName()
-		+ " and recessive to "
-		+ t3.getTraitName()
-		+ "\n"
-		+ "   " + t3.getTraitName()
-		+ " is dominant to all.";
+		StringBuffer b = new StringBuffer();
+		b.append(t1.getBodyPart() + " " + t1.getType() + "<br>");
+		b.append("Three Allele Hierarchical Dominance<br>");
+		b.append("<ul>");
+		b.append("<li>" + t1.getTraitName() + " is recessive to all</li>");
+		b.append("<li>" + t2.getTraitName() + " is in between</li>");
+		b.append("<li>" + t3.getTraitName() + " is dominant to all</li>");
+		b.append("</ul>");
+		
+		b.append("<table border=1>");
+		b.append("<tr><th>Genotype</th><th>Phenotype</th></tr>");
+		b.append("<tr><td>" + t1.getTraitName() + "/" + t1.getTraitName() + "</td>");
+		b.append("<td>" + t1.getTraitName() +"</td></tr>");
+		
+		b.append("<tr><td>" + t1.getTraitName() + "/" + t2.getTraitName() + "</td>");
+		b.append("<td>" + t2.getTraitName() +"</td></tr>");
+		
+		b.append("<tr><td>" + t2.getTraitName() + "/" + t2.getTraitName() + "</td>");
+		b.append("<td>" + t2.getTraitName() +"</td></tr>");
+		
+		b.append("<tr><td>" + t2.getTraitName() + "/" + t3.getTraitName() + "</td>");
+		b.append("<td>" + t3.getTraitName() +"</td></tr>");
+		
+		b.append("<tr><td>" + t3.getTraitName() + "/" + t3.getTraitName() + "</td>");
+		b.append("<td>" + t3.getTraitName() +"</td></tr>");
+		
+		b.append("<tr><td>" + t3.getTraitName() + "/" + t1.getTraitName() + "</td>");
+		b.append("<td>" + t3.getTraitName() +"</td></tr>");
+		
+		b.append("</table>");
+		return b.toString();
 	}
 
 }

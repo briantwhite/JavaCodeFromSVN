@@ -21,7 +21,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.16 2008-06-17 22:18:05 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.17 2008-06-18 18:26:33 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -330,14 +330,16 @@ public class GeneticModel {
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
+		b.append("<html><body>");
 		if (XX_XYsexLinkage) {
 			b.append("XX/XY sex determination");
 		} else {
 			b.append("ZZ/ZW sex determination");
 		}
-		b.append("\n");
+		b.append("<br>");
 		b.append(autosomeModel.toString());
 		b.append(sexChromosomeModel.toString());
+		b.append("</body></html>");
 		return b.toString();
 	}
 

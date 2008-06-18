@@ -28,6 +28,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -242,9 +243,9 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	private String details = null;
 
 	/**
-	 * This widget displays the informations stored in the m_Details variable.
+	 * This widget displays the informations stored in the details variable.
 	 */
-	private JTextArea textDetails;
+	private JEditorPane textDetails;
 
 	/**
 	 * This is the button used to show/hide the Genetics information.
@@ -685,11 +686,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		} else {
 			if (isBeginner) {
 				if (details != null) {
-					textDetails = new JTextArea(details);
+					textDetails = new JEditorPane();
+					textDetails.setContentType("text/html");
 					textDetails.setEditable(false);
 					textDetails.setBackground(parentInfoPanel
 							.getBackground());
 					textDetails.setBorder(BorderFactory.createEtchedBorder());
+					textDetails.setText(details);
 					showHideDetails = new JToggleButton();
 					textDetails.setFont(showHideDetails.getFont());
 					showHideDetails.addItemListener(new ItemListener() {
