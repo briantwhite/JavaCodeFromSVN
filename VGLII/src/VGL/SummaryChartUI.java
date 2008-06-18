@@ -20,14 +20,17 @@ import GeneticModels.Trait;
 
 public class SummaryChartUI extends JDialog implements ActionListener {
 	
+	private VGLII vglII;
+	
 	private SummaryChartManager manager;
 	
 	private JCheckBox[] traitCheckBoxes;
 	
 	private JPanel resultPanel;
 	
-	public SummaryChartUI(VGLII master) {
-		super(master, "SummaryChart", false);
+	public SummaryChartUI(VGLII vglII) {
+		super(vglII, "SummaryChart", false);
+		this.vglII = vglII;
 		manager = SummaryChartManager.getInstance();
 		setTitle("Summary Chart for Cages " + manager.toString());
 		setLayout(new BorderLayout());
@@ -40,6 +43,7 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 	}
 	
 	private void setupTraitSelectionPanel() {
+		int[] scrambledTraitOrder =manager.getScrambledTraitOrder();
 		JPanel traitSelectionPanel = new JPanel();
 		traitSelectionPanel.setLayout(
 				new BoxLayout(traitSelectionPanel, BoxLayout.X_AXIS));
@@ -48,14 +52,18 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 		
 		Trait[] traits = manager.getTraitSet();
 		traitCheckBoxes = new JCheckBox[traits.length];
+		//make the check boxes
 		for (int i = 0; i < traits.length; i++) {
-			traitSelectionPanel.add(
-					new JLabel(traits[i].getBodyPart() 
-							+ " " + traits[i].getType()));
 			traitCheckBoxes[i] = new JCheckBox();
 			traitCheckBoxes[i].addActionListener(this);
-			traitCheckBoxes[i].setSelected(true);
-			traitSelectionPanel.add(traitCheckBoxes[i]);
+			traitCheckBoxes[i].setSelected(true);			
+		}
+		//put them in GUI in randomized order
+		for (int i = 0; i < traits.length; i++) {
+			traitSelectionPanel.add(
+					new JLabel(traits[scrambledTraitOrder[i]].getBodyPart() 
+							+ " " + traits[scrambledTraitOrder[i]].getType()));
+			traitSelectionPanel.add(traitCheckBoxes[scrambledTraitOrder[i]]);
 			traitSelectionPanel.add(Box.createHorizontalStrut(10));
 		}
 		

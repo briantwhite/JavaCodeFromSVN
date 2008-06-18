@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Organism.java,v 1.7 2008-06-12 14:33:27 brian Exp $
+ * @version 1.0 $Id: Organism.java,v 1.8 2008-06-18 01:28:24 brian Exp $
  */
 
 public class Organism {
@@ -119,6 +119,10 @@ public class Organism {
 		return male;
 	}
 
+	public GeneticModel getGeneticModel() {
+		return geneticModel;
+	}
+	
 	public String getPhenotypeString() {
 		StringBuffer b = new StringBuffer();
 		for (Phenotype p: phenotypes) {

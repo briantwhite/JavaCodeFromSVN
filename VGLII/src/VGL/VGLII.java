@@ -1135,14 +1135,14 @@ public class VGLII extends JFrame {
 	 */
 	private void reArrangeCages() {
 		Dimension screenSize = this.getSize();
-		Iterator it = cageCollection.iterator();
+		Iterator<CageUI> it = cageCollection.iterator();
 		nextCageScreenPosition = new Point(this.getX() + 200,
 				this.getY() + 100);
 		double positionX;
 		double positionY;
 		Dimension cageSize;
 		while (it.hasNext()) {
-			CageUI cageUI = (CageUI) it.next();
+			CageUI cageUI = it.next();
 			positionX = nextCageScreenPosition.getX();
 			positionY = nextCageScreenPosition.getY();
 			cageSize = cageUI.getSize();
@@ -1167,5 +1167,6 @@ public class VGLII extends JFrame {
 	private void createHTMLFile(File printFile, ArrayList cages, String trait) {
 
 	}
+	
 }
 

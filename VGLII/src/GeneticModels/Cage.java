@@ -3,6 +3,7 @@ package GeneticModels;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.TreeMap;
 
 import VGL.GeneticsException;
 
@@ -37,7 +38,7 @@ public class Cage {
 
 	private Organism parent2;
 
-	private HashMap<String, OrganismList> children;
+	private TreeMap<String, OrganismList> children;
 	
 	/**
 	 * Constructor for field population which has no parent.
@@ -64,7 +65,7 @@ public class Cage {
 		this.parent1 = p1;
 		this.parent2 = p2;
 		this.count = 0;
-		children = new HashMap<String, OrganismList>();
+		children = new TreeMap<String, OrganismList>();
 	}
 
 	public void add(Organism o) {
@@ -146,7 +147,7 @@ public class Cage {
 	 * 
 	 * @return the children
 	 */
-	public HashMap<String, OrganismList> getChildren() {
+	public TreeMap<String, OrganismList> getChildren() {
 		return children;
 	}
 

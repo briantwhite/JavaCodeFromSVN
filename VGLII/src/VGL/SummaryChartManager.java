@@ -40,6 +40,10 @@ public class SummaryChartManager {
 		selectedSet = new TreeSet<CageUI>();
 	}
 	
+	public int[] getScrambledTraitOrder() {
+		return getOneOrganism().getGeneticModel().getScrambledTraitOrder();
+	}
+	
 	
 	/**
 	 * totals up the contents of the selectedSet of cageUIs
@@ -57,7 +61,7 @@ public class SummaryChartManager {
 		
 		Iterator<CageUI> cageUIIterator = selectedSet.iterator();
 		while (cageUIIterator.hasNext()) {
-			HashMap<String, OrganismList> children = 
+			TreeMap<String, OrganismList> children = 
 				cageUIIterator.next().getCage().getChildren();
 			Iterator<String> oListIterator = children.keySet().iterator();
 			while (oListIterator.hasNext()) {
@@ -99,19 +103,21 @@ public class SummaryChartManager {
 			return null;
 		}
 		
-		//just get one random organism so you can find full
-		//  set of phenos
-		HashMap<String, OrganismList> children = 
-			selectedSet.first().getCage().getChildren();
-		String pheno = children.keySet().iterator().next();
-		Organism o = children.get(pheno).get(0);
-		
-		ArrayList<Phenotype> phenoList = o.getPhenotypes();
+		ArrayList<Phenotype> phenoList = getOneOrganism().getPhenotypes();
 		Trait[] result = new Trait[phenoList.size()];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = phenoList.get(i).getTrait();
 		}
 		return result;
+	}
+	
+	//just get one random organism so you can find full
+	//  set of phenos
+	private Organism getOneOrganism() {
+		TreeMap<String, OrganismList> children = 
+			selectedSet.first().getCage().getChildren();
+		String pheno = children.keySet().iterator().next();
+		return children.get(pheno).get(0);	
 	}
 	
 	public void showSummaryChart(VGLII master) {

@@ -18,9 +18,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -183,7 +183,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * with this cage
 	 * sorted by phenotypeString
 	 */
-	private HashMap<String, OrganismList> children;
+	private TreeMap<String, OrganismList> children;
 
 	/**
 	 * This stores a more easily accessible version of children
