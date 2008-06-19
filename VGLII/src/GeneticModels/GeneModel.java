@@ -2,6 +2,8 @@ package GeneticModels;
 
 import java.util.Random;
 
+import org.jdom.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -46,5 +48,7 @@ public abstract class GeneModel {
 	public abstract Allele[] getRandomAllelePair();
 	
 	public abstract String toString();
+	
+	public abstract Element save(int index) throws Exception;
 	
 }

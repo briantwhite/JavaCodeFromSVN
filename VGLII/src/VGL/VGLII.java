@@ -762,9 +762,7 @@ public class VGLII extends JFrame {
 	/**
 	 * Saves the current work done by the user to a file.
 	 */
-	private boolean saveProblem() {
-		//don't forget to save the MODEL!
-		boolean success = false;
+	private void saveProblem() {
 		if (cageCollection != null) {
 			if (currentSavedFile == null)
 				currentSavedFile = selectFile(defaultDirectory,
@@ -772,8 +770,6 @@ public class VGLII extends JFrame {
 						wrkFilterString, "Work Files",
 						JFileChooser.SAVE_DIALOG);
 			try {
-				
-				
 				Iterator<CageUI> it = cageCollection.iterator();
 				ArrayList<Cage> al = new ArrayList<Cage>();
 				while (it.hasNext()) {
@@ -795,14 +791,12 @@ public class VGLII extends JFrame {
 			} catch (Exception e) {
 			}
 		}
-
-		return success;
 	}
-	
+
 	private Document getXMLDoc(ArrayList<Cage> cages) throws Exception {
 		// creating the whole tree
-		Element root = new Element("Vgl");
-		
+		Element root = new Element("VglII");
+
 		Element model = new Element("Model");
 		model.addContent(geneticModel.save());
 
@@ -811,7 +805,7 @@ public class VGLII extends JFrame {
 			Cage c = cages.get(i);
 			organisms.addContent(c.save());
 		}
-		
+
 		root.addContent(model);
 		root.addContent(organisms);
 
@@ -845,7 +839,7 @@ public class VGLII extends JFrame {
 			}
 		}
 	}
-	
+
 	private void createHTMLFile(File printFile) {
 		printFile.delete();
 		try {
@@ -960,12 +954,9 @@ public class VGLII extends JFrame {
 					"Exit VGL", JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE);
 			if (ans == JOptionPane.YES_OPTION) {
-				if (saveProblem()) {
-					cleanUp();
-					System.exit(0);
-				} else {
-					return;
-				}
+				saveProblem();
+				cleanUp();
+				System.exit(0);
 			}
 			if (ans != JOptionPane.CANCEL_OPTION) {
 				cleanUp();

@@ -1,5 +1,7 @@
 package GeneticModels;
 
+import org.jdom.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -104,6 +106,15 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 				
 		b.append("</table>");
 		return b.toString();
+	}
+
+	public Element save(int index) throws Exception {
+		Element e = new Element("GeneModel");
+		e.setAttribute("Index", String.valueOf(index));
+		e.setAttribute("Type", "TwoAlleleSimpleDominance");
+		e.addContent(new Element("Trait_1").addContent(t1.save()));
+		e.addContent(new Element("Trait_2").addContent(t2.save()));
+		return e;
 	}
 
 }

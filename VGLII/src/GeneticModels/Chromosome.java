@@ -22,7 +22,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Chromosome.java,v 1.8 2008-06-18 20:16:40 brian Exp $
+ * @version 1.0 $Id: Chromosome.java,v 1.9 2008-06-19 17:49:58 brian Exp $
  */
 
 public class Chromosome {
@@ -44,10 +44,18 @@ public class Chromosome {
 	public ArrayList<Allele> getAllAlleles() {
 		return alleles;
 	}
-	
+
 	public Element save(String id) throws Exception {
 		Element e = new Element("Chromosome");
+		
 		e.setAttribute("Id", id);
+		
+		if (this == NullSexChromosome.getInstance()) {
+			e.setAttribute("Size", "Null");
+		} else {
+			e.setAttribute("Size", String.valueOf(alleles.size()));
+		}
+		
 		for (int i = 0; i < alleles.size(); i++) {
 			e.addContent(alleles.get(i).save(i));
 		}

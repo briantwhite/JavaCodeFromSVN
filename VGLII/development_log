@@ -399,3 +399,7 @@ misc fixes
 	needed to fix ThreeAlleleIncDom
 - made all models print their descriptions nicely
 - got print to file and print to printer working
+- started working on save work to file
+
+6/19/08
+- more work on saving to file

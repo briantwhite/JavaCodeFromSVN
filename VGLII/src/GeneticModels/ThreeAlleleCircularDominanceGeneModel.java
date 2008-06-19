@@ -1,5 +1,7 @@
 package GeneticModels;
 
+import org.jdom.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -18,7 +20,7 @@ package GeneticModels;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleCircularDominanceGeneModel.java,v 1.4 2008-06-18 18:26:33 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleCircularDominanceGeneModel.java,v 1.5 2008-06-19 17:49:57 brian Exp $
  */
 
 public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
@@ -153,6 +155,16 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		
 		b.append("</table>");
 		return b.toString();
+	}
+
+	public Element save(int index) throws Exception {
+		Element e = new Element("GeneModel");
+		e.setAttribute("Index", String.valueOf(index));
+		e.setAttribute("Type", "ThreeAlleleCircularDominance");
+		e.addContent(new Element("Trait_1").addContent(t1.save()));
+		e.addContent(new Element("Trait_2").addContent(t2.save()));
+		e.addContent(new Element("Trait_3").addContent(t3.save()));
+		return e;
 	}
 
 }
