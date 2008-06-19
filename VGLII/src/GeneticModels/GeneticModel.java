@@ -23,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.19 2008-06-19 17:49:57 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.20 2008-06-19 18:44:10 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -312,6 +312,10 @@ public class GeneticModel {
 	
 	public int[] getScrambledTraitOrder() {
 		return scrambledTraitOrder;
+	}
+	
+	protected void setScrambledTraitOrder(int[] scrambler) {
+		scrambledTraitOrder = scrambler;
 	}
 	
 	public boolean anyTraitsOnSexChromosome() {

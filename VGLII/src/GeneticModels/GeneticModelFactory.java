@@ -3,14 +3,18 @@ package GeneticModels;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import org.jdom.DataConversionException;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+
+import VGL.ProcessedWorkFileResult;
 
 public class GeneticModelFactory {
 
@@ -36,20 +40,30 @@ public class GeneticModelFactory {
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(input);
 			ProblemTypeSpecification specs = 
-				processElements(doc.getRootElement().getChildren());
+				processModelSpecElements(doc.getRootElement().getChildren());
 			model = createRandomModel(specs);
 		} catch (IOException e1) {
 			System.err.println(e1.getMessage());
 		} catch (JDOMException e2) {
 			System.err.println(e2.getMessage());
 		}
-//		System.out.println(model);
 		model.scrambleTraitOrder();
 		return model;
 	}
 
-	public GeneticModel readModelFromFile(File workFile) {
-		return null;
+	public ProcessedWorkFileResult readModelFromFile(File workFile) {
+		ProcessedWorkFileResult result = null;
+		try {
+			FileInputStream input = new FileInputStream(workFile);
+			SAXBuilder builder = new SAXBuilder();
+			Document doc = builder.build(input);
+			result = processWorkFileElements(doc.getRootElement().getChildren());
+		} catch (IOException e1) {
+			System.err.println(e1.getMessage());
+		} catch (JDOMException e2) {
+			System.err.println(e2.getMessage());
+		}		
+		return result;
 	}
 
 	public GeneticModel createTestModel() {
@@ -63,7 +77,7 @@ public class GeneticModelFactory {
 		return model;
 	}
 
-	private ProblemTypeSpecification processElements(List<Element> elements) {
+	private ProblemTypeSpecification processModelSpecElements(List<Element> elements) {
 		ProblemTypeSpecification problemSpec = new ProblemTypeSpecification();
 
 		Iterator<Element> it = elements.iterator();
@@ -73,14 +87,14 @@ public class GeneticModelFactory {
 			if (name.equals("BeginnerMode"))
 				problemSpec.setBeginnerMode(
 						Boolean.parseBoolean(current.getTextTrim()));
-			
+
 			if (name.equals("MinOffspring"))
 				problemSpec.setMinOffspring(
 						Integer.parseInt(current.getTextTrim()));
 			if (name.equals("MaxOffspring"))
 				problemSpec.setMaxOffspring(
 						Integer.parseInt(current.getTextTrim()));
-			
+
 			if (name.equals("ZZ_ZW")) 
 				problemSpec.setChZZ_ZW(
 						Float.parseFloat(current.getTextTrim()));
@@ -136,6 +150,63 @@ public class GeneticModelFactory {
 		return problemSpec;
 	}
 
+	private ProcessedWorkFileResult processWorkFileElements(List<Element> elements) {
+		GeneticModel model = null;
+		ArrayList<Cage> cages = new ArrayList<Cage>();
+
+		Iterator<Element> it = elements.iterator();
+		while (it.hasNext()) {
+			Element current = it.next();
+			String name = current.getName();
+			try {
+				if (name.equals("Model")) model = processSavedModelInfo(current);
+				if (name.equals("Organisms")) cages = processSavedCages(current);
+			} catch (DataConversionException e) {
+				e.printStackTrace();
+			}
+		}
+		return new ProcessedWorkFileResult(model, cages);
+	}
+
+	private GeneticModel processSavedModelInfo(Element e) throws DataConversionException {
+		GeneticModel model = null;
+		Iterator<Element> it = e.getChildren().iterator();
+		
+		//get the tags inside the "Model" tag
+		model.setBeginnerMode(e.getAttribute("BeginnerMode").getBooleanValue());
+		int numberOfTraits = e.getAttribute("NumberOfTraits").getIntValue();
+		
+		// now the rest
+		while(it.hasNext()) {
+			Element current = it.next();
+			String name = current.getName();
+			if (name.equals("TraitOrderScrambler")) {
+				int[] scrambler = new int[numberOfTraits];
+				Iterator<Element> scIt = current.getChildren().iterator();
+				int i = 0;
+				while (scIt.hasNext()) {
+					scrambler[i] = Integer.parseInt(scIt.next().getValue());
+				}
+				model.setScrambledTraitOrder(scrambler);
+				
+			} else if (name.equals("ChromosomeModel")) {
+				String chromosomeType = current.getAttributeValue(name);
+				processChromosomeModelInfo(model, chromosomeType, current);
+			}
+		}
+		return model;
+	}
+	
+	private void processChromosomeModelInfo(GeneticModel model, String type, Element e) {
+		
+	}
+
+	private ArrayList<Cage> processSavedCages(Element e) {
+		ArrayList<Cage> cages = new ArrayList<Cage>();
+
+		return cages;
+	}
+
 	private GeneticModel createRandomModel(ProblemTypeSpecification specs) {
 		GeneticModel model = null;
 
@@ -148,10 +219,10 @@ public class GeneticModelFactory {
 		} else {
 			model = new GeneticModel(true);
 		}
-		
+
 		//beginner mode
 		if (specs.isBeginnerMode()) model.setBeginnerMode(true);
-		
+
 		//# of offspring generated
 		model.setMinOffspring(specs.getMinOffspring());
 		model.setMaxOffspring(specs.getMaxOffspring());
@@ -185,7 +256,7 @@ public class GeneticModelFactory {
 				// no second gene (therefore no third)
 				return model;
 			}
-			
+
 			//third gene (may be one)
 			if (r.nextFloat() < specs.getGene3_chPresent()) {
 				GeneModel gene3Model = getRandomGeneModel(
@@ -202,10 +273,7 @@ public class GeneticModelFactory {
 				// no third gene (therefore no third)
 				return model;
 			}
-			
-
 		} catch (GeneticsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

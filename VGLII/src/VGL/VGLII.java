@@ -756,7 +756,38 @@ public class VGLII extends JFrame {
 	 * Opens up an existing saved problem, sets up the model, and opens up all
 	 * the cages of that problem.
 	 */
-	public void openProblem(URL workFileURL) {
+	public void openProblem(URL workFileURL) {	
+		File newFile = null;
+		selectionVial = new SelectionVial(statusLabel);
+		ProcessedWorkFileResult result = null;
+
+		if (workFileURL == null) {
+			newFile = selectFile(defaultDirectory, "Open Work",
+					"Select Work File", false, wrkFilterString, "Work Files",
+					JFileChooser.OPEN_DIALOG);
+
+			if (newFile != null) {					
+				try {
+					result = GeneticModelFactory.getInstance().readModelFromFile(newFile);
+					geneticModel = result.getGeneticModel();
+					reopenCages(result.getCages());
+				} catch (Exception e) {
+					System.out.print(e.getMessage());
+				}
+			}  else {
+				return;
+			}
+
+		} else {
+
+			try {
+				result = GeneticModelFactory.getInstance().readModelFromFile(newFile);
+				geneticModel = result.getGeneticModel();
+				reopenCages(result.getCages());
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+			}
+		}
 	}
 
 	/**
@@ -1183,67 +1214,67 @@ public class VGLII extends JFrame {
 	 * @throws Exception
 	 *             in case any or all of the cages are not correct
 	 */
-//	private void reopenCages(ArrayList cages) throws Exception {
-//	Iterator it = cages.iterator();
-//	while (it.hasNext()) {
-//	Cage c = (Cage) it.next();
-//	CageUI cageUI = createCageUI(c);
-//	if (c.getId() > 0) {
-//	OrganismUI[] parentUIs = cageUI.getParentUIs();
-//	if (parentUIs == null)
-//	System.out.println("No parents found for Cage#: "
-//	+ c.getId());
-//	if (parentUIs[0] == null)
-//	System.out.println("No parent0 found for Cage#: "
-//	+ c.getId());
-//	if (parentUIs[1] == null)
-//	System.out.println("No parent1 found for Cage#: "
-//	+ c.getId());
-//	Organism o1 = parentUIs[0].getOrganism();
-//	Organism o2 = parentUIs[1].getOrganism();
-//	int o1_Id = o1.getId();
-//	int o2_Id = o2.getId();
-//	CageUI cage1 = (CageUI) m_CageCollection.get(o1.getCageId());
-//	CageUI cage2 = (CageUI) m_CageCollection.get(o2.getCageId());
-//	if (cage1 != null && cage2 != null) {
-//	OrganismUI originalOUI1 = cage1.getOrganismUIFor(o1_Id);
-//	OrganismUI originalOUI2 = cage2.getOrganismUIFor(o2_Id);
-//	if (originalOUI1 != null && originalOUI2 != null) {
-//	if (parentUIs[0].getOrganism().getSexType() == originalOUI1
-//	.getOrganism().getSexType()) {
-//	originalOUI1.getReferencesList().add(parentUIs[0]);
-//	originalOUI2.getReferencesList().add(parentUIs[1]);
-//	parentUIs[0].setCentralOrganismUI(originalOUI1);
-//	parentUIs[1].setCentralOrganismUI(originalOUI2);
-//	} else {
-//	originalOUI1.getReferencesList().add(parentUIs[1]);
-//	originalOUI2.getReferencesList().add(parentUIs[0]);
-//	parentUIs[1].setCentralOrganismUI(originalOUI1);
-//	parentUIs[0].setCentralOrganismUI(originalOUI2);
-//	}
-//	} else {
-//	System.out
-//	.println("For Original Organisms of Parents of Cage#: "
-//	+ c.getId());
-//	if (originalOUI1 == null)
-//	System.out.println("Organism for: " + o1.getId()
-//	+ " " + o1.getCageId() + " not found!");
-//	if (originalOUI2 == null)
-//	System.out.println("Organism for: " + o2.getId()
-//	+ " " + o2.getCageId() + " not found!");
-//	}
-//	} else {
-//	System.out.println("For Parents of Cage#: " + c.getId());
-//	if (cage1 == null)
-//	System.out.println("Cage for Organism: " + o1.getId()
-//	+ " " + o1.getCageId() + " not found!");
-//	if (cage2 == null)
-//	System.out.println("Cage for Organism: " + o2.getId()
-//	+ " " + o2.getCageId() + " not found!");
-//	}
-//	}
-//	}
-//	}
+	private void reopenCages(ArrayList<Cage> cages) throws Exception {
+		Iterator<Cage> it = cages.iterator();
+		while (it.hasNext()) {
+			Cage c = (Cage) it.next();
+			CageUI cageUI = createCageUI(c);
+			if (c.getId() > 0) {
+				OrganismUI[] parentUIs = cageUI.getParentUIs();
+				if (parentUIs == null)
+					System.out.println("No parents found for Cage#: "
+							+ c.getId());
+				if (parentUIs[0] == null)
+					System.out.println("No parent0 found for Cage#: "
+							+ c.getId());
+				if (parentUIs[1] == null)
+					System.out.println("No parent1 found for Cage#: "
+							+ c.getId());
+				Organism o1 = parentUIs[0].getOrganism();
+				Organism o2 = parentUIs[1].getOrganism();
+				int o1_Id = o1.getId();
+				int o2_Id = o2.getId();
+				CageUI cage1 = (CageUI) cageCollection.get(o1.getCageId());
+				CageUI cage2 = (CageUI) cageCollection.get(o2.getCageId());
+				if (cage1 != null && cage2 != null) {
+					OrganismUI originalOUI1 = cage1.getOrganismUIFor(o1_Id);
+					OrganismUI originalOUI2 = cage2.getOrganismUIFor(o2_Id);
+					if (originalOUI1 != null && originalOUI2 != null) {
+						if (parentUIs[0].getOrganism().isMale() == originalOUI1
+								.getOrganism().isMale()) {
+							originalOUI1.getReferencesList().add(parentUIs[0]);
+							originalOUI2.getReferencesList().add(parentUIs[1]);
+							parentUIs[0].setCentralOrganismUI(originalOUI1);
+							parentUIs[1].setCentralOrganismUI(originalOUI2);
+						} else {
+							originalOUI1.getReferencesList().add(parentUIs[1]);
+							originalOUI2.getReferencesList().add(parentUIs[0]);
+							parentUIs[1].setCentralOrganismUI(originalOUI1);
+							parentUIs[0].setCentralOrganismUI(originalOUI2);
+						}
+					} else {
+						System.out
+						.println("For Original Organisms of Parents of Cage#: "
+								+ c.getId());
+						if (originalOUI1 == null)
+							System.out.println("Organism for: " + o1.getId()
+									+ " " + o1.getCageId() + " not found!");
+						if (originalOUI2 == null)
+							System.out.println("Organism for: " + o2.getId()
+									+ " " + o2.getCageId() + " not found!");
+					}
+				} else {
+					System.out.println("For Parents of Cage#: " + c.getId());
+					if (cage1 == null)
+						System.out.println("Cage for Organism: " + o1.getId()
+								+ " " + o1.getCageId() + " not found!");
+					if (cage2 == null)
+						System.out.println("Cage for Organism: " + o2.getId()
+								+ " " + o2.getCageId() + " not found!");
+				}
+			}
+		}
+	}
 
 	/**
 	 * Method to calculate the position of a cage on the screen
@@ -1299,10 +1330,6 @@ public class VGLII extends JFrame {
 				.size() - 1);
 		nextCageScreenPosition = new Point(lastCageUI.getX(), lastCageUI
 				.getY());
-	}
-
-	private void createHTMLFile(File printFile, ArrayList cages, String trait) {
-
 	}
 
 }
