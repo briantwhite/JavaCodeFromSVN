@@ -24,7 +24,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ChromosomeModel.java,v 1.15 2008-06-19 17:49:57 brian Exp $
+ * @version 1.0 $Id: ChromosomeModel.java,v 1.16 2008-06-19 20:07:44 brian Exp $
  */
 
 public abstract class ChromosomeModel {
@@ -149,14 +149,14 @@ public abstract class ChromosomeModel {
 	public Element save() throws Exception {
 		Element e = new Element("ChromosomeModel");
 		e.setAttribute("SexChromosome", String.valueOf(sexChromosome));
+		e.setAttribute("NumGenes", String.valueOf(getNumberOfGeneModels()));
 		Iterator<Float> rfIt = recombinationFrequencies.iterator();
+		float rf = -1.0f;
 		for (int i = 0; i < geneModels.size(); i++) {
 			GeneModel gm = geneModels.get(i);
-			e.addContent(gm.save(i));
+			e.addContent(gm.save(i, rf));
 			if (rfIt.hasNext()) {
-				e.addContent(
-						new Element("RF").addContent(
-								String.valueOf(rfIt.next())));
+				rf = rfIt.next();
 			}
 		}
 		return e;

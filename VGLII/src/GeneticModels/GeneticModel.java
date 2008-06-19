@@ -23,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.20 2008-06-19 18:44:10 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.21 2008-06-19 20:07:44 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -340,9 +340,10 @@ public class GeneticModel {
 		e.setAttribute("NumberOfTraits", String.valueOf(getNumberOfTraits()));
 		Element scrambler = new Element("TraitOrderScrambler");
 		for (int i = 0; i < getNumberOfTraits(); i++) {
-			scrambler.addContent(
-					new Element("Trait_" + i).addContent(
-							String.valueOf(scrambledTraitOrder[i])));
+			Element temp = new Element("Trait");
+			temp.setAttribute("Index", String.valueOf(i));
+			temp.addContent(String.valueOf(scrambledTraitOrder[i]));
+			scrambler.addContent(temp);
 		}
 		e.addContent(scrambler);
 		e.addContent(autosomeModel.save());

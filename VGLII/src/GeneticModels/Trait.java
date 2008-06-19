@@ -54,8 +54,9 @@ public abstract class Trait {
 		traitName = s;
 	}
 	
-	public Element save() throws Exception {
+	public Element save(int index) throws Exception {
 		Element e = new Element("Trait");
+		e.setAttribute("Index", String.valueOf(index));
 		e.setAttribute("TraitName", traitName);
 		e.setAttribute("Type", type);
 		e.setAttribute("BodyPart", bodyPart);

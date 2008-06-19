@@ -20,7 +20,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Allele.java,v 1.11 2008-06-18 20:16:40 brian Exp $
+ * @version 1.0 $Id: Allele.java,v 1.12 2008-06-19 20:07:45 brian Exp $
  */
 
 public class Allele {
@@ -47,9 +47,8 @@ public class Allele {
 	
 	public Element save(int index) throws Exception {
 		Element e = new Element("Allele");
-		e.setAttribute("Index", String.valueOf(index));
-		e.setAttribute("Number", String.valueOf(intVal));
-		e.addContent(trait.save());
+		e.setAttribute("GeneIndex", String.valueOf(index));
+		e.setAttribute("TraitNumber", String.valueOf(intVal));
 		return e;
 	}
 }

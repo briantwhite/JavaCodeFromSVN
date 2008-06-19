@@ -49,6 +49,6 @@ public abstract class GeneModel {
 	
 	public abstract String toString();
 	
-	public abstract Element save(int index) throws Exception;
+	public abstract Element save(int index, float rf) throws Exception;
 	
 }

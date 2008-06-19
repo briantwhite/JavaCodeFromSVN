@@ -20,7 +20,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleCircularDominanceGeneModel.java,v 1.5 2008-06-19 17:49:57 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleCircularDominanceGeneModel.java,v 1.6 2008-06-19 20:07:44 brian Exp $
  */
 
 public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
@@ -157,13 +157,14 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		return b.toString();
 	}
 
-	public Element save(int index) throws Exception {
+	public Element save(int index, float rf) throws Exception {
 		Element e = new Element("GeneModel");
 		e.setAttribute("Index", String.valueOf(index));
 		e.setAttribute("Type", "ThreeAlleleCircularDominance");
-		e.addContent(new Element("Trait_1").addContent(t1.save()));
-		e.addContent(new Element("Trait_2").addContent(t2.save()));
-		e.addContent(new Element("Trait_3").addContent(t3.save()));
+		e.setAttribute("RfToPrevious", String.valueOf(rf));
+		e.addContent(t1.save(1));
+		e.addContent(t2.save(2));
+		e.addContent(t3.save(3));
 		return e;
 	}
 

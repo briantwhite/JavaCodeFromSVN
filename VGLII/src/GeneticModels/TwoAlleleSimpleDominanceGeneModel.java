@@ -108,12 +108,13 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 		return b.toString();
 	}
 
-	public Element save(int index) throws Exception {
+	public Element save(int index, float rf) throws Exception {
 		Element e = new Element("GeneModel");
 		e.setAttribute("Index", String.valueOf(index));
 		e.setAttribute("Type", "TwoAlleleSimpleDominance");
-		e.addContent(new Element("Trait_1").addContent(t1.save()));
-		e.addContent(new Element("Trait_2").addContent(t2.save()));
+		e.setAttribute("RfToPrevious", String.valueOf(rf));
+		e.addContent(t1.save(1));
+		e.addContent(t2.save(2));
 		return e;
 	}
 
