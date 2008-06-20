@@ -37,7 +37,7 @@ public abstract class Trait {
 		this.type = type;
 		this.bodyPart = bodyPart;
 	}
-	
+		
 	public String getTraitName() {
 		return traitName;
 	}

@@ -1,5 +1,8 @@
 package GeneticModels;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.jdom.Element;
 
 /**
@@ -30,6 +33,14 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 
 	public TwoAlleleSimpleDominanceGeneModel() {
 		super();
+	}
+	
+	//build from saved work file
+	public TwoAlleleSimpleDominanceGeneModel(List<Element> traitList) {
+		super();
+		Iterator<Element> elIt = traitList.iterator();
+		t1 = TraitFactory.getInstance().buildTrait(elIt.next());
+		t2 = TraitFactory.getInstance().buildTrait(elIt.next());
 	}
 
 	public Phenotype getPhenotype(Allele a1, Allele a2) {

@@ -1,5 +1,8 @@
 package GeneticModels;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.jdom.Element;
 
 /**
@@ -20,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleHierarchicalDominanceGeneModel.java,v 1.6 2008-06-19 20:07:45 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleHierarchicalDominanceGeneModel.java,v 1.7 2008-06-20 02:16:04 brian Exp $
  */
 
 public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
@@ -31,6 +34,15 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 
 	public ThreeAlleleHierarchicalDominanceGeneModel() {
 		super();
+	}
+
+	//build from saved work file
+	public ThreeAlleleHierarchicalDominanceGeneModel(List<Element> traitList) {
+		super();
+		Iterator<Element> elIt = traitList.iterator();
+		t1 = TraitFactory.getInstance().buildTrait(elIt.next());
+		t2 = TraitFactory.getInstance().buildTrait(elIt.next());
+		t3 = TraitFactory.getInstance().buildTrait(elIt.next());
 	}
 
 	public Phenotype getPhenotype(Allele a1, Allele a2) {

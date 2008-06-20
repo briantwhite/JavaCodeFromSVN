@@ -58,11 +58,9 @@ public class GeneticModelFactory {
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(input);
 			result = processWorkFileElements(doc.getRootElement().getChildren());
-		} catch (IOException e1) {
-			System.err.println(e1.getMessage());
-		} catch (JDOMException e2) {
-			System.err.println(e2.getMessage());
-		}		
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 		return result;
 	}
 
@@ -150,7 +148,8 @@ public class GeneticModelFactory {
 		return problemSpec;
 	}
 
-	private ProcessedWorkFileResult processWorkFileElements(List<Element> elements) {
+	private ProcessedWorkFileResult processWorkFileElements(List<Element> elements) 
+	throws Exception {
 		GeneticModel model = null;
 		ArrayList<Cage> cages = new ArrayList<Cage>();
 
@@ -168,14 +167,14 @@ public class GeneticModelFactory {
 		return new ProcessedWorkFileResult(model, cages);
 	}
 
-	private GeneticModel processSavedModelInfo(Element e) throws DataConversionException {
+	private GeneticModel processSavedModelInfo(Element e) throws Exception {
 		GeneticModel model = null;
 		Iterator<Element> it = e.getChildren().iterator();
-		
+
 		//get the tags inside the "Model" tag
 		model.setBeginnerMode(e.getAttribute("BeginnerMode").getBooleanValue());
 		int numberOfTraits = e.getAttribute("NumberOfTraits").getIntValue();
-		
+
 		// now the rest
 		while(it.hasNext()) {
 			Element current = it.next();
@@ -185,20 +184,77 @@ public class GeneticModelFactory {
 				Iterator<Element> scIt = current.getChildren().iterator();
 				int i = 0;
 				while (scIt.hasNext()) {
-					scrambler[i] = Integer.parseInt(scIt.next().getValue());
+					Element te = scIt.next();
+					scrambler[Integer.parseInt(te.getAttributeValue("Index"))] = 
+						Integer.parseInt(te.getValue());
 				}
 				model.setScrambledTraitOrder(scrambler);
-				
+
 			} else if (name.equals("ChromosomeModel")) {
-				String chromosomeType = current.getAttributeValue(name);
-				processChromosomeModelInfo(model, chromosomeType, current);
+				boolean sexChromosome = 
+					Boolean.parseBoolean(
+							current.getAttributeValue("SexChromosome"));
+				processChromosomeModelInfo(model, sexChromosome, current);
 			}
 		}
 		return model;
 	}
-	
-	private void processChromosomeModelInfo(GeneticModel model, String type, Element e) {
-		
+
+	private void processChromosomeModelInfo(
+			GeneticModel model, 
+			Boolean sexChromosome, 
+			Element e) throws Exception {
+
+		int numGeneModels = Integer.parseInt(e.getAttributeValue("NumGenes"));
+		// set up the geneModels first
+		GeneModel[] geneModels = new GeneModel[numGeneModels];
+		Iterator<Element> gmIt = e.getChildren().iterator();
+		int i = 0;
+		float rf = -1.0f;
+		while (gmIt.hasNext()) {
+			Element gmEl = gmIt.next();
+			rf = Float.parseFloat(gmEl.getAttributeValue("RfToPrevious"));
+			geneModels[i] = buildGeneModel(gmEl);
+			i++;
+		}
+
+		if (sexChromosome) {
+			for (int j = 0; j < numGeneModels; j++) {
+				if (j == 0) {
+					model.addFirstSexLinkedGeneModel(geneModels[j]);
+				} else {
+					model.addNextSexLinkedGeneModel(rf, geneModels[j]);
+				}
+			}
+		} else {
+			for (int j = 0; j < numGeneModels; j++) {
+				if (j == 0) {
+					model.addFirstAutosomalGeneModel(geneModels[j]);
+				} else {
+					model.addNextAutosomalGeneModel(rf, geneModels[j]);
+				}
+			}			
+		}
+	}
+
+	private GeneModel buildGeneModel(Element e) {
+		int index = Integer.parseInt(e.getAttributeValue("Index"));
+		String type = e.getAttributeValue("Type");
+		float rfToPrevious = Float.parseFloat(e.getAttributeValue("RfToPrevious"));
+		List<Element> traitList = e.getChildren();
+		if (type.equals("TwoAlleleSimpleDominance")) {
+			return new TwoAlleleSimpleDominanceGeneModel(traitList);
+		} else if(type.equals("TwoAlleleIncompleteDominance")) {
+			return new TwoAlleleIncompleteDominanceGeneModel(traitList);
+		} else if(type.equals("ThreeAlleleHierarchicalDominance")) {
+			return new ThreeAlleleHierarchicalDominanceGeneModel(traitList);
+		} else if(type.equals("ThreeAlleleCircularDominance")) {
+			return new ThreeAlleleCircularDominanceGeneModel(traitList);			
+		} else if(type.equals("ThreeAlleleIncompleteDominance")) {
+			return new ThreeAlleleIncompleteDominanceGeneModel(traitList);						
+		} else {
+			return null;
+		}
 	}
 
 	private ArrayList<Cage> processSavedCages(Element e) {
