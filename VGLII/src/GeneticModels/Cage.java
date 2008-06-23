@@ -183,15 +183,12 @@ public class Cage {
 		Iterator<String> i = children.keySet().iterator();
 		while (i.hasNext()) {
 			String phenotype = i.next();
-			Element eph = new Element("Phenotype");
-			eph.setAttribute("Value", phenotype);
 
 			OrganismList l = children.get(phenotype);
 			for (int j = 0; j < l.getTotalNumber(); j++) {
 				Organism o = l.get(j);
-				eph.addContent(o.save());
+				echildren.addContent(o.save());
 			}
-			echildren.addContent(eph);
 		}
 		ec.addContent(echildren);
 		

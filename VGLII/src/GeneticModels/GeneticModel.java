@@ -23,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.23 2008-06-23 16:50:02 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.24 2008-06-23 20:44:17 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -352,6 +352,8 @@ public class GeneticModel {
 		e.setAttribute("XX_XYSexDetermination", String.valueOf(XX_XYsexLinkage));
 		e.setAttribute("BeginnerMode", String.valueOf(beginnerMode));
 		e.setAttribute("NumberOfCharacters", String.valueOf(getNumberOfCharacters()));
+		e.setAttribute("MinOffspring", String.valueOf(minOffspring));
+		e.setAttribute("MaxOffspring", String.valueOf(maxOffspring));
 		Element scrambler = new Element("CharacterOrderScrambler");
 		for (int i = 0; i < getNumberOfCharacters(); i++) {
 			Element temp = new Element("Character");

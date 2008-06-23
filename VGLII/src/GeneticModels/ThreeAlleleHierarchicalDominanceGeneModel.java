@@ -23,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleHierarchicalDominanceGeneModel.java,v 1.8 2008-06-23 15:20:25 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleHierarchicalDominanceGeneModel.java,v 1.9 2008-06-23 20:44:17 brian Exp $
  */
 
 public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
@@ -39,11 +39,11 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 	//build from saved work file
 	public ThreeAlleleHierarchicalDominanceGeneModel(
 			List<Element> traitList, int chromo, int gene) {
-		super();
 		Iterator<Element> elIt = traitList.iterator();
 		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
 		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);
 		t3 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 3);
+		setupGenoPhenoTable();
 	}
 
 	public Phenotype getPhenotype(Allele a1, Allele a2) {
@@ -104,15 +104,17 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 		}
 		return allelePair;
 	}
-
-	public void setupGenoPhenoTable() {
-		genoPhenoTable = new Phenotype[4][4];
-
-		//there are two alleles and two possible phenos
+	
+	public void pickRandomTraits() {
+		//there are three alleles and three possible phenos
 		// get the phenos first; then load table
 		t1 = traitSet.getRandomTrait();   // fully recessive
 		t2 = traitSet.getRandomTrait();   // intermediate
 		t3 = traitSet.getRandomTrait();   // fully dominant
+	}
+
+	public void setupGenoPhenoTable() {
+		genoPhenoTable = new Phenotype[4][4];
 		
 		genoPhenoTable[0][0] = null;  				//impossible
 		genoPhenoTable[0][1] = new Phenotype(t1);  	// 1,Y = 1
@@ -179,5 +181,4 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 		e.addContent(t3.save(3));
 		return e;
 	}
-
 }

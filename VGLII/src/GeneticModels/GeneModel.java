@@ -38,8 +38,11 @@ public abstract class GeneModel {
 		rand = new Random();
 		charSpecBank = CharacterSpecificationBank.getInstance();
 		traitSet = charSpecBank.getRandomTraitSet();
+		pickRandomTraits();
 		setupGenoPhenoTable();
 	}
+	
+	public abstract void pickRandomTraits();
 		
 	public abstract void setupGenoPhenoTable();
 	

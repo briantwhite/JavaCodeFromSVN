@@ -23,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: TwoAlleleIncompleteDominanceGeneModel.java,v 1.8 2008-06-23 15:20:25 brian Exp $
+ * @version 1.0 $Id: TwoAlleleIncompleteDominanceGeneModel.java,v 1.9 2008-06-23 20:44:17 brian Exp $
  */
 
 public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
@@ -39,11 +39,11 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 	//build from saved work file
 	public TwoAlleleIncompleteDominanceGeneModel(
 			List<Element> traitList, int chromo, int gene) {
-		super();
 		Iterator<Element> elIt = traitList.iterator();
 		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
 		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);
 		t3 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 3);
+		setupGenoPhenoTable();
 	}
 
 
@@ -82,15 +82,17 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 		}
 		return allelePair;
 	}
-
-	public void setupGenoPhenoTable() {
-		genoPhenoTable = new Phenotype[3][3];
-
-		//there are two alleles and two possible phenos
+	
+	public void pickRandomTraits() {
+		//there are two alleles and three possible phenos
 		// get the phenos first; then load table
 		t1 = traitSet.getRandomTrait();   // homozygote 1
 		t2 = traitSet.getRandomTrait();   // homozygote 2
 		t3 = traitSet.getRandomTrait();   // heterozygote
+	}
+
+	public void setupGenoPhenoTable() {
+		genoPhenoTable = new Phenotype[3][3];
 		
 		genoPhenoTable[0][0] = null;  				//impossible
 		genoPhenoTable[0][1] = new Phenotype(t1);  	// 1,Y = 1
@@ -140,5 +142,4 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 		e.addContent(t3.save(3));
 		return e;
 	}
-
 }

@@ -2,6 +2,7 @@ package GeneticModels;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.jdom.Element;
 
@@ -38,10 +39,10 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 	//build from saved work file
 	public TwoAlleleSimpleDominanceGeneModel(
 			List<Element> traitList, int chromo, int gene) {
-		super();
 		Iterator<Element> elIt = traitList.iterator();
 		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
 		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);
+		setupGenoPhenoTable();
 	}
 
 	public Phenotype getPhenotype(Allele a1, Allele a2) {
@@ -75,14 +76,17 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 		return allelePair;
 	}
 
-	public void setupGenoPhenoTable() {
-		genoPhenoTable = new Phenotype[3][3];
-
+	public void pickRandomTraits() {
 		//there are two alleles and two possible phenos
 		// get the phenos first; then load table
 		t1 = traitSet.getRandomTrait();   // recessive
-		t2 = traitSet.getRandomTrait();   // dominant
-		
+		t2 = traitSet.getRandomTrait();   // dominant	
+	}
+
+
+	public void setupGenoPhenoTable() {
+		genoPhenoTable = new Phenotype[3][3];
+
 		genoPhenoTable[0][0] = null;  				//impossible
 		genoPhenoTable[0][1] = new Phenotype(t1);  	// 1,Y = 1
 		genoPhenoTable[0][2] = new Phenotype(t2);   // 2,Y = 2

@@ -44,9 +44,14 @@ public class WorkFileProcessor {
 	}
 
 	private GeneticModel processSavedModelInfo(Element e) throws Exception {
+		
 		GeneticModel model = 
 			new GeneticModel(
 					Boolean.parseBoolean(e.getAttributeValue("XX_XYSexLinkage")));
+		
+		model.setMinOffspring(Integer.parseInt(e.getAttributeValue("MinOffspring")));
+		model.setMaxOffspring(Integer.parseInt(e.getAttributeValue("MaxOffspring")));
+		
 		Iterator<Element> it = e.getChildren().iterator();
 		//get the tags inside the "Model" tag
 		if (e.getAttribute("BeginnerMode") != null) {
@@ -175,7 +180,6 @@ public class WorkFileProcessor {
 				Iterator<Element> childIt = item.getChildren().iterator();
 				while (childIt.hasNext()) {
 					Element childE = childIt.next();
-					System.out.println(childE.getName());
 					if (childE.getName().equals("Organism")) {
 						cage.add(
 								OrganismFactory.buildOrganism(

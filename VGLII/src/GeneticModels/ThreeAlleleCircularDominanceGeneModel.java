@@ -23,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleCircularDominanceGeneModel.java,v 1.8 2008-06-23 15:20:25 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleCircularDominanceGeneModel.java,v 1.9 2008-06-23 20:44:17 brian Exp $
  */
 
 public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
@@ -39,11 +39,11 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 	//build from saved work file
 	public ThreeAlleleCircularDominanceGeneModel(
 			List<Element> traitList, int chromo, int gene) {
-		super();
 		Iterator<Element> elIt = traitList.iterator();
 		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
 		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);
 		t3 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 3);
+		setupGenoPhenoTable();
 	}
 
 	public Phenotype getPhenotype(Allele a1, Allele a2) {
@@ -109,6 +109,14 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 			}
 		}
 		return allelePair;
+	}
+	
+	public void pickRandomTraits() {
+		//there are two alleles and three possible phenos
+		// get the phenos first; then load table
+		t1 = traitSet.getRandomTrait();   // dom to 3; rec to 2
+		t2 = traitSet.getRandomTrait();   // dom to 1; rec to 3
+		t3 = traitSet.getRandomTrait();   // dom to 2; rec to 1
 	}
 
 	public void setupGenoPhenoTable() {
@@ -180,5 +188,4 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		e.addContent(t3.save(3));
 		return e;
 	}
-
 }
