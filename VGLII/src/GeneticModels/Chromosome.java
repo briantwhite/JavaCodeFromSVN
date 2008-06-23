@@ -22,7 +22,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Chromosome.java,v 1.9 2008-06-19 17:49:58 brian Exp $
+ * @version 1.0 $Id: Chromosome.java,v 1.10 2008-06-23 15:20:25 brian Exp $
  */
 
 public class Chromosome {
@@ -35,6 +35,13 @@ public class Chromosome {
 
 	public Chromosome(Chromosome c) {
 		this(c.getAllAlleles());
+	}
+	
+	/**
+	 * constructor for building from a work file
+	 */
+	public Chromosome(Element e) {
+		
 	}
 
 	public Allele getAllele(int i) {

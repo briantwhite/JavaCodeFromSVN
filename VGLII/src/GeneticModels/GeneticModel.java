@@ -23,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.21 2008-06-19 20:07:44 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.22 2008-06-23 15:20:25 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -97,12 +97,12 @@ public class GeneticModel {
 	private boolean beginnerMode;   //allows viewing of model and genotypes
 	
 	/**
-	 * because we don't want to display the traits in the CageUI in the
+	 * because we don't want to display the character in the CageUI in the
 	 * order they appear on the chromosome, need a mapping
 	 * between the trait number and the displayed trait number
 	 * in this array,when i = trait number; sto[i] gives its display order
 	 */
-	private int[] scrambledTraitOrder;
+	private int[] scrambledCharacterOrder;
 
 
 	protected GeneticModel(boolean XX_XYsexLinkage) {
@@ -168,22 +168,22 @@ public class GeneticModel {
 	 * DO NOT RUN THIS UNTIL MODEL IS COMPLETE
 	 */
 	protected void scrambleTraitOrder() {
-		scrambledTraitOrder = new int[getNumberOfTraits()];
+		scrambledCharacterOrder = new int[getNumberOfCharacters()];
 		
 		// fill array with blanks
-		for (int i = 0; i < scrambledTraitOrder.length; i++) {
-			scrambledTraitOrder[i] = -1;
+		for (int i = 0; i < scrambledCharacterOrder.length; i++) {
+			scrambledCharacterOrder[i] = -1;
 		}
 		
 		// fill array with possible values to draw from
-		int[] source = new int[getNumberOfTraits()];
+		int[] source = new int[getNumberOfCharacters()];
 		for (int i = 0; i < source.length; i++) {
 			source[i] = i;
 		}
 		
 		//draw them randomly
-		for (int i = 0; i < scrambledTraitOrder.length; i++) {
-			scrambledTraitOrder[i] = pickRandomUnusedInt(source);
+		for (int i = 0; i < scrambledCharacterOrder.length; i++) {
+			scrambledCharacterOrder[i] = pickRandomUnusedInt(source);
 		}
 		
 	}
@@ -304,18 +304,18 @@ public class GeneticModel {
 		return XX_XYsexLinkage;
 	}
 
-	public int getNumberOfTraits() {
+	public int getNumberOfCharacters() {
 		return autosomeModel.getNumberOfGeneModels() 
 		+ sexChromosomeModel.getNumberOfGeneModels();
 
 	}
 	
-	public int[] getScrambledTraitOrder() {
-		return scrambledTraitOrder;
+	public int[] getScrambledCharacterOrder() {
+		return scrambledCharacterOrder;
 	}
 	
-	protected void setScrambledTraitOrder(int[] scrambler) {
-		scrambledTraitOrder = scrambler;
+	protected void setScrambledCharacterOrder(int[] scrambler) {
+		scrambledCharacterOrder = scrambler;
 	}
 	
 	public boolean anyTraitsOnSexChromosome() {
@@ -337,12 +337,12 @@ public class GeneticModel {
 	public Element save() throws Exception {
 		Element e = new Element("GeneticModel");
 		e.setAttribute("BeginnerMode", String.valueOf(beginnerMode));
-		e.setAttribute("NumberOfTraits", String.valueOf(getNumberOfTraits()));
-		Element scrambler = new Element("TraitOrderScrambler");
-		for (int i = 0; i < getNumberOfTraits(); i++) {
-			Element temp = new Element("Trait");
+		e.setAttribute("NumberOfCharacters", String.valueOf(getNumberOfCharacters()));
+		Element scrambler = new Element("CharacterOrderScrambler");
+		for (int i = 0; i < getNumberOfCharacters(); i++) {
+			Element temp = new Element("Character");
 			temp.setAttribute("Index", String.valueOf(i));
-			temp.addContent(String.valueOf(scrambledTraitOrder[i]));
+			temp.addContent(String.valueOf(scrambledCharacterOrder[i]));
 			scrambler.addContent(temp);
 		}
 		e.addContent(scrambler);

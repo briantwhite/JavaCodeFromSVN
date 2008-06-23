@@ -1,6 +1,7 @@
 package GeneticModels;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.jdom.Element;
 
@@ -22,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Organism.java,v 1.10 2008-06-18 20:16:40 brian Exp $
+ * @version 1.0 $Id: Organism.java,v 1.11 2008-06-23 15:20:25 brian Exp $
  */
 
 public class Organism {
@@ -80,6 +81,30 @@ public class Organism {
 				geneticModel);
 	}
 	
+	/**
+	 * constructor for building organism from a work file
+	 * @param e
+	 */
+	public Organism(Element e, GeneticModel geneticModel) {
+		boolean male = Boolean.parseBoolean(e.getAttributeValue("Male"));
+		int id = Integer.parseInt(e.getAttributeValue("Id"));
+		Iterator<Element> chromoIt = e.getChildren().iterator();
+		while (chromoIt.hasNext()) {
+			Element chromoE = chromoIt.next();
+			String type = chromoE.getAttributeValue("Id");
+			if (type.equals("MaternalAutosome"))
+				maternalAutosome = new Chromosome(chromoE);
+			else if (type.equals("PaternalAutosome"))
+				paternalAutosome = new Chromosome(chromoE);
+			else if (type.equals("MaternalSexChromosome"))
+				maternalSexChromosome = new Chromosome(chromoE);
+			else if (type.equals("PaternalSexChromosome"))
+				paternalSexChromosome = new Chromosome(chromoE);
+		}
+		
+		
+	}
+	
 	
 	public int getId() {
 		return id;
@@ -128,7 +153,7 @@ public class Organism {
 	public String getPhenotypeString() {
 		StringBuffer b = new StringBuffer();
 		for (int i = 0; i < phenotypes.size(); i++) {
-			Phenotype p = phenotypes.get(geneticModel.getScrambledTraitOrder()[i]);
+			Phenotype p = phenotypes.get(geneticModel.getScrambledCharacterOrder()[i]);
 			b.append(p.getTrait().getTraitName());
 			b.append("-");
 			b.append(p.getTrait().getBodyPart());

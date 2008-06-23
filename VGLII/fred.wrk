@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VglII>
   <Model>
-    <GeneticModel BeginnerMode="true" NumberOfTraits="3">
-      <TraitOrderScrambler>
-        <Trait Index="0">1</Trait>
-        <Trait Index="1">2</Trait>
-        <Trait Index="2">0</Trait>
-      </TraitOrderScrambler>
-      <ChromosomeModel SexChromosome="false" NumGenes="3">
-        <GeneModel Index="0" Type="TwoAlleleSimpleDominance" RfToPrevious="-1.0">
-          <Trait Index="1" TraitName="Purple" Type="Color" BodyPart="Antenna" />
-          <Trait Index="2" TraitName="Green" Type="Color" BodyPart="Antenna" />
-        </GeneModel>
-        <GeneModel Index="1" Type="TwoAlleleSimpleDominance" RfToPrevious="0.26493335">
-          <Trait Index="1" TraitName="Two" Type="Number" BodyPart="Antenna" />
-          <Trait Index="2" TraitName="Five" Type="Number" BodyPart="Antenna" />
-        </GeneModel>
-        <GeneModel Index="2" Type="TwoAlleleSimpleDominance" RfToPrevious="0.2408453">
-          <Trait Index="1" TraitName="Short" Type="Shape" BodyPart="Leg" />
-          <Trait Index="2" TraitName="Long" Type="Shape" BodyPart="Leg" />
+    <GeneticModel BeginnerMode="true" NumberOfCharacters="1">
+      <CharacterOrderScrambler>
+        <Character Index="0">0</Character>
+      </CharacterOrderScrambler>
+      <ChromosomeModel SexChromosome="false" NumGenes="1">
+        <GeneModel Index="0" Type="TwoAlleleIncompleteDominance" RfToPrevious="-1.0">
+          <Trait Index="1" TraitName="Pointy" Type="Shape" BodyPart="Antenna" />
+          <Trait Index="2" TraitName="Short" Type="Shape" BodyPart="Antenna" />
+          <Trait Index="3" TraitName="Knobbed" Type="Shape" BodyPart="Antenna" />
         </GeneModel>
       </ChromosomeModel>
       <ChromosomeModel SexChromosome="true" NumGenes="0" />
@@ -26,428 +17,662 @@
   </Model>
   <Organisms>
     <Cage Id="0">
-      <Phenotype Value="Five-Antenna/Long-Leg/Green-Antenna">
-        <Organism Id="26" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="Null" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="7" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-      </Phenotype>
-      <Phenotype Value="Five-Antenna/Long-Leg/Purple-Antenna">
-        <Organism Id="18" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
+      <Children>
+        <Phenotype Value="Knobbed-Antenna">
+          <Organism Id="20" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="Null" />
+          </Organism>
+          <Organism Id="19" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="16" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="14" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="Null" />
+          </Organism>
+          <Organism Id="7" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="Null" />
+          </Organism>
+          <Organism Id="4" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="Null" />
+          </Organism>
+          <Organism Id="0" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="9" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="10" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="15" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="18" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="21" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+        </Phenotype>
+        <Phenotype Value="Pointy-Antenna">
+          <Organism Id="24" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="5" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="3" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="Null" />
+          </Organism>
+          <Organism Id="2" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="6" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="8" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="22" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="25" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="29" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="30" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+        </Phenotype>
+        <Phenotype Value="Short-Antenna">
+          <Organism Id="32" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="27" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="Null" />
+          </Organism>
+          <Organism Id="17" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="13" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="12" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="11" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="Null" />
+          </Organism>
+          <Organism Id="1" CageId="0" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="Null" />
+          </Organism>
+          <Organism Id="23" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="26" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="28" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="31" CageId="0" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="2" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+        </Phenotype>
+      </Children>
+    </Cage>
+    <Cage Id="1">
+      <Parents>
+        <Organism Id="3" CageId="0" Male="true">
+          <Chromosome Id="MaternalAutosome" Size="1">
             <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="2" />
           </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
+          <Chromosome Id="PaternalAutosome" Size="1">
             <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="Null" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="15" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="Null" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="2" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
           </Chromosome>
           <Chromosome Id="MaternalSexChromosome" Size="0" />
           <Chromosome Id="PaternalSexChromosome" Size="Null" />
         </Organism>
-        <Organism Id="17" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
+        <Organism Id="30" CageId="0" Male="false">
+          <Chromosome Id="MaternalAutosome" Size="1">
             <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="2" />
           </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
+          <Chromosome Id="PaternalAutosome" Size="1">
             <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
           </Chromosome>
           <Chromosome Id="MaternalSexChromosome" Size="0" />
           <Chromosome Id="PaternalSexChromosome" Size="0" />
         </Organism>
-      </Phenotype>
-      <Phenotype Value="Five-Antenna/Short-Leg/Green-Antenna">
-        <Organism Id="28" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="Null" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="11" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="Null" />
-        </Organism>
-        <Organism Id="8" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="Null" />
-        </Organism>
-        <Organism Id="1" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="Null" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="20" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-      </Phenotype>
-      <Phenotype Value="Five-Antenna/Short-Leg/Purple-Antenna">
-        <Organism Id="5" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="22" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="2" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-      </Phenotype>
-      <Phenotype Value="Two-Antenna/Long-Leg/Green-Antenna">
-        <Organism Id="24" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="Null" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="19" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="Null" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="9" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="Null" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-      </Phenotype>
-      <Phenotype Value="Two-Antenna/Long-Leg/Purple-Antenna">
-        <Organism Id="27" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="Null" />
-        </Organism>
-        <Organism Id="10" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="Null" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="12" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="16" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="23" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="25" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="2" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-      </Phenotype>
-      <Phenotype Value="Two-Antenna/Short-Leg/Green-Antenna">
-        <Organism Id="4" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="Null" />
-        </Organism>
-        <Organism Id="0" CageId="0" Male="true">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="Null" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="14" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="21" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="2" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-      </Phenotype>
-      <Phenotype Value="Two-Antenna/Short-Leg/Purple-Antenna">
-        <Organism Id="3" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="6" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-        <Organism Id="13" CageId="0" Male="false">
-          <Chromosome Id="MaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="PaternalAutosome" Size="3">
-            <Allele GeneIndex="0" TraitNumber="1" />
-            <Allele GeneIndex="1" TraitNumber="1" />
-            <Allele GeneIndex="2" TraitNumber="1" />
-          </Chromosome>
-          <Chromosome Id="MaternalSexChromosome" Size="0" />
-          <Chromosome Id="PaternalSexChromosome" Size="0" />
-        </Organism>
-      </Phenotype>
+      </Parents>
+      <Children>
+        <Phenotype Value="Pointy-Antenna">
+          <Organism Id="26" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="25" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="21" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="20" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="19" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="17" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="16" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="14" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="13" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="11" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="10" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="9" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="8" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="6" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="4" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="0" CageId="1" Male="true">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="Null" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="1" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="2" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="3" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="5" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="7" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="12" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="15" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="18" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="22" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="23" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="24" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="27" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+          <Organism Id="28" CageId="1" Male="false">
+            <Chromosome Id="MaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="PaternalAutosome" Size="1">
+              <Allele GeneIndex="0" TraitNumber="1" />
+            </Chromosome>
+            <Chromosome Id="MaternalSexChromosome" Size="0" />
+            <Chromosome Id="PaternalSexChromosome" Size="0" />
+          </Organism>
+        </Phenotype>
+      </Children>
     </Cage>
   </Organisms>
 </VglII>

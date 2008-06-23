@@ -40,7 +40,7 @@ public abstract class GeneModel {
 		traitSet = charSpecBank.getRandomTraitSet();
 		setupGenoPhenoTable();
 	}
-	
+		
 	public abstract void setupGenoPhenoTable();
 	
 	public abstract Phenotype getPhenotype(Allele a1, Allele a2);

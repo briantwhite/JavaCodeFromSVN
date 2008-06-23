@@ -43,7 +43,7 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 	}
 	
 	private void setupTraitSelectionPanel() {
-		int[] scrambledTraitOrder =manager.getScrambledTraitOrder();
+		int[] scrambledTraitOrder =manager.getScrambledCharacterOrder();
 		JPanel traitSelectionPanel = new JPanel();
 		traitSelectionPanel.setLayout(
 				new BoxLayout(traitSelectionPanel, BoxLayout.X_AXIS));

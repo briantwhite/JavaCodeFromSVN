@@ -45,8 +45,8 @@ public class SummaryChartManager {
 		selectedSet = new TreeSet<CageUI>();
 	}
 	
-	public int[] getScrambledTraitOrder() {
-		return getOneOrganism().getGeneticModel().getScrambledTraitOrder();
+	public int[] getScrambledCharacterOrder() {
+		return getOneOrganism().getGeneticModel().getScrambledCharacterOrder();
 	}
 	
 	

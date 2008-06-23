@@ -23,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleIncompleteDominanceGeneModel.java,v 1.7 2008-06-20 02:16:04 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleIncompleteDominanceGeneModel.java,v 1.8 2008-06-23 15:20:24 brian Exp $
  */
 
 public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
@@ -40,15 +40,16 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 	}
 
 	//build from saved work file
-	public ThreeAlleleIncompleteDominanceGeneModel(List<Element> traitList) {
+	public ThreeAlleleIncompleteDominanceGeneModel(
+			List<Element> traitList, int chromo, int gene) {
 		super();
 		Iterator<Element> elIt = traitList.iterator();
-		t1 = TraitFactory.getInstance().buildTrait(elIt.next());
-		t2 = TraitFactory.getInstance().buildTrait(elIt.next());
-		t3 = TraitFactory.getInstance().buildTrait(elIt.next());
-		t4 = TraitFactory.getInstance().buildTrait(elIt.next());
-		t5 = TraitFactory.getInstance().buildTrait(elIt.next());
-		t6 = TraitFactory.getInstance().buildTrait(elIt.next());
+		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
+		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);
+		t3 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 3);
+		t4 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 4);
+		t5 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 5);
+		t6 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 6);
 	}
 
 	public Phenotype getPhenotype(Allele a1, Allele a2) {

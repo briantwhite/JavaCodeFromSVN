@@ -759,7 +759,7 @@ public class VGLII extends JFrame {
 	public void openProblem(URL workFileURL) {	
 		File newFile = null;
 		selectionVial = new SelectionVial(statusLabel);
-		ProcessedWorkFileResult result = null;
+		GeneticModelAndCageSet result = null;
 
 		if (workFileURL == null) {
 			newFile = selectFile(defaultDirectory, "Open Work",
@@ -1144,8 +1144,8 @@ public class VGLII extends JFrame {
 				c, 
 				selectionVial,
 				details, 
-				geneticModel.getNumberOfTraits(),
-				geneticModel.getScrambledTraitOrder());
+				geneticModel.getNumberOfCharacters(),
+				geneticModel.getScrambledCharacterOrder());
 		nextCageId++;
 		if (dlg != null) {
 			cageCollection.add(dlg);

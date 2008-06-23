@@ -36,11 +36,12 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 	}
 	
 	//build from saved work file
-	public TwoAlleleSimpleDominanceGeneModel(List<Element> traitList) {
+	public TwoAlleleSimpleDominanceGeneModel(
+			List<Element> traitList, int chromo, int gene) {
 		super();
 		Iterator<Element> elIt = traitList.iterator();
-		t1 = TraitFactory.getInstance().buildTrait(elIt.next());
-		t2 = TraitFactory.getInstance().buildTrait(elIt.next());
+		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
+		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);
 	}
 
 	public Phenotype getPhenotype(Allele a1, Allele a2) {

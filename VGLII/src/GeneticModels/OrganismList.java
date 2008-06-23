@@ -115,7 +115,7 @@ public class OrganismList {
 	public String getCustomPhenotypeString(int[] traitsToCount) {
 		StringBuffer b = new StringBuffer();
 		Organism o = organisms.get(0);
-		int[] scrambledTraitOrder = o.getGeneticModel().getScrambledTraitOrder();
+		int[] scrambledTraitOrder = o.getGeneticModel().getScrambledCharacterOrder();
 		ArrayList<Phenotype> phenos = o.getPhenotypes();
 		for (int i = 0; i < traitsToCount.length; i++) {
 			b.append(

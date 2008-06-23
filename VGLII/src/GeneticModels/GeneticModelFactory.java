@@ -8,13 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import org.jdom.DataConversionException;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-import VGL.ProcessedWorkFileResult;
+import VGL.GeneticModelAndCageSet;
 
 public class GeneticModelFactory {
 
@@ -51,13 +50,19 @@ public class GeneticModelFactory {
 		return model;
 	}
 
-	public ProcessedWorkFileResult readModelFromFile(File workFile) {
-		ProcessedWorkFileResult result = null;
+	public GeneticModelAndCageSet readModelFromFile(File workFile) {
+		
+		GeneticModelAndCageSet result = null;
 		try {
 			FileInputStream input = new FileInputStream(workFile);
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(input);
-			result = processWorkFileElements(doc.getRootElement().getChildren());
+			WorkFileProcessor processor = 
+				new WorkFileProcessor(doc.getRootElement().getChildren());
+			result = 
+				new GeneticModelAndCageSet(
+						processor.getGeneticModel(), 
+						processor.getCages());
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
@@ -148,120 +153,7 @@ public class GeneticModelFactory {
 		return problemSpec;
 	}
 
-	private ProcessedWorkFileResult processWorkFileElements(List<Element> elements) 
-	throws Exception {
-		GeneticModel model = null;
-		ArrayList<Cage> cages = new ArrayList<Cage>();
 
-		Iterator<Element> it = elements.iterator();
-		while (it.hasNext()) {
-			Element current = it.next();
-			String name = current.getName();
-			try {
-				if (name.equals("Model")) model = processSavedModelInfo(current);
-				if (name.equals("Organisms")) cages = processSavedCages(current);
-			} catch (DataConversionException e) {
-				e.printStackTrace();
-			}
-		}
-		return new ProcessedWorkFileResult(model, cages);
-	}
-
-	private GeneticModel processSavedModelInfo(Element e) throws Exception {
-		GeneticModel model = null;
-		Iterator<Element> it = e.getChildren().iterator();
-
-		//get the tags inside the "Model" tag
-		model.setBeginnerMode(e.getAttribute("BeginnerMode").getBooleanValue());
-		int numberOfTraits = e.getAttribute("NumberOfTraits").getIntValue();
-
-		// now the rest
-		while(it.hasNext()) {
-			Element current = it.next();
-			String name = current.getName();
-			if (name.equals("TraitOrderScrambler")) {
-				int[] scrambler = new int[numberOfTraits];
-				Iterator<Element> scIt = current.getChildren().iterator();
-				int i = 0;
-				while (scIt.hasNext()) {
-					Element te = scIt.next();
-					scrambler[Integer.parseInt(te.getAttributeValue("Index"))] = 
-						Integer.parseInt(te.getValue());
-				}
-				model.setScrambledTraitOrder(scrambler);
-
-			} else if (name.equals("ChromosomeModel")) {
-				boolean sexChromosome = 
-					Boolean.parseBoolean(
-							current.getAttributeValue("SexChromosome"));
-				processChromosomeModelInfo(model, sexChromosome, current);
-			}
-		}
-		return model;
-	}
-
-	private void processChromosomeModelInfo(
-			GeneticModel model, 
-			Boolean sexChromosome, 
-			Element e) throws Exception {
-
-		int numGeneModels = Integer.parseInt(e.getAttributeValue("NumGenes"));
-		// set up the geneModels first
-		GeneModel[] geneModels = new GeneModel[numGeneModels];
-		Iterator<Element> gmIt = e.getChildren().iterator();
-		int i = 0;
-		float rf = -1.0f;
-		while (gmIt.hasNext()) {
-			Element gmEl = gmIt.next();
-			rf = Float.parseFloat(gmEl.getAttributeValue("RfToPrevious"));
-			geneModels[i] = buildGeneModel(gmEl);
-			i++;
-		}
-
-		if (sexChromosome) {
-			for (int j = 0; j < numGeneModels; j++) {
-				if (j == 0) {
-					model.addFirstSexLinkedGeneModel(geneModels[j]);
-				} else {
-					model.addNextSexLinkedGeneModel(rf, geneModels[j]);
-				}
-			}
-		} else {
-			for (int j = 0; j < numGeneModels; j++) {
-				if (j == 0) {
-					model.addFirstAutosomalGeneModel(geneModels[j]);
-				} else {
-					model.addNextAutosomalGeneModel(rf, geneModels[j]);
-				}
-			}			
-		}
-	}
-
-	private GeneModel buildGeneModel(Element e) {
-		int index = Integer.parseInt(e.getAttributeValue("Index"));
-		String type = e.getAttributeValue("Type");
-		float rfToPrevious = Float.parseFloat(e.getAttributeValue("RfToPrevious"));
-		List<Element> traitList = e.getChildren();
-		if (type.equals("TwoAlleleSimpleDominance")) {
-			return new TwoAlleleSimpleDominanceGeneModel(traitList);
-		} else if(type.equals("TwoAlleleIncompleteDominance")) {
-			return new TwoAlleleIncompleteDominanceGeneModel(traitList);
-		} else if(type.equals("ThreeAlleleHierarchicalDominance")) {
-			return new ThreeAlleleHierarchicalDominanceGeneModel(traitList);
-		} else if(type.equals("ThreeAlleleCircularDominance")) {
-			return new ThreeAlleleCircularDominanceGeneModel(traitList);			
-		} else if(type.equals("ThreeAlleleIncompleteDominance")) {
-			return new ThreeAlleleIncompleteDominanceGeneModel(traitList);						
-		} else {
-			return null;
-		}
-	}
-
-	private ArrayList<Cage> processSavedCages(Element e) {
-		ArrayList<Cage> cages = new ArrayList<Cage>();
-
-		return cages;
-	}
 
 	private GeneticModel createRandomModel(ProblemTypeSpecification specs) {
 		GeneticModel model = null;

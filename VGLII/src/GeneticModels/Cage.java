@@ -70,6 +70,11 @@ public class Cage {
 		this.count = 0;
 		children = new TreeMap<String, OrganismList>();
 	}
+	
+	public void setParents(Organism p1, Organism p2) {
+		parent1 = p1;
+		parent2 = p2;
+	}
 
 	public void add(Organism o) {
 		o.setCageId(id);
@@ -174,6 +179,7 @@ public class Cage {
 		}
 
 		// children
+		Element echildren = new Element("Children");
 		Iterator<String> i = children.keySet().iterator();
 		while (i.hasNext()) {
 			String phenotype = i.next();
@@ -185,8 +191,10 @@ public class Cage {
 				Organism o = l.get(j);
 				eph.addContent(o.save());
 			}
-			ec.addContent(eph);
+			echildren.addContent(eph);
 		}
+		ec.addContent(echildren);
+		
 		return ec;
 	}
 
