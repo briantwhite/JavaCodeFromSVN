@@ -44,14 +44,14 @@ public class WorkFileProcessor {
 	}
 
 	private GeneticModel processSavedModelInfo(Element e) throws Exception {
-		
+
 		GeneticModel model = 
 			new GeneticModel(
 					Boolean.parseBoolean(e.getAttributeValue("XX_XYSexLinkage")));
-		
+
 		model.setMinOffspring(Integer.parseInt(e.getAttributeValue("MinOffspring")));
 		model.setMaxOffspring(Integer.parseInt(e.getAttributeValue("MaxOffspring")));
-		
+
 		Iterator<Element> it = e.getChildren().iterator();
 		//get the tags inside the "Model" tag
 		if (e.getAttribute("BeginnerMode") != null) {
@@ -163,6 +163,7 @@ public class WorkFileProcessor {
 
 	private Cage buildCage(Element e) {
 		int cageId = Integer.parseInt(e.getAttributeValue("Id"));
+		int numChildren = Integer.parseInt(e.getAttributeValue("NumChildren"));
 		Cage cage = new Cage(cageId);
 		Iterator<Element> contentsIt = e.getChildren().iterator();
 		while (contentsIt.hasNext()) {
@@ -183,14 +184,20 @@ public class WorkFileProcessor {
 							geneticModel);
 				cage.setParents(p1, p2);
 			} else if(item.getName().equals("Children")) {
+				Organism[] childrenInOrder = new Organism[numChildren];
 				Iterator<Element> childIt = item.getChildren().iterator();
 				while (childIt.hasNext()) {
 					Element childE = childIt.next();
 					if (childE.getName().equals("Organism")) {
-						cage.addSaved(
-								OrganismFactory.buildOrganism(
-										childE, cageId, geneticModel));
+						int index = Integer.parseInt(childE.getAttributeValue("Id"));
+						childrenInOrder[index] = 
+							OrganismFactory.buildOrganism(
+									childE, cageId, geneticModel);
 					}
+				}
+				
+				for (int i = 0; i < numChildren; i++) {
+					cage.addSaved(childrenInOrder[i]);
 				}
 			}
 		}

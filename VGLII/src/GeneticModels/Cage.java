@@ -185,6 +185,7 @@ public class Cage {
 	public Element save() throws Exception {
 		Element ec = new Element("Cage");
 		ec.setAttribute("Id", String.valueOf(id));
+		ec.setAttribute("NumChildren", String.valueOf(count));
 
 		// parents
 		if ((parent1 != null) || (parent2 != null)) {
