@@ -23,11 +23,11 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Organism.java,v 1.11 2008-06-23 15:20:25 brian Exp $
+ * @version 1.0 $Id: Organism.java,v 1.12 2008-06-23 16:50:02 brian Exp $
  */
 
 public class Organism {
-	
+
 	private int id;  //organism's id#
 	private int cageId; // cage's id#
 
@@ -60,7 +60,7 @@ public class Organism {
 		this.male = male;
 		this.geneticModel = geneticModel;
 	}
-	
+
 	//constructor for field population
 	//  where cageId = 0
 	public Organism(Chromosome maternalAutosome,
@@ -70,7 +70,7 @@ public class Organism {
 			ArrayList<Phenotype> phenotypes,
 			boolean male,
 			GeneticModel geneticModel) {
-		
+
 		this(0, 
 				maternalAutosome, 
 				paternalAutosome,
@@ -80,32 +80,7 @@ public class Organism {
 				male,
 				geneticModel);
 	}
-	
-	/**
-	 * constructor for building organism from a work file
-	 * @param e
-	 */
-	public Organism(Element e, GeneticModel geneticModel) {
-		boolean male = Boolean.parseBoolean(e.getAttributeValue("Male"));
-		int id = Integer.parseInt(e.getAttributeValue("Id"));
-		Iterator<Element> chromoIt = e.getChildren().iterator();
-		while (chromoIt.hasNext()) {
-			Element chromoE = chromoIt.next();
-			String type = chromoE.getAttributeValue("Id");
-			if (type.equals("MaternalAutosome"))
-				maternalAutosome = new Chromosome(chromoE);
-			else if (type.equals("PaternalAutosome"))
-				paternalAutosome = new Chromosome(chromoE);
-			else if (type.equals("MaternalSexChromosome"))
-				maternalSexChromosome = new Chromosome(chromoE);
-			else if (type.equals("PaternalSexChromosome"))
-				paternalSexChromosome = new Chromosome(chromoE);
-		}
-		
-		
-	}
-	
-	
+
 	public int getId() {
 		return id;
 	}
@@ -149,7 +124,7 @@ public class Organism {
 	public GeneticModel getGeneticModel() {
 		return geneticModel;
 	}
-	
+
 	public String getPhenotypeString() {
 		StringBuffer b = new StringBuffer();
 		for (int i = 0; i < phenotypes.size(); i++) {
@@ -183,16 +158,16 @@ public class Organism {
 		// see if there's any alleles on the sex chromosomes
 		if ((maternalSexChromosome.getAllAlleles().size() > 0) ||
 				(paternalSexChromosome.getAllAlleles().size() > 0)){
-			
+
 			// if so, print them, unless they're a null
 			b.append(":");
-			
+
 			if (maternalSexChromosome != NullSexChromosome.getInstance()) {
 				b.append("[");
 				b.append(maternalSexChromosome.toString());
 				b.append("]/");
 			}
-			
+
 			if (paternalSexChromosome != NullSexChromosome.getInstance()) {	
 				b.append("[");
 				b.append(paternalSexChromosome.toString());
@@ -211,14 +186,14 @@ public class Organism {
 				// trim trailing slash
 				b.deleteCharAt(b.length() - 1);
 			}
-			
+
 		} else {
-			
+
 			// no alleles on sex chromosomes, so just show XX, XY, ZZ, or ZW as appropriate
 			//  see if homo or heterogametic
 			if ((maternalSexChromosome == NullSexChromosome.getInstance()) ||
 					(paternalSexChromosome == NullSexChromosome.getInstance())) {
-				
+
 				//heterogametic
 				if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
 					b.append("Y");
@@ -226,7 +201,7 @@ public class Organism {
 					b.append("W");
 				}
 			} else {
-				
+
 				//homogametic
 				if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
 					b.append("X");
@@ -237,7 +212,7 @@ public class Organism {
 		}
 		return b.toString();
 	}
-	
+
 	public String getSexString() {
 		if (male) {
 			return "male";
@@ -245,7 +220,7 @@ public class Organism {
 			return "female";
 		}
 	}
-	
+
 	/**
 	 * Save this organism in the JDom Element format.
 	 * 

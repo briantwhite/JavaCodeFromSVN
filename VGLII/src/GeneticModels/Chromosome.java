@@ -1,6 +1,7 @@
 package GeneticModels;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.jdom.Element;
 
@@ -22,10 +23,13 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Chromosome.java,v 1.10 2008-06-23 15:20:25 brian Exp $
+ * @version 1.0 $Id: Chromosome.java,v 1.11 2008-06-23 16:50:02 brian Exp $
  */
 
 public class Chromosome {
+	
+	public final static int AUTOSOME = 1;
+	public final static int SEX_CHROMOSOME = 0;
 
 	private ArrayList<Allele> alleles;
 
@@ -40,7 +44,21 @@ public class Chromosome {
 	/**
 	 * constructor for building from a work file
 	 */
-	public Chromosome(Element e) {
+	public Chromosome(Element e, int chromoNum) {
+		alleles = new ArrayList<Allele>();
+		Iterator<Element> alleleIt = e.getChildren().iterator();
+		while (alleleIt.hasNext()) {
+			Element alleleE = alleleIt.next();
+			int geneIndex = 
+				Integer.parseInt(alleleE.getAttributeValue("GeneIndex"));
+			int traitNum = 
+				Integer.parseInt(alleleE.getAttributeValue("TraitNumber"));
+			Allele allele = new Allele(
+					TraitFactory.getInstance().getTrait(
+							chromoNum, geneIndex, traitNum), 
+							traitNum);
+			alleles.add(geneIndex, allele);
+		}
 		
 	}
 
@@ -58,7 +76,7 @@ public class Chromosome {
 		e.setAttribute("Id", id);
 		
 		if (this == NullSexChromosome.getInstance()) {
-			e.setAttribute("Size", "Null");
+			e.setAttribute("Size", String.valueOf(-1));
 		} else {
 			e.setAttribute("Size", String.valueOf(alleles.size()));
 		}

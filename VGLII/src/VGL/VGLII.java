@@ -828,8 +828,7 @@ public class VGLII extends JFrame {
 		// creating the whole tree
 		Element root = new Element("VglII");
 
-		Element model = new Element("Model");
-		model.addContent(geneticModel.save());
+		root.addContent(geneticModel.save());
 
 		Element organisms = new Element("Organisms");
 		for (int i = 0; i < cages.size(); i++) {
@@ -837,7 +836,6 @@ public class VGLII extends JFrame {
 			organisms.addContent(c.save());
 		}
 
-		root.addContent(model);
 		root.addContent(organisms);
 
 		Document doc = new Document(root);

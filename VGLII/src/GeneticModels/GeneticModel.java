@@ -23,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.22 2008-06-23 15:20:25 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.23 2008-06-23 16:50:02 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -276,6 +276,19 @@ public class GeneticModel {
 						paternalSexChromosomeContribution),
 						this);
 	}
+	
+	protected ArrayList<Phenotype> getPhenotypes(
+			Chromosome mA,
+			Chromosome pA,
+			Chromosome mS,
+			Chromosome pS) {
+		ArrayList<Phenotype> phenotypes = new ArrayList<Phenotype>();
+		phenotypes.addAll(
+				autosomeModel.getPhenotypes(mA, pA));
+		phenotypes.addAll(  
+				sexChromosomeModel.getPhenotypes(mS, pS));
+		return phenotypes;
+	}
 
 	public boolean isMale(Chromosome sexChr1, Chromosome sexChr2) {		
 		//see if one of the chromos is a NullSexChromosome (Y or W)
@@ -336,6 +349,7 @@ public class GeneticModel {
 	
 	public Element save() throws Exception {
 		Element e = new Element("GeneticModel");
+		e.setAttribute("XX_XYSexDetermination", String.valueOf(XX_XYsexLinkage));
 		e.setAttribute("BeginnerMode", String.valueOf(beginnerMode));
 		e.setAttribute("NumberOfCharacters", String.valueOf(getNumberOfCharacters()));
 		Element scrambler = new Element("CharacterOrderScrambler");

@@ -57,5 +57,9 @@ public class TraitFactory {
 		traitBank[chromo][gene][traitNum] = t;
 		return t;
 	}
+	
+	public Trait getTrait(int chromoNum, int geneNum, int traitNum) {
+		return traitBank[chromoNum][geneNum][traitNum];
+	}
 
 }

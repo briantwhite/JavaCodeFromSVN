@@ -25,8 +25,9 @@ public class WorkFileProcessor {
 		while (it.hasNext()) {
 			Element current = it.next();
 			String name = current.getName();
+
 			try {
-				if (name.equals("Model")) geneticModel = processSavedModelInfo(current);
+				if (name.equals("GeneticModel")) geneticModel = processSavedModelInfo(current);
 				if (name.equals("Organisms")) cages = processSavedCages(current);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -43,11 +44,14 @@ public class WorkFileProcessor {
 	}
 
 	private GeneticModel processSavedModelInfo(Element e) throws Exception {
-		GeneticModel model = null;
+		GeneticModel model = 
+			new GeneticModel(
+					Boolean.parseBoolean(e.getAttributeValue("XX_XYSexLinkage")));
 		Iterator<Element> it = e.getChildren().iterator();
-
 		//get the tags inside the "Model" tag
-		model.setBeginnerMode(e.getAttribute("BeginnerMode").getBooleanValue());
+		if (e.getAttribute("BeginnerMode") != null) {
+			model.setBeginnerMode(e.getAttribute("BeginnerMode").getBooleanValue());
+		} 
 		int numberOfCharacters = e.getAttribute("NumberOfCharacters").getIntValue();
 
 		TraitFactory.getInstance().initializeTraitBank(2, numberOfCharacters, 6);
@@ -159,15 +163,24 @@ public class WorkFileProcessor {
 		while (contentsIt.hasNext()) {
 			Element item = contentsIt.next();
 			if (item.getName().equals("Parents")) {
-				Iterator<Element> parentIt = e.getChildren().iterator();
-				Organism p1 = new Organism(parentIt.next(), geneticModel);
-				Organism p2 = new Organism(parentIt.next(), geneticModel);
+				Iterator<Element> parentIt = item.getChildren().iterator();
+				Organism p1 = 
+					OrganismFactory.buildOrganism(
+							parentIt.next(), cageId, geneticModel);
+				Organism p2 = 
+					OrganismFactory.buildOrganism(
+							parentIt.next(), cageId, geneticModel);
 				cage.setParents(p1, p2);
 			} else if(item.getName().equals("Children")) {
-				Iterator<Element> childIt = e.getChildren().iterator();
+				Iterator<Element> childIt = item.getChildren().iterator();
 				while (childIt.hasNext()) {
 					Element childE = childIt.next();
-					cage.add(new Organism(childE, geneticModel));
+					System.out.println(childE.getName());
+					if (childE.getName().equals("Organism")) {
+						cage.add(
+								OrganismFactory.buildOrganism(
+										childE, cageId, geneticModel));
+					}
 				}
 			}
 		}
