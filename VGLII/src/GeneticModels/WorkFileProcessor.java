@@ -169,19 +169,25 @@ public class WorkFileProcessor {
 			Element item = contentsIt.next();
 			if (item.getName().equals("Parents")) {
 				Iterator<Element> parentIt = item.getChildren().iterator();
+				Element p1E = parentIt.next();
 				Organism p1 = 
 					OrganismFactory.buildOrganism(
-							parentIt.next(), cageId, geneticModel);
+							p1E, 
+							Integer.parseInt(p1E.getAttributeValue("CageId")),
+							geneticModel);
+				Element p2E = parentIt.next();
 				Organism p2 = 
 					OrganismFactory.buildOrganism(
-							parentIt.next(), cageId, geneticModel);
+							p2E,
+							Integer.parseInt(p2E.getAttributeValue("CageId")),
+							geneticModel);
 				cage.setParents(p1, p2);
 			} else if(item.getName().equals("Children")) {
 				Iterator<Element> childIt = item.getChildren().iterator();
 				while (childIt.hasNext()) {
 					Element childE = childIt.next();
 					if (childE.getName().equals("Organism")) {
-						cage.add(
+						cage.addSaved(
 								OrganismFactory.buildOrganism(
 										childE, cageId, geneticModel));
 					}

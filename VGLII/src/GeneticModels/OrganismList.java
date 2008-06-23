@@ -48,6 +48,16 @@ public class OrganismList {
 			numberOfFemales++;
 		}
 	}
+	
+	public void add(Organism o, int orgId) {
+		organisms.add(orgId, o);
+		if (o.isMale()) {
+			numberOfMales++;
+		} else {
+			numberOfFemales++;
+		}
+		
+	}
 
 	/**
 	 * Return the organism which is at the given index.

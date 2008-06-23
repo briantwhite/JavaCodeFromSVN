@@ -47,7 +47,7 @@ public class OrganismFactory {
 			}
 		}
 
-		return new Organism(cageId,
+		Organism o = new Organism(cageId,
 				maternalAutosome,
 				paternalAutosome,
 				maternalSexChromosome,
@@ -59,6 +59,8 @@ public class OrganismFactory {
 						male,
 						geneticModel);
 
+		o.setId(id);
+		return o;
 	}
 
 }

@@ -674,8 +674,8 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			JLabel parentLabel = new JLabel("Parent");
 			parentInfoPanel.add(parentLabel);
 			parentOrganismUIs = new OrganismUI[2];
-			Organism o1 = (Organism) parents.get(0);
-			Organism o2 = (Organism) parents.get(1);
+			Organism o1 = parents.get(0);
+			Organism o2 = parents.get(1);
 			int cageId = o1.getCageId() + 1;
 			String phenoName1 = o1.getPhenotypeString();
 			parentOrganismUIs[0] = new OrganismUI(o1, true, isBeginner, vial);

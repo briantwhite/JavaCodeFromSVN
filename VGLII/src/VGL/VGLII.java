@@ -786,6 +786,8 @@ public class VGLII extends JFrame {
 			try {
 				result = GeneticModelFactory.getInstance().readModelFromFile(newFile);
 				geneticModel = result.getGeneticModel();
+				cageCollection = new ArrayList<CageUI>();
+				nextCageId = 0;
 				reopenCages(result.getCages());
 			} catch (Exception e) {
 				System.out.print(e.getMessage());

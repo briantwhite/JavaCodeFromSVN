@@ -76,11 +76,19 @@ public class Cage {
 		parent2 = p2;
 	}
 
-	public void add(Organism o) {
+	/**
+	 * add organism that has been made new
+	 * so you must update count
+	 * @param o
+	 */
+	public void addNew(Organism o) {
 		o.setCageId(id);
 		o.setId(count);
 		count++;
-
+		addToProperOrganismList(o);
+	}
+	
+	private void addToProperOrganismList(Organism o) {
 		//if there isn't a list of organisms with this pheno
 		//  make one
 		if (!children.containsKey(o.getPhenotypeString())) {
@@ -94,6 +102,16 @@ public class Cage {
 		}
 	}
 	
+	/**
+	 * add organism read from file
+	 * - already has proper id
+	 * @param o
+	 */
+	public void addSaved(Organism o) {
+		o.setCageId(id);
+		addToProperOrganismList(o);
+	}
+
 	/**
 	 * Return the cage which id is the given cid.
 	 * 

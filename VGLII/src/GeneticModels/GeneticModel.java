@@ -23,7 +23,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.24 2008-06-23 20:44:17 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.25 2008-06-23 21:59:25 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -204,7 +204,7 @@ public class GeneticModel {
 		int numOffspring = 
 			random.nextInt(maxOffspring - minOffspring) + minOffspring;
 		for (int i = 0; i < numOffspring; i++) {
-			cage.add(getRandomOrganism());
+			cage.addNew(getRandomOrganism());
 		}
 		return cage;
 	}
@@ -234,7 +234,7 @@ public class GeneticModel {
 		int numOffspring = 
 			random.nextInt(maxOffspring - minOffspring) + minOffspring;
 		for (int i = 0; i < numOffspring; i++) {
-			cage.add(getOffspringOrganism(newCageID, mom, dad));
+			cage.addNew(getOffspringOrganism(newCageID, mom, dad));
 		}
 		return cage;
 	}
