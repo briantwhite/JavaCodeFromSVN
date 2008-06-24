@@ -458,4 +458,6 @@ there are not enough flies generated at times and seemingly there is no way
     problems
 (3) 2 things:
    - add a new BristleTrait to allow more options
-   - 
+   - set up CharSpecBank and CharSpec to prevent two color traits (etc)
+   		once a colortrait is chosen, all colortraits are removed from
+   		the other lists
