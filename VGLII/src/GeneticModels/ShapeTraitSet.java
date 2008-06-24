@@ -20,14 +20,14 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ShapeTraitSet.java,v 1.4 2008-06-10 15:34:26 brian Exp $
+ * @version 1.0 $Id: ShapeTraitSet.java,v 1.5 2008-06-24 14:13:47 brian Exp $
  */
 
 public class ShapeTraitSet extends TraitSet {
 	
 	public ShapeTraitSet(String bodyPart) {
 		traits = new ArrayList<Trait>();
-		traits.add(new ShapeTrait("Normal", bodyPart));
+		traits.add(new ShapeTrait("Forked", bodyPart));
 		traits.add(new ShapeTrait("Long", bodyPart));
 		traits.add(new ShapeTrait("Short", bodyPart));
 		traits.add(new ShapeTrait("Bent", bodyPart));

@@ -1,9 +1,7 @@
-package VGL;
+package GeneticModels;
 
 import java.util.ArrayList;
 
-import GeneticModels.Cage;
-import GeneticModels.GeneticModel;
 /**
  * Brian White Summer 2008
  * 
@@ -22,33 +20,20 @@ import GeneticModels.GeneticModel;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModelAndCageSet.java,v 1.2 2008-06-24 14:13:46 brian Exp $
+ * @version 1.0 $Id: BristleTraitSet.java,v 1.1 2008-06-24 14:13:47 brian Exp $
  */
 
-/**
- * data class for passing result of parsed work file
- * from the WorkFileProcessor to VGL
- * @author brian
- *
- */
-public class GeneticModelAndCageSet {
+public class BristleTraitSet extends TraitSet {
 	
-	private GeneticModel geneticModel;
-	private ArrayList<Cage> cages;
-	
-	public GeneticModelAndCageSet(GeneticModel geneticModel, ArrayList<Cage> cages) {
-		this.geneticModel = geneticModel;
-		this.cages = cages;
+	public BristleTraitSet(String bodyPart) {
+		traits = new ArrayList<Trait>();
+		traits.add(new BristleTrait("No Hairs", bodyPart));
+		traits.add(new BristleTrait("Few Hairs", bodyPart));
+		traits.add(new BristleTrait("Many Hairs", bodyPart));
+		traits.add(new BristleTrait("One-Side Hair", bodyPart));
+		traits.add(new BristleTrait("Tip Hair", bodyPart));
+		traits.add(new BristleTrait("Shaft Hair", bodyPart));
+		traits.add(new BristleTrait("One Hair", bodyPart));
 	}
-
-	public GeneticModel getGeneticModel() {
-		return geneticModel;
-	}
-
-	public ArrayList<Cage> getCages() {
-		return cages;
-	}
-	
-	
 
 }

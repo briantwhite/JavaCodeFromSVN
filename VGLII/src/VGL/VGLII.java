@@ -508,7 +508,7 @@ public class VGLII extends JFrame {
 		mnuBar.add(mnuFile);
 
 		//  "Utilities" options.
-		JMenu mnuUtilities = new JMenu("Utilites");
+		JMenu mnuUtilities = new JMenu("Utilities");
 		crossTwoItem = menuItem("Cross Two", "CrossTwo", null);
 		mnuUtilities.add(crossTwoItem);
 		mnuBar.add(mnuUtilities);

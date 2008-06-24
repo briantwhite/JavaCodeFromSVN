@@ -403,3 +403,59 @@ misc fixes
 
 6/19/08
 - more work on saving to file
+
+6/23/08
+- got saving and opening work files to work!
+
+6/24/08
+fixes as per e-mail from Peter Russell yeast@reed.edu
+Hi Brian
+    I've now had a chance to look at your beta version and think it has great promise.  
+    It certainly seemed to have the same feels as GCK as one worked through a problem.   
+I tried a couple of the multiple gene problems - 2 genes linked and 3 genes linked and 
+can offer some comments, all of which are basically details rather than fundamental:
+
+(1) I assume in the final, problems will be coded as in VGL1 so that the genetics 
+involved is not presented?  It would also be handy, although not essential, if 
+the Problems shown as options could be selected by the instructor.
+
+(2) Problems generated phenotypes that were presented as "Normal".  If I remember 
+correctly, GCK avoided that explicitly so that students would not immediately 
+assume that Normal is the wild-type trait.   I suggest not using Normal as a 
+phenotype but following the GCK model.  
+
+(3) In some Problems that popped up, the same specific phenotype appeared for two 
+different traits - in a specific case, Black was a phenotype for two traits in a 
+three-gene mapping problem.  Obviously that is going to be confusing to students, 
+or at least a complication for assigning gene symbols or discussing the problem in 
+classroom presentations.  Again, I hadn't seen that happen in GCK, but encourage 
+finding a way to avoiding it.
+
+(4) The most serious issue I saw, and it is also the case with VGL1, is that 
+there are not enough flies generated at times and seemingly there is no way
+ to set that as a Preference.  If I recall correctly, GCK out of the blocks
+  had the same issue, so we set the preferences for higher offspring populations.   
+  This is particularly important for the mapping problems where we are trying to 
+  instill an appreciation of statistics and accuracy, but I also see the low 
+  numbers as a limitation in some of the simpler problems where in some cases 
+  just a few flies appeared, and not always in both sexes, in the starting cage.  
+  The latter issue adds a complication for making true-breeding populations, for 
+  instance, which we'd prefer to avoid in our mixed majors-nonmajors intro bio course.
+
+(5) In both VGL2 and 1, there is a typo in the menus -- Utilities is misspelt.
+
+(6) On your http://intro.bio.umb.edu/vgl/ page:
+    -  in the second paragraph "compatible" is misspelt. 
+    - in the third paragraph, I assume "autonomic" should be "autosomal"
+
+
+(I numbered them)
+
+(1) I'll let them change the problem file names
+(2) change "normal" shape to "forked"
+(5) fixed
+(4) had already added min and max offspring parameters; set them higher in 3-gene
+    problems
+(3) 2 things:
+   - add a new BristleTrait to allow more options
+   - 
