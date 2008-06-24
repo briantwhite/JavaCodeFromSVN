@@ -138,7 +138,21 @@ public class Cage {
 	public int getId() {
 		return id;
 	}
-
+	
+	/**
+	 * get the max number of offspring in any given pheno class
+	 * used for setting up cage ui
+	 */
+	public int getMaxOrgListSize() {
+		Iterator<String> it = children.keySet().iterator();
+		int max = 0;
+		while (it.hasNext()) {
+			String pheno = it.next();
+			OrganismList ol = children.get(pheno);
+			if (ol.getTotalNumber() > max) max = ol.getTotalNumber();
+		}
+		return max;
+	}
 
 	/**
 	 * Return the organism at the given phenotype and index.

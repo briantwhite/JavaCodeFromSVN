@@ -461,3 +461,10 @@ there are not enough flies generated at times and seemingly there is no way
    - set up CharSpecBank and CharSpec to prevent two color traits (etc)
    		once a colortrait is chosen, all colortraits are removed from
    		the other lists
+
+- fixed bug in CageUI - if more than 40 offspring, it'd blow up
+	it was hard-coded to 2 rows of 20
+	so fixed it to 2 rows of (most possible offspring of 1 pheno)/2
+	
+- this may lead to trouble with lots of offspring (very long cages!)
+	therefore, cap min and max offspring at 100. (do in ProblemTypeSpecification)

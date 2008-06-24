@@ -17,56 +17,56 @@ package GeneticModels;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ProblemTypeSpecification.java,v 1.4 2008-06-24 14:13:48 brian Exp $
+ * @version 1.0 $Id: ProblemTypeSpecification.java,v 1.5 2008-06-24 17:07:51 brian Exp $
  */
 
 public class ProblemTypeSpecification {
-	
+
 	private boolean beginnerMode;
-	
+
 	private int minOffspring;
 	private int maxOffspring;
-	
+
 	// all are probabilities 'ch' is short for 'chance of'
 	private float chZZ_ZW;
-	
+
 	private float gene1_chSexLinked;
 	private float gene1_ch3Alleles;
 	private float gene1_chIncDom;
-	
+
 	private float gene2_chPresent;
 	private float gene2_chSameChrAsGene1;
 	private float gene2_minRfToGene1;
 	private float gene2_maxRfToGene1;
 	private float gene2_ch3Alleles;
 	private float gene2_chIncDom;
-	
+
 	private float gene3_chPresent;
 	private float gene3_chSameChrAsGene1;
 	private float gene3_minRfToPrevGene;
 	private float gene3_maxRfToPrevGene;
 	private float gene3_ch3Alleles;
 	private float gene3_chIncDom;
-	
+
 	public ProblemTypeSpecification() {
 		beginnerMode = false;
-		
+
 		minOffspring = 25;
 		maxOffspring = 35;
-		
+
 		chZZ_ZW = 0.0f;
-		
+
 		gene1_chSexLinked = 0.0f;
 		gene1_ch3Alleles = 0.0f;
 		gene1_chIncDom = 0.0f;
-		
+
 		gene2_chPresent = 0.0f;
 		gene2_chSameChrAsGene1 = 0.0f;
 		gene2_minRfToGene1 = 0.0f;
 		gene2_maxRfToGene1 = 0.0f;
 		gene2_ch3Alleles = 0.0f;
 		gene2_chIncDom = 0.0f;
-		
+
 		gene3_chPresent = 0.0f;
 		gene3_chSameChrAsGene1 = 0.0f;
 		gene3_minRfToPrevGene = 0.0f;
@@ -78,17 +78,21 @@ public class ProblemTypeSpecification {
 	public boolean isBeginnerMode() {
 		return beginnerMode;
 	}
-	
+
 	public void setBeginnerMode(boolean b) {
 		beginnerMode = b;
 	}
-	
+
 	public int getMinOffspring() {
 		return minOffspring;
 	}
 
 	public void setMinOffspring(int minOffspring) {
-		this.minOffspring = minOffspring;
+		if (minOffspring > 100) {
+			this.minOffspring = 100;
+		} else {
+			this.minOffspring = minOffspring;
+		}
 	}
 
 	public int getMaxOffspring() {
@@ -96,7 +100,11 @@ public class ProblemTypeSpecification {
 	}
 
 	public void setMaxOffspring(int maxOffspring) {
-		this.maxOffspring = maxOffspring;
+		if (maxOffspring > 100) {
+			this.maxOffspring = 100;
+		} else {
+			this.maxOffspring = maxOffspring;
+		}
 	}
 
 	public float getChZZ_ZW() {

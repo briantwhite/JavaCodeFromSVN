@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<BeginnerMode>True</BeginnerMode>
-	<MinOffspring>30</MinOffspring>
-	<MaxOffspring>50</MaxOffspring>
+	<MinOffspring>40</MinOffspring>
+	<MaxOffspring>70</MaxOffspring>
 	<ZZ_ZW>0.0</ZZ_ZW>
 	<Gene1_SexLinked>0.0</Gene1_SexLinked>
 	

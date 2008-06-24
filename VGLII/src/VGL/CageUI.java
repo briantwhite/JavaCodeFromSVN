@@ -96,7 +96,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * number of traits in this problem
 	 */
 	private int numberOfTraits;
-
+	
+	/**
+	 * maximum number of organisms in any row
+	 * it assumes 2 rows of orgs
+	 */
+	private int maxOrgsInOneRow;
+	
 	/**
 	 * Parameter to the set the width of the dialog
 	 */
@@ -303,15 +309,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 
 	/**
 	 * This array of arrays stores the organismUIs for all the organisms of
-	 * all the phenotypes associated with this cage. For eg. If the cage
-	 * contains 1 phenotype then this variable will be [2][20] in size. If the
+	 * all the phenotypes associated with this cage. 
+	 * it is stored in 2 rows where the length of the rows is
+	 * (maximum number of offspring for one pheno)/2 
+	 * For eg. If the pheno with the most offspring has 40 in it
+	 * and there is one pheno then this variable will be [2][20] in size. If the
 	 * cage contains 2 phenotypes then this variable will be [4][20] in size.
-	 * i.e. there are two rows of maximum 40 organisms associated with each
-	 * phenotype. (This figure of 40 has been hard coded) on my side on the
-	 * basis of the information I got from the developer who coded the backend
-	 * where he/she decided to keep the maximum number of organisms collectively
-	 * possible for a cage to be 40. I probably should had asked for a getter
-	 * method to get this max. figure from the backend.
+	 * - there is probably some danger with really high numbers of offspring
 	 */
 	private OrganismUI[][] childrenOrganismUIs;
 
@@ -363,6 +367,9 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		unselectedColor = getBackground();
 		isSelected = false;
 		summaryChartManager = SummaryChartManager.getInstance();
+		
+		maxOrgsInOneRow = (cage.getMaxOrgListSize()/2) + 1;  // assumes 2 rows of orgs
+															 // add 1 in case rounding
 
 		//setup the GUI of its internal components
 		components();
@@ -451,6 +458,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * This method sets up the panels for the Cage
 	 */
 	private void setupOrganismPanel() {
+		
 		Border emptyBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
 		BorderLayout bSelectionLayout = new BorderLayout();
 		superPanel = new JPanel();
@@ -464,10 +472,14 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		fl.setVgap(1);
 		individualPanel.setLayout(fl);
 
+		JPanel organismsPanelWrapper = new JPanel();
+		organismsPanelWrapper.setLayout(
+				new BoxLayout(organismsPanelWrapper, BoxLayout.Y_AXIS));
+		organismsPanelWrapper.add(Box.createRigidArea(new Dimension(100,1)));
 		organismsPanel = new JPanel();
 		organismsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		organismsPanel.setBorder(BorderFactory.createTitledBorder(
-				emptyBorder, "Individual Animals",
+				emptyBorder, "Organisms",
 				javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
@@ -506,7 +518,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 				"Pictures", javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
-		childrenOrganismUIs = new OrganismUI[2 * numPhenosPresent][20];
+		childrenOrganismUIs = new OrganismUI[2 * numPhenosPresent][maxOrgsInOneRow];
 
 		//For each phenotype, setup its own panels for organismUIs,count and
 		//pictures and add them to the right places in the organismpanel,
@@ -524,7 +536,8 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 //			picturesPanel.add(panels[2]);
 		}
 
-		individualPanel.add(organismsPanel);
+		organismsPanelWrapper.add(organismsPanel);
+		individualPanel.add(organismsPanelWrapper);
 		individualPanel.add(countsPanel);
 		for (int i = 0; i < numberOfTraits; i++) {
 			individualPanel.add(traitPanelWrappers[i]);
@@ -549,7 +562,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		JPanel topRowOfOrganismsPanel = new JPanel();
 		JPanel bottomRowOfOrganismsPanel = new JPanel();
 
-		GridLayout gridlt = new GridLayout(1, 20);
+		GridLayout gridlt = new GridLayout(1, maxOrgsInOneRow);
 		gridlt.setHgap(1);
 		gridlt.setVgap(2);
 		topRowOfOrganismsPanel.setLayout(gridlt);
@@ -566,7 +579,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		while (it.hasNext()) {
 			Organism o1 = (Organism) it.next();
 			count++;
-			if (count <= 20) {
+			if (count <= maxOrgsInOneRow) {
 				topRowOfOrganismUIs[i] = new OrganismUI(o1, false, isBeginner,
 						vial);
 				topRowOfOrganismsPanel.add(topRowOfOrganismUIs[i]);
@@ -578,14 +591,14 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 				j++;
 			}
 		}
-		if (i < 20) {
-			while (i < 20) {
+		if (i < maxOrgsInOneRow) {
+			while (i < maxOrgsInOneRow) {
 				topRowOfOrganismsPanel.add(Box.createRigidArea(new Dimension(15, 15)));
 				i++;
 			}
 		}
-		if (j < 20) {
-			while (j < 20) {
+		if (j < maxOrgsInOneRow) {
+			while (j < maxOrgsInOneRow) {
 				bottomRowOfOrganismsPanel.add(Box.createRigidArea(new Dimension(15, 15)));
 				j++;
 			}
