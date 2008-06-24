@@ -21,18 +21,19 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.5 2008-06-24 14:13:48 brian Exp $
+ * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.6 2008-06-24 14:42:18 brian Exp $
  */
 
 public class CharacterSpecificationBank {
 
 	private ArrayList<CharacterSpecification> allCharSpecs;
-
+	private Random r;
 
 	private static CharacterSpecificationBank instance;
 
 	private CharacterSpecificationBank() {	
 		refreshAll();		
+		r = new Random();
 	}
 
 	public static CharacterSpecificationBank getInstance() {
@@ -44,12 +45,19 @@ public class CharacterSpecificationBank {
 
 	public TraitSet getRandomTraitSet() {
 		TraitSet ts = null;
+		int i = 0;
 		// keep looking until you get a real one
-		while(ts == null) {
-			Random r = new Random();
-			CharacterSpecification cs = 
-				allCharSpecs.get(r.nextInt(allCharSpecs.size()));
+		while (ts == null) {
+			i = r.nextInt(allCharSpecs.size());
+			CharacterSpecification cs = allCharSpecs.get(i);
 			ts = cs.getRandomTraitSet();
+		}
+		// then remove all similar traits from the set
+		//  that way, you'll never have color twice in the same problem
+		String className = ts.getClass().getSimpleName();
+		for (int j = 0; j < allCharSpecs.size(); j++) {
+			CharacterSpecification cs = allCharSpecs.get(j);
+			cs.purgeTraitSetsMatching(className);
 		}
 		return ts;
 	}

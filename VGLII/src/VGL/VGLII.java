@@ -47,6 +47,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import GeneticModels.Cage;
+import GeneticModels.CharacterSpecificationBank;
 import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
@@ -738,6 +739,9 @@ public class VGLII extends JFrame {
 					prbFilterString, "Problem Type Files",
 					JFileChooser.OPEN_DIALOG);
 			if (newFile == null) return;
+			
+			//refresh possible characters and traits
+			CharacterSpecificationBank.getInstance().refreshAll();
 			geneticModel = 
 				GeneticModelFactory.getInstance().createRandomModel(newFile);
 

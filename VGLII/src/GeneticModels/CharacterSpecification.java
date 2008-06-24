@@ -21,15 +21,17 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: CharacterSpecification.java,v 1.3 2008-06-10 15:34:26 brian Exp $
+ * @version 1.0 $Id: CharacterSpecification.java,v 1.4 2008-06-24 14:42:19 brian Exp $
  */
 
 public class CharacterSpecification {
 
-	ArrayList<TraitSet> possibleTraitSets;
+	private ArrayList<TraitSet> possibleTraitSets;
+	private Random r;
 	
 	public CharacterSpecification() {
 		possibleTraitSets = new ArrayList<TraitSet>();
+		r = new Random();
 	}
 	
 	public void add(TraitSet ts) {
@@ -46,10 +48,23 @@ public class CharacterSpecification {
 			return null;
 		}
 		
-		Random r = new Random();
 		int i = r.nextInt(possibleTraitSets.size());
 		TraitSet ts = possibleTraitSets.get(i);
 		possibleTraitSets.remove(i);
 		return ts;
+	}
+	
+	/** remove trait set of particular type
+	 * so that, for example, color won't appear twice
+	 * in the same problem
+	 * @param className
+	 */
+	public void purgeTraitSetsMatching(String className) {
+		for (int i = 0; i < possibleTraitSets.size(); i++) {
+			if (possibleTraitSets.get(i).
+					getClass().getSimpleName().equals(className)) {
+				possibleTraitSets.remove(i);
+			}
+		}
 	}
 }
