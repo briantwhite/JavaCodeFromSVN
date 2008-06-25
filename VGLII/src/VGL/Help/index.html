@@ -4,12 +4,12 @@
 <title>Virtual Genetics Lab Help </title>
 </head>
 <body bgcolor=D0D0D0>
-<h1 align="center">VGL - Virtual Genetics Lab</h1>
+<h1 align="center">VGLII - Virtual Genetics  version II</h1>
 <a href="#The Goals and Objectives of the Lab">The Goals and Objectives of the Lab</a>
 <br>
-<a href="#The Genetic Models found in VGL">The Genetic Models found in VGL</a>
+<a href="#The Genetic Models found in VGL">The Genetic Models found in VGLII</a>
 <br>
-<a href="#Running VGL - Virtual Genetics Lab">Running VGL - Virtual Genetics Lab</a>
+<a href="#Running VGL - Virtual Genetics Lab">Running VGLII - Virtual Genetics Lab II</a>
 <br>
 <a href="#How To Start A New Problem">How To Start A New Problem</a>
 <br>
@@ -31,15 +31,15 @@
 <br>
 <a href="#How to Print to File">How to Print to File</a>
 <br>
+<a href="#Summarize Cages">How to summarize the results from a set of cages</a>
+<br>
 <a href="#Close/Re-open Cages">Close/Re-open Cages</a>
 <br>
 <a href="#Re-arrange Cages">Re-arrange Cages</a>
 <br>
-<a href="#How to Use Balloon Help">How to Use Balloon Help</a>
-<br>
 <a href="#How to Get Details about each Phenotype">How to Get Details about each Phenotype</a>
 <br>
-<a href="#How to Get Details about VGL">How to Get Details about VGL</a>
+<a href="#How to Get Details about VGL">How to Get Details about VGLII</a>
 <br>
 <br>
 <hr>
@@ -48,57 +48,59 @@
 <br>
 <p >
 	When you start the problem you are given a cage of a population of creatures collected in the 
-	field. Each of these creatures will display one of two or three different <i>traits</i> 
-	of one particular <i>character</i> (for example, if the character is Body Color, the traits 
-	might be Red Body and Green Body). Your task is to discover how this character is inherited. 
+	field. Each of these creatures will display one of two to six different <i>traits</i> 
+	of one to three particular <i>characters</i> (for example, if the character is Body Color, the traits 
+	might be Red Body and Green Body). Your task is to discover how these characters are inherited. 
 	You determine this by <a href="#How to Cross Two Organisms">crossing</a> particular individuals 
 	and observing their offspring.  You then
 	use the resulting data to deduce the underlying <a href="#The Genetic Models found in VGL">
-	genetic model</a> that determines the inheritance of this character.  <font color="purple">You</font> must decide when 
+	genetic models</a> that determines the inheritance of these characters.  <font color="purple">You</font> 
+	must decide when 
 	you have collected enough information to be convinced that you are right - the program will 
 	not tell you the right answer (except when in <a href="#Cages in Practice Mode">Practice Mode</a>).
 	</p>
 <p >
-	When you start a new problem, VGL randomly chooses a character from a list of possible characters.
-	It then randomly chooses a <a href="#The Genetic Models found in VGL">genetic model</a> from a list of 
-	twelve possible genetic models.  The range of possible models is be custom-configured by your 
+	When you start a new problem, VGLII randomly chooses one to three characters from a list of possible 
+	characters.
+	It then randomly chooses <a href="#The Genetic Models found in VGL">genetic models</a> from a list of 
+	possible genetic models.  The range of possible models is be custom-configured by your 
 	instructor when she creates a problem type; different problem types can have greater or
 	fewer possible models and <a href="#Practice Mode">Practice Mode</a> can be enabled or disabled
 	for a particular problem type. <font color="purple">Since this assignment is random, the same character
 	can be inherited in different ways in different problems.</font>
 	</p>
 <p >
-	Next, VGL chooses particular traits of this character and assignns them randomly
+	Next, VGLII chooses particular traits of each character and assigns them randomly
 	to particular genotypes.  A population of individuals with random genotypes is then generated;
 	these individuals are placed in Cage 1.
 	</p>
 <p >
 	Your task is to <a href="#How to Cross Two Organisms">cross</a> individuals from different 
-	cages and observe the resutling offspring.
+	cages and observe the resulting offspring.
 	From these data, you will determine the <a href="#The Genetic Models found in VGL">genetic 
-	model</a> of how your particular character is inherited.
+	models</a> of how your particular characters are inherited.
 	</p>
 <br>
-<a name="The Genetic Models found in VGL"></a><font color="purple"><i>The Genetic Models found in VGL</i></font>
+<a name="The Genetic Models found in VGLII"></a><font color="purple"><i>The Genetic Models found in VGL</i></font>
 <br>
 <p >
-	All the problems in VGL involve genetic models with one gene that has either two 
+	All the problems in VGLII involve genetic models with genes that have either two 
 	or three alleles.  Based on 
 	this, there are several features that can vary:<br>
 	<ul>
       <li><b>The number of alleles</b>.  This can be either:</li>
         <ul>
-          <li><u>Two alleles</u> (Models 1 thru 6).  In this case, there are two possible ways 
+          <li><u>Two alleles</u>.  In this case, there are two possible ways 
             these alleles can interact:</li>
 			<ul>
-			  <li><i>Simple Dominance</i>: (Models 1, 3, &amp 5) The heterozygote has the same 
+			  <li><i>Simple Dominance</i>: The heterozygote has the same 
 					phenotype as the dominant homozygote.  That is, with two alleles A and a:</li>
 			    <ul>
 				  <li>AA = tall</li>
 				  <li>Aa = tall</li>
 				  <li>aa = short</li>
 				</ul>
-			  <li><i>Incomplete Dominance</i>: (Models 2, 4, &amp 6) The heterozygote has a 
+			  <li><i>Incomplete Dominance</i>: The heterozygote has a 
 					different phenotype than either homozygote.  In nature, this is usually 
 					intermediate; in VGL it need not be.</li>
 			    <ul>
@@ -107,10 +109,10 @@
 				  <li>aa = short</li>
 				</ul>
 			</ul>
-      <li><u>Three alleles</u> (Models 7 thru 12).  In this case, there are two different possible
+      <li><u>Three alleles</u>.  In this case, there are two different possible
         ways these alleles can interact:</li>
         <ul>
-          <li><i>Hierarchical dominance</i>: (Models 7, 9, &amp 11).  A is dominant to B and C;
+          <li><i>Hierarchical dominance</i>:  A is dominant to B and C;
             B is dominant to C; C is reccessive to all.</li>
             <ul>
               <li>AA = green</li>
@@ -120,7 +122,7 @@
               <li>BC = red</li>
               <li>CC = blue</li>
             </ul>
-          <li><i>Circular dominance</i>: (Models 8, 10, &amp 12).  A is dominant to B;
+          <li><i>Circular dominance</i>:  A is dominant to B;
             B is dominant to C; C is dominant to A.</li>
             <ul>
               <li>AA = green</li>
@@ -135,132 +137,38 @@
 		<li><b>Whether the character is sex-linked or not</b>; this can be either:</li>
 			<ul>
 				<li><u>Not sex-linked</u> - the gene for the character is carried on an autosome
-					so it is inherited identically in both sexes. (Models 1, 2, 7, &amp 8)</li>
+					so it is inherited identically in both sexes.</li>
 				<li><u>Sex-linked</u> - the gene for the character is located on a sex-chromosome
 					so it is inherited differently in different sexes. This has two forms:</li>
 					<ul>
-						<li><i>XX/XY</i> Females are XX; males are XY (Models 3, 4, 9, &amp 10).
+						<li><i>XX/XY</i> Females are XX; males are XY.
 							Here, Y carries no genes except those needed to make the organism male.</li>
-						<li><i>ZZ/ZW</i> Females are ZW; males are ZZ (Models 5, 6, 11, &amp 12).
+						<li><i>ZZ/ZW</i> Females are ZW; males are ZZ.
 							Here, W carries no genes except those needed to make the organism female.</li>
 					</ul>
 			</ul>
+			<li><b>If genes on the same chromosome are linked or not</b>; the recombination
+			       frequency can vary between 0% (completely linked) and 50% (completely unlinked).</li>
 		</ul>
 	</p>
 <p >
-	This leads to twelve possible genetic models.<br><br>
-<table border=1>
-  <tr>
-    <th>Model</th>
-    <th>Alleles</th>
-    <th>Dominance</th>
-    <th>Sex-Linkage</th>
-  </tr>
-  
-  <tr>
-    <td>1</td>
-    <td bgcolor=yellow>2</td>
-    <td bgcolor=lightblue>Simple</td>
-    <td bgcolor=red>Autosomal</td>
-  </tr>
-  
-  <tr>
-    <td>2</td>
-    <td bgcolor=yellow>2</td>
-    <td bgcolor=lightgreen>Incomplete</td>
-    <td bgcolor=red>Autosomal</td>
-  </tr>
-
-  <tr>
-    <td>3</td>
-    <td bgcolor=yellow>2</td>
-    <td bgcolor=lightblue>Simple</td>
-    <td bgcolor=#DO00D0>XX/XY</td>
-  </tr>
-
-  <tr>
-    <td>4</td>
-    <td bgcolor=yellow>2</td>
-    <td bgcolor=lightgreen>Incomplete</td>
-    <td bgcolor=#DO00D0>XX/XY</td>
-  </tr>
-
-  <tr>
-    <td>5</td>
-    <td bgcolor=yellow>2</td>
-    <td bgcolor=lightblue>Simple</td>
-    <td bgcolor=#AO00F0>ZZ/ZW</td>
-  </tr>
-
-  <tr>
-    <td>6</td>
-    <td bgcolor=yellow>2</td>
-    <td bgcolor=lightgreen>Incomplete</td>
-    <td bgcolor=#AO00F0>ZZ/ZW</td>
-  </tr>
-
-  <tr>
-    <td>7</td>
-    <td bgcolor=pink>3</td>
-    <td bgcolor=cyan>Hierarchical</td>
-    <td bgcolor=red>Autosomal</td>
-  </tr>
-
-  <tr>
-    <td>8</td>
-    <td bgcolor=pink>3</td>
-    <td bgcolor=#00D000>Circular</td>
-    <td bgcolor=red>Autosomal</td>
-  </tr>
-
-  <tr>
-    <td>9</td>
-    <td bgcolor=pink>3</td>
-    <td bgcolor=cyan>Hierarchical</td>
-    <td bgcolor=#DO00D0>XX/XY</td>
-  </tr>
-
-  <tr>
-    <td>10</td>
-    <td bgcolor=pink>3</td>
-    <td bgcolor=#00D000>Circular</td>
-    <td bgcolor=#DO00D0>XX/XY</td>
-  </tr>
-
-  <tr>
-    <td>11</td>
-    <td bgcolor=pink>3</td>
-    <td bgcolor=cyan>Hierarchical</td>
-    <td bgcolor=#AO00F0>ZZ/ZW</td>
-  </tr>
-
-  <tr>
-    <td>12</td>
-    <td bgcolor=pink>3</td>
-    <td bgcolor=#00D000>Circular</td>
-    <td bgcolor=#AO00F0>ZZ/ZW</td>
-  </tr>
-  
-</table>
-<br>
-
-	<br>
-		
+<br>		
 	</p>
 		
 						
 				
-<a name="Running VGL - Virtual Genetics Lab"></a><font color="purple"><i>Running VGL - Virtual Genetics Lab</i></font>
+<a name="Running VGL - Virtual Genetics Lab"></a><font color="purple">
+<i>Running VGLII - Virtual Genetics Lab</i></font>
 <br>
-<p >To run VGL simply double-click on the VGL1.x file.
+<p >To run VGLII simply double-click on the VGLIIx.x file.
 		Note: Be sure to have the Problems folder in the same 
-		folder as the VGL1.x file.  The toolbar buttons are shown below:
+		folder as the VGLIIx.x file.  The toolbar buttons are shown below:
 		</p>
 <img src="fig0.gif">
 <br>
 <a name="How To Start A New Problem"></a><font color="purple"><i>How To Start A New Problem</i></font>
 <br>
-<p >When you start VGL, you will see a toolbar like this:<br>
+<p >When you start VGLII, you will see a toolbar like this:<br>
 		<img src="fig1.jpg"><br>
 		From the "File" menu, select "New Problem" or simply click on the "New Problem" button on the 
 		toolbar and you will see a list of problem type files. The files are listed in increasing
@@ -268,23 +176,9 @@
 		program.  Select the file and click on the "Open" button. 
 		</p>
 <p >
-		If the problem type file you opened allows for a
-		problem to be worked in practice mode then a dialog box will open up prompting you 
-		to select one of the two modes (if Practice Mode is disabled, you will not see this
-		dialog box):
-		<ul>
-			<li><font color="purple">Practice Mode:</font> Select "Show model and all genotypes".  This will
-				allow you to see the right answer as you work through the problem. If you want to 
-				have a more detailed view of how the genetics takes place or if you are not 
-				completely familier with genetics, we recommend you select the "show all genotypes"
-				mode to open the new problem otherwise select the other option. </li>
-			<li><font color="purple">Regular Mode:</font> Select "Dont show model or genotypes".  In this mode, the 
-				anser is hidden and you must determine when you have enough data to be convinced.</li>
-		</ul>
-		 Once you select one of the
-		two options and click "Continue" a window (cage 1) will be opened up on the screen.  
-		This cage is the starting point for your project.  The organisms, can be but are not
-		necessarily pure-breeding.
+		 Once you start a problem, a window (Cage 1) will be opened up on the screen.  
+		This cage is the starting point for your project.  The organisms can be, but are not
+		necessarily, pure-breeding.
 		</p>
 <br>
 <a name="Cages in Regular Mode"></a><font color="purple"><i>Cages in Regular Mode</i></font>
@@ -296,29 +190,21 @@ A sequence of <a href="#How to Cross Two Organisms">crosses</a> is shown below:<
 This would be written out as:<br>
 <pre>
 Cross 1: 
-Parents:	Green male from Cage 1 <font color="purple">X</font> Blue female from Cage 1
+Parents:	Long Green male from Cage 1 <font color="purple">X</font> Knobbed Purple female from Cage 1
 
-Offspring:				26 Green
-(in Cage 2)				 0 Blue
+Offspring:				27 Long Purple
+(in Cage 2)				 
 
 </pre>
->From these data, it is very likely that color is inherited here by Model 1 where Green is dominant
-and Blue is recessive.  Based on this, the green individuals in Cage 2 are all heterozygotes.
-Therefore, if two of these are <a href="#How to Cross Two Organisms">crossed</a>, 
-we should get roughly 3:1 Green:Blue offspring. Try it and see.<br><br>
-<pre>
-Cross 2:
-Parents:	Green male from Cage 2 <font color="purple">X</font> Green female from Cage 2
-
-Offspring:			17 Green
-(in Cage 3)			 3 Blue
-</pre>
-Although the ratio is not exactly 3:1, there are both Green and Blue offspring and there are more
-Green than Blue. This is what we'd expect with such a small number of offspring.<br>
-<br>
+From these data, it is very likely that color is inherited here by a model where Purple is dominant
+and Green is recessive; also Long is dominant while Knobbed is recessive. 
+ <br><br>
 
 <a name="Cages in Practice Mode"></a><font color="purple"><i>Cages in Practice Mode</i></font>
 <br>
+If your instructor has enabled Practice mode for a particular problem, you will be able to
+see details of the &quot;answer&quot; - the genetic model for each character and the genotype
+of each organism.<p>
 <p >In practice mode, a cage will look like this:<br>
 	<img src="fig4.jpg"><br>
 	This is the same as in Regular Mode, except that the model and genotypes can be seen.
@@ -330,13 +216,13 @@ Green than Blue. This is what we'd expect with such a small number of offspring.
 		working on. To open a problem you can either select "Open Problem" from the drop-down
 		"File" menu or simply click on the "Open Problem" button on the toolbar. A dialog box
 		will open up to assist you in selecting a file. Browse to the directory in which the
-		problem file is stored. Select the file and click on the "Open" button. VGL will read
+		problem file is stored. Select the file and click on the "Open" button. VGLII will read
 		the file and will open up the problem and bring it in the state* you last left it in 
 		before you saved and closed the problem.<br><br>
 
 		*state - state in this context is defined as the entire collection of cages created by
 		the user, including cages that were created by the user but were kept closed during the
-		course of problem work. Simply stated, this means that when you open a problem, VGL
+		course of problem work. Simply stated, this means that when you open a problem, VGLII
 		will display all the cages created by you up until the point you closed the problem.
 		</p>
 <br>
@@ -402,6 +288,24 @@ decided on the location click on the "Print" button. Your work will be saved in 
 printer friendly format into a file. The file will have a .html extension.
 		</p>
 <br>
+
+<a name="Summarize Cages"></a><font color="purple"><i>How to summarize the results from a set of cages
+</i></font>
+<br>
+<p>By selecting one or more Cages and choosing &quot;Create Summary Chart&quot; from the Utilities menu, you can 
+have VGLII count the number of each type of organism found in the selected set of Cages.<p>
+First, double-click on each of the cages to select them for summarization; they will turn light
+yellow to show that they are selected.  You can unselect selected cages by double-clicking on them; you 
+can unselect all cages by choosing &quot;Unselect All&aquot; from the Utilities menu.<p>
+Once you have selected a set of Cages, choose &quot;Create Summary Chart&quot; from the Utilities menu and you
+will see something like this:<p>
+<img src="fig5.jpg"><br>
+The top line shows that this was a summary of cages 7, 8, 9, 10, &amp; 11.<br>
+These were produced from crosses of two heterozygous parents; thus, we would expect a 3:1 ratio.<br>
+The observed ratio 120:26 is very close.<br>
+You can choose which Characters to summarize by selecting the appropriate Characters at the top
+of the window.
+<br>
 <a name="Close/Re-open Cages"></a><font color="purple"><i>Close/Re-open Cages</i></font>
 <br>
 <p >You can use this feature to close/re-open any of the cages you have created till now.
@@ -418,26 +322,18 @@ Select "Re-arrange Cages" from the "Utilities" menu. All the cages that are curr
 visible will be lined up one below the other and left to right.
 		</p>
 <br>
-<a name="How to Use Balloon Help"></a><font color="purple"><i>How to Use Balloon Help</i></font>
-<br>
-<p >You can use this feature to get more information about the organisms in the cages. If
-you are working in "beginner's mode" you will see more genetics information when you
-turn balloon help on. To use this feature select "Balloon Help" from the "Help" menu.
-Once this option is selected move the mouse cursor over any of the organisms in any of
-the open windows and you will see balloon information about that organism.
-		</p>
-<br>
 
 <a name="How to Get Details about each Phenotype"></a><font color="purple"><i>How to Get Details about each Phenotype</i></font>
 <br>
-<p >To get more details and a detailed diagram about the phenotype of organisms in a cage,
+<p ><font color=red>COMING SOON</font> To get more details and a detailed diagram about the phenotype of organisms in a cage,
 you can click on the image of the phenotype shown in the cage. This will pop-up a bigger
 and more detailed image of the organism highlighting the phenotype in question.
 		</p>
 <br>
-<a name="How to Get Details about VGL"></a><font color="purple"><i>How to Get Details about VGL</i></font>
+<a name="How to Get Details about VGLII"></a><font color="purple"><i>How to Get Details about VGL</i></font>
 <br>
-<p ><img src="../images/about.gif">To get more details about the VGL application you can select "About VGL" from the "Help"
+<p ><img src="../images/about.gif">To get more details about the VGLII application you can select "About VGLII"
+ from the "Help"
 menu or simply click on the "About VGL" button. This will pop-up an information window.
 		</p>
 

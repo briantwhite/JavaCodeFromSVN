@@ -468,3 +468,55 @@ there are not enough flies generated at times and seemingly there is no way
 	
 - this may lead to trouble with lots of offspring (very long cages!)
 	therefore, cap min and max offspring at 100. (do in ProblemTypeSpecification)
+	
+- set it to save work as zip files so that they can't cheat by looking ar work file
+   to see model
+   
+Revised parameters
+- first, set the overall sex determining mechanism
+   even if not sex-linked
+	* ZZ_ZW - chance of ZZ/ZW sex linkage
+
+- then some overall issues
+	* BeginnerMode - True or False - allows users to see the genetic model
+					by clicking on button in field pop cage
+					and see genotypes of organisms (tool tip text)
+	
+	* MinOffspring - minimum number produced in each cage (capped at 100)
+					- actual number is randomly distributed between these
+	* MaxOffspring - maximum number produced in cage (capped at 100)
+
+- then the first gene - there must be at least one
+	* Gene1_SexLinked - chance that it'll be sex-linked
+							(if not, it'll be autosomal)
+	* Gene1_3Alleles - 	chance it's 3-alleles
+							(if not, it'll be 2 allele)
+	* Gene1_IncDom  - 	chance it's inc dom
+							(if not and 2 allele - simple dom)
+							(if not and 2 allele 50/50
+								chance of hierarch/circ dom)
+								
+- second gene - may or may not be there
+	* Gene2_Present -	chance it's present
+							(if not, it's a 1 gene model)
+	* Gene2_SameChrAsGene1	- chance gene2 and 1 are on same chromo
+								(if not, they are on different ones)
+								(that is, sex vs auto)
+	* Gene2_MinRfToGene1	- range of possible recombination freqs
+	* Gene2_MaxRfToGene1		(between gene 1 and gene 2 if on same chromo)
+	
+	* Gene2_3Alleles		- same as above
+	* Gene2_IncDom
+	
+- third and final gene - may or may not be there
+	* Gene3_Present	- 	chance it's present
+							(if not, it's a 2 gene model)
+	* Gene3_SameChrAsGene1	- same as above
+	* Gene3_MinRfToGene1
+	* Gene3_MaxRfToGene1
+	* Gene3_3Alleles
+	* Gene3_IncDom
+
+- fixed up help so it matches new software
+
+- VERSION 1.0!!!

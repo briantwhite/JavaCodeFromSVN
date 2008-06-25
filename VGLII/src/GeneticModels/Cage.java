@@ -109,6 +109,7 @@ public class Cage {
 	 */
 	public void addSaved(Organism o) {
 		o.setCageId(id);
+		count++;
 		addToProperOrganismList(o);
 	}
 

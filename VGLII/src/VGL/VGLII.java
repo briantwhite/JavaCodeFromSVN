@@ -15,10 +15,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
+import java.util.zip.Deflater;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -81,7 +85,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	private final static String version = "0.9";
+	private final static String version = "1.0.0";
 
 	/**
 	 * the genetic model for the current problem
@@ -793,6 +797,7 @@ public class VGLII extends JFrame {
 				cageCollection = new ArrayList<CageUI>();
 				nextCageId = 0;
 				reopenCages(result.getCages());
+				enableAll(true);
 			} catch (Exception e) {
 				System.out.print(e.getMessage());
 			}
@@ -822,11 +827,38 @@ public class VGLII extends JFrame {
 						currentSavedFile = convertTo(currentSavedFile,
 						".wrk");
 					}
-					FileOutputStream output = new FileOutputStream(currentSavedFile);
 					Document doc = getXMLDoc(al); 
 					XMLOutputter outputter = 
 						new XMLOutputter(Format.getPrettyFormat());
-					outputter.output(doc, output);
+					String xmlString = outputter.outputString(doc);
+
+					//zip it to prevent cheating
+					byte[] xmlBytes = null;
+					try {
+						xmlBytes = xmlString.getBytes("UTF-8");
+					} catch (UnsupportedEncodingException e1) {
+						e1.printStackTrace();
+					}
+					ZipOutputStream zipWriter = null;
+					try {
+						zipWriter = 
+							new ZipOutputStream(new FileOutputStream(currentSavedFile));
+						zipWriter.setLevel(Deflater.DEFAULT_COMPRESSION);
+						zipWriter.putNextEntry(new ZipEntry("work.txt"));
+						zipWriter.write(xmlBytes, 0, xmlBytes.length);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					finally {
+						try {
+							if (zipWriter != null) {
+								zipWriter.close();
+							}
+						}
+						catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
 				}
 			} catch (Exception e) {
 			}
@@ -1224,7 +1256,7 @@ public class VGLII extends JFrame {
 	private void reopenCages(ArrayList<Cage> cages) throws Exception {
 		Iterator<Cage> it = cages.iterator();
 		while (it.hasNext()) {
-			Cage c = (Cage) it.next();
+			Cage c = it.next();
 			CageUI cageUI = createCageUI(c);
 			if (c.getId() > 0) {
 				OrganismUI[] parentUIs = cageUI.getParentUIs();

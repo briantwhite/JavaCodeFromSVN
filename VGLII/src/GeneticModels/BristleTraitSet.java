@@ -20,20 +20,20 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: BristleTraitSet.java,v 1.1 2008-06-24 14:13:47 brian Exp $
+ * @version 1.0 $Id: BristleTraitSet.java,v 1.2 2008-06-25 12:02:21 brian Exp $
  */
 
 public class BristleTraitSet extends TraitSet {
 	
 	public BristleTraitSet(String bodyPart) {
 		traits = new ArrayList<Trait>();
-		traits.add(new BristleTrait("No Hairs", bodyPart));
-		traits.add(new BristleTrait("Few Hairs", bodyPart));
-		traits.add(new BristleTrait("Many Hairs", bodyPart));
-		traits.add(new BristleTrait("One-Side Hair", bodyPart));
-		traits.add(new BristleTrait("Tip Hair", bodyPart));
-		traits.add(new BristleTrait("Shaft Hair", bodyPart));
-		traits.add(new BristleTrait("One Hair", bodyPart));
+		traits.add(new BristleTrait("NoHairs", bodyPart));
+		traits.add(new BristleTrait("FewHairs", bodyPart));
+		traits.add(new BristleTrait("ManyHairs", bodyPart));
+		traits.add(new BristleTrait("OneSideHair", bodyPart));
+		traits.add(new BristleTrait("TipHair", bodyPart));
+		traits.add(new BristleTrait("ShaftHair", bodyPart));
+		traits.add(new BristleTrait("SingleHair", bodyPart));
 	}
 
 }

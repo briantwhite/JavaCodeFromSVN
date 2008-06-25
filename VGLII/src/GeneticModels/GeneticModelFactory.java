@@ -24,15 +24,20 @@ package GeneticModels;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import VGL.GeneticModelAndCageSet;
 
@@ -72,10 +77,13 @@ public class GeneticModelFactory {
 	}
 
 	public GeneticModelAndCageSet readModelFromFile(File workFile) {
-		
+
 		GeneticModelAndCageSet result = null;
 		try {
-			FileInputStream input = new FileInputStream(workFile);
+			ZipFile workZip = new ZipFile(workFile);
+			Enumeration zipFileEntries = workZip.entries();
+			ZipEntry zipEntry = (ZipEntry)zipFileEntries.nextElement();
+			InputStream input = workZip.getInputStream(zipEntry);
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(input);
 			WorkFileProcessor processor = 

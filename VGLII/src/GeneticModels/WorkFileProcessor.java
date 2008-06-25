@@ -26,7 +26,7 @@ import VGL.GeneticModelAndCageSet;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: WorkFileProcessor.java,v 1.6 2008-06-24 14:13:47 brian Exp $
+ * @version 1.0 $Id: WorkFileProcessor.java,v 1.7 2008-06-25 12:02:22 brian Exp $
  */
 
 /**
@@ -45,7 +45,6 @@ public class WorkFileProcessor {
 		while (it.hasNext()) {
 			Element current = it.next();
 			String name = current.getName();
-
 			try {
 				if (name.equals("GeneticModel")) geneticModel = processSavedModelInfo(current);
 				if (name.equals("Organisms")) cages = processSavedCages(current);
@@ -175,7 +174,8 @@ public class WorkFileProcessor {
 		while (cageIt.hasNext()) {
 			Element cageE = cageIt.next();
 			if(cageE.getName().equals("Cage")) {
-				cages.add(buildCage(cageE));
+				Cage c = buildCage(cageE);
+				cages.add(c);
 			}
 		}
 		return cages;
@@ -184,6 +184,7 @@ public class WorkFileProcessor {
 	private Cage buildCage(Element e) {
 		int cageId = Integer.parseInt(e.getAttributeValue("Id"));
 		int numChildren = Integer.parseInt(e.getAttributeValue("NumChildren"));
+
 		Cage cage = new Cage(cageId);
 		Iterator<Element> contentsIt = e.getChildren().iterator();
 		while (contentsIt.hasNext()) {

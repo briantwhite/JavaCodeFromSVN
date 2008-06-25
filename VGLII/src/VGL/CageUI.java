@@ -888,7 +888,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 */
 	public OrganismUI getOrganismUIFor(int id) {
 		for (int i = 0; i < 2 * numPhenosPresent; i++) {
-			for (int j = 0; j < 20; j++) {
+			for (int j = 0; j < maxOrgsInOneRow; j++) {
 				OrganismUI organismUI = ((OrganismUI) (childrenOrganismUIs[i][j]));
 				if (organismUI != null) {
 					if (organismUI.getOrganism().getId() == id)
