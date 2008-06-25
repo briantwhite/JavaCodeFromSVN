@@ -311,6 +311,14 @@ public class VGLII extends JFrame {
 	public static void main(String[] args) {
 		VGLII vgl2 = new VGLII();
 		vgl2.setVisible(true);
+		if (args.length > 0) {
+			String fileName = args[0];
+			if (fileName.endsWith(".pr2")) {
+				vgl2.newProblem(fileName);
+			} else if (fileName.endsWith(".wr2")) {
+				vgl2.openProblem(fileName);
+			}
+		}
 	}
 
 	class ApplicationCloser extends WindowAdapter {
@@ -329,7 +337,7 @@ public class VGLII extends JFrame {
 		String cmd = evt.getActionCommand();
 		update(getGraphics());
 		if (cmd.equals("NewProblem"))
-			newProblem();
+			newProblem(null);
 		else if (cmd.equals("OpenWork"))
 			openProblem(null);
 		else if (cmd.equals("SaveWork"))
@@ -731,23 +739,31 @@ public class VGLII extends JFrame {
 	/**
 	 * Method to set up a new problem for the user
 	 */
-	private void newProblem() {
+	private void newProblem(String problemFileName) {
+		File problemFile = null;
+
 		if (cageCollection == null) {
-			File problemsDirectory = new File(defaultDirectory.toString()
-					+ System.getProperty("file.separator") + "Problems");
-			if (!problemsDirectory.exists()) {
-				problemsDirectory = defaultDirectory;
+			if (problemFileName == null) {
+				File problemsDirectory = new File(defaultDirectory.toString()
+						+ System.getProperty("file.separator") + "Problems");
+				if (!problemsDirectory.exists()) {
+					problemsDirectory = defaultDirectory;
+				}
+				problemFile = selectFile(problemsDirectory,
+						"New Problem Type Selection", "Select Problem Type", false,
+						prbFilterString, "Problem Type Files",
+						JFileChooser.OPEN_DIALOG);
+			} else {
+				problemFile = new File(problemFileName);
 			}
-			File newFile = selectFile(problemsDirectory,
-					"New Problem Type Selection", "Select Problem Type", false,
-					prbFilterString, "Problem Type Files",
-					JFileChooser.OPEN_DIALOG);
-			if (newFile == null) return;
-			
+
+			if (problemFile == null) return;
+			if (!problemFile.exists()) return;
+
 			//refresh possible characters and traits
 			CharacterSpecificationBank.getInstance().refreshAll();
 			geneticModel = 
-				GeneticModelFactory.getInstance().createRandomModel(newFile);
+				GeneticModelFactory.getInstance().createRandomModel(problemFile);
 
 			nextCageId = 0;
 			selectionVial = new SelectionVial(statusLabel);
@@ -764,43 +780,32 @@ public class VGLII extends JFrame {
 	 * Opens up an existing saved problem, sets up the model, and opens up all
 	 * the cages of that problem.
 	 */
-	public void openProblem(URL workFileURL) {	
-		File newFile = null;
+	public void openProblem(String workFileName) {	
+		File workFile = null;
+
 		selectionVial = new SelectionVial(statusLabel);
 		GeneticModelAndCageSet result = null;
 
-		if (workFileURL == null) {
-			newFile = selectFile(defaultDirectory, "Open Work",
+		if (workFileName == null) {
+			workFile = selectFile(defaultDirectory, "Open Work",
 					"Select Work File", false, wrkFilterString, "Work Files",
 					JFileChooser.OPEN_DIALOG);
+		} else {	
+			workFile = new File(workFileName);
+		}
+		
+		if (workFile == null) return;
+		if (!workFile.exists()) return;
 
-			if (newFile != null) {					
-				try {
-					result = GeneticModelFactory.getInstance().readModelFromFile(newFile);
-					geneticModel = result.getGeneticModel();
-					cageCollection = new ArrayList<CageUI>();
-					nextCageId = 0;
-					reopenCages(result.getCages());
-					enableAll(true);
-				} catch (Exception e) {
-					System.out.print(e.getMessage());
-				}
-			}  else {
-				return;
-			}
-
-		} else {
-
-			try {
-				result = GeneticModelFactory.getInstance().readModelFromFile(newFile);
-				geneticModel = result.getGeneticModel();
-				cageCollection = new ArrayList<CageUI>();
-				nextCageId = 0;
-				reopenCages(result.getCages());
-				enableAll(true);
-			} catch (Exception e) {
-				System.out.print(e.getMessage());
-			}
+		try {
+			result = GeneticModelFactory.getInstance().readModelFromFile(workFile);
+			geneticModel = result.getGeneticModel();
+			cageCollection = new ArrayList<CageUI>();
+			nextCageId = 0;
+			reopenCages(result.getCages());
+			enableAll(true);
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
 		}
 	}
 
@@ -823,9 +828,9 @@ public class VGLII extends JFrame {
 					al.add(c);
 				}
 				if (currentSavedFile != null) {
-					if (!currentSavedFile.getPath().endsWith(".wrk")) {
+					if (!currentSavedFile.getPath().endsWith(wrkFilterString)) {
 						currentSavedFile = convertTo(currentSavedFile,
-						".wrk");
+								"." + wrkFilterString);
 					}
 					Document doc = getXMLDoc(al); 
 					XMLOutputter outputter = 

@@ -526,3 +526,6 @@ misc fixes
 - change .prb to .pr2 and .wrk to .wr2
 	so there's no confusion with original VGL
 - put <BeginnerMode>False</BeginnerMode> in all problem files
+
+setting up to have it work by double-clicking work and problem files to launch VGLII
+- had it deal with command-line arguments of filename
