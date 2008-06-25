@@ -131,12 +131,12 @@ public class VGLII extends JFrame {
 	/**
 	 * The filter type to display only Problem type files
 	 */
-	private static final String prbFilterString = new String("prb");
+	private static final String prbFilterString = new String("pr2");
 
 	/**
 	 * The filter type to display only Work files
 	 */
-	private static final String wrkFilterString = new String("wrk");
+	private static final String wrkFilterString = new String("wr2");
 
 	/**
 	 * The filter type to display Print files

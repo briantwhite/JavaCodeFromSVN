@@ -2,6 +2,5 @@
 <root>
 	<BeginnerMode>False</BeginnerMode>
 	<ZZ_ZW>0.0</ZZ_ZW>
-	<Gene1_SexLinked>0.0</Gene1_SexLinked>
-	<Gene1_IncDom>1.0</Gene1_IncDom>
+	<Gene1_SexLinked>0.5</Gene1_SexLinked>
 </root>

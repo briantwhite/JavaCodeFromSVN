@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+	<BeginnerMode>False</BeginnerMode>
 	<ZZ_ZW>0.0</ZZ_ZW>
 	<MinOffspring>40</MinOffspring>
 	<MaxOffspring>70</MaxOffspring>
