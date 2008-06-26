@@ -553,3 +553,7 @@ renamed problem files LevelXXp.pr2 = LevelXX.pr2 with practice mode enabled
 					Simple dominance
 - Level13.pr2 = Three Sex-Linked Genes (0.1 < rf < 0.3); 2 Alleles each;
 					Simple dominance
+
+6/26/08
+- set save/open work and print to file to go to Desktop
+- set it to show warning dialog if you try to open a bad file

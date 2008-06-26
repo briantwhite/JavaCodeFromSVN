@@ -32,12 +32,12 @@ import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import javax.swing.JOptionPane;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
 
 import VGL.GeneticModelAndCageSet;
 
@@ -67,12 +67,15 @@ public class GeneticModelFactory {
 			ProblemTypeSpecification specs = 
 				processModelSpecElements(doc.getRootElement().getChildren());
 			model = createRandomModel(specs);
-		} catch (IOException e1) {
-			System.err.println(e1.getMessage());
-		} catch (JDOMException e2) {
-			System.err.println(e2.getMessage());
+			model.scrambleTraitOrder();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"VGLII was unable to open the file.\n"
+					+ "Perhaps it is the wrong format.\n"
+					+ "Please try another file.", 
+					"Error opening file",
+					JOptionPane.ERROR_MESSAGE);
 		}
-		model.scrambleTraitOrder();
 		return model;
 	}
 
@@ -93,7 +96,12 @@ public class GeneticModelFactory {
 						processor.getGeneticModel(), 
 						processor.getCages());
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			JOptionPane.showMessageDialog(null,
+					"VGLII was unable to open the file.\n"
+					+ "Perhaps it is the wrong format.\n"
+					+ "Please try another file.", 
+					"Error opening file",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		return result;
 	}

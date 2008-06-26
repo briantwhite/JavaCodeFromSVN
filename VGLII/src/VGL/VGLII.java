@@ -284,9 +284,16 @@ public class VGLII extends JFrame {
 	private File currentSavedFile = null;
 
 	/**
-	 * The default path for the file dialogs to open in
+	 * The default path for the problem file dialogs to open in
 	 */
-	private File defaultDirectory = new File(".");
+	private File defaultProblemDirectory = new File(".");
+	
+	/**
+	 * the default path for saving work and html files to
+	 * aka the desktop
+	 * - this requires some code, so runs in VGLII's constructor
+	 */
+	private File desktopDirectory = null;
 
 	/**
 	 * Stores the value of the next position on the screen where a cage should
@@ -301,6 +308,13 @@ public class VGLII extends JFrame {
 	public VGLII() {
 		super("Virtual Genetics Lab II " + version);
 		addWindowListener(new ApplicationCloser());
+		
+		desktopDirectory = new File(System.getProperty("user.home") 
+				+ System.getProperty("file.separator")
+				+ "Desktop");
+		if (!desktopDirectory.exists()) {
+			desktopDirectory = defaultProblemDirectory;
+		}
 		setupUI(); 
 	}
 
@@ -744,10 +758,10 @@ public class VGLII extends JFrame {
 
 		if (cageCollection == null) {
 			if (problemFileName == null) {
-				File problemsDirectory = new File(defaultDirectory.toString()
+				File problemsDirectory = new File(defaultProblemDirectory.toString()
 						+ System.getProperty("file.separator") + "Problems");
 				if (!problemsDirectory.exists()) {
-					problemsDirectory = defaultDirectory;
+					problemsDirectory = defaultProblemDirectory;
 				}
 				problemFile = selectFile(problemsDirectory,
 						"New Problem Type Selection", "Select Problem Type", false,
@@ -765,6 +779,8 @@ public class VGLII extends JFrame {
 			geneticModel = 
 				GeneticModelFactory.getInstance().createRandomModel(problemFile);
 
+			if (geneticModel == null) return;
+			
 			nextCageId = 0;
 			selectionVial = new SelectionVial(statusLabel);
 			cageCollection = new ArrayList<CageUI>();
@@ -787,7 +803,7 @@ public class VGLII extends JFrame {
 		GeneticModelAndCageSet result = null;
 
 		if (workFileName == null) {
-			workFile = selectFile(defaultDirectory, "Open Work",
+			workFile = selectFile(desktopDirectory, "Open Work",
 					"Select Work File", false, wrkFilterString, "Work Files",
 					JFileChooser.OPEN_DIALOG);
 		} else {	
@@ -799,6 +815,8 @@ public class VGLII extends JFrame {
 
 		try {
 			result = GeneticModelFactory.getInstance().readModelFromFile(workFile);
+			if (result == null) return;
+			
 			geneticModel = result.getGeneticModel();
 			cageCollection = new ArrayList<CageUI>();
 			nextCageId = 0;
@@ -815,7 +833,7 @@ public class VGLII extends JFrame {
 	private void saveProblem() {
 		if (cageCollection != null) {
 			if (currentSavedFile == null)
-				currentSavedFile = selectFile(defaultDirectory,
+				currentSavedFile = selectFile(desktopDirectory,
 						"Save Work", "Enter File Name to Save", false,
 						wrkFilterString, "Work Files",
 						JFileChooser.SAVE_DIALOG);
@@ -904,7 +922,7 @@ public class VGLII extends JFrame {
 	 */
 	private void printToFile() {
 		if (cageCollection != null) {
-			File printFile = selectFile(defaultDirectory,
+			File printFile = selectFile(desktopDirectory,
 					"Print Work To File", "Enter File Name to Print to", false,
 					printFilterString, "Print Files", -1);
 			if (printFile != null) {
