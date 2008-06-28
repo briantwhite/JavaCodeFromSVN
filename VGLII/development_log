@@ -567,3 +567,19 @@ fixing bugs
 - if you close problem, select "save" and then cancel in the file dialog
 	you lose your work
 	* change cleanUp() to return
+
+- try to make the .pr2 files zipped for security
+	zip Test Level01.pr2
+	mv Test.zip Test.pr2
+	- recode reader
+	WORKS!
+	
+	need to cleverly zip all files individually and rename
+	first, right-click each file in finder & make archive
+	then delete the originals
+	then trim the extension:
+	ls *.zip | sed 's/\(.*\)\.zip/  & \1/' | xargs -L1 mv
+
+Version 1.0.1
+
+	

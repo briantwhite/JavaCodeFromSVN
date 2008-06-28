@@ -61,7 +61,11 @@ public class GeneticModelFactory {
 	public GeneticModel createRandomModel(File modelSpecFile) {
 		GeneticModel model = null;
 		try {
-			FileInputStream input = new FileInputStream(modelSpecFile);
+//			FileInputStream input = new FileInputStream(modelSpecFile);
+			ZipFile workZip = new ZipFile(modelSpecFile);
+			Enumeration zipFileEntries = workZip.entries();
+			ZipEntry zipEntry = (ZipEntry)zipFileEntries.nextElement();
+			InputStream input = workZip.getInputStream(zipEntry);
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(input);
 			ProblemTypeSpecification specs = 
