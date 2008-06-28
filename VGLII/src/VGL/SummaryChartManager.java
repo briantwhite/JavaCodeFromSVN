@@ -29,7 +29,7 @@ import GeneticModels.Trait;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: SummaryChartManager.java,v 1.6 2008-06-24 14:13:46 brian Exp $
+ * @version 1.0 $Id: SummaryChartManager.java,v 1.7 2008-06-28 02:08:18 brian Exp $
  */
 
 public class SummaryChartManager {
@@ -37,6 +37,8 @@ public class SummaryChartManager {
 	private static SummaryChartManager instance;
 
 	private TreeSet<CageUI> selectedSet;
+
+	private SummaryChartUI summaryChartUI;
 
 	private SummaryChartManager() {
 		selectedSet = new TreeSet<CageUI>();
@@ -64,12 +66,18 @@ public class SummaryChartManager {
 		}
 		selectedSet = new TreeSet<CageUI>();
 	}
-	
+
 	public int[] getScrambledCharacterOrder() {
 		return getOneOrganism().getGeneticModel().getScrambledCharacterOrder();
 	}
-	
-	
+
+	public void hideSummaryChart() {
+		if (summaryChartUI != null) {
+			summaryChartUI.setVisible(false);
+		}
+	}
+
+
 	/**
 	 * totals up the contents of the selectedSet of cageUIs
 	 * split by the phenotypes you're interested in
@@ -83,7 +91,7 @@ public class SummaryChartManager {
 	 */
 	public PhenotypeCount[] calculateTotals(int[] traitsToCount) {
 		TreeMap<String, MFTotCounts> totals = new TreeMap<String, MFTotCounts>();
-		
+
 		Iterator<CageUI> cageUIIterator = selectedSet.iterator();
 		while (cageUIIterator.hasNext()) {
 			TreeMap<String, OrganismList> children = 
@@ -100,7 +108,7 @@ public class SummaryChartManager {
 				totals.put(customPhenotypeString, oldTotal.add(oList.getMFTotCounts()));
 			}
 		}
-				
+
 		PhenotypeCount[] result = new PhenotypeCount[totals.keySet().size()];
 		Iterator<String> customPhenoIterator = totals.keySet().iterator();
 		int i = 0;
@@ -109,7 +117,7 @@ public class SummaryChartManager {
 			result[i] = new PhenotypeCount(pheno, totals.get(pheno));
 			i++;
 		}
-		
+
 		return result;
 	}
 
@@ -122,12 +130,12 @@ public class SummaryChartManager {
 		}
 		return result;
 	}
-	
+
 	public Trait[] getTraitSet() {
 		if (selectedSet == null) {
 			return null;
 		}
-		
+
 		ArrayList<Phenotype> phenoList = getOneOrganism().getPhenotypes();
 		Trait[] result = new Trait[phenoList.size()];
 		for (int i = 0; i < result.length; i++) {
@@ -135,7 +143,7 @@ public class SummaryChartManager {
 		}
 		return result;
 	}
-	
+
 	//just get one random organism so you can find full
 	//  set of phenos
 	private Organism getOneOrganism() {
@@ -144,19 +152,19 @@ public class SummaryChartManager {
 		String pheno = children.keySet().iterator().next();
 		return children.get(pheno).get(0);	
 	}
-	
+
 	public void showSummaryChart(VGLII master) {
 		if(selectedSet.size() == 0) {
 			JOptionPane.showMessageDialog(master,
-				    "<html>You have not selected any cages to summarize.<br>" +
-				    "You should double-click on one or more cages <br>" +
-				    "to select them; they will turn pale yellow to <br>" +
-				    "indicate that they are selected.",
-				    "Summary Chart Warning",
-				    JOptionPane.WARNING_MESSAGE);
+					"<html>You have not selected any cages to summarize.<br>" +
+					"You should double-click on one or more cages <br>" +
+					"to select them; they will turn pale yellow to <br>" +
+					"indicate that they are selected.",
+					"Summary Chart Warning",
+					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		SummaryChartUI summaryChartUI = new SummaryChartUI(master);
+		summaryChartUI = new SummaryChartUI(master);
 	}
 
 	public String toString() {

@@ -1032,7 +1032,7 @@ public class VGLII extends JFrame {
 			if (ans1 == JOptionPane.YES_OPTION)
 				saveProblem();
 			if (ans1 != JOptionPane.CANCEL_OPTION)
-				cleanUp();
+				return;
 		}
 	}
 
@@ -1081,6 +1081,8 @@ public class VGLII extends JFrame {
 		nextCageScreenPosition = new Point(this.getX() + 200,
 				this.getY() + 100);
 		statusLabel.setText("");
+		SummaryChartManager.getInstance().clearSelectedSet();
+		SummaryChartManager.getInstance().hideSummaryChart();
 	}
 
 	/**

@@ -557,3 +557,13 @@ renamed problem files LevelXXp.pr2 = LevelXX.pr2 with practice mode enabled
 6/26/08
 - set save/open work and print to file to go to Desktop
 - set it to show warning dialog if you try to open a bad file
+
+6/27/08
+fixing bugs
+- summary chart persists even after you close the work
+	*close work and new problem should clear it out and nuke the ui
+		- add to VGLII's cleanUp() method
+
+- if you close problem, select "save" and then cancel in the file dialog
+	you lose your work
+	* change cleanUp() to return
