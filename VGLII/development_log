@@ -582,4 +582,7 @@ fixing bugs
 
 Version 1.0.1
 
-	
+6/29/08
+started making pheno images
+put boolean in cageUI to show/not-show these as they are being developed
+set to false for release versions until all ready

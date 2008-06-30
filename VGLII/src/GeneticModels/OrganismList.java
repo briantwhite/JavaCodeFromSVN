@@ -110,6 +110,10 @@ public class OrganismList {
 	public Iterator<Organism> iterator() {
 		return organisms.iterator();
 	}
+	
+	public ArrayList<Phenotype> getPhenotypes() {
+		return organisms.get(0).getPhenotypes();
+	}
 
 	/** 
 	 * Used by SummaryChart for counting purposes

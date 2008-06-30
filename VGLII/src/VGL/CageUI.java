@@ -68,6 +68,11 @@ import GeneticModels.Phenotype;
 public class CageUI extends JDialog 
 implements WindowListener, MouseListener, Comparable<CageUI> {
 
+	/** only for development - remove once pheno pix are working
+	 * 
+	 */
+	private boolean showPhenoButtons = false;
+
 	/**
 	 * the background color when the Cage is selected
 	 * for membership in the summary chart
@@ -79,7 +84,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * summary chart
 	 */
 	private boolean isSelected;
-	
+
 	/**
 	 * manager for membership in selected set for summary chart
 	 */
@@ -96,13 +101,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * number of traits in this problem
 	 */
 	private int numberOfTraits;
-	
+
 	/**
 	 * maximum number of organisms in any row
 	 * it assumes 2 rows of orgs
 	 */
 	private int maxOrgsInOneRow;
-	
+
 	/**
 	 * Parameter to the set the width of the dialog
 	 */
@@ -211,20 +216,11 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	private JLabel[] phenotypeLabels;
 
 	/**
-	 * Holds the array of buttons associated with each of the phenotype images
+	 * Holds the array of buttons associated with each of the phenotypes 
+	 * click these to see the images
 	 */
-	private JButton[] phenotypeButtons;
+	private JButton[] showPhenotypeButtons;
 
-	/**
-	 * Holds the array of images associated with each of the phenotypes
-	 */
-	private ImageIcon[] bigPhenoImages;
-
-	/**
-	 * Holds the array of smaller images associated with each of the phenotypes
-	 */
-	private ImageIcon[] smallPhenoImages;
-	
 	/**
 	 * holds array mapping real trait # to display order number
 	 * that way, the traits aren't displayed in chromosomal order
@@ -257,7 +253,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * this is the scrollpane for the details
 	 */
 	private JScrollPane detailsScrollPane;
-	
+
 	/**
 	 * This is the button used to show/hide the Genetics information.
 	 */
@@ -363,13 +359,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		setupSubComponents();
 		setupDialogBox(importFrame, numPhenosPresent);
 		setResizable(false);
-		
+
 		unselectedColor = getBackground();
 		isSelected = false;
 		summaryChartManager = SummaryChartManager.getInstance();
-		
+
 		maxOrgsInOneRow = (cage.getMaxOrgListSize()/2) + 1;  // assumes 2 rows of orgs
-															 // add 1 in case rounding
+		// add 1 in case rounding
 
 		//setup the GUI of its internal components
 		components();
@@ -390,16 +386,17 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		String[] phenotypeNames = new String[numPhenosPresent];
 		childrenSortedByPhenotype = new OrganismList[numPhenosPresent];
 		phenotypeLabels = new JLabel[numPhenosPresent];
-//		smallPhenoImages = new ImageIcon[numPhenosPresent];
-//		bigPhenoImages = new ImageIcon[numPhenosPresent];
-		phenotypeButtons = new JButton[numPhenosPresent];
+		showPhenotypeButtons = new ShowPhenotypeButton[numPhenosPresent];
 
 		int i = 0;
 		while (it1.hasNext()) {
 			phenotypeNames[i] = new String(it1.next());
 			childrenSortedByPhenotype[i] = children.get(phenotypeNames[i]);
-			phenotypeButtons[i] = new JButton(phenotypeNames[i]);
-			phenotypeButtons[i].addActionListener(new ActionListener() {
+			showPhenotypeButtons[i] = 
+				new ShowPhenotypeButton(
+						childrenSortedByPhenotype[i].getPhenotypes(),
+						phenotypeNames[i]);
+			showPhenotypeButtons[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					JFrame frame = new JFrame();
 					frame.setIconImage(null);
@@ -411,10 +408,14 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					JPanel details = new JPanel();
 					details.setLayout(new BorderLayout());
 					details.setBorder(BorderFactory.createEtchedBorder());
-					JLabel phenotypeLabel = new JLabel(((JButton)evt.getSource()).getText());
+					JLabel phenotypeLabel = 
+						new JLabel(((ShowPhenotypeButton)evt.getSource()).getPhenotypeString());
 					phenotypeLabel.setHorizontalTextPosition(javax.swing.JLabel.CENTER);
 					phenotypeLabel.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 					details.add(phenotypeLabel, BorderLayout.NORTH);
+					details.add(new JLabel("HI"),
+							BorderLayout.CENTER);
+					imageDlg.getContentPane().add(details);
 					imageDlg.setVisible(true);
 				}
 			});
@@ -422,7 +423,9 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			phenotypeLabels[i]
 			                .setHorizontalTextPosition(javax.swing.JLabel.CENTER);
 			phenotypeLabels[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
-			phenotypeButtons[i].setPreferredSize(new Dimension(35, 35));
+			showPhenotypeButtons[i].setPreferredSize(new Dimension(38, 38));
+			showPhenotypeButtons[i].setFocusPainted(false);
+			showPhenotypeButtons[i].setToolTipText("Click to see image of this phenotype");
 			i++;
 		}
 	}
@@ -458,7 +461,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * This method sets up the panels for the Cage
 	 */
 	private void setupOrganismPanel() {
-		
+
 		Border emptyBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
 		BorderLayout bSelectionLayout = new BorderLayout();
 		superPanel = new JPanel();
@@ -515,7 +518,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		picturesPanel = new JPanel();
 		picturesPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		picturesPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
-				"Pictures", javax.swing.border.TitledBorder.CENTER,
+				"Images", javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
 		childrenOrganismUIs = new OrganismUI[2 * numPhenosPresent][maxOrgsInOneRow];
@@ -533,7 +536,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 				traitPanels[j].add(
 						phenoPanels[scrambledTraitOrder[j]]);
 			}
-//			picturesPanel.add(panels[2]);
+			picturesPanel.add(showPhenotypeButtons[i]);
 		}
 
 		organismsPanelWrapper.add(organismsPanel);
@@ -542,7 +545,9 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		for (int i = 0; i < numberOfTraits; i++) {
 			individualPanel.add(traitPanelWrappers[i]);
 		}
-//		individualPanel.add(picturesPanel);
+		if (showPhenoButtons) {
+			individualPanel.add(picturesPanel);
+		}
 		detailsPanel.add(individualPanel, BorderLayout.NORTH);
 		superPanel.add(detailsPanel, BorderLayout.NORTH);
 	}
@@ -655,7 +660,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		picturePanel.setPreferredSize(new Dimension(145, 38));
 		picturePanel.setBorder(etched);
 		picturePanel.add(phenotypeLabels[number], BorderLayout.CENTER);
-		picturePanel.add(phenotypeButtons[number], BorderLayout.EAST);
+		picturePanel.add(showPhenotypeButtons[number], BorderLayout.EAST);
 
 		JPanel[] phenotypePanels = new JPanel[numberOfTraits];
 		ArrayList<Phenotype> phenoList = 
@@ -778,7 +783,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			setBackground(unselectedColor);
 		}
 	}
-	
+
 	public int getId() {
 		return id;
 	}
