@@ -25,6 +25,16 @@ public class PhenotypeImageMaker {
 
 	private int antennaNumber;
 
+	/**
+	 * hard-coded numbers for drawing things
+	 */
+	private static final int[] ONE_ANT = {125};
+	private static final int[] TWO_ANT = {120, 130};
+	private static final int[] THREE_ANT = {120, 125, 130};
+	private static final int[] FOUR_ANT = {116, 122, 128, 134};
+	private static final int[] FIVE_ANT = {115, 120, 125, 130, 135};
+	private static final int[] SIX_ANT = {115, 119, 123, 127, 131, 135};
+
 	public PhenotypeImageMaker() {
 		bodyColor = Color.LIGHT_GRAY;
 		eyeColor = Color.WHITE;
@@ -84,27 +94,65 @@ public class PhenotypeImageMaker {
 		if (p != null) {
 			antennaNumber = getIntFromString(p.getTrait().getTraitName());
 		}
+
+		int[] antennaLocations = null;
 		switch (antennaNumber) {
 		case 0:
-			int[] antennaLocations = null;
+			antennaLocations = null;
 			break;
 		case 1:
-			
-
+			antennaLocations = ONE_ANT;
+			break;
+		case 2:
+			antennaLocations = TWO_ANT;
+			break;
+		case 3:
+			antennaLocations = THREE_ANT;
+			break;
+		case 4:
+			antennaLocations = FOUR_ANT;
+			break;
+		case 5:
+			antennaLocations = FIVE_ANT;
+			break;
+		case 6:
+			antennaLocations = SIX_ANT;
+			break;
 		}
 
 		p = findPhenotypeMatching("Antenna", "Color");
 		if (p != null) {
 			antennaColor = getColorFromString(p.getTrait().getTraitName());
 		}
+		g2d.setColor(antennaColor);
 
 		p = findPhenotypeMatching("Antenna", "Shape");
 		if (p != null) {
 			antennaShape = p.getTrait().getTraitName();
 		}
 
-
-
+		//draw the antennae
+		if (antennaLocations != null) {
+			for (int i = 0; i < antennaLocations.length; i++) {
+				int x = antennaLocations[i];
+				if (antennaShape.equals("Forked")) {
+					g2d.drawLine(x, 50, x, 40);
+					g2d.drawLine(x, 40, (x - 1), 30);
+					g2d.drawLine(x, 40, (x + 1), 30);
+				} else if (antennaShape.equals("Long")) {
+					g2d.drawLine(x, 50, x, 20);
+				} else if (antennaShape.equals("Short")) {
+					g2d.drawLine(x, 50, x, 35);
+				} else if (antennaShape.equals("Bent")) {
+					g2d.drawLine(x, 50, x, 40);
+					g2d.drawLine(x, 40, (x - 4), 30);
+				} else if (antennaShape.equals("Pointy")) {
+					
+				} else if (antennaShape.equals("Knobbed")) {
+					
+				}
+			}
+		}
 	}
 
 	//see if the organism has a specified phenotype
