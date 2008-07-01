@@ -47,5 +47,9 @@ public abstract class TraitSet {
 		traits.remove(i);
 		return t;
 	}
+	
+	public String getBodyPart() {
+		return traits.get(0).getBodyPart();
+	}
 
 }

@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,6 +42,7 @@ import GeneticModels.Cage;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
 import GeneticModels.Phenotype;
+import PhenotypeImages.PhenotypeImageBank;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -71,7 +73,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	/** only for development - remove once pheno pix are working
 	 * 
 	 */
-	private boolean showPhenoButtons = false;
+	private boolean showPhenoButtons = true;
 
 	/**
 	 * the background color when the Cage is selected
@@ -408,13 +410,16 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					JPanel details = new JPanel();
 					details.setLayout(new BorderLayout());
 					details.setBorder(BorderFactory.createEtchedBorder());
+					ShowPhenotypeButton button = (ShowPhenotypeButton)evt.getSource();
 					JLabel phenotypeLabel = 
-						new JLabel(((ShowPhenotypeButton)evt.getSource()).getPhenotypeString());
+						new JLabel(button.getPhenotypeString());
 					phenotypeLabel.setHorizontalTextPosition(javax.swing.JLabel.CENTER);
 					phenotypeLabel.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 					details.add(phenotypeLabel, BorderLayout.NORTH);
-					details.add(new JLabel("HI"),
-							BorderLayout.CENTER);
+					ImageIcon pic = 
+						PhenotypeImageBank.getInstance().getImageForPhenotype(
+								button.getPhenotypes(), button.getPhenotypeString());
+					details.add(new JLabel(pic), BorderLayout.CENTER);
 					imageDlg.getContentPane().add(details);
 					imageDlg.setVisible(true);
 				}

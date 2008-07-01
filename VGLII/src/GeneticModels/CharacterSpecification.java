@@ -21,7 +21,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: CharacterSpecification.java,v 1.4 2008-06-24 14:42:19 brian Exp $
+ * @version 1.0 $Id: CharacterSpecification.java,v 1.5 2008-07-01 02:05:54 brian Exp $
  */
 
 public class CharacterSpecification {
@@ -66,5 +66,9 @@ public class CharacterSpecification {
 				possibleTraitSets.remove(i);
 			}
 		}
+	}
+	
+	public String getBodyPart() {
+		return (possibleTraitSets.get(0)).getBodyPart();
 	}
 }

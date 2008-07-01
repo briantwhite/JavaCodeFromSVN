@@ -20,13 +20,14 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: NumberTraitSet.java,v 1.4 2008-06-10 15:34:27 brian Exp $
+ * @version 1.0 $Id: NumberTraitSet.java,v 1.5 2008-07-01 02:05:53 brian Exp $
  */
 
 public class NumberTraitSet extends TraitSet {
 	
 	public NumberTraitSet(String bodyPart) {
 		traits = new ArrayList<Trait>();
+		traits.add(new NumberTrait("No", bodyPart));
 		traits.add(new NumberTrait("One", bodyPart));
 		traits.add(new NumberTrait("Two", bodyPart));
 		traits.add(new NumberTrait("Three", bodyPart));

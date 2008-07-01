@@ -1,6 +1,8 @@
 package GeneticModels;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -21,7 +23,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.6 2008-06-24 14:42:18 brian Exp $
+ * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.7 2008-07-01 02:05:53 brian Exp $
  */
 
 public class CharacterSpecificationBank {
@@ -98,5 +100,5 @@ public class CharacterSpecificationBank {
 		legCharSpecs.add(new BristleTraitSet("Leg"));
 		allCharSpecs.add(legCharSpecs);
 	}
-
+	
 }
