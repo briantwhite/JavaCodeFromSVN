@@ -23,7 +23,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.7 2008-07-01 02:05:53 brian Exp $
+ * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.8 2008-07-02 02:12:21 brian Exp $
  */
 
 public class CharacterSpecificationBank {
@@ -90,7 +90,14 @@ public class CharacterSpecificationBank {
 		antennaCharSpecs.add(new NumberTraitSet("Antenna"));
 		antennaCharSpecs.add(new BristleTraitSet("Antenna"));
 		allCharSpecs.add(antennaCharSpecs);
-
+		
+		// add in the wing-related characters
+		CharacterSpecification wingCharSpecs = new CharacterSpecification();
+		wingCharSpecs.add(new ColorTraitSet("Wing"));
+		wingCharSpecs.add(new ShapeTraitSet("Wing"));
+		wingCharSpecs.add(new NumberTraitSet("Wing"));
+		allCharSpecs.add(wingCharSpecs);
+		
 		//add in the leg-related characters
 		// all are possible
 		CharacterSpecification legCharSpecs = new CharacterSpecification();
