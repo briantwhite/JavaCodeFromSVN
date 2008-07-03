@@ -19,7 +19,7 @@ public class PhenotypeImageMaker {
 
 	private Color bodyColor;
 	private Color eyeColor;
-	
+
 	private Color antennaColor;
 	private String antennaShape;
 	private int antennaNumber;
@@ -27,10 +27,12 @@ public class PhenotypeImageMaker {
 	private Color wingColor;
 	private String wingShape;
 	private int wingNumber;
-	
+
 	private Color legColor;
 	private String legShape;
 	private int legNumber;
+
+	private String bodyShape;
 
 	/**
 	 * hard-coded numbers for drawing things
@@ -53,18 +55,20 @@ public class PhenotypeImageMaker {
 	public PhenotypeImageMaker() {
 		bodyColor = Color.LIGHT_GRAY;
 		eyeColor = Color.WHITE;
-		
+
 		antennaColor = Color.LIGHT_GRAY;
 		antennaShape = "Long";
 		antennaNumber = 2;
-		
+
 		wingColor = Color.LIGHT_GRAY;
 		wingShape = "Long";
 		wingNumber = 2;
-		
+
 		legColor = Color.LIGHT_GRAY;
 		legShape = "Long";
 		legNumber = 6;
+
+		bodyShape = "Long";
 	}
 
 	public ImageIcon makeImage(ArrayList<Phenotype> phenotypes) {
@@ -193,10 +197,10 @@ public class PhenotypeImageMaker {
 			}
 		}
 	}
-	
+
 	private void drawAbdomen() {
 		g2d.setColor(bodyColor);
-		
+
 		//the abdomen
 		GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
 		path.moveTo(45, 55);
@@ -211,7 +215,7 @@ public class PhenotypeImageMaker {
 		path.closePath();
 		g2d.draw(path);
 		g2d.fill(path);
-		
+
 		// wings
 		Phenotype p = findPhenotypeMatching("Wing", "Number");
 		if (p != null) {
@@ -516,6 +520,104 @@ public class PhenotypeImageMaker {
 					g2d.fill(path);
 				}
 			}
+		}
+
+		// body
+		p = findPhenotypeMatching("Body", "Color");
+		if (p != null) {
+			bodyColor = getColorFromString(p.getTrait().getTraitName());
+		}
+		g2d.setColor(bodyColor);
+
+		p = findPhenotypeMatching("Body", "Shape");
+		if (p != null) {
+			bodyShape = p.getTrait().getTraitName();
+		}
+
+		if (bodyShape.equals("Forked")) {
+			path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+			path.moveTo(35, 55);
+			path.quadTo(40, 55, 40, 60);
+			path.lineTo(40, 90);
+			path.quadTo(40, 95, 35, 95);
+			path.lineTo(5, 85);
+			path.lineTo(30, 75);
+			path.lineTo(5, 65);
+			path.lineTo(35, 55);
+			path.closePath();
+			g2d.draw(path);
+			g2d.fill(path);
+		} else if (bodyShape.equals("Long")) {
+			path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+			path.moveTo(35, 55);
+			path.quadTo(40, 55, 40, 60);
+			path.lineTo(40, 90);
+			path.quadTo(40, 95, 35, 95);
+			path.lineTo(10, 95);
+			path.quadTo(5, 95, 5, 90);
+			path.lineTo(5, 60);
+			path.quadTo(5, 55, 10, 55);
+			path.lineTo(35, 55);
+			path.closePath();
+			g2d.draw(path);
+			g2d.fill(path);
+		} else if (bodyShape.equals("Short")) {
+			path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+			path.moveTo(35, 55);
+			path.quadTo(40, 55, 40, 60);
+			path.lineTo(40, 90);
+			path.quadTo(40, 95, 35, 95);
+			path.lineTo(10, 95);
+			path.quadTo(20, 95, 20, 90);
+			path.lineTo(20, 60);
+			path.quadTo(20, 55, 25, 55);
+			path.lineTo(35, 55);
+			path.closePath();
+			g2d.draw(path);
+			g2d.fill(path);
+		} else if (bodyShape.equals("Bent")) {
+			path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+			path.moveTo(35, 55);
+			path.quadTo(40, 55, 40, 60);
+			path.lineTo(40, 90);
+			path.quadTo(40, 95, 35, 95);
+			path.lineTo(25, 85);
+			path.lineTo(25, 100);
+			path.quadTo(25, 110, 15, 110);
+			path.quadTo(5, 110, 5, 100);
+			path.lineTo(5, 70);
+			path.lineTo(25, 55);
+			path.lineTo(35, 55);
+			path.closePath();
+			g2d.draw(path);
+			g2d.fill(path);
+		} else if (bodyShape.equals("Pointy")) {
+			path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+			path.moveTo(35, 55);
+			path.quadTo(40, 55, 40, 60);
+			path.lineTo(40, 90);
+			path.quadTo(40, 95, 35, 95);
+			path.closePath();
+			g2d.draw(path);
+			g2d.fill(path);
+		} else if (bodyShape.equals("Knobbed")) {
+			path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+			path.moveTo(35, 55);
+			path.quadTo(40, 55, 40, 60);
+			path.lineTo(40, 90);
+			path.quadTo(40, 95, 35, 95);
+			path.closePath();
+			g2d.draw(path);
+			g2d.fill(path);
+		} else if (bodyShape.equals("Zigzag")) {
+			path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+			path.moveTo(35, 55);
+			path.quadTo(40, 55, 40, 60);
+			path.lineTo(40, 90);
+			path.quadTo(40, 95, 35, 95);
+			path.closePath();
+			g2d.draw(path);
+			g2d.fill(path);
 		}
 	}
 
