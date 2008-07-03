@@ -586,3 +586,13 @@ Version 1.0.1
 started making pheno images
 put boolean in cageUI to show/not-show these as they are being developed
 set to false for release versions until all ready
+
+6/30 & 7/1 
+working on drawing pix
+
+7/2/08
+nuked the Bristle trait - too hard to draw
+added in Wing as a body part (it had been there but not added to CharSpecbank)
+- now saves Wing problems properly
+
+- reset ImageMaker's defaults on new and open problem

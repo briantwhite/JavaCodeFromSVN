@@ -56,6 +56,7 @@ import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
+import PhenotypeImages.PhenotypeImageBank;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -774,8 +775,9 @@ public class VGLII extends JFrame {
 			if (problemFile == null) return;
 			if (!problemFile.exists()) return;
 
-			//refresh possible characters and traits
+			//refresh possible characters and traits & image defaults
 			CharacterSpecificationBank.getInstance().refreshAll();
+			PhenotypeImageBank.getInstance().resetDefaults();
 			geneticModel = 
 				GeneticModelFactory.getInstance().createRandomModel(problemFile);
 
@@ -817,6 +819,7 @@ public class VGLII extends JFrame {
 			result = GeneticModelFactory.getInstance().readModelFromFile(workFile);
 			if (result == null) return;
 			
+			PhenotypeImageBank.getInstance().resetDefaults();
 			geneticModel = result.getGeneticModel();
 			cageCollection = new ArrayList<CageUI>();
 			nextCageId = 0;

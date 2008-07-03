@@ -27,6 +27,10 @@ public class PhenotypeImageBank {
 		return instance;
 	}
 	
+	public void resetDefaults() {
+		imageMaker = new PhenotypeImageMaker();
+	}
+	
 	public ImageIcon getImageForPhenotype(
 			ArrayList<Phenotype> phenotypes, 
 			String phenoString) {

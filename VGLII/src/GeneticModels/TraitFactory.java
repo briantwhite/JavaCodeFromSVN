@@ -19,7 +19,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: TraitFactory.java,v 1.5 2008-06-25 12:02:21 brian Exp $
+ * @version 1.0 $Id: TraitFactory.java,v 1.6 2008-07-03 01:53:43 brian Exp $
  */
 
 public class TraitFactory {
@@ -73,9 +73,7 @@ public class TraitFactory {
 			t = new NumberTrait(traitName, bodyPart);
 		} else if (type.equals("Shape")) {
 			t = new ShapeTrait(traitName, bodyPart);
-		} else if (type.equals("Bristle")) {
-			t = new BristleTrait(traitName, bodyPart);
-		}
+		} 
 		traitBank[chromo][gene][traitNum] = t;
 		return t;
 	}

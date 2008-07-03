@@ -23,7 +23,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.8 2008-07-02 02:12:21 brian Exp $
+ * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.9 2008-07-03 01:53:43 brian Exp $
  */
 
 public class CharacterSpecificationBank {
@@ -73,7 +73,6 @@ public class CharacterSpecificationBank {
 		CharacterSpecification bodyCharSpecs = new CharacterSpecification();
 		bodyCharSpecs.add(new ColorTraitSet("Body"));
 		bodyCharSpecs.add(new ShapeTraitSet("Body"));
-		bodyCharSpecs.add(new BristleTraitSet("Body"));
 		allCharSpecs.add(bodyCharSpecs);
 
 		//add in the eye-related characters
@@ -88,7 +87,6 @@ public class CharacterSpecificationBank {
 		antennaCharSpecs.add(new ColorTraitSet("Antenna"));
 		antennaCharSpecs.add(new ShapeTraitSet("Antenna"));
 		antennaCharSpecs.add(new NumberTraitSet("Antenna"));
-		antennaCharSpecs.add(new BristleTraitSet("Antenna"));
 		allCharSpecs.add(antennaCharSpecs);
 		
 		// add in the wing-related characters
@@ -104,7 +102,6 @@ public class CharacterSpecificationBank {
 		legCharSpecs.add(new ColorTraitSet("Leg"));
 		legCharSpecs.add(new ShapeTraitSet("Leg"));
 		legCharSpecs.add(new NumberTraitSet("Leg"));
-		legCharSpecs.add(new BristleTraitSet("Leg"));
 		allCharSpecs.add(legCharSpecs);
 	}
 	

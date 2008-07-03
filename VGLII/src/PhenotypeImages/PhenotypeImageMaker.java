@@ -27,6 +27,10 @@ public class PhenotypeImageMaker {
 	private Color wingColor;
 	private String wingShape;
 	private int wingNumber;
+	
+	private Color legColor;
+	private String legShape;
+	private int legNumber;
 
 	/**
 	 * hard-coded numbers for drawing things
@@ -366,7 +370,167 @@ public class PhenotypeImageMaker {
 			}
 		}
 
+		// legs
+		p = findPhenotypeMatching("Leg", "Number");
+		if (p != null) {
+			legNumber = getIntFromString(p.getTrait().getTraitName());
+		}
 
+		int[] legLocations = null;
+		switch (legNumber) {
+		case 0:
+			legLocations = null;
+			break;
+		case 1:
+			legLocations = ONE;
+			break;
+		case 2:
+			legLocations = TWO;
+			break;
+		case 3:
+			legLocations = THREE;
+			break;
+		case 4:
+			legLocations = FOUR;
+			break;
+		case 5:
+			legLocations = FIVE;
+			break;
+		case 6:
+			legLocations = SIX;
+			break;
+		}
+
+		p = findPhenotypeMatching("Leg", "Color");
+		if (p != null) {
+			legColor = getColorFromString(p.getTrait().getTraitName());
+		}
+		g2d.setColor(legColor);
+
+		p = findPhenotypeMatching("Leg", "Shape");
+		if (p != null) {
+			legShape = p.getTrait().getTraitName();
+		}
+
+		//draw the wing(s)
+		if (legLocations != null) {
+			for (int i = 0; i < legLocations.length; i++) {
+				int x = legLocations[i];
+				if (legShape.equals("Forked")) {
+					path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+					path.moveTo((x - 2), 55);
+					path.lineTo(x - 2, 50);
+					path.quadTo(x - 4, 50, x - 4, 48);
+					path.lineTo(x - 2, 20);
+					path.lineTo(x, 48);
+					path.lineTo(x + 2, 20);
+					path.lineTo(x + 4, 48);
+					path.quadTo(x + 4, 50, x + 2, 50);
+					path.lineTo(x + 2, 55);
+					path.lineTo(x - 2, 55);
+					path.closePath();
+					g2d.draw(path);
+					g2d.fill(path);
+				} else if (legShape.equals("Long")) {
+					path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+					path.moveTo((x - 2), 55);
+					path.lineTo(x - 2, 50);
+					path.quadTo(x - 4, 50, x - 4, 48);
+					path.lineTo(x - 4, 8);
+					path.quadTo(x - 4, 6, x - 2, 6);
+					path.lineTo(x + 2, 6);
+					path.quadTo(x + 4, 6, x + 4, 8);
+					path.lineTo(x + 4, 48);
+					path.quadTo(x + 4, 50, x + 2, 50);
+					path.lineTo(x + 2, 55);
+					path.lineTo(x - 2, 55);
+					path.closePath();
+					g2d.draw(path);
+					g2d.fill(path);
+				} else if (legShape.equals("Short")) {
+					path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+					path.moveTo((x - 2), 55);
+					path.lineTo(x - 2, 50);
+					path.quadTo(x - 4, 50, x - 4, 48);
+					path.lineTo(x - 4, 40);
+					path.quadTo(x - 4, 38, x - 2, 38);
+					path.lineTo(x + 2, 38);
+					path.quadTo(x + 4, 38, x + 4, 40);
+					path.lineTo(x + 4, 48);
+					path.quadTo(x + 4, 50, x + 2, 50);
+					path.lineTo(x + 2, 55);
+					path.lineTo(x - 2, 55);
+					path.closePath();
+					g2d.draw(path);
+					g2d.fill(path);
+				} else if (legShape.equals("Bent")) {
+					path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+					path.moveTo((x - 2), 55);
+					path.lineTo(x - 2, 50);
+					path.quadTo(x - 4, 50, x - 4, 48);
+					path.lineTo(x - 4, 40);
+					path.lineTo(x - 20, 26);
+					path.quadTo(x - 21, 24, x - 18, 24);
+					path.lineTo(x - 12, 24);
+					path.quadTo(x - 11, 26, x - 10, 26);
+					path.lineTo(x + 4, 40);
+					path.lineTo(x + 4, 48);
+					path.quadTo(x + 4, 50, x + 2, 50);
+					path.lineTo(x + 2, 55);
+					path.lineTo(x - 2, 55);
+					path.closePath();
+					g2d.draw(path);
+					g2d.fill(path);
+				} else if (legShape.equals("Pointy")) {
+					path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+					path.moveTo((x - 2), 55);
+					path.lineTo(x - 2, 50);
+					path.quadTo(x - 4, 50, x - 4, 48);
+					path.lineTo(x, 20);
+					path.lineTo(x + 4, 48);
+					path.quadTo(x + 4, 50, x + 2, 50);
+					path.lineTo(x + 2, 55);
+					path.lineTo(x - 2, 55);
+					path.closePath();
+					g2d.draw(path);
+					g2d.fill(path);
+				} else if (legShape.equals("Knobbed")) {
+					path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+					path.moveTo((x - 2), 55);
+					path.lineTo(x - 2, 36);
+					path.quadTo(x - 4, 36, x - 4, 34);
+					path.lineTo(x - 4, 22);
+					path.quadTo(x - 4, 20, x - 2, 20);
+					path.lineTo(x + 2, 20);
+					path.quadTo(x + 4, 20, x + 4, 22);
+					path.lineTo(x + 4, 34);
+					path.quadTo(x + 4, 36, x + 2, 36);
+					path.lineTo(x + 2, 55);
+					path.lineTo(x - 2, 55);
+					path.closePath();
+					g2d.draw(path);
+					g2d.fill(path);
+				} else if (legShape.equals("Zigzag")) {
+					path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+					path.moveTo((x - 2), 55);
+					path.lineTo(x - 2, 50);
+					path.lineTo(x - 4, 45);
+					path.lineTo(x, 35);
+					path.lineTo(x - 4, 25);
+					path.lineTo(x, 15);
+					path.lineTo(x + 4, 15);
+					path.lineTo(x, 25);
+					path.lineTo(x + 4, 35);
+					path.lineTo(x, 45);
+					path.lineTo(x + 2, 50);
+					path.lineTo(x + 2, 55);
+					path.lineTo(x - 2, 55);
+					path.closePath();
+					g2d.draw(path);
+					g2d.fill(path);
+				}
+			}
+		}
 	}
 
 	//see if the organism has a specified phenotype

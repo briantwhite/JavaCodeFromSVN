@@ -61,7 +61,6 @@ public class GeneticModelFactory {
 	public GeneticModel createRandomModel(File modelSpecFile) {
 		GeneticModel model = null;
 		try {
-//			FileInputStream input = new FileInputStream(modelSpecFile);
 			ZipFile workZip = new ZipFile(modelSpecFile);
 			Enumeration zipFileEntries = workZip.entries();
 			ZipEntry zipEntry = (ZipEntry)zipFileEntries.nextElement();

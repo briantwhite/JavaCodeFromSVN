@@ -16,7 +16,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -411,8 +410,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					details.setLayout(new BorderLayout());
 					details.setBorder(BorderFactory.createEtchedBorder());
 					ShowPhenotypeButton button = (ShowPhenotypeButton)evt.getSource();
+					
+					// fix the pheno string to more than one line
+					String phenoString = button.getPhenotypeString();
+					phenoString = phenoString.replaceAll("/", "<br>");
+					phenoString = "<html>" + phenoString + "</html>";
 					JLabel phenotypeLabel = 
-						new JLabel(button.getPhenotypeString());
+						new JLabel(phenoString);
 					phenotypeLabel.setHorizontalTextPosition(javax.swing.JLabel.CENTER);
 					phenotypeLabel.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 					details.add(phenotypeLabel, BorderLayout.NORTH);
