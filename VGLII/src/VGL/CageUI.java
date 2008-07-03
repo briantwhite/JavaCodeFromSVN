@@ -69,11 +69,6 @@ import PhenotypeImages.PhenotypeImageBank;
 public class CageUI extends JDialog 
 implements WindowListener, MouseListener, Comparable<CageUI> {
 
-	/** only for development - remove once pheno pix are working
-	 * 
-	 */
-	private boolean showPhenoButtons = true;
-
 	/**
 	 * the background color when the Cage is selected
 	 * for membership in the summary chart
@@ -410,7 +405,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					details.setLayout(new BorderLayout());
 					details.setBorder(BorderFactory.createEtchedBorder());
 					ShowPhenotypeButton button = (ShowPhenotypeButton)evt.getSource();
-					
+
 					// fix the pheno string to more than one line
 					String phenoString = button.getPhenotypeString();
 					phenoString = phenoString.replaceAll("/", "<br>");
@@ -554,9 +549,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		for (int i = 0; i < numberOfTraits; i++) {
 			individualPanel.add(traitPanelWrappers[i]);
 		}
-		if (showPhenoButtons) {
-			individualPanel.add(picturesPanel);
-		}
+		individualPanel.add(picturesPanel);
 		detailsPanel.add(individualPanel, BorderLayout.NORTH);
 		superPanel.add(detailsPanel, BorderLayout.NORTH);
 	}

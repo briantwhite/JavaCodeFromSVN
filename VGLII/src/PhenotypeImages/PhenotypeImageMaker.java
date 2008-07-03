@@ -504,15 +504,15 @@ public class PhenotypeImageMaker {
 				} else if (legShape.equals("Zigzag")) {
 					path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
 					path.moveTo((x - 1), 95);
-					path.lineTo(x - 1, 109);
-					path.lineTo(x - 3, 113);
+					path.lineTo(x - 1, 99);
+					path.lineTo(x - 3, 103);
 					path.lineTo(x + 1, 110);
 					path.lineTo(x - 3, 118);
 					path.lineTo(x - 2, 119);
 					path.lineTo(x - 1, 118);
 					path.lineTo(x + 3, 110);
-					path.lineTo(x - 1, 113);
-					path.lineTo(x + 1, 109);
+					path.lineTo(x - 1, 103);
+					path.lineTo(x + 1, 99);
 					path.lineTo(x + 1, 95);
 					path.lineTo(x - 1, 95);
 					path.closePath();
@@ -567,7 +567,7 @@ public class PhenotypeImageMaker {
 			path.quadTo(40, 55, 40, 60);
 			path.lineTo(40, 90);
 			path.quadTo(40, 95, 35, 95);
-			path.lineTo(10, 95);
+			path.lineTo(25, 95);
 			path.quadTo(20, 95, 20, 90);
 			path.lineTo(20, 60);
 			path.quadTo(20, 55, 25, 55);
@@ -597,6 +597,8 @@ public class PhenotypeImageMaker {
 			path.quadTo(40, 55, 40, 60);
 			path.lineTo(40, 90);
 			path.quadTo(40, 95, 35, 95);
+			path.quadTo(25, 80, 5, 75);
+			path.quadTo(25, 70, 35, 55);
 			path.closePath();
 			g2d.draw(path);
 			g2d.fill(path);
@@ -606,6 +608,15 @@ public class PhenotypeImageMaker {
 			path.quadTo(40, 55, 40, 60);
 			path.lineTo(40, 90);
 			path.quadTo(40, 95, 35, 95);
+			path.quadTo(30, 85, 20, 85);
+			path.quadTo(20, 90, 15, 90);
+			path.lineTo(10, 90);
+			path.quadTo(5, 90, 5, 85);
+			path.lineTo(5, 65);
+			path.quadTo(5, 60, 10, 60);
+			path.lineTo(15, 60);
+			path.quadTo(20, 60, 20, 65);
+			path.quadTo(30, 60, 35, 55);
 			path.closePath();
 			g2d.draw(path);
 			g2d.fill(path);
@@ -615,6 +626,21 @@ public class PhenotypeImageMaker {
 			path.quadTo(40, 55, 40, 60);
 			path.lineTo(40, 90);
 			path.quadTo(40, 95, 35, 95);
+			path.quadTo(30, 95, 30, 90);
+			path.lineTo(30, 80);
+			path.lineTo(25, 75);
+			path.lineTo(20, 80);
+			path.lineTo(15, 75);
+			path.lineTo(10, 80);
+			path.lineTo(5, 75);
+			path.lineTo(5, 65);
+			path.lineTo(10, 70);
+			path.lineTo(15, 65);
+			path.lineTo(20, 70);
+			path.lineTo(25, 65);
+			path.lineTo(30, 70);
+			path.lineTo(30, 60);
+			path.quadTo(30, 55, 35, 55);
 			path.closePath();
 			g2d.draw(path);
 			g2d.fill(path);
@@ -645,7 +671,8 @@ public class PhenotypeImageMaker {
 		if (s.equals("Purple")) return Color.MAGENTA;
 		if (s.equals("Black")) return Color.BLACK;
 		if (s.equals("Brown")) return new Color(165, 42, 42);
-		else return Color.LIGHT_GRAY;
+		if (s.equals("Gray")) return Color.LIGHT_GRAY;
+		else return Color.WHITE;
 	}
 
 	private int getIntFromString(String s) {

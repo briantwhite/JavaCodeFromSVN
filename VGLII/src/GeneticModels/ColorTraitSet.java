@@ -34,6 +34,7 @@ public class ColorTraitSet extends TraitSet {
 		traits.add(new ColorTrait("Purple", bodyPart));
 		traits.add(new ColorTrait("Black", bodyPart));
 		traits.add(new ColorTrait("Brown", bodyPart));
+		traits.add(new ColorTrait("Gray", bodyPart));
 	}
 	
 }
