@@ -3,11 +3,14 @@ package biochem;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
@@ -225,12 +228,50 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	}
 
 	public BufferedImage takeSnapshot() {
+		Dimension requiredCanvasSize = 
+			foldedProtein.getDrawingPane().getRequiredCanvasSize();
+		int width = requiredCanvasSize.width;
+		int height = requiredCanvasSize.height;
+		
 		BufferedImage imageBuffer = new BufferedImage(
-				this.getWidth(),
-				this.getHeight(),
+				width,
+				height + 60,
 				BufferedImage.TYPE_INT_RGB);
 		Graphics g = imageBuffer.getGraphics();
-		this.paint(g);
+		
+		//the protein
+		foldedProtein.getDrawingPane().paint(g);
+		
+		//fill in extra space for aa seq and color
+		g.setColor(Color.WHITE);
+		g.fillRect(0, height, width, 60);
+		
+		//the amino acid sequence
+		// be sure it'll fit
+		String aaSeq = foldedPolypeptide.getAaSeq();
+		Font defaultFont = g.getFont();
+		FontMetrics defaultFm = g.getFontMetrics(defaultFont);
+		int defaultWidth = defaultFm.stringWidth(aaSeq);
+		if (defaultWidth > width) {
+			Font smallFont = defaultFont.deriveFont(defaultFont.getSize() * 0.75f);
+			g.setFont(smallFont);
+			FontMetrics smallFm = g.getFontMetrics(smallFont);
+			int smallWidth = smallFm.stringWidth(aaSeq);
+			if (smallWidth > width) {
+				Font tinyFont = defaultFont.deriveFont(defaultFont.getSize() * 0.5f);
+				g.setFont(tinyFont);
+			}	
+		}
+		g.setColor(Color.BLACK);
+		g.drawString(aaSeq, 0, height + 15);
+		
+		//the color chip
+		g.setFont(defaultFont);
+		g.setColor(Color.BLACK);
+		g.drawString("Color:", 5, height + 30);
+		g.setColor(foldedPolypeptide.getColor());
+		g.fillRect(60, height + 20, 30, 30);
+		
 		return imageBuffer;
 	}
 }
