@@ -1323,3 +1323,8 @@ for this run 8/35857 = 0.02% or 1/4400 bad sequences
 also ~1500 sequences folded per hour or 25/min
 
 overall "bad sequence" rate: 18/78792 = 0.022% or 1/4300 bad sequennces
+
+7/18/08
+making snapshots better - not just screenshots of panels 
+  (these cut off the parts that aren't visible...)
+  

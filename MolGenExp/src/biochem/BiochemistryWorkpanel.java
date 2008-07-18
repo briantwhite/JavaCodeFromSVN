@@ -3,6 +3,7 @@ package biochem;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -221,5 +222,15 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		foldedProtein.setBackground(Color.LIGHT_GRAY);
 		foldButton.setEnabled(false);
 
+	}
+
+	public BufferedImage takeSnapshot() {
+		BufferedImage imageBuffer = new BufferedImage(
+				this.getWidth(),
+				this.getHeight(),
+				BufferedImage.TYPE_INT_RGB);
+		Graphics g = imageBuffer.getGraphics();
+		this.paint(g);
+		return imageBuffer;
 	}
 }

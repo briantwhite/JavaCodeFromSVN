@@ -3,10 +3,12 @@ package evolution;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -30,11 +32,12 @@ import molGenExp.FoldedProteinArchive;
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import molGenExp.OrganismFactory;
+import molGenExp.WorkPanel;
 import preferences.MGEPreferences;
 import utilities.ColorUtilities;
 import utilities.GlobalDefaults;
 
-public class EvolutionWorkArea extends JPanel {
+public class EvolutionWorkArea extends WorkPanel {
 
 	private MolGenExp mge;
 	private MGEPreferences preferences;
@@ -453,6 +456,16 @@ public class EvolutionWorkArea extends JPanel {
 		world.repaint();
 		world.updateCounts();
 		updateColorCountDisplay();
+	}
+	
+	public BufferedImage takeSnapshot() {
+		BufferedImage imageBuffer = new BufferedImage(
+				this.getWidth(),
+				this.getHeight(),
+				BufferedImage.TYPE_INT_RGB);
+		Graphics g = imageBuffer.getGraphics();
+		this.paint(g);
+		return imageBuffer;
 	}
 
 }

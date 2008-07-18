@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
@@ -269,5 +271,15 @@ public class GeneticsWorkPanel extends WorkPanel {
 
 	public OffspringList getGeneticsWorkPanelList() {
 		return offspringList;
+	}
+
+	public BufferedImage takeSnapshot() {
+		BufferedImage imageBuffer = new BufferedImage(
+				this.getWidth(),
+				this.getHeight(),
+				BufferedImage.TYPE_INT_RGB);
+		Graphics g = imageBuffer.getGraphics();
+		this.paint(g);
+		return imageBuffer;
 	}
 }
