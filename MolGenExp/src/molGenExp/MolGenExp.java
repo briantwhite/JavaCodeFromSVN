@@ -1,60 +1,39 @@
 package molGenExp;
 
 import evolution.EvolutionWorkArea;
-import evolution.Evolver;
-import evolution.ThinOrganism;
-import genetics.GeneticsWorkPanel;
 import genetics.GeneticsWorkbench;
-import genetics.Tray;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.io.Writer;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -64,30 +43,20 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.Timer;
 
-import preferences.MGEPreferences;
-import preferences.PreferencesDialog;
-import utilities.ExpressedGene;
-import utilities.GlobalDefaults;
-import utilities.MolBiolParams;
-
-import match.Blosum50;
-import match.DNAidentity;
-import match.NWSmart;
 import molBiol.MolBiolWorkbench;
 import molBiol.MolBiolWorkpanel;
+import preferences.MGEPreferences;
+import preferences.PreferencesDialog;
+import utilities.GlobalDefaults;
 import biochem.AminoAcid;
-import biochem.BiochemAttributes;
 import biochem.BiochemistryWorkbench;
 import biochem.BiochemistryWorkpanel;
-import biochem.FoldedPolypeptide;
 import biochem.FoldingException;
-import biochem.FoldingManager;
-import biochem.OutputPalette;
 import biochem.PaintedInACornerFoldingException;
 import biochem.StandardTable;
 
@@ -108,6 +77,8 @@ public class MolGenExp extends JFrame {
 	JMenuItem prefsItem;
 	JMenuItem dumpWorldItem;
 	JMenuItem loadWorldItem;
+	JMenuItem savePicOfUpperPanelItem;
+	JMenuItem savePicOfLowerPanelItem;
 	JMenuItem quitMenuItem;
 
 	JMenu editMenu;
@@ -191,7 +162,12 @@ public class MolGenExp extends JFrame {
 		prefsItem = new JMenuItem("Preferences...");
 		dumpWorldItem = new JMenuItem("Save World to file...");
 		loadWorldItem = new JMenuItem("Load World from file...");
+		savePicOfUpperPanelItem = new JMenuItem("Save Image of Upper Panel...");
+		savePicOfLowerPanelItem = new JMenuItem("Save Image of Lower Panel...");		
 		quitMenuItem = new JMenuItem("Quit");
+		fileMenu.add(savePicOfUpperPanelItem);
+		fileMenu.add(savePicOfLowerPanelItem);
+		fileMenu.addSeparator();
 		fileMenu.add(prefsItem);
 		fileMenu.add(dumpWorldItem);
 		dumpWorldItem.setEnabled(false);
@@ -324,6 +300,8 @@ public class MolGenExp extends JFrame {
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(false);
 					turnOffSequenceClipboardItems();
+					savePicOfLowerPanelItem.setEnabled(true);
+					savePicOfUpperPanelItem.setText("Save Image of Upper Panel...");
 					copyLowerImageToClipboardItem.setEnabled(true);
 					copyUpperImageToClipboardItem.setText(
 					"Copy Image of Upper Panel to Clipboard");
@@ -336,6 +314,8 @@ public class MolGenExp extends JFrame {
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(true);
 					turnOnSequenceClipboardItems();
+					savePicOfLowerPanelItem.setEnabled(true);
+					savePicOfUpperPanelItem.setText("Save Image of Upper Panel...");
 					copyLowerImageToClipboardItem.setEnabled(true);
 					copyUpperImageToClipboardItem.setText(
 					"Copy Image of Upper Panel to Clipboard");
@@ -348,6 +328,8 @@ public class MolGenExp extends JFrame {
 					clearSelectedOrganisms();
 					compareMenu.setEnabled(true);
 					turnOnSequenceClipboardItems();
+					savePicOfLowerPanelItem.setEnabled(true);
+					savePicOfUpperPanelItem.setText("Save Image of Upper Panel...");
 					copyLowerImageToClipboardItem.setEnabled(true);
 					copyUpperImageToClipboardItem.setText(
 					"Copy Image of Upper Panel to Clipboard");
@@ -361,6 +343,8 @@ public class MolGenExp extends JFrame {
 					evolutionWorkArea.clearSelection();
 					compareMenu.setEnabled(false);
 					turnOffSequenceClipboardItems();
+					savePicOfLowerPanelItem.setEnabled(false);
+					savePicOfUpperPanelItem.setText("Save Image of Panel...");
 					copyUpperImageToClipboardItem.setText(
 					"Copy Image of Panel to Clipboard");
 					copyLowerImageToClipboardItem.setEnabled(false);
@@ -371,6 +355,26 @@ public class MolGenExp extends JFrame {
 					break;
 				}
 			}
+		});
+
+		savePicOfUpperPanelItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (explorerPane.getSelectedIndex() == EVOLUTION) {
+					saveSnapshotToFile(evolutionWorkArea.takeSnapshot());
+				} else {
+					saveSnapshotToFile(((Workbench)explorerPane
+							.getSelectedComponent())
+							.getUpperPanel().takeSnapshot());
+				}
+			}
+		});
+
+		savePicOfLowerPanelItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveSnapshotToFile((
+						((Workbench)explorerPane.getSelectedComponent())
+						.getLowerPanel().takeSnapshot()));
+			}			
 		});
 
 
@@ -475,21 +479,25 @@ public class MolGenExp extends JFrame {
 
 		copyUpperImageToClipboardItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ImageForClipboard ifc = null;
 				if (explorerPane.getSelectedIndex() == EVOLUTION) {
-					copyWorkPanelImageToClipboard(evolutionWorkArea);
+					ifc = new ImageForClipboard(evolutionWorkArea.takeSnapshot());
 				} else {
-					copyWorkPanelImageToClipboard(
+					ifc = new ImageForClipboard(
 							((Workbench)explorerPane
 									.getSelectedComponent())
-									.getUpperPanel());
+									.getUpperPanel().takeSnapshot());
 				}
+				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ifc, null);
 			}
 		});
 
 		copyLowerImageToClipboardItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				copyWorkPanelImageToClipboard(
-						((Workbench)explorerPane.getSelectedComponent()).getLowerPanel());
+				ImageForClipboard ifc = new ImageForClipboard((
+						((Workbench)explorerPane.getSelectedComponent())
+						.getLowerPanel().takeSnapshot()));
+				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ifc, null);
 			}			
 		});
 
@@ -679,7 +687,7 @@ public class MolGenExp extends JFrame {
 	public Greenhouse getGreenhouse() {
 		return greenhouse;
 	}
-	
+
 	public String getCurrentWorkingPanel() {
 		return explorerPane.getSelectedComponent().getClass().toString();
 	}
@@ -879,18 +887,31 @@ public class MolGenExp extends JFrame {
 		clearSelectedOrganisms();
 	}
 
-	private void copyWorkPanelImageToClipboard(JPanel currentWorkPanel) {
-		BufferedImage imageBuffer = new BufferedImage(
-				currentWorkPanel.getWidth(),
-				currentWorkPanel.getHeight(),
-				BufferedImage.TYPE_INT_RGB);
-		Graphics g = imageBuffer.getGraphics();
-		currentWorkPanel.paint(g);
-		ImageForClipboard ifc = new ImageForClipboard(imageBuffer);
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ifc, null);
+	public void saveSnapshotToFile(BufferedImage bi) {
+		// try to save to desktop, if possible
+		String savePixToPath = "";
+		File desktopFile = new File(System.getProperty("user.home") 
+				+  System.getProperty("file.separator") 
+				+ "Desktop");
+		if (desktopFile.canWrite()) {
+			savePixToPath = desktopFile.getAbsolutePath();
+		} 
+		
+		JFileChooser fc = new JFileChooser(savePixToPath);
+		int retVal = fc.showSaveDialog(this);
+		if (retVal == JFileChooser.APPROVE_OPTION) {
+			String fileName = fc.getSelectedFile().getAbsolutePath();
+			if (!fileName.endsWith(".png")) {
+				fileName = fileName.concat(".png");
+			}
+
+			try {
+				ImageIO.write(bi, "png", new File(fileName));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-
-
 
 	//handlers for selections of creatures in Genetics mode
 	//  max of two at a time.
@@ -1075,7 +1096,7 @@ public class MolGenExp extends JFrame {
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
-	
+
 	public JLabel getFoldingStatsLabel() {
 		return foldingStatsLabel;
 	}
@@ -1089,7 +1110,7 @@ public class MolGenExp extends JFrame {
 			evolutionWorkArea.setReadyToRun();
 		}
 	}
-	
+
 	public void setButtonStatusWhileEvolving() {
 		addToGreenhouseButton.setEnabled(false);
 		fileMenu.setEnabled(false);
@@ -1103,5 +1124,5 @@ public class MolGenExp extends JFrame {
 		greenhouseMenu.setEnabled(true);
 		explorerPane.setEnabled(true);		
 	}
-	
+
 }
