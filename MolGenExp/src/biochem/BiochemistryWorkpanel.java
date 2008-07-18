@@ -271,6 +271,8 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		g.drawString("Color:", 5, height + 30);
 		g.setColor(foldedPolypeptide.getColor());
 		g.fillRect(60, height + 20, 30, 30);
+		g.setColor(Color.BLACK);
+		g.drawRect(59, height + 19, 31, 31);
 		
 		return imageBuffer;
 	}
