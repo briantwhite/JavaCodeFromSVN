@@ -1328,3 +1328,4 @@ overall "bad sequence" rate: 18/78792 = 0.022% or 1/4300 bad sequennces
 making snapshots better - not just screenshots of panels 
   (these cut off the parts that aren't visible...)
   
+made version 1.1
