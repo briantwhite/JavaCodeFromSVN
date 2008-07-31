@@ -9,11 +9,10 @@ import javax.swing.SwingConstants;
 public abstract class SelectableLabel extends JLabel {
 	
 	private boolean selected;
-	private Point location;
-	private Point adjustment;
 	
 	public SelectableLabel(String name, ImageIcon image, String type) {
 		super(name, image, SwingConstants.LEFT);
+		selected = false;
 	}
 	
 	public boolean isSelected() {
@@ -24,19 +23,8 @@ public abstract class SelectableLabel extends JLabel {
 		this.selected = selected;
 	}
 	
-	public Point getLocation() {
-		return location;
-	}
-	
-	public void setLocation(Point location) {
-		this.location = location;
-	}
-	
-	public Point getAdjustment() {
-		return adjustment;
-	}
-	
-	public void setAdjustment(Point adjustment) {
-		this.adjustment = adjustment;
+	public Point getCenter() {
+		return new Point(getLocation().x + SurveyUI.LABEL_WIDTH/2,
+				getLocation().y + SurveyUI.LABEL_HEIGHT);
 	}
 }

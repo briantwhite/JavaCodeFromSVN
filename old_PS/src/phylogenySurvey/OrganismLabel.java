@@ -4,8 +4,6 @@ import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 public class OrganismLabel extends SelectableLabel {
 	
@@ -19,6 +17,18 @@ public class OrganismLabel extends SelectableLabel {
 		this.name = name;
 		this.image = image;
 		this.type = type;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public ImageIcon getImage() {
+		return image;
+	}
+
+	public String getType() {
+		return type;
 	}
 
 }
