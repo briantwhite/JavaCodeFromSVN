@@ -37,7 +37,7 @@ public class SurveyUI {
 	private SelectableLabel selectionA;
 	private SelectableLabel selectionB;
 
-	private ArrayList<OrganismLabel> organisms;
+	private ArrayList<SelectableLabel> items;
 	private ArrayList<Link> links;
 
 	// location of where clicked in the dragged item
@@ -51,7 +51,7 @@ public class SurveyUI {
 
 	public SurveyUI(Container masterContainer) {
 		this.masterContainer = masterContainer;
-		organisms = new ArrayList<OrganismLabel>();
+		items = new ArrayList<SelectableLabel>();
 		links = new ArrayList<Link>();
 		numSelectedItems = 0;
 		selectionA = null;
@@ -62,6 +62,7 @@ public class SurveyUI {
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+		buttonPanel.setToolTipText("Select two items in the panel, then Link or Unlink");
 		linkButton = new JButton("Link");
 		linkButton.setEnabled(false);
 		buttonPanel.add(linkButton);
@@ -74,6 +75,7 @@ public class SurveyUI {
 		workPanel.setLayout(null);
 		workPanel.addMouseListener(new MoveLabelHandler());
 		workPanel.addMouseMotionListener(new MoveLabelHandler());
+		workPanel.setToolTipText("Shift-click to add a node.");
 
 		loadOrganisms();
 
@@ -110,7 +112,7 @@ public class SurveyUI {
 						parts[0],
 						new ImageIcon(this.getClass().getResource("/images/" + parts[1])),
 						parts[2]);
-				organisms.add(ol);
+				items.add(ol);
 
 				ol.setOpaque(true);
 				ol.setBackground(Color.WHITE);
@@ -139,6 +141,8 @@ public class SurveyUI {
 			Component c = workPanel.findComponentAt(e.getX(), e.getY());
 			if (c instanceof SelectableLabel) {
 				updateSelections((SelectableLabel)c);
+			} else if ((c instanceof DrawingPanel) && e.isShiftDown()) {
+				addNode(e.getX(), e.getY());
 			}
 		}
 
@@ -205,6 +209,13 @@ public class SurveyUI {
 			linkButton.setEnabled(false);
 			unlinkButton.setEnabled(false);			
 		}
+	}
+	
+	private void addNode(int x, int y) {
+		Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
+		items.add(node);
+		workPanel.add(node);
+		node.setBounds(x, y, 12, 12);
 	}
 
 	private void link() {

@@ -15,6 +15,11 @@ public abstract class SelectableLabel extends JLabel {
 		selected = false;
 	}
 	
+	public SelectableLabel(ImageIcon image) {
+		super(image);
+		selected = false;
+	}
+	
 	public boolean isSelected() {
 		return selected;
 	}
@@ -23,8 +28,5 @@ public abstract class SelectableLabel extends JLabel {
 		this.selected = selected;
 	}
 	
-	public Point getCenter() {
-		return new Point(getLocation().x + SurveyUI.LABEL_WIDTH/2,
-				getLocation().y + SurveyUI.LABEL_HEIGHT);
-	}
+	public abstract Point getCenter();
 }

@@ -1,6 +1,7 @@
 package phylogenySurvey;
 
 import java.awt.Color;
+import java.awt.Point;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -29,6 +30,11 @@ public class OrganismLabel extends SelectableLabel {
 
 	public String getType() {
 		return type;
+	}
+	
+	public Point getCenter() {
+		return new Point(getLocation().x + SurveyUI.LABEL_WIDTH/2,
+				getLocation().y + SurveyUI.LABEL_HEIGHT/2);
 	}
 
 }
