@@ -62,7 +62,6 @@ public class SurveyUI {
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-		buttonPanel.setToolTipText("Select two items in the panel, then Link or Unlink");
 		linkButton = new JButton("Link");
 		linkButton.setEnabled(false);
 		buttonPanel.add(linkButton);
@@ -75,7 +74,6 @@ public class SurveyUI {
 		workPanel.setLayout(null);
 		workPanel.addMouseListener(new MoveLabelHandler());
 		workPanel.addMouseMotionListener(new MoveLabelHandler());
-		workPanel.setToolTipText("Shift-click to add a node.");
 
 		loadOrganisms();
 
