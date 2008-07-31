@@ -7,7 +7,7 @@
 	<target name="jarfile" depends="compile" description="makes jar file">
 	    <jar destfile="bin/phylogenySurvey.jar">
 	        <manifest>
-	        	    <attribute name="Main-Class" value="phylogenySurvey"/>
+	        	    <attribute name="Main-Class" value="phylogenySurvey.SurveyApplet"/>
 	        </manifest>
 	    	    <fileset dir="bin/"/>
 	    </jar>
