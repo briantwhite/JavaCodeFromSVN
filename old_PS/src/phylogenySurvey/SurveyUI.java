@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -15,6 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -25,7 +28,7 @@ public class SurveyUI {
 	public static final int LABEL_HEIGHT = 30;
 
 	private Container masterContainer;
-	private JPanel workPanel;
+	private DrawingPanel workPanel;
 
 	// the currently selected items
 	//  max of 2 at a time
@@ -34,26 +37,39 @@ public class SurveyUI {
 	private SelectableLabel selectionB;
 
 	private ArrayList<OrganismLabel> organisms;
+	private ArrayList<Link> links;
 
 	// location of where clicked in the dragged item
 	//  prevents jerky movement
 	private int xAdjustment;
 	private int yAdjustment;
 	private SelectableLabel dragComponent;
-	
+
 	private JButton linkButton;
 	private JButton unlinkButton;
 
 	public SurveyUI(Container masterContainer) {
 		this.masterContainer = masterContainer;
 		organisms = new ArrayList<OrganismLabel>();
+		links = new ArrayList<Link>();
 		numSelectedItems = 0;
 		selectionA = null;
 		selectionB = null;
 	}
 
 	public void setupUI() {
-		workPanel = new JPanel();
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+		linkButton = new JButton("Link");
+		linkButton.setEnabled(false);
+		buttonPanel.add(linkButton);
+		unlinkButton = new JButton("Unlink");
+		unlinkButton.setEnabled(false);
+		buttonPanel.add(unlinkButton);
+		masterContainer.add(buttonPanel, BorderLayout.NORTH);
+
+		workPanel = new DrawingPanel(this);
 		workPanel.setLayout(null);
 		workPanel.addMouseListener(new MoveLabelHandler());
 		workPanel.addMouseMotionListener(new MoveLabelHandler());
@@ -61,6 +77,23 @@ public class SurveyUI {
 		loadOrganisms();
 
 		masterContainer.add(workPanel, BorderLayout.CENTER);
+
+		linkButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				link();
+			}
+		});
+
+		unlinkButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				unlink();
+			}
+		});
+
+	}
+
+	public ArrayList<Link> getLinks() {
+		return links;
 	}
 
 	private void loadOrganisms() {
@@ -96,6 +129,7 @@ public class SurveyUI {
 		public void mouseDragged(MouseEvent e) {
 			if (dragComponent == null) return;
 			dragComponent.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
+			workPanel.repaint();
 		}
 
 		public void mouseMoved(MouseEvent e) {}
@@ -123,11 +157,13 @@ public class SurveyUI {
 				xAdjustment = dragComponent.getLocation().x - e.getX();
 				yAdjustment = dragComponent.getLocation().y - e.getY();
 				dragComponent.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
+				workPanel.repaint();
 			}
 		}
 
 		public void mouseReleased(MouseEvent e) {
 			dragComponent = null;
+			workPanel.repaint();
 		}
 	}
 
@@ -156,12 +192,27 @@ public class SurveyUI {
 			sl.setSelected(true);
 			sl.setBorder(BorderFactory.createLineBorder(Color.RED));			
 		}
-		
+
 		numSelectedItems = 0;
 		if (selectionA != null) numSelectedItems++;
 		if (selectionB != null) numSelectedItems++;
-		
-		
+
+		if (numSelectedItems == 2) {
+			linkButton.setEnabled(true);
+			unlinkButton.setEnabled(true);
+		} else {
+			linkButton.setEnabled(false);
+			unlinkButton.setEnabled(false);			
+		}
 	}
-	
+
+	private void link() {
+		links.add(new Link(selectionA, selectionB));
+		workPanel.repaint();
+	}
+
+	private void unlink() {
+
+	}
+
 }
