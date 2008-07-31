@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -212,6 +213,17 @@ public class SurveyUI {
 	}
 
 	private void unlink() {
+		Iterator<Link> it = links.iterator();
+		while (it.hasNext()) {
+			Link l = it.next();
+			if ( ( (l.getOneLabel() == selectionA) && (l.getOtherLabel() == selectionB) )  ||
+					( (l.getOneLabel() == selectionB) && (l.getOtherLabel() == selectionA))	
+			) {
+				links.remove(l);
+				workPanel.repaint();
+				return;
+			}
+		}
 
 	}
 
