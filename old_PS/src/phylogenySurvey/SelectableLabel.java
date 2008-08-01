@@ -20,6 +20,11 @@ public abstract class SelectableLabel extends JLabel {
 		selected = false;
 	}
 	
+	public SelectableLabel(String text) {
+		super(text);
+		selected = false;
+	}
+	
 	public boolean isSelected() {
 		return selected;
 	}

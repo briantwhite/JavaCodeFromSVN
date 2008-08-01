@@ -21,6 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class SurveyUI {
@@ -48,6 +49,7 @@ public class SurveyUI {
 
 	private JButton linkButton;
 	private JButton unlinkButton;
+	private JButton labelButton;
 
 	public SurveyUI(Container masterContainer) {
 		this.masterContainer = masterContainer;
@@ -68,6 +70,8 @@ public class SurveyUI {
 		unlinkButton = new JButton("Unlink");
 		unlinkButton.setEnabled(false);
 		buttonPanel.add(unlinkButton);
+		labelButton = new JButton("Label");
+		buttonPanel.add(labelButton);
 		masterContainer.add(buttonPanel, BorderLayout.NORTH);
 
 		workPanel = new DrawingPanel(this);
@@ -88,6 +92,12 @@ public class SurveyUI {
 		unlinkButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				unlink();
+			}
+		});
+
+		labelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addLabel();
 			}
 		});
 
@@ -233,7 +243,22 @@ public class SurveyUI {
 				return;
 			}
 		}
-
+	}
+	
+	private void addLabel() {
+		String s = (String)JOptionPane.showInputDialog(
+		                    masterContainer,
+		                    "Enter Label Text:",
+		                    "Create a Label",
+		                    JOptionPane.PLAIN_MESSAGE,
+		                    null,
+		                    null,
+		                    "");
+		TextLabel tl = new TextLabel(s);
+		tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		items.add(tl);
+		workPanel.add(tl);
+		tl.setBounds(500, 500, LABEL_HEIGHT, 6 * s.length());
 	}
 
 }
