@@ -2,7 +2,7 @@ package phylogenySurvey;
 
 import java.awt.Point;
 
-public class TextLabel extends SelectableLabel {
+public class TextLabel extends SelectableObject {
 	
 	private static int counter = 0;
 	

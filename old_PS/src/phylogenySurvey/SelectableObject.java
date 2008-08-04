@@ -6,25 +6,25 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-public abstract class SelectableLabel extends JLabel {
+public abstract class SelectableObject extends JLabel {
 	
 	private boolean selected;
 	
-	public SelectableLabel(String name, ImageIcon image, String type) {
-		super(name, image, SwingConstants.LEFT);
-		selected = false;
-	}
-	
-	public SelectableLabel(ImageIcon image) {
+	public SelectableObject(ImageIcon image) {
 		super(image);
 		selected = false;
 	}
 	
-	public SelectableLabel(String text) {
-		super(text);
+	public SelectableObject(String text, ImageIcon image) {
+		super(text, image, SwingConstants.CENTER);
 		selected = false;
 	}
 	
+	public SelectableObject(String text) {
+		super(text);
+		selected = false;
+	}
+		
 	public boolean isSelected() {
 		return selected;
 	}

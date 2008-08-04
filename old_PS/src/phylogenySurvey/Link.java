@@ -2,19 +2,19 @@ package phylogenySurvey;
 
 public class Link {
 	
-	private SelectableLabel oneLabel;
-	private SelectableLabel otherLabel;
+	private SelectableLinkableObject oneLabel;
+	private SelectableLinkableObject otherLabel;
 	
-	public Link(SelectableLabel oneLabel, SelectableLabel otherLabel) {
+	public Link(SelectableLinkableObject oneLabel, SelectableLinkableObject otherLabel) {
 		this.oneLabel = oneLabel;
 		this.otherLabel = otherLabel;
 	}
 
-	public SelectableLabel getOneLabel() {
+	public SelectableLinkableObject getOneLabel() {
 		return oneLabel;
 	}
 
-	public SelectableLabel getOtherLabel() {
+	public SelectableLinkableObject getOtherLabel() {
 		return otherLabel;
 	}
 

@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -35,29 +37,35 @@ public class SurveyUI {
 	// the currently selected items
 	//  max of 2 at a time
 	private int numSelectedItems;
-	private SelectableLabel selectionA;
-	private SelectableLabel selectionB;
+	private SelectableLinkableObject selectionA;
+	private SelectableLinkableObject selectionB;
+	private SelectableObject selectionOnly;    // can only have one of these selected
+	// it's a plain text label
+	// this is to prevent linking to a text label
 
-	private ArrayList<SelectableLabel> items;
+	private ArrayList<SelectableObject> items;
 	private ArrayList<Link> links;
 
 	// location of where clicked in the dragged item
 	//  prevents jerky movement
 	private int xAdjustment;
 	private int yAdjustment;
-	private SelectableLabel dragComponent;
+	private SelectableObject dragComponent;
 
 	private JButton linkButton;
 	private JButton unlinkButton;
 	private JButton labelButton;
+	private JButton deleteButton;
+	private JButton splitButton;
 
 	public SurveyUI(Container masterContainer) {
 		this.masterContainer = masterContainer;
-		items = new ArrayList<SelectableLabel>();
+		items = new ArrayList<SelectableObject>();
 		links = new ArrayList<Link>();
 		numSelectedItems = 0;
 		selectionA = null;
 		selectionB = null;
+		selectionOnly = null;
 	}
 
 	public void setupUI() {
@@ -72,6 +80,12 @@ public class SurveyUI {
 		buttonPanel.add(unlinkButton);
 		labelButton = new JButton("Label");
 		buttonPanel.add(labelButton);
+		deleteButton = new JButton("Delete");
+		deleteButton.setEnabled(false);
+		buttonPanel.add(deleteButton);
+		splitButton = new JButton("Split");
+		splitButton.setEnabled(false);
+		buttonPanel.add(splitButton);
 		masterContainer.add(buttonPanel, BorderLayout.NORTH);
 
 		workPanel = new DrawingPanel(this);
@@ -98,6 +112,18 @@ public class SurveyUI {
 		labelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addLabel();
+			}
+		});
+
+		deleteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deleteSelected();
+			}
+		});
+
+		splitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				split();
 			}
 		});
 
@@ -147,8 +173,8 @@ public class SurveyUI {
 
 		public void mouseClicked(MouseEvent e) {
 			Component c = workPanel.findComponentAt(e.getX(), e.getY());
-			if (c instanceof SelectableLabel) {
-				updateSelections((SelectableLabel)c);
+			if (c instanceof SelectableObject) {
+				updateSelections((SelectableObject)c);
 			} else if ((c instanceof DrawingPanel) && e.isShiftDown()) {
 				addNode(e.getX(), e.getY());
 			}
@@ -165,8 +191,8 @@ public class SurveyUI {
 
 			if (c instanceof JPanel) return;
 
-			if (c instanceof SelectableLabel) {
-				dragComponent = (SelectableLabel)c;
+			if (c instanceof SelectableObject) {
+				dragComponent = (SelectableObject)c;
 				xAdjustment = dragComponent.getLocation().x - e.getX();
 				yAdjustment = dragComponent.getLocation().y - e.getY();
 				dragComponent.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
@@ -180,45 +206,97 @@ public class SurveyUI {
 		}
 	}
 
-	private void updateSelections(SelectableLabel sl) {
-		if (sl.isSelected()) {
-			if (sl == selectionA) {
-				selectionA.setSelected(false);
-				selectionA.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-				selectionA = selectionB;
-				selectionB = null;
+	private void updateSelections(SelectableObject so) {
+		// see if it can be linked
+		if (so instanceof SelectableLinkableObject) {
+			if (so.isSelected()) {
+				if (so == selectionA) {
+					selectionA.setSelected(false);
+					selectionA.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					selectionA = selectionB;
+					selectionB = null;
+				}
+				if (so == selectionB) {
+					selectionB = null;
+				}
+				so.setSelected(false);
+				so.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			} else {
+				if (selectionA != null) {
+					if (selectionB != null) {
+						selectionB.setSelected(false);
+						selectionB.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					}
+					selectionB = selectionA;
+				} 
+				selectionA = (SelectableLinkableObject)so;
+				so.setSelected(true);
+				so.setBorder(BorderFactory.createLineBorder(Color.RED));	
+
+				//clear any selected text labels
+				if (selectionOnly != null) {
+					selectionOnly.setSelected(false);
+					selectionOnly.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					selectionOnly = null;
+				}
 			}
-			if (sl == selectionB) {
-				selectionB = null;
+
+			numSelectedItems = 0;
+			if (selectionA != null) numSelectedItems++;
+			if (selectionB != null) numSelectedItems++;
+
+			switch (numSelectedItems) {
+			case 2:
+				linkButton.setEnabled(true);
+				unlinkButton.setEnabled(true);
+				splitButton.setEnabled(true);
+				break;
+
+			case 1:
+				if (selectionA instanceof Node) {
+					deleteButton.setEnabled(true);
+				}
+				linkButton.setEnabled(false);
+				unlinkButton.setEnabled(false);	
+				splitButton.setEnabled(false);
+				break;
+
+			case 0:
+				linkButton.setEnabled(false);
+				unlinkButton.setEnabled(false);	
+				deleteButton.setEnabled(false);
+				splitButton.setEnabled(false);
 			}
-			sl.setSelected(false);
-			sl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+			//if not, deal with it specially - it is a TextLabel
+			//  need to clear other selections
+			//  don't keep track of it 
 		} else {
-			if (selectionA != null) {
+			if (so.isSelected()) {
+				so.setSelected(false);
+				so.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				selectionOnly = null;
+				deleteButton.setEnabled(false);
+			} else {
+				//clear any other selections
+				if (selectionA != null) {
+					selectionA.setSelected(false);
+					selectionA.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					selectionA = null;
+				}
 				if (selectionB != null) {
 					selectionB.setSelected(false);
 					selectionB.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					selectionB = null;
 				}
-				selectionB = selectionA;
-			} 
-			selectionA = sl;
-			sl.setSelected(true);
-			sl.setBorder(BorderFactory.createLineBorder(Color.RED));			
-		}
-
-		numSelectedItems = 0;
-		if (selectionA != null) numSelectedItems++;
-		if (selectionB != null) numSelectedItems++;
-
-		if (numSelectedItems == 2) {
-			linkButton.setEnabled(true);
-			unlinkButton.setEnabled(true);
-		} else {
-			linkButton.setEnabled(false);
-			unlinkButton.setEnabled(false);			
+				so.setSelected(true);
+				so.setBorder(BorderFactory.createLineBorder(Color.RED));
+				selectionOnly = so;
+				deleteButton.setEnabled(true);
+			}
 		}
 	}
-	
+
 	private void addNode(int x, int y) {
 		Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
 		items.add(node);
@@ -227,8 +305,10 @@ public class SurveyUI {
 	}
 
 	private void link() {
-		links.add(new Link(selectionA, selectionB));
-		workPanel.repaint();
+		if ((selectionA instanceof SelectableLinkableObject) && (selectionB instanceof SelectableLinkableObject)) {
+			links.add(new Link(selectionA, selectionB));
+			workPanel.repaint();
+		}
 	}
 
 	private void unlink() {
@@ -243,22 +323,83 @@ public class SurveyUI {
 				return;
 			}
 		}
+		JOptionPane.showMessageDialog(masterContainer, 
+				"Please select two linked objects to un-link", 
+				"Nothing to un-link", 
+				JOptionPane.WARNING_MESSAGE);
 	}
-	
+
 	private void addLabel() {
 		String s = (String)JOptionPane.showInputDialog(
-		                    masterContainer,
-		                    "Enter Label Text:",
-		                    "Create a Label",
-		                    JOptionPane.PLAIN_MESSAGE,
-		                    null,
-		                    null,
-		                    "");
+				masterContainer,
+				"Enter Label Text:",
+				"Create a Label",
+				JOptionPane.PLAIN_MESSAGE,
+				null,
+				null,
+		"");
 		TextLabel tl = new TextLabel(s);
 		tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		items.add(tl);
 		workPanel.add(tl);
 		tl.setBounds(500, 500, LABEL_HEIGHT, 6 * s.length());
+	}
+
+	private void deleteSelected() {
+		// only can delete single Nodes or TextLabels
+		if (selectionA instanceof Node) {
+			//remake node list without any links
+			//  that include this node
+			ArrayList<Link> newLinks = new ArrayList<Link>();
+			Iterator<Link> it = links.iterator();
+			while (it.hasNext()) {
+				Link l = it.next();
+				if ((l.getOneLabel() != selectionA) && (l.getOtherLabel() != selectionA)) {
+					newLinks.add(l);
+				}
+			}
+			links = newLinks;
+			workPanel.remove(selectionA);
+			items.remove(selectionA);
+			selectionA = null;
+			workPanel.repaint();
+		}
+
+		if (selectionOnly != null) {
+			workPanel.remove(selectionOnly);
+			items.remove(selectionOnly);
+			selectionOnly = null;
+			workPanel.repaint();
+		}
+	}
+	
+	private void split() {
+		Iterator<Link> it = links.iterator();
+		while(it.hasNext()) {
+			Link l = it.next();
+			if (
+					((l.getOneLabel() == selectionA) && (l.getOtherLabel() == selectionB)) ||
+					((l.getOneLabel() == selectionB) && (l.getOtherLabel() == selectionA))
+					) {
+				links.remove(l);
+				SelectableLinkableObject slo1 = l.getOneLabel();
+				SelectableLinkableObject slo2 = l.getOtherLabel();
+				int x = (slo1.getCenter().x + slo2.getCenter().x)/2;
+				int y = (slo1.getCenter().y + slo2.getCenter().y)/2;
+				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
+				items.add(node);
+				workPanel.add(node);
+				node.setBounds(x, y, 12, 12);
+				links.add(new Link(selectionA, node));
+				links.add(new Link(selectionB, node));
+				selectionA.setSelected(false);
+				selectionA.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				selectionB.setSelected(false);
+				selectionB.setBorder(BorderFactory.createLineBorder(Color.BLACK));				
+				workPanel.repaint();
+				return;
+			}
+		}
 	}
 
 }
