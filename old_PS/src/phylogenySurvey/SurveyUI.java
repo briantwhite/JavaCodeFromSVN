@@ -72,20 +72,31 @@ public class SurveyUI {
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+		
 		linkButton = new JButton("Link");
+		linkButton.setToolTipText("Link two selected items");
 		linkButton.setEnabled(false);
 		buttonPanel.add(linkButton);
+		
 		unlinkButton = new JButton("Unlink");
+		unlinkButton.setToolTipText("Un-Link two selected items");
 		unlinkButton.setEnabled(false);
 		buttonPanel.add(unlinkButton);
+		
 		labelButton = new JButton("Label");
 		buttonPanel.add(labelButton);
+		labelButton.setToolTipText("Add a label");
+		
 		deleteButton = new JButton("Delete");
 		deleteButton.setEnabled(false);
 		buttonPanel.add(deleteButton);
+		deleteButton.setToolTipText("Delete selected Node or Label");
+		
 		splitButton = new JButton("Split");
+		splitButton.setToolTipText("Insert a Node between two connected items");
 		splitButton.setEnabled(false);
 		buttonPanel.add(splitButton);
+		
 		masterContainer.add(buttonPanel, BorderLayout.NORTH);
 
 		workPanel = new DrawingPanel(this);
