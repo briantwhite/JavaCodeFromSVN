@@ -4,13 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,6 +61,7 @@ public class SurveyUI {
 	private JButton labelButton;
 	private JButton deleteButton;
 	private JButton splitButton;
+	private JButton printButton;
 
 	public SurveyUI(Container masterContainer) {
 		this.masterContainer = masterContainer;
@@ -72,31 +77,34 @@ public class SurveyUI {
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-		
+
 		linkButton = new JButton("Link");
 		linkButton.setToolTipText("Link two selected items");
 		linkButton.setEnabled(false);
 		buttonPanel.add(linkButton);
-		
+
 		unlinkButton = new JButton("Unlink");
 		unlinkButton.setToolTipText("Un-Link two selected items");
 		unlinkButton.setEnabled(false);
 		buttonPanel.add(unlinkButton);
-		
+
 		labelButton = new JButton("Label");
 		buttonPanel.add(labelButton);
 		labelButton.setToolTipText("Add a label");
-		
+
 		deleteButton = new JButton("Delete");
 		deleteButton.setEnabled(false);
 		buttonPanel.add(deleteButton);
 		deleteButton.setToolTipText("Delete selected Node or Label");
-		
+
 		splitButton = new JButton("Split");
 		splitButton.setToolTipText("Insert a Node between two connected items");
 		splitButton.setEnabled(false);
 		buttonPanel.add(splitButton);
-		
+
+		printButton = new JButton("Print");
+		buttonPanel.add(printButton);
+
 		masterContainer.add(buttonPanel, BorderLayout.NORTH);
 
 		workPanel = new DrawingPanel(this);
@@ -135,6 +143,12 @@ public class SurveyUI {
 		splitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				split();
+			}
+		});
+
+		printButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				printSurvey();
 			}
 		});
 
@@ -353,7 +367,7 @@ public class SurveyUI {
 		tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		items.add(tl);
 		workPanel.add(tl);
-		tl.setBounds(500, 500, LABEL_HEIGHT, 6 * s.length());
+		tl.setBounds(500, 500, 6 * s.length(), LABEL_HEIGHT);
 	}
 
 	private void deleteSelected() {
@@ -383,7 +397,7 @@ public class SurveyUI {
 			workPanel.repaint();
 		}
 	}
-	
+
 	private void split() {
 		Iterator<Link> it = links.iterator();
 		while(it.hasNext()) {
@@ -391,7 +405,7 @@ public class SurveyUI {
 			if (
 					((l.getOneLabel() == selectionA) && (l.getOtherLabel() == selectionB)) ||
 					((l.getOneLabel() == selectionB) && (l.getOtherLabel() == selectionA))
-					) {
+			) {
 				links.remove(l);
 				SelectableLinkableObject slo1 = l.getOneLabel();
 				SelectableLinkableObject slo2 = l.getOtherLabel();
@@ -411,6 +425,17 @@ public class SurveyUI {
 				return;
 			}
 		}
+	}
+
+	private void printSurvey() {
+		PrinterJob printJob = PrinterJob.getPrinterJob();
+		printJob.setPrintable(workPanel);
+		if (printJob.printDialog())
+			try { 
+				printJob.print();
+			} catch(PrinterException pe) {
+				System.out.println("Error printing: " + pe);
+			}
 	}
 
 }
