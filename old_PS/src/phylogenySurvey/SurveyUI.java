@@ -367,7 +367,10 @@ public class SurveyUI {
 		tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		items.add(tl);
 		workPanel.add(tl);
-		tl.setBounds(500, 500, 6 * s.length(), LABEL_HEIGHT);
+		tl.setBounds(500, 
+				500, 
+				(workPanel.getFontMetrics(workPanel.getFont())).stringWidth(s) + 5, 
+				LABEL_HEIGHT);
 	}
 
 	private void deleteSelected() {
