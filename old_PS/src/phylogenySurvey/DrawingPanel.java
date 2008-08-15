@@ -3,9 +3,10 @@ package phylogenySurvey;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-import java.awt.print.PrinterException;
 import java.util.Iterator;
 
 import javax.swing.JPanel;
@@ -34,9 +35,38 @@ public class DrawingPanel extends JPanel implements Printable {
 		if (pageIndex > 0) {
 			return(NO_SUCH_PAGE);
 		} else {
+			// make pic
+			BufferedImage fullSizeImage = new BufferedImage(
+					getWidth(), 
+					getHeight(), 
+					BufferedImage.TYPE_INT_RGB);
+			paint(fullSizeImage.getGraphics());
+			
+			// scale to fit
+			double wRatio = getWidth()/pageFormat.getImageableWidth();
+			double hRatio = getHeight()/pageFormat.getImageableHeight();
+			int actualWidth;
+			int actualHeight;
+			if (wRatio > hRatio) {
+				actualWidth = (int)(getWidth()/wRatio);
+				actualHeight = (int)(getHeight()/wRatio);
+			} else {
+				actualWidth = (int)(getWidth()/hRatio);
+				actualHeight = (int)(getHeight()/hRatio);
+			}
+
+			// print it
 			Graphics2D g2d = (Graphics2D)g;
-			g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-			paint(g2d);
+			g2d.setRenderingHint(
+					RenderingHints.KEY_INTERPOLATION,
+					RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g2d.drawImage(fullSizeImage, 
+					(int)pageFormat.getImageableX(), 
+					(int)pageFormat.getImageableY(), 
+					actualWidth, 
+					actualHeight, 
+					null);
+			fullSizeImage = null;
 			return(PAGE_EXISTS);
 		}
 	}
