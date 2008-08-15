@@ -1,6 +1,7 @@
 package phylogenySurvey;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 
 import javax.swing.BorderFactory;
@@ -12,6 +13,9 @@ public class OrganismLabel extends SelectableLinkableObject {
 	
 	public OrganismLabel(String name, ImageIcon image, String type) {
 		super(name, image);
+		Font originalFont = this.getFont();
+		Font newFont = originalFont.deriveFont(9.0f);
+		setFont(newFont);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.type = type;
 	}

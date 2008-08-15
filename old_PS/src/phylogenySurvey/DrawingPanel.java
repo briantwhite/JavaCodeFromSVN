@@ -59,7 +59,13 @@ public class DrawingPanel extends JPanel implements Printable {
 			Graphics2D g2d = (Graphics2D)g;
 			g2d.setRenderingHint(
 					RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+					RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+			g2d.setRenderingHint(
+					RenderingHints.KEY_ANTIALIASING, 
+					RenderingHints.VALUE_ANTIALIAS_ON);
+			g2d.setRenderingHint(
+					RenderingHints.KEY_FRACTIONALMETRICS, 
+					RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 			g2d.drawImage(fullSizeImage, 
 					(int)pageFormat.getImageableX(), 
 					(int)pageFormat.getImageableY(), 

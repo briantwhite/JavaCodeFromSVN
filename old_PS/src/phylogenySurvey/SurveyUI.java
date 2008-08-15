@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 
 public class SurveyUI {
 
-	public static final int LABEL_WIDTH = 150;
+	public static final int LABEL_WIDTH = 120;
 	public static final int LABEL_HEIGHT = 30;
 
 	private Container masterContainer;
