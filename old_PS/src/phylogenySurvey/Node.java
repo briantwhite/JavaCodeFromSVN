@@ -4,6 +4,8 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
+import org.jdom.Element;
+
 public class Node extends SelectableLinkableObject {
 	
 	public static int counter = 0;
@@ -23,6 +25,14 @@ public class Node extends SelectableLinkableObject {
 	
 	public int getID() {
 		return id;
+	}
+
+	public Element save() {
+		Element e = new Element("Node");
+		e.setAttribute("Id", String.valueOf(id));
+		e.setAttribute("X", String.valueOf(getLocation().x));
+		e.setAttribute("Y", String.valueOf(getLocation().y));
+		return e;
 	}
 
 }

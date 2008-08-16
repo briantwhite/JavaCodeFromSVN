@@ -169,6 +169,7 @@ public class SurveyUI {
 				OrganismLabel ol = new OrganismLabel(
 						parts[0],
 						new ImageIcon(this.getClass().getResource("/images/" + parts[1])),
+						parts[1],
 						parts[2]);
 				items.add(ol);
 
@@ -442,6 +443,22 @@ public class SurveyUI {
 	
 	private Document getState() {
 		Element root = new Element("State");
+		
+		Element itemEl = new Element("Items");
+		Iterator<SelectableObject> itemIt = items.iterator();
+		while (itemIt.hasNext()) {
+			SelectableObject item = itemIt.next();
+			itemEl.addContent(item.save());
+		}
+		root.addContent(itemEl);
+		
+		Element linkEl = new Element("Links");
+		Iterator<Link> linkIt = links.iterator();
+		while (linkIt.hasNext()) {
+			Link link = linkIt.next();
+			linkEl.addContent(link.save());
+		}
+		root.addContent(linkEl);
 		
 		return new Document(root);
 	}

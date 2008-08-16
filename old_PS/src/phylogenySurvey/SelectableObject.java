@@ -6,9 +6,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import org.jdom.Element;
+
 public abstract class SelectableObject extends JLabel {
 	
 	private boolean selected;
+	protected String text;
 	
 	public SelectableObject(ImageIcon image) {
 		super(image);
@@ -17,6 +20,7 @@ public abstract class SelectableObject extends JLabel {
 	
 	public SelectableObject(String text, ImageIcon image) {
 		super(text, image, SwingConstants.CENTER);
+		this.text = text;
 		selected = false;
 	}
 	
@@ -34,4 +38,6 @@ public abstract class SelectableObject extends JLabel {
 	}
 	
 	public abstract Point getCenter();
+	
+	public abstract Element save();
 }
