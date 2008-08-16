@@ -4,15 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.BufferedReader;
@@ -29,6 +25,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import org.jdom.Document;
+import org.jdom.Element;
 
 public class SurveyUI {
 
@@ -74,7 +73,7 @@ public class SurveyUI {
 	}
 
 	public void setupUI() {
-
+		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
@@ -439,6 +438,12 @@ public class SurveyUI {
 			} catch(PrinterException pe) {
 				System.out.println("Error printing: " + pe);
 			}
+	}
+	
+	private Document getState() {
+		Element root = new Element("State");
+		
+		return new Document(root);
 	}
 
 }

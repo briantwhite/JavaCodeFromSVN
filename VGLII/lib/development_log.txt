@@ -1,0 +1,13 @@
+8/16/08
+got it basically working
+need to set it up to save stuff in xml format
+
+imported the jdom stuff from VGLII/lib
+	1) make folder PhylogenySurvey/lib
+	2) import VGLII/lib into PhylogenySurvey/lib
+		it contains the dir org/
+
+	Add Class Folder
+	edit build.xml to include lib/
+	
+- working
