@@ -2,3 +2,5 @@ trying to get jdom to work
 just plain folder lib/ gets into CVS but never uploaded!
 try New... Source Folder called lib/
 still a pain..
+lots of fussing 
+	finally worked
