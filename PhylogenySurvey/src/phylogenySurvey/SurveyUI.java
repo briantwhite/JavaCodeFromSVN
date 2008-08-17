@@ -159,9 +159,7 @@ public class SurveyUI {
 
 		outputButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Document d = getState();
-				XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-				System.out.println(out.outputString(d));
+				System.out.println(getState());
 			}
 		});
 
@@ -457,7 +455,7 @@ public class SurveyUI {
 			}
 	}
 
-	private Document getState() {
+	private String getState() {
 		Element root = new Element("State");
 
 		Element itemEl = new Element("Items");
@@ -475,8 +473,12 @@ public class SurveyUI {
 			linkEl.addContent(link.save());
 		}
 		root.addContent(linkEl);
-
-		return new Document(root);
+		XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+		return out.outputString(new Document(root));
+	}
+	
+	private void setState(Document doc) {
+		
 	}
 
 }
