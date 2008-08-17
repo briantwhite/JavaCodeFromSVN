@@ -28,6 +28,8 @@ import javax.swing.JPanel;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 public class SurveyUI {
 
@@ -61,6 +63,7 @@ public class SurveyUI {
 	private JButton deleteButton;
 	private JButton splitButton;
 	private JButton printButton;
+	private JButton outputButton;
 
 	public SurveyUI(Container masterContainer) {
 		this.masterContainer = masterContainer;
@@ -103,6 +106,9 @@ public class SurveyUI {
 
 		printButton = new JButton("Print");
 		buttonPanel.add(printButton);
+		
+		outputButton = new JButton("output");
+		buttonPanel.add(outputButton);
 
 		masterContainer.add(buttonPanel, BorderLayout.NORTH);
 
@@ -148,6 +154,14 @@ public class SurveyUI {
 		printButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				printSurvey();
+			}
+		});
+		
+		outputButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Document d = getState();
+				XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+				System.out.println(out.outputString(d));
 			}
 		});
 

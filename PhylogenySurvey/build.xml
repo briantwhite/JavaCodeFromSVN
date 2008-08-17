@@ -10,6 +10,7 @@
 	        	    <attribute name="Main-Class" value="phylogenySurvey.SurveyApplet"/>
 	        </manifest>
 	    	    <fileset dir="bin/"/>
+	    		<fileset dir="lib/"/>
 	    </jar>
         <move file="bin/phylogenySurvey.jar" todir="."/>
     </target>
