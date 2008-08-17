@@ -26,6 +26,7 @@ public abstract class SelectableObject extends JLabel {
 	
 	public SelectableObject(String text) {
 		super(text);
+		this.text = text;
 		selected = false;
 	}
 		

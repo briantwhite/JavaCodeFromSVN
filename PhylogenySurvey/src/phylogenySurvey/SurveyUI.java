@@ -76,7 +76,7 @@ public class SurveyUI {
 	}
 
 	public void setupUI() {
-		
+
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
@@ -106,7 +106,7 @@ public class SurveyUI {
 
 		printButton = new JButton("Print");
 		buttonPanel.add(printButton);
-		
+
 		outputButton = new JButton("output");
 		buttonPanel.add(outputButton);
 
@@ -156,7 +156,7 @@ public class SurveyUI {
 				printSurvey();
 			}
 		});
-		
+
 		outputButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Document d = getState();
@@ -377,14 +377,16 @@ public class SurveyUI {
 				null,
 				null,
 		"");
-		TextLabel tl = new TextLabel(s);
-		tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		items.add(tl);
-		workPanel.add(tl);
-		tl.setBounds(500, 
-				500, 
-				(workPanel.getFontMetrics(workPanel.getFont())).stringWidth(s) + 5, 
-				LABEL_HEIGHT);
+		if (s != null) {
+			TextLabel tl = new TextLabel(s);
+			tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			items.add(tl);
+			workPanel.add(tl);
+			tl.setBounds(500, 
+					500, 
+					(workPanel.getFontMetrics(workPanel.getFont())).stringWidth(s) + 5, 
+					LABEL_HEIGHT);
+		}
 	}
 
 	private void deleteSelected() {
@@ -454,10 +456,10 @@ public class SurveyUI {
 				System.out.println("Error printing: " + pe);
 			}
 	}
-	
+
 	private Document getState() {
 		Element root = new Element("State");
-		
+
 		Element itemEl = new Element("Items");
 		Iterator<SelectableObject> itemIt = items.iterator();
 		while (itemIt.hasNext()) {
@@ -465,7 +467,7 @@ public class SurveyUI {
 			itemEl.addContent(item.save());
 		}
 		root.addContent(itemEl);
-		
+
 		Element linkEl = new Element("Links");
 		Iterator<Link> linkIt = links.iterator();
 		while (linkIt.hasNext()) {
@@ -473,7 +475,7 @@ public class SurveyUI {
 			linkEl.addContent(link.save());
 		}
 		root.addContent(linkEl);
-		
+
 		return new Document(root);
 	}
 
