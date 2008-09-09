@@ -23,7 +23,7 @@ public class DrawingPanel extends JPanel implements Printable {
 		super.paint(g);
 
 		g.setColor(Color.BLUE);
-		Iterator<Link> it = surveyUI.getLinks().iterator();
+		Iterator<Link> it = SurveyData.getInstance().getLinks().iterator();
 		while (it.hasNext()) {
 			Link link = it.next();
 			g.drawLine(link.getOneLabel().getCenter().x, link.getOneLabel().getCenter().y, 

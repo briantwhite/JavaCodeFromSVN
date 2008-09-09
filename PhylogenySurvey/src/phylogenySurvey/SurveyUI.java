@@ -48,9 +48,6 @@ public class SurveyUI {
 	// it's a plain text label
 	// this is to prevent linking to a text label
 
-	private ArrayList<SelectableObject> items;
-	private ArrayList<Link> links;
-
 	// location of where clicked in the dragged item
 	//  prevents jerky movement
 	private int xAdjustment;
@@ -64,17 +61,16 @@ public class SurveyUI {
 	private JButton splitButton;
 	private JButton printButton;
 	private JButton outputButton;
-
+	
+	
 	public SurveyUI(Container masterContainer) {
 		this.masterContainer = masterContainer;
-		items = new ArrayList<SelectableObject>();
-		links = new ArrayList<Link>();
 		numSelectedItems = 0;
 		selectionA = null;
 		selectionB = null;
 		selectionOnly = null;
 	}
-
+	
 	public void setupUI() {
 
 		JPanel buttonPanel = new JPanel();
@@ -123,19 +119,35 @@ public class SurveyUI {
 
 		linkButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				link();
+				if ((selectionA instanceof SelectableLinkableObject) && (selectionB instanceof SelectableLinkableObject)) {
+					SurveyData.getInstance().add(new Link(selectionA, selectionB));
+					workPanel.repaint();
+				}
 			}
 		});
 
 		unlinkButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				unlink();
+				SurveyData.getInstance().deleteLink(selectionA, selectionB);
+				workPanel.repaint();
 			}
 		});
 
 		labelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addLabel();
+				String s = (String)JOptionPane.showInputDialog(
+						masterContainer,
+						"Enter Label Text:",
+						"Create a Label",
+						JOptionPane.PLAIN_MESSAGE,
+						null,
+						null,
+				"");
+				if (s != null) {
+					TextLabel tl = new TextLabel(s);
+					tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					SurveyData.getInstance().add(tl, workPanel);
+				}
 			}
 		});
 
@@ -165,37 +177,10 @@ public class SurveyUI {
 
 	}
 
-	public ArrayList<Link> getLinks() {
-		return links;
-	}
-
 	private void loadOrganisms() {
 		URL listFileURL = this.getClass().getResource("/images/list.txt");
-		String line = "";
-		int row = 0;
-		try {
-			InputStream in = listFileURL.openStream();
-			BufferedReader dis =  new BufferedReader (new InputStreamReader (in));
-			while ((line = dis.readLine ()) != null) {
-				String[] parts = line.split(",");
-				OrganismLabel ol = new OrganismLabel(
-						parts[0],
-						new ImageIcon(this.getClass().getResource("/images/" + parts[1])),
-						parts[1],
-						parts[2]);
-				items.add(ol);
-
-				ol.setOpaque(true);
-				ol.setBackground(Color.WHITE);
-				workPanel.add(ol);
-				ol.setBounds(0, (LABEL_HEIGHT * row), LABEL_WIDTH, LABEL_HEIGHT);
-				row++;
-			}
-			in.close ();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+		SurveyData.getInstance().loadOrganisms(listFileURL, workPanel);
+		workPanel.repaint();
 	}
 
 	private class MoveLabelHandler implements MouseMotionListener, MouseListener {
@@ -213,7 +198,9 @@ public class SurveyUI {
 			if (c instanceof SelectableObject) {
 				updateSelections((SelectableObject)c);
 			} else if ((c instanceof DrawingPanel) && e.isShiftDown()) {
-				addNode(e.getX(), e.getY());
+				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
+				SurveyData.getInstance().add(node, workPanel);
+				node.setBounds(e.getX(), e.getY(), 12, 12);
 			}
 		}
 
@@ -331,59 +318,6 @@ public class SurveyUI {
 				selectionOnly = so;
 				deleteButton.setEnabled(true);
 			}
-		}
-	}
-
-	private void addNode(int x, int y) {
-		Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
-		items.add(node);
-		workPanel.add(node);
-		node.setBounds(x, y, 12, 12);
-	}
-
-	private void link() {
-		if ((selectionA instanceof SelectableLinkableObject) && (selectionB instanceof SelectableLinkableObject)) {
-			links.add(new Link(selectionA, selectionB));
-			workPanel.repaint();
-		}
-	}
-
-	private void unlink() {
-		Iterator<Link> it = links.iterator();
-		while (it.hasNext()) {
-			Link l = it.next();
-			if ( ( (l.getOneLabel() == selectionA) && (l.getOtherLabel() == selectionB) )  ||
-					( (l.getOneLabel() == selectionB) && (l.getOtherLabel() == selectionA))	
-			) {
-				links.remove(l);
-				workPanel.repaint();
-				return;
-			}
-		}
-		JOptionPane.showMessageDialog(masterContainer, 
-				"Please select two linked objects to un-link", 
-				"Nothing to un-link", 
-				JOptionPane.WARNING_MESSAGE);
-	}
-
-	private void addLabel() {
-		String s = (String)JOptionPane.showInputDialog(
-				masterContainer,
-				"Enter Label Text:",
-				"Create a Label",
-				JOptionPane.PLAIN_MESSAGE,
-				null,
-				null,
-		"");
-		if (s != null) {
-			TextLabel tl = new TextLabel(s);
-			tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-			items.add(tl);
-			workPanel.add(tl);
-			tl.setBounds(500, 
-					500, 
-					(workPanel.getFontMetrics(workPanel.getFont())).stringWidth(s) + 5, 
-					LABEL_HEIGHT);
 		}
 	}
 

@@ -4,3 +4,9 @@ try New... Source Folder called lib/
 still a pain..
 lots of fussing 
 	finally worked
+	
+
+9/9/08
+refactoring to model-view-controller
+	model = SurveyData singleton
+	
