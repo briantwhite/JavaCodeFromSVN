@@ -190,9 +190,10 @@ public class SurveyData {
 	}
 	
 	public String undo() {
-		if (historyList.size() == 0) {
+		if (historyList.size() < 2) {
 			return null;
 		}
+		historyList.remove(historyList.size() - 1);
 		String state = historyList.get(historyList.size() - 1);
 		historyList.remove(historyList.size() - 1);
 		return state;
