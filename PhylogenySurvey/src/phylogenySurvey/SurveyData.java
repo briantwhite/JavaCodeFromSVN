@@ -199,6 +199,7 @@ public class SurveyData {
 	}
 	
 	public void setState(String newState, DrawingPanel workPanel) {
+
 		items = new ArrayList<SelectableObject>();
 		links = new ArrayList<Link>();
 		workPanel.removeAll();
@@ -233,6 +234,7 @@ public class SurveyData {
 		while (elIt.hasNext()) {
 			Element current = elIt.next();
 			String name = current.getName();
+			
 			if (name.equals("OrganismLabel")) {
 				OrganismLabel ol = new OrganismLabel(
 						current.getAttributeValue("Name"),
@@ -249,6 +251,7 @@ public class SurveyData {
 						Integer.parseInt(current.getAttributeValue("Y")), 
 						SurveyUI.LABEL_WIDTH, SurveyUI.LABEL_HEIGHT);
 			}
+			
 			if (name.equals("Node")) {
 				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )),
 						Integer.parseInt(current.getAttributeValue("Id")));
@@ -258,6 +261,19 @@ public class SurveyData {
 						Integer.parseInt(current.getAttributeValue("Y")), 
 						12, 12);
 			}
+			
+			if (name.equals("TextLabel")) {
+				TextLabel tl = new TextLabel(current.getAttributeValue("Text"),
+						Integer.parseInt(current.getAttributeValue("Id")));
+				tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				items.add(tl);
+				workPanel.add(tl);
+				tl.setBounds(Integer.parseInt(current.getAttributeValue("X")),
+						Integer.parseInt(current.getAttributeValue("Y")),
+						Integer.parseInt(current.getAttributeValue("width")),
+						Integer.parseInt(current.getAttributeValue("height")));
+			}
+			
 		}
 	}
 	
@@ -290,7 +306,30 @@ public class SurveyData {
 	}
 	
 	private SelectableLinkableObject findItemByName(Element e) {
-		
+		String name = e.getName();
+		if (name.equals("OrganismLabel")) {
+			Iterator<SelectableObject> it = items.iterator();
+			while (it.hasNext()) {
+				SelectableObject so = it.next();
+				if (so instanceof OrganismLabel) {
+					if (so.getName().equals(e.getAttributeValue("Name"))) {
+						return (SelectableLinkableObject)so;
+					}
+				}
+			}
+		}
+		if (name.equals("Node")) {
+			Iterator<SelectableObject> it = items.iterator();
+			while (it.hasNext()) {
+				SelectableObject so = it.next();
+				if (so instanceof Node) {
+					if (((Node)so).getID() == Integer.parseInt(e.getAttributeValue("Id"))) {
+						return (SelectableLinkableObject)so;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 }

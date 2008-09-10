@@ -62,7 +62,6 @@ public class SurveyUI {
 	private JButton deleteButton;
 	private JButton splitButton;
 	private JButton printButton;
-	private JButton outputButton;
 	private JButton undoButton;
 
 
@@ -105,9 +104,6 @@ public class SurveyUI {
 
 		printButton = new JButton("Print");
 		buttonPanel.add(printButton);
-
-		outputButton = new JButton("output");
-		buttonPanel.add(outputButton);
 
 		undoButton = new JButton("Undo");
 		buttonPanel.add(undoButton);
@@ -198,12 +194,6 @@ public class SurveyUI {
 					} catch(PrinterException pe) {
 						System.out.println("Error printing: " + pe);
 					}
-			}
-		});
-
-		outputButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(SurveyData.getInstance().getState());
 			}
 		});
 
@@ -377,6 +367,17 @@ public class SurveyUI {
 		unlinkButton.setEnabled(false);	
 		deleteButton.setEnabled(false);
 		splitButton.setEnabled(false);		
+	}
+	
+	/*
+	 * public methods for setting & getting the state of the drawing
+	 */
+	public String getState() {
+		return SurveyData.getInstance().getState();
+	}
+	
+	public void setState(String state) {
+		SurveyData.getInstance().setState(state, workPanel);
 	}
 
 }
