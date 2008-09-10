@@ -221,6 +221,9 @@ public class SurveyData {
 			if (name.equals("Items")) {
 				processItems(e, workPanel);
 			}
+			if (name.equals("Links")) {
+				processLinks(e, workPanel);
+			}
 		}
 	}
 	
@@ -256,6 +259,38 @@ public class SurveyData {
 						12, 12);
 			}
 		}
+	}
+	
+	private void processLinks(Element e, DrawingPanel workPanel) {
+		List<Element> elements = e.getChildren();
+		Iterator<Element> elIt = elements.iterator();
+		while (elIt.hasNext()) {
+			Element current = elIt.next();
+			String name = current.getName();
+			if (name.equals("Link")) {
+				List<Element> ends = current.getChildren();
+				Iterator<Element> endsIt = ends.iterator();
+				SelectableLinkableObject firstSLO = null;
+				SelectableLinkableObject secondSLO = null;
+				while (endsIt.hasNext()) {
+					Element end = endsIt.next();
+					String endName = end.getName();
+					if (endName.equals("FirstSLO")) {
+						firstSLO = findItemByName((Element)end.getChildren().get(0));
+					}
+					if (endName.equals("SecondSLO")) {
+						secondSLO = findItemByName((Element)end.getChildren().get(0));						
+					}
+				}
+				if ((firstSLO != null) && (secondSLO != null)) {
+					links.add(new Link(firstSLO, secondSLO));
+				}
+			}
+		}
+	}
+	
+	private SelectableLinkableObject findItemByName(Element e) {
+		
 	}
 
 }
