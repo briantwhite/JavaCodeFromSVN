@@ -64,8 +64,8 @@ public class SurveyUI {
 	private JButton printButton;
 	private JButton outputButton;
 	private JButton undoButton;
-	
-	
+
+
 	public SurveyUI(Container masterContainer) {
 		this.masterContainer = masterContainer;
 		numSelectedItems = 0;
@@ -73,7 +73,7 @@ public class SurveyUI {
 		selectionB = null;
 		selectionOnly = null;
 	}
-	
+
 	public void setupUI() {
 
 		JPanel buttonPanel = new JPanel();
@@ -108,7 +108,7 @@ public class SurveyUI {
 
 		outputButton = new JButton("output");
 		buttonPanel.add(outputButton);
-		
+
 		undoButton = new JButton("Undo");
 		buttonPanel.add(undoButton);
 
@@ -206,7 +206,7 @@ public class SurveyUI {
 				System.out.println(SurveyData.getInstance().getState());
 			}
 		});
-		
+
 		undoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				undo();
@@ -239,6 +239,7 @@ public class SurveyUI {
 				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
 				SurveyData.getInstance().add(node, workPanel);
 				node.setBounds(e.getX(), e.getY(), 12, 12);
+				SurveyData.getInstance().saveStateToHistoryList();
 			}
 		}
 
@@ -263,9 +264,11 @@ public class SurveyUI {
 		}
 
 		public void mouseReleased(MouseEvent e) {
-			dragComponent = null;
+			if (dragComponent != null) {
+				SurveyData.getInstance().saveStateToHistoryList();
+				dragComponent = null;
+			}
 			workPanel.repaint();
-			SurveyData.getInstance().saveStateToHistoryList();
 		}
 	}
 
@@ -359,7 +362,7 @@ public class SurveyUI {
 			}
 		}
 	}
-	
+
 	private void undo() {
 		String newState = SurveyData.getInstance().undo();
 		if (newState == null) {
@@ -375,5 +378,5 @@ public class SurveyUI {
 		deleteButton.setEnabled(false);
 		splitButton.setEnabled(false);		
 	}
-	
+
 }

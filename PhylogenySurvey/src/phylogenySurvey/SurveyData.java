@@ -195,7 +195,6 @@ public class SurveyData {
 		}
 		historyList.remove(historyList.size() - 1);
 		String state = historyList.get(historyList.size() - 1);
-		historyList.remove(historyList.size() - 1);
 		return state;
 	}
 	
@@ -248,7 +247,13 @@ public class SurveyData {
 						SurveyUI.LABEL_WIDTH, SurveyUI.LABEL_HEIGHT);
 			}
 			if (name.equals("Node")) {
-				
+				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )),
+						Integer.parseInt(current.getAttributeValue("Id")));
+				items.add(node);
+				workPanel.add(node);
+				node.setBounds(Integer.parseInt(current.getAttributeValue("X")), 
+						Integer.parseInt(current.getAttributeValue("Y")), 
+						12, 12);
 			}
 		}
 	}

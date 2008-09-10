@@ -18,6 +18,14 @@ public class Node extends SelectableLinkableObject {
 		counter++;
 	}
 	
+	public Node(ImageIcon image, int id) {
+		super(image);
+		this.id = id;
+		if (id > counter) {
+			counter = id;
+		}
+	}
+	
 	public Point getCenter() {
 		return new Point(getLocation().x + 5,
 				getLocation().y + 5);
