@@ -148,33 +148,52 @@ public class SurveyUI {
 					tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 					SurveyData.getInstance().add(tl, workPanel);
 				}
+				workPanel.repaint();
 			}
 		});
 
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				deleteSelected();
+				// only can delete single Nodes or TextLabels
+				if (selectionA instanceof Node) {
+					SurveyData.getInstance().delete((Node)selectionA, workPanel);
+					selectionA = null;
+					workPanel.repaint();
+				}
+
+				if (selectionOnly != null) {
+					SurveyData.getInstance().delete((TextLabel)selectionOnly, workPanel);
+					selectionOnly = null;
+					workPanel.repaint();
+				}
 			}
 		});
 
 		splitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				split();
+				SurveyData.getInstance().split(selectionA, selectionB, workPanel);
+				workPanel.repaint();
 			}
 		});
 
 		printButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				printSurvey();
+				PrinterJob printJob = PrinterJob.getPrinterJob();
+				printJob.setPrintable(workPanel);
+				if (printJob.printDialog())
+					try { 
+						printJob.print();
+					} catch(PrinterException pe) {
+						System.out.println("Error printing: " + pe);
+					}
 			}
 		});
 
 		outputButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(getState());
+				System.out.println(SurveyData.getInstance().getState());
 			}
 		});
-
 	}
 
 	private void loadOrganisms() {
@@ -320,99 +339,5 @@ public class SurveyUI {
 			}
 		}
 	}
-
-	private void deleteSelected() {
-		// only can delete single Nodes or TextLabels
-		if (selectionA instanceof Node) {
-			//remake node list without any links
-			//  that include this node
-			ArrayList<Link> newLinks = new ArrayList<Link>();
-			Iterator<Link> it = links.iterator();
-			while (it.hasNext()) {
-				Link l = it.next();
-				if ((l.getOneLabel() != selectionA) && (l.getOtherLabel() != selectionA)) {
-					newLinks.add(l);
-				}
-			}
-			links = newLinks;
-			workPanel.remove(selectionA);
-			items.remove(selectionA);
-			selectionA = null;
-			workPanel.repaint();
-		}
-
-		if (selectionOnly != null) {
-			workPanel.remove(selectionOnly);
-			items.remove(selectionOnly);
-			selectionOnly = null;
-			workPanel.repaint();
-		}
-	}
-
-	private void split() {
-		Iterator<Link> it = links.iterator();
-		while(it.hasNext()) {
-			Link l = it.next();
-			if (
-					((l.getOneLabel() == selectionA) && (l.getOtherLabel() == selectionB)) ||
-					((l.getOneLabel() == selectionB) && (l.getOtherLabel() == selectionA))
-			) {
-				links.remove(l);
-				SelectableLinkableObject slo1 = l.getOneLabel();
-				SelectableLinkableObject slo2 = l.getOtherLabel();
-				int x = (slo1.getCenter().x + slo2.getCenter().x)/2;
-				int y = (slo1.getCenter().y + slo2.getCenter().y)/2;
-				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
-				items.add(node);
-				workPanel.add(node);
-				node.setBounds(x, y, 12, 12);
-				links.add(new Link(selectionA, node));
-				links.add(new Link(selectionB, node));
-				selectionA.setSelected(false);
-				selectionA.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-				selectionB.setSelected(false);
-				selectionB.setBorder(BorderFactory.createLineBorder(Color.BLACK));				
-				workPanel.repaint();
-				return;
-			}
-		}
-	}
-
-	private void printSurvey() {
-		PrinterJob printJob = PrinterJob.getPrinterJob();
-		printJob.setPrintable(workPanel);
-		if (printJob.printDialog())
-			try { 
-				printJob.print();
-			} catch(PrinterException pe) {
-				System.out.println("Error printing: " + pe);
-			}
-	}
-
-	private String getState() {
-		Element root = new Element("State");
-
-		Element itemEl = new Element("Items");
-		Iterator<SelectableObject> itemIt = items.iterator();
-		while (itemIt.hasNext()) {
-			SelectableObject item = itemIt.next();
-			itemEl.addContent(item.save());
-		}
-		root.addContent(itemEl);
-
-		Element linkEl = new Element("Links");
-		Iterator<Link> linkIt = links.iterator();
-		while (linkIt.hasNext()) {
-			Link link = linkIt.next();
-			linkEl.addContent(link.save());
-		}
-		root.addContent(linkEl);
-		XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-		return out.outputString(new Document(root));
-	}
 	
-	private void setState(Document doc) {
-		
-	}
-
 }
