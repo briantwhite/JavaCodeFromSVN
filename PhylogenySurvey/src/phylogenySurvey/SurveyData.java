@@ -5,9 +5,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,6 +17,8 @@ import javax.swing.JOptionPane;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
@@ -186,9 +190,66 @@ public class SurveyData {
 	}
 	
 	public String undo() {
+		if (historyList.size() == 0) {
+			return null;
+		}
 		String state = historyList.get(historyList.size() - 1);
 		historyList.remove(historyList.size() - 1);
 		return state;
+	}
+	
+	public void setState(String newState, DrawingPanel workPanel) {
+		items = new ArrayList<SelectableObject>();
+		links = new ArrayList<Link>();
+		workPanel.removeAll();
+		
+		Document doc = null;
+		SAXBuilder builder = new SAXBuilder();
+		try {
+			doc = builder.build(new StringReader(newState));
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		List<Element> elements = doc.getRootElement().getChildren();
+		Iterator<Element> elIt = elements.iterator();
+		while (elIt.hasNext()) {
+			Element e = elIt.next();
+			String name = e.getName();
+			if (name.equals("Items")) {
+				processItems(e, workPanel);
+			}
+		}
+	}
+	
+	private void processItems(Element e, DrawingPanel workPanel) {
+		List<Element> elements = e.getChildren();
+		Iterator<Element> elIt = elements.iterator();
+		while (elIt.hasNext()) {
+			Element current = elIt.next();
+			String name = current.getName();
+			if (name.equals("OrganismLabel")) {
+				OrganismLabel ol = new OrganismLabel(
+						current.getAttributeValue("Name"),
+						new ImageIcon(
+								this.getClass().getResource(
+										"/images/" + current.getAttributeValue("ImageFileName"))),
+										current.getAttributeValue("ImageFileName"),
+										current.getAttributeValue("Type"));
+				items.add(ol); 
+				workPanel.add(ol);
+				ol.setOpaque(true);
+				ol.setBackground(Color.WHITE);
+				ol.setBounds(Integer.parseInt(current.getAttributeValue("X")), 
+						Integer.parseInt(current.getAttributeValue("Y")), 
+						SurveyUI.LABEL_WIDTH, SurveyUI.LABEL_HEIGHT);
+			}
+			if (name.equals("Node")) {
+				
+			}
+		}
 	}
 
 }

@@ -28,6 +28,8 @@ import javax.swing.JPanel;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
@@ -61,6 +63,7 @@ public class SurveyUI {
 	private JButton splitButton;
 	private JButton printButton;
 	private JButton outputButton;
+	private JButton undoButton;
 	
 	
 	public SurveyUI(Container masterContainer) {
@@ -105,6 +108,9 @@ public class SurveyUI {
 
 		outputButton = new JButton("output");
 		buttonPanel.add(outputButton);
+		
+		undoButton = new JButton("Undo");
+		buttonPanel.add(undoButton);
 
 		masterContainer.add(buttonPanel, BorderLayout.NORTH);
 
@@ -122,6 +128,7 @@ public class SurveyUI {
 				if ((selectionA instanceof SelectableLinkableObject) && (selectionB instanceof SelectableLinkableObject)) {
 					SurveyData.getInstance().add(new Link(selectionA, selectionB));
 					workPanel.repaint();
+					SurveyData.getInstance().saveStateToHistoryList();
 				}
 			}
 		});
@@ -130,6 +137,7 @@ public class SurveyUI {
 			public void actionPerformed(ActionEvent e) {
 				SurveyData.getInstance().deleteLink(selectionA, selectionB);
 				workPanel.repaint();
+				SurveyData.getInstance().saveStateToHistoryList();
 			}
 		});
 
@@ -149,6 +157,7 @@ public class SurveyUI {
 					SurveyData.getInstance().add(tl, workPanel);
 				}
 				workPanel.repaint();
+				SurveyData.getInstance().saveStateToHistoryList();
 			}
 		});
 
@@ -159,12 +168,14 @@ public class SurveyUI {
 					SurveyData.getInstance().delete((Node)selectionA, workPanel);
 					selectionA = null;
 					workPanel.repaint();
+					SurveyData.getInstance().saveStateToHistoryList();
 				}
 
 				if (selectionOnly != null) {
 					SurveyData.getInstance().delete((TextLabel)selectionOnly, workPanel);
 					selectionOnly = null;
 					workPanel.repaint();
+					SurveyData.getInstance().saveStateToHistoryList();
 				}
 			}
 		});
@@ -173,6 +184,7 @@ public class SurveyUI {
 			public void actionPerformed(ActionEvent e) {
 				SurveyData.getInstance().split(selectionA, selectionB, workPanel);
 				workPanel.repaint();
+				SurveyData.getInstance().saveStateToHistoryList();
 			}
 		});
 
@@ -194,6 +206,13 @@ public class SurveyUI {
 				System.out.println(SurveyData.getInstance().getState());
 			}
 		});
+		
+		undoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				undo();
+			}
+		});
+
 	}
 
 	private void loadOrganisms() {
@@ -246,6 +265,7 @@ public class SurveyUI {
 		public void mouseReleased(MouseEvent e) {
 			dragComponent = null;
 			workPanel.repaint();
+			SurveyData.getInstance().saveStateToHistoryList();
 		}
 	}
 
@@ -338,6 +358,22 @@ public class SurveyUI {
 				deleteButton.setEnabled(true);
 			}
 		}
+	}
+	
+	private void undo() {
+		String newState = SurveyData.getInstance().undo();
+		if (newState == null) {
+			return;
+		}
+		SurveyData.getInstance().setState(newState, workPanel);
+		workPanel.repaint();
+		selectionA = null;
+		selectionB = null;
+		selectionOnly = null;
+		linkButton.setEnabled(false);
+		unlinkButton.setEnabled(false);	
+		deleteButton.setEnabled(false);
+		splitButton.setEnabled(false);		
 	}
 	
 }
