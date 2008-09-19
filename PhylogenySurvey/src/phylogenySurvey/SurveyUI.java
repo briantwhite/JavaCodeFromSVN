@@ -12,26 +12,22 @@ import java.awt.event.MouseMotionListener;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.Writer;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
 
 public class SurveyUI {
 
@@ -63,6 +59,8 @@ public class SurveyUI {
 	private JButton splitButton;
 	private JButton printButton;
 	private JButton undoButton;
+	private JButton loadButton;
+	private JButton saveButton;
 
 
 	public SurveyUI(Container masterContainer) {
@@ -107,6 +105,12 @@ public class SurveyUI {
 
 		undoButton = new JButton("Undo");
 		buttonPanel.add(undoButton);
+		
+		loadButton = new JButton("Load");
+		buttonPanel.add(loadButton);
+		
+		saveButton = new JButton("Save");
+		buttonPanel.add(saveButton);
 
 		masterContainer.add(buttonPanel, BorderLayout.NORTH);
 
@@ -202,6 +206,61 @@ public class SurveyUI {
 				undo();
 			}
 		});
+		
+		loadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File inFile = fc.getSelectedFile();
+					StringBuffer contents = new StringBuffer();
+					try {
+						BufferedReader input =  new BufferedReader(new FileReader(inFile));
+				        String line = null; //not declared within while loop
+				        while (( line = input.readLine()) != null){
+				          contents.append(line);
+				          contents.append(System.getProperty("line.separator"));
+				        }
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					SurveyData.getInstance().setState(contents.toString(), workPanel);
+					workPanel.repaint();
+					selectionA = null;
+					selectionB = null;
+					selectionOnly = null;
+					linkButton.setEnabled(false);
+					unlinkButton.setEnabled(false);	
+					deleteButton.setEnabled(false);
+					splitButton.setEnabled(false);		
+				}
+			}
+		});
+		
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showSaveDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File outFile = fc.getSelectedFile();
+					Writer output = null;
+					try {
+						output = new BufferedWriter(new FileWriter(outFile));
+						output.write(SurveyData.getInstance().getState());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					finally {
+						try {
+							output.close();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+
 
 	}
 
