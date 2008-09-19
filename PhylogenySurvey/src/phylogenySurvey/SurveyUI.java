@@ -214,6 +214,7 @@ public class SurveyUI {
 		loadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
+				fc.setCurrentDirectory(new File("../"));
 				int returnVal = fc.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File inFile = fc.getSelectedFile();
@@ -244,6 +245,7 @@ public class SurveyUI {
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
+				fc.setCurrentDirectory(new File("../"));
 				int returnVal = fc.showSaveDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File outFile = fc.getSelectedFile();
