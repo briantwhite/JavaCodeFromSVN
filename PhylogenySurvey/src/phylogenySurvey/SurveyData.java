@@ -331,5 +331,9 @@ public class SurveyData {
 		}
 		return null;
 	}
+	
+	public String score() {
+		return "hi";
+	}
 
 }

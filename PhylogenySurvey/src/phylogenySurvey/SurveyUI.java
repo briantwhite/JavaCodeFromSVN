@@ -61,6 +61,7 @@ public class SurveyUI {
 	private JButton undoButton;
 	private JButton loadButton;
 	private JButton saveButton;
+	private JButton scoreButton;
 
 
 	public SurveyUI(Container masterContainer) {
@@ -111,6 +112,9 @@ public class SurveyUI {
 		
 		saveButton = new JButton("Save");
 		buttonPanel.add(saveButton);
+		
+		scoreButton = new JButton("Score");
+		buttonPanel.add(scoreButton);
 
 		masterContainer.add(buttonPanel, BorderLayout.NORTH);
 
@@ -261,6 +265,11 @@ public class SurveyUI {
 			}
 		});
 
+		scoreButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, SurveyData.getInstance().score());
+			}
+		});
 
 	}
 
