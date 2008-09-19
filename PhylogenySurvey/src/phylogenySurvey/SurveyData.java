@@ -159,6 +159,22 @@ public class SurveyData {
 		}
 	}
 	
+	public ArrayList<SelectableObject> getItems() {
+		return items;
+	}
+	
+	public ArrayList<OrganismLabel> getOrganismLabels() {
+		ArrayList<OrganismLabel> orgs = new ArrayList<OrganismLabel>();
+		Iterator<SelectableObject> it = items.iterator();
+		while (it.hasNext()) {
+			SelectableObject item = it.next();
+			if (item instanceof OrganismLabel) {
+				orgs.add((OrganismLabel)item);
+			}
+		}
+		return orgs;
+	}
+	
 	public ArrayList<Link> getLinks() {
 		return links;
 	}
@@ -332,8 +348,4 @@ public class SurveyData {
 		return null;
 	}
 	
-	public String score() {
-		return "hi";
-	}
-
 }

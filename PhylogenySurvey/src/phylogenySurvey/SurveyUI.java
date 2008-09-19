@@ -14,7 +14,6 @@ import java.awt.print.PrinterJob;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,6 +27,8 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import scoring.Scorer;
 
 public class SurveyUI {
 
@@ -269,7 +270,8 @@ public class SurveyUI {
 
 		scoreButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, SurveyData.getInstance().score());
+				JOptionPane.showMessageDialog(null, 
+						Scorer.getInstance().score(SurveyData.getInstance()));
 			}
 		});
 
