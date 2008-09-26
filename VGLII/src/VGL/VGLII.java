@@ -86,7 +86,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	private final static String version = "1.0.1";
+	private final static String version = "1.1.0";
 
 	/**
 	 * the genetic model for the current problem
