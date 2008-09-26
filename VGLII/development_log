@@ -605,3 +605,19 @@ version 1.1.0
 had screwed up cvs so that it lost jdom
 	messed it up when making PhylogenySurvey
 
+fixed it
+
+request for new problem file: emhowe@assumption.edu
+
+With GCK, what I like about the program is that it allows me to create dihybrid problems 
+(i.e. two traits that are unlinked or linked, depending on my intention). I also like the 
+flexibility of having the dihybrid problems randomized. For example, I have it set up so 
+that when a student starts a dihybrid problem, he/she is presented with two traits and the 
+respective phenotypes given for each of the traits. They have to solve each trait independently 
+(if they are ostensibly unlinked), and the way in which the problem is set up could have either 
+of the two traits randomly start as a simple dominant model, a codominant model or a 
+sex-linkage model. This system allows for students to have to figure out which model is 
+appropriate for solving each trait. Of course, students also must determine how genotypes 
+match to phenotypes for each trait, depending on the model they propose.
+
+made Level11-1.pr2 - same as level 11 except 50/50 chance of inc dom for each gene
