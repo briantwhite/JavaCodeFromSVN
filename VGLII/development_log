@@ -600,3 +600,8 @@ added in Wing as a body part (it had been there but not added to CharSpecbank)
 got it all working!
 
 version 1.1.0
+
+9/26/08
+had screwed up cvs so that it lost jdom
+	messed it up when making PhylogenySurvey
+
