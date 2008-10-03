@@ -29,6 +29,7 @@ public class Scorer {
 		scoreBuffer.append(checkNumberOfConnections());
 
 		scoreBuffer.append("</html>");
+		System.out.println(scoreBuffer.toString());
 		return scoreBuffer.toString();
 	}
 

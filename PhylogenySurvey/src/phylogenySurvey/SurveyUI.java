@@ -25,6 +25,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -36,7 +37,7 @@ public class SurveyUI {
 	public static final int LABEL_HEIGHT = 30;
 
 	private static final String PASSWORD = "treedata";
-	
+
 	private boolean scoringOn;
 
 	private Container masterContainer;
@@ -75,7 +76,7 @@ public class SurveyUI {
 		selectionA = null;
 		selectionB = null;
 		selectionOnly = null;
-		scoringOn = false;
+		scoringOn = true;
 	}
 
 	public void setupUI(boolean scoringEnabled, String password) {
@@ -117,13 +118,14 @@ public class SurveyUI {
 		undoButton = new JButton("Undo");
 		buttonPanel.add(undoButton);
 
-		loadButton = new JButton("Load");
-		buttonPanel.add(loadButton);
-
-		saveButton = new JButton("Save");
-		buttonPanel.add(saveButton);
-
 		if (scoringOn) {
+
+			loadButton = new JButton("Load");
+			buttonPanel.add(loadButton);
+
+			saveButton = new JButton("Save");
+			buttonPanel.add(saveButton);
+
 			scoreButton = new JButton("Score");
 			buttonPanel.add(scoreButton);
 		}
@@ -223,67 +225,70 @@ public class SurveyUI {
 			}
 		});
 
-		loadButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser fc = new JFileChooser();
-				fc.setCurrentDirectory(new File("../"));
-				int returnVal = fc.showOpenDialog(null);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File inFile = fc.getSelectedFile();
-					StringBuffer contents = new StringBuffer();
-					try {
-						BufferedReader input =  new BufferedReader(new FileReader(inFile));
-						String line = null; //not declared within while loop
-						while (( line = input.readLine()) != null){
-							contents.append(line);
-							contents.append(System.getProperty("line.separator"));
-						}
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-					SurveyData.getInstance().setState(contents.toString(), workPanel);
-					workPanel.repaint();
-					selectionA = null;
-					selectionB = null;
-					selectionOnly = null;
-					linkButton.setEnabled(false);
-					unlinkButton.setEnabled(false);	
-					deleteButton.setEnabled(false);
-					splitButton.setEnabled(false);		
-				}
-			}
-		});
 
-		saveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser fc = new JFileChooser();
-				fc.setCurrentDirectory(new File("../"));
-				int returnVal = fc.showSaveDialog(null);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File outFile = fc.getSelectedFile();
-					Writer output = null;
-					try {
-						output = new BufferedWriter(new FileWriter(outFile));
-						output.write(SurveyData.getInstance().getState());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					finally {
+		if (scoringOn) {
+
+			loadButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFileChooser fc = new JFileChooser();
+					fc.setCurrentDirectory(new File("../"));
+					int returnVal = fc.showOpenDialog(null);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File inFile = fc.getSelectedFile();
+						StringBuffer contents = new StringBuffer();
 						try {
-							output.close();
+							BufferedReader input =  new BufferedReader(new FileReader(inFile));
+							String line = null; //not declared within while loop
+							while (( line = input.readLine()) != null){
+								contents.append(line);
+								contents.append(System.getProperty("line.separator"));
+							}
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						SurveyData.getInstance().setState(contents.toString(), workPanel);
+						workPanel.repaint();
+						selectionA = null;
+						selectionB = null;
+						selectionOnly = null;
+						linkButton.setEnabled(false);
+						unlinkButton.setEnabled(false);	
+						deleteButton.setEnabled(false);
+						splitButton.setEnabled(false);		
+					}
+				}
+			});
+
+			saveButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFileChooser fc = new JFileChooser();
+					fc.setCurrentDirectory(new File("../"));
+					int returnVal = fc.showSaveDialog(null);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File outFile = fc.getSelectedFile();
+						Writer output = null;
+						try {
+							output = new BufferedWriter(new FileWriter(outFile));
+							output.write(SurveyData.getInstance().getState());
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
+						finally {
+							try {
+								output.close();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						}
 					}
 				}
-			}
-		});
+			});
 
-		if (scoringOn) {
 			scoreButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JOptionPane.showMessageDialog(null, 
+					JLabel message = new JLabel(
 							Scorer.getInstance().score(SurveyData.getInstance()));
+					JOptionPane.showMessageDialog(null, message);
 				}
 			});
 		}

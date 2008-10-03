@@ -13,6 +13,8 @@ refactoring to model-view-controller
 
 10/3/08
 made parameters
-	Scoring = true enables scoring mode if Pasword = SurveyUI.PASSWORD
+	Scoring = true enables scoring mode if Password = SurveyUI.PASSWORD
+
+- permanently enabled for debugging purposes in surveyUI
 
 	
