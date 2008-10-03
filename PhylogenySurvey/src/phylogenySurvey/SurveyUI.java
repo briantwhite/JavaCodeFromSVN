@@ -35,6 +35,10 @@ public class SurveyUI {
 	public static final int LABEL_WIDTH = 120;
 	public static final int LABEL_HEIGHT = 30;
 
+	private static final String PASSWORD = "treedata";
+	
+	private boolean scoringOn;
+
 	private Container masterContainer;
 	private DrawingPanel workPanel;
 
@@ -71,9 +75,14 @@ public class SurveyUI {
 		selectionA = null;
 		selectionB = null;
 		selectionOnly = null;
+		scoringOn = false;
 	}
 
-	public void setupUI() {
+	public void setupUI(boolean scoringEnabled, String password) {
+
+		if (scoringEnabled && password.equals(PASSWORD)) {
+			scoringOn = true;
+		}
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -107,15 +116,17 @@ public class SurveyUI {
 
 		undoButton = new JButton("Undo");
 		buttonPanel.add(undoButton);
-		
+
 		loadButton = new JButton("Load");
 		buttonPanel.add(loadButton);
-		
+
 		saveButton = new JButton("Save");
 		buttonPanel.add(saveButton);
-		
-		scoreButton = new JButton("Score");
-		buttonPanel.add(scoreButton);
+
+		if (scoringOn) {
+			scoreButton = new JButton("Score");
+			buttonPanel.add(scoreButton);
+		}
 
 		masterContainer.add(buttonPanel, BorderLayout.NORTH);
 
@@ -211,7 +222,7 @@ public class SurveyUI {
 				undo();
 			}
 		});
-		
+
 		loadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
@@ -222,11 +233,11 @@ public class SurveyUI {
 					StringBuffer contents = new StringBuffer();
 					try {
 						BufferedReader input =  new BufferedReader(new FileReader(inFile));
-				        String line = null; //not declared within while loop
-				        while (( line = input.readLine()) != null){
-				          contents.append(line);
-				          contents.append(System.getProperty("line.separator"));
-				        }
+						String line = null; //not declared within while loop
+						while (( line = input.readLine()) != null){
+							contents.append(line);
+							contents.append(System.getProperty("line.separator"));
+						}
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -242,7 +253,7 @@ public class SurveyUI {
 				}
 			}
 		});
-		
+
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
@@ -268,13 +279,14 @@ public class SurveyUI {
 			}
 		});
 
-		scoreButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, 
-						Scorer.getInstance().score(SurveyData.getInstance()));
-			}
-		});
-
+		if (scoringOn) {
+			scoreButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(null, 
+							Scorer.getInstance().score(SurveyData.getInstance()));
+				}
+			});
+		}
 	}
 
 	private void loadOrganisms() {
@@ -440,14 +452,14 @@ public class SurveyUI {
 		deleteButton.setEnabled(false);
 		splitButton.setEnabled(false);		
 	}
-	
+
 	/*
 	 * public methods for setting & getting the state of the drawing
 	 */
 	public String getState() {
 		return SurveyData.getInstance().getState();
 	}
-	
+
 	public void setState(String state) {
 		SurveyData.getInstance().setState(state, workPanel);
 	}

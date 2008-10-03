@@ -10,3 +10,9 @@ lots of fussing
 refactoring to model-view-controller
 	model = SurveyData singleton
 	
+
+10/3/08
+made parameters
+	Scoring = true enables scoring mode if Pasword = SurveyUI.PASSWORD
+
+	
