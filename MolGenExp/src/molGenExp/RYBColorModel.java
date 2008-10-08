@@ -1,7 +1,7 @@
-// RYBColor.java
-//
-//
-// Copyright 2004-2005 MGX Team UMB.  All rights reserved.
+//RYBColor.java
+
+
+//Copyright 2004-2005 MGX Team UMB.  All rights reserved.
 /* 
  * License Information
  * 
@@ -37,7 +37,7 @@ import biochem.PaintedInACornerFoldingException;
  * modified by BW - totally different method
  */
 public class RYBColorModel extends ColorModel {
-	
+
 	ArrayList hydrophobics;
 	ArrayList hydrophilics;
 	ArrayList coreColors;
@@ -56,7 +56,18 @@ public class RYBColorModel extends ColorModel {
 			new Color(255,100,0),	 // 110 6 Orange
 			Color.BLACK			 // 111 7
 	};
-	
+
+	private String[] numberToColorNameMap = {
+			"White",
+			"Blue",
+			"Yellow",
+			"Green",
+			"Red",
+			"Purple",
+			"Orange",
+			"Black"
+	};
+
 	private HashMap colorToNumberMap;
 
 	/**
@@ -69,7 +80,7 @@ public class RYBColorModel extends ColorModel {
 			colorToNumberMap.put((Color)numberToColorMap[i], new Integer(i));
 		}
 	}
-	
+
 	public Color getProteinColor(Grid grid) throws PaintedInACornerFoldingException {
 		Color color = Color.white;
 		hydrophobics = new ArrayList();
@@ -108,7 +119,7 @@ public class RYBColorModel extends ColorModel {
 			color = mixHexagonalCores();
 		return color;
 	}
-	
+
 	public void categorizeAcids(Grid grid) {
 		int numAcids = grid.getPP().getLength();
 		AcidInChain[] acids = grid.getPP().getAcidArray();
@@ -157,7 +168,7 @@ public class RYBColorModel extends ColorModel {
 		int bNum = ((Integer)colorToNumberMap.get(b)).intValue();
 		return numberToColorMap[aNum | bNum];
 	}
-	
+
 	public int getColorNumber(Color c) {
 		return ((Integer)colorToNumberMap.get(c)).intValue();
 	}
@@ -173,5 +184,9 @@ public class RYBColorModel extends ColorModel {
 			return Color.RED;
 		}
 		return Color.black;
+	}
+
+	public String getColorName(Color c) {
+		return numberToColorNameMap[getColorNumber(c)];
 	}
 }

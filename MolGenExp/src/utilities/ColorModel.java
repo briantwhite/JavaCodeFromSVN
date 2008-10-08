@@ -44,6 +44,8 @@ public abstract class ColorModel {
 
 	public abstract int getColorNumber(Color c);
 	
+	public abstract String getColorName(Color c);
+	
 	public abstract void categorizeAcids(Grid grid);
 
 	/**

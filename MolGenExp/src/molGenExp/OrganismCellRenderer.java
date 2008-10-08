@@ -3,14 +3,14 @@ package molGenExp;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+
+import utilities.GlobalDefaults;
 
 public class OrganismCellRenderer extends JButton 
 	implements ListCellRenderer {
@@ -32,6 +32,7 @@ public class OrganismCellRenderer extends JButton
 				isSelected ? Color.GREEN : Color.BLACK, 2));
 		button.setVerticalTextPosition(AbstractButton.BOTTOM);
 		button.setHorizontalTextPosition(AbstractButton.CENTER);
+		button.setToolTipText(GlobalDefaults.colorModel.getColorName(o.getColor()));
 		
 		return button;
 	}

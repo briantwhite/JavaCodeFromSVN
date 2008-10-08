@@ -1329,3 +1329,16 @@ making snapshots better - not just screenshots of panels
   (these cut off the parts that aren't visible...)
   
 made version 1.1
+
+10/8/08
+for color-blind people (and because the colors are hrd to see)
+make tool-tip popups with the color name in text.
+
+- first, fix utilities.ColorModel and molGenExp.RYBColorModel
+	to have method to get name of color
+	
+- add to molGenExp.OrganismCellRenderer
+
+NEED TO 
+	- make a preference setting (default to on)
+	- add to color chip in biochem & mobo
