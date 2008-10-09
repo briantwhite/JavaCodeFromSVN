@@ -33,7 +33,7 @@ public abstract class ColorModel {
 
 	private Color[] numberToColorMap;
 	
-	private HashMap colorToNumberMap;
+	private HashMap<Color, Integer> colorToNumberMap;
 
 	/**
 	 * Constructor

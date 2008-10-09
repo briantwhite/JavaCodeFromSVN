@@ -7,6 +7,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import preferences.MGEPreferences;
+import utilities.GlobalDefaults;
+
 public class CombinedColorPanel extends JPanel {
 
 	private JLabel colorChipLabel;
@@ -25,6 +28,12 @@ public class CombinedColorPanel extends JPanel {
 	
 	public void setCombinedColor(Color color) {
 		colorChip.setBackground(color);
+		if (MGEPreferences.getInstance().isShowColorNameText()) {
+			colorChip.setToolTipText(
+					GlobalDefaults.colorModel.getColorName(color));
+		} else {
+			colorChip.setToolTipText(null);
+		}
 	}
 
 }

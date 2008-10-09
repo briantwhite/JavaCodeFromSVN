@@ -10,7 +10,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
@@ -25,6 +24,7 @@ import javax.swing.border.LineBorder;
 import molGenExp.ProteinImageFactory;
 import molGenExp.ProteinImageSet;
 import molGenExp.WorkPanel;
+import preferences.MGEPreferences;
 import utilities.GlobalDefaults;
 
 public class BiochemistryWorkpanel extends WorkPanel {
@@ -112,6 +112,12 @@ public class BiochemistryWorkpanel extends WorkPanel {
 					foldedProtein.repaint();
 					Color proteinColor = foldedProtein.getProteinColor();
 					colorChip.setBackground(proteinColor);
+					if (MGEPreferences.getInstance().isShowColorNameText()) {
+						colorChip.setToolTipText(
+								GlobalDefaults.colorModel.getColorName(proteinColor));
+					} else {
+						colorChip.setToolTipText(null);
+					}
 
 					//make full size and thumbnail images
 					ProteinImageSet images = 
@@ -203,8 +209,14 @@ public class BiochemistryWorkpanel extends WorkPanel {
 
 		//update the color chip on the folding window
 		colorChip.setBackground(fp.getColor());
+		if (MGEPreferences.getInstance().isShowColorNameText()) {
+			colorChip.setToolTipText(
+					GlobalDefaults.colorModel.getColorName(fp.getColor()));
+		} else {
+			colorChip.setToolTipText(null);
+		}
 
-		//update the combined cholor chip
+		//update the combined color chip
 		protex.updateCombinedColor();
 
 

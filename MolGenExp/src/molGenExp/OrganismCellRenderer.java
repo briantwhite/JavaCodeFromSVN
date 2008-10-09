@@ -34,8 +34,7 @@ implements ListCellRenderer {
 		button.setVerticalTextPosition(AbstractButton.BOTTOM);
 		button.setHorizontalTextPosition(AbstractButton.CENTER);
 
-		MGEPreferences prefs = MGEPreferences.getInstance();
-		if (prefs.isShowColorNameText()) {
+		if (MGEPreferences.getInstance().isShowColorNameText()) {
 			button.setToolTipText(GlobalDefaults.colorModel.getColorName(o.getColor()));
 		} else {
 			button.setToolTipText(null);

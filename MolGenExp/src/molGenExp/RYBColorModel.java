@@ -38,9 +38,9 @@ import biochem.PaintedInACornerFoldingException;
  */
 public class RYBColorModel extends ColorModel {
 
-	ArrayList hydrophobics;
-	ArrayList hydrophilics;
-	ArrayList coreColors;
+	ArrayList<AcidInChain> hydrophobics;
+	ArrayList<AcidInChain> hydrophilics;
+	ArrayList<Color> coreColors;
 
 	private Color[] numberToColorMap = {
 			// colors are modeled by bits in integer
@@ -68,14 +68,14 @@ public class RYBColorModel extends ColorModel {
 			"Black"
 	};
 
-	private HashMap colorToNumberMap;
+	private HashMap<Color, Integer> colorToNumberMap;
 
 	/**
 	 * Constructor
 	 */
 	public RYBColorModel() { 
 		super();		
-		colorToNumberMap = new HashMap();
+		colorToNumberMap = new HashMap<Color, Integer>();
 		for (int i = 0; i < numberToColorMap.length; i++) {
 			colorToNumberMap.put((Color)numberToColorMap[i], new Integer(i));
 		}
@@ -83,9 +83,9 @@ public class RYBColorModel extends ColorModel {
 
 	public Color getProteinColor(Grid grid) throws PaintedInACornerFoldingException {
 		Color color = Color.white;
-		hydrophobics = new ArrayList();
-		hydrophilics = new ArrayList();
-		coreColors = new ArrayList();
+		hydrophobics = new ArrayList<AcidInChain>();
+		hydrophilics = new ArrayList<AcidInChain>();
+		coreColors = new ArrayList<Color>();
 
 		HexGrid realGrid = (HexGrid)grid;
 		int numAcids = grid.getPP().getLength();
@@ -170,6 +170,7 @@ public class RYBColorModel extends ColorModel {
 	}
 
 	public int getColorNumber(Color c) {
+		if (colorToNumberMap.get(c) == null) return -1;
 		return ((Integer)colorToNumberMap.get(c)).intValue();
 	}
 
@@ -187,6 +188,8 @@ public class RYBColorModel extends ColorModel {
 	}
 
 	public String getColorName(Color c) {
+		int colorNumber = getColorNumber(c);
+		if (colorNumber == -1) return null;
 		return numberToColorNameMap[getColorNumber(c)];
 	}
 }
