@@ -3,7 +3,7 @@
 use DBI;
 use CGI;
 use GradeDB;
-#use TreeDB;
+use treeDB;
 
 $script_url = "https://www.securebio.umb.edu/cgi-bin/TreeSurvey.pl";
 
@@ -30,7 +30,7 @@ sub login_page {
 
 	$dbh = GradeDB::connect();
 	
-	print "<font size=+3>Login to the phylogeny survey site</font><br>\n";
+	print "<font size=+3>Login to the diversity of life survey site</font><br>\n";
 	print "Choose your name from this list:<br>\n";
     print "<select name=\"Name\" size=12>\n";
 	$sth = $dbh->prepare("SELECT * FROM students ORDER BY name");
@@ -57,7 +57,7 @@ sub load_survey {
 	
 	print "Content-type: text/html\n\n";
 	print "<html><head>\n";
-	print "<title>Phylogeny Survey for $name</title>\n";
+	print "<title>Diversity of Life Survey for $name</title>\n";
 	print "</head>\n";
 	print "<body bgcolor = \"lightblue\">\n"; 
 	
@@ -78,7 +78,25 @@ sub load_survey {
    		exit 1;
 	}
 	
-	print "<center><font size=+2>Phylogeny Survey for $name</font></center><br>\n";
+	print "<center><font size=+2>Diversity of Life Survey for $name</font></center><br>\n";
+	print "This survey is designed to see how well you understand the diversity of living \n";
+	print "organisms.  There is no right or wrong answer; you will receive full credit for \n";
+	print "whatever you write.  We are most interested in your understanding of these \n";
+	print "important biological issues.  <font color=red>Please do not consult any outside \n";
+	print "sources (textbook ,www, other people, etc,) when completing this survey!!</font><hr>\n";
+	print "Assume that you are working for a natural history museum like the Harvard Museum of \n";
+	print "Natural History, only smaller.  Your museum has specimens of the following 20 \n";
+	print "types of organisms in its collection.  Your task is to design a tree that will help \n";
+	print "orient visitors to the collection.  \n";
+	print "Your tree should include all the groups of organisms listed below and communicate the \n";
+	print "ways they are evolutionarily related to one another.<br>\n";
+	print "<b>1)</b>: Using the program in the window\n";
+	print "below, draw a tree diagram to show the relationships between these organisms.\n";
+	print "Please include additional text and graphics that you think will help visitors \n";
+	print "understand how you have organized these groups of organisms. There is no right or \n";
+	print "wrong answer to this task, but it is important that you are able to explain the logic \n";
+	print "behind your approach.<br><br>\n";
+
 	print "<b>Instructions:</b><br>\n";
 	print "<ul>\n";
   	print "<li>Drag Organisms to where you want them</li>\n";
@@ -95,6 +113,9 @@ sub load_survey {
 	print "archive=\"http://www.securebio.umb.edu/phylogenySurvey.jar\" \n";
 	print "width=1020 height=1020>\n";
   	print "          You have to enable Java on your machine !</applet>\n";
+  	print "<form action=\"$script_url\" method=\"POST\">\n";
+  	
+  	print "</form>\n";
 
   
 }

@@ -17,4 +17,69 @@ made parameters
 
 - permanently enabled for debugging purposes in surveyUI
 
-	
+
+10/9/08
+set up database on www.securebio.umb.edu
+
+dbname = trees
+user  = treesurvey
+pswd = tr335urvey
+
+logged in as root
+mysql -u root -pmy3quel
+
+mysql> show databases;
++------------+
+| Database   |
++------------+
+| COII       |
+| blog       |
+| fishies_db |
+| grades     |
+| mysql      |
+| test       |
+| webdb      |
++------------+
+7 rows in set (0.00 sec)
+
+mysql> create database trees;
+
+use trees;
+grant all on trees.* to treesurvey@localhost identified by "tr335urvey";
+mysql> create table student_data (
+    -> name varchar(50),
+    -> prepost varchar(10),
+    -> date datetime,
+    -> tree mediumblob,
+    -> Q1 blob,
+    -> Q2 blob,
+    -> Q3 blob);
+
+mysql> show tables;
++-----------------+
+| Tables_in_trees |
++-----------------+
+| student_data    |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> describe student_data;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| name    | varchar(50) | YES  |     | NULL    |       |
+| prepost | varchar(10) | YES  |     | NULL    |       |
+| date    | datetime    | YES  |     | NULL    |       |
+| tree    | mediumblob  | YES  |     | NULL    |       |
+| Q1      | blob        | YES  |     | NULL    |       |
+| Q2      | blob        | YES  |     | NULL    |       |
+| Q3      | blob        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+edited /etc/cron.daily/backup_databases to backup this db
+put new version on securebio
+
+put treeDB.pm in /usr/lib/perl5/5.8.5
+chmod +x
+
