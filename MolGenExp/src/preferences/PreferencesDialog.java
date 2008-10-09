@@ -14,6 +14,7 @@ public class PreferencesDialog extends JDialog {
 
 	private JTabbedPane tabPane;
 
+	private DisplaySettingsPane displaySettingsPane;
 	private WorldSettingsPane worldSettingsPane;
 	private MutationSettingsPane mutationSettingsPane;
 	private EvolutionPicturesPane evolutionPicturesPane;
@@ -29,6 +30,9 @@ public class PreferencesDialog extends JDialog {
 
 		JPanel topPanel = new JPanel();
 		tabPane = new JTabbedPane();
+		
+		displaySettingsPane = new DisplaySettingsPane(this);
+		tabPane.add(displaySettingsPane, "Display Settings");
 
 		worldSettingsPane = new WorldSettingsPane(this);
 		tabPane.add(worldSettingsPane, "World Settings");

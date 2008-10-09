@@ -10,11 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+import preferences.MGEPreferences;
 import utilities.GlobalDefaults;
 
 public class OrganismCellRenderer extends JButton 
-	implements ListCellRenderer {
-	
+implements ListCellRenderer {
+
 	public OrganismCellRenderer() {
 		super();
 		setOpaque(true);
@@ -32,8 +33,14 @@ public class OrganismCellRenderer extends JButton
 				isSelected ? Color.GREEN : Color.BLACK, 2));
 		button.setVerticalTextPosition(AbstractButton.BOTTOM);
 		button.setHorizontalTextPosition(AbstractButton.CENTER);
-		button.setToolTipText(GlobalDefaults.colorModel.getColorName(o.getColor()));
-		
+
+		MGEPreferences prefs = MGEPreferences.getInstance();
+		if (prefs.isShowColorNameText()) {
+			button.setToolTipText(GlobalDefaults.colorModel.getColorName(o.getColor()));
+		} else {
+			button.setToolTipText(null);
+		}
+
 		return button;
 	}
 

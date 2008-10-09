@@ -32,6 +32,10 @@ public class MGEPreferences {
 	private String foldingServerURL;
 	protected static String DEFAULT_FOLDING_SERVER_URL = 
 		"http://cluster.bio.whe.umb.edu/cgi-bin/fold.pl";
+	
+	//display options
+	private boolean showColorNameText;
+	protected static boolean DEFAULT_SHOW_COLOR_NAME_TEXT = true;
 
 	
 	public static MGEPreferences getInstance() {
@@ -60,6 +64,8 @@ public class MGEPreferences {
 		
 		useFoldingServer = DEFAULT_USE_FOLDING_SERVER;
 		foldingServerURL = DEFAULT_FOLDING_SERVER_URL;
+		
+		showColorNameText = DEFAULT_SHOW_COLOR_NAME_TEXT;
 	}
 	
 	public int getWorldSize() {
@@ -132,6 +138,14 @@ public class MGEPreferences {
 
 	public void setFoldingServerURL(String foldingServerURL) {
 		this.foldingServerURL = foldingServerURL;
+	}
+
+	public boolean isShowColorNameText() {
+		return showColorNameText;
+	}
+
+	public void setShowColorNameText(boolean showColorNameText) {
+		this.showColorNameText = showColorNameText;
 	}
 	
 

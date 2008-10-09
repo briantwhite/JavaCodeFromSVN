@@ -1342,3 +1342,8 @@ make tool-tip popups with the color name in text.
 NEED TO 
 	- make a preference setting (default to on)
 	- add to color chip in biochem & mobo
+	- add a color counter for genetics hist list items
+
+10/9/08
+	- made prefs setting
+	- 
