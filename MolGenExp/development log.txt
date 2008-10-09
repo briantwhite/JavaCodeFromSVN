@@ -1352,4 +1352,5 @@ NEED TO
 		molBiol.MolBiolWorkpanel
 	- color counter in genetics.Tray
 		and in genetics.GenHistListCellRend
-		
+
+called it version 1.2
