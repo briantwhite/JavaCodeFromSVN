@@ -1343,7 +1343,6 @@ NEED TO
 	- make a preference setting (default to on)
 	- add to color chip in biochem & mobo
 	- add a color counter for genetics hist list items
-	- add to evolution's world
 
 10/9/08
 	- made prefs setting
@@ -1351,5 +1350,5 @@ NEED TO
 		biochem.BiochemistryWorkpanel
 		mgx.CombinedColorPanel
 		molBiol.MolBiolWorkpanel
-	-
+	- color counter in genetics.Tray
 		
