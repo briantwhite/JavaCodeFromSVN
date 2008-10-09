@@ -5,17 +5,16 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 
-import biochem.FoldedPolypeptide;
+import preferences.MGEPreferences;
 
 public class GeneticsHistoryCellRenderer extends JButton 
-	implements ListCellRenderer {
-	
+implements ListCellRenderer {
+
 	public GeneticsHistoryCellRenderer() {
 		super();
 		setOpaque(true);
@@ -31,7 +30,13 @@ public class GeneticsHistoryCellRenderer extends JButton
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));
-		button.setToolTipText(tray.getToolTipText());
+
+		if (MGEPreferences.getInstance().isShowColorNameText()) {
+			button.setToolTipText("<html>" + tray.getParentInfo() + "<br>"
+					+ tray.getColorCountInfo() + "</html>");
+		} else {
+			button.setToolTipText(tray.getParentInfo());
+		}
 		return button;
 	}
 

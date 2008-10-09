@@ -1351,4 +1351,5 @@ NEED TO
 		mgx.CombinedColorPanel
 		molBiol.MolBiolWorkpanel
 	- color counter in genetics.Tray
+		and in genetics.GenHistListCellRend
 		
