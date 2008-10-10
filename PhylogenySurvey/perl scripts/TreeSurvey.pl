@@ -54,6 +54,9 @@ sub load_survey {
 	$query = CGI->new();
 	$name = $query->param('Name');
 	$password = $query->param('Passwd');
+	$Q1 = $query->param('Q1');
+	$Q2 = $query->param('Q2');
+	$Q3 = $query->param('Q3');
 	
 	print "Content-type: text/html\n\n";
 	print "<html><head>\n";
@@ -89,8 +92,8 @@ sub load_survey {
 	print "types of organisms in its collection.  Your task is to design a tree that will help \n";
 	print "orient visitors to the collection.  \n";
 	print "Your tree should include all the groups of organisms listed below and communicate the \n";
-	print "ways they are evolutionarily related to one another.<br>\n";
-	print "<b>1)</b>: Using the program in the window\n";
+	print "ways they are evolutionarily related to one another.<br><br><br>\n";
+	print "Using the program in the window\n";
 	print "below, draw a tree diagram to show the relationships between these organisms.\n";
 	print "Please include additional text and graphics that you think will help visitors \n";
 	print "understand how you have organized these groups of organisms. There is no right or \n";
@@ -114,7 +117,23 @@ sub load_survey {
 	print "width=1020 height=1020>\n";
   	print "          You have to enable Java on your machine !</applet>\n";
   	print "<form action=\"$script_url\" method=\"POST\">\n";
-  	
+    print "<br><br>\n";
+    print "<hr>\n";
+    print "<b>After you have developed your tree please answer the following questions.</b><br>\n";
+    print "<b>1)</b> Explain in words how you went about organizing these organisms. Use one \n";
+    print "or two specific examples and describe why you put them where you did.<br>\n";
+    print "<textarea name=\"Q1\" rows=10 cols=80>$Q1</textarea><br><br>\n";
+    print "<b>2)</b> How did you decide if organisms were closely related to one another\n";
+    print "or not closely related? Use one or two specific examples from your work to explain \n";
+    print "your reasoning.<br>\n";
+    print "<textarea name=\"Q2\" rows=10 cols=80>$Q2</textarea><br><br>\n";
+    print "<b>3)</b> How did you represent the similarities and differences between groups in \n";
+    print "your drawing? Use one or two specific examples from your work to explain your \n";
+    print "representations.<br>\n";
+    print "<textarea name=\"Q3\" rows=10 cols=80>$Q3</textarea><br><br>\n";
+    print "<input type=\"hidden\" name=\"Name\" value=\"$name\">\n";
+    print "<input type=\"hidden\" name=\"Passwd\" value=\"$password\">\n";
+    print "<input type=\"submit\">\n";
   	print "</form>\n";
 
   
