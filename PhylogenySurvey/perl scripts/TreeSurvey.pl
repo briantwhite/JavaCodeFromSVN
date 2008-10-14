@@ -61,6 +61,14 @@ sub load_survey {
 	print "Content-type: text/html\n\n";
 	print "<html><head>\n";
 	print "<title>Diversity of Life Survey for $name</title>\n";
+	print "<SCRIPT language=\"JavaScript\">\n";
+	print "function getAndShow() {\n";
+	print "    alert(\"DANGER\");\n";
+	print "    var xml = new String(document.form.TreeApplet.getTreeXML());\n";
+	print "//    document.forms[0].treeXML.value = xml;\n";
+	print "//    return true;\n";
+	print "}\n";
+	print "</script>\n";
 	print "</head>\n";
 	print "<body bgcolor = \"lightblue\">\n"; 
 	
@@ -112,11 +120,12 @@ sub load_survey {
   	print "<li>Select two objects connected by a link and click &quot;Split&quot; \n";
   	print "to add a new node in the middle of the link.</li>\n";
 	print "</ul>\n";
+  	print "<form action=\"$script_url\" method=\"POST\" onsubmit=\"return getAndShow()\"\n";
+  	print "name=\form\">\n";
 	print "<applet code=\"phylogenySurvey.SurveyApplet.class\" \n";
 	print "archive=\"http://www.securebio.umb.edu/phylogenySurvey.jar\" \n";
-	print "width=1020 height=1020>\n";
+	print "width=1020 height=1020 name=\"TreeApplet\">\n";
   	print "          You have to enable Java on your machine !</applet>\n";
-  	print "<form action=\"$script_url\" method=\"POST\">\n";
     print "<br><br>\n";
     print "<hr>\n";
     print "<b>After you have developed your tree please answer the following questions.</b><br>\n";
@@ -133,6 +142,7 @@ sub load_survey {
     print "<textarea name=\"Q3\" rows=10 cols=80>$Q3</textarea><br><br>\n";
     print "<input type=\"hidden\" name=\"Name\" value=\"$name\">\n";
     print "<input type=\"hidden\" name=\"Passwd\" value=\"$password\">\n";
+    print "<input type=\"hidden\" name=\"treeXML\" value=\"$treeXML\">\n";
     print "<input type=\"submit\">\n";
   	print "</form>\n";
 

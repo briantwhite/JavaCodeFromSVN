@@ -19,5 +19,13 @@ public class SurveyApplet extends JApplet {
 		surveyUI = new SurveyUI(this.getContentPane());
 		surveyUI.setupUI(scoringEnabled, password);
 	}
+	
+	public String getTreeXML() {
+		return surveyUI.getState();
+	}
+	
+	public void setTreeXML(String newTreeXML) {
+		surveyUI.setState(newTreeXML);
+	}
 
 }
