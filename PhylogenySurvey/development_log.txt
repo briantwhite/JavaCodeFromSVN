@@ -83,3 +83,7 @@ put new version on securebio
 put treeDB.pm in /usr/lib/perl5/5.8.5
 chmod +x
 
+10/14/08
+trying to use javascript to talk to applet
+does not work in safari!
+does in firefox.

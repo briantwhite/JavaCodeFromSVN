@@ -63,8 +63,8 @@ sub load_survey {
 	print "<title>Diversity of Life Survey for $name</title>\n";
 	print "<SCRIPT language=\"JavaScript\">\n";
 	print "function getAndShow() {\n";
-	print "    alert(\"DANGER\");\n";
-	print "    var xml = new String(document.form.TreeApplet.getTreeXML());\n";
+	print "    var xml = document.form.TreeApplet.getTreeXML();\n";
+	print "    alert(\"DANGER\" + xml);\n";
 	print "//    document.forms[0].treeXML.value = xml;\n";
 	print "//    return true;\n";
 	print "}\n";
@@ -120,8 +120,8 @@ sub load_survey {
   	print "<li>Select two objects connected by a link and click &quot;Split&quot; \n";
   	print "to add a new node in the middle of the link.</li>\n";
 	print "</ul>\n";
-  	print "<form action=\"$script_url\" method=\"POST\" onsubmit=\"return getAndShow()\"\n";
-  	print "name=\form\">\n";
+  	print "<form action=\"$script_url\" method=\"POST\" onsubmit=\"return getAndShow();\" ";
+  	print "name=\"form\">\n";
 	print "<applet code=\"phylogenySurvey.SurveyApplet.class\" \n";
 	print "archive=\"http://www.securebio.umb.edu/phylogenySurvey.jar\" \n";
 	print "width=1020 height=1020 name=\"TreeApplet\">\n";
