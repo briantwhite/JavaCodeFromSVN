@@ -57,6 +57,7 @@ sub load_survey {
 	$Q1 = $query->param('Q1');
 	$Q2 = $query->param('Q2');
 	$Q3 = $query->param('Q3');
+	$treeXML = $query->param('treeXML');
 	
 	print "Content-type: text/html\n\n";
 	print "<html><head>\n";
@@ -64,9 +65,8 @@ sub load_survey {
 	print "<SCRIPT language=\"JavaScript\">\n";
 	print "function getAndShow() {\n";
 	print "    var xml = document.form.TreeApplet.getTreeXML();\n";
-	print "    alert(\"DANGER\" + xml);\n";
-	print "//    document.forms[0].treeXML.value = xml;\n";
-	print "//    return true;\n";
+	print "    document.forms[0].treeXML.value = xml;\n";
+	print "    return true;\n";
 	print "}\n";
 	print "</script>\n";
 	print "</head>\n";
@@ -145,7 +145,6 @@ sub load_survey {
     print "<input type=\"hidden\" name=\"treeXML\" value=\"$treeXML\">\n";
     print "<input type=\"submit\">\n";
   	print "</form>\n";
-
   
 }
 
