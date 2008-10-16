@@ -63,17 +63,19 @@ sub load_survey {
 	print "<html><head>\n";
 	print "<title>Diversity of Life Survey for $name</title>\n";
 	print "<SCRIPT language=\"JavaScript\">\n";
-	print "function getAndShow() {\n";
-	if ($treeXML != "") {
-	    print "document.TreeApplet.setTreeXML(\"$treeXML\");\n";
-	}
+	print "function getTreeData() {\n";
 	print "    var xml = document.TreeApplet.getTreeXML();\n";
 	print "    document.forms[0].treeXML.value = xml;\n";
 	print "    return true;\n";
 	print "}\n";
+	print "function setTreeData() {\n";
+	if ($treeXML != "") {
+	    print "    document.TreeApplet.setTreeXML(\"$treeXML\");\n";
+	}
+	print "}\n";
 	print "</script>\n";
 	print "</head>\n";
-	print "<body bgcolor = \"lightblue\">\n"; 
+	print "<body bgcolor = \"lightblue\" onload=\"setTreeData()\">\n"; 
 	
 	$dbh = GradeDB::connect();
 	$statement = "SELECT password FROM students
@@ -123,7 +125,7 @@ sub load_survey {
   	print "<li>Select two objects connected by a link and click &quot;Split&quot; \n";
   	print "to add a new node in the middle of the link.</li>\n";
 	print "</ul>\n";
-  	print "<form action=\"$script_url\" method=\"POST\" onsubmit=\"return getAndShow();\" ";
+  	print "<form action=\"$script_url\" method=\"POST\" onsubmit=\"return getTreeData();\" ";
   	print "name=\"form\">\n";
 	print "<applet code=\"phylogenySurvey.SurveyApplet.class\" \n";
 	print "archive=\"https://www.securebio.umb.edu/phylogenySurvey.jar\" \n";
@@ -145,7 +147,7 @@ sub load_survey {
     print "<textarea name=\"Q3\" rows=10 cols=80>$Q3</textarea><br><br>\n";
     print "<input type=\"hidden\" name=\"Name\" value=\"$name\">\n";
     print "<input type=\"hidden\" name=\"Passwd\" value=\"$password\">\n";
-    print "<input type=\"hidden\" name=\"treeXML\">\n";
+    print "<input type=\"hidden\" name=\"treeXML\" value=\"$treeXML\">\n";
     print "<input type=\"submit\">\n";
   	print "</form>\n";
   

@@ -1,5 +1,9 @@
 package phylogenySurvey;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 import javax.swing.JApplet;
 
 public class SurveyApplet extends JApplet {
@@ -21,11 +25,21 @@ public class SurveyApplet extends JApplet {
 	}
 	
 	public String getTreeXML() {
-		return surveyUI.getState();
+		String result = "";
+		try {
+			result = URLEncoder.encode(surveyUI.getState(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	public void setTreeXML(String newTreeXML) {
-		surveyUI.setState(newTreeXML);
+		try {
+			surveyUI.setState(URLDecoder.decode(newTreeXML, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

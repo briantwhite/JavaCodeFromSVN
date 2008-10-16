@@ -467,6 +467,14 @@ public class SurveyUI {
 
 	public void setState(String state) {
 		SurveyData.getInstance().setState(state, workPanel);
+		workPanel.repaint();
+		selectionA = null;
+		selectionB = null;
+		selectionOnly = null;
+		linkButton.setEnabled(false);
+		unlinkButton.setEnabled(false);	
+		deleteButton.setEnabled(false);
+		splitButton.setEnabled(false);		
 	}
 
 }
