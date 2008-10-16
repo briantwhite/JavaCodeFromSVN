@@ -87,3 +87,17 @@ chmod +x
 trying to use javascript to talk to applet
 does not work in safari!
 does in firefox.
+
+10/16/08
+tried in safari using a safari bookmark that lets you run arbitrary javascript code
+tried to look at document.TreeApplet and got this
+Error: java.security.PrivilegedActionException: sun.plugin.liveconnect.OriginNotAllowedException: 
+      JavaScript is not from the same origin as the Java code, 
+      caller=https://www.securebio.umb.edu/cgi-bin/TreeSurvey.pl, 
+      callee=http://www.securebio.umb.edu/phylogenySurvey.jar
+
+note that the caller is in https and the callee is http
+therefore, move phylogenySurvey.jar to /var/www/sslhtdocs
+and change reference in TreeSurvey.pl
+
+now works!!

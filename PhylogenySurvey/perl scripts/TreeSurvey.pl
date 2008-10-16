@@ -64,7 +64,10 @@ sub load_survey {
 	print "<title>Diversity of Life Survey for $name</title>\n";
 	print "<SCRIPT language=\"JavaScript\">\n";
 	print "function getAndShow() {\n";
-	print "    var xml = document.form.TreeApplet.getTreeXML();\n";
+	if ($treeXML != "") {
+	    print "document.TreeApplet.setTreeXML(\"$treeXML\");\n";
+	}
+	print "    var xml = document.TreeApplet.getTreeXML();\n";
 	print "    document.forms[0].treeXML.value = xml;\n";
 	print "    return true;\n";
 	print "}\n";
@@ -123,7 +126,7 @@ sub load_survey {
   	print "<form action=\"$script_url\" method=\"POST\" onsubmit=\"return getAndShow();\" ";
   	print "name=\"form\">\n";
 	print "<applet code=\"phylogenySurvey.SurveyApplet.class\" \n";
-	print "archive=\"http://www.securebio.umb.edu/phylogenySurvey.jar\" \n";
+	print "archive=\"https://www.securebio.umb.edu/phylogenySurvey.jar\" \n";
 	print "width=1020 height=1020 name=\"TreeApplet\">\n";
   	print "          You have to enable Java on your machine !</applet>\n";
     print "<br><br>\n";
@@ -142,7 +145,7 @@ sub load_survey {
     print "<textarea name=\"Q3\" rows=10 cols=80>$Q3</textarea><br><br>\n";
     print "<input type=\"hidden\" name=\"Name\" value=\"$name\">\n";
     print "<input type=\"hidden\" name=\"Passwd\" value=\"$password\">\n";
-    print "<input type=\"hidden\" name=\"treeXML\" value=\"$treeXML\">\n";
+    print "<input type=\"hidden\" name=\"treeXML\">\n";
     print "<input type=\"submit\">\n";
   	print "</form>\n";
   
