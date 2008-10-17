@@ -219,6 +219,9 @@ public class SurveyData {
 		items = new ArrayList<SelectableObject>();
 		links = new ArrayList<Link>();
 		workPanel.removeAll();
+		workPanel.repaint();
+		
+		JOptionPane.showMessageDialog(null, "there are " + links.size() + " in the set");
 		
 		Document doc = null;
 		SAXBuilder builder = new SAXBuilder();
