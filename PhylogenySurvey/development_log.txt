@@ -101,3 +101,13 @@ therefore, move phylogenySurvey.jar to /var/www/sslhtdocs
 and change reference in TreeSurvey.pl
 
 now works!!
+
+10/21/08
+trouble debugging applet
+it would not be updated in browser
+therefore (on server only) change name to phylogenySurvey.1.jar etc
+
+still NG
+the applet keeps the links & puts all organisms back to start
+the link persists even if logged in to another user!
+- the browser must be caching something!
