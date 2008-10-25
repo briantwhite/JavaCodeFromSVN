@@ -621,3 +621,110 @@ appropriate for solving each trait. Of course, students also must determine how 
 match to phenotypes for each trait, depending on the model they propose.
 
 made Level11-1.pr2 - same as level 11 except 50/50 chance of inc dom for each gene
+
+
+10/25/08
+weird bug from Harry Roy
+get cages with only males!
+this is reproducible - re-crossing parents gives all males
+also crossing these males with random females gives only males!
+
+  <GeneticModel XX_XYSexDetermination="false" 
+  	BeginnerMode="false" 
+  	NumberOfCharacters="3" 
+  	MinOffspring="40" 
+  	MaxOffspring="70">
+
+in saved file, cage 105 (id = 104) has these:
+        <Organism Id="0" CageId="104" Male="true">
+          <Chromosome Id="MaternalAutosome" Size="3">
+            <Allele GeneIndex="0" TraitNumber="1" />
+            <Allele GeneIndex="1" TraitNumber="2" />
+            <Allele GeneIndex="2" TraitNumber="1" />
+          </Chromosome>
+          <Chromosome Id="PaternalAutosome" Size="3">
+            <Allele GeneIndex="0" TraitNumber="1" />
+            <Allele GeneIndex="1" TraitNumber="1" />
+            <Allele GeneIndex="2" TraitNumber="1" />
+          </Chromosome>
+          <Chromosome Id="MaternalSexChromosome" Size="0" />
+          <Chromosome Id="PaternalSexChromosome" Size="0" />
+        </Organism>
+        
+- this should've been an xx/xy sex-linked system
+the first organisms are sexed that way:
+
+        <Organism Id="23" CageId="0" Male="true">
+          <Chromosome Id="MaternalAutosome" Size="3">
+            <Allele GeneIndex="0" TraitNumber="1" />
+            <Allele GeneIndex="1" TraitNumber="1" />
+            <Allele GeneIndex="2" TraitNumber="1" />
+          </Chromosome>
+          <Chromosome Id="PaternalAutosome" Size="3">
+            <Allele GeneIndex="0" TraitNumber="1" />
+            <Allele GeneIndex="1" TraitNumber="1" />
+            <Allele GeneIndex="2" TraitNumber="1" />
+          </Chromosome>
+          <Chromosome Id="MaternalSexChromosome" Size="-1" />
+          <Chromosome Id="PaternalSexChromosome" Size="0" />
+        </Organism>
+        
+        <Organism Id="21" CageId="0" Male="false">
+          <Chromosome Id="MaternalAutosome" Size="3">
+            <Allele GeneIndex="0" TraitNumber="1" />
+            <Allele GeneIndex="1" TraitNumber="1" />
+            <Allele GeneIndex="2" TraitNumber="1" />
+          </Chromosome>
+          <Chromosome Id="PaternalAutosome" Size="3">
+            <Allele GeneIndex="0" TraitNumber="1" />
+            <Allele GeneIndex="1" TraitNumber="1" />
+            <Allele GeneIndex="2" TraitNumber="1" />
+          </Chromosome>
+          <Chromosome Id="MaternalSexChromosome" Size="0" />
+          <Chromosome Id="PaternalSexChromosome" Size="0" />
+        </Organism>
+
+somehow, it got switched - maybe it's in how the work is saved & re-loaded
+sometimes I use Boolean.parseBoolean(e.getAttributeValue())
+sometimes I use e.getAttribute().getBooleanValue()
+maybe its a strange thing there...
+
+this may be it: in GeneticModel, I save the sex linkage type as 'XX_XYSexDetermination'
+but, in WorkFileProcessor, I look for 'XX_XYSexLinkage'
+and, if I use 
+	e.getAttribute("XX_XYSexLinkage").getBooleanValue());
+	this throws an error
+	but the code I used:
+		Boolean.parseBoolean(e.getAttributeValue("XX_XYSexLinkage"))
+		does not 
+		
+so, if you save, reopen, and save again, it should mess up the sex-linkage
+test:
+open a level 11 problem (no way to be zz/zw)
+save
+	first line:
+	  <GeneticModel XX_XYSexDetermination="true" 
+	  BeginnerMode="false" 
+	  NumberOfCharacters="2" 
+	  MinOffspring="25" MaxOffspring="35">
+	
+reopen and save again
+	first line
+	  <GeneticModel XX_XYSexDetermination="false"  - NOTE NOW FALSE!!! THIS IS THE BUG!
+	  BeginnerMode="false" 
+	  NumberOfCharacters="2" 
+	  MinOffspring="25" MaxOffspring="35">
+	
+fix work file processor to look for 'XX_XYSexDetermination'
+test
+open level 11 problem
+cross once
+save
+	<GeneticModel XX_XYSexDetermination="true"
+reopen
+cross again
+save
+	<GeneticModel XX_XYSexDetermination="true"
+
+now AOK!
+made version 1.1.1

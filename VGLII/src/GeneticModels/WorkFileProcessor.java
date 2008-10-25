@@ -26,7 +26,7 @@ import VGL.GeneticModelAndCageSet;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: WorkFileProcessor.java,v 1.7 2008-06-25 12:02:22 brian Exp $
+ * @version 1.0 $Id: WorkFileProcessor.java,v 1.8 2008-10-25 14:54:43 brian Exp $
  */
 
 /**
@@ -66,7 +66,7 @@ public class WorkFileProcessor {
 
 		GeneticModel model = 
 			new GeneticModel(
-					Boolean.parseBoolean(e.getAttributeValue("XX_XYSexLinkage")));
+					Boolean.parseBoolean(e.getAttributeValue("XX_XYSexDetermination")));
 
 		model.setMinOffspring(Integer.parseInt(e.getAttributeValue("MinOffspring")));
 		model.setMaxOffspring(Integer.parseInt(e.getAttributeValue("MaxOffspring")));
