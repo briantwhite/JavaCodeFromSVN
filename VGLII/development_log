@@ -726,5 +726,33 @@ cross again
 save
 	<GeneticModel XX_XYSexDetermination="true"
 
+it must be that Boolean.parseBoolean(e.getAttributeValue("XX_XYSexDetermination"))
+	gives "false" when getAttributValue() returns null
+therefore, use the safer version e.getAttribute().getBooleanValue()
+
 now AOK!
+
+another bug - RFs in Level12 are always identical
+fixed code in WorkFileProcessor.processChromosomeModelInfo
+	it was reading in and losing all but the last RF
+
+check to be sure all work file param names match in save, read, and the file
+order: GeneticModel.save(); WorkFileProcessor.processSavedModelInfo(); work.txt
+- GeneticModel; GeneticModel; GeneticModel {OK}
+- XX_XYSexDetermination; XX_XYSexDetermination; XX_XYSexDetermination {OK}
+- BeginnerMode; BeginnerMode; BeginnerMode {OK}
+- NumberOfCharacters; NumberOfCharacters; NumberOfCharacters {OK}
+- MinOffspring; MinOffspring; MinOffspring {OK}
+- MaxOffspring; MaxOffspring; MaxOffspring {OK}
+- CharacterOrderScrambler; CharacterOrderScrambler; CharacterOrderScrambler {OK}
+- Character; - not tested -; Character {OK}
+- Index; Index; Index {OK}
+- ChromosomeModel; ChromosomeModel; ChromosomeModel {OK}
+- SexChromosome; SexChromosome; SexChromosome {OK}
+- NumGenes; - not read -; NumGenes {OK}
+- checked GeneModels to be sure they save the right name string {OK}
+- RfToPrevious; RfToPrevious; RfToPrevious {OK}
+
+all should be OK now
+
 made version 1.1.1

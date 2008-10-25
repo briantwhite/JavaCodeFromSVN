@@ -26,7 +26,7 @@ import VGL.GeneticModelAndCageSet;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: WorkFileProcessor.java,v 1.8 2008-10-25 14:54:43 brian Exp $
+ * @version 1.0 $Id: WorkFileProcessor.java,v 1.9 2008-10-25 18:55:20 brian Exp $
  */
 
 /**
@@ -65,11 +65,10 @@ public class WorkFileProcessor {
 	private GeneticModel processSavedModelInfo(Element e) throws Exception {
 
 		GeneticModel model = 
-			new GeneticModel(
-					Boolean.parseBoolean(e.getAttributeValue("XX_XYSexDetermination")));
+			new GeneticModel(e.getAttribute("XX_XYSexDetermination").getBooleanValue());
 
-		model.setMinOffspring(Integer.parseInt(e.getAttributeValue("MinOffspring")));
-		model.setMaxOffspring(Integer.parseInt(e.getAttributeValue("MaxOffspring")));
+		model.setMinOffspring(e.getAttribute("MinOffspring").getIntValue());
+		model.setMaxOffspring(e.getAttribute("MaxOffspring").getIntValue());
 
 		Iterator<Element> it = e.getChildren().iterator();
 		//get the tags inside the "Model" tag
@@ -87,7 +86,6 @@ public class WorkFileProcessor {
 			if (name.equals("CharacterOrderScrambler")) {
 				int[] scrambler = new int[numberOfCharacters];
 				Iterator<Element> scIt = current.getChildren().iterator();
-				int i = 0;
 				while (scIt.hasNext()) {
 					Element te = scIt.next();
 					scrambler[Integer.parseInt(te.getAttributeValue("Index"))] = 
@@ -97,8 +95,7 @@ public class WorkFileProcessor {
 
 			} else if (name.equals("ChromosomeModel")) {
 				boolean sexChromosome = 
-					Boolean.parseBoolean(
-							current.getAttributeValue("SexChromosome"));
+					current.getAttribute("SexChromosome").getBooleanValue();
 				processChromosomeModelInfo(model, sexChromosome, current);
 			}
 		}
@@ -113,35 +110,30 @@ public class WorkFileProcessor {
 		int chromoNumber = 1;
 		if (sexChromosome) chromoNumber = 0;
 
-		int numGeneModels = Integer.parseInt(e.getAttributeValue("NumGenes"));
 		// set up the geneModels first
-		GeneModel[] geneModels = new GeneModel[numGeneModels];
 		Iterator<Element> gmIt = e.getChildren().iterator();
 		int i = 0;
 		float rf = -1.0f;
 		while (gmIt.hasNext()) {
 			Element gmEl = gmIt.next();
-			rf = Float.parseFloat(gmEl.getAttributeValue("RfToPrevious"));
-			geneModels[i] = buildGeneModel(gmEl, chromoNumber, i);
-			i++;
-		}
+			rf = gmEl.getAttribute("RfToPrevious").getFloatValue();
+			GeneModel geneModel = buildGeneModel(gmEl, chromoNumber, i);
 
-		if (sexChromosome) {
-			for (int j = 0; j < numGeneModels; j++) {
-				if (j == 0) {
-					model.addFirstSexLinkedGeneModel(geneModels[j]);
+			if (sexChromosome) {
+				if (i == 0) {
+					model.addFirstSexLinkedGeneModel(geneModel);
 				} else {
-					model.addNextSexLinkedGeneModel(rf, geneModels[j]);
+					model.addNextSexLinkedGeneModel(rf, geneModel);
+				}
+			} else {
+				if (i == 0) {
+					model.addFirstAutosomalGeneModel(geneModel);
+				} else {
+					model.addNextAutosomalGeneModel(rf, geneModel);
 				}
 			}
-		} else {
-			for (int j = 0; j < numGeneModels; j++) {
-				if (j == 0) {
-					model.addFirstAutosomalGeneModel(geneModels[j]);
-				} else {
-					model.addNextAutosomalGeneModel(rf, geneModels[j]);
-				}
-			}			
+
+			i++;
 		}
 	}
 
@@ -182,47 +174,53 @@ public class WorkFileProcessor {
 	}
 
 	private Cage buildCage(Element e) {
-		int cageId = Integer.parseInt(e.getAttributeValue("Id"));
-		int numChildren = Integer.parseInt(e.getAttributeValue("NumChildren"));
+		int cageId;
+		try {
+			cageId = e.getAttribute("Id").getIntValue();
+			int numChildren = e.getAttribute("NumChildren").getIntValue();
 
-		Cage cage = new Cage(cageId);
-		Iterator<Element> contentsIt = e.getChildren().iterator();
-		while (contentsIt.hasNext()) {
-			Element item = contentsIt.next();
-			if (item.getName().equals("Parents")) {
-				Iterator<Element> parentIt = item.getChildren().iterator();
-				Element p1E = parentIt.next();
-				Organism p1 = 
-					OrganismFactory.buildOrganism(
-							p1E, 
-							Integer.parseInt(p1E.getAttributeValue("CageId")),
-							geneticModel);
-				Element p2E = parentIt.next();
-				Organism p2 = 
-					OrganismFactory.buildOrganism(
-							p2E,
-							Integer.parseInt(p2E.getAttributeValue("CageId")),
-							geneticModel);
-				cage.setParents(p1, p2);
-			} else if(item.getName().equals("Children")) {
-				Organism[] childrenInOrder = new Organism[numChildren];
-				Iterator<Element> childIt = item.getChildren().iterator();
-				while (childIt.hasNext()) {
-					Element childE = childIt.next();
-					if (childE.getName().equals("Organism")) {
-						int index = Integer.parseInt(childE.getAttributeValue("Id"));
-						childrenInOrder[index] = 
-							OrganismFactory.buildOrganism(
-									childE, cageId, geneticModel);
+			Cage cage = new Cage(cageId);
+			Iterator<Element> contentsIt = e.getChildren().iterator();
+			while (contentsIt.hasNext()) {
+				Element item = contentsIt.next();
+				if (item.getName().equals("Parents")) {
+					Iterator<Element> parentIt = item.getChildren().iterator();
+					Element p1E = parentIt.next();
+					Organism p1 = 
+						OrganismFactory.buildOrganism(
+								p1E, 
+								p1E.getAttribute("CageId").getIntValue(),
+								geneticModel);
+					Element p2E = parentIt.next();
+					Organism p2 = 
+						OrganismFactory.buildOrganism(
+								p2E,
+								p2E.getAttribute("CageId").getIntValue(),
+								geneticModel);
+					cage.setParents(p1, p2);
+				} else if(item.getName().equals("Children")) {
+					Organism[] childrenInOrder = new Organism[numChildren];
+					Iterator<Element> childIt = item.getChildren().iterator();
+					while (childIt.hasNext()) {
+						Element childE = childIt.next();
+						if (childE.getName().equals("Organism")) {
+							int index = childE.getAttribute("Id").getIntValue();
+							childrenInOrder[index] = 
+								OrganismFactory.buildOrganism(
+										childE, cageId, geneticModel);
+						}
+					}
+
+					for (int i = 0; i < numChildren; i++) {
+						cage.addSaved(childrenInOrder[i]);
 					}
 				}
-				
-				for (int i = 0; i < numChildren; i++) {
-					cage.addSaved(childrenInOrder[i]);
-				}
 			}
+			return cage;
+		} catch (DataConversionException e1) {
+			e1.printStackTrace();
+			return null;
 		}
-		return cage;
 	}
 
 }
