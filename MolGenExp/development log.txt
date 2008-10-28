@@ -1353,4 +1353,7 @@ NEED TO
 	- color counter in genetics.Tray
 		and in genetics.GenHistListCellRend
 
+10/28/08
+	- added color name to screenshot functions in biochem & mobo
+	
 called it version 1.2
