@@ -93,6 +93,31 @@ sub load_survey {
    		print "</body></html>\n";
    		exit 1;
 	}
+	$dbh->disconnect();
+	
+	#see if they're entering data
+	if ($treeXML ne "") {
+	
+	    #see if there's already an entry for this student
+	    $dbh = treeDB:connect();
+	    $statement = "SELECT count(*) from student_data WHERE name=?";
+	    $sth = $dbh->prepare($statement);
+	    $sth->execute($name);
+	    $rowcount = $sth->fetchrow();
+	    $sth->finish();
+
+	    if ($rowcount == 0) {
+	        $statement = "INSERT ";
+	    }  else {
+	        $statement = "";
+	    }
+	    $sth = $dbh->prepare($statement);
+	    $sth->execute($name, $Q1, $Q2, $Q3, $treeXML);
+	    $sth->finish();
+	    $dbh->disconnect();
+	}
+	
+	$dbh->disconnect();
 	
 	print "<center><font size=+2>Diversity of Life Survey for $name</font></center><br>\n";
 	print "This survey is designed to see how well you understand the diversity of living \n";
