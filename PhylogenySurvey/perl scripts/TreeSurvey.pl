@@ -62,6 +62,60 @@ sub load_survey {
 	print "Content-type: text/html\n\n";
 	print "<html><head>\n";
 	print "<title>Diversity of Life Survey for $name</title>\n";
+	
+	$dbh = GradeDB::connect();
+	$statement = "SELECT password FROM students
+ 	     WHERE name=\"$name\"";
+	$sth = $dbh->prepare($statement);
+	$sth->execute();
+	@result = $sth->fetchrow_array();
+	$sth->finish();
+	$pw = $result[0];
+
+	if(&decrypt_pw($pw,$password) != 1){
+	    print "<body bgcolor=red>\n";
+  		print "<br><font color=green><b>Error: Password incorrect 
+   		       for $name.</b></font><br>";
+   		print "<a href=\"$script_url\">Click here to return to login screen</a>.\n";
+   		print "</body></html>\n";
+   		exit 1;
+	}
+	$dbh->disconnect();
+	
+    #see if there's already an entry for this student
+	$dbh = treeDB::connect();
+	$statement = "SELECT count(*) from student_data WHERE name=?";
+	$sth = $dbh->prepare($statement);
+	$sth->execute($name);
+	$rowcount = $sth->fetchrow();
+	$sth->finish();
+
+	#see if they're entering data
+	if ($treeXML ne "") {
+	
+	    $date = localtime(time); 
+	    
+	    if ($rowcount == 0) {
+	        $statement = "INSERT INTO student_data (Q1, Q2, Q3, tree, date, name) VALUES (?,?,?,?,?,?)";
+	    }  else {
+	        $statement = "UPDATE student_data SET Q1 = ?, Q2 = ?, Q3 = ?, tree = ?, date = ? WHERE name = ?";
+	    }
+	    $sth = $dbh->prepare($statement);
+	    $sth->execute($Q1, $Q2, $Q3, $treeXML, $date, $name);
+	    $sth->finish();
+	    $dbh->disconnect();
+	} else {
+	    # if there's already data there, get it
+	    if ($rowcount != 0) {
+	        $sth = $dbh->prepare("SELECT Q1, Q2, Q3, tree FROM student_data WHERE name=?");
+	        $sth->execute($name);
+	        ($Q1, $Q2, $Q3, $treeXML) = $sth->fetchrow_array();
+	        $sth->finish();
+	    }
+	}
+	
+	$dbh->disconnect();
+	
 	print "<SCRIPT language=\"JavaScript\">\n";
 	print "function getTreeData() {\n";
 	print "    var xml = document.TreeApplet.getTreeXML();\n";
@@ -76,48 +130,6 @@ sub load_survey {
 	print "</script>\n";
 	print "</head>\n";
 	print "<body bgcolor = \"lightblue\" onload=\"setTreeData()\">\n"; 
-	
-	$dbh = GradeDB::connect();
-	$statement = "SELECT password FROM students
- 	     WHERE name=\"$name\"";
-	$sth = $dbh->prepare($statement);
-	$sth->execute();
-	@result = $sth->fetchrow_array();
-	$sth->finish();
-	$pw = $result[0];
-
-	if(&decrypt_pw($pw,$password) != 1){
-  		print "<br><font color=#FF0000><b>Error: Password incorrect 
-   		       for $name.</b></font><br>";
-   		print "<a href=\"$script_url\">Click here to return to login screen</a>.\n";
-   		print "</body></html>\n";
-   		exit 1;
-	}
-	$dbh->disconnect();
-	
-	#see if they're entering data
-	if ($treeXML ne "") {
-	
-	    #see if there's already an entry for this student
-	    $dbh = treeDB:connect();
-	    $statement = "SELECT count(*) from student_data WHERE name=?";
-	    $sth = $dbh->prepare($statement);
-	    $sth->execute($name);
-	    $rowcount = $sth->fetchrow();
-	    $sth->finish();
-
-	    if ($rowcount == 0) {
-	        $statement = "INSERT ";
-	    }  else {
-	        $statement = "";
-	    }
-	    $sth = $dbh->prepare($statement);
-	    $sth->execute($name, $Q1, $Q2, $Q3, $treeXML);
-	    $sth->finish();
-	    $dbh->disconnect();
-	}
-	
-	$dbh->disconnect();
 	
 	print "<center><font size=+2>Diversity of Life Survey for $name</font></center><br>\n";
 	print "This survey is designed to see how well you understand the diversity of living \n";

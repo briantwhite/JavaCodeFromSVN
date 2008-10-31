@@ -126,3 +126,7 @@ BUT state not restored - looking at html, the tree description is incomplete
 - it was not being restored because I was resetting the SurveyData at the wrong time!
 
 now AOK - need to connect to db
+
+almost working -
+	1) date saves 00 00 00 etc.
+	2) on first entry, any moved organisms are duplicated (?)

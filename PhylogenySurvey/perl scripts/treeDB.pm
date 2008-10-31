@@ -1,4 +1,4 @@
-package TreeDB;
+package treeDB;
 
 use strict;
 use DBI;
