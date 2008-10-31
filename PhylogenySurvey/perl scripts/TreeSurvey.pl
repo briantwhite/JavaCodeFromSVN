@@ -69,7 +69,7 @@ sub load_survey {
 	print "    return true;\n";
 	print "}\n";
 	print "function setTreeData() {\n";
-	if ($treeXML != "") {
+	if ($treeXML ne "") {
 	    print "    document.TreeApplet.setTreeXML(\"$treeXML\");\n";
 	}
 	print "}\n";
@@ -128,7 +128,7 @@ sub load_survey {
   	print "<form action=\"$script_url\" method=\"POST\" onsubmit=\"return getTreeData();\" ";
   	print "name=\"form\">\n";
 	print "<applet code=\"phylogenySurvey.SurveyApplet.class\" \n";
-	print "archive=\"https://www.securebio.umb.edu/phylogenySurvey.2.jar\" \n";
+	print "archive=\"https://www.securebio.umb.edu/phylogenySurvey.5.jar\" \n";
 	print "width=1020 height=1020 name=\"TreeApplet\">\n";
   	print "          You have to enable Java on your machine !</applet>\n";
     print "<br><br>\n";

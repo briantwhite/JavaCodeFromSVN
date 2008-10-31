@@ -115,3 +115,14 @@ the link persists even if logged in to another user!
 10/22/08
 tried using start() in JApplet
 still NG
+
+10/31/08
+finally added stop() method to applet 
+also SurveyData.reset() that resets the database
+now there is no carryover
+BUT state not restored - looking at html, the tree description is incomplete
+- url encoding is messing it up
+- need another way to deal with "poison" characters - so it's not read as XML 
+- it was not being restored because I was resetting the SurveyData at the wrong time!
+
+now AOK - need to connect to db

@@ -44,6 +44,11 @@ public class SurveyData {
 		return instance;
 	}
 	
+	public void reset() {
+		instance = null;
+		instance = new SurveyData();
+	}
+	
 	public void loadOrganisms(URL listFileURL, DrawingPanel workPanel) {
 		String line = "";
 		int row = 0;

@@ -29,6 +29,10 @@ public class SurveyApplet extends JApplet {
 		surveyUI.setupUI(scoringEnabled, password);
 	}
 	
+	public void stop() {
+		SurveyData.getInstance().reset();
+	}
+	
 	public String getTreeXML() {
 		String result = "";
 		try {
