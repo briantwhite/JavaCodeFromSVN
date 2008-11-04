@@ -209,9 +209,17 @@ public class SurveyUI {
 
 		splitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				workPanel.add(surveyData.split(selectionA, selectionB));
+				NodeWithLocation result = surveyData.split(selectionA, selectionB);
+				if (result == null) return;
+				Node node = result.getNode();
+				workPanel.add(node);
+				node.setBounds(result.getX(), result.getY(), 12, 12);
 				workPanel.repaint();
 				surveyData.saveStateToHistoryList();
+				selectionA.setSelected(false);
+				selectionA.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				selectionB.setSelected(false);
+				selectionB.setBorder(BorderFactory.createLineBorder(Color.BLACK));	
 			}
 		});
 

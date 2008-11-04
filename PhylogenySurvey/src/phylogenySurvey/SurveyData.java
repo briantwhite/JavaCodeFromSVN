@@ -84,8 +84,7 @@ public class SurveyData {
 
 	}
 	
-	public Node split(SelectableLinkableObject a, SelectableLinkableObject b) {
-		Node node = null;
+	public NodeWithLocation split(SelectableLinkableObject a, SelectableLinkableObject b) {
 		Iterator<Link> it = links.iterator();
 		while(it.hasNext()) {
 			Link l = it.next();
@@ -98,18 +97,14 @@ public class SurveyData {
 				SelectableLinkableObject slo2 = l.getOtherLabel();
 				int x = (slo1.getCenter().x + slo2.getCenter().x)/2;
 				int y = (slo1.getCenter().y + slo2.getCenter().y)/2;
-				node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
+				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
 				items.add(node);
-				node.setBounds(x, y, 12, 12);
 				links.add(new Link(a, node));
 				links.add(new Link(b, node));
-				a.setSelected(false);
-				a.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-				b.setSelected(false);
-				b.setBorder(BorderFactory.createLineBorder(Color.BLACK));				
+				return new NodeWithLocation(node, x, y);
 			}
 		}
-		return node;
+		return null;
 	}
 	
 	public ArrayList<SelectableObject> getItems() {
