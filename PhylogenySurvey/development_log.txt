@@ -150,4 +150,11 @@ but
 
 fixed it
 
+still need to 
+1) get DATE working
+2) get pre-post working
+
+got date working
+ -only pre post left
+
 

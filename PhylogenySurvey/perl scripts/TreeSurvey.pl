@@ -93,14 +93,13 @@ sub load_survey {
 	#see if they're entering data
 	if ($treeXML ne "") {
 	
-	    $date = localtime(time); 
 	    if ($rowcount == 0) {
-	        $statement = "INSERT INTO student_data (Q1, Q2, Q3, tree, date, name) VALUES (?,?,?,?,?,?)";
+	        $statement = "INSERT INTO student_data (Q1, Q2, Q3, tree, date, name) VALUES (?,?,?,?,NOW(),?)";
 	    }  else {
-	        $statement = "UPDATE student_data SET Q1 = ?, Q2 = ?, Q3 = ?, tree = ?, date = ? WHERE name = ?";
+	        $statement = "UPDATE student_data SET Q1 = ?, Q2 = ?, Q3 = ?, tree = ?, date = NOW() WHERE name = ?";
 	    }
 	    $sth = $dbh->prepare($statement);
-	    $sth->execute($Q1, $Q2, $Q3, $treeXML, $date, $name);
+	    $sth->execute($Q1, $Q2, $Q3, $treeXML, $name);
 	    $sth->finish();
 	    $dbh->disconnect();
 	} else {
