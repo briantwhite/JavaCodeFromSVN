@@ -17,8 +17,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.io.Writer;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -28,6 +33,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 import scoring.Scorer;
 
@@ -42,6 +52,8 @@ public class SurveyUI {
 
 	private Container masterContainer;
 	private DrawingPanel workPanel;
+
+	private SurveyData surveyData;
 
 	// the currently selected items
 	//  max of 2 at a time
@@ -71,6 +83,7 @@ public class SurveyUI {
 
 
 	public SurveyUI(Container masterContainer) {
+		surveyData = new SurveyData();
 		this.masterContainer = masterContainer;
 		numSelectedItems = 0;
 		selectionA = null;
@@ -144,18 +157,18 @@ public class SurveyUI {
 		linkButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if ((selectionA instanceof SelectableLinkableObject) && (selectionB instanceof SelectableLinkableObject)) {
-					SurveyData.getInstance().add(new Link(selectionA, selectionB));
+					surveyData.add(new Link(selectionA, selectionB));
 					workPanel.repaint();
-					SurveyData.getInstance().saveStateToHistoryList();
+					surveyData.saveStateToHistoryList();
 				}
 			}
 		});
 
 		unlinkButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SurveyData.getInstance().deleteLink(selectionA, selectionB);
+				surveyData.deleteLink(selectionA, selectionB);
 				workPanel.repaint();
-				SurveyData.getInstance().saveStateToHistoryList();
+				surveyData.saveStateToHistoryList();
 			}
 		});
 
@@ -172,10 +185,14 @@ public class SurveyUI {
 				if (s != null) {
 					TextLabel tl = new TextLabel(s);
 					tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-					SurveyData.getInstance().add(tl, workPanel);
+					surveyData.add(tl);
+					tl.setBounds(500, 
+							500, 
+							(workPanel.getFontMetrics(workPanel.getFont())).stringWidth(tl.getText()) + 5, 
+							SurveyUI.LABEL_HEIGHT);
 				}
 				workPanel.repaint();
-				SurveyData.getInstance().saveStateToHistoryList();
+				surveyData.saveStateToHistoryList();
 			}
 		});
 
@@ -183,26 +200,28 @@ public class SurveyUI {
 			public void actionPerformed(ActionEvent e) {
 				// only can delete single Nodes or TextLabels
 				if (selectionA instanceof Node) {
-					SurveyData.getInstance().delete((Node)selectionA, workPanel);
+					surveyData.delete((Node)selectionA);
+					workPanel.remove(selectionA);
 					selectionA = null;
 					workPanel.repaint();
-					SurveyData.getInstance().saveStateToHistoryList();
+					surveyData.saveStateToHistoryList();
 				}
 
 				if (selectionOnly != null) {
-					SurveyData.getInstance().delete((TextLabel)selectionOnly, workPanel);
+					surveyData.delete((TextLabel)selectionOnly);
+					workPanel.remove(selectionOnly);
 					selectionOnly = null;
 					workPanel.repaint();
-					SurveyData.getInstance().saveStateToHistoryList();
+					surveyData.saveStateToHistoryList();
 				}
 			}
 		});
 
 		splitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SurveyData.getInstance().split(selectionA, selectionB, workPanel);
+				workPanel.add(surveyData.split(selectionA, selectionB));
 				workPanel.repaint();
-				SurveyData.getInstance().saveStateToHistoryList();
+				surveyData.saveStateToHistoryList();
 			}
 		});
 
@@ -246,7 +265,7 @@ public class SurveyUI {
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
-						SurveyData.getInstance().setState(contents.toString(), workPanel);
+						setState(contents.toString());
 						workPanel.repaint();
 						selectionA = null;
 						selectionB = null;
@@ -269,7 +288,7 @@ public class SurveyUI {
 						Writer output = null;
 						try {
 							output = new BufferedWriter(new FileWriter(outFile));
-							output.write(SurveyData.getInstance().getState());
+							output.write(surveyData.getState());
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
@@ -287,7 +306,7 @@ public class SurveyUI {
 			scoreButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					JLabel message = new JLabel(
-							Scorer.getInstance().score(SurveyData.getInstance()));
+							Scorer.getInstance().score(surveyData));
 					JOptionPane.showMessageDialog(null, message);
 				}
 			});
@@ -296,8 +315,41 @@ public class SurveyUI {
 
 	private void loadOrganisms() {
 		URL listFileURL = this.getClass().getResource("/images/list.txt");
-		SurveyData.getInstance().loadOrganisms(listFileURL, workPanel);
+		String line = "";
+		int row = 0;
+		try {
+			InputStream in = listFileURL.openStream();
+			BufferedReader dis =  new BufferedReader (new InputStreamReader (in));
+			while ((line = dis.readLine ()) != null) {
+				String[] parts = line.split(",");
+				OrganismLabel ol = new OrganismLabel(
+						parts[0],
+						new ImageIcon(this.getClass().getResource("/images/" + parts[1])),
+						parts[1],
+						parts[2]);
+				surveyData.add(ol);
+				workPanel.add(ol);
+				ol.setOpaque(true);
+				ol.setBackground(Color.WHITE);
+				ol.setBounds(0, (SurveyUI.LABEL_HEIGHT * row), 
+						SurveyUI.LABEL_WIDTH, SurveyUI.LABEL_HEIGHT);
+				row++;
+			}
+			in.close ();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		workPanel.repaint();
+	}
+
+	public void reset() {
+		surveyData = new SurveyData();
+	}
+
+	public SurveyData getSurveyData() {
+		return surveyData;
 	}
 
 	private class MoveLabelHandler implements MouseMotionListener, MouseListener {
@@ -316,9 +368,9 @@ public class SurveyUI {
 				updateSelections((SelectableObject)c);
 			} else if ((c instanceof DrawingPanel) && e.isShiftDown()) {
 				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
-				SurveyData.getInstance().add(node, workPanel);
+				surveyData.add(node);
 				node.setBounds(e.getX(), e.getY(), 12, 12);
-				SurveyData.getInstance().saveStateToHistoryList();
+				surveyData.saveStateToHistoryList();
 			}
 		}
 
@@ -344,7 +396,7 @@ public class SurveyUI {
 
 		public void mouseReleased(MouseEvent e) {
 			if (dragComponent != null) {
-				SurveyData.getInstance().saveStateToHistoryList();
+				surveyData.saveStateToHistoryList();
 				dragComponent = null;
 			}
 			workPanel.repaint();
@@ -443,11 +495,11 @@ public class SurveyUI {
 	}
 
 	private void undo() {
-		String newState = SurveyData.getInstance().undo();
+		String newState = surveyData.undo();
 		if (newState == null) {
 			return;
 		}
-		SurveyData.getInstance().setState(newState, workPanel);
+		setState(newState);
 		workPanel.repaint();
 		selectionA = null;
 		selectionB = null;
@@ -462,11 +514,36 @@ public class SurveyUI {
 	 * public methods for setting & getting the state of the drawing
 	 */
 	public String getState() {
-		return SurveyData.getInstance().getState();
+		return surveyData.getState();
 	}
 
-	public void setState(String state) {
-		SurveyData.getInstance().setState(state, workPanel);
+	public void setState(String newState) {
+		surveyData = null;
+		surveyData = new SurveyData();
+
+		Document doc = null;
+		SAXBuilder builder = new SAXBuilder();
+		try {
+			doc = builder.build(new StringReader(newState));
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		List<Element> elements = doc.getRootElement().getChildren();
+		Iterator<Element> elIt = elements.iterator();
+		while (elIt.hasNext()) {
+			Element e = elIt.next();
+			String name = e.getName();
+			if (name.equals("Items")) {
+				processItems(e);
+			}
+			if (name.equals("Links")) {
+				processLinks(e);
+			}
+		}
+
 		workPanel.repaint();
 		selectionA = null;
 		selectionB = null;
@@ -475,6 +552,83 @@ public class SurveyUI {
 		unlinkButton.setEnabled(false);	
 		deleteButton.setEnabled(false);
 		splitButton.setEnabled(false);		
+	}
+
+	private void processItems(Element e) {
+		List<Element> elements = e.getChildren();
+		Iterator<Element> elIt = elements.iterator();
+		while (elIt.hasNext()) {
+			Element current = elIt.next();
+			String name = current.getName();
+
+			if (name.equals("OrganismLabel")) {
+				OrganismLabel ol = new OrganismLabel(
+						current.getAttributeValue("Name"),
+						new ImageIcon(
+								this.getClass().getResource(
+										"/images/" + current.getAttributeValue("ImageFileName"))),
+										current.getAttributeValue("ImageFileName"),
+										current.getAttributeValue("Type"));
+				surveyData.add(ol); 
+				workPanel.add(ol);
+				ol.setOpaque(true);
+				ol.setBackground(Color.WHITE);
+				ol.setBounds(Integer.parseInt(current.getAttributeValue("X")), 
+						Integer.parseInt(current.getAttributeValue("Y")), 
+						SurveyUI.LABEL_WIDTH, SurveyUI.LABEL_HEIGHT);
+			}
+
+			if (name.equals("Node")) {
+				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )),
+						Integer.parseInt(current.getAttributeValue("Id")));
+				surveyData.add(node);
+				workPanel.add(node);
+				node.setBounds(Integer.parseInt(current.getAttributeValue("X")), 
+						Integer.parseInt(current.getAttributeValue("Y")), 
+						12, 12);
+			}
+
+			if (name.equals("TextLabel")) {
+				TextLabel tl = new TextLabel(current.getAttributeValue("Text"),
+						Integer.parseInt(current.getAttributeValue("Id")));
+				tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				surveyData.add(tl);
+				workPanel.add(tl);
+				tl.setBounds(Integer.parseInt(current.getAttributeValue("X")),
+						Integer.parseInt(current.getAttributeValue("Y")),
+						Integer.parseInt(current.getAttributeValue("width")),
+						Integer.parseInt(current.getAttributeValue("height")));
+			}
+
+		}
+	}
+
+	private void processLinks(Element e) {
+		List<Element> elements = e.getChildren();
+		Iterator<Element> elIt = elements.iterator();
+		while (elIt.hasNext()) {
+			Element current = elIt.next();
+			String name = current.getName();
+			if (name.equals("Link")) {
+				List<Element> ends = current.getChildren();
+				Iterator<Element> endsIt = ends.iterator();
+				SelectableLinkableObject firstSLO = null;
+				SelectableLinkableObject secondSLO = null;
+				while (endsIt.hasNext()) {
+					Element end = endsIt.next();
+					String endName = end.getName();
+					if (endName.equals("FirstSLO")) {
+						firstSLO = surveyData.findItemByName((Element)end.getChildren().get(0));
+					}
+					if (endName.equals("SecondSLO")) {
+						secondSLO = surveyData.findItemByName((Element)end.getChildren().get(0));						
+					}
+				}
+				if ((firstSLO != null) && (secondSLO != null)) {
+					surveyData.add(new Link(firstSLO, secondSLO));
+				}
+			}
+		}
 	}
 
 }

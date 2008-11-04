@@ -30,7 +30,7 @@ public class SurveyApplet extends JApplet {
 	}
 	
 	public void stop() {
-		SurveyData.getInstance().reset();
+		surveyUI.reset();
 	}
 	
 	public String getTreeXML() {

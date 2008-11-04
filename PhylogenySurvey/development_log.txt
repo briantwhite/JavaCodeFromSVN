@@ -130,3 +130,14 @@ now AOK - need to connect to db
 almost working -
 	1) date saves 00 00 00 etc.
 	2) on first entry, any moved organisms are duplicated (?)
+
+11/04/08
+probably some singleton issues with the SurveyData
+maybe zapping different versions?
+try making it a regular object
+
+lots of refactoring too
+ - need to move drawingpanel from the non-gui methods
+ 	do the add to drawing panel outside of SurveyData
+
+still getting duplications but better design..

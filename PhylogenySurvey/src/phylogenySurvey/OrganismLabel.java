@@ -23,7 +23,7 @@ public class OrganismLabel extends SelectableLinkableObject {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.type = type;
 	}
-	
+		
 	public String getName() {
 		return text;
 	}

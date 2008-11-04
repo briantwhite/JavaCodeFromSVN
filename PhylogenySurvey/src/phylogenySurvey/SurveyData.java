@@ -28,61 +28,18 @@ public class SurveyData {
 	private ArrayList<Link> links;
 	
 	private ArrayList<String> historyList;
-	
-	private static SurveyData instance;
-	
-	private SurveyData() {
+		
+	public SurveyData() {
 		items = new ArrayList<SelectableObject>();
 		links = new ArrayList<Link>();
 		historyList = new ArrayList<String>();
 	}
-	
-	public static SurveyData getInstance() {
-		if (instance == null) {
-			instance = new SurveyData();
-		}
-		return instance;
-	}
-	
-	public void reset() {
-		instance = null;
-		instance = new SurveyData();
-	}
-	
-	public void loadOrganisms(URL listFileURL, DrawingPanel workPanel) {
-		String line = "";
-		int row = 0;
-		try {
-			InputStream in = listFileURL.openStream();
-			BufferedReader dis =  new BufferedReader (new InputStreamReader (in));
-			while ((line = dis.readLine ()) != null) {
-				String[] parts = line.split(",");
-				OrganismLabel ol = new OrganismLabel(
-						parts[0],
-						new ImageIcon(this.getClass().getResource("/images/" + parts[1])),
-						parts[1],
-						parts[2]);
-				items.add(ol);
-				workPanel.add(ol);
-				ol.setOpaque(true);
-				ol.setBackground(Color.WHITE);
-				ol.setBounds(0, (SurveyUI.LABEL_HEIGHT * row), 
-						SurveyUI.LABEL_WIDTH, SurveyUI.LABEL_HEIGHT);
-				row++;
-			}
-			in.close ();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void add(Node n, DrawingPanel workPanel) {
+				
+	public void add(SelectableObject n) {
 		items.add(n);
-		workPanel.add(n);
 	}
 	
-	public void delete(Node n, DrawingPanel workPanel) {
+	public void delete(Node n) {
 		//remake node list without any links
 		//  that include this node
 		ArrayList<Link> newLinks = new ArrayList<Link>();
@@ -94,22 +51,15 @@ public class SurveyData {
 			}
 		}
 		links = newLinks;
-		workPanel.remove(n);
 		items.remove(n);
 	}
 	
-	public void add(TextLabel tl, DrawingPanel workPanel) {
+	public void add(TextLabel tl) {
 		items.add(tl);
-		workPanel.add(tl);
-		tl.setBounds(500, 
-				500, 
-				(workPanel.getFontMetrics(workPanel.getFont())).stringWidth(tl.getText()) + 5, 
-				SurveyUI.LABEL_HEIGHT);
 	}
 	
-	public void delete(TextLabel tl, DrawingPanel workPanel) {
+	public void delete(TextLabel tl) {
 		items.remove(tl);
-		workPanel.remove(tl);
 	}
 	
 	public void add(Link l) {
@@ -134,9 +84,8 @@ public class SurveyData {
 
 	}
 	
-	public void split(SelectableLinkableObject a, 
-			SelectableLinkableObject b, 
-			DrawingPanel workPanel) {
+	public Node split(SelectableLinkableObject a, SelectableLinkableObject b) {
+		Node node = null;
 		Iterator<Link> it = links.iterator();
 		while(it.hasNext()) {
 			Link l = it.next();
@@ -149,9 +98,8 @@ public class SurveyData {
 				SelectableLinkableObject slo2 = l.getOtherLabel();
 				int x = (slo1.getCenter().x + slo2.getCenter().x)/2;
 				int y = (slo1.getCenter().y + slo2.getCenter().y)/2;
-				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
+				node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
 				items.add(node);
-				workPanel.add(node);
 				node.setBounds(x, y, 12, 12);
 				links.add(new Link(a, node));
 				links.add(new Link(b, node));
@@ -159,9 +107,9 @@ public class SurveyData {
 				a.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 				b.setSelected(false);
 				b.setBorder(BorderFactory.createLineBorder(Color.BLACK));				
-				return;
 			}
 		}
+		return node;
 	}
 	
 	public ArrayList<SelectableObject> getItems() {
@@ -218,116 +166,8 @@ public class SurveyData {
 		String state = historyList.get(historyList.size() - 1);
 		return state;
 	}
-	
-	public void setState(String newState, DrawingPanel workPanel) {
-
-		items = new ArrayList<SelectableObject>();
-		links = new ArrayList<Link>();
-		workPanel.removeAll();
-		workPanel.repaint();
-
-		Document doc = null;
-		SAXBuilder builder = new SAXBuilder();
-		try {
-			doc = builder.build(new StringReader(newState));
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		List<Element> elements = doc.getRootElement().getChildren();
-		Iterator<Element> elIt = elements.iterator();
-		while (elIt.hasNext()) {
-			Element e = elIt.next();
-			String name = e.getName();
-			if (name.equals("Items")) {
-				processItems(e, workPanel);
-			}
-			if (name.equals("Links")) {
-				processLinks(e, workPanel);
-			}
-		}
-	}
-	
-	private void processItems(Element e, DrawingPanel workPanel) {
-		List<Element> elements = e.getChildren();
-		Iterator<Element> elIt = elements.iterator();
-		while (elIt.hasNext()) {
-			Element current = elIt.next();
-			String name = current.getName();
 			
-			if (name.equals("OrganismLabel")) {
-				OrganismLabel ol = new OrganismLabel(
-						current.getAttributeValue("Name"),
-						new ImageIcon(
-								this.getClass().getResource(
-										"/images/" + current.getAttributeValue("ImageFileName"))),
-										current.getAttributeValue("ImageFileName"),
-										current.getAttributeValue("Type"));
-				items.add(ol); 
-				workPanel.add(ol);
-				ol.setOpaque(true);
-				ol.setBackground(Color.WHITE);
-				ol.setBounds(Integer.parseInt(current.getAttributeValue("X")), 
-						Integer.parseInt(current.getAttributeValue("Y")), 
-						SurveyUI.LABEL_WIDTH, SurveyUI.LABEL_HEIGHT);
-			}
-			
-			if (name.equals("Node")) {
-				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )),
-						Integer.parseInt(current.getAttributeValue("Id")));
-				items.add(node);
-				workPanel.add(node);
-				node.setBounds(Integer.parseInt(current.getAttributeValue("X")), 
-						Integer.parseInt(current.getAttributeValue("Y")), 
-						12, 12);
-			}
-			
-			if (name.equals("TextLabel")) {
-				TextLabel tl = new TextLabel(current.getAttributeValue("Text"),
-						Integer.parseInt(current.getAttributeValue("Id")));
-				tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-				items.add(tl);
-				workPanel.add(tl);
-				tl.setBounds(Integer.parseInt(current.getAttributeValue("X")),
-						Integer.parseInt(current.getAttributeValue("Y")),
-						Integer.parseInt(current.getAttributeValue("width")),
-						Integer.parseInt(current.getAttributeValue("height")));
-			}
-			
-		}
-	}
-	
-	private void processLinks(Element e, DrawingPanel workPanel) {
-		List<Element> elements = e.getChildren();
-		Iterator<Element> elIt = elements.iterator();
-		while (elIt.hasNext()) {
-			Element current = elIt.next();
-			String name = current.getName();
-			if (name.equals("Link")) {
-				List<Element> ends = current.getChildren();
-				Iterator<Element> endsIt = ends.iterator();
-				SelectableLinkableObject firstSLO = null;
-				SelectableLinkableObject secondSLO = null;
-				while (endsIt.hasNext()) {
-					Element end = endsIt.next();
-					String endName = end.getName();
-					if (endName.equals("FirstSLO")) {
-						firstSLO = findItemByName((Element)end.getChildren().get(0));
-					}
-					if (endName.equals("SecondSLO")) {
-						secondSLO = findItemByName((Element)end.getChildren().get(0));						
-					}
-				}
-				if ((firstSLO != null) && (secondSLO != null)) {
-					links.add(new Link(firstSLO, secondSLO));
-				}
-			}
-		}
-	}
-	
-	private SelectableLinkableObject findItemByName(Element e) {
+	public SelectableLinkableObject findItemByName(Element e) {
 		String name = e.getName();
 		if (name.equals("OrganismLabel")) {
 			Iterator<SelectableObject> it = items.iterator();

@@ -94,7 +94,7 @@ sub load_survey {
 	if ($treeXML ne "") {
 	
 	    $date = localtime(time); 
-	    
+	    print "$date treeXML = $treeXML<br> saving data to db <br> rowcount = $rowcount<br>\n";
 	    if ($rowcount == 0) {
 	        $statement = "INSERT INTO student_data (Q1, Q2, Q3, tree, date, name) VALUES (?,?,?,?,?,?)";
 	    }  else {
@@ -106,6 +106,7 @@ sub load_survey {
 	    $dbh->disconnect();
 	} else {
 	    # if there's already data there, get it
+	    print "looking for data in db; rowcount = $rowcount</br>\n";
 	    if ($rowcount != 0) {
 	        $sth = $dbh->prepare("SELECT Q1, Q2, Q3, tree FROM student_data WHERE name=?");
 	        $sth->execute($name);
@@ -165,7 +166,7 @@ sub load_survey {
   	print "<form action=\"$script_url\" method=\"POST\" onsubmit=\"return getTreeData();\" ";
   	print "name=\"form\">\n";
 	print "<applet code=\"phylogenySurvey.SurveyApplet.class\" \n";
-	print "archive=\"https://www.securebio.umb.edu/phylogenySurvey.5.jar\" \n";
+	print "archive=\"https://www.securebio.umb.edu/phylogenySurvey.7.jar\" \n";
 	print "width=1020 height=1020 name=\"TreeApplet\">\n";
   	print "          You have to enable Java on your machine !</applet>\n";
     print "<br><br>\n";
@@ -184,7 +185,7 @@ sub load_survey {
     print "<textarea name=\"Q3\" rows=10 cols=80>$Q3</textarea><br><br>\n";
     print "<input type=\"hidden\" name=\"Name\" value=\"$name\">\n";
     print "<input type=\"hidden\" name=\"Passwd\" value=\"$password\">\n";
-    print "<input type=\"hidden\" name=\"treeXML\" value=\"$treeXML\">\n";
+    print "<input type=\"hidden\" name=\"treeXML\">\n";
     print "<input type=\"submit\">\n";
   	print "</form>\n";
   
