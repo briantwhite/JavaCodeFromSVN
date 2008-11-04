@@ -141,3 +141,10 @@ lots of refactoring too
  	do the add to drawing panel outside of SurveyData
 
 still getting duplications but better design..
+
+try having it only load the default critters if the set state string is blank
+
+now OK
+but
+- split fails
+

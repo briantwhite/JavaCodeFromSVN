@@ -7,11 +7,11 @@ import java.net.URLEncoder;
 import javax.swing.JApplet;
 
 public class SurveyApplet extends JApplet {
-	
+
 	private SurveyUI surveyUI;
 	private boolean scoringEnabled;
 	private String password;
-	
+
 	public void init() {
 		scoringEnabled = false;
 		String scoreModeString = getParameter("Scoring");
@@ -23,16 +23,16 @@ public class SurveyApplet extends JApplet {
 		}
 		setSize(800, 800);
 	}
-	
+
 	public void start() {
 		surveyUI = new SurveyUI(this.getContentPane());
 		surveyUI.setupUI(scoringEnabled, password);
 	}
-	
+
 	public void stop() {
 		surveyUI.reset();
 	}
-	
+
 	public String getTreeXML() {
 		String result = "";
 		try {
@@ -42,12 +42,16 @@ public class SurveyApplet extends JApplet {
 		}
 		return result;
 	}
-	
+
 	public void setTreeXML(String newTreeXML) {
-		try {
-			surveyUI.setState(URLDecoder.decode(newTreeXML, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		if (newTreeXML.equals("")) {
+			surveyUI.loadOrganisms();
+		} else {
+			try {
+				surveyUI.setState(URLDecoder.decode(newTreeXML, "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

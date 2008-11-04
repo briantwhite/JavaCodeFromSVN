@@ -77,8 +77,6 @@ public class SurveyUI {
 	private JButton splitButton;
 	private JButton printButton;
 	private JButton undoButton;
-	private JButton loadButton;
-	private JButton saveButton;
 	private JButton scoreButton;
 
 
@@ -89,7 +87,7 @@ public class SurveyUI {
 		selectionA = null;
 		selectionB = null;
 		selectionOnly = null;
-		scoringOn = true;
+		scoringOn = false;
 	}
 
 	public void setupUI(boolean scoringEnabled, String password) {
@@ -132,13 +130,6 @@ public class SurveyUI {
 		buttonPanel.add(undoButton);
 
 		if (scoringOn) {
-
-			loadButton = new JButton("Load");
-			buttonPanel.add(loadButton);
-
-			saveButton = new JButton("Save");
-			buttonPanel.add(saveButton);
-
 			scoreButton = new JButton("Score");
 			buttonPanel.add(scoreButton);
 		}
@@ -149,8 +140,6 @@ public class SurveyUI {
 		workPanel.setLayout(null);
 		workPanel.addMouseListener(new MoveLabelHandler());
 		workPanel.addMouseMotionListener(new MoveLabelHandler());
-
-		loadOrganisms();
 
 		masterContainer.add(workPanel, BorderLayout.CENTER);
 
@@ -186,6 +175,7 @@ public class SurveyUI {
 					TextLabel tl = new TextLabel(s);
 					tl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 					surveyData.add(tl);
+					workPanel.add(tl);
 					tl.setBounds(500, 
 							500, 
 							(workPanel.getFontMetrics(workPanel.getFont())).stringWidth(tl.getText()) + 5, 
@@ -247,62 +237,6 @@ public class SurveyUI {
 
 		if (scoringOn) {
 
-			loadButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JFileChooser fc = new JFileChooser();
-					fc.setCurrentDirectory(new File("../"));
-					int returnVal = fc.showOpenDialog(null);
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						File inFile = fc.getSelectedFile();
-						StringBuffer contents = new StringBuffer();
-						try {
-							BufferedReader input =  new BufferedReader(new FileReader(inFile));
-							String line = null; //not declared within while loop
-							while (( line = input.readLine()) != null){
-								contents.append(line);
-								contents.append(System.getProperty("line.separator"));
-							}
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-						setState(contents.toString());
-						workPanel.repaint();
-						selectionA = null;
-						selectionB = null;
-						selectionOnly = null;
-						linkButton.setEnabled(false);
-						unlinkButton.setEnabled(false);	
-						deleteButton.setEnabled(false);
-						splitButton.setEnabled(false);		
-					}
-				}
-			});
-
-			saveButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JFileChooser fc = new JFileChooser();
-					fc.setCurrentDirectory(new File("../"));
-					int returnVal = fc.showSaveDialog(null);
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						File outFile = fc.getSelectedFile();
-						Writer output = null;
-						try {
-							output = new BufferedWriter(new FileWriter(outFile));
-							output.write(surveyData.getState());
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-						finally {
-							try {
-								output.close();
-							} catch (IOException e1) {
-								e1.printStackTrace();
-							}
-						}
-					}
-				}
-			});
-
 			scoreButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					JLabel message = new JLabel(
@@ -313,7 +247,7 @@ public class SurveyUI {
 		}
 	}
 
-	private void loadOrganisms() {
+	public void loadOrganisms() {
 		URL listFileURL = this.getClass().getResource("/images/list.txt");
 		String line = "";
 		int row = 0;
@@ -369,6 +303,7 @@ public class SurveyUI {
 			} else if ((c instanceof DrawingPanel) && e.isShiftDown()) {
 				Node node = new Node(new ImageIcon(this.getClass().getResource("/images/node.gif" )));
 				surveyData.add(node);
+				workPanel.add(node);
 				node.setBounds(e.getX(), e.getY(), 12, 12);
 				surveyData.saveStateToHistoryList();
 			}
