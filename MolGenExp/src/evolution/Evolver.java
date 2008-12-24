@@ -118,6 +118,8 @@ public class Evolver implements Runnable {
 			keepGoing = false;
 			progress = getLengthOfTask();
 			evolutionWorkArea.setReadyToRun();
+			evolutionWorkArea.setFitnessSpinnersEnabled(true);
+			evolutionWorkArea.setLoadButtonEnabled(true);
 			return;
 		}
 

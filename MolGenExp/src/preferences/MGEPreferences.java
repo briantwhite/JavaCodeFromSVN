@@ -13,6 +13,8 @@ public class MGEPreferences {
 	protected static boolean DEFAULT_SHOW_BOTH_ALLELES = false;
 	
 	//mutation rates
+	private boolean mutationsEnabled;
+	protected static boolean DEFAULT_MUTATIONS_ENABLED = true;
 	private float pointMutationRate;
 	protected static float DEFAULT_POINT_MUTATION_RATE = 0.001f;
 	private float deletionMutationRate;
@@ -50,6 +52,7 @@ public class MGEPreferences {
 		worldSize = DEFAULT_WORLD_SIZE;
 		showBothAllelesInWorld = DEFAULT_SHOW_BOTH_ALLELES;
 		
+		mutationsEnabled = DEFAULT_MUTATIONS_ENABLED;
 		pointMutationRate = DEFAULT_POINT_MUTATION_RATE;
 		deletionMutationRate = DEFAULT_DELETION_MUTATION_RATE;
 		insertionMutationRate = DEFAULT_INSERTION_MUTATION_RATE;
@@ -82,6 +85,14 @@ public class MGEPreferences {
 	
 	public void setShowBothAllelesInWorld(boolean b) {
 		showBothAllelesInWorld = b;
+	}
+	
+	public boolean isMutationsEnabled() {
+		return mutationsEnabled;
+	}
+	
+	public void setMutationsEnabled(boolean b) {
+		mutationsEnabled = b;
 	}
 
 	public float getPointMutationRate() {

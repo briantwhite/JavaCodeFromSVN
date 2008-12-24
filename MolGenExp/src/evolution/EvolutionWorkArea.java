@@ -200,6 +200,10 @@ public class EvolutionWorkArea extends WorkPanel {
 		pauseButton.setEnabled(false);
 	}
 	
+	public void setLoadButtonEnabled(boolean b) {
+		loadButton.setEnabled(b);
+	}
+	
 	public void setFitnessSpinnersEnabled(boolean b) {
 		for (int i = 0; i < spinners.length; i++) {
 			spinners[i].setEnabled(b);

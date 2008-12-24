@@ -1357,3 +1357,15 @@ NEED TO
 	- added color name to screenshot functions in biochem & mobo
 	
 called it version 1.2
+
+12/24/08
+bug - if there are no organisms in the gene pool (fitness = 0 for only color)
+    then it warns you, but after clearing dialog, you can only run
+    not load or change fitnesses!
+    - fixed
+    
+new feature - mutation off checkbox in mutation prefs panel
+	- turns off mutation
+	- keeps mutation rates set but grayed out
+
+called it version 1.2.1
