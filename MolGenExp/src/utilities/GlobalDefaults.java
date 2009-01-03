@@ -11,7 +11,7 @@ public class GlobalDefaults {
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;
 
-	public final static String version = "1.2.1";
+	public final static String version = "1.2.2";
 
 	public final static String sampleDNA = 
 		new String("CAGCTATAACCGAGATTGATGTCTAG"

@@ -50,6 +50,7 @@ public class EvolutionWorkArea extends WorkPanel {
 	private JPanel controlPanel;
 	private JButton loadButton;
 	private JButton runButton;
+	private JButton runOneGenerationButton;
 	private JButton pauseButton;
 	private JPanel fitnessPanel;
 	private JPanel rightPanel;
@@ -144,6 +145,9 @@ public class EvolutionWorkArea extends WorkPanel {
 		pauseButton = new JButton("Pause");
 		pauseButton.setEnabled(false);
 		controlPanel.add(pauseButton);
+		runOneGenerationButton = new JButton("One Generation Only");
+		runOneGenerationButton.setEnabled(false);
+		controlPanel.add(runOneGenerationButton);
 		leftPanel.add(controlPanel);
 
 		this.add(leftPanel);
@@ -166,6 +170,7 @@ public class EvolutionWorkArea extends WorkPanel {
 				mge.getGreenhouse().clearSelection();
 				world.updateCounts();
 				setFitnessSpinnersEnabled(true);
+				mge.getProgressBar().setValue(0);
 			}
 		});
 
@@ -175,7 +180,7 @@ public class EvolutionWorkArea extends WorkPanel {
 				pauseButton.setEnabled(true);
 				loadButton.setEnabled(false);
 				setFitnessSpinnersEnabled(false);
-				startEvolving();
+				startEvolving(false);
 			}
 		});
 
@@ -188,6 +193,16 @@ public class EvolutionWorkArea extends WorkPanel {
 				stopEvolving();
 			}
 		});
+		
+		runOneGenerationButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				runButton.setEnabled(false);
+				pauseButton.setEnabled(true);
+				loadButton.setEnabled(false);
+				setFitnessSpinnersEnabled(false);
+				startEvolving(true);
+			}
+		});
 
 	}
 
@@ -197,6 +212,7 @@ public class EvolutionWorkArea extends WorkPanel {
 
 	public void setReadyToRun() {
 		runButton.setEnabled(true);
+		runOneGenerationButton.setEnabled(true);
 		pauseButton.setEnabled(false);
 	}
 	
@@ -240,13 +256,14 @@ public class EvolutionWorkArea extends WorkPanel {
 		world.clearSelectedOrganism();
 	}
 	
-	public void startEvolving() {
+	public void startEvolving(boolean oneGenerationOnly) {
 		world.updateCounts();
 		updateColorCountDisplay();
 		mge.getProgressBar().setMinimum(0);
 		mge.getProgressBar().setMaximum(preferences.getWorldSize() * preferences.getWorldSize());
 		mge.setButtonStatusWhileEvolving();
 		evolver = new Evolver(mge);
+		if (oneGenerationOnly) evolver.setOneGenerationOnly();
 		Thread t = new Thread(evolver);
 		t.start();
 		evolverTimer.start();
@@ -259,6 +276,11 @@ public class EvolutionWorkArea extends WorkPanel {
 				mge.setCursor(
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				mge.getProgressBar().setValue(0);
+				pauseButton.setEnabled(false);
+				runButton.setEnabled(true);
+				loadButton.setEnabled(true);
+				setFitnessSpinnersEnabled(true);
+				stopEvolving();
 			} else {
 				mge.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				mge.getProgressBar().setValue(evolver.getProgress());

@@ -35,6 +35,7 @@ public class Evolver implements Runnable {
 	private ArrayList<String> genePool;
 	private int progress;
 	private boolean keepGoing;
+	private boolean oneGenerationOnly;
 
 	private FoldedProteinArchive archive;
 
@@ -49,6 +50,7 @@ public class Evolver implements Runnable {
 		this.evolutionWorkArea = mge.getEvolutionWorkArea();
 		this.world = mge.getEvolutionWorkArea().getWorld();
 		keepGoing = true;
+		oneGenerationOnly = false;
 		preferences = MGEPreferences.getInstance();
 		mutator = Mutator.getInstance();
 		archive = FoldedProteinArchive.getInstance();
@@ -66,9 +68,17 @@ public class Evolver implements Runnable {
 			savePic();
 			createGenePool();
 			makeNextGeneration();
+			if (oneGenerationOnly) {
+				keepGoing = false;
+				return;
+			}
 		}
 	}
 
+	public void setOneGenerationOnly() {
+		oneGenerationOnly = true;
+	}
+	
 	public int getProgress() {
 		return progress;
 	}

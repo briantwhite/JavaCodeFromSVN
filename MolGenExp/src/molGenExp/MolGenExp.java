@@ -579,6 +579,16 @@ public class MolGenExp extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				greenhouse.deleteSelected();
 				clearSelectedOrganisms();
+				
+				//save changes to disk
+				Object[] all = greenhouse.getAll();
+				if (all.length == 0) return;
+
+				if (greenhouseDirectory != null) {
+					saveToFolder(all);
+				} else {
+					saveToChosenFolder(all);
+				}
 			}
 		});
 
@@ -586,6 +596,15 @@ public class MolGenExp extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					saveSelectedOrganismToGreenhouse();
+					//save changes to disk
+					Object[] all = greenhouse.getAll();
+					if (all.length == 0) return;
+
+					if (greenhouseDirectory != null) {
+						saveToFolder(all);
+					} else {
+						saveToChosenFolder(all);
+					}
 				} catch (FoldingException e) {
 					JOptionPane.showMessageDialog(null, 
 							GlobalDefaults.paintedInACornerNotice,
