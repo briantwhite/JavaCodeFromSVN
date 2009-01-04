@@ -1377,4 +1377,7 @@ called it version 1.2.1
 
 called it version 1.2.2
 
+1/4/09
+bug - color counts not updated on load
+keep same version # (hadn't posted it to the web yet)
 	

@@ -169,6 +169,7 @@ public class EvolutionWorkArea extends WorkPanel {
 				mge.loadSelectedIntoWorld();
 				mge.getGreenhouse().clearSelection();
 				world.updateCounts();
+				updateColorCountDisplay();
 				setFitnessSpinnersEnabled(true);
 				mge.getProgressBar().setValue(0);
 			}
@@ -276,6 +277,8 @@ public class EvolutionWorkArea extends WorkPanel {
 				mge.setCursor(
 						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				mge.getProgressBar().setValue(0);
+				world.updateCounts();
+				updateColorCountDisplay();
 				pauseButton.setEnabled(false);
 				runButton.setEnabled(true);
 				loadButton.setEnabled(true);
