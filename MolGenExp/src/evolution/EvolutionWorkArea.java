@@ -172,6 +172,7 @@ public class EvolutionWorkArea extends WorkPanel {
 				updateColorCountDisplay();
 				setFitnessSpinnersEnabled(true);
 				mge.getProgressBar().setValue(0);
+				clearSelection();
 			}
 		});
 
@@ -181,6 +182,7 @@ public class EvolutionWorkArea extends WorkPanel {
 				pauseButton.setEnabled(true);
 				loadButton.setEnabled(false);
 				setFitnessSpinnersEnabled(false);
+				clearSelection();
 				startEvolving(false);
 			}
 		});
@@ -192,6 +194,7 @@ public class EvolutionWorkArea extends WorkPanel {
 				loadButton.setEnabled(true);
 				setFitnessSpinnersEnabled(true);
 				stopEvolving();
+				clearSelection();
 			}
 		});
 		
@@ -201,6 +204,7 @@ public class EvolutionWorkArea extends WorkPanel {
 				pauseButton.setEnabled(true);
 				loadButton.setEnabled(false);
 				setFitnessSpinnersEnabled(false);
+				clearSelection();
 				startEvolving(true);
 			}
 		});
@@ -255,6 +259,7 @@ public class EvolutionWorkArea extends WorkPanel {
 
 	public void clearSelection() {
 		world.clearSelectedOrganism();
+		world.repaint();
 	}
 	
 	public void startEvolving(boolean oneGenerationOnly) {

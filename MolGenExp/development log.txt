@@ -1381,3 +1381,6 @@ called it version 1.2.2
 bug - color counts not updated on load
 keep same version # (hadn't posted it to the web yet)
 	
+1/6/09
+bug - in evolution, selected critter in World never de-selected
+	on add, run, pause, etc.

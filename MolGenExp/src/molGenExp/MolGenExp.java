@@ -803,11 +803,6 @@ public class MolGenExp extends JFrame {
 		clearSelectedOrganisms();
 		greenhouse.clearList();
 
-		//need this to go from DNA to protein
-		MolBiolWorkpanel mbwp = new MolBiolWorkpanel("", 
-				molBiolWorkbench, 
-				this);
-
 		greenhouseLoader = new GreenhouseLoader(greenhouseDir, greenhouse);
 
 		Thread t = new Thread(greenhouseLoader);
@@ -866,6 +861,7 @@ public class MolGenExp extends JFrame {
 			Organism o = evolutionWorkArea.getWorld().getSelectedOrganism();
 			if (o != null) {
 				saveOrganismToGreenhouse(o);
+				evolutionWorkArea.getWorld().clearSelectedOrganism();
 			}
 			break;
 		}
@@ -1039,20 +1035,6 @@ public class MolGenExp extends JFrame {
 		if (oal2 != null) {
 			numSelectedOrgs++;
 		}
-
-		// in the case of evolution, the selected org is not in oal1 or oal2
-		//  so need a special case
-		try {
-			if ((explorerPane.getSelectedIndex() == EVOLUTION) 
-					&& (evolutionWorkArea.getWorld().getSelectedOrganism() != null)) {
-				numSelectedOrgs = 1;
-			}
-		} catch (FoldingException e) {
-			JOptionPane.showMessageDialog(null, 
-					GlobalDefaults.paintedInACornerNotice,
-					"Folding Error", JOptionPane.WARNING_MESSAGE);
-		}
-
 
 		switch (numSelectedOrgs) {
 		case 0:

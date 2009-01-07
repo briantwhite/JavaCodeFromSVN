@@ -76,6 +76,9 @@ public class World extends JPanel implements MouseListener {
 		if (worldSize != organisms.length) {
 			resizeWorld();
 		}
+		
+		g.setColor(new Color(160,160,160));
+		g.fillRect(0, 0, worldSize * cellSize, worldSize * cellSize);
 
 		for (int i = 0; i < worldSize; i++) {
 			for (int j = 0; j < worldSize; j++) {
