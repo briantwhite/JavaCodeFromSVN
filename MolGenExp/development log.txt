@@ -1375,8 +1375,6 @@ called it version 1.2.1
 - save greenhouse files automatically
 	- if add one or delete one, save all
 
-called it version 1.2.2
-
 1/4/09
 bug - color counts not updated on load
 keep same version # (hadn't posted it to the web yet)
@@ -1384,3 +1382,6 @@ keep same version # (hadn't posted it to the web yet)
 1/6/09
 bug - in evolution, selected critter in World never de-selected
 	on add, run, pause, etc.
+
+1/11/09
+called it version 1.2.2 and posted mac & pc versions
