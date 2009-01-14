@@ -1,11 +1,18 @@
 #!/usr/bin/perl
 
+# set some constants
+$admin_pw = "lab09acce55";
+$too_late_month = 2;
+$too_late_day = 15;
+
 use DBI;
 use CGI;
 use GradeDB;
 use treeDB;
 
 $script_url = "https://www.securebio.umb.edu/cgi-bin/TreeSurvey.pl";
+
+@date = loacltime(time);
 
 # if we enter without params, give the student login page
 #  otherwise, process survey data
@@ -78,24 +85,30 @@ sub load_survey {
 	print "<html><head>\n";
 	print "<title>Diversity of Life Survey for $name</title>\n";
 	
-	$dbh = GradeDB::connect();
-	$statement = "SELECT password FROM students
- 	     WHERE name=\"$name\"";
-	$sth = $dbh->prepare($statement);
-	$sth->execute();
-	@result = $sth->fetchrow_array();
-	$sth->finish();
-	$pw = $result[0];
+	if ($password eq $admin_pw) {
+	     $admin_mode = 1;
+	} else {
+	     $admin_mode = 0;
+	
+	     $dbh = GradeDB::connect();
+	     $statement = "SELECT password FROM students
+ 	          WHERE name=\"$name\"";
+	     $sth = $dbh->prepare($statement);
+	     $sth->execute();
+	     @result = $sth->fetchrow_array();
+	     $sth->finish();
+	     $pw = $result[0];
 
-	if(&decrypt_pw($pw,$password) != 1){
-	    print "<body bgcolor=red>\n";
-  		print "<br><font color=green><b>Error: Password incorrect 
-   		       for $name.</b></font><br>";
-   		print "<a href=\"$script_url\">Click here to return to login screen</a>.\n";
-   		print "</body></html>\n";
-   		exit 1;
+	     if(&decrypt_pw($pw,$password) != 1){
+	        print "<body bgcolor=red>\n";
+  	     	print "<br><font color=green><b>Error: Password incorrect 
+   	     	       for $name.</b></font><br>";
+   	     	print "<a href=\"$script_url\">Click here to return to login screen</a>.\n";
+   		     print "</body></html>\n";
+   		     exit 1;
+	     }
+	     $dbh->disconnect();
 	}
-	$dbh->disconnect();
 	
     #see if there's already an entry for this student
 	$dbh = treeDB::connect();
@@ -129,21 +142,8 @@ sub load_survey {
 	
 	$dbh->disconnect();
 	
-	#set up for the 13 questions
-	@VersionA = (	"Cucumbers and humans have a common ancestor.",
-					"Tuna fish and pumpkins have a common ancestor.",
-					"Earthworms, mosquitoes, and humans all have a common ancestor.",
-					"Earthworms, leeches, and snails all have a common ancestor.",
-					"Beetles, ants, and mosquitoes all have a common ancestor.",
-					"Crocodiles, rodents, and turtles all have a common ancestor.",
-					"Salamanders, lizards, and crocodiles all have a common ancestor.",
-					"Dolphins and humans have a common ancestor.",
-					"Rats, whales, and zebras all have a common ancestor.",
-					"Rodents and dogs have a common ancestor.",
-					"Monkeys, baboons, and humans all have a common ancestor.",
-					"Dogs, coyotes, and wolves all have a common ancestor.",
-					"Gorillas, monkeys, and chimpanzees all have a common ancestor.");
-	@VersionB = reverse @VersionA;
+	&setup_arrays;
+	
     $version = "A";
 	
 	@Q3parts = split /,/, $Q3;
@@ -242,7 +242,10 @@ sub load_survey {
     print "<input type=\"hidden\" name=\"Name\" value=\"$name\">\n";
     print "<input type=\"hidden\" name=\"Passwd\" value=\"$password\">\n";
     print "<input type=\"hidden\" name=\"treeXML\" value=\"$treeXML\">\n";
-    print "<input type=\"submit\">\n";
+    @time = localtime(time);
+    if (($admin_mode == 0) || ($too_late == 0)){
+         print "<input type=\"submit\">\n";
+    }
   	print "</form>\n";
   
 }
@@ -256,4 +259,22 @@ sub decrypt_pw {
 		$isok = 1;
 	}
 	$isok;
+}
+
+sub setup_arrays {
+	#set up for the 13 questions
+	@VersionA = (	"Cucumbers and humans have a common ancestor.",
+					"Tuna fish and pumpkins have a common ancestor.",
+					"Earthworms, mosquitoes, and humans all have a common ancestor.",
+					"Earthworms, leeches, and snails all have a common ancestor.",
+					"Beetles, ants, and mosquitoes all have a common ancestor.",
+					"Crocodiles, rodents, and turtles all have a common ancestor.",
+					"Salamanders, lizards, and crocodiles all have a common ancestor.",
+					"Dolphins and humans have a common ancestor.",
+					"Rats, whales, and zebras all have a common ancestor.",
+					"Rodents and dogs have a common ancestor.",
+					"Monkeys, baboons, and humans all have a common ancestor.",
+					"Dogs, coyotes, and wolves all have a common ancestor.",
+					"Gorillas, monkeys, and chimpanzees all have a common ancestor.");
+	@VersionB = reverse @VersionA;
 }

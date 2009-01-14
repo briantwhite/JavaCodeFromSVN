@@ -169,3 +169,5 @@ working..
 		one big field - comma-separated integers
     got it working!
     
+    set up admin passwd - lab09acce55 - that allows login for scoring
+    
