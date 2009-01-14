@@ -56,9 +56,24 @@ sub load_survey {
 	$password = $query->param('Passwd');
 	$Q1 = $query->param('Q1');
 	$Q2 = $query->param('Q2');
-	$Q3 = $query->param('Q3');
 	$treeXML = $query->param('treeXML');
 	
+	#read in the parts of Q3
+	$Q3 = "";
+	for ($i = 0; $i < 12; $i++) {
+	     $part = $query->param("Q3-$i");
+	     if ($part eq "") {
+	          $part = "0";
+	     }
+	     $Q3 = $Q3.$part.",";
+	}
+	$last = $query->param("Q3-12");
+	if ($last eq "") {
+	     $last = "0";
+	}
+	$Q3 = $Q3.$last;
+	
+
 	print "Content-type: text/html\n\n";
 	print "<html><head>\n";
 	print "<title>Diversity of Life Survey for $name</title>\n";
@@ -114,6 +129,25 @@ sub load_survey {
 	
 	$dbh->disconnect();
 	
+	#set up for the 13 questions
+	@VersionA = (	"Cucumbers and humans have a common ancestor.",
+					"Tuna fish and pumpkins have a common ancestor.",
+					"Earthworms, mosquitoes, and humans all have a common ancestor.",
+					"Earthworms, leeches, and snails all have a common ancestor.",
+					"Beetles, ants, and mosquitoes all have a common ancestor.",
+					"Crocodiles, rodents, and turtles all have a common ancestor.",
+					"Salamanders, lizards, and crocodiles all have a common ancestor.",
+					"Dolphins and humans have a common ancestor.",
+					"Rats, whales, and zebras all have a common ancestor.",
+					"Rodents and dogs have a common ancestor.",
+					"Monkeys, baboons, and humans all have a common ancestor.",
+					"Dogs, coyotes, and wolves all have a common ancestor.",
+					"Gorillas, monkeys, and chimpanzees all have a common ancestor.");
+	@VersionB = reverse @VersionA;
+    $version = "A";
+	
+	@Q3parts = split /,/, $Q3;
+	
 	print "<SCRIPT language=\"JavaScript\">\n";
 	print "function getTreeData() {\n";
 	print "    var xml = document.TreeApplet.getTreeXML();\n";
@@ -161,7 +195,7 @@ sub load_survey {
   	print "<form action=\"$script_url\" method=\"POST\" onsubmit=\"return getTreeData();\" ";
   	print "name=\"form\">\n";
 	print "<applet code=\"phylogenySurvey.SurveyApplet.class\" \n";
-	print "archive=\"https://www.securebio.umb.edu/phylogenySurvey.13.jar\" \n";
+	print "archive=\"https://www.securebio.umb.edu/phylogenySurvey.jar\" \n";
 	print "width=1020 height=1020 name=\"TreeApplet\">\n";
   	print "          You have to enable Java on your machine !</applet>\n";
     print "<br><br>\n";
@@ -174,10 +208,37 @@ sub load_survey {
     print "or not closely related? Use one or two specific examples from your work to explain \n";
     print "your reasoning.<br>\n";
     print "<textarea name=\"Q2\" rows=10 cols=80>$Q2</textarea><br><br>\n";
-    print "<b>3)</b> How did you represent the similarities and differences between groups in \n";
-    print "your drawing? Use one or two specific examples from your work to explain your \n";
-    print "representations.<br>\n";
-    print "<textarea name=\"Q3\" rows=10 cols=80>$Q3</textarea><br><br>\n";
+    print "<b>3) Common Ancestors:</b><br>\n";
+    print "Choose the option that best expresses <u>how well you agree with</u> in the following";
+    print " statements.  Use these options:<br>\n";
+    print "<table border = 1>\n";
+    print "<tr>\n";
+    print "<td>&nbsp;</td>\n";
+    print "<td><font color=red><b>Strongly Disagree</font></b></td>\n";
+    print "<td><font color=red>Disagree</font></td>\n";
+    print "<td>I\'m not sure</td>\n";
+    print "<td><font color=green>Agree</font></td>\n";
+    print "<td><font color=green><b> Strongly Agree</font></b></td>\n";
+    print "</tr>\n";
+    for ($i = 0; $i < 13; $i++){
+         print "<tr>\n";
+         print "<td>";
+         if ($version eq "A") {
+              print $VersionA[$i];
+         } else {
+              print $VersionB[$i];
+         }
+         print "</td>\n";
+         for ($j = 1; $j < 6; $j++ ) {
+              print "<td><input type=\"radio\" name=\"Q3-$i\" value=\"$j\"";
+              if ($Q3parts[$i] == $j) {
+                   print " CHECKED ";
+              }
+              print ">\n";
+         }
+         print "</tr>\n";
+    }
+    print "</table>\n";
     print "<input type=\"hidden\" name=\"Name\" value=\"$name\">\n";
     print "<input type=\"hidden\" name=\"Passwd\" value=\"$password\">\n";
     print "<input type=\"hidden\" name=\"treeXML\" value=\"$treeXML\">\n";

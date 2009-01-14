@@ -157,4 +157,15 @@ still need to
 got date working
  -only pre post left
 
-
+1/14/09
+working..
+- fixed shark pic (added fins..)
+- punt pre-post for now
+- fix db
+	nuke prepost: ALTER TABLE student_data DROP prepost;
+	nuke Q3: ALTER TABLE student_data DROP Q3;
+		delete from perl script
+	add field for 13 questions: ALTER TABLE student_data ADD Q3 varchar(50) NOT NULL DEFAULT '0,0,0,0,0,0,0,0,0,0,0,0,0';
+		one big field - comma-separated integers
+    got it working!
+    
