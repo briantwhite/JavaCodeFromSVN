@@ -12,7 +12,7 @@ use treeDB;
 
 $script_url = "https://www.securebio.umb.edu/cgi-bin/TreeSurvey.pl";
 
-@date = loacltime(time);
+@date = localtime(time);
 
 # if we enter without params, give the student login page
 #  otherwise, process survey data
@@ -31,7 +31,7 @@ sub login_page {
 	print "<html><head>\n";
 	print "<title>Login to the Phylogeny Survey</title>\n";
 	print "</head>\n";
-	print "<body bgcolor = \"yellow\">\n";
+	print "<body bgcolor=\"#808000\">\n";
 	
 	print "<form action=\"$script_url\" method=\"POST\">\n";
 
@@ -100,7 +100,7 @@ sub load_survey {
 	     $pw = $result[0];
 
 	     if(&decrypt_pw($pw,$password) != 1){
-	        print "<body bgcolor=red>\n";
+	        print "<body bgcolor=#FF8080>\n";
   	     	print "<br><font color=green><b>Error: Password incorrect 
    	     	       for $name.</b></font><br>";
    	     	print "<a href=\"$script_url\">Click here to return to login screen</a>.\n";
@@ -142,6 +142,12 @@ sub load_survey {
 	
 	$dbh->disconnect();
 	
+	if (($Q1 eq "") || ($Q2 eq "") || ($Q3 =~ /0/)) {
+	     $complete = 0;
+	} else {
+	     $complete = 1;
+	}
+	
 	&setup_arrays;
 	
     $version = "A";
@@ -162,6 +168,17 @@ sub load_survey {
 	print "<body bgcolor = \"lightblue\" onload=\"setTreeData()\">\n"; 
 	
 	print "<center><font size=+2>Diversity of Life Survey for $name</font></center><br>\n";
+	if ($complete == 0) {
+	     print "<center><table><tr><td bgcolor=red><font color=black><font size=+3>\n";
+	     print "<center>Your survey is not complete</font><br>\n";
+	     print "you will not receive full credit unless you answer all the questions.  <br>\n";
+	     print "Thanks!</font></center></td></tr></table></center>\n";
+	} else {
+	     print "<center><table><tr><td bgcolor=green><font color=black><font size=+3>\n";
+	     print "<center>Your survey is complete!</font><br>\n";
+	     print "You have received 15 points for the &quot;Diversity Of Life Survey&quot;<br>\n";
+	     print "Thanks!</font></center></td></tr></table></center>\n";	
+	}
 	print "This survey is designed to see how well you understand the diversity of living \n";
 	print "organisms.  There is no right or wrong answer; you will receive full credit for \n";
 	print "whatever you write.  We are most interested in your understanding of these \n";
