@@ -2,8 +2,8 @@
 
 # set some constants
 $admin_pw = "lab09acce55";
-$too_late_month = 2;
-$too_late_day = 15;
+$too_late_month = 1;
+$too_late_day = 9;
 
 use DBI;
 use CGI;
@@ -13,6 +13,12 @@ use treeDB;
 $script_url = "https://www.securebio.umb.edu/cgi-bin/TreeSurvey.pl";
 
 @date = localtime(time);
+$too_late = 0;
+if ($date[4] > $too_late_month) {
+     $too_late = 1;
+} elsif (($date[4] == $too_late_month) && ($date[3] > $too_late_day)) {
+     $too_late = 1;
+}
 
 # if we enter without params, give the student login page
 #  otherwise, process survey data
@@ -32,6 +38,12 @@ sub login_page {
 	print "<title>Login to the Phylogeny Survey</title>\n";
 	print "</head>\n";
 	print "<body bgcolor=\"#808000\">\n";
+	
+	if ($too_late == 1) {
+	     print "<center><table><tr><td bgcolor=red><font color=black><font size=+3>\n";
+	     print "<center>It is too late to complete the survey.</font><br>\n";
+	     print "Sorry.</font></center></td></tr></table></center>\n";	
+	}
 	
 	print "<form action=\"$script_url\" method=\"POST\">\n";
 
@@ -85,10 +97,18 @@ sub load_survey {
 	print "<html><head>\n";
 	print "<title>Diversity of Life Survey for $name</title>\n";
 	
+	
 	if ($password eq $admin_pw) {
 	     $admin_mode = 1;
 	} else {
 	     $admin_mode = 0;
+	     
+	     if ($too_late == 1) {
+	        print "<body bgcolor=#FF8080>\n";
+  	     	print "<br><font color=green><b>Sorry, it is too late to complete the survey.</b></font><br>";
+   		    print "</body></html>\n";
+   		    exit 1;
+	     }
 	
 	     $dbh = GradeDB::connect();
 	     $statement = "SELECT password FROM students
@@ -104,8 +124,8 @@ sub load_survey {
   	     	print "<br><font color=green><b>Error: Password incorrect 
    	     	       for $name.</b></font><br>";
    	     	print "<a href=\"$script_url\">Click here to return to login screen</a>.\n";
-   		     print "</body></html>\n";
-   		     exit 1;
+   		    print "</body></html>\n";
+   		    exit 1;
 	     }
 	     $dbh->disconnect();
 	}
@@ -261,11 +281,11 @@ sub load_survey {
     print "<input type=\"hidden\" name=\"Passwd\" value=\"$password\">\n";
     print "<input type=\"hidden\" name=\"treeXML\" value=\"$treeXML\">\n";
     @time = localtime(time);
-    if (($admin_mode == 0) || ($too_late == 0)){
+    if ($admin_mode == 0) {
          print "<input type=\"submit\">\n";
     }
   	print "</form>\n";
-  
+    print "</body></html>\n";
 }
 
 sub decrypt_pw {
