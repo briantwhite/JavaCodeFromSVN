@@ -4,6 +4,7 @@
 $admin_pw = "lab09acce55";
 $too_late_month = 1;
 $too_late_day = 9;
+$name_of_survey_field_in_assignments_txt = "Diversity of Life Survey (15)";
 
 use DBI;
 use CGI;
@@ -198,7 +199,17 @@ sub load_survey {
 	     print "<center>Your survey is complete!</font><br>\n";
 	     print "You have received 15 points for the &quot;Diversity Of Life Survey&quot;<br>\n";
 	     print "Thanks!</font></center></td></tr></table></center>\n";	
-	     #put grade stuff here
+	     #enter the grade
+	     $dbh = GradeDB::connect();
+		 $statement = "SELECT number FROM assignments WHERE name=\"$name_of_survey_field_in_assignments_txt\"";
+         $sth = $dbh->prepare($statement);
+         $sth->execute();
+         @result = $sth->fetchrow_array();
+         $sth->finish();
+         $index = "grade".$result[0];
+         $statement = "UPDATE students SET $index = \"15\" WHERE name=\"$name\""; 
+         $rows = $dbh->do($statement);
+	     $dbh->disconnect();
 	}
 	print "This survey is designed to see how well you understand the diversity of living \n";
 	print "organisms.  There is no right or wrong answer; you will receive full credit for \n";
