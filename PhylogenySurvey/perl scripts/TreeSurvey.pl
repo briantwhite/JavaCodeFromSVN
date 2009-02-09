@@ -49,16 +49,41 @@ sub login_page {
 	print "<form action=\"$script_url\" method=\"POST\">\n";
 
 	$dbh = GradeDB::connect();
-	
-	print "<font size=+3>Login to the diversity of life survey site</font><br>\n";
-	print "Choose your name from this list:<br>\n";
-    print "<select name=\"Name\" size=12>\n";
+	%name_grade_hash = ();
 	$sth = $dbh->prepare("SELECT * FROM students ORDER BY name");
     $sth->execute();
     while (@result = $sth->fetchrow_array()) {
-        print "<option value=\"$result[0]\">$result[0]</option>\n";
+        $name_grade_hash{$result[0]} = "";
     }
     $sth->finish();
+	
+	$statement = "SELECT number FROM assignments WHERE name=\"$name_of_survey_field_in_assignments_txt\"";
+    $sth = $dbh->prepare($statement);
+    $sth->execute();
+    @result = $sth->fetchrow_array();
+    $sth->finish();
+    $index = "grade".$result[0];
+    
+    foreach $name (sort keys %name_grade_hash) {
+         $sth = $dbh->prepare("SELECT $index from students WHERE name = \"$name\"");
+         $sth->execute();
+         @result = $sth->fetchrow_array();
+         $name_grade_hash{$name} = $result[0];
+         $sth->finish();
+    }
+	
+	$dbh->disconnect();
+
+	print "<font size=+3>Login to the diversity of life survey site</font><br>\n";
+	print "Choose your name from this list:<br>\n";
+    print "<select name=\"Name\" size=12>\n";
+    foreach $name (sort keys %name_grade_hash) {
+         $score = "";
+         if ($name_grade_hash{$name} ne "") {
+              $score = "(".$name_grade_hash{$name}.")";
+         }
+         print "<option value=\"$name\">$name $score</option>\n";
+    }
     print "</select><br>\n";
     print "Enter your 8-digit UMS ID # (leave off the UMS):\n";
     print "<input type=\"password\" name=\"Passwd\" size=20><br>\n";

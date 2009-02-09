@@ -177,3 +177,7 @@ strange bug - sometimes all the organisms are missing
 - sometimes the xml is blank & re-loading it fixes the problem
 - sometimes, the xml has no organisms
 -> fix the SurveyApplet to check for "OrganismLabel" in the submitted xml- if not present, load all orgs
+
+2/9/09
+added to perl script that it shows if the survey has been entered next to the person's name 
+  in the login page
