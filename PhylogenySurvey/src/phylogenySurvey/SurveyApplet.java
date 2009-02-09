@@ -44,7 +44,7 @@ public class SurveyApplet extends JApplet {
 	}
 
 	public void setTreeXML(String newTreeXML) {
-		if (newTreeXML.equals("")) {
+		if (newTreeXML.indexOf("OrganismLabel") == -1) {
 			surveyUI.loadOrganisms();
 		} else {
 			try {
