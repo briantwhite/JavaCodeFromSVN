@@ -3,7 +3,7 @@
 # set some constants
 $admin_pw = "lab09acce55";
 $too_late_month = 1;
-$too_late_day = 9;
+$too_late_day = 12;
 $name_of_survey_field_in_assignments_txt = "Diversity of Life Survey (15)";
 
 use DBI;
@@ -77,10 +77,12 @@ sub login_page {
 	print "<font size=+3>Login to the diversity of life survey site</font><br>\n";
 	print "Choose your name from this list:<br>\n";
     print "<select name=\"Name\" size=12>\n";
+    $count = 0;
     foreach $name (sort keys %name_grade_hash) {
          $score = "";
          if ($name_grade_hash{$name} ne "") {
               $score = "(".$name_grade_hash{$name}.")";
+              $count++;
          }
          print "<option value=\"$name\">$name $score</option>\n";
     }
@@ -90,6 +92,8 @@ sub login_page {
     print "  <input type=\"submit\" value=\"Login\">\n";
     
 	print "</form>\n";
+	print "<hr>\n";
+	print "$count surveys entered.<br>\n";
 	
 	print "</body></html>\n";
 }
