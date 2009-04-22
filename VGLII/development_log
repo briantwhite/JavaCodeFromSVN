@@ -777,3 +777,10 @@ changed OList - look up not by scrambled since it's the trait's index we want
 	- also, need to output trait names in scrambled order
 	fixed SummaryChartManager & SummaryChartUI
 - seems to work
+
+4/22/09
+bug - on pc, double-clicking a Cage does not make it turn yellow...
+	although it is selected (you just can't tell).
+
+can't get the background color to change on the pc
+so just change to a colored border to show selection

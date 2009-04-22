@@ -73,7 +73,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * the background color when the Cage is selected
 	 * for membership in the summary chart
 	 */
-	private static Color selectedColor = new Color(255,255,230); 
+	private static Color selectedColor = new Color(255,0,0); 
 
 	/**
 	 * boolean to indicate membership in selected set for
@@ -470,7 +470,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		BorderLayout bSelectionLayout = new BorderLayout();
 		superPanel = new JPanel();
 		superPanel.setLayout(bSelectionLayout);
-		superPanel.setBorder(BorderFactory.createEmptyBorder());
+		superPanel.setBorder(BorderFactory.createLineBorder(unselectedColor, 2));
 		detailsPanel = new JPanel();
 		detailsPanel.setLayout(new BorderLayout());
 		individualPanel = new JPanel();
@@ -780,10 +780,11 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	public void setIsSelected(boolean b) {
 		isSelected = b;
 		if (isSelected) {
-			setBackground(selectedColor);
+			superPanel.setBorder(BorderFactory.createLineBorder(selectedColor, 2));
 		} else {
-			setBackground(unselectedColor);
+			superPanel.setBorder(BorderFactory.createLineBorder(unselectedColor, 2));
 		}
+		superPanel.repaint();
 	}
 
 	public int getId() {
@@ -910,14 +911,15 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 2) {
 			if (isSelected) {
-				setBackground(unselectedColor);
+				superPanel.setBorder(BorderFactory.createLineBorder(unselectedColor, 2));
 				isSelected = false;
 				summaryChartManager.removeFromSelected(this);
 			} else {
-				setBackground(selectedColor);
+				superPanel.setBorder(BorderFactory.createLineBorder(selectedColor, 2));
 				isSelected = true;
 				summaryChartManager.addToSelected(this);
 			}
+			superPanel.repaint();
 		}
 	}
 
