@@ -29,7 +29,7 @@ import GeneticModels.Trait;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: SummaryChartManager.java,v 1.7 2008-06-28 02:08:18 brian Exp $
+ * @version 1.0 $Id: SummaryChartManager.java,v 1.8 2009-04-22 01:46:21 brian Exp $
  */
 
 public class SummaryChartManager {
@@ -89,7 +89,7 @@ public class SummaryChartManager {
 	 * @param traitsToCount
 	 * @return
 	 */
-	public PhenotypeCount[] calculateTotals(int[] traitsToCount) {
+	public PhenotypeCount[] calculateTotals(ArrayList<Integer> selectedTraits) {
 		TreeMap<String, MFTotCounts> totals = new TreeMap<String, MFTotCounts>();
 
 		Iterator<CageUI> cageUIIterator = selectedSet.iterator();
@@ -100,7 +100,7 @@ public class SummaryChartManager {
 			while (oListIterator.hasNext()) {
 				OrganismList oList = children.get(oListIterator.next());
 				String customPhenotypeString = 
-					oList.getCustomPhenotypeString(traitsToCount);
+					oList.getCustomPhenotypeString(selectedTraits);
 				if (!totals.containsKey(customPhenotypeString)) {
 					totals.put(customPhenotypeString, new MFTotCounts(0,0));
 				}

@@ -4,8 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.TreeSet;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -35,7 +34,7 @@ import GeneticModels.Trait;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: SummaryChartUI.java,v 1.5 2008-06-24 14:13:47 brian Exp $
+ * @version 1.0 $Id: SummaryChartUI.java,v 1.6 2009-04-22 01:46:21 brian Exp $
  */
 
 public class SummaryChartUI extends JDialog implements ActionListener {
@@ -48,10 +47,13 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 	
 	private JPanel resultPanel;
 	
+	private int[] scrambledTraitOrder;
+	
 	public SummaryChartUI(VGLII vglII) {
 		super(vglII, "SummaryChart", false);
 		this.vglII = vglII;
 		manager = SummaryChartManager.getInstance();
+		scrambledTraitOrder =manager.getScrambledCharacterOrder();
 		setTitle("Summary Chart for Cages " + manager.toString());
 		setLayout(new BorderLayout());
 		resultPanel = new JPanel();
@@ -63,7 +65,6 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 	}
 	
 	private void setupTraitSelectionPanel() {
-		int[] scrambledTraitOrder =manager.getScrambledCharacterOrder();
 		JPanel traitSelectionPanel = new JPanel();
 		traitSelectionPanel.setLayout(
 				new BoxLayout(traitSelectionPanel, BoxLayout.X_AXIS));
@@ -98,22 +99,14 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 
 	private void updateDisplay() {
 		//find out which buttons have been selected
-		TreeSet<Integer> selectedTraits = new TreeSet<Integer>();
+		ArrayList<Integer> selectedTraits = new ArrayList<Integer>();
 		for (int i = 0; i < manager.getTraitSet().length; i++) {
 			if (traitCheckBoxes[i].isSelected()) {
 				selectedTraits.add(i);
 			}
 		}
 
-		int[] traitsToCount = new int[selectedTraits.size()];
-		int j = 0;
-		Iterator<Integer> it = selectedTraits.iterator();
-		while (it.hasNext()) {
-			traitsToCount[j] = it.next();
-			j++;
-		}
-				
-		PhenotypeCount[] result = manager.calculateTotals(traitsToCount);
+		PhenotypeCount[] result = manager.calculateTotals(selectedTraits);
 		
 		String[] columnHeadings = {"Phenotype", "Males", "Females", "Total"};
 		

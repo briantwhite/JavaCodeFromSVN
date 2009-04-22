@@ -756,3 +756,24 @@ order: GeneticModel.save(); WorkFileProcessor.processSavedModelInfo(); work.txt
 all should be OK now
 
 made version 1.1.1
+
+4/21/09
+Bug - summary chart buttons do not always respond to clicks by changing the table!
+- it is throwing 
+     [java] Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 2
+     [java] 	at GeneticModels.OrganismList.getCustomPhenotypeString(OrganismList.java:137)
+     [java] 	at VGL.SummaryChartManager.calculateTotals(SummaryChartManager.java:103)
+the code there is crazy - it's doing the lookup backwards:
+					phenos.get(
+							traitsToCount[scrambledTraitOrder[i]])
+should be get(scrambledTraitOrder[traitsToCount[i]])
+	fixed in 2 places in this method
+changed but still not right - no more error but
+	- counts are right and labels in table of counts match
+	- checkbox labels in right order and they change the table but
+		- the labels don't correspond to the traits they select!
+
+changed OList - look up not by scrambled since it's the trait's index we want
+	- also, need to output trait names in scrambled order
+	fixed SummaryChartManager & SummaryChartUI
+- seems to work

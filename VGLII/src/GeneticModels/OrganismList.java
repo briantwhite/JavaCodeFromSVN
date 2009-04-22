@@ -48,7 +48,7 @@ public class OrganismList {
 			numberOfFemales++;
 		}
 	}
-	
+
 	public void add(Organism o, int orgId) {
 		organisms.add(orgId, o);
 		if (o.isMale()) {
@@ -56,7 +56,7 @@ public class OrganismList {
 		} else {
 			numberOfFemales++;
 		}
-		
+
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class OrganismList {
 	public Iterator<Organism> iterator() {
 		return organisms.iterator();
 	}
-	
+
 	public ArrayList<Phenotype> getPhenotypes() {
 		return organisms.get(0).getPhenotypes();
 	}
@@ -126,22 +126,22 @@ public class OrganismList {
 	 * @param traitsToCount
 	 * @return
 	 */
-	public String getCustomPhenotypeString(int[] traitsToCount) {
+	public String getCustomPhenotypeString(ArrayList<Integer> selectedTraits) {
 		StringBuffer b = new StringBuffer();
 		Organism o = organisms.get(0);
-		int[] scrambledTraitOrder = o.getGeneticModel().getScrambledCharacterOrder();
+		int[] scrambledCharacterOrder = o.getGeneticModel().getScrambledCharacterOrder();
 		ArrayList<Phenotype> phenos = o.getPhenotypes();
-		for (int i = 0; i < traitsToCount.length; i++) {
-			b.append(
-					phenos.get(
-							traitsToCount[scrambledTraitOrder[i]])
-							.getTrait().getTraitName());
-			b.append("-");
-			b.append(
-					phenos.get(
-							traitsToCount[scrambledTraitOrder[i]])
-							.getTrait().getBodyPart());
-			b.append("/");
+		for (int i = 0; i < scrambledCharacterOrder.length; i++) {
+			if (selectedTraits.contains(scrambledCharacterOrder[i])) {
+				b.append(
+						phenos.get(scrambledCharacterOrder[i])
+						.getTrait().getTraitName());
+				b.append("-");
+				b.append(
+						phenos.get(scrambledCharacterOrder[i])
+						.getTrait().getBodyPart());
+				b.append("/");
+			}
 		}
 		if (b.length() > 0) {
 			b.deleteCharAt(b.length() - 1);
