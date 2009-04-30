@@ -784,3 +784,6 @@ bug - on pc, double-clicking a Cage does not make it turn yellow...
 
 can't get the background color to change on the pc
 so just change to a colored border to show selection
+
+4/30/09
+added VGL team info to the About dialog

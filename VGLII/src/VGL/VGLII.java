@@ -680,10 +680,23 @@ public class VGLII extends JFrame {
 	 * Display about dialog
 	 */
 	private void aboutVGL() {
-		JOptionPane.showMessageDialog(this, "Virtual Genetics Lab II\n"
-				+ "Release Version " + version + "\n" + "Copyright 2008\n" + "VGL Team.\n"
+		JLabel aboutLabel = new JLabel("<html><body><font size=+2>Virtual Genetics Lab II</font><br>"
+				+ "Release Version " + version + "<br>" + "Copyright 2009<br>" + "VGL Team:<br>"
+				+ "<ul>"
+				+ "<li><b>Lead Programmer:</b></li>"
+				+ "<ul><li>Brian White</li></ul>"
+				+ "<li><b>Original VGL UI Code:</b></li>"
+				+ "<ul><li>Nikunj Koolar</li><li>Wei Ma</li><li>Naing Naing Maw</li>"
+				+ "<li>Chung Ying Yu</li></ul>"
+				+ "<li><b>Phenotype Images:</b></li>"
+				+ "<ul><li>Antoine Aidamouni</li><li>Sara M. Burke</li><li>Sara Hachemi</li>"
+				+ "<li>Amit Kuma</li></ul>"
+				+ "<li><b>Academic Supervisor:</b></li>"
+				+ "<ul><li>Ethan Bolker</li></ul>"
+				+"</ul>"
 				+ "All Rights Reserved\n" + "GNU General Public License\n"
-				+ "http://www.gnu.org/copyleft/gpl.html",
+				+ "http://www.gnu.org/copyleft/gpl.html</body></html>");
+		JOptionPane.showMessageDialog(this, aboutLabel,
 				"About Virtual Genetics Lab II...",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
