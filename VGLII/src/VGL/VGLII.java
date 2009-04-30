@@ -86,7 +86,13 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	private final static String version = "1.1.2";
+	public final static String version = "1.2.0";
+	
+	/**
+	 * the dimensions of the Phenotype image
+	 */
+	public final static int PHENO_IMAGE_WIDTH = 900;
+	public final static int PHENO_IMAGE_HEIGHT = 700;
 
 	/**
 	 * the genetic model for the current problem

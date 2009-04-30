@@ -398,8 +398,8 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					frame.setIconImage(null);
 					JDialog imageDlg = new JDialog(frame, "Phenotype Details",
 							true);
-					imageDlg.setSize(200, 220);
-					imageDlg.setLocation(512 - 100, 384 - 110);
+					imageDlg.setSize(VGLII.PHENO_IMAGE_WIDTH, VGLII.PHENO_IMAGE_HEIGHT);
+					imageDlg.setLocation(512 - VGLII.PHENO_IMAGE_WIDTH/2, 384 - VGLII.PHENO_IMAGE_HEIGHT/2);
 					imageDlg.setResizable(false);
 					JPanel details = new JPanel();
 					details.setLayout(new BorderLayout());

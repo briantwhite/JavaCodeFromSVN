@@ -787,3 +787,7 @@ so just change to a colored border to show selection
 
 4/30/09
 added VGL team info to the About dialog
+
+added in code for new phenotype images
+edited it for style and removed print statements
+version 1.2.0
