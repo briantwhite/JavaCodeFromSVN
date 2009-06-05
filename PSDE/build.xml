@@ -1,0 +1,21 @@
+<project name="PSDE" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/PSDE.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="UI.PSDE"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+ 	    </jar>
+        <move file="bin/PSDE.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run PSDE">
+		<java jar="PSDE.jar" fork="true"/>
+	</target>
+
+</project>
