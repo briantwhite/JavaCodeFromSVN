@@ -32,6 +32,11 @@ need to make a custom Main class for the emulator
   copy in code from the original org.microemu.app.Main
   saved as CustomMiniEMU
   	edited
-  	NG - it can't see cerain methods; need to get into the source.
+  	NG - it can't see certain methods; need to get into the source.
 
 sigh, will need to put the source stuff in a package in src
+and will need to get some libraries
+	got the SWT library from http://www.eclipse.org/swt/eclipse.php
+	followed directions
+		added as project and as project in build path
+	also needed
