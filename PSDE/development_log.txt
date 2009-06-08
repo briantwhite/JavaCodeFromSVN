@@ -11,3 +11,27 @@ try to get them into jar
    make folder resources/
    put the microemulator.jar into resources/
    be sure it gets back in when loaded from cvs
+   in Properties, make it a jar
+   seems to work - eclipse finds the class
+   BUT - once in jar, it can't find the class
+   the microemu.jar is in the jar
+   	 but how do you get the program to find it?
+   
+   maybe punt and just put the source files in...
+   
+try a lib/ folder
+  put the source there
+  still ng
+  
+maybe explode the jar and make it a class folder
+  still NG
+  got it running with the class folder in a lib
+  and be sure to put lib in the build.xml
+
+need to make a custom Main class for the emulator
+  copy in code from the original org.microemu.app.Main
+  saved as CustomMiniEMU
+  	edited
+  	NG - it can't see cerain methods; need to get into the source.
+
+sigh, will need to put the source stuff in a package in src
