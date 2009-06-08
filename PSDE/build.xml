@@ -10,6 +10,7 @@
 	        	    <attribute name="Main-Class" value="UI.PSDE"/>
 	        </manifest>
 	    	    <fileset dir="bin/"/>
+	    	    <fileset dir="lib/"/>
  	    </jar>
         <move file="bin/PSDE.jar" todir="."/>
     </target>

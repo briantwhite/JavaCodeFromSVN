@@ -34,11 +34,15 @@ public class PSDE extends JFrame {
 	private AnswersPane answersPane;
 	
 	private JMenuBar menuBar;
+	
 	private JMenu fileMenu;
 	private JMenuItem openFileItem;
 	private JMenuItem saveFileItem;
 	private JMenuItem saveFileAsItem;
 	private JMenuItem quitItem;
+	
+	private JMenu toolsMenu;
+	private JMenuItem startEMUItem;
 	
 	public PSDE() {
 		super("Organic Chemistry Game Problem Set Development Environment " + version);
@@ -79,6 +83,12 @@ public class PSDE extends JFrame {
 		quitItem = new JMenuItem("Quit");
 		fileMenu.add(quitItem);
 		menuBar.add(fileMenu);
+		
+		toolsMenu = new JMenu("Tools");
+		startEMUItem = new JMenuItem("Start Cell Phone Emulator");
+		toolsMenu.add(startEMUItem);
+		menuBar.add(toolsMenu);
+		
 		mainPanel.add(menuBar, BorderLayout.NORTH);
 		
 		JPanel innerPanel = new JPanel();
@@ -102,6 +112,17 @@ public class PSDE extends JFrame {
 		quitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
+			}
+		});
+		
+		startEMUItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Thread emuThread = new Thread() {
+					public void run() {
+						org.microemu.app.Main.main(new String[]{});
+					}
+				};
+				emuThread.start();
 			}
 		});
 
