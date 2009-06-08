@@ -1,3 +1,9 @@
 6/5/09
 started development
 this will be a combo of the PSDE for the OrgoGame and a place to run problem sets on a desktop
+
+6/8/09
+found java cell phone emulator code at http://www.microemu.org/index.html
+got version 2.0.3 (2008-12-15)
+   got both the jar and the sources
+
