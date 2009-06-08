@@ -38,3 +38,4 @@ works, but when you quit the emulator, since it uses System.exit(0)
 
 need to make my own version of the org.microemu.app.Main
 	that is what I want...
+	save Main as CustomEMU and edit

@@ -119,10 +119,15 @@ public class PSDE extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Thread emuThread = new Thread() {
 					public void run() {
-						org.microemu.app.Main.main(new String[]{});
+						org.microemu.app.CustomEMU.main(new String[]{});
 					}
 				};
 				emuThread.start();
+				try {
+					emuThread.join();
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 
