@@ -7,3 +7,7 @@ found java cell phone emulator code at http://www.microemu.org/index.html
 got version 2.0.3 (2008-12-15)
    got both the jar and the sources
 
+try to get them into jar
+   make folder resources/
+   put the microemulator.jar into resources/
+   be sure it gets back in when loaded from cvs
