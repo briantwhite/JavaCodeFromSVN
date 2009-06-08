@@ -28,4 +28,13 @@ and will need to get some libraries
 	got the SWT library from http://www.eclipse.org/swt/eclipse.php
 	followed directions
 		added as project and as project in build path
-	also needed
+	also needed org.objectweb.asm library
+		here had to add as archive folder into the src/ directory
+	also needed netscape.javascript.JSObject
+		had to add external jar /System/Library/Frameworks/JavaVM.framework/Home/lib/plugin.jar
+
+works, but when you quit the emulator, since it uses System.exit(0)
+	it kills the whole program!
+
+need to make my own version of the org.microemu.app.Main
+	that is what I want...
