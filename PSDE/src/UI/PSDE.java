@@ -6,7 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -72,7 +77,7 @@ public class PSDE extends JFrame {
 		menuBar.setBorder(new BevelBorder(BevelBorder.RAISED));
 
 		fileMenu = new JMenu("File");
-		openFileItem = new JMenuItem("Open OrgoGame File...");
+		openFileItem = new JMenuItem("Open OrgoGame File");
 		fileMenu.add(openFileItem);
 		openInEmulatorItem = new JMenuItem("Open Orgo Game File in Cell Phone Emulator");
 		fileMenu.add(openInEmulatorItem);
@@ -101,23 +106,57 @@ public class PSDE extends JFrame {
 
 		setPreferredSize(new Dimension(1100,800));
 		getContentPane().add(mainPanel);
-		
-		quitItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
-			}
-		});
 
-		openInEmulatorItem.addActionListener(new ActionListener() {
+		openFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				// extract the problem from the jar
 				try {
-					Process p = Runtime.getRuntime().exec("java -jar microemulator.jar Games/OrgoGame.jad");
+					Runtime.getRuntime().exec("cd Games/");
+					Runtime.getRuntime().exec("jar xf OrgoGame.jar Problem.pml");
+					Runtime.getRuntime().exec("cd ../");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+				//read it in
+				ArrayList<String> problemFileLines = new ArrayList<String>();
+				File problemFileName = new File("Games/Problem.pml");
+				System.out.println(problemFileName.getAbsolutePath());
+				BufferedReader input = null;
+				String line = null;
+				try {
+					try {
+						input = new BufferedReader(new FileReader(problemFileName));
+						while (( line = input.readLine()) != null){
+							problemFileLines.add(line);
+							System.out.println("line: " + line);
+						}
+					}
+					finally {
+						input.close();
+					}
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
 
+		openInEmulatorItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Runtime.getRuntime().exec("java -jar microemulator.jar Games/OrgoGame.jad");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		quitItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
 
 	}
 
