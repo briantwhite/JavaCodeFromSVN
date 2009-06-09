@@ -16,46 +16,48 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
 
+import org.microemu.app.CustomEMU;
+
 public class PSDE extends JFrame {
-	
+
 	private static String version = "0.8";
-	
+
 	//indices for tabbed panes
-	private final static int TEST_RUN = 0;
-	private final static int MOLECULES = 1;
-	private final static int REACTIONS = 2;
-	private final static int ANSWERS = 3;
-	
+	private final static int MOLECULES = 0;
+	private final static int REACTIONS = 1;
+	private final static int ANSWERS = 2;
+
 	private JPanel mainPanel;
 	private JTabbedPane tabbedPanes;
-	private TestRunPane testRunPane;
 	private MoleculesPane moleculesPane;
 	private ReactionsPane reactionsPane;
 	private AnswersPane answersPane;
-	
+
 	private JMenuBar menuBar;
-	
+
 	private JMenu fileMenu;
 	private JMenuItem openFileItem;
 	private JMenuItem saveFileItem;
 	private JMenuItem saveFileAsItem;
 	private JMenuItem quitItem;
-	
+
 	private JMenu toolsMenu;
 	private JMenuItem startEMUItem;
-	
+	private CustomEMU customEMU;
+	private Thread emuThread;
+
 	public PSDE() {
 		super("Organic Chemistry Game Problem Set Development Environment " + version);
 		addWindowListener(new ApplicationCloser());
 		setupUI();
 	}
-	
+
 	class ApplicationCloser extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			System.exit(0);
 		}
 	}
-	
+
 	/**
 	 * main method
 	 */
@@ -66,7 +68,7 @@ public class PSDE extends JFrame {
 	}
 
 	private void setupUI() {
-		
+
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 
@@ -74,29 +76,27 @@ public class PSDE extends JFrame {
 		menuBar.setBorder(new BevelBorder(BevelBorder.RAISED));
 
 		fileMenu = new JMenu("File");
-		openFileItem = new JMenuItem("Open Problem Set File...");
+		openFileItem = new JMenuItem("Open OrgoGame File...");
 		fileMenu.add(openFileItem);
-		saveFileItem = new JMenuItem("Save Problem Set File");
+		saveFileItem = new JMenuItem("Save OrgoGame File");
 		fileMenu.add(saveFileItem);
-		saveFileAsItem = new JMenuItem("Save Problem Set File as...");
+		saveFileAsItem = new JMenuItem("Save OrgoGame File as...");
 		fileMenu.add(saveFileAsItem);
 		quitItem = new JMenuItem("Quit");
 		fileMenu.add(quitItem);
 		menuBar.add(fileMenu);
-		
+
 		toolsMenu = new JMenu("Tools");
-		startEMUItem = new JMenuItem("Start Cell Phone Emulator");
+		startEMUItem = new JMenuItem("Show Cell Phone Emulator");
 		toolsMenu.add(startEMUItem);
 		menuBar.add(toolsMenu);
-		
+
 		mainPanel.add(menuBar, BorderLayout.NORTH);
-		
+
 		JPanel innerPanel = new JPanel();
 		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
-		
+
 		tabbedPanes = new JTabbedPane();
-		testRunPane = new TestRunPane();
-		tabbedPanes.add("Test Your Problem Set File", testRunPane);
 		moleculesPane = new MoleculesPane();
 		tabbedPanes.add("Enter and Edit Molecules", moleculesPane);
 		reactionsPane = new ReactionsPane();
@@ -104,30 +104,22 @@ public class PSDE extends JFrame {
 		answersPane = new AnswersPane();
 		tabbedPanes.add("Enter and Edit Answers", answersPane);
 		mainPanel.add(tabbedPanes, BorderLayout.CENTER);
-		
-		
+
+
 		setPreferredSize(new Dimension(1100,800));
 		getContentPane().add(mainPanel);
+		
+		customEMU = new CustomEMU();
 
 		quitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
 			}
 		});
-		
+
 		startEMUItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Thread emuThread = new Thread() {
-					public void run() {
-						org.microemu.app.CustomEMU.main(new String[]{});
-					}
-				};
-				emuThread.start();
-				try {
-					emuThread.join();
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
+				customEMU.setVisible(true);
 			}
 		});
 

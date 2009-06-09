@@ -233,7 +233,7 @@ public class CustomEMU extends JFrame {
 			if (jadUrlPanel == null) {
 				jadUrlPanel = new JadUrlPanel();
 			}
-			if (SwingDialogWindow.show(CustomEMU.this, "Enter JAD URL:", jadUrlPanel, true)) {
+			if (SwingDialogWindow.show(CustomEMU.this, "Enter OrgoGame URL:", jadUrlPanel, true)) {
 				Common.openJadUrlSafe(jadUrlPanel.getText());
 				if (recordStoreManagerDialog != null) {
 					recordStoreManagerDialog.refresh();
@@ -521,7 +521,7 @@ public class CustomEMU extends JFrame {
 			Config.setWindow("main", new Rectangle(CustomEMU.this.getX(), CustomEMU.this.getY(), CustomEMU.this.getWidth(), CustomEMU.this
 					.getHeight()), true);
 
-//			System.exit(0);
+			setVisible(false);
 		}
 	};
 
@@ -771,11 +771,11 @@ public class CustomEMU extends JFrame {
 
 		JMenu menuFile = new JMenu("File");
 
-		menuOpenJADFile = new JMenuItem("Open JAD File...");
+		menuOpenJADFile = new JMenuItem("Open OrgoGame File...");
 		menuOpenJADFile.addActionListener(menuOpenJADFileListener);
 		menuFile.add(menuOpenJADFile);
 
-		menuOpenJADURL = new JMenuItem("Open JAD URL...");
+		menuOpenJADURL = new JMenuItem("Open OrgoGame URL...");
 		menuOpenJADURL.addActionListener(menuOpenJADURLListener);
 		menuFile.add(menuOpenJADURL);
 
@@ -810,7 +810,7 @@ public class CustomEMU extends JFrame {
 
 		menuFile.addSeparator();
 
-		JMenuItem menuItem = new JMenuItem("Exit");
+		JMenuItem menuItem = new JMenuItem("Hide");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(menuExitListener);
 		menuFile.add(menuItem);
@@ -932,6 +932,8 @@ public class CustomEMU extends JFrame {
 		Message.addListener(new SwingErrorMessageDialogPanel(this));
 
 		devicePanel.setTransferHandler(new DropTransferHandler());
+		
+		setupUI();
 	}
 
 	protected Component createContents(Container parent) {
@@ -998,20 +1000,8 @@ public class CustomEMU extends JFrame {
 		devicePanel.requestFocus();
 	}
 
-	public static void main(String args[]) {
-		List params = new ArrayList();
-		StringBuffer debugArgs = new StringBuffer();
-		for (int i = 0; i < args.length; i++) {
-			params.add(args[i]);
-			if (debugArgs.length() != 0) {
-				debugArgs.append(", ");
-			}
-			debugArgs.append("[").append(args[i]).append("]");
-		}
-		if (params.contains("--headless")) {
-			Headless.main(args);
-			return;
-		}
+	public void setupUI() {
+		List<String> params = new ArrayList<String>();
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -1019,32 +1009,27 @@ public class CustomEMU extends JFrame {
 			Logger.error(ex);
 		}
 
-		final CustomEMU app = new CustomEMU();
-		if (args.length > 0) {
-			Logger.debug("arguments", debugArgs.toString());
-		}
 
-		app.common.initParams(params, app.selectDevicePanel.getSelectedDeviceEntry(), J2SEDevice.class);
-		app.deviceEntry = app.selectDevicePanel.getSelectedDeviceEntry();
+		common.initParams(params, selectDevicePanel.getSelectedDeviceEntry(), J2SEDevice.class);
+		deviceEntry = selectDevicePanel.getSelectedDeviceEntry();
 		DeviceDisplayImpl deviceDisplay = (DeviceDisplayImpl) DeviceFactory.getDevice().getDeviceDisplay();
 		if (deviceDisplay.isResizable()) {
-			Rectangle size = Config.getDeviceEntryDisplaySize(app.deviceEntry);
+			Rectangle size = Config.getDeviceEntryDisplaySize(deviceEntry);
 			if (size != null) {
 				deviceDisplay.setDisplayRectangle(size);
 			}
 		}
-		app.updateDevice();
+		updateDevice();
 
-		app.validate();
-		app.setVisible(true);
+		validate();
 
 		if (Config.isWindowOnStart("logConsole")) {
-			app.menuLogConsoleListener.actionPerformed(null);
-			app.menuLogConsole.setSelected(true);
+			menuLogConsoleListener.actionPerformed(null);
+			menuLogConsole.setSelected(true);
 		}
 		if (Config.isWindowOnStart("recordStoreManager")) {
-			app.menuRecordStoreManagerListener.actionPerformed(null);
-			app.menuRecordStoreManager.setSelected(true);
+			menuRecordStoreManagerListener.actionPerformed(null);
+			menuRecordStoreManager.setSelected(true);
 		}
 
 		String midletString;
@@ -1053,11 +1038,11 @@ public class CustomEMU extends JFrame {
 		} catch (NoSuchElementException ex) {
 			midletString = null;
 		}
-		app.common.initMIDlet(false);
+		common.initMIDlet(false);
 
-		app.addComponentListener(app.componentListener);
+		addComponentListener(componentListener);
 
-		app.responseInterfaceListener.stateChanged(true);
+		responseInterfaceListener.stateChanged(true);
 	}
 
 	private abstract class CountTimerTask extends TimerTask {
