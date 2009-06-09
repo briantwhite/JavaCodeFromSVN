@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
 
-import org.microemu.app.CustomEMU;
-
 public class PSDE extends JFrame {
 
 	private static String version = "0.8";
@@ -43,7 +41,6 @@ public class PSDE extends JFrame {
 
 	private JMenu toolsMenu;
 	private JMenuItem startEMUItem;
-	private CustomEMU customEMU;
 	private Thread emuThread;
 
 	public PSDE() {
@@ -109,8 +106,6 @@ public class PSDE extends JFrame {
 		setPreferredSize(new Dimension(1100,800));
 		getContentPane().add(mainPanel);
 		
-		customEMU = new CustomEMU();
-
 		quitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
@@ -119,7 +114,6 @@ public class PSDE extends JFrame {
 
 		startEMUItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				customEMU.setVisible(true);
 			}
 		});
 
