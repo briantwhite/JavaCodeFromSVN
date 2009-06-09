@@ -36,13 +36,11 @@ public class PSDE extends JFrame {
 
 	private JMenu fileMenu;
 	private JMenuItem openFileItem;
+	private JMenuItem openInEmulatorItem;
 	private JMenuItem saveFileItem;
 	private JMenuItem saveFileAsItem;
 	private JMenuItem quitItem;
 
-	private JMenu toolsMenu;
-	private JMenuItem startEMUItem;
-	private Thread emuThread;
 
 	public PSDE() {
 		super("Organic Chemistry Game Problem Set Development Environment " + version);
@@ -76,6 +74,8 @@ public class PSDE extends JFrame {
 		fileMenu = new JMenu("File");
 		openFileItem = new JMenuItem("Open OrgoGame File...");
 		fileMenu.add(openFileItem);
+		openInEmulatorItem = new JMenuItem("Open Orgo Game File in Cell Phone Emulator");
+		fileMenu.add(openInEmulatorItem);
 		saveFileItem = new JMenuItem("Save OrgoGame File");
 		fileMenu.add(saveFileItem);
 		saveFileAsItem = new JMenuItem("Save OrgoGame File as...");
@@ -83,11 +83,6 @@ public class PSDE extends JFrame {
 		quitItem = new JMenuItem("Quit");
 		fileMenu.add(quitItem);
 		menuBar.add(fileMenu);
-
-		toolsMenu = new JMenu("Tools");
-		startEMUItem = new JMenuItem("Show Cell Phone Emulator");
-		toolsMenu.add(startEMUItem);
-		menuBar.add(toolsMenu);
 
 		mainPanel.add(menuBar, BorderLayout.NORTH);
 
@@ -113,10 +108,10 @@ public class PSDE extends JFrame {
 			}
 		});
 
-		startEMUItem.addActionListener(new ActionListener() {
+		openInEmulatorItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Process p = Runtime.getRuntime().exec("java -jar microemulator.jar");
+					Process p = Runtime.getRuntime().exec("java -jar microemulator.jar Games/OrgoGame.jad");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

@@ -45,3 +45,8 @@ need to make my own version of the org.microemu.app.Main
 this is too much of a pain.
 make the microemu run on its own.
 deleted all that stuff.
+
+will just need to have the microemulator.jar in the working directory
+along with Games/ folder
+
+
