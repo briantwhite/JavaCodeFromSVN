@@ -49,6 +49,15 @@ deleted all that stuff.
 will just need to have the microemulator.jar in the working directory
 along with Games/ folder
 
+also set up a project for compiling this in Java ME (for cell phones)
+- new Project
+- in Documents
+- called OrgoGame
+- copied in source files from old project
+- copied in old Problem.prb
+	set as added Library & Resource - the folder ProblemFiles in the project
+		this puts the contents of that folder in with all the classes
+			(not in a problems folder like in the old version)
 
 
 
