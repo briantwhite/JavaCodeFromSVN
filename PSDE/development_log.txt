@@ -50,6 +50,7 @@ will just need to have the microemulator.jar in the working directory
 along with Games/ folder
 
 also set up a project for compiling this in Java ME (for cell phones)
+	(on windows)
 - new Project
 - in Documents
 - called OrgoGame
@@ -58,6 +59,13 @@ also set up a project for compiling this in Java ME (for cell phones)
 	set as added Library & Resource - the folder ProblemFiles in the project
 		this puts the contents of that folder in with all the classes
 			(not in a problems folder like in the old version)
+			
+also, don't run it on the java me thing
+	the java me thing makes a dist folder with the jad and jar - run those from the emulator
+	
+also, don't try to keep this in CVS, it's too crazy with eclipse and CVS 
+	(the java me thing doesn't appear t do CVS!)
+	just save the OrgoGame project folder on Xythos
 
 
 
