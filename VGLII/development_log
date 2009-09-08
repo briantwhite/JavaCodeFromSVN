@@ -791,3 +791,6 @@ added VGL team info to the About dialog
 added in code for new phenotype images
 edited it for style and removed print statements
 version 1.2.0
+
+9/2/09
+starting to internationalize - externalized strings from VGLII class as a test
