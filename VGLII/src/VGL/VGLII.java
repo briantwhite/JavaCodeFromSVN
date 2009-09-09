@@ -3,6 +3,7 @@ package VGL;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -24,6 +25,7 @@ import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -87,6 +89,11 @@ public class VGLII extends JFrame {
 	 * the version number
 	 */
 	public final static String version = "1.2.0"; //$NON-NLS-1$
+	
+	/**
+	 * the list of supported languages
+	 */
+	public final static String[] supportedLanguages = {"English", "Français"};
 	
 	/**
 	 * the dimensions of the Phenotype image
@@ -229,7 +236,7 @@ public class VGLII extends JFrame {
 	 * menu item to clear selected cages
 	 */
 	private JMenuItem unselectAllItem = null;
-
+	
 	/**
 	 * Button to open a saved problem
 	 */
@@ -569,6 +576,24 @@ public class VGLII extends JFrame {
 				aboutImage));
 		mnuBar.add(mnuHelp);
 		setJMenuBar(mnuBar);
+		
+		//language options
+		JMenu mnuLanguage = new JMenu(Messages.getString("VGLII.Language"));
+		for (int i = 0; i < supportedLanguages.length; i++) {
+			if (!supportedLanguages[i].equals(Messages.getString("VGLII.Language"))) {
+				JMenuItem item = new JMenuItem(supportedLanguages[i]);
+				mnuLanguage.add(item);
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+					}
+				});
+			}
+		}
+		mnuBar.add(Box.createHorizontalGlue());
+		mnuBar.add(mnuLanguage);
+	
+
 	}
 
 	/**
