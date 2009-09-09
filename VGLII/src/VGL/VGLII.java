@@ -1149,7 +1149,10 @@ public class VGLII extends JFrame {
 		helpPane.setContentType("text/html"); //$NON-NLS-1$
 
 		try {
-			helpPane.setPage(VGLII.class.getResource("Help/index.html")); //$NON-NLS-1$
+			helpPane.setPage(VGLII.class.getResource(
+					Messages.getString("VGLII.HelpFileDir") 
+					+ System.getProperty("file.separator")
+					+ "index.html")); //$NON-NLS-1$
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,
 					Messages.getString("VGLII.HelpWarning1"), //$NON-NLS-1$
@@ -1184,7 +1187,10 @@ public class VGLII extends JFrame {
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				try {
-					helpPane.setPage(VGLII.class.getResource("Help/index.html")); //$NON-NLS-1$
+					helpPane.setPage(VGLII.class.getResource(
+							Messages.getString("VGLII.HelpFileDir") 
+							+ System.getProperty("file.separator")
+							+ "index.html")); //$NON-NLS-1$
 				} catch (Exception e) {
 					System.err
 					.println(Messages.getString("VGLII.HelpWarning3") + e.toString()); //$NON-NLS-1$
