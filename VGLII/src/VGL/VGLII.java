@@ -1014,7 +1014,7 @@ public class VGLII extends JFrame {
 	}
 
 	/**
-	 * geneate an html representaiton of the current work
+	 * generate an html representation of the current work
 	 * used by print() and saveToServer()
 	 *
 	 */
@@ -1030,33 +1030,44 @@ public class VGLII extends JFrame {
 			int id = c.getId();
 			htmlString.append("<table border=1><tr><td align=center colspan=3" //$NON-NLS-1$
 					+ " bgcolor=#C0C0C0>Cage " + (id + 1) + "</td></tr>"); //$NON-NLS-1$ //$NON-NLS-2$
+			htmlString.append("<tr><td nowrap colspan=3>");
 			htmlString.append(Messages.getString("VGLII.Parents")); //$NON-NLS-1$
 			if (parent1 != null && parent2 != null) {
 				htmlString.append("<ul><li>" + parent1.getSexString() + " " //$NON-NLS-1$ //$NON-NLS-2$
-						+ parent1.getPhenotypeString() + Messages.getString("VGLII.FromCage") //$NON-NLS-1$
+						+ parent1.getPhenotypeString() + " " + Messages.getString("VGLII.FromCage") //$NON-NLS-1$
 						+ (parent1.getCageId() + 1));
 				htmlString.append("<li>" + parent2.getSexString() + " " //$NON-NLS-1$ //$NON-NLS-2$
-						+ parent2.getPhenotypeString() + Messages.getString("VGLII.FromCage") //$NON-NLS-1$
+						+ parent2.getPhenotypeString() + " " + Messages.getString("VGLII.FromCage") //$NON-NLS-1$
 						+ (parent2.getCageId() + 1) + "</ul>"); //$NON-NLS-1$
 			}
 			htmlString.append("</td></tr>"); //$NON-NLS-1$
+			htmlString.append("<tr><td nowrap align=center colspan=3>");
 			htmlString
-			.append(Messages.getString("VGLII.Offspring1")); //$NON-NLS-1$
-			htmlString.append(Messages.getString("VGLII.Phenotypes1") //$NON-NLS-1$
-					+ Messages.getString("VGLII.Sex1") //$NON-NLS-1$
-					+ Messages.getString("VGLII.Count1")); //$NON-NLS-1$
+			.append(Messages.getString("VGLII.Offspring")); //$NON-NLS-1$
+			htmlString.append("</td></tr>");
+			htmlString.append("<tr><td nowrap align=center>");
+			htmlString.append(Messages.getString("VGLII.Phenotype") //$NON-NLS-1$
+					+ "</td>"
+					+ "<td nowrap align=center>"
+					+ Messages.getString("VGLII.Sex") //$NON-NLS-1$
+					+ "</td>"
+					+ "<td nowrap align=center>"
+					+ Messages.getString("VGLII.Count")
+					+ "</td></tr>"); //$NON-NLS-1$
 			Iterator<String> it = children.keySet().iterator();
 			while (it.hasNext()) {
 				String phenotype = it.next();
 				OrganismList l = children.get(phenotype);
 
 				htmlString.append("<tr><td nowrap align=center>" + phenotype //$NON-NLS-1$
-						+ "</td>" + Messages.getString("VGLII.Male1") //$NON-NLS-1$ //$NON-NLS-2$
-						+ "<td nowrap align=center>" + l.getNumberOfMales() //$NON-NLS-1$
+						+ "</td>" + "<td nowrap align=center>" + Messages.getString("VGLII.Male") //$NON-NLS-1$ //$NON-NLS-2$
+						+ "</td><td nowrap align=center>" + l.getNumberOfMales() //$NON-NLS-1$
 						+ "</td></tr>"); //$NON-NLS-1$
 				htmlString.append("<tr><td nowrap align=center>" + phenotype //$NON-NLS-1$
-						+ "</td>" + Messages.getString("VGLII.Female1") //$NON-NLS-1$ //$NON-NLS-2$
-						+ "<td nowrap align=center>" + l.getNumberOfFemales() //$NON-NLS-1$
+						+ "</td>" 
+						+"<td nowrap align=center>"
+						+ Messages.getString("VGLII.Female") //$NON-NLS-1$ //$NON-NLS-2$
+						+ "</td><td nowrap align=center>" + l.getNumberOfFemales() //$NON-NLS-1$
 						+ "</td></tr>"); //$NON-NLS-1$
 			}
 			htmlString.append("</table><p></p>"); //$NON-NLS-1$
@@ -1072,8 +1083,9 @@ public class VGLII extends JFrame {
 	private void closeProblem() {
 		if (cageCollection != null) {
 			int ans1 = JOptionPane.showConfirmDialog(this,
-					Messages.getString("VGLII.ClosingWarning1") //$NON-NLS-1$
-					+ Messages.getString("VGLII.ClosingWarning2"), //$NON-NLS-1$
+					Messages.getString("VGLII.ClosingWarningLine1") //$NON-NLS-1$
+					+ "\n"
+					+ Messages.getString("VGLII.ClosingWarningLine2"), //$NON-NLS-1$
 					Messages.getString("VGLII.CloseWork"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
 					JOptionPane.WARNING_MESSAGE);
 			if (ans1 == JOptionPane.YES_OPTION)
@@ -1091,8 +1103,9 @@ public class VGLII extends JFrame {
 	private void exitApplication() {
 		if (cageCollection != null) {
 			int ans = JOptionPane.showConfirmDialog(this,
-					Messages.getString("VGLII.QuitWarning1") //$NON-NLS-1$
-					+ Messages.getString("VGLII.QuitWarning2"), //$NON-NLS-1$
+					Messages.getString("VGLII.QuitWarningLine1") //$NON-NLS-1$
+					+ "\n"
+					+ Messages.getString("VGLII.QuitWarningLine2"), //$NON-NLS-1$
 					Messages.getString("VGLII.ExitVGL"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
 					JOptionPane.WARNING_MESSAGE);
 			if (ans == JOptionPane.YES_OPTION) {
@@ -1159,8 +1172,10 @@ public class VGLII extends JFrame {
 			}
 		} else
 			JOptionPane.showMessageDialog(this, Messages.getString("VGLII.VGLII") //$NON-NLS-1$
-					+ Messages.getString("VGLII.CrossWarning1") //$NON-NLS-1$
-					+ Messages.getString("VGLII.CrossWarning2"), //$NON-NLS-1$
+					+ "\n"
+					+ Messages.getString("VGLII.CrossWarningLine1") //$NON-NLS-1$
+					+ "\n"
+					+ Messages.getString("VGLII.CrossWarningLine2"), //$NON-NLS-1$
 					Messages.getString("VGLII.CrossTwo"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 	}
 
@@ -1186,7 +1201,7 @@ public class VGLII extends JFrame {
 		}
 
 		JScrollPane helpScrollPane = new JScrollPane(helpPane);
-		JDialog helpDialog = new JDialog(this, Messages.getString("VGLII.VGLHelp")); //$NON-NLS-1$
+		JDialog helpDialog = new JDialog(this, Messages.getString("VGLII.HelpPage")); //$NON-NLS-1$
 		JButton backButton = new JButton(Messages.getString("VGLII.ReturnToTop")); //$NON-NLS-1$
 		helpDialog.getContentPane().setLayout(new BorderLayout());
 		helpDialog.getContentPane().add(backButton, BorderLayout.NORTH);
@@ -1342,12 +1357,15 @@ public class VGLII extends JFrame {
 				OrganismUI[] parentUIs = cageUI.getParentUIs();
 				if (parentUIs == null)
 					System.out.println(Messages.getString("VGLII.NoParentsWarning") //$NON-NLS-1$
+							+ " #:"
 							+ c.getId());
 				if (parentUIs[0] == null)
 					System.out.println(Messages.getString("VGLII.NoParent0Warning") //$NON-NLS-1$
+							+ " #:"
 							+ c.getId());
 				if (parentUIs[1] == null)
 					System.out.println(Messages.getString("VGLII.NoParent1Warning") //$NON-NLS-1$
+							+ " #:"
 							+ c.getId());
 				Organism o1 = parentUIs[0].getOrganism();
 				Organism o2 = parentUIs[1].getOrganism();
@@ -1373,23 +1391,24 @@ public class VGLII extends JFrame {
 						}
 					} else {
 						System.out
-						.println(Messages.getString("VGLII.ForOrgs1") //$NON-NLS-1$
+						.println(Messages.getString("VGLII.ForOrgs") //$NON-NLS-1$
+								+ "#:"
 								+ c.getId());
 						if (originalOUI1 == null)
-							System.out.println(Messages.getString("VGLII.OrgFor") + o1.getId() //$NON-NLS-1$
-									+ " " + o1.getCageId() + Messages.getString("VGLII.NotFound")); //$NON-NLS-1$ //$NON-NLS-2$
+							System.out.println(Messages.getString("VGLII.OrgFor") + ": " + o1.getId() //$NON-NLS-1$
+									+ " " + o1.getCageId() + " " + Messages.getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 						if (originalOUI2 == null)
-							System.out.println(Messages.getString("VGLII.OrgFor") + o2.getId() //$NON-NLS-1$
-									+ " " + o2.getCageId() + Messages.getString("VGLII.NotFound")); //$NON-NLS-1$ //$NON-NLS-2$
+							System.out.println(Messages.getString("VGLII.OrgFor") + ": " + o2.getId() //$NON-NLS-1$
+									+ " " + o2.getCageId() + " " + Messages.getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 				} else {
-					System.out.println(Messages.getString("VGLII.ForParentsOfCage") + c.getId()); //$NON-NLS-1$
+					System.out.println(Messages.getString("VGLII.ForParentsOfCage") + "#: " + c.getId()); //$NON-NLS-1$
 					if (cage1 == null)
 						System.out.println(Messages.getString("VGLII.CageForOrg") + o1.getId() //$NON-NLS-1$
-								+ " " + o1.getCageId() + Messages.getString("VGLII.NotFound")); //$NON-NLS-1$ //$NON-NLS-2$
+								+ " " + o1.getCageId() + " " + Messages.getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 					if (cage2 == null)
 						System.out.println(Messages.getString("VGLII.CageForOrg") + o2.getId() //$NON-NLS-1$
-								+ " " + o2.getCageId() + Messages.getString("VGLII.NotFound")); //$NON-NLS-1$ //$NON-NLS-2$
+								+ " " + o2.getCageId() + " " + Messages.getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 		}
