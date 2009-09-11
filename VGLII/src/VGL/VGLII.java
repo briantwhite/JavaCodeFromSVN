@@ -93,7 +93,10 @@ public class VGLII extends JFrame {
 	/**
 	 * the list of supported languages
 	 */
-	public final static String[] supportedLanguages = {"English", "Français"};
+	public final static LanguageSpecifierMenuItem[] supportedLanguages = {
+		new LanguageSpecifierMenuItem("English", "en", "US"),
+		new LanguageSpecifierMenuItem("Français", "fr", "FR")
+	};
 	
 	/**
 	 * the dimensions of the Phenotype image
@@ -479,6 +482,8 @@ public class VGLII extends JFrame {
 	 * Create and load menu bar.
 	 */
 	private void menuBar() {
+		
+		
 		JMenuBar mnuBar = new JMenuBar();
 		URL openImageURL = VGLII.class.getResource("images/open16.gif"); //$NON-NLS-1$
 		ImageIcon openImage = new ImageIcon(openImageURL);
@@ -580,20 +585,20 @@ public class VGLII extends JFrame {
 		//language options
 		JMenu mnuLanguage = new JMenu(Messages.getString("VGLII.Language"));
 		for (int i = 0; i < supportedLanguages.length; i++) {
-			if (!supportedLanguages[i].equals(Messages.getString("VGLII.Language"))) {
-				JMenuItem item = new JMenuItem(supportedLanguages[i]);
-				mnuLanguage.add(item);
-				item.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-			}
+			mnuLanguage.add(supportedLanguages[i]);
+			supportedLanguages[i].addActionListener(new LanguageMenuItemListener());
 		}
 		mnuBar.add(Box.createHorizontalGlue());
 		mnuBar.add(mnuLanguage);
 	
 
+	}
+	
+	private class LanguageMenuItemListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			LanguageSpecifierMenuItem item = (LanguageSpecifierMenuItem)e.getSource();
+			
+		}
 	}
 
 	/**
