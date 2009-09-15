@@ -177,7 +177,7 @@ public class CageManager extends JDialog {
 		selectionTable.getColumnModel().getColumn(0).setMinWidth(0);
 		selectionTable.getColumnModel().getColumn(0).setMaxWidth(85);
 		selectionTable.getColumnModel().getColumn(0).setPreferredWidth(75);
-		JLabel dialogLabel = new JLabel("Set Visibility");
+		JLabel dialogLabel = new JLabel(Messages.getString("VGLII.SetVisibility"));
 		DefaultTableCellRenderer tRenderer = new DefaultTableCellRenderer();
 		tRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		Font fn = new Font(dialogLabel.getFont().getName(), Font.BOLD,
@@ -256,7 +256,8 @@ public class CageManager extends JDialog {
 		/**
 		 * The array of strings that holds the headers for the columns
 		 */
-		final String[] m_ColumnNames = { "Visible", "Cage#" };
+		final String[] m_ColumnNames = { Messages.getString("VGLII.Visible"), 
+				Messages.getString("VGLII.Cage") + "#" };
 
 		/**
 		 * The two dimensional array to store the table information
@@ -280,7 +281,7 @@ public class CageManager extends JDialog {
 			m_RowData = new Object[cageCollection.size()][2];
 			for (Iterator<CageUI> it = cageCollection.iterator(); it.hasNext();) {
 				CageUI cageUI = it.next();
-				String objName = "Cage# " + (cageUI.getCage().getId() + 1);
+				String objName = Messages.getString("VGLII.Cage") + "# " + (cageUI.getCage().getId() + 1);
 				m_RowData[i][0] = new Boolean(cageUI.isVisible());
 				m_RowData[i][1] = objName;
 				i++;

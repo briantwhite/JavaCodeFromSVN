@@ -804,3 +804,8 @@ html files must be UTF-8 format for the accented characters to work
 the .properties files must have unix line breaks and be ISO-8559-1
 got it working
 also, the menus & toolbar must not be made new each time but removeAll() works
+
+now, need to go class-by-class to get all the other UI strings
+CageManager
+CageUI
+CustomizedFileFilter - not needed

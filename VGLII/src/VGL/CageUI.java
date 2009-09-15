@@ -259,13 +259,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * This string holds the heading to be displayed on the toggle button when
 	 * the Genetics Details are being shown
 	 */
-	private String hideDetails = "Hide Genetic Model";
+	private String hideDetails = Messages.getString("VGLII.HideGeneticModel");
 
 	/**
 	 * This string holds the heading to be displayed on the toggle button when
 	 * the Genetics Details are not being shown
 	 */
-	private String showDetails = "Show Genetic Model";
+	private String showDetails = Messages.getString("VGLII.ShowGeneticModel");
 
 	/**
 	 * This icon is displayed in the toggle button when the Genetics Details are
@@ -350,7 +350,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			if (details != null)
 				this.details = details;
 		this.numberOfTraits = numberOfTraits;
-		setTitle("Cage " + (new Integer(id)).toString());
+		setTitle(Messages.getString("VGLII.Cage") + " " + (new Integer(id)).toString());
 		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		setupSubComponents();
 		setupDialogBox(importFrame, numPhenosPresent);
@@ -396,7 +396,8 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 				public void actionPerformed(ActionEvent evt) {
 					JFrame frame = new JFrame();
 					frame.setIconImage(null);
-					JDialog imageDlg = new JDialog(frame, "Phenotype Details",
+					JDialog imageDlg = new JDialog(frame, 
+							Messages.getString("VGLII.PhenotypeDetails"),
 							true);
 					imageDlg.setSize(VGLII.PHENO_IMAGE_WIDTH, VGLII.PHENO_IMAGE_HEIGHT);
 					imageDlg.setLocation(512 - VGLII.PHENO_IMAGE_WIDTH/2, 384 - VGLII.PHENO_IMAGE_HEIGHT/2);
@@ -429,7 +430,8 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			phenotypeLabels[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
 			showPhenotypeButtons[i].setPreferredSize(new Dimension(38, 38));
 			showPhenotypeButtons[i].setFocusPainted(false);
-			showPhenotypeButtons[i].setToolTipText("Click to see image of this phenotype");
+			showPhenotypeButtons[i].setToolTipText(
+					Messages.getString("VGLII.ClickToSeeImageOfThisPhenotype"));
 			i++;
 		}
 	}
@@ -486,14 +488,14 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		organismsPanel = new JPanel();
 		organismsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		organismsPanel.setBorder(BorderFactory.createTitledBorder(
-				emptyBorder, "Organisms",
+				emptyBorder, Messages.getString("VGLII.Organisms"),
 				javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
 		countsPanel = new JPanel();
 		countsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		countsPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
-				"Count", javax.swing.border.TitledBorder.CENTER,
+				Messages.getString("VGLII.Count"), javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
 		// headers for the different traits
@@ -522,7 +524,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		picturesPanel = new JPanel();
 		picturesPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		picturesPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
-				"Images", javax.swing.border.TitledBorder.CENTER,
+				Messages.getString("VGLII.Images"), javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
 		childrenOrganismUIs = new OrganismUI[2 * numPhenosPresent][maxOrgsInOneRow];
@@ -691,7 +693,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	private void setupParentInfoPanel() {
 		parentInfoPanel = new JPanel();
 		if (id > 1) {
-			JLabel parentLabel = new JLabel("Parent");
+			JLabel parentLabel = new JLabel(Messages.getString("VGLII.Parents"));
 			parentInfoPanel.add(parentLabel);
 			parentOrganismUIs = new OrganismUI[2];
 			Organism o1 = parents.get(0);
@@ -818,8 +820,8 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 */
 	public void windowClosing(WindowEvent e) {
 		int ans = JOptionPane.showConfirmDialog(this,
-				"Are you sure you want to\n" 
-				+ "close Cage #" + id + "?", "Closing Cage",
+				Messages.getString("VGLII.ClosingConfirmLine1") + "\n" 
+				+ Messages.getString("VGLII.ClosingConfirmLine2") + " #" + id + "?", Messages.getString("VGLII.ClosingCage"),
 				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 		if (ans == JOptionPane.YES_OPTION)
