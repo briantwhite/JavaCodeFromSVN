@@ -166,7 +166,12 @@ public class VGLII extends JFrame {
 	 * main menu bar
 	 */
 	private JMenuBar mnuBar = null;
-
+	
+	/**
+	 * language selection menu
+	 */
+	private JMenu mnuLanguage;
+	
 	/**
 	 * Menu item to open a new problem type
 	 */
@@ -587,7 +592,7 @@ public class VGLII extends JFrame {
 		mnuBar.add(mnuHelp);
 		
 		//language options
-		JMenu mnuLanguage = new JMenu(Messages.getString("VGLII.Language"));
+		mnuLanguage = new JMenu(Messages.getString("VGLII.Language"));
 		for (int i = 0; i < supportedLanguageMenuItems.length; i++) {
 			mnuLanguage.add(supportedLanguageMenuItems[i]);
 			supportedLanguageMenuItems[i].addActionListener(new LanguageMenuItemListener());
@@ -850,7 +855,7 @@ public class VGLII extends JFrame {
 			Cage fieldPop = geneticModel.generateFieldPopulation();
 			createCageUI(fieldPop);
 			enableAll(true);
-
+			disableLanguageMenu();
 		}
 	}
 
@@ -885,6 +890,7 @@ public class VGLII extends JFrame {
 			nextCageId = 0;
 			reopenCages(result.getCages());
 			enableAll(true);
+			disableLanguageMenu();
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -1484,6 +1490,13 @@ public class VGLII extends JFrame {
 				.size() - 1);
 		nextCageScreenPosition = new Point(lastCageUI.getX(), lastCageUI
 				.getY());
+	}
+	
+	/**
+	 * this disables language selection after a problem has been opened
+	 */
+	private void disableLanguageMenu() {
+		mnuLanguage.setEnabled(false);
 	}
 
 }
