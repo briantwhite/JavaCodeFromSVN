@@ -799,3 +799,8 @@ starting to internationalize - externalized strings from VGLII class as a test
 make separate help directories for different languages
 access them with a line in the VGL/messages.properties VGLII.HelpFileDir=Help  (or Help_fr) etc.
 html files must be UTF-8 format for the accented characters to work
+
+9/15/09
+the .properties files must have unix line breaks and be ISO-8559-1
+got it working
+also, the menus & toolbar must not be made new each time but removeAll() works

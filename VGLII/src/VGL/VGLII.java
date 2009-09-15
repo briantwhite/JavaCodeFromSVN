@@ -20,6 +20,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
@@ -93,7 +95,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the list of supported languages
 	 */
-	public final static LanguageSpecifierMenuItem[] supportedLanguages = {
+	public final static LanguageSpecifierMenuItem[] supportedLanguageMenuItems = {
 		new LanguageSpecifierMenuItem("English", "en", "US"),
 		new LanguageSpecifierMenuItem("Français", "fr", "FR")
 	};
@@ -159,6 +161,11 @@ public class VGLII extends JFrame {
 	 * The filter type to display Print files
 	 */
 	private static final String printFilterString = new String("html"); //$NON-NLS-1$
+	
+	/**
+	 * main menu bar
+	 */
+	private JMenuBar mnuBar = null;
 
 	/**
 	 * Menu item to open a new problem type
@@ -482,9 +489,7 @@ public class VGLII extends JFrame {
 	 * Create and load menu bar.
 	 */
 	private void menuBar() {
-		
-		
-		JMenuBar mnuBar = new JMenuBar();
+						
 		URL openImageURL = VGLII.class.getResource("images/open16.gif"); //$NON-NLS-1$
 		ImageIcon openImage = new ImageIcon(openImageURL);
 
@@ -580,24 +585,29 @@ public class VGLII extends JFrame {
 		mnuHelp.add(menuItem(Messages.getString("VGLII.AboutVGL"), "About", //$NON-NLS-1$ //$NON-NLS-2$
 				aboutImage));
 		mnuBar.add(mnuHelp);
-		setJMenuBar(mnuBar);
 		
 		//language options
 		JMenu mnuLanguage = new JMenu(Messages.getString("VGLII.Language"));
-		for (int i = 0; i < supportedLanguages.length; i++) {
-			mnuLanguage.add(supportedLanguages[i]);
-			supportedLanguages[i].addActionListener(new LanguageMenuItemListener());
+		for (int i = 0; i < supportedLanguageMenuItems.length; i++) {
+			mnuLanguage.add(supportedLanguageMenuItems[i]);
+			supportedLanguageMenuItems[i].addActionListener(new LanguageMenuItemListener());
 		}
 		mnuBar.add(Box.createHorizontalGlue());
 		mnuBar.add(mnuLanguage);
-	
 
+		setJMenuBar(mnuBar);
 	}
 	
 	private class LanguageMenuItemListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			LanguageSpecifierMenuItem item = (LanguageSpecifierMenuItem)e.getSource();
-			
+			Locale.setDefault(new Locale(item.getLanguage(), item.getCountry()));
+			Messages.updateResourceBundle();
+			mnuBar.removeAll();
+			menuBar();
+			toolBar.removeAll();
+			toolBar();
+			cleanUp();
 		}
 	}
 
@@ -620,7 +630,6 @@ public class VGLII extends JFrame {
 	 * Create and load toolbar
 	 */
 	private void toolBar() {
-		toolBar = new JToolBar();
 		URL openImageURL = VGLII.class.getResource("images/open.gif"); //$NON-NLS-1$
 		ImageIcon openImage = new ImageIcon(openImageURL);
 
@@ -698,8 +707,10 @@ public class VGLII extends JFrame {
 	 * Create and load all GUI components
 	 */
 	private void setupUI() {
+		mnuBar = new JMenuBar();
 		menuBar();
 		statusPanel();
+		toolBar = new JToolBar();
 		toolBar();
 		JPanel panePanel = new JPanel();
 		panePanel.setLayout(new BorderLayout());
