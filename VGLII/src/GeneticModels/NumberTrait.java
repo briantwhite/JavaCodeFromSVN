@@ -1,5 +1,7 @@
 package GeneticModels;
 
+import VGL.Messages;
+
 /**
  * Brian White Summer 2008
  * 
@@ -18,13 +20,13 @@ package GeneticModels;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: NumberTrait.java,v 1.3 2008-06-10 15:34:27 brian Exp $
+ * @version 1.0 $Id: NumberTrait.java,v 1.4 2009-09-18 19:55:12 brian Exp $
  */
 
 public class NumberTrait extends Trait {
 
 	public NumberTrait(String name, String bodyPart) {
-		super(name, "Number", bodyPart);
+		super(name, Messages.getString("VGLII.Number"), bodyPart);
 	}
 
 }

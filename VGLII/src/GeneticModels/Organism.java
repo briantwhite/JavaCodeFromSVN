@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import org.jdom.Element;
 
+import VGL.Messages;
+
 /**
  * Brian White Summer 2008
  * 
@@ -23,7 +25,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Organism.java,v 1.12 2008-06-23 16:50:02 brian Exp $
+ * @version 1.0 $Id: Organism.java,v 1.13 2009-09-18 19:55:12 brian Exp $
  */
 
 public class Organism {
@@ -215,9 +217,9 @@ public class Organism {
 
 	public String getSexString() {
 		if (male) {
-			return "male";
+			return Messages.getString("VGLII.Male");
 		} else {
-			return "female";
+			return Messages.getString("VGLII.Female");
 		}
 	}
 

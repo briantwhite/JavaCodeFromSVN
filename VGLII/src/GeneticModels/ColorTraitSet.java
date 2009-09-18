@@ -2,6 +2,8 @@ package GeneticModels;
 
 import java.util.ArrayList;
 
+import VGL.Messages;
+
 /**
  * Brian White Summer 2008
  * 
@@ -27,14 +29,14 @@ public class ColorTraitSet extends TraitSet {
 	
 	public ColorTraitSet(String bodyPart) {
 		traits = new ArrayList<Trait>();
-		traits.add(new ColorTrait("Red", bodyPart));
-		traits.add(new ColorTrait("Green", bodyPart));
-		traits.add(new ColorTrait("Blue", bodyPart));
-		traits.add(new ColorTrait("Yellow", bodyPart));
-		traits.add(new ColorTrait("Purple", bodyPart));
-		traits.add(new ColorTrait("Black", bodyPart));
-		traits.add(new ColorTrait("Brown", bodyPart));
-		traits.add(new ColorTrait("Gray", bodyPart));
+		traits.add(new ColorTrait(Messages.getString("VGLII.Red"), bodyPart));
+		traits.add(new ColorTrait(Messages.getString("VGLII.Green"), bodyPart));
+		traits.add(new ColorTrait(Messages.getString("VGLII.Blue"), bodyPart));
+		traits.add(new ColorTrait(Messages.getString("VGLII.Yellow"), bodyPart));
+		traits.add(new ColorTrait(Messages.getString("VGLII.Purple"), bodyPart));
+		traits.add(new ColorTrait(Messages.getString("VGLII.Black"), bodyPart));
+		traits.add(new ColorTrait(Messages.getString("VGLII.Brown"), bodyPart));
+		traits.add(new ColorTrait(Messages.getString("VGLII.Gray"), bodyPart));
 	}
 	
 }

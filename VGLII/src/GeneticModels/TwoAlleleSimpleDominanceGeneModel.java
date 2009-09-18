@@ -6,6 +6,8 @@ import java.util.Random;
 
 import org.jdom.Element;
 
+import VGL.Messages;
+
 /**
  * Brian White Summer 2008
  * 
@@ -103,14 +105,17 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 	public String toString() {
 		StringBuffer b = new StringBuffer();
 		b.append(t1.getBodyPart() + " " + t1.getType() + "<br>");
-		b.append("Two Allele Simple Dominance<br>");
+		b.append(Messages.getString("VGLII.TwoAlleleSimpleDominance") + "<br>");
 		b.append("<ul>");
-		b.append("<li>" + t1.getTraitName() + " is recessive</li>");
-		b.append("<li>" + t2.getTraitName() + " is dominant </li>");
+		b.append("<li>" + t1.getTraitName() + " " 
+				+ Messages.getString("VGLII.IsRecessive") + "</li>");
+		b.append("<li>" + t2.getTraitName() + " " 
+				+ Messages.getString("VGLII.IsDominant") + "</li>");
 		b.append("</ul>");
 		
 		b.append("<table border=1>");
-		b.append("<tr><th>Genotype</th><th>Phenotype</th></tr>");
+		b.append("<tr><th>" + Messages.getString("VGLII.Genotype") + "</th><th>"
+				+ Messages.getString("VGLII.Phenotype") + "</th></tr>");
 		b.append("<tr><td>" + t1.getTraitName() + "/" + t1.getTraitName() + "</td>");
 		b.append("<td>" + t1.getTraitName() +"</td></tr>");
 		

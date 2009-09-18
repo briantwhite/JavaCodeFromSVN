@@ -2,6 +2,8 @@ package GeneticModels;
 
 import java.util.ArrayList;
 
+import VGL.Messages;
+
 /**
  * Brian White Summer 2008
  * 
@@ -20,20 +22,20 @@ import java.util.ArrayList;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ShapeTraitSet.java,v 1.5 2008-06-24 14:13:47 brian Exp $
+ * @version 1.0 $Id: ShapeTraitSet.java,v 1.6 2009-09-18 19:55:12 brian Exp $
  */
 
 public class ShapeTraitSet extends TraitSet {
 	
 	public ShapeTraitSet(String bodyPart) {
 		traits = new ArrayList<Trait>();
-		traits.add(new ShapeTrait("Forked", bodyPart));
-		traits.add(new ShapeTrait("Long", bodyPart));
-		traits.add(new ShapeTrait("Short", bodyPart));
-		traits.add(new ShapeTrait("Bent", bodyPart));
-		traits.add(new ShapeTrait("Pointy", bodyPart));
-		traits.add(new ShapeTrait("Knobbed", bodyPart));
-		traits.add(new ShapeTrait("Zigzag", bodyPart));
+		traits.add(new ShapeTrait(Messages.getString("VGLII.Forked"), bodyPart));
+		traits.add(new ShapeTrait(Messages.getString("VGLII.Long"), bodyPart));
+		traits.add(new ShapeTrait(Messages.getString("VGLII.Short"), bodyPart));
+		traits.add(new ShapeTrait(Messages.getString("VGLII.Bent"), bodyPart));
+		traits.add(new ShapeTrait(Messages.getString("VGLII.Pointy"), bodyPart));
+		traits.add(new ShapeTrait(Messages.getString("VGLII.Knobbed"), bodyPart));
+		traits.add(new ShapeTrait(Messages.getString("VGLII.Zigzag"), bodyPart));
 	}
 
 }

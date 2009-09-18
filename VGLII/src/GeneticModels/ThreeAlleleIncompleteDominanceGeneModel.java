@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.jdom.Element;
 
+import VGL.Messages;
+
 /**
  * Brian White Summer 2008
  * 
@@ -23,7 +25,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ThreeAlleleIncompleteDominanceGeneModel.java,v 1.9 2008-06-23 20:44:17 brian Exp $
+ * @version 1.0 $Id: ThreeAlleleIncompleteDominanceGeneModel.java,v 1.10 2009-09-18 19:55:11 brian Exp $
  */
 
 public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
@@ -157,9 +159,10 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 	public String toString() {
 		StringBuffer b = new StringBuffer();
 		b.append(t1.getBodyPart() + " " + t1.getType() + "<br>");
-		b.append("Three Allele Incomplete Dominance<br>");
+		b.append(Messages.getString("VGLII.ThreeAlleleIncompleteDominance") + "<br>");
 		b.append("<table border=1>");
-		b.append("<tr><th>Genotype</th><th>Phenotype</th></tr>");
+		b.append("<tr><th>" + Messages.getString("VGLII.Genotype") + "</th><th>"
+				+ Messages.getString("VGLII.Phenotype") + "</th></tr>");
 		b.append("<tr><td>" + t1.getTraitName() + "/" + t1.getTraitName() + "</td>");
 		b.append("<td>" + t1.getTraitName() +"</td></tr>");
 

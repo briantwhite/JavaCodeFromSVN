@@ -40,6 +40,7 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 import VGL.GeneticModelAndCageSet;
+import VGL.Messages;
 
 public class GeneticModelFactory {
 
@@ -73,10 +74,10 @@ public class GeneticModelFactory {
 			model.scrambleTraitOrder();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"VGLII was unable to open the file.\n"
-					+ "Perhaps it is the wrong format.\n"
-					+ "Please try another file.", 
-					"Error opening file",
+					Messages.getString("VGLII.ErrorOpeningFileLine1") + "\n"
+					+ Messages.getString("VGLII.ErrorOpeningFileLine2") + "\n"
+					+ Messages.getString("VGLII.ErrorOpeningFileLine3"), 
+					Messages.getString("VGLII.ErrorOpeningFileHeadline"),
 					JOptionPane.ERROR_MESSAGE);
 		}
 		return model;

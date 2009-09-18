@@ -6,6 +6,8 @@ import java.util.Random;
 
 import org.jdom.Element;
 
+import VGL.Messages;
+
 /**
  * Brian White Summer 2008
  * 
@@ -24,7 +26,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: ChromosomeModel.java,v 1.16 2008-06-19 20:07:44 brian Exp $
+ * @version 1.0 $Id: ChromosomeModel.java,v 1.17 2009-09-18 19:55:12 brian Exp $
  */
 
 public abstract class ChromosomeModel {
@@ -166,22 +168,25 @@ public abstract class ChromosomeModel {
 		StringBuffer b = new StringBuffer();
 		if (geneModels.size() != 0) {
 			if(sexChromosome) {
-				b.append("Gene(s) on X or Z Sex Chromosome:<br>\n");
+				b.append(Messages.getString("VGLII.GeneOnSexChromosome") + ":<br>\n");
 			} else {
-				b.append("Gene(s) on Autosome(s):<br>\n");
+				b.append(Messages.getString("VGLII.GeneOnAutosome") + ":<br>\n");
 			}
 
 			Iterator<Float> rfIt = recombinationFrequencies.iterator();
 			for (int i = 0; i < geneModels.size(); i++) {
 				GeneModel gm = geneModels.get(i);
-				b.append("-Gene " + i + ":");
+				b.append("-" + Messages.getString("VGLII.Gene") + " " + i + ":");
 				b.append(gm.toString() + "<br>\n");
 				if (rfIt.hasNext()) {
 					float rf = rfIt.next();
 					if (rf == 0.5f) {
-						b.append("*Unlinked to:<br>\n");
+						b.append("*" + 
+								Messages.getString("VGLII.UnlinkedTo") + ":<br>\n");
 					} else {
-						b.append("*Recombination frequency = " + rf + " to:<br>\n");
+						b.append("*" + 
+								Messages.getString("VGLII.RecombinationFreq") 
+								+ " = " + rf + " to:<br>\n");
 					}
 				}
 			}

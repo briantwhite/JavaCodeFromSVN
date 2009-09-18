@@ -1,9 +1,9 @@
 package GeneticModels;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Random;
+
+import VGL.Messages;
 
 /**
  * Brian White Summer 2008
@@ -23,7 +23,7 @@ import java.util.Random;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.9 2008-07-03 01:53:43 brian Exp $
+ * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.10 2009-09-18 19:55:12 brian Exp $
  */
 
 public class CharacterSpecificationBank {
@@ -71,37 +71,37 @@ public class CharacterSpecificationBank {
 		//add in the body-related characters
 		// only color and shape allowed (number doesn't make sense)
 		CharacterSpecification bodyCharSpecs = new CharacterSpecification();
-		bodyCharSpecs.add(new ColorTraitSet("Body"));
-		bodyCharSpecs.add(new ShapeTraitSet("Body"));
+		bodyCharSpecs.add(new ColorTraitSet(Messages.getString("VGLII.Body")));
+		bodyCharSpecs.add(new ShapeTraitSet(Messages.getString("VGLII.Body")));
 		allCharSpecs.add(bodyCharSpecs);
 
 		//add in the eye-related characters
 		//  only color allowed
 		CharacterSpecification eyeCharSpecs = new CharacterSpecification();
-		eyeCharSpecs.add(new ColorTraitSet("Eye"));
+		eyeCharSpecs.add(new ColorTraitSet(Messages.getString("VGLII.Eye")));
 		allCharSpecs.add(eyeCharSpecs);
 
 		//add in the antenna-related characters
 		// all are possible
 		CharacterSpecification antennaCharSpecs = new CharacterSpecification();
-		antennaCharSpecs.add(new ColorTraitSet("Antenna"));
-		antennaCharSpecs.add(new ShapeTraitSet("Antenna"));
-		antennaCharSpecs.add(new NumberTraitSet("Antenna"));
+		antennaCharSpecs.add(new ColorTraitSet(Messages.getString("VGLII.Antenna")));
+		antennaCharSpecs.add(new ShapeTraitSet(Messages.getString("VGLII.Antenna")));
+		antennaCharSpecs.add(new NumberTraitSet(Messages.getString("VGLII.Antenna")));
 		allCharSpecs.add(antennaCharSpecs);
 		
 		// add in the wing-related characters
 		CharacterSpecification wingCharSpecs = new CharacterSpecification();
-		wingCharSpecs.add(new ColorTraitSet("Wing"));
-		wingCharSpecs.add(new ShapeTraitSet("Wing"));
-		wingCharSpecs.add(new NumberTraitSet("Wing"));
+		wingCharSpecs.add(new ColorTraitSet(Messages.getString("VGLII.Wing")));
+		wingCharSpecs.add(new ShapeTraitSet(Messages.getString("VGLII.Wing")));
+		wingCharSpecs.add(new NumberTraitSet(Messages.getString("VGLII.Wing")));
 		allCharSpecs.add(wingCharSpecs);
 		
 		//add in the leg-related characters
 		// all are possible
 		CharacterSpecification legCharSpecs = new CharacterSpecification();
-		legCharSpecs.add(new ColorTraitSet("Leg"));
-		legCharSpecs.add(new ShapeTraitSet("Leg"));
-		legCharSpecs.add(new NumberTraitSet("Leg"));
+		legCharSpecs.add(new ColorTraitSet(Messages.getString("VGLII.Leg")));
+		legCharSpecs.add(new ShapeTraitSet(Messages.getString("VGLII.Leg")));
+		legCharSpecs.add(new NumberTraitSet(Messages.getString("VGLII.Leg")));
 		allCharSpecs.add(legCharSpecs);
 	}
 	

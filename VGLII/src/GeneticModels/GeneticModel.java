@@ -5,6 +5,8 @@ import java.util.Random;
 
 import org.jdom.Element;
 
+import VGL.Messages;
+
 /**
  * Brian White Summer 2008
  * 
@@ -23,7 +25,7 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: GeneticModel.java,v 1.25 2008-06-23 21:59:25 brian Exp $
+ * @version 1.0 $Id: GeneticModel.java,v 1.26 2009-09-18 19:55:12 brian Exp $
  */
 
 //This is the wrapper class for the entire genetic model
@@ -371,9 +373,9 @@ public class GeneticModel {
 		StringBuffer b = new StringBuffer();
 		b.append("<html><body>");
 		if (XX_XYsexLinkage) {
-			b.append("XX/XY sex determination");
+			b.append("XX/XY " + Messages.getString("VGLII.SexDetermination"));
 		} else {
-			b.append("ZZ/ZW sex determination");
+			b.append("ZZ/ZW " + Messages.getString("VGLII.SexDetermination"));
 		}
 		b.append("<br>");
 		b.append(autosomeModel.toString());

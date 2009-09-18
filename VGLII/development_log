@@ -827,3 +827,38 @@ VGL
 - in package Phenotypemages - don't do any here
 
 - in package GeneticModels:
+Allele - not needed (just for export)
+AutosomeModel - none
+Cage - just the printing ones
+CharacterSpecification - none
+CharacterSpecificationBank - important ones are here
+Chromosome - not needed
+ChromosomeModel - some for printing & describing
+ColorTrait - some
+ColorTraitSet - important ones
+GeneModel - none
+GeneticModel - only for printing
+GeneticModelFactory - error messages
+GeneticsException - none
+NullAlleleList - none
+NullSexChromosome - none
+NullTrait - none
+NumberTrait - some
+NumberTraitSet - important ones
+Organism - a few for printing
+OrganismFactory - none (just for export)
+OrganismList - none
+Phenotype - none
+ProblemTypeSpecification - none
+SexChromosomeModel - none
+ShapeTrait - some
+ShapeTraitSet - important ones
+ThreeAlleleCircularDominanceGeneModel - stuff for printing
+ThreeAlleleHierarchicalDominanceGeneModel - ditto
+ThreeAlleleIncompleteDominanceGeneModel - ditto
+Trait - none
+TraitFactory - none
+TraitSet - none
+TwoAlleleIncompleteDominanceGeneModel - stuff for printing
+TwoAlleleSimpleDominanceGeneModel - ditto
+WorkFileProcessor - none

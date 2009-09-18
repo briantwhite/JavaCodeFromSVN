@@ -1,5 +1,7 @@
 package GeneticModels;
 
+import VGL.Messages;
+
 /**
  * Brian White Summer 2008
  * 
@@ -24,7 +26,7 @@ package GeneticModels;
 public class ColorTrait extends Trait {
 
 	public ColorTrait(String name, String bodyPart) {
-		super(name, "Color", bodyPart);
+		super(name, Messages.getString("VGLII.Color"), bodyPart);
 	}
 	
 
