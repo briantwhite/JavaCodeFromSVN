@@ -29,7 +29,7 @@ import GeneticModels.Trait;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: SummaryChartManager.java,v 1.8 2009-04-22 01:46:21 brian Exp $
+ * @version 1.0 $Id: SummaryChartManager.java,v 1.9 2009-09-18 15:24:18 brian Exp $
  */
 
 public class SummaryChartManager {
@@ -156,11 +156,15 @@ public class SummaryChartManager {
 	public void showSummaryChart(VGLII master) {
 		if(selectedSet.size() == 0) {
 			JOptionPane.showMessageDialog(master,
-					"<html>You have not selected any cages to summarize.<br>" +
-					"You should double-click on one or more cages <br>" +
-					"to select them; they will turn pale yellow to <br>" +
-					"indicate that they are selected.",
-					"Summary Chart Warning",
+					"<html>" + 
+					Messages.getString("VGLII.SummaryChartWarningLine1") + //$NON-NLS-1$
+					"<br>" + 
+					Messages.getString("VGLII.SummaryChartWarningLine2") + //$NON-NLS-1$
+					"<br>" +
+					Messages.getString("VGLII.SummaryChartWarningLine3") + //$NON-NLS-1$
+					"<br>" + 
+					Messages.getString("VGLII.SummaryChartWarningLine4"), //$NON-NLS-1$
+					Messages.getString("VGLII.SummaryChartWarningHeadline"), //$NON-NLS-1$
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
@@ -171,7 +175,7 @@ public class SummaryChartManager {
 		StringBuffer b = new StringBuffer();
 		Iterator<CageUI> it = selectedSet.iterator();
 		while(it.hasNext()) {
-			b.append(it.next().getId() + ",");
+			b.append(it.next().getId() + ","); //$NON-NLS-1$
 		}
 		if(b.length() != 0) {
 			b.deleteCharAt(b.length() -1);

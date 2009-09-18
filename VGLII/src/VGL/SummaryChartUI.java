@@ -34,7 +34,7 @@ import GeneticModels.Trait;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: SummaryChartUI.java,v 1.6 2009-04-22 01:46:21 brian Exp $
+ * @version 1.0 $Id: SummaryChartUI.java,v 1.7 2009-09-18 15:24:18 brian Exp $
  */
 
 public class SummaryChartUI extends JDialog implements ActionListener {
@@ -50,11 +50,11 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 	private int[] scrambledTraitOrder;
 	
 	public SummaryChartUI(VGLII vglII) {
-		super(vglII, "SummaryChart", false);
+		super(vglII, Messages.getString("VGLII.SummaryChart"), false);
 		this.vglII = vglII;
 		manager = SummaryChartManager.getInstance();
 		scrambledTraitOrder =manager.getScrambledCharacterOrder();
-		setTitle("Summary Chart for Cages " + manager.toString());
+		setTitle(Messages.getString("VGLII.SummaryChartForCages") + " " + manager.toString());
 		setLayout(new BorderLayout());
 		resultPanel = new JPanel();
 		setupTraitSelectionPanel();
@@ -69,7 +69,8 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 		traitSelectionPanel.setLayout(
 				new BoxLayout(traitSelectionPanel, BoxLayout.X_AXIS));
 		traitSelectionPanel.setBorder(
-				BorderFactory.createTitledBorder("Sort Offspring by:"));
+				BorderFactory.createTitledBorder(
+						Messages.getString("VGLII.SortOffspringBy") + ":"));
 		
 		Trait[] traits = manager.getTraitSet();
 		traitCheckBoxes = new JCheckBox[traits.length];
@@ -108,7 +109,12 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 
 		PhenotypeCount[] result = manager.calculateTotals(selectedTraits);
 		
-		String[] columnHeadings = {"Phenotype", "Males", "Females", "Total"};
+		String[] columnHeadings = {
+				Messages.getString("VGLII.Phenotype"), 
+				Messages.getString("VGLII.Males"), 
+				Messages.getString("VGLII.Females"), 
+				Messages.getString("VGLII.Total")
+				};
 		
 		Object[][] data = new Object[result.length][4];
 		for (int i = 0; i < result.length; i++) {
@@ -119,7 +125,7 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 		}
 		
 		//if none selected, the "phenotype" is "organism"
-		if (selectedTraits.size() == 0) data[0][0] = "Organism";
+		if (selectedTraits.size() == 0) data[0][0] = Messages.getString("VGLII.Organism");
 			
 		int phenoStringWidth = data[0][0].toString().length() * 8;
 		

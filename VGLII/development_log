@@ -806,7 +806,7 @@ got it working
 also, the menus & toolbar must not be made new each time but removeAll() works
 
 now, need to go class-by-class to get all the other UI strings
-- in package VGL
+- in package VGL:
 CageManager
 CageUI
 CustomizedFileFilter - not needed
@@ -823,3 +823,7 @@ SelectionVial
 ShowPhenotypeButton - not needed
 SummaryChartManager
 VGL
+
+- in package Phenotypemages - don't do any here
+
+- in package GeneticModels:

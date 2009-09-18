@@ -148,7 +148,8 @@ public class OrganismUI extends JLabel implements MouseListener {
 		}
 		
 		if (m_IsBeginnersMode) {
-			setToolTipText("Genotype: " + m_Organism.getToolTipTextString());
+			setToolTipText(Messages.getString("VGLII.Genotype") 
+					+ ": " + m_Organism.getToolTipTextString());
 		} else {
 			setToolTipText("");
 		}
