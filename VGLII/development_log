@@ -806,6 +806,20 @@ got it working
 also, the menus & toolbar must not be made new each time but removeAll() works
 
 now, need to go class-by-class to get all the other UI strings
+- in package VGL
 CageManager
 CageUI
 CustomizedFileFilter - not needed
+DocumentRenderer - not needed
+ExpertiseLevel - deleted class (not needed anymore!)
+GeneticModelAndCageSet - not needed
+GeneticsException - not needed
+IndividualPanelSet - not needed
+LanguageSpecifierMenuItem - not needed
+MFTotCounts - not needed
+OrganismUI 
+PhenotypeCount - not needed
+SelectionVial
+ShowPhenotypeButton - not needed
+SummaryChartManager
+VGL
