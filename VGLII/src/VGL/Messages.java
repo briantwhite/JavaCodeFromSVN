@@ -17,6 +17,25 @@ public class Messages {
 		RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault());
 	}
 	
+	public static String translatePhenotypeName(String phenoString) {
+		//first, parse the two parts on either side of the dash
+		// it is initially adjective-noun (eg. "red-eyes")
+		String[] parts = phenoString.split("-");
+		
+		//translate the parts
+		String adjective = getString("VGLII." + parts[0]);
+		String noun = getString("VGLII." + parts[1]);
+		
+		// then, put them in the right order
+		if ((RESOURCE_BUNDLE.getString("VGLII.NounAdjective")).equals("Y")) {
+			// for example, french
+			return noun + "-" + adjective;
+		} else {
+			// for example, english
+			return adjective + "-" + noun;
+		}
+	}
+	
 	public static String getString(String key) {
 		try {
 			return RESOURCE_BUNDLE.getString(key);

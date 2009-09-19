@@ -22,19 +22,19 @@ import VGL.Messages;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: NumberTraitSet.java,v 1.7 2009-09-18 19:55:12 brian Exp $
+ * @version 1.0 $Id: NumberTraitSet.java,v 1.8 2009-09-19 20:28:19 brian Exp $
  */
 
 public class NumberTraitSet extends TraitSet {
 	
 	public NumberTraitSet(String bodyPart) {
 		traits = new ArrayList<Trait>();
-		traits.add(new NumberTrait(Messages.getString("VGLII.One"), bodyPart));
-		traits.add(new NumberTrait(Messages.getString("VGLII.Two"), bodyPart));
-		traits.add(new NumberTrait(Messages.getString("VGLII.Three"), bodyPart));
-		traits.add(new NumberTrait(Messages.getString("VGLII.Four"), bodyPart));
-		traits.add(new NumberTrait(Messages.getString("VGLII.Five"), bodyPart));
-		traits.add(new NumberTrait(Messages.getString("VGLII.Six"), bodyPart));
+		traits.add(new NumberTrait("One", bodyPart));
+		traits.add(new NumberTrait("Two", bodyPart));
+		traits.add(new NumberTrait("Three", bodyPart));
+		traits.add(new NumberTrait("Four", bodyPart));
+		traits.add(new NumberTrait("Five", bodyPart));
+		traits.add(new NumberTrait("Six", bodyPart));
 	}
 
 }

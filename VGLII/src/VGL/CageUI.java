@@ -207,11 +207,6 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	private ArrayList<Organism> parents;
 
 	/**
-	 * Holds the array of labels associated with each of the phenotypes
-	 */
-	private JLabel[] phenotypeLabels;
-
-	/**
 	 * Holds the array of buttons associated with each of the phenotypes 
 	 * click these to see the images
 	 */
@@ -381,7 +376,6 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 
 		String[] phenotypeNames = new String[numPhenosPresent];
 		childrenSortedByPhenotype = new OrganismList[numPhenosPresent];
-		phenotypeLabels = new JLabel[numPhenosPresent];
 		showPhenotypeButtons = new ShowPhenotypeButton[numPhenosPresent];
 
 		int i = 0;
@@ -424,10 +418,6 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					imageDlg.setVisible(true);
 				}
 			});
-			phenotypeLabels[i] = new JLabel(phenotypeNames[i]);
-			phenotypeLabels[i]
-			                .setHorizontalTextPosition(javax.swing.JLabel.CENTER);
-			phenotypeLabels[i].setHorizontalAlignment(javax.swing.JLabel.CENTER);
 			showPhenotypeButtons[i].setPreferredSize(new Dimension(38, 38));
 			showPhenotypeButtons[i].setFocusPainted(false);
 			showPhenotypeButtons[i].setToolTipText(
@@ -492,6 +482,11 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 				javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
+		JPanel countsPanelWrapper = new JPanel();
+		countsPanelWrapper.setLayout(
+				new BoxLayout(countsPanelWrapper, BoxLayout.Y_AXIS));
+		countsPanelWrapper.add(Box.createRigidArea(new Dimension(
+				(Messages.getString("VGLII.Counts").length() * 5),1)));
 		countsPanel = new JPanel();
 		countsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		countsPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
@@ -511,9 +506,10 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			traitPanels[i].setLayout(new GridLayout(numPhenosPresent, 1));
 			traitPanels[i].setBorder(BorderFactory.createTitledBorder(
 					emptyBorder,
-					phenotypes.get(scrambledTraitOrder[i]).getTrait().getBodyPart(), 
-					javax.swing.border.TitledBorder.CENTER,
-					javax.swing.border.TitledBorder.ABOVE_TOP));
+					Messages.getString("VGLII." +
+							phenotypes.get(scrambledTraitOrder[i]).getTrait().getBodyPart()), 
+							javax.swing.border.TitledBorder.CENTER,
+							javax.swing.border.TitledBorder.ABOVE_TOP));
 			traitPanelWrappers[i] = new JPanel();
 			traitPanelWrappers[i].setLayout(
 					new BoxLayout(traitPanelWrappers[i], BoxLayout.Y_AXIS));
@@ -547,7 +543,10 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 
 		organismsPanelWrapper.add(organismsPanel);
 		individualPanel.add(organismsPanelWrapper);
-		individualPanel.add(countsPanel);
+		
+		countsPanelWrapper.add(countsPanel);
+		individualPanel.add(countsPanelWrapper);
+		
 		for (int i = 0; i < numberOfTraits; i++) {
 			individualPanel.add(traitPanelWrappers[i]);
 		}
@@ -663,7 +662,6 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		picturePanel.setLayout(new BorderLayout());
 		picturePanel.setPreferredSize(new Dimension(145, 38));
 		picturePanel.setBorder(etched);
-		picturePanel.add(phenotypeLabels[number], BorderLayout.CENTER);
 		picturePanel.add(showPhenotypeButtons[number], BorderLayout.EAST);
 
 		JPanel[] phenotypePanels = new JPanel[numberOfTraits];
@@ -675,7 +673,9 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					new BoxLayout(phenotypePanels[k], BoxLayout.X_AXIS));
 			phenotypePanels[k].setBorder(etched);
 			phenotypePanels[k].add(
-					new JLabel(phenoList.get(k).getTrait().getTraitName()));
+					new JLabel(
+							Messages.getString("VGLII." +
+									phenoList.get(k).getTrait().getTraitName())));
 			phenotypePanels[k].add(Box.createRigidArea(new Dimension(1, 34)));
 		}
 

@@ -23,7 +23,7 @@ import VGL.Messages;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.10 2009-09-18 19:55:12 brian Exp $
+ * @version 1.0 $Id: CharacterSpecificationBank.java,v 1.11 2009-09-19 20:28:19 brian Exp $
  */
 
 public class CharacterSpecificationBank {
@@ -71,37 +71,37 @@ public class CharacterSpecificationBank {
 		//add in the body-related characters
 		// only color and shape allowed (number doesn't make sense)
 		CharacterSpecification bodyCharSpecs = new CharacterSpecification();
-		bodyCharSpecs.add(new ColorTraitSet(Messages.getString("VGLII.Body")));
-		bodyCharSpecs.add(new ShapeTraitSet(Messages.getString("VGLII.Body")));
+		bodyCharSpecs.add(new ColorTraitSet("Body"));
+		bodyCharSpecs.add(new ShapeTraitSet("Body"));
 		allCharSpecs.add(bodyCharSpecs);
 
 		//add in the eye-related characters
 		//  only color allowed
 		CharacterSpecification eyeCharSpecs = new CharacterSpecification();
-		eyeCharSpecs.add(new ColorTraitSet(Messages.getString("VGLII.Eye")));
+		eyeCharSpecs.add(new ColorTraitSet("Eye"));
 		allCharSpecs.add(eyeCharSpecs);
 
 		//add in the antenna-related characters
 		// all are possible
 		CharacterSpecification antennaCharSpecs = new CharacterSpecification();
-		antennaCharSpecs.add(new ColorTraitSet(Messages.getString("VGLII.Antenna")));
-		antennaCharSpecs.add(new ShapeTraitSet(Messages.getString("VGLII.Antenna")));
-		antennaCharSpecs.add(new NumberTraitSet(Messages.getString("VGLII.Antenna")));
+		antennaCharSpecs.add(new ColorTraitSet("Antenna"));
+		antennaCharSpecs.add(new ShapeTraitSet("Antenna"));
+		antennaCharSpecs.add(new NumberTraitSet("Antenna"));
 		allCharSpecs.add(antennaCharSpecs);
 		
 		// add in the wing-related characters
 		CharacterSpecification wingCharSpecs = new CharacterSpecification();
-		wingCharSpecs.add(new ColorTraitSet(Messages.getString("VGLII.Wing")));
-		wingCharSpecs.add(new ShapeTraitSet(Messages.getString("VGLII.Wing")));
-		wingCharSpecs.add(new NumberTraitSet(Messages.getString("VGLII.Wing")));
+		wingCharSpecs.add(new ColorTraitSet("Wing"));
+		wingCharSpecs.add(new ShapeTraitSet("Wing"));
+		wingCharSpecs.add(new NumberTraitSet("Wing"));
 		allCharSpecs.add(wingCharSpecs);
 		
 		//add in the leg-related characters
 		// all are possible
 		CharacterSpecification legCharSpecs = new CharacterSpecification();
-		legCharSpecs.add(new ColorTraitSet(Messages.getString("VGLII.Leg")));
-		legCharSpecs.add(new ShapeTraitSet(Messages.getString("VGLII.Leg")));
-		legCharSpecs.add(new NumberTraitSet(Messages.getString("VGLII.Leg")));
+		legCharSpecs.add(new ColorTraitSet("Leg"));
+		legCharSpecs.add(new ShapeTraitSet("Leg"));
+		legCharSpecs.add(new NumberTraitSet("Leg"));
 		allCharSpecs.add(legCharSpecs);
 	}
 	

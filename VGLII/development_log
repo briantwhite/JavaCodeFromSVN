@@ -862,3 +862,29 @@ TraitSet - none
 TwoAlleleIncompleteDominanceGeneModel - stuff for printing
 TwoAlleleSimpleDominanceGeneModel - ditto
 WorkFileProcessor - none
+
+9/19/09
+oops
+didn't want to change the internal names 
+	if you do, you'll break the pheno drawing
+	so undo most of the changes in GeneticModels
+
+ugh
+STEP 1: make it work but don't translate phenotypes
+	just be sure the labels etc work
+	(then, later put in the translations of the phenotype names)
+CharacterSpecificationBank - many
+ColorTrait
+ColorTraitSet
+NumberTrait
+NumberTraitSet
+ShapeTrait
+ShapeTraitSet
+
+STEP 2: make a Messages.translatePhenotypeName(string)
+	build this in where needed - only at display
+		(all the internals are in english 
+			- that way, the pheno pix work)
+			
+build into
+CageUI -ok

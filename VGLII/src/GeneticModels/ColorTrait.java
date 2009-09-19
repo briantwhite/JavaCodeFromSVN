@@ -26,7 +26,7 @@ import VGL.Messages;
 public class ColorTrait extends Trait {
 
 	public ColorTrait(String name, String bodyPart) {
-		super(name, Messages.getString("VGLII.Color"), bodyPart);
+		super(name, "Color", bodyPart);
 	}
 	
 
