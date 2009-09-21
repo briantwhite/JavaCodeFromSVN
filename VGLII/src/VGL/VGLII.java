@@ -1060,10 +1060,12 @@ public class VGLII extends JFrame {
 			htmlString.append(Messages.getString("VGLII.Parents")); //$NON-NLS-1$
 			if (parent1 != null && parent2 != null) {
 				htmlString.append("<ul><li>" + parent1.getSexString() + " " //$NON-NLS-1$ //$NON-NLS-2$
-						+ parent1.getPhenotypeString() + " " + Messages.getString("VGLII.FromCage") //$NON-NLS-1$
+						+ parent1.getTranslatedPhenotypeString() + " " 
+						+ Messages.getString("VGLII.FromCage") //$NON-NLS-1$
 						+ (parent1.getCageId() + 1));
 				htmlString.append("<li>" + parent2.getSexString() + " " //$NON-NLS-1$ //$NON-NLS-2$
-						+ parent2.getPhenotypeString() + " " + Messages.getString("VGLII.FromCage") //$NON-NLS-1$
+						+ parent2.getTranslatedPhenotypeString() + " " 
+						+ Messages.getString("VGLII.FromCage") //$NON-NLS-1$
 						+ (parent2.getCageId() + 1) + "</ul>"); //$NON-NLS-1$
 			}
 			htmlString.append("</td></tr>"); //$NON-NLS-1$
@@ -1085,11 +1087,13 @@ public class VGLII extends JFrame {
 				String phenotype = it.next();
 				OrganismList l = children.get(phenotype);
 
-				htmlString.append("<tr><td nowrap align=center>" + phenotype //$NON-NLS-1$
+				htmlString.append("<tr><td nowrap align=center>" 
+						+ Messages.translateLongPhenotypeName(phenotype) //$NON-NLS-1$
 						+ "</td>" + "<td nowrap align=center>" + Messages.getString("VGLII.Male") //$NON-NLS-1$ //$NON-NLS-2$
 						+ "</td><td nowrap align=center>" + l.getNumberOfMales() //$NON-NLS-1$
 						+ "</td></tr>"); //$NON-NLS-1$
-				htmlString.append("<tr><td nowrap align=center>" + phenotype //$NON-NLS-1$
+				htmlString.append("<tr><td nowrap align=center>" 
+						+ Messages.translateLongPhenotypeName(phenotype) //$NON-NLS-1$
 						+ "</td>" 
 						+"<td nowrap align=center>"
 						+ Messages.getString("VGLII.Female") //$NON-NLS-1$ //$NON-NLS-2$

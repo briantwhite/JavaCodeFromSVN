@@ -888,3 +888,5 @@ STEP 2: make a Messages.translatePhenotypeName(string)
 			
 build into
 CageUI -ok
+to get the tool tip text right in practice mode: Chromosome, Organism - OK
+to get the printing right: Organism, VGLII - OK

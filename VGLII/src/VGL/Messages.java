@@ -17,6 +17,19 @@ public class Messages {
 		RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault());
 	}
 	
+	//translate red-eyes/six-antennae/bent-body as appropriate
+	public static String translateLongPhenotypeName(String phenoName) {
+		StringBuffer b = new StringBuffer();
+		String[] parts = phenoName.split("/");
+		for (int i = 0; i < parts.length; i++) {
+			b.append(translatePhenotypeName(parts[i]));
+			b.append("/");
+		}
+		b.deleteCharAt(b.length() - 1);
+		return b.toString();
+	}
+	
+	//translate red-eyes as appropriate
 	public static String translatePhenotypeName(String phenoString) {
 		//first, parse the two parts on either side of the dash
 		// it is initially adjective-noun (eg. "red-eyes")

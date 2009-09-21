@@ -25,7 +25,7 @@ import VGL.Messages;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Organism.java,v 1.13 2009-09-18 19:55:12 brian Exp $
+ * @version 1.0 $Id: Organism.java,v 1.14 2009-09-21 20:10:07 brian Exp $
  */
 
 public class Organism {
@@ -127,6 +127,9 @@ public class Organism {
 		return geneticModel;
 	}
 
+
+	//returns untranslated phenotype for internal purposes
+	//  eg counting etc
 	public String getPhenotypeString() {
 		StringBuffer b = new StringBuffer();
 		for (int i = 0; i < phenotypes.size(); i++) {
@@ -140,14 +143,37 @@ public class Organism {
 		return b.toString();
 	}
 
+	//returns translated phenotype string for external purposes
+	//  printing and display
+	public String getTranslatedPhenotypeString() {
+		StringBuffer b = new StringBuffer();
+		for (int i = 0; i < phenotypes.size(); i++) {
+			Phenotype p = phenotypes.get(geneticModel.getScrambledCharacterOrder()[i]);
+			if (Messages.getString("VGLII.NounAdjective").equals("Y")) {
+				b.append(Messages.getString("VGLII." + p.getTrait().getBodyPart()));
+				b.append("-");
+				b.append(Messages.getString("VGLII." + p.getTrait().getTraitName()));
+				b.append("/");
+			} else {
+				b.append(Messages.getString("VGLII." + p.getTrait().getTraitName()));
+				b.append("-");
+				b.append(Messages.getString("VGLII." + p.getTrait().getBodyPart()));
+				b.append("/");
+			}
+		}
+		b.deleteCharAt(b.length() - 1);
+		return b.toString();
+
+	}
+
 	//shows genotype
 	public String getToolTipTextString() {
 		StringBuffer b = new StringBuffer();
 		if (maternalAutosome.getAllAlleles().size() > 0) {
 			b.append("A:{");
-			b.append(maternalAutosome.toString());
+			b.append(maternalAutosome.toTranslatedString());
 			b.append("}/{");
-			b.append(paternalAutosome.toString());
+			b.append(paternalAutosome.toTranslatedString());
 			b.append("} ");
 		}
 
@@ -166,13 +192,13 @@ public class Organism {
 
 			if (maternalSexChromosome != NullSexChromosome.getInstance()) {
 				b.append("[");
-				b.append(maternalSexChromosome.toString());
+				b.append(maternalSexChromosome.toTranslatedString());
 				b.append("]/");
 			}
 
 			if (paternalSexChromosome != NullSexChromosome.getInstance()) {	
 				b.append("[");
-				b.append(paternalSexChromosome.toString());
+				b.append(paternalSexChromosome.toTranslatedString());
 				b.append("]/");
 			} 
 

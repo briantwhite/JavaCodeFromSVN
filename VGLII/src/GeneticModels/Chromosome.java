@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import org.jdom.Element;
 
+import VGL.Messages;
+
 /**
  * Brian White Summer 2008
  * 
@@ -23,11 +25,11 @@ import org.jdom.Element;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Chromosome.java,v 1.11 2008-06-23 16:50:02 brian Exp $
+ * @version 1.0 $Id: Chromosome.java,v 1.12 2009-09-21 20:10:07 brian Exp $
  */
 
 public class Chromosome {
-	
+
 	public final static int AUTOSOME = 1;
 	public final static int SEX_CHROMOSOME = 0;
 
@@ -40,7 +42,7 @@ public class Chromosome {
 	public Chromosome(Chromosome c) {
 		this(c.getAllAlleles());
 	}
-	
+
 	/**
 	 * constructor for building from a work file
 	 */
@@ -59,7 +61,7 @@ public class Chromosome {
 							traitNum);
 			alleles.add(geneIndex, allele);
 		}
-		
+
 	}
 
 	public Allele getAllele(int i) {
@@ -72,21 +74,22 @@ public class Chromosome {
 
 	public Element save(String id) throws Exception {
 		Element e = new Element("Chromosome");
-		
+
 		e.setAttribute("Id", id);
-		
+
 		if (this == NullSexChromosome.getInstance()) {
 			e.setAttribute("Size", String.valueOf(-1));
 		} else {
 			e.setAttribute("Size", String.valueOf(alleles.size()));
 		}
-		
+
 		for (int i = 0; i < alleles.size(); i++) {
 			e.addContent(alleles.get(i).save(i));
 		}
 		return e;
 	}
 
+	// returns untranslated genotype info for internal use (counting, etc)
 	public String toString() {
 		StringBuffer b = new StringBuffer();
 		for(Allele a: alleles) {
@@ -99,6 +102,32 @@ public class Chromosome {
 			b.deleteCharAt(b.length() - 1);
 		}
 		return b.toString();
+	}
+
+	//returns genotype in local language for external use (display, printing)
+	public String toTranslatedString() {
+		StringBuffer b = new StringBuffer();
+		for(Allele a: alleles) {
+			if (Messages.getString("VGLII.NounAdjective").equals("Y")) {
+				b.append(Messages.getString(
+						"VGLII." + a.getTrait().getBodyPart().toString())
+						+ "-"
+						+ Messages.getString(
+								"VGLII." +a.getTrait().getTraitName().toString())
+								+ ";");
+			} else {
+				b.append(Messages.getString(
+						"VGLII." + a.getTrait().getTraitName().toString())
+						+ "-"
+						+ Messages.getString(
+								"VGLII." +a.getTrait().getBodyPart().toString())
+								+ ";");
+			}
+		}
+		if (b.length() > 0) {
+			b.deleteCharAt(b.length() - 1);
+		}
+		return b.toString();		
 	}
 
 }
