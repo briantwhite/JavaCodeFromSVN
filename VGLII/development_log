@@ -895,4 +895,9 @@ to get the printing right: Organism, VGLII - OK
 oops - put ALL the code that switches noun and adjective should be in Messages
 	took it out of: Organism & Chromosome
 
-get summary chart to work
+get summary chart to work - SummaryChart & SummaryChartUI - ok
+get model description in practice mode to work - 
+	do for each of the GeneModels
+	got all 5 working
+
+

@@ -104,26 +104,29 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
-		b.append(t1.getBodyPart() + " " + t1.getType() + "<br>");
+		b.append(Messages.getTranslatedTraitName(t1) + "<br>");
 		b.append(Messages.getString("VGLII.TwoAlleleSimpleDominance") + "<br>");
 		b.append("<ul>");
-		b.append("<li>" + t1.getTraitName() + " " 
+		b.append("<li>" + Messages.getString("VGLII." + t1.getTraitName()) + " " 
 				+ Messages.getString("VGLII.IsRecessive") + "</li>");
-		b.append("<li>" + t2.getTraitName() + " " 
+		b.append("<li>" + Messages.getString("VGLII." + t2.getTraitName()) + " " 
 				+ Messages.getString("VGLII.IsDominant") + "</li>");
 		b.append("</ul>");
 		
 		b.append("<table border=1>");
 		b.append("<tr><th>" + Messages.getString("VGLII.Genotype") + "</th><th>"
 				+ Messages.getString("VGLII.Phenotype") + "</th></tr>");
-		b.append("<tr><td>" + t1.getTraitName() + "/" + t1.getTraitName() + "</td>");
-		b.append("<td>" + t1.getTraitName() +"</td></tr>");
+		b.append("<tr><td>" + Messages.getString("VGLII." + t1.getTraitName()) + "/" 
+				+ Messages.getString("VGLII." + t1.getTraitName()) + "</td>");
+		b.append("<td>" + Messages.getString("VGLII." +t1.getTraitName()) +"</td></tr>");
 		
-		b.append("<tr><td>" + t1.getTraitName() + "/" + t2.getTraitName() + "</td>");
-		b.append("<td>" + t2.getTraitName() +"</td></tr>");
+		b.append("<tr><td>" + Messages.getString("VGLII." + t1.getTraitName()) + "/" 
+				+ Messages.getString("VGLII." + t2.getTraitName()) + "</td>");
+		b.append("<td>" + Messages.getString("VGLII." + t2.getTraitName()) +"</td></tr>");
 		
-		b.append("<tr><td>" + t2.getTraitName() + "/" + t2.getTraitName() + "</td>");
-		b.append("<td>" + t2.getTraitName() +"</td></tr>");
+		b.append("<tr><td>" + Messages.getString("VGLII." + t2.getTraitName()) 
+				+ "/" + Messages.getString("VGLII." + t2.getTraitName()) + "</td>");
+		b.append("<td>" + Messages.getString("VGLII." + t2.getTraitName()) +"</td></tr>");
 				
 		b.append("</table>");
 		return b.toString();

@@ -733,7 +733,7 @@ public class VGLII extends JFrame {
 	 */
 	private void aboutVGL() {
 		JLabel aboutLabel = new JLabel("<html><body><font size=+2>Virtual Genetics Lab II</font><br>" //$NON-NLS-1$
-				+ "Release Version " + version + "<br>" + "Copyright 2009<br>" + "VGL Team:<br>" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				+ "Release Version " + version + "<br>" + "Copyright 2009<br>" + "VGL Team:<br>" //$NON-NLS-4$
 				+ "<ul>" //$NON-NLS-1$
 				+ "<li><b>Lead Programmer:</b></li>" //$NON-NLS-1$
 				+ "<ul><li>Brian White (University of Massachusetts, Boston)</li>"
@@ -834,7 +834,8 @@ public class VGLII extends JFrame {
 					problemsDirectory = defaultProblemDirectory;
 				}
 				problemFile = selectFile(problemsDirectory,
-						Messages.getString("VGLII.NewProbTypeSel"), Messages.getString("VGLII.SelProbType"), false, //$NON-NLS-1$ //$NON-NLS-2$
+						Messages.getString("VGLII.NewProbTypeSel"), 
+						Messages.getString("VGLII.SelProbType"), false, //$NON-NLS-1$ //$NON-NLS-2$
 						prbFilterString, Messages.getString("VGLII.ProTypeFiles"), //$NON-NLS-1$
 						JFileChooser.OPEN_DIALOG);
 			} else {
@@ -875,7 +876,8 @@ public class VGLII extends JFrame {
 
 		if (workFileName == null) {
 			workFile = selectFile(desktopDirectory, Messages.getString("VGLII.OpenWork"), //$NON-NLS-1$
-					Messages.getString("VGLII.SelWrkFile"), false, wrkFilterString, Messages.getString("VGLII.WorkFiles"), //$NON-NLS-1$ //$NON-NLS-2$
+					Messages.getString("VGLII.SelWrkFile"), false, wrkFilterString, 
+					Messages.getString("VGLII.WorkFiles"), //$NON-NLS-1$ //$NON-NLS-2$
 					JFileChooser.OPEN_DIALOG);
 		} else {	
 			workFile = new File(workFileName);
@@ -907,7 +909,8 @@ public class VGLII extends JFrame {
 		if (cageCollection != null) {
 			if (currentSavedFile == null)
 				currentSavedFile = selectFile(desktopDirectory,
-						Messages.getString("VGLII.SaveWork"), Messages.getString("VGLII.EnterSaveFileName"), false, //$NON-NLS-1$ //$NON-NLS-2$
+						Messages.getString("VGLII.SaveWork"), 
+						Messages.getString("VGLII.EnterSaveFileName"), false, //$NON-NLS-1$ //$NON-NLS-2$
 						wrkFilterString, Messages.getString("VGLII.WorkFiles"), //$NON-NLS-1$
 						JFileChooser.SAVE_DIALOG);
 			try {
