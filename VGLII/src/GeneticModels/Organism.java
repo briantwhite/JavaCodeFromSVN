@@ -25,7 +25,7 @@ import VGL.Messages;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Organism.java,v 1.14 2009-09-21 20:10:07 brian Exp $
+ * @version 1.0 $Id: Organism.java,v 1.15 2009-09-22 19:06:36 brian Exp $
  */
 
 public class Organism {
@@ -143,28 +143,6 @@ public class Organism {
 		return b.toString();
 	}
 
-	//returns translated phenotype string for external purposes
-	//  printing and display
-	public String getTranslatedPhenotypeString() {
-		StringBuffer b = new StringBuffer();
-		for (int i = 0; i < phenotypes.size(); i++) {
-			Phenotype p = phenotypes.get(geneticModel.getScrambledCharacterOrder()[i]);
-			if (Messages.getString("VGLII.NounAdjective").equals("Y")) {
-				b.append(Messages.getString("VGLII." + p.getTrait().getBodyPart()));
-				b.append("-");
-				b.append(Messages.getString("VGLII." + p.getTrait().getTraitName()));
-				b.append("/");
-			} else {
-				b.append(Messages.getString("VGLII." + p.getTrait().getTraitName()));
-				b.append("-");
-				b.append(Messages.getString("VGLII." + p.getTrait().getBodyPart()));
-				b.append("/");
-			}
-		}
-		b.deleteCharAt(b.length() - 1);
-		return b.toString();
-
-	}
 
 	//shows genotype
 	public String getToolTipTextString() {

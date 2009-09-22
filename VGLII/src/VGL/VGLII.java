@@ -1060,11 +1060,11 @@ public class VGLII extends JFrame {
 			htmlString.append(Messages.getString("VGLII.Parents")); //$NON-NLS-1$
 			if (parent1 != null && parent2 != null) {
 				htmlString.append("<ul><li>" + parent1.getSexString() + " " //$NON-NLS-1$ //$NON-NLS-2$
-						+ parent1.getTranslatedPhenotypeString() + " " 
+						+ Messages.translateLongPhenotypeName(parent1.getPhenotypeString()) + " " 
 						+ Messages.getString("VGLII.FromCage") //$NON-NLS-1$
 						+ (parent1.getCageId() + 1));
 				htmlString.append("<li>" + parent2.getSexString() + " " //$NON-NLS-1$ //$NON-NLS-2$
-						+ parent2.getTranslatedPhenotypeString() + " " 
+						+ Messages.translateLongPhenotypeName(parent2.getPhenotypeString()) + " " 
 						+ Messages.getString("VGLII.FromCage") //$NON-NLS-1$
 						+ (parent2.getCageId() + 1) + "</ul>"); //$NON-NLS-1$
 			}

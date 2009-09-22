@@ -890,3 +890,9 @@ build into
 CageUI -ok
 to get the tool tip text right in practice mode: Chromosome, Organism - OK
 to get the printing right: Organism, VGLII - OK
+
+9/22/09
+oops - put ALL the code that switches noun and adjective should be in Messages
+	took it out of: Organism & Chromosome
+
+get summary chart to work

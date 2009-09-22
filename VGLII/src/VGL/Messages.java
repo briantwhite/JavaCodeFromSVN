@@ -4,6 +4,9 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import GeneticModels.Allele;
+import GeneticModels.Trait;
+
 public class Messages {
 	public static final String BUNDLE_NAME = "VGL.messages"; //$NON-NLS-1$
 
@@ -31,7 +34,13 @@ public class Messages {
 	
 	//translate red-eyes as appropriate
 	public static String translatePhenotypeName(String phenoString) {
-		//first, parse the two parts on either side of the dash
+		//first, see if it doesn't have a dash
+		//  if so, just translate it as one word
+		if (phenoString.indexOf("-") == -1) {
+			return getString("VGLII." + phenoString);
+		}
+		
+		//then, parse the two parts on either side of the dash
 		// it is initially adjective-noun (eg. "red-eyes")
 		String[] parts = phenoString.split("-");
 		
@@ -47,6 +56,42 @@ public class Messages {
 			// for example, english
 			return adjective + "-" + noun;
 		}
+	}
+	
+	public static String getTranslatedAlleleName(Allele a) {
+		StringBuffer b = new StringBuffer();
+		if (getString("VGLII.NounAdjective").equals("Y")) {
+			b.append(Messages.getString(
+					"VGLII." + a.getTrait().getBodyPart().toString())
+					+ "-"
+					+ Messages.getString(
+							"VGLII." +a.getTrait().getTraitName().toString()));
+		} else {
+			b.append(Messages.getString(
+					"VGLII." + a.getTrait().getTraitName().toString())
+					+ "-"
+					+ Messages.getString(
+							"VGLII." +a.getTrait().getBodyPart().toString()));
+		}
+		return b.toString();
+	}
+	
+	public static String getTranslatedTraitName(Trait t) {
+		StringBuffer b = new StringBuffer();
+		if (getString("VGLII.NounAdjective").equals("Y")) {
+			b.append(Messages.getString(
+					"VGLII." + t.getType().toString())
+					+ "-"
+					+ Messages.getString(
+							"VGLII." + t.getBodyPart().toString()));
+		} else {
+			b.append(Messages.getString(
+					"VGLII." + t.getBodyPart().toString())
+					+ " "
+					+ Messages.getString(
+							"VGLII." + t.getType().toString()));
+		}
+		return b.toString();		
 	}
 	
 	public static String getString(String key) {

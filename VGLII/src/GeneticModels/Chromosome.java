@@ -25,7 +25,7 @@ import VGL.Messages;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: Chromosome.java,v 1.12 2009-09-21 20:10:07 brian Exp $
+ * @version 1.0 $Id: Chromosome.java,v 1.13 2009-09-22 19:06:36 brian Exp $
  */
 
 public class Chromosome {
@@ -108,21 +108,7 @@ public class Chromosome {
 	public String toTranslatedString() {
 		StringBuffer b = new StringBuffer();
 		for(Allele a: alleles) {
-			if (Messages.getString("VGLII.NounAdjective").equals("Y")) {
-				b.append(Messages.getString(
-						"VGLII." + a.getTrait().getBodyPart().toString())
-						+ "-"
-						+ Messages.getString(
-								"VGLII." +a.getTrait().getTraitName().toString())
-								+ ";");
-			} else {
-				b.append(Messages.getString(
-						"VGLII." + a.getTrait().getTraitName().toString())
-						+ "-"
-						+ Messages.getString(
-								"VGLII." +a.getTrait().getBodyPart().toString())
-								+ ";");
-			}
+			b.append(Messages.getTranslatedAlleleName(a) + ";");
 		}
 		if (b.length() > 0) {
 			b.deleteCharAt(b.length() - 1);

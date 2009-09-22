@@ -34,7 +34,7 @@ import GeneticModels.Trait;
  * Place - Suite 330, Boston, MA 02111-1307, USA.
  * 
  * @author Brian White
- * @version 1.0 $Id: SummaryChartUI.java,v 1.7 2009-09-18 15:24:18 brian Exp $
+ * @version 1.0 $Id: SummaryChartUI.java,v 1.8 2009-09-22 19:06:35 brian Exp $
  */
 
 public class SummaryChartUI extends JDialog implements ActionListener {
@@ -44,6 +44,8 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 	private SummaryChartManager manager;
 	
 	private JCheckBox[] traitCheckBoxes;
+	
+	private JLabel[] traitCheckBoxLabels;
 	
 	private JPanel resultPanel;
 	
@@ -74,19 +76,22 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 		
 		Trait[] traits = manager.getTraitSet();
 		traitCheckBoxes = new JCheckBox[traits.length];
-		//make the check boxes
+		traitCheckBoxLabels = new JLabel[traits.length];
+		//make the check boxes and labels
 		for (int i = 0; i < traits.length; i++) {
 			traitCheckBoxes[i] = new JCheckBox();
 			traitCheckBoxes[i].addActionListener(this);
-			traitCheckBoxes[i].setSelected(true);			
+			traitCheckBoxes[i].setSelected(true);
+			
+			traitCheckBoxLabels[i] = 
+				new JLabel(Messages.getTranslatedTraitName(traits[i]));
 		}
+		
 		//put them in GUI in randomized order
 		for (int i = 0; i < traits.length; i++) {
-			traitSelectionPanel.add(
-					new JLabel(traits[scrambledTraitOrder[i]].getBodyPart() 
-							+ " " + traits[scrambledTraitOrder[i]].getType()));
+			traitSelectionPanel.add(traitCheckBoxLabels[scrambledTraitOrder[i]]);
 			traitSelectionPanel.add(traitCheckBoxes[scrambledTraitOrder[i]]);
-			traitSelectionPanel.add(Box.createHorizontalStrut(10));
+			traitSelectionPanel.add(Box.createHorizontalStrut(15));
 		}
 		
 		add(traitSelectionPanel, BorderLayout.NORTH);
@@ -118,7 +123,7 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 		
 		Object[][] data = new Object[result.length][4];
 		for (int i = 0; i < result.length; i++) {
-			data[i][0] = result[i].getPhenotype();
+			data[i][0] = Messages.translateLongPhenotypeName(result[i].getPhenotype());
 			data[i][1] = result[i].getCounts().getMales();
 			data[i][2] = result[i].getCounts().getFemales();
 			data[i][3] = result[i].getCounts().getTotal();
