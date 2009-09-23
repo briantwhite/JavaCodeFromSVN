@@ -402,7 +402,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					ShowPhenotypeButton button = (ShowPhenotypeButton)evt.getSource();
 
 					// fix the pheno string to more than one line
-					String phenoString = button.getPhenotypeString();
+					String phenoString = Messages.translateLongPhenotypeName(button.getPhenotypeString());
 					phenoString = phenoString.replaceAll("/", "<br>");
 					phenoString = "<html>" + phenoString + "</html>";
 					JLabel phenotypeLabel = 
