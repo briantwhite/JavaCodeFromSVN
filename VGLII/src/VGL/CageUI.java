@@ -485,13 +485,16 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		JPanel countsPanelWrapper = new JPanel();
 		countsPanelWrapper.setLayout(
 				new BoxLayout(countsPanelWrapper, BoxLayout.Y_AXIS));
-		countsPanelWrapper.add(Box.createRigidArea(new Dimension(
-				(Messages.getString("VGLII.Counts").length() * 5),1)));
 		countsPanel = new JPanel();
 		countsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		countsPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
-				Messages.getString("VGLII.Count"), javax.swing.border.TitledBorder.CENTER,
+				Messages.getString("VGLII.Count"), 
+				javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
+		countsPanelWrapper.add(Box.createRigidArea(new Dimension(
+				countsPanel.getFontMetrics(
+						countsPanel.getFont()).stringWidth(
+								Messages.getString("VGLII.Count")) + 5 ,1)));
 
 		// headers for the different traits
 		traitPanels = new JPanel[numberOfTraits];
@@ -703,13 +706,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			parentOrganismUIs[0] = new OrganismUI(o1, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[0]);
 			parentInfoPanel.add(new JLabel("(" + cageId + ")" 
-					+ " " + phenoName1));
+					+ " " + Messages.translateLongPhenotypeName(phenoName1)));
 			cageId = o2.getCageId() + 1;
 			String phenoName2 = o2.getPhenotypeString();
 			parentOrganismUIs[1] = new OrganismUI(o2, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[1]);
 			parentInfoPanel.add(new JLabel("(" + cageId + ")"
-					+ " " + phenoName2));
+					+ " " + Messages.translateLongPhenotypeName(phenoName2)));
 		} else {
 			if (isBeginner) {
 				if (details != null) {
