@@ -905,3 +905,18 @@ get CageUI's parents panel working
 also phenotype images
 
 this will be version 2.0.0
+
+9/24/09
+text to translate for the figures:
+- These are the characters involved in this problem
+- The numbers here indicate the number of males and females of each type
+- All of the organisms here have five wings and blue eyes.
+- These are the traits of each character that each type of organism displays.
+- Clicking on the "Images" button for a particular type will show a picture of that type of organism like this:
+- Click this button to close the image
+- These indicate the organisms selected as parents for Cage 2
+- These are the offspring of the parents selected in Cage 1 above:
+- These indicate the parents of the offspring in Cage 2; they can be clicked on to identify them in their original Cage.
+- Holding the cursor over an organism will pop up a display of its genotype:
+- Click here to show/hide the details of the genetic model:
+
