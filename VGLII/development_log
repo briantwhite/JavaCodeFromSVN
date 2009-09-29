@@ -925,3 +925,5 @@ text to translate for the figures:
 - added note in close cage warning that you can get this back from Utilities->Cages
 - added boolean to VGLII so that it doesn't ask to save if it hasn't changed (a cross only)
 	since last save
+	
+posted as version 2.0.0 on website
