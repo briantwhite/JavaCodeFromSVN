@@ -824,7 +824,10 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	public void windowClosing(WindowEvent e) {
 		int ans = JOptionPane.showConfirmDialog(this,
 				Messages.getString("VGLII.ClosingConfirmLine1") + "\n" 
-				+ Messages.getString("VGLII.ClosingConfirmLine2") + " #" + id + "?", Messages.getString("VGLII.ClosingCage"),
+				+ Messages.getString("VGLII.ClosingConfirmLine2") + " #" + id + "?\n"
+				+ "(" + Messages.getString("VGLII.ClosingConfirmLine3") + "\n"
+				+ Messages.getString("VGLII.ClosingConfirmLine4") + ")", 
+				Messages.getString("VGLII.ClosingCage"),
 				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 		if (ans == JOptionPane.YES_OPTION)
