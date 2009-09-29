@@ -91,7 +91,7 @@ public class VGLII extends JFrame {
 	 * the version number
 	 */
 	public final static String version = "2.0.0"; //$NON-NLS-1$
-	
+
 	/**
 	 * the list of supported languages
 	 */
@@ -99,7 +99,7 @@ public class VGLII extends JFrame {
 		new LanguageSpecifierMenuItem("English", "en", "US"),
 		new LanguageSpecifierMenuItem("Français", "fr", "FR")
 	};
-	
+
 	/**
 	 * the dimensions of the Phenotype image
 	 */
@@ -161,17 +161,17 @@ public class VGLII extends JFrame {
 	 * The filter type to display Print files
 	 */
 	private static final String printFilterString = new String("html"); //$NON-NLS-1$
-	
+
 	/**
 	 * main menu bar
 	 */
 	private JMenuBar mnuBar = null;
-	
+
 	/**
 	 * language selection menu
 	 */
 	private JMenu mnuLanguage;
-	
+
 	/**
 	 * Menu item to open a new problem type
 	 */
@@ -251,7 +251,7 @@ public class VGLII extends JFrame {
 	 * menu item to clear selected cages
 	 */
 	private JMenuItem unselectAllItem = null;
-	
+
 	/**
 	 * Button to open a saved problem
 	 */
@@ -316,7 +316,7 @@ public class VGLII extends JFrame {
 	 * The default path for the problem file dialogs to open in
 	 */
 	private File defaultProblemDirectory = new File("."); //$NON-NLS-1$
-	
+
 	/**
 	 * the default path for saving work and html files to
 	 * aka the desktop
@@ -331,13 +331,20 @@ public class VGLII extends JFrame {
 	private Point nextCageScreenPosition;
 
 	/**
+	 * keeps track if there have been changes (crosses only)
+	 * since last save
+	 *  that way, it won't bug you to save a second time
+	 */
+	private boolean changeSinceLastSave;
+
+	/**
 	 * The constructor
 	 * 
 	 */
 	public VGLII() {
 		super(Messages.getString("VGLII.Name") + version); //$NON-NLS-1$
 		addWindowListener(new ApplicationCloser());
-		
+
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
 				+ System.getProperty("file.separator") //$NON-NLS-1$
 				+ "Desktop"); //$NON-NLS-1$
@@ -345,6 +352,7 @@ public class VGLII extends JFrame {
 			desktopDirectory = defaultProblemDirectory;
 		}
 		setupUI(); 
+		changeSinceLastSave = true;
 	}
 
 
@@ -494,7 +502,7 @@ public class VGLII extends JFrame {
 	 * Create and load menu bar.
 	 */
 	private void menuBar() {
-						
+
 		URL openImageURL = VGLII.class.getResource("images/open16.gif"); //$NON-NLS-1$
 		ImageIcon openImage = new ImageIcon(openImageURL);
 
@@ -590,7 +598,7 @@ public class VGLII extends JFrame {
 		mnuHelp.add(menuItem(Messages.getString("VGLII.AboutVGL"), "About", //$NON-NLS-1$ //$NON-NLS-2$
 				aboutImage));
 		mnuBar.add(mnuHelp);
-		
+
 		//language options
 		mnuLanguage = new JMenu(Messages.getString("VGLII.Language"));
 		for (int i = 0; i < supportedLanguageMenuItems.length; i++) {
@@ -602,7 +610,7 @@ public class VGLII extends JFrame {
 
 		setJMenuBar(mnuBar);
 	}
-	
+
 	private class LanguageMenuItemListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			LanguageSpecifierMenuItem item = (LanguageSpecifierMenuItem)e.getSource();
@@ -852,7 +860,7 @@ public class VGLII extends JFrame {
 				GeneticModelFactory.getInstance().createRandomModel(problemFile);
 
 			if (geneticModel == null) return;
-			
+
 			nextCageId = 0;
 			selectionVial = new SelectionVial(statusLabel);
 			cageCollection = new ArrayList<CageUI>();
@@ -882,14 +890,14 @@ public class VGLII extends JFrame {
 		} else {	
 			workFile = new File(workFileName);
 		}
-		
+
 		if (workFile == null) return;
 		if (!workFile.exists()) return;
 
 		try {
 			result = GeneticModelFactory.getInstance().readModelFromFile(workFile);
 			if (result == null) return;
-			
+
 			PhenotypeImageBank.getInstance().resetDefaults();
 			geneticModel = result.getGeneticModel();
 			cageCollection = new ArrayList<CageUI>();
@@ -900,6 +908,7 @@ public class VGLII extends JFrame {
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
+		changeSinceLastSave = true;
 	}
 
 	/**
@@ -962,6 +971,7 @@ public class VGLII extends JFrame {
 			} catch (Exception e) {
 			}
 		}
+		changeSinceLastSave = false;
 	}
 
 	private Document getXMLDoc(ArrayList<Cage> cages) throws Exception {
@@ -1115,18 +1125,22 @@ public class VGLII extends JFrame {
 	 */
 	private void closeProblem() {
 		if (cageCollection != null) {
-			int ans1 = JOptionPane.showConfirmDialog(this,
-					Messages.getString("VGLII.ClosingWarningLine1") //$NON-NLS-1$
-					+ "\n"
-					+ Messages.getString("VGLII.ClosingWarningLine2"), //$NON-NLS-1$
-					Messages.getString("VGLII.CloseWork"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
-					JOptionPane.WARNING_MESSAGE);
-			if (ans1 == JOptionPane.YES_OPTION)
-				saveProblem();
-			if (ans1 == JOptionPane.NO_OPTION) 
+			if (!changeSinceLastSave) {
 				cleanUp();
-			if (ans1 != JOptionPane.CANCEL_OPTION)
-				return;
+			} else {
+				int ans1 = JOptionPane.showConfirmDialog(this,
+						Messages.getString("VGLII.ClosingWarningLine1") //$NON-NLS-1$
+						+ "\n"
+						+ Messages.getString("VGLII.ClosingWarningLine2"), //$NON-NLS-1$
+						Messages.getString("VGLII.CloseWork"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
+						JOptionPane.WARNING_MESSAGE);
+				if (ans1 == JOptionPane.YES_OPTION)
+					saveProblem();
+				if (ans1 == JOptionPane.NO_OPTION) 
+					cleanUp();
+				if (ans1 != JOptionPane.CANCEL_OPTION)
+					return;
+			}
 		}
 	}
 
@@ -1135,23 +1149,30 @@ public class VGLII extends JFrame {
 	 */
 	private void exitApplication() {
 		if (cageCollection != null) {
-			int ans = JOptionPane.showConfirmDialog(this,
-					Messages.getString("VGLII.QuitWarningLine1") //$NON-NLS-1$
-					+ "\n"
-					+ Messages.getString("VGLII.QuitWarningLine2"), //$NON-NLS-1$
-					Messages.getString("VGLII.ExitVGL"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
-					JOptionPane.WARNING_MESSAGE);
-			if (ans == JOptionPane.YES_OPTION) {
+			if (!changeSinceLastSave) {
 				saveProblem();
 				cleanUp();
 				System.exit(0);
+			} else {
+				int ans = JOptionPane.showConfirmDialog(this,
+						Messages.getString("VGLII.QuitWarningLine1") //$NON-NLS-1$
+						+ "\n"
+						+ Messages.getString("VGLII.QuitWarningLine2"), //$NON-NLS-1$
+						Messages.getString("VGLII.ExitVGL"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
+						JOptionPane.WARNING_MESSAGE);
+				if (ans == JOptionPane.YES_OPTION) {
+					saveProblem();
+					cleanUp();
+					System.exit(0);
+				}
+				if (ans != JOptionPane.CANCEL_OPTION) {
+					cleanUp();
+					System.exit(0);
+				}
 			}
-			if (ans != JOptionPane.CANCEL_OPTION) {
-				cleanUp();
-				System.exit(0);
-			}
-		} else
+		} else {
 			System.exit(0);
+		}
 	}
 
 	/**
@@ -1203,13 +1224,15 @@ public class VGLII extends JFrame {
 				parentUIs[1].setCentralOrganismUI(organismUI1);
 				parentUIs[0].setCentralOrganismUI(organismUI2);
 			}
-		} else
+		} else {
 			JOptionPane.showMessageDialog(this, Messages.getString("VGLII.VGLII") //$NON-NLS-1$
 					+ "\n"
 					+ Messages.getString("VGLII.CrossWarningLine1") //$NON-NLS-1$
 					+ "\n"
 					+ Messages.getString("VGLII.CrossWarningLine2"), //$NON-NLS-1$
 					Messages.getString("VGLII.CrossTwo"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+		}
+		changeSinceLastSave = true;
 	}
 
 
@@ -1502,7 +1525,7 @@ public class VGLII extends JFrame {
 		nextCageScreenPosition = new Point(lastCageUI.getX(), lastCageUI
 				.getY());
 	}
-	
+
 	/**
 	 * this disables language selection after a problem has been opened
 	 */

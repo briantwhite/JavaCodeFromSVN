@@ -920,3 +920,8 @@ text to translate for the figures:
 - Holding the cursor over an organism will pop up a display of its genotype:
 - Click here to show/hide the details of the genetic model:
 
+9/29/09
+- fixed text size in french help (it was too big)
+- added note in close cage warning that you can get this back from Utilities->Cages
+- added boolean to VGLII so that it doesn't ask to save if it hasn't changed (a cross only)
+	since last save
