@@ -751,7 +751,7 @@ public class VGLII extends JFrame {
 				+ "<li>Chung Ying Yu (UMB)</li></ul>" //$NON-NLS-1$
 				+ "<li><b>Phenotype Images:</b></li>" //$NON-NLS-1$
 				+ "<ul><li>Antoine Aidamouni (UMB)</li><li>Sara M. Burke (UMB)</li><li>Sara Hachemi (UMB)</li>" //$NON-NLS-1$
-				+ "<li>Amit Kuma (UMB)</li></ul>" //$NON-NLS-1$
+				+ "<li>Amit Kumar (UMB)</li></ul>" //$NON-NLS-1$
 				+ "<li><b>Translations:</b></li>"
 				+ "<ul><li>traduction française: Sophie Javerzat (Université Bordeaux 1, FRANCE)</li>"
 				+ "</ul>"
