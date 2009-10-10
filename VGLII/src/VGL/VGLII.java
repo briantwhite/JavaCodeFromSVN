@@ -3,7 +3,6 @@ package VGL;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -12,16 +11,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
@@ -90,7 +89,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "2.0.0"; //$NON-NLS-1$
+	public final static String version = "2.0.1"; //$NON-NLS-1$
 
 	/**
 	 * the list of supported languages
@@ -1023,7 +1022,10 @@ public class VGLII extends JFrame {
 		printFile.delete();
 		try {
 			printFile.createNewFile();
-			FileWriter op = new FileWriter(printFile);
+			OutputStreamWriter op = 
+				new OutputStreamWriter(
+						new BufferedOutputStream(
+								new FileOutputStream(printFile)),"ISO8859_1");
 			op.write(getWorkAsHTML());
 			op.flush();
 			op.close();
