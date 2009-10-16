@@ -1008,7 +1008,9 @@ public class VGLII extends JFrame {
 	private void printToFile() {
 		if (cageCollection != null) {
 			File printFile = selectFile(desktopDirectory,
-					Messages.getString("VGLII.PrintWorkToFile"), Messages.getString("VGLII.EnterPrintFileName"), false, //$NON-NLS-1$ //$NON-NLS-2$
+					Messages.getString("VGLII.PrintWorkToFile"), 
+					Messages.getString("VGLII.EnterPrintFileName"), 
+					false, //$NON-NLS-1$ //$NON-NLS-2$
 					printFilterString, Messages.getString("VGLII.PrintFiles"), -1); //$NON-NLS-1$
 			if (printFile != null) {
 				if (!printFile.getPath().endsWith(".html")) //$NON-NLS-1$
@@ -1249,7 +1251,7 @@ public class VGLII extends JFrame {
 		try {
 			helpPane.setPage(VGLII.class.getResource(
 					Messages.getString("VGLII.HelpFileDir") 
-					+ System.getProperty("file.separator")
+					+ "/"
 					+ "index.html")); //$NON-NLS-1$
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,

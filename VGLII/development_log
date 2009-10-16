@@ -935,5 +935,9 @@ fixing various bugs that Sophie Javerzat found
 3) fig0.gif is missing in french help (made new one)
 4) html print-to-file of work don't show accents - probably a utf-8 thing
     (print regular does not have this problem) fixed to ISO-8859-1 in VGLII.java
+    
+10/16/09
+can't find help file on pc version!
+- you always use a "/" for finding files in a jar  - even if on PC!
 
 made version 2.0.1
