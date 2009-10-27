@@ -1385,3 +1385,10 @@ bug - in evolution, selected critter in World never de-selected
 
 1/11/09
 called it version 1.2.2 and posted mac & pc versions
+
+10/27/09
+bug fix
+- save greenhouse as does not work
+
+added features
+- backbone trace in purple (GridCanvas)

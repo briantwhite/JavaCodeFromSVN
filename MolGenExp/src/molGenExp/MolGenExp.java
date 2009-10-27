@@ -579,7 +579,7 @@ public class MolGenExp extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				greenhouse.deleteSelected();
 				clearSelectedOrganisms();
-				
+
 				//save changes to disk
 				Object[] all = greenhouse.getAll();
 				if (all.length == 0) return;
@@ -754,6 +754,9 @@ public class MolGenExp extends JFrame {
 		int returnVal = outFolderChooser.showSaveDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			greenhouseDirectory = outFolderChooser.getSelectedFile();
+			if (!greenhouseDirectory.exists()) {
+				greenhouseDirectory.mkdirs();
+			}
 			saveToFolder(all);
 		}
 	}
@@ -761,11 +764,13 @@ public class MolGenExp extends JFrame {
 	public void saveToFolder(Object[] all) {
 		//first, clear out all the old organims
 		String[] oldOrganisms = greenhouseDirectory.list();
-		for (int i = 0; i < oldOrganisms.length; i++) {
-			String name = oldOrganisms[i];
-			if (name.indexOf(".organism") != -1) {
-				File f = new File(greenhouseDirectory, name);
-				f.delete();
+		if (oldOrganisms  != null) {
+			for (int i = 0; i < oldOrganisms.length; i++) {
+				String name = oldOrganisms[i];
+				if (name.indexOf(".organism") != -1) {
+					File f = new File(greenhouseDirectory, name);
+					f.delete();
+				}
 			}
 		}
 
@@ -911,7 +916,7 @@ public class MolGenExp extends JFrame {
 		if (desktopFile.canWrite()) {
 			savePixToPath = desktopFile.getAbsolutePath();
 		} 
-		
+
 		JFileChooser fc = new JFileChooser(savePixToPath);
 		int retVal = fc.showSaveDialog(this);
 		if (retVal == JFileChooser.APPROVE_OPTION) {

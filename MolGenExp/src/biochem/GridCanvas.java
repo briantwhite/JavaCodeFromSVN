@@ -246,7 +246,7 @@ private void paintProtein(Graphics g) {
 	}
 	
 	// draw the backbone
-	g.setColor(Color.BLACK);
+	g.setColor(Color.MAGENTA);
 	for (int i = 0; i < numAcids; i++) {
 		AcidInChain a = pp.getAminoAcid(i);		
 		if (i < numAcids - 1) {
