@@ -1392,3 +1392,4 @@ bug fix
 
 added features
 - backbone trace in purple (GridCanvas)
+- hitting return in biochem folds the protein
