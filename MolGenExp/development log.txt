@@ -1393,3 +1393,6 @@ bug fix
 added features
 - backbone trace in purple (GridCanvas)
 - hitting return in biochem and mobo folds the protein
+
+10/29/09
+made version 1.2.3 & posted mac and pc versions
