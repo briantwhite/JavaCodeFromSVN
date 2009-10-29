@@ -1392,4 +1392,4 @@ bug fix
 
 added features
 - backbone trace in purple (GridCanvas)
-- hitting return in biochem folds the protein
+- hitting return in biochem and mobo folds the protein
