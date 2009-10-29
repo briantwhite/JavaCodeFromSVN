@@ -53,7 +53,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 
 	FoldedPolypeptide foldedPolypeptide;
 	BufferedImage fullSizePic;
-	
+
 	Action foldProteinAction;
 
 	public BiochemistryWorkpanel(String title, 
@@ -77,10 +77,12 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		proteinSequence.setDocument(tlcDoc);
 		proteinSequence.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				foldProtein();
+				if(foldButton.isEnabled()) {
+					foldProtein();
+				}
 			}			
 		});
-		
+
 		foldedProtein = new OutputPalette();
 		proteinPanel.add(proteinSequence, BorderLayout.NORTH);
 		proteinPanel.add(foldedProtein, BorderLayout.CENTER);
@@ -115,7 +117,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 				foldProtein();
 			}						
 		});
-		
+
 		loadSampleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				proteinSequence.setText(GlobalDefaults.sampleProtein);
@@ -124,7 +126,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		});
 
 	}
-	
+
 	private void foldProtein() {
 		try {
 			manager.fold(proteinSequence.getText().trim());
@@ -159,7 +161,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 
 			foldButton.setEnabled(false);
 			foldedProtein.setBackground(Color.lightGray);
-			
+
 		} catch (FoldingException e) {
 			JOptionPane.showMessageDialog(protex, 
 					GlobalDefaults.paintedInACornerNotice,
@@ -169,7 +171,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	}	
 
 
-	
+
 
 	public String getAaSeq() {
 		return proteinSequence.getText();
@@ -261,20 +263,20 @@ public class BiochemistryWorkpanel extends WorkPanel {
 			foldedProtein.getDrawingPane().getRequiredCanvasSize();
 		int width = requiredCanvasSize.width;
 		int height = requiredCanvasSize.height;
-		
+
 		BufferedImage imageBuffer = new BufferedImage(
 				width,
 				height + 60,
 				BufferedImage.TYPE_INT_RGB);
 		Graphics g = imageBuffer.getGraphics();
-		
+
 		//the protein
 		foldedProtein.getDrawingPane().paint(g);
-		
+
 		//fill in extra space for aa seq and color
 		g.setColor(Color.WHITE);
 		g.fillRect(0, height, width, 60);
-		
+
 		//the amino acid sequence
 		// be sure it'll fit
 		String aaSeq = foldedPolypeptide.getAaSeq();
@@ -293,7 +295,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		}
 		g.setColor(Color.BLACK);
 		g.drawString(aaSeq, 0, height + 15);
-		
+
 		//the color chip
 		g.setFont(defaultFont);
 		g.setColor(Color.BLACK);
@@ -305,7 +307,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		g.fillRect(60, height + 20, 30, 30);
 		g.setColor(Color.BLACK);
 		g.drawRect(59, height + 19, 31, 31);
-		
+
 		return imageBuffer;
 	}
 }
