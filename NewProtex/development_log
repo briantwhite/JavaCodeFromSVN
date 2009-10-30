@@ -210,4 +210,7 @@ Padlock				E;NE;NW; W;SW;SW;SE; W;NW;NE;none	FFFFFEEEEFF
 
 Spoon		E;NE;NW; W;SW; W; W; W; W; W;SE; W;NW;NE; E;none	SEEEESEEEFFFFFFF
 
+10/30/09
+- added feature that 'return' key folds protein
+- version 3.0.2
  
