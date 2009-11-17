@@ -1,0 +1,318 @@
+<html>
+<head>
+
+<title> Ayuda Lab Genética Virtual </title>
+</head>
+<body bgcolor=D0D0D0><h1 align="center">VGLII - Genética Virtual versión II</h1>
+<a href="#The Goals and Objectives of the Lab">Metas y objetivos del lab</a>
+<br>
+<a href="#The Genetic Models found in VGL">Modelos genéticos hallados en VGLII</a>
+<br>
+<a href="#Running VGL - Virtual Genetics Lab">Corriendo el programa VGLII - Genética Virtual Lab II</a>
+<br>
+<a href="#How To Start A New Problem">Cómo comenzar un nuevo problema</a>
+<br>
+<a href="#Cages in Regular Mode">Cajas en modo regular</a>
+<br>
+<a href="#Cages in Practice Mode">Cajas en modo de práctica</a>
+<br>
+<a href="#How To Open Work You have Saved Previously">Cómo abrir un trabajo guardado previamente</a>
+<br>
+<a href="#How to Save Work in Progress">Cómo guardar un trabajo que está en progreso</a>
+<br>
+<a href="#How to Save Your Work Under A Different Name">Cómo guardar tu trabajo utilizando un nuevo nombre</a>
+<br>
+<a href="#How to Close A Problem in Progress">Cómo cerrar un problema que está en progreso</a>
+<br>
+<a href="#How to Cross Two Organisms">Cómo cruzar dos organismos</a>
+<br>
+<a href="#How to Print">Cómo imprimir el trabajo realizado</a>
+<br>
+<a href="#How to Print to File">Cómo imprimir a un archivo</a>
+<br>
+<a href="#Summarize Cages">Cómo resumir los resultados de un grupo de cajas</a>
+<br>
+<a href="#Close/Re-open Cages">Cerrar/reabrir cajas</a>
+<br>
+<a href="#Re-arrange Cages">Reorganizar cajas</a>
+<br>
+<a href="#How to Get Details about each Phenotype">Cómo obtener los detalles de cada fenotipo</a>
+<br>
+<a href="#How to Get Details about VGL">Cómo obtener los detalles de VGLII</a>
+<br>
+<br>
+<hr>
+<br>
+<a name="The Goals and Objectives of the Lab"></a><font color="purple"><i>Metas y objetivos del lab</i></font>
+<br>
+<p >
+	Al comenzar el problema se te da una jaula o caja con una población de criaturas que fueron colectadas en el campo. 
+	Cada una de estas criaturas demuestra una de dos  <i>características</i> diferentes
+	de un <i>caracter</i> particulares (por ejemplo, si el caracter es Color del Cuerpo, las características 
+	podrían ser Cuerpo Rojo y Cuerpo Verde). Tu tarea es descubrir cómo estas características son heredadas. 
+	Tú determinas esto <a href="#How to Cross Two Organisms">cruzando</a> individuos  
+	y observando su descendencia.  Entonces usas
+	los datos obtenidos para deducir los <a href="#The Genetic Models found in VGL">
+	modelos genéticos</a> que determinan la herencia de estos caracteres.  <font color="purple">Tú</font> 
+	tienes que decidir cuando tienes suficiente información para estar convencido de saber la respuesta - el programa no te dirá 
+	la contestación (excepto cuando está en <a href="#Cages in Practice Mode">Modo de Práctica</a>).
+	</p>
+<p >
+	Cuando comienzas un nuevo problema,VGLII escoge al azar uno de tres caracteres.
+	Este escoge al azar<a href="#The Genetic Models found in VGL">modelos genéticos</a>.  La gama de posibles modelos es configurada por tu 
+	instructor cuando se crea el tipo de problema; diferentes tipos de problemas pueden tener un mayor o menor número
+	de posibles modelos y <a href="#Practice Mode">el Modo de Práctica</a> puede ser abilitado o desabilitado para
+	un tipo de problema particular. <font color="purple">Ya que éste los asigna al azar,la misma característica
+	puede ser heredada en diferentes formas en los diferentes problemas.</font>
+	</p>
+<p >
+	Luego, VGLII escoge características particulares de cada caracter y las asigna al azar 
+      a genotipos particulares.  Una población de individuos con genotipos al azar es generado;
+	estos individuos son puestos en la Caja 1.
+	</p>
+<p >
+	Tu tarea es <a href="#How to Cross Two Organisms">cruzar</a> individuos de diferentes cajas y observar la descendencia resultante.
+	De estos datos, debes determinar los<a href="#The Genetic Models found in VGL"> 
+	modelos genéticos</a> de cómo esas características particulares son heredadas.
+	</p>
+<br>
+<a name="The Genetic Models found in VGLII"></a><font color="purple"><i>Los Modelos Genéticos hallados en VGL</i></font>
+<br>
+<p >
+	Todos los problemas en VGLII envuelven modelos genéticos con genes que tienen dos o tres alelos.  Basado en esto, hay algunas características que pueden variar:<br>
+	<ul>
+      <li><b>El número de alelos</b>.  Este puede ser, ya sea:</li>
+        <ul>
+          <li><u>Dos alelos</u>.  En este caso hay dos posibles formas en la que
+            estos alelos pueden interactuar:</li>
+			<ul>
+			  <li><i>Dominancia Simple</i>: El heterocigoto tiene el mismo 
+					fenotipo que el homocigoto dominante.  O sea, con dos alelos A y a:</li>
+			    <ul>
+				  <li>AA = alto</li>
+				  <li>Aa = alto</li>
+				  <li>aa = bajo</li>
+				</ul>
+			  <li><i>Dominancia Incompleta</i>: El heterocigoto tiene un 
+					fenotipo diferente al de cualquier homocigoto.  En la naturaleza, este es usualmente 
+                              intermedio; en VGL no necesariamente.</li>
+			    <ul>
+				  <li>AA = alto</li>
+				  <li>Aa = mediano</li>
+				  <li>aa = bajo</li>
+				</ul>
+			</ul>
+      <li><u>Tres alelos</u>.  En este caso, hay dos posibles
+        formas en las cuales estos alelos pueden interactuar:</li>
+        <ul>
+          <li><i>Dominancia jerárquica</i>:  A es dominante a B y C;
+            B es dominante a C; C es recesivo a todos.</li>
+            <ul>
+              <li>AA = verde</li>
+              <li>AB = verde</li>
+              <li>AC = verde</li>
+              <li>BB = rojo</li>
+              <li>BC = rojo</li>
+              <li>CC = azul</li>
+            </ul>
+          <li><i>Dominancia Circular</i>:  A es dominante a B;
+            B es dominante a C; C es dominante a A.</li>
+            <ul>
+              <li>AA = verde</li>
+              <li>AB = verde</li>
+              <li>AC = azul</li>
+              <li>BB = rojo</li>
+              <li>BC = rojo</li>
+              <li>CC = azul</li>
+            </ul>
+        </ul>
+     </ul>          
+		<li><b>Si la característica es ligada al sexo o no</b>; ésta puede ser, ya sea:</li>
+			<ul>
+				<li><u>No ligada al sexo</u> - el gen para la característica se lleva en un autosoma
+					por lo tanto es heredado idénticamente en ambos sexos.</li>
+				<li><u>Ligado al sexo</u> - el gen para la característica es localizado en un cromosoma de sexo
+					por lo tanto éste es heredado en forma desigual en diferentes sexos. Este tiene dos formas:</li>
+					<ul>
+						<li><i>XX/XY</i> Hembras son XX; machos son XY.
+							En este caso Y lleva sólo los genes necesarios para hacer el organismo masculino.</li>
+						<li><i>ZZ/ZW</i> Hembras son ZW; machos son ZZ.
+							En este caso W lleva sólo los genes necesarios para hacer el organismo femenino.</li>
+					</ul>
+			</ul>
+			<li><b>Si los genes en el mismo cromosoma están ligados o no</b>; la frecuencia de recombinación
+			       puede variar entre 0% (ligados completamente) y 50% (no ligados).</li>
+		</ul>
+	</p>
+<p >
+<br>		
+	</p>
+		
+						
+				
+<a name="Running VGL - Virtual Genetics Lab"></a><font color="purple">
+<i>Corriendo el programa VGLII - Lab Genética Virtual</i></font>
+<br>
+<p >Para correr el programa simplemente haga un doble clic en el archivo VGLIIx.x.
+		Nota: Asegúrese de tener la carpeta de Problemas en la misma 
+		carpeta que el archivo VGLIIx.x.  Los botones de la barra de herramientas son demostrados a continuación:
+		</p>
+<img src="fig0.gif">
+<br>
+<a name="How To Start A New Problem"></a><font color="purple"><i>Cómo comenzar un nuevo problema</i></font>
+<br>
+<p >Cuando comienzes a trabajar con VGLII debes ver una barra de herramientas como ésta:<br>
+		<img src="fig1.jpg"><br>
+		Del menú "Archivo", seleccione "Nuevo Problema" o simplemente haz clic en el botón que dice "Nuevo Problema" en la caja de herramientas 
+		y debes ver una lista de archivos de tipos de problemas. Los archivos están enlistados 
+            en orden de dificultad.  Archivos adicionales pueden ser generados usando el programa VGLAdmin.  
+            Selecciona el archivo y haz un clic en el botón de "Abrir". 
+		</p>
+<p >
+		 Una vez comiences un problema, una ventana (Caja 1) se abrirá en la pantalla.  
+		Esta caja es el punto de comienzo para tu proyecto.  Los organismos podrían ser (no 
+            necesariamente) homocigotos.
+		</p>
+<br>
+<a name="Cages in Regular Mode"></a><font color="purple"><i>Cajas en Modo Regular</i></font>
+<br>
+Una caja en Modo Regular es demostrada a continuación:<br>
+<img src="fig2.jpg"><br>
+Una secuencia de <a href="#How to Cross Two Organisms">cruzes</a> es demostrada a continuación:<br>
+<img src="fig3.jpg"><br>
+Esto debería ser escrito como:<br>
+<pre>
+Cruze 1: 
+Padres:	Cinco machos rojos de la Caja 1 <font color="purple">X</font> Cinco hembras azules de la Caja 1
+
+Descendencia:				11 Cinco/azul
+(en la Caja 2)				16 Cinco/rojo
+
+</pre>
+ <br><br>
+
+<a name="Cages in Practice Mode"></a><font color="purple"><i>Cajas en Modo de Práctica</i></font>
+<br>
+Si tu instructor ha puesto el Modo de Práctica para un problema particular, tú debes ser capaz de ver los detalles de
+ &quot;answer&quot; - el modelo genético para cada caracter y el genotipo
+de cada organismo.<p>
+<p >En modo de práctica, la caja debe verse como ésta:<br>
+	<img src="fig4.jpg"><br>
+	Este es lo mismo que Modo Regular, excepto que el modelo y genotipos pueden ser vistos.
+	</p>
+<br>
+<a name="How To Open Work You have Saved Previously"></a><font color="purple"><i>Cómo abrir un trabajo que ha sido guardado previamente</i></font>
+<br>
+<p ><img src="../images/open.gif">Tú puedes usar esta herramienta para encontrar problemas guardados previamente en los cuales tú podrías haber estado 
+		trabajando. Para abrir el problema puedes seleccionar "Abrir Problema" desde el menú del
+		"Archivo" o simplemente hacer un clic en el botón "Abrir Problema" de la barra de herramientas. Una ventanilla
+		se abrirá para ayudarte a seleccionar el archivo. Navega hacia el directorio en el cual el
+		problema ha sido guardado. Selecciona el archivo y haces un clic en el botón de "Abrir". VGLII leerá el archivo
+		y abrirá el problema en la misma forma o estado* en el que fue guardado anteriormente.<br><br>
+
+		*estado - estado en este contexto se define como la colección entera de cajas creadas por
+		el usuario, incluyendo cajas que fueron creadas por el usuario pero se mantuvieron cerradas durante el 
+		curso de este ejercicio.  De manera sencilla, esto significa que cuando se abre un problema, VGLII
+		presentará todas las cajas creadas por el usuario hasta el punto en el cual fueron guardadas.
+		</p>
+<br>
+<a name="How to Save Work in Progress"></a><font color="purple"><i> Cómo guardar el trabajo que está en progreso</i></font>
+<br>
+<p ><img src="../images/save.gif">Puedes usar esta herramienta para guardar el trabajo realizado en un archivo. Para guardar tu trabajo puedes
+seleccionar "Salvar" desde el menú del "Archivo" o simplimente hacer un clic en el botón de "Salvar"
+en la barra de herramientas. Una ventanilla se abrirá para ayudarte a guardar tu trabajo en un archivo en el directorio
+escogido. Navega hacia el directorio en el cual tú quieres salvar tu trabajo.
+En el espacio de "Nombre del archivo" escribe el nombre del archivo con el cual tu quieres salvar tu trabajo. Luego haz un clic en el botón de "Abrir".  Esto crea y abre un archivo con el nombre 
+especificado en el espacio y guarda tu trabajo.  El archivo debe tener una
+extensión .wrk
+		</p>
+<br>
+<a name="How to Save Your Work Under A Different Name"></a><font color="purple"><i>Cómo guardar tu trabajo bajo un nuevo nombre</i></font>
+<br>
+<p ><img src="../images/saveas.gif">Es igual a "Guardar un Problema" excepto que éste crea una copia del archivo que ya ha sido creado pero con un nombre diferente.
+		</p>
+<br>
+<a name="How to Close A Problem in Progress"></a><font color="purple"><i>Cómo cerrar un problema en progreso</i></font>
+<br>
+<p ><img src="../images/closework.gif">Puedes usar esta herramienta para cerrar un problema en el cual has estado trabajando.  Para cerrar el problema en el que has estado trabajando selecciona "Cerrar Problema" desde el menú "Archivo" o simplemente haz un clic
+en el botón de Cerrar en la barra de herramientas. Se abrirá una ventanilla para confirmar tu decisión de cerrar el problema.  Si seleccionas "Sí"
+y si tienes trabajo sin salvar entonces la aplicación te sugerirá salvarlo.
+Si seleccionas "Sí" entonces una ventanilla aparecerá para ayudarte a salvar tu trabajo en un archivo en el directorio escogido.  Si seleccionas "No" la aplicación cerrará el problema sin salvar el trabajo.
+		</p>
+<br>
+<a name="How to Cross Two Organisms"></a><font color="purple"><i>Cómo cruzar dos organismos</i></font>
+<br>
+<p ><img src="../images/cross.gif">Para cruzar dos organismos selecciona un organismo macho y uno hembra 
+de cualquiera de las cajas abiertas
+(pueden ser de diferentes cajas). Para cruzar estos organismos y crear la descendencia
+que ellos producirán, selecciona "Cruze Dos" de el menú de "Utilidades" o haga un clic en el
+botón de "Cruze" en la barra de herramientas. Esto creará una nueva caja que contiene los descendientes 
+de los dos padres usados en este cruze.
+		</p>
+<br>
+
+<a name="How to Print"></a><font color=purple><i>Cómo imprimir el trabajo realizado</i></font>
+<br>
+<p><img src="../images/print.gif">Para imprimir la población hallada en el campo (Caja 1) y todas las cajas generadas, 
+haz un clic en en botón de Imprimir (demostrado a la izquierda), o seleccione "Imprimir trabajo" desde el menú de "Archivo". Quizás necesites programar la impresora; selecciona "Configurar página" del "Archivo".
+</p>
+<br>
+
+<a name="How to Print to File"></a><font color="purple"><i>Cómo imprimir a un archivo</i></font>
+<br>
+<p ><img src="../images/printtofile.gif">Puedes usar esto para guardar tu trabajo en un
+archivo en un formato fácil de imprimir; este archivo puede ser mostrado en cualquier web-browser y muchos procesadores word. 
+Para imprimir para un archivo seleccione "Imprimir a un archivo" desde el menú del "Archivo" o haz un clic en el botón de "Immprimir a un archivo" en la barra de herramientas. Esto debe abrir una ventana la cual te permite darle un nombre al archivo y el destino escogido. Una vez se le da un nombre al archivo y has decidido la localización
+haz un clic en el botón de "Imprimir". Tu trabajo será salvado en un formato fácil de imprimir en un archivo. El archivo debe tener una extensión .html.
+		</p>
+<br>
+
+<a name="Summarize Cages"></a><font color="purple"><i>Cómo resumir los resultados de un grupo de cajas
+</i></font>
+<br>
+<p>Seleccionando una o más Cajas y escogiendo del &quot;Crear resumen &quot; del menú de Utilidades, puedes 
+hacer que VGLII cuente el número de organismos de cada tipo hallado en las cajas seleccionadas.<p>
+Primero, haz un doble clic en cada una de las cajas para seleccionarlas para el resumen; su borde interno se tornará rojo lo cual demuestra que han sido seleccionadas.  Puedes deseleccionar la caja escogida haciendo un doble clic en ésta; también puedes quitar la selección de todas las cajas escogiéndolo
+ &quot;Deseleccionar todo&quot; desde el menú de utilidades.<p>
+Una vez has seleccionado un grupo de Cajas, escoge &quot;Crear resumen Chart&quot; del menú de Utilidades y verás algo como esto:<p>
+<img src="fig5.jpg"><br>
+La línea del tope demuestra que éste fue un resumen de las cajas 7, 8, 9, 10, &amp; 11.<br>
+Estos fueron producidos de los cruzes de dos padres heterocigotos; entonces, deberíamos esperar una razón 3:1.<br>
+La razón observada 120:26.<br>
+Puedes escoger cuales caracteres resumir al seleccionar los caracteres apropiados en el tope, seleccionando los Caracteres apropiados en el tope de la ventana.
+<br>
+<a name="Close/Re-open Cages"></a><font color="purple"><i>Cerrar/Reabrir Cajas</i></font>
+<br>
+<p >Puedes usar esta herramienta para cerrar/reabrir cualquiera de las cajas creadas hasta ahora.
+Seleccione "Cajas" del menú de "Utilidades". Una ventana debe abrirse con un listado de todas las cajas
+creadas hasta ahora. Las que están visibles será verificada. Haga un clic en la opción de "Visibilidad" al lado de cada listado de cajas
+para hacer esa Caja visible/invisible.
+		</p>
+<br>
+<a name="Re-arrange Cages"></a><font color="purple"><i>Reorganizar las cajas</i></font>
+<br>
+<p >Puedes usar esta herramienta para reorganizar las cajas creadas en una forma ordenada.
+Selecciona "Reordenar Cajas" del menú de "Utilidades".  Todas las cajas visibles deben ser
+alineadas una bajo la otra y de izquierda a derecha.
+		</p>
+<br>
+
+<a name="How to Get Details about each Phenotype"></a><font color="purple"><i>Cómo obtener los detalles acerca del fenotipo</i></font>
+<br>
+<p >Para obtener más detalles y un diagrama detallado sobre el fenotipo de los organismos en una caja,
+puedes hacer un clic en la imagen del fenotipo demostrado en la caja. Esto debe abrir una ventana con una imagen
+agrandada y más detallada del organismo destacando el fenotipo en cuestión. Nota que estas
+imagenes son sencillas; solo están disenadas para ilustrar como el fenotipo combinado
+ <i>podría</i> verse. Uno es demostrado a continuación:<p>
+<center><img src="fig6.jpg"></center>
+		</p>
+<br>
+<a name="How to Get Details about VGLII"></a><font color="purple"><i>Cómo obtener detalles sobre VGL</i></font>
+<br>
+<p ><img src="../images/about.gif">Para obtener más detalles sobre la aplicación VGLII puedes seleccionar "Acerca de VGLII"
+ del menu "Ayuda"
+o simplimente haga un clic en el botón "Acerca de VGL". Esto debe abrir una ventana de información. 
+		</p>
+
+</body>
+</html>
