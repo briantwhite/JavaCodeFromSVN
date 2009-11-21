@@ -89,7 +89,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "2.0.1"; //$NON-NLS-1$
+	public final static String version = "2.1.0"; //$NON-NLS-1$
 
 	/**
 	 * the list of supported languages
@@ -753,7 +753,8 @@ public class VGLII extends JFrame {
 				+ "<ul><li>Antoine Aidamouni (UMB)</li><li>Sara M. Burke (UMB)</li><li>Sara Hachemi (UMB)</li>" //$NON-NLS-1$
 				+ "<li>Amit Kumar (UMB)</li></ul>" //$NON-NLS-1$
 				+ "<li><b>Translations:</b></li>"
-				+ "<ul><li>traduction française: Sophie Javerzat (Université Bordeaux 1, FRANCE)</li>"
+				+ "<ul><li>Traduction française: Sophie Javerzat (Université Bordeaux 1, FRANCE)</li>"
+				+ "<li>Traduccion al espanol: Juan Carlos Hernández-Vega</li>"
 				+ "</ul>"
 				+ "<li><b>Academic Supervisor:</b></li>" //$NON-NLS-1$
 				+ "<ul><li>Ethan Bolker (UMB)</li></ul>" //$NON-NLS-1$
