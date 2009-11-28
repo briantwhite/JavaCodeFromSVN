@@ -106,7 +106,7 @@ public class AminoAcidPalette extends JPanel {
 		Point p = this.getLocation();
 		columnWidth = cellDiameter + cellRadius / 4;
 		rowHeight = columnWidth;
-		StandardTable table = new StandardTable();
+		StandardTable table = StandardTable.getInstance();
 		list = table.getAllAcids();
 		ColorCoder cc = new ShadingColorCoder(table.getContrastScaler()); ///
 		int x = 0;

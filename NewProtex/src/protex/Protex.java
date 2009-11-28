@@ -54,6 +54,7 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 public class Protex extends JFrame {
 	
 	public final static String targetShapeFileName = "target_shapes.txt";
+	public final static String contactEnergyListFileName = "ContactEnergies.txt";
 	
 	private final static String version = "3.0.2";
 	

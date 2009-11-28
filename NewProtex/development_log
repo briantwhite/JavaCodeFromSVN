@@ -213,4 +213,16 @@ Spoon		E;NE;NW; W;SW; W; W; W; W; W;SE; W;NW;NE; E;none	SEEEESEEEFFFFFFF
 10/30/09
 - added feature that 'return' key folds protein
 - version 3.0.2
+
+11/28/09
+working on adding Miyazawa-Jernigan contact energies
+Got file from http://gor.bb.iastate.edu/potential/MJs_potentials.txt
+used the MJ2h - that is the eij (not e'ij) from
+Miyazawa S, Jernigan RL. Residue-residue potentials with a favorable
+contact pair term and an unfavorable high packing density term,
+for simulation and threading. J Mol Biol 1996;256:623-644.
+
+added in amino acid names by comparing text file and paper
+added header line
+made into ContactEnergies.txt 
  

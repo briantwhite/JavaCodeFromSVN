@@ -27,6 +27,18 @@ public class AminoAcid implements Serializable {
 	
 	// added by TJ -- abbreviate name of an Amino acid
 	private String abName;
+	
+	/**
+	 * index number for this amino acid when looking it up
+	 * in table of contact energies (faster than string-based lookup)
+	 */
+	private int indexNum;
+	
+	/**
+	 * array of contact energies
+	 * indexed by indexNum
+	 */
+	private int[] contactEnergies;
 
 	/**
 	 * The hydrophobic index tells the folding how much this AminoAcid wants to
@@ -55,6 +67,8 @@ public class AminoAcid implements Serializable {
 		this.ionicIndex = ionicIndex;
 		this.ssBondIndex = ssBondIndex;
 		this.normalizedHydrophobicIndex = (float) hydrophobicIndex;
+		this.indexNum = -1;
+		this.contactEnergies = new int[20];
 	}
 
 	/**
@@ -81,7 +95,23 @@ public class AminoAcid implements Serializable {
 	public boolean getssIndex() {
 		return ssBondIndex;
 	}
-
+	
+	public int getIndexNum() {
+		return indexNum;
+	}
+	
+	public void setIndexNum(int i) {
+		indexNum = i;
+	}
+	
+	public void setContactEnergies(int[] energies) {
+		contactEnergies = energies;
+	}
+	
+	public int getContactEnergy(int indexNumOfPartner) {
+		return contactEnergies[indexNumOfPartner];
+	}
+	
 	public float getNormalizedHydrophobicIndex() {
 		return normalizedHydrophobicIndex;
 	}

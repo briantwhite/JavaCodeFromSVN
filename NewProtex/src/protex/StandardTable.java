@@ -14,11 +14,17 @@
 
 package protex;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
+
+import javax.swing.JOptionPane;
 
 /**
  * Model the standard table of amino acids.
@@ -29,7 +35,18 @@ public class StandardTable extends AminoAcidTable  {
 
 	private double maxEnergy;
 
-	public StandardTable() {
+	private String contactEnergyListName = "";
+
+	private static StandardTable instance;
+
+	public static StandardTable getInstance() {
+		if (instance == null) {
+			instance = new StandardTable();
+		}
+		return instance;
+	}
+
+	private StandardTable() {
 		table = new TreeMap();
 		abNameTable = new TreeMap();
 		try {
@@ -59,6 +76,8 @@ public class StandardTable extends AminoAcidTable  {
 			e.printStackTrace();
 		}
 		normalize();
+		readInContactEnergies();
+//		showContactEnergies();  for debugging only
 	}
 
 	public Iterator getIterator() throws FoldingException {
@@ -90,7 +109,7 @@ public class StandardTable extends AminoAcidTable  {
 	 */
 	public void add(AminoAcid a) throws FoldingException {
 		throw new FoldingException(
-				"can't add to standard table without probability");
+		"can't add to standard table without probability");
 	}
 
 	/**
@@ -108,7 +127,7 @@ public class StandardTable extends AminoAcidTable  {
 		}
 		return a.a;
 	}
-	
+
 	/**
 	 * added by TJ
 	 * Retrieve an acid from the table with abName
@@ -120,6 +139,21 @@ public class StandardTable extends AminoAcidTable  {
 		}
 		AcidInTable a = (AcidInTable) table.get(aName);
 		return a.a;
+	}
+
+	/** 
+	 * get using the index number (order of aas listed in ContactEnergies
+	 * file
+	 */
+	public AminoAcid getFromIndexNum(int indexNum) {
+		Iterator<String> it = table.keySet().iterator();
+		while (it.hasNext()) {
+			AminoAcid a = get(it.next());
+			if (a.getIndexNum() == indexNum) {
+				return a;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -208,6 +242,64 @@ public class StandardTable extends AminoAcidTable  {
 		}
 	}
 
+	private void readInContactEnergies() {
+		File contactEnergyFile = new File(Protex.contactEnergyListFileName);
+		if (!contactEnergyFile.exists()) {
+			return;
+		}
+
+		BufferedReader input = null;
+		try {
+			input = new BufferedReader(
+					new FileReader(Protex.contactEnergyListFileName));
+			String line = null;
+			boolean firstLine = true;
+			while ((line = input.readLine()) != null) {
+				//see if initial comment line
+				// this has name of energy table
+				if (line.indexOf("#") != -1) {
+					line = line.trim();
+					StringBuffer b = new StringBuffer(line);
+					contactEnergyListName = b.deleteCharAt(0).toString();
+					System.out.println(contactEnergyListName);
+				} else {
+					String[] parts = line.split(",");
+
+					//first line is list of aas in order
+					// with first entry blank
+					if (firstLine) {
+						for (int i = 1; i < parts.length; i++) {
+							AminoAcid a = get(parts[i]);
+							a.setIndexNum(i - 1);
+						}
+						firstLine = false;
+					} else {
+						//process each line
+						AminoAcid a = get(parts[0]);
+						int[] energies = new int[20];
+						for (int i = 1; i < parts.length; i++) {
+							energies[i - 1] = 
+								Math.round(100 * Float.parseFloat(parts[i]));
+						}
+						a.setContactEnergies(energies);
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (input!= null) {
+					input.close();
+				}
+			}
+			catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
 	private class AcidInTable implements Serializable {
 		protected AminoAcid a;
 
@@ -220,8 +312,8 @@ public class StandardTable extends AminoAcidTable  {
 
 		public String toString() {
 			return a.toString() + '\t' + a.getHydrophobicIndex() + '\t'
-					+ a.getNormalizedHydrophobicIndex() + "\t\t" + probability
-					+ '\n';
+			+ a.getNormalizedHydrophobicIndex() + "\t\t" + probability
+			+ '\n';
 		}
 	}
 
@@ -238,6 +330,10 @@ public class StandardTable extends AminoAcidTable  {
 		return maxEnergy;
 	}
 
+	public String getContactEnergyListName() {
+		return contactEnergyListName;
+	}
+
 	/**
 	 * Method main for unit testing.
 	 */
@@ -248,5 +344,26 @@ public class StandardTable extends AminoAcidTable  {
 		for (int i = 0; i < list.length; i++) {
 			System.out.println(list[i]);
 		}
+	}
+
+	// for testing purposes
+	public void showContactEnergies() {
+		Iterator<String> it = table.keySet().iterator();
+		StringBuffer b1 = new StringBuffer();
+		StringBuffer b2 = new StringBuffer();
+		b1.append(",");
+		for (int i = 0; i < 20; i++) {
+			AminoAcid a = getFromIndexNum(i);
+			b1.append(a.getName() + ",");
+			b2.append(a.getName() + ",");
+			for (int j = 0; j < 20; j++) {
+				b2.append(a.getContactEnergy(j) + ",");
+			}
+			b2.deleteCharAt(b2.length() - 1);
+			b2.append("\n");
+
+		}
+		b1.deleteCharAt(b1.length() - 1);
+		System.out.println(b1.toString() + "\n" + b2.toString());
 	}
 }

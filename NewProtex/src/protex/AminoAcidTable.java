@@ -41,7 +41,7 @@ public abstract class AminoAcidTable implements Serializable {
 			throws FoldingException {
 		if (tableName.equalsIgnoreCase("standard")) {
 			if (standardTable == null) {
-				standardTable = new StandardTable();
+				standardTable = StandardTable.getInstance();
 			}
 			return standardTable;
 		}

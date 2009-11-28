@@ -108,7 +108,7 @@ public class FoldingWindow extends JPanel {
 
 		manager = FoldingManager.getInstance();
 
-		table = new StandardTable();
+		table = StandardTable.getInstance();
 
 		foldButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

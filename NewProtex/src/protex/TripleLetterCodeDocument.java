@@ -7,7 +7,7 @@ import javax.swing.text.DefaultStyledDocument;
 public class TripleLetterCodeDocument extends DefaultStyledDocument {
 	final String allowedLetters = "ACDEFGHIKLMNPQRSTVWY";
 	private FoldingWindow foldingWindow = null;
-	private StandardTable table = new StandardTable();
+	private StandardTable table = StandardTable.getInstance();
 	
 	public void insertString(int offs, String str, AttributeSet a) 
 	throws BadLocationException {

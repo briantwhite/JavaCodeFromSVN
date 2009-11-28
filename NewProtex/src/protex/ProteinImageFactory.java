@@ -58,7 +58,7 @@ public class ProteinImageFactory {
 	public static HexGrid layoutOntoHexGrid(Direction[] directionArray) {
 		int numAcids = directionArray.length;
 		
-		StandardTable aaTable = new StandardTable();
+		StandardTable aaTable = StandardTable.getInstance();
 		AminoAcid acidX = aaTable.getFromAbName("X");
 		
 		//make protein of only X's (we want shape without sequence)
