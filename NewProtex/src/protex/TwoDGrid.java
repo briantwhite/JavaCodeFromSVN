@@ -134,7 +134,21 @@ public abstract class TwoDGrid extends Grid {
 		// see if using custom energy - just the table of interaction energies
 		//  where lower is better
 		if (custom) {
-
+			for (int i = 0; i < numAcids; i++) {
+				AcidInChain a = acids[i];
+				if (a.xyz == null) {
+					break;
+				}
+				
+				for (int d = 0; d < allDirections.length; d++) {
+					AcidInChain ac = get(nextCell(allDirections[d], a.xyz));
+					if (ac != null) {
+						energy += 
+							a.getAminoAcid().getContactEnergy(
+									ac.getAminoAcid().getIndexNum());
+					}
+				}
+			}
 		} else {
 
 			//array to make sure that a given cys can only make one ssbond
