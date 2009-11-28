@@ -132,7 +132,7 @@ public class ShapeMatcher {
 		
 		//fold the guess sequence
 		FoldingManager manager = FoldingManager.getInstance();
-		Attributes attributes = new Attributes(guessAASeq.trim(), 
+		Attributes attributes = new Attributes(guessAASeq.trim(), false,
 						1, "0.0", "straight", "test");
 		OutputPalette outputPalette = new OutputPalette();
 		try {

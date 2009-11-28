@@ -126,63 +126,70 @@ public abstract class TwoDGrid extends Grid {
 
 	protected int freeEdges;
 
-	public double getEnergy(double hpIndex, double hIndex, double iIndex, double sIndex) {
+	public double getEnergy(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
 		//more energy is BAD
 		energy = 0;
 		freeEdges = 0;
 
-		//array to make sure that a given cys can only make one ssbond
-		boolean[] availableForssBond = new boolean[numAcids];
-		for (int i = 0; i < numAcids; i++) {
-			availableForssBond[i] = true;
-		}
-		//set up the array list of ss bonds
-		ssBondList = new ArrayList();
-				
-		for (int i = 0; i < numAcids; i++) {
-			AcidInChain a = acids[i];
-			if (a.xyz == null) { // a has not been placed on grid
-				break; // perhaps should be continue
+		// see if using custom energy - just the table of interaction energies
+		//  where lower is better
+		if (custom) {
+
+		} else {
+
+			//array to make sure that a given cys can only make one ssbond
+			boolean[] availableForssBond = new boolean[numAcids];
+			for (int i = 0; i < numAcids; i++) {
+				availableForssBond[i] = true;
 			}
-			
-			
-			int free = 0;
-			int hbondContacts = 0; // Added by NR
-			int ionicInteractions = 0; //Added by NR
-			int ssBonds = 0; // added by BW
+			//set up the array list of ss bonds
+			ssBondList = new ArrayList();
 
-			for (int d = 0; d < allDirections.length; d++) {
-				AcidInChain ac = get(nextCell(allDirections[d], a.xyz));
-				if (ac == null) {
-					free++;
-				} else {
-					//add to H-bond contacts if both indices are 1
-					hbondContacts = hbondContacts + 
-					(a.gethydrogenbondIndex() * ac.gethydrogenbondIndex());
+			for (int i = 0; i < numAcids; i++) {
+				AcidInChain a = acids[i];
+				if (a.xyz == null) { // a has not been placed on grid
+					break; // perhaps should be continue
+				}
 
-					//subtract from ionic bond index if both have opposite signs
-					ionicInteractions = ionicInteractions - 
-					(a.getionicIndex() * ac.getionicIndex());
 
-					//count the ss bonds
-					// be sure that each can only make one such bond
-					if (a.getssIndex() 
-							&& ac.getssIndex() 
-							&& availableForssBond[i]
-							&& availableForssBond[ac.getIndex()]
-							&& (Math.abs(i - ac.getIndex()) != 1)) {
-						ssBonds++;
-						availableForssBond[i] = false;
-						availableForssBond[ac.getIndex()] = false;
-						ssBondList.add(new SsBond(i, ac.getIndex()));
+				int free = 0;
+				int hbondContacts = 0; // Added by NR
+				int ionicInteractions = 0; //Added by NR
+				int ssBonds = 0; // added by BW
+
+				for (int d = 0; d < allDirections.length; d++) {
+					AcidInChain ac = get(nextCell(allDirections[d], a.xyz));
+					if (ac == null) {
+						free++;
+					} else {
+						//add to H-bond contacts if both indices are 1
+						hbondContacts = hbondContacts + 
+						(a.gethydrogenbondIndex() * ac.gethydrogenbondIndex());
+
+						//subtract from ionic bond index if both have opposite signs
+						ionicInteractions = ionicInteractions - 
+						(a.getionicIndex() * ac.getionicIndex());
+
+						//count the ss bonds
+						// be sure that each can only make one such bond
+						if (a.getssIndex() 
+								&& ac.getssIndex() 
+								&& availableForssBond[i]
+								                      && availableForssBond[ac.getIndex()]
+								                                            && (Math.abs(i - ac.getIndex()) != 1)) {
+							ssBonds++;
+							availableForssBond[i] = false;
+							availableForssBond[ac.getIndex()] = false;
+							ssBondList.add(new SsBond(i, ac.getIndex()));
+						}
 					}
 				}
+				energy += free * a.hydrophobicIndex * hpIndex 
+				- hbondContacts * hIndex 
+				- ionicInteractions * iIndex
+				- ssBonds * sIndex;
+				freeEdges += free;
 			}
-			energy += free * a.hydrophobicIndex * hpIndex 
-			- hbondContacts * hIndex 
-			- ionicInteractions * iIndex
-			- ssBonds * sIndex;
-			freeEdges += free;
 		}
 		return energy;
 	}
@@ -198,18 +205,18 @@ public abstract class TwoDGrid extends Grid {
 		}
 	}
 
-	public double getFoldingIndex(double hpIndex, double hIndex, double iIndex, double sIndex) {
-		computeStatistics(hpIndex, hIndex, iIndex, sIndex);
+	public double getFoldingIndex(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
+		computeStatistics(custom, hpIndex, hIndex, iIndex, sIndex);
 		return freeEdges / (double) (2 + 4 * pp.getLength());
 	}
 
-	public int getFreeEdges(double hpIndex, double hIndex, double iIndex, double sIndex) {
-		computeStatistics(hpIndex, hIndex, iIndex, sIndex);
+	public int getFreeEdges(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
+		computeStatistics(custom, hpIndex, hIndex, iIndex, sIndex);
 		return freeEdges;
 	}
 
-	public void computeStatistics(double hpIndex, double hIndex, double iIndex, double sIndex) {
-		getEnergy(hpIndex, hIndex, iIndex, sIndex);
+	public void computeStatistics(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
+		getEnergy(custom, hpIndex, hIndex, iIndex, sIndex);
 		setNeighbors();
 	}
 

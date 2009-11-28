@@ -84,8 +84,11 @@ public class FoldingManager {
 	 * @return String.
 	 */
 	public String getEnergyString() {
-		return String.valueOf(currentGrid.getEnergy(currentFolder.hpIndex,
-				currentFolder.hIndex, currentFolder.iIndex, currentFolder.sIndex));
+		return String.valueOf(currentGrid.getEnergy(currentFolder.custom,
+				currentFolder.hpIndex,
+				currentFolder.hIndex, 
+				currentFolder.iIndex, 
+				currentFolder.sIndex));
 	}
 
 	/**
@@ -114,8 +117,11 @@ public class FoldingManager {
 	 * @return double.
 	 */
 	public double getEnergy() {
-		return currentGrid.getEnergy(currentFolder.hpIndex,
-				currentFolder.hIndex, currentFolder.iIndex, currentFolder.sIndex);
+		return currentGrid.getEnergy(currentFolder.custom,
+				currentFolder.hpIndex,
+				currentFolder.hIndex, 
+				currentFolder.iIndex, 
+				currentFolder.sIndex);
 	}
 
 
@@ -143,8 +149,11 @@ public class FoldingManager {
 	 * @return double.
 	 */
 	public double getFoldingIndex() {
-		return currentGrid.getFoldingIndex(currentFolder.hpIndex,
-				currentFolder.hIndex, currentFolder.iIndex, currentFolder.sIndex);
+		return currentGrid.getFoldingIndex(currentFolder.custom,
+				currentFolder.hpIndex,
+				currentFolder.hIndex,
+				currentFolder.iIndex,
+				currentFolder.sIndex);
 	}
 
 	/**
@@ -418,9 +427,11 @@ public class FoldingManager {
 	private void createFolder(Attributes attrib) throws FoldingException {
 		String folder = attrib.getFolder();
 		if (folder.equalsIgnoreCase("bruteforce")) {
-			currentFolder = new BruteForceFolder(currentPP, currentGrid);
+			currentFolder = new BruteForceFolder(
+					attrib.isCustom(), currentPP, currentGrid);
 		} else if (folder.equalsIgnoreCase("incremental")) {
-			currentFolder = new IncrementalFolder(currentPP, currentGrid);
+			currentFolder = new IncrementalFolder(attrib.isCustom(),
+					currentPP, currentGrid);
 			String lookupString = attrib.getLookup();
 			String stepString = attrib.getStep();
 			String hpIndexString = attrib.getHydroPhobicIndex();

@@ -43,16 +43,16 @@ public class IncrementalFolder extends BruteForceFolder {
 				+ step;
 	}
 
-	public IncrementalFolder(Polypeptide pp, Grid g, int lookAhead, int step) {
+	public IncrementalFolder(boolean custom, Polypeptide pp, Grid g, int lookAhead, int step) {
 		// 	super(pp);
-		this(pp, g);
+		this(custom, pp, g);
 		this.lookAhead = lookAhead;
 		this.step = step;
 	}
 
 	//     public IncrementalFolder( Grid g, Polypeptide pp )
-	public IncrementalFolder(Polypeptide pp, Grid g) {
-		super(pp, g);
+	public IncrementalFolder(boolean custom, Polypeptide pp, Grid g) {
+		super(custom, pp, g);
 	}
 
 	public void setLookAhead(int lookAhead) {

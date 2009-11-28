@@ -134,7 +134,16 @@ public class FoldingWindow extends JPanel {
 			ssBondIndex = "1.5";
 		}
 
-		attributes = new Attributes(proteinSequence.getText().trim(), 
+		// see if using regular energy calculation
+		//  or custom (with ContactEnergies.txt file)
+		boolean customEnergy = false;
+		if (protex.custom != null) {
+			if (protex.custom.isSelected()) {
+				customEnergy = true;
+			}
+		}
+
+		attributes = new Attributes(proteinSequence.getText().trim(), customEnergy,
 				3, ssBondIndex, "straight", "test");
 
 		//		Date start = new Date();

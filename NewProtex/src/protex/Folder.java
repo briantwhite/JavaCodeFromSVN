@@ -19,6 +19,12 @@ package protex;
  */
 
 public abstract class Folder {
+	
+	/**
+	 * boolean selector for folding using custom energies
+	 */
+	protected boolean custom;
+	
 	protected Grid grid;
 
 	protected static final double defaultHydroPhobicIndex = 1;
@@ -49,7 +55,8 @@ public abstract class Folder {
 
 	protected int numAcids;
 
-	public Folder(Polypeptide pp, Grid grid) {
+	public Folder(boolean custom, Polypeptide pp, Grid grid) {
+		this.custom = custom;
 		this.grid = grid;
 		this.pp = pp;
 		numAcids = pp.getLength();
@@ -60,7 +67,7 @@ public abstract class Folder {
 		time = System.currentTimeMillis();
 		realFold();
 		time = System.currentTimeMillis() - time;
-		grid.computeStatistics(hpIndex, hIndex, iIndex, sIndex);
+		grid.computeStatistics(custom, hpIndex, hIndex, iIndex, sIndex);
 		pp.setFolded();
 	}
 	
@@ -90,10 +97,10 @@ public abstract class Folder {
 		StringBuffer buf = new StringBuffer(getName());
 		buf.append("\n" + pp.toString());
 		buf.append("\nenergy "
-				+ formatter.format(grid.getEnergy(hpIndex, hIndex, iIndex, sIndex)));
+				+ formatter.format(grid.getEnergy(custom, hpIndex, hIndex, iIndex, sIndex)));
 		buf.append("\nfolding index "
 				+ formatter.format(grid
-						.getFoldingIndex(hpIndex, hIndex, iIndex, sIndex)));
+						.getFoldingIndex(custom, hpIndex, hIndex, iIndex, sIndex)));
 		buf.append("\ntime   " + getTime() + " seconds");
 		buf.append("\ntopology " + pp.getTopology());
 		return buf.toString();
@@ -102,10 +109,10 @@ public abstract class Folder {
 	public String csvReport() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(""
-				+ formatter.format(grid.getEnergy(hpIndex, hIndex, iIndex, sIndex)));
+				+ formatter.format(grid.getEnergy(custom, hpIndex, hIndex, iIndex, sIndex)));
 		buf.append(", "
 				+ formatter.format(grid
-						.getFoldingIndex(hpIndex, hIndex, iIndex, sIndex)));
+						.getFoldingIndex(custom, hpIndex, hIndex, iIndex, sIndex)));
 		buf.append(", " + pp.getDirectionSequence());
 		buf.append(", " + pp.toCSV());
 		return buf.toString();
@@ -120,6 +127,6 @@ public abstract class Folder {
 	}
 
 	public double getEnergy() {
-		return grid.getEnergy(hpIndex, hIndex, hIndex, sIndex);
+		return grid.getEnergy(custom, hpIndex, hIndex, hIndex, sIndex);
 	}
 }

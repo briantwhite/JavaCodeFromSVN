@@ -12,22 +12,20 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
@@ -35,12 +33,12 @@ import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.HyperlinkEvent;
@@ -67,6 +65,10 @@ public class Protex extends JFrame {
 	JPanel topMenuPanel;
 	JMenuBar menuBar;
 	JMenu fileMenu;
+	JMenu energies;
+	JRadioButtonMenuItem standard;
+	JRadioButtonMenuItem custom;
+	
 	JMenuItem print;
 	JMenuItem quit;
 	
@@ -126,6 +128,8 @@ public class Protex extends JFrame {
 	
 	private void setupUI() {
 		
+		StandardTable table = StandardTable.getInstance();
+		
 		topMenuPanel = new JPanel();
 		topMenuPanel.setLayout(new BoxLayout(topMenuPanel, BoxLayout.X_AXIS));
 		
@@ -135,6 +139,18 @@ public class Protex extends JFrame {
 		fileMenu = new JMenu("File");
 		print = new JMenuItem("Print");
 		fileMenu.add(print);
+		if (!table.getContactEnergyListName().equals("")) {
+			ButtonGroup group = new ButtonGroup();
+			JMenu energies = new JMenu("Select Interaction Energies");
+			standard = new JRadioButtonMenuItem("Standard Energies");
+			custom = new JRadioButtonMenuItem(table.getContactEnergyListName());
+			group.add(standard);
+			group.add(custom);
+			standard.setSelected(true);
+			energies.add(standard);
+			energies.add(custom);
+			fileMenu.add(energies);
+		}
 		quit = new JMenuItem("Quit");
 		fileMenu.add(quit);
 		menuBar.add(fileMenu);

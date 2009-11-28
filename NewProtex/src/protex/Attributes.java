@@ -51,7 +51,7 @@ public class Attributes implements Cloneable {
 	 *  
 	 */
 	public Attributes() {
-		this("Ser:Leu:Glu:Leu:Asn:Ile:Thr:Met:Glu:Val:Asp:Phe:Trp:", 
+		this("Ser:Leu:Glu:Leu:Asn:Ile:Thr:Met:Glu:Val:Asp:Phe:Trp:", false,
 				3, "0.0", "straight", null);
 	}
 
@@ -65,12 +65,13 @@ public class Attributes implements Cloneable {
 	 *            String.
 	 */
 	public Attributes(String inputString, 
+			boolean custom,
 			int numAALetterCode,
 			String ssBondIndex,
 			String breakTies, 
 			String ppId) {
 
-		this(inputString, "standard", numAALetterCode, breakTies, 
+		this(inputString, custom, "standard", numAALetterCode, breakTies, 
 				"hexagonal", "incremental",
 				"8", "4", "0.1", "0.5", "1.0", ssBondIndex, ppId);
 	}
@@ -103,6 +104,7 @@ public class Attributes implements Cloneable {
 	 *            String.
 	 */
 	public Attributes(String inputString, 
+			boolean custom,
 			String table, 
 			int numAALetterCode,
 			String breakTies,
@@ -117,6 +119,7 @@ public class Attributes implements Cloneable {
 			String ppId) {
 
 		this.inputString = inputString;
+		this.custom = custom;
 		this.table = table;
 		this.numAALetterCode = numAALetterCode;
 		this.breakTies = breakTies;
@@ -143,6 +146,10 @@ public class Attributes implements Cloneable {
 
 	public String getInputString() {
 		return inputString;
+	}
+	
+	public boolean isCustom() {
+		return custom;
 	}
 
 	public String getLength() {
@@ -254,6 +261,7 @@ public class Attributes implements Cloneable {
 	private boolean isRandom = false;
 
 	private String inputString = "";
+	private boolean custom = false;
 	private String length = "";
 	private String seed = "";
 	private String table = "";

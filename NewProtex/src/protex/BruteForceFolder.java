@@ -56,8 +56,8 @@ public class BruteForceFolder extends Folder {
 	// should get rid of this one - requires rewriting some other
 	// stuff that needs rewriting anyway
 
-	public BruteForceFolder(Polypeptide pp, Grid grid) {
-		super(pp, grid);
+	public BruteForceFolder(boolean custom, Polypeptide pp, Grid grid) {
+		super(custom, pp, grid);
 		infiniteEnergy = grid.getInfiniteEnergy();
 	}
 
@@ -85,7 +85,7 @@ public class BruteForceFolder extends Folder {
 		}
 
 		if (numAcids == 1) { // just one AminoAcid
-			energy = grid.getEnergy(hpIndex, hIndex, iIndex, sIndex);
+			energy = grid.getEnergy(custom, hpIndex, hIndex, iIndex, sIndex);
 			return;
 		}
 
@@ -94,7 +94,7 @@ public class BruteForceFolder extends Folder {
 				grid.getFirstDirection());
 
 		if (numAcids == 2) { // just two AminoAcids
-			energy = grid.getEnergy(hpIndex, hIndex, iIndex, sIndex);
+			energy = grid.getEnergy(custom, hpIndex, hIndex, iIndex, sIndex);
 			return;
 		}
 
@@ -137,14 +137,14 @@ public class BruteForceFolder extends Folder {
 
 	protected void saveIfNecessary() {
 		chainCount++;
-		double localEnergy = grid.getEnergy(hpIndex, hIndex, iIndex, sIndex);
+		double localEnergy = grid.getEnergy(custom, hpIndex, hIndex, iIndex, sIndex);
 
 		if (localEnergy > energy) {
 			return;
 		}
 		if (localEnergy == energy) {
 			energyTies++;
-			grid.computeStatistics(hpIndex, hIndex, iIndex, sIndex);
+			grid.computeStatistics(custom, hpIndex, hIndex, iIndex, sIndex);
 			if (grid.isLastAcidPlaced()) {
 				topologies.add(pp.getTopology() + "\n"
 						+ pp.getDirectionSequence());
@@ -156,7 +156,7 @@ public class BruteForceFolder extends Folder {
 		energy = localEnergy;
 		energyTies = 1;
 		topologies.clear();
-		grid.computeStatistics(hpIndex, hIndex, iIndex, sIndex);
+		grid.computeStatistics(custom, hpIndex, hIndex, iIndex, sIndex);
 		if (grid.isLastAcidPlaced()) {
 			topologies.add(pp.getTopology() + "\n" + pp.getDirectionSequence());
 		}

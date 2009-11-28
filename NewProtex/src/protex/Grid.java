@@ -43,9 +43,9 @@ public abstract class Grid implements Serializable {
 	public Map straightMap;
 
 	public Map bentMap;
-	
+
 	protected ArrayList ssBondList;
-	
+
 	// for efficiency: save function calls by creating an array here
 	protected AcidInChain[] acids;
 
@@ -67,7 +67,7 @@ public abstract class Grid implements Serializable {
 	public Polypeptide getPP() {
 		return pp;
 	}
-	
+
 	public ArrayList getssBondList() {
 		return ssBondList;
 	}
@@ -201,39 +201,45 @@ public abstract class Grid implements Serializable {
 
 	protected int freeEdges;
 
-	public double getEnergy(double hpIndex, double hIndex, double iIndex, double sIndex) {
+	public double getEnergy(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
 		energy = 0;
 		freeEdges = 0;
-		for (int i = 0; i < numAcids; i++) {
-			AcidInChain a = acids[i];
-			if (a.xyz == null) { // a has not been placed on grid
-				continue; // perhaps should be continue
-			}
-			int free = 0;
-			for (int d = 0; d < allDirections.length; d++) {
-				if (get(nextCell(allDirections[d], a.xyz)) == null) {
-					free++;
-				}
 
+		// see if using custom energy
+		if (custom) {
+			System.out.println("Can't do unimplemented custom energy on non hex grid!");
+		} else {
+			for (int i = 0; i < numAcids; i++) {
+				AcidInChain a = acids[i];
+				if (a.xyz == null) { // a has not been placed on grid
+					continue; // perhaps should be continue
+				}
+				int free = 0;
+				for (int d = 0; d < allDirections.length; d++) {
+					if (get(nextCell(allDirections[d], a.xyz)) == null) {
+						free++;
+					}
+
+				}
+				energy += free * a.hydrophobicIndex;
+				freeEdges += free;
 			}
-			energy += free * a.hydrophobicIndex;
-			freeEdges += free;
 		}
 		return energy;
 	}
 
-	public double getFoldingIndex(double hpIndex, double hIndex, double iIndex, double sIndex) {
-		computeStatistics(hpIndex, hIndex, iIndex, sIndex);
+	public double getFoldingIndex(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
+		computeStatistics(custom, hpIndex, hIndex, iIndex, sIndex);
 		return freeEdges / (double) (2 + 4 * pp.getLength());
 	}
 
-	public int getFreeEdges(double hpIndex, double hIndex, double iIndex, double sIndex) {
-		computeStatistics(hpIndex, hIndex, iIndex, sIndex);
+	public int getFreeEdges(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
+		computeStatistics(custom, hpIndex, hIndex, iIndex, sIndex);
 		return freeEdges;
 	}
 
-	public void computeStatistics(double hpIndex, double hIndex, double iIndex, double sIndex) {
-		getEnergy(hpIndex, hIndex, iIndex, sIndex);
+	public void computeStatistics(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
+		getEnergy(custom, hpIndex, hIndex, iIndex, sIndex);
 		setNeighbors();
 	}
 
