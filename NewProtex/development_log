@@ -225,4 +225,13 @@ for simulation and threading. J Mol Biol 1996;256:623-644.
 added in amino acid names by comparing text file and paper
 added header line
 made into ContactEnergies.txt 
+
+12/5/09
+replaced ContactEnergies.txt
+with data from MJ3h from above file
+Miyazawa S, Jernigan RL. Self-consistent estimation of interresidue
+protein contact energies based on an equilibrium mixture
+approximation of residues. Proteins 1999;34:49-68.
+
+these are their best ones
  
