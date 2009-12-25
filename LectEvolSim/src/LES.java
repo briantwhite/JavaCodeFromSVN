@@ -17,14 +17,20 @@ public class LES {
 		classroom = new Classroom();
 		System.out.println("Created Classroom");
 		
-		System.out.println("G\t0\t1\t2\t3\t4\t");
+		System.out.println("G\t0\t1\t2\t3\t4\tAvg");
 		
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 20; i++) {
 			System.out.print(i + "\t");
 			int[] result = classroom.report();
+			int total = 0;
+			int count = 0;
 			for (int j = 0; j < result.length; j++) {
+				count+= result[j];
+				total+= result[j] * j;
 				System.out.print(result[j] + "\t");
 			}
+			float avg = (float)total/count;
+			System.out.printf("%f", avg);
 			System.out.print("\n\n");
 			System.out.println(classroom.nextGeneration() + " survived");
 		}

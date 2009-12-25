@@ -1,9 +1,13 @@
+import java.util.Random;
+
 
 public class Classroom {
 	
 	private Student[] students = new Student[LES.numStudents];
+	private Random r;
 	
 	public Classroom() {
+		r = new Random();
 		for (int i = 0; i < LES.numStudents; i++) {
 			students[i] = new Student();
 		}
@@ -22,7 +26,18 @@ public class Classroom {
 	public int nextGeneration() {
 		int numThatSurvived = 0;
 		for (int i = 0; i < LES.numStudents; i++) {
-			if (students[i].nextGeneration()) {
+			
+			// first, decide what to do
+			// if 0 or 4 flagella, die
+			// if 1,2,3 then roll dice
+			//  1, 2, 3, 4 = survive
+			//  5, 6 = die
+			int firstRoll = r.nextInt(6) + 1;
+			int numFlagella = students[i].report();
+			
+			if ((firstRoll < 5) && 
+					(numFlagella != 0) && 
+					(numFlagella != 4)) {
 				numThatSurvived++;
 			} else {
 				// student has died; make a new one
