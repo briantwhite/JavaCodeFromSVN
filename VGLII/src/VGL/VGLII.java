@@ -99,6 +99,13 @@ public class VGLII extends JFrame {
 		new LanguageSpecifierMenuItem("Español", "es", "ES"),
 		new LanguageSpecifierMenuItem("Français", "fr", "FR")
 	};
+	
+	/**
+	 * key for encrypting work files
+	 *   XORed with bytes of work file
+	 */
+	public final static byte[] KEY = 
+		(new String("The Virtual Genetics Lab is Awesome!")).getBytes();
 
 	/**
 	 * the dimensions of the Phenotype image
@@ -941,19 +948,24 @@ public class VGLII extends JFrame {
 						new XMLOutputter(Format.getPrettyFormat());
 					String xmlString = outputter.outputString(doc);
 
-					//zip it to prevent cheating
+					//encrypt it with XOR and zip it to prevent cheating
 					byte[] xmlBytes = null;
 					try {
 						xmlBytes = xmlString.getBytes("UTF-8"); //$NON-NLS-1$
 					} catch (UnsupportedEncodingException e1) {
 						e1.printStackTrace();
 					}
+					
+					for (int i = 0; i < xmlBytes.length; i++) {
+						xmlBytes[i] = (byte) (xmlBytes[i] ^ KEY[i % (KEY.length - 1)]);
+					}
+					
 					ZipOutputStream zipWriter = null;
 					try {
 						zipWriter = 
 							new ZipOutputStream(new FileOutputStream(currentSavedFile));
 						zipWriter.setLevel(Deflater.DEFAULT_COMPRESSION);
-						zipWriter.putNextEntry(new ZipEntry("work.txt")); //$NON-NLS-1$
+						zipWriter.putNextEntry(new ZipEntry("encrypted.txt")); //$NON-NLS-1$
 						zipWriter.write(xmlBytes, 0, xmlBytes.length);
 					} catch (IOException e) {
 						e.printStackTrace();

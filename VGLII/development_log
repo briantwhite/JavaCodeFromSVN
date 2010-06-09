@@ -950,3 +950,22 @@ working on spanish translation
 
 1/21/10
 spanish is working version 2.0.2
+
+6/8/10
+working on upgrades
+1) better encryption for the .wr2 files (since we may use them for graded homework)
+- use XOR to a fairly long key (see http://www.stratos.me/2008/07/java-xor-encryption/)
+
+need to set up in
+	VGLII.java (for saving)
+	GeneticModelFactory.readModelFromFile (for loading)
+need to be backward compatable - be able to load un-encrypted (but zipped) .wr2 files from earlier versions
+	maybe use the filename in the zip? it is currently called "work.txt"
+	if name is "work.txt" don't decrypt
+	if name is "encrypted.txt" do decrypt
+		save all new work files as encrypted.txt
+- all set
+	it now writes all encrypted
+	but can read both
+
+	

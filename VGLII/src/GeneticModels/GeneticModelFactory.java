@@ -21,6 +21,8 @@ package GeneticModels;
  * @version 1.0 $Id$
  */
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -41,6 +43,7 @@ import org.jdom.input.SAXBuilder;
 
 import VGL.GeneticModelAndCageSet;
 import VGL.Messages;
+import VGL.VGLII;
 
 public class GeneticModelFactory {
 
@@ -91,8 +94,24 @@ public class GeneticModelFactory {
 			Enumeration zipFileEntries = workZip.entries();
 			ZipEntry zipEntry = (ZipEntry)zipFileEntries.nextElement();
 			InputStream input = workZip.getInputStream(zipEntry);
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			int next = input.read();
+			while (next > -1) {
+				bos.write(next);
+				next = input.read();
+			}
+			bos.flush();
+			byte[] bytes = bos.toByteArray();
+
+			if (zipEntry.getName().equals("encrypted.txt")) {
+				// decrypt if it was encrypted
+				for (int i = 0; i < bytes.length; i++) {
+					bytes[i] = (byte) (bytes[i] ^ VGLII.KEY[i % (VGLII.KEY.length - 1)]);
+				}
+			}
+			
 			SAXBuilder builder = new SAXBuilder();
-			Document doc = builder.build(input);
+			Document doc = builder.build(new ByteArrayInputStream(bytes));
 			WorkFileProcessor processor = 
 				new WorkFileProcessor(doc.getRootElement().getChildren());
 			result = 
@@ -101,10 +120,10 @@ public class GeneticModelFactory {
 						processor.getCages());
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"VGLII was unable to open the file.\n"
-					+ "Perhaps it is the wrong format.\n"
-					+ "Please try another file.", 
-					"Error opening file",
+					Messages.getString("VGLII.ErrorOpeningFileLine1") + "\n"
+					+ Messages.getString("VGLII.ErrorOpeningFileLine2") + "\n"
+					+ Messages.getString("VGLII.ErrorOpeningFileLine3"), 
+					Messages.getString("VGLII.ErrorOpeningFileHeadline"),
 					JOptionPane.ERROR_MESSAGE);
 		}
 		return result;
