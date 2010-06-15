@@ -78,6 +78,7 @@ public class WorkFileProcessor {
 		int numberOfCharacters = e.getAttribute("NumberOfCharacters").getIntValue();
 
 		TraitFactory.getInstance().initializeTraitBank(2, numberOfCharacters, 6);
+		CharacterSpecificationBank.getInstance().refreshAll();
 
 		// now the rest
 		while(it.hasNext()) {

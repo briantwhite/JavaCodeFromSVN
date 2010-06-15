@@ -968,4 +968,11 @@ need to be backward compatable - be able to load un-encrypted (but zipped) .wr2 
 	it now writes all encrypted
 	but can read both
 
-	
+6/15/10
+bug - on reading in the SECOND work file, it hangs
+problem found when making the VGLIIProblemFileReader
+
+Add line 81 to WorkFileProcessor: CharacterSpecificationBank.getInstance().refreshAll();
+
+now is AOK
+
