@@ -3,17 +3,15 @@ package evolution;
 import java.awt.Color;
 
 import molGenExp.Organism;
-
+import utilities.ExpressedGene;
+import utilities.GeneExpresser;
+import utilities.GlobalDefaults;
 import biochem.FoldingException;
 import biochem.FoldingManager;
 import biochem.HexCanvas;
 import biochem.HexGrid;
-import utilities.ExpressedGene;
-import utilities.GeneExpresser;
-import utilities.GlobalDefaults;
 
 public class ThinOrganismFactory {
-
 	private GeneExpresser geneExpresser;
 	private FoldingManager foldingManager;
 

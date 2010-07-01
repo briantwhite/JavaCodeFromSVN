@@ -89,7 +89,6 @@ public class MutantGenerator implements Runnable {
 				result = mutator.mutateGene(efg);
 				gotAGoodOne = true;
 			} catch (FoldingException e) {
-				FoldedProteinArchive.hadToReplaceABadSequence();
 				gotAGoodOne = false;
 			}
 		}

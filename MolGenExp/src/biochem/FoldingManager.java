@@ -313,10 +313,6 @@ public class FoldingManager {
 			currentAttrib = attributes;
 			foldPP(aaSeq);
 			currentPP.setColor(currentGrid.getProteinColor());
-			//save it in the archive
-			foldedProteinArchive.add(
-					aaSeq, currentPP.getProteinString(), 
-					currentGrid.getProteinColor());
 		}
 	}
 

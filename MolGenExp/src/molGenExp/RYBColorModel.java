@@ -54,7 +54,9 @@ public class RYBColorModel extends ColorModel {
 			Color.RED,			 // 100 4
 			new Color(255,0,255), // 101 5
 			new Color(255,100,0),	 // 110 6 Orange
-			Color.BLACK			 // 111 7
+			Color.BLACK,			 // 111 7
+			Color.GRAY			// color for dead organisms (dead b/c 
+								//  one or both proteins are folded in corner)
 	};
 
 	private String[] numberToColorNameMap = {
@@ -65,7 +67,8 @@ public class RYBColorModel extends ColorModel {
 			"Red",
 			"Purple",
 			"Orange",
-			"Black"
+			"Black",
+			"Gray"
 	};
 
 	private HashMap<Color, Integer> colorToNumberMap;
@@ -164,6 +167,11 @@ public class RYBColorModel extends ColorModel {
 	 * @return
 	 */
 	public Color mixTwoColors(Color a, Color b) {
+		// null colors mean that it's a dead organism because
+		//  one or both proteins is folded in a corner
+		if ((a == null) || (b == null)) {
+			return Color.GRAY;
+		}
 		int aNum = ((Integer)colorToNumberMap.get(a)).intValue();
 		int bNum = ((Integer)colorToNumberMap.get(b)).intValue();
 		return numberToColorMap[aNum | bNum];

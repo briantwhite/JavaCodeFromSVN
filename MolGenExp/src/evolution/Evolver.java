@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -15,17 +14,17 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import biochem.FoldingException;
-import biochem.PolypeptideFactory;
-
 import molGenExp.FoldedProteinArchive;
 import molGenExp.MolGenExp;
-import molGenExp.ServerCommunicator;
 import preferences.MGEPreferences;
-import utilities.ColorUtilities;
 import utilities.GeneExpresser;
 import utilities.GlobalDefaults;
 import utilities.Mutator;
+import biochem.FoldingException;
+import biochem.FoldingManager;
+import biochem.HexCanvas;
+import biochem.HexGrid;
+import biochem.PolypeptideFactory;
 
 public class Evolver implements Runnable {
 
@@ -33,6 +32,7 @@ public class Evolver implements Runnable {
 	private EvolutionWorkArea evolutionWorkArea;
 	private World world;
 	private ArrayList<String> genePool;
+	private int lengthOfTask;
 	private int progress;
 	private boolean keepGoing;
 	private boolean oneGenerationOnly;
@@ -42,8 +42,7 @@ public class Evolver implements Runnable {
 	private MGEPreferences preferences;
 	private Mutator mutator;
 	private GeneExpresser expresser;
-	private ThinOrganismFactory thinOrganismFactory;
-	private ServerCommunicator communicator;
+	private FoldingManager foldingManager;
 
 	public Evolver(final MolGenExp mge) {
 		this.mge = mge;
@@ -55,8 +54,7 @@ public class Evolver implements Runnable {
 		mutator = Mutator.getInstance();
 		archive = FoldedProteinArchive.getInstance();
 		expresser = new GeneExpresser();
-		thinOrganismFactory = new ThinOrganismFactory();
-		communicator = new ServerCommunicator(mge);
+		foldingManager = new FoldingManager();
 	}
 
 	public void run() {
@@ -75,16 +73,17 @@ public class Evolver implements Runnable {
 		}
 	}
 
+
 	public void setOneGenerationOnly() {
 		oneGenerationOnly = true;
 	}
 	
-	public int getProgress() {
-		return progress;
+	public int getLengthOfTask() {
+		return lengthOfTask;
 	}
 
-	public int getLengthOfTask() {
-		return preferences.getWorldSize() * preferences.getWorldSize();
+	public int getProgress() {
+		return progress;
 	}
 
 	public boolean done() {
@@ -100,7 +99,11 @@ public class Evolver implements Runnable {
 			// find the gene pool
 			// get the fitness settings
 			int[] fitnessSettings = evolutionWorkArea.getFitnessValues();
+			
+			lengthOfTask = preferences.getWorldSize() * preferences.getWorldSize();
+			mge.getProgressBar().setMaximum(lengthOfTask);
 			mge.setStatusLabelText("Generating Gene Pool");
+			progress = 0;
 
 			// each organism in the world contributes fitness # of alleles to pool		
 			genePool = new ArrayList<String>();
@@ -109,9 +112,15 @@ public class Evolver implements Runnable {
 					ThinOrganism org = world.getThinOrganism(i, j);
 					int colorNumber = 
 						GlobalDefaults.colorModel.getColorNumber(org.getOverallColor());
-					for (int x = 0; x < fitnessSettings[colorNumber]; x++) {
-						genePool.add(org.getRandomDNASequence());
+					// see if color number = 8; meaning it is a dead organism
+					//  because one or both proteins is folded in a corner
+					//  if so, it's dead, so fitness = 0
+					if (colorNumber != 8) {
+						for (int x = 0; x < fitnessSettings[colorNumber]; x++) {
+							genePool.add(org.getRandomDNASequence());
+						}
 					}
+					progress++;
 				}
 			}
 		}
@@ -133,139 +142,112 @@ public class Evolver implements Runnable {
 			return;
 		}
 
-		progress = 0;
-		ThinOrganism[][] nextGeneration = 
-			new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()];
 		//make next generation
 		// choose random alleles from gene pool, mutate and make new organisms
 		// procedure depends on if using a server or not
 		//  if server - save all requests and send at once
 		//  if locally-folded - fold as you go
+		mge.setStatusLabelText("Mutating Alleles In Gene Pool");
+		lengthOfTask = preferences.getWorldSize() * preferences.getWorldSize();
+		mge.getProgressBar().setMaximum(lengthOfTask);
+		progress = 0;
+		ThinOrganism[][] nextGeneration = 
+			new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()];
 
-		if (preferences.isUseFoldingServer()) {
-			mge.setStatusLabelText("Using Folding Server");
-			PairOfProteinAndDNASequences[][] pairs =
-				new PairOfProteinAndDNASequences[preferences.getWorldSize()][preferences.getWorldSize()];
-			HashSet<String> sequencesToBeFolded = new HashSet<String>();
-			// make the new protein sequences and see which are in archive
-			//  make a list of those that need to be folded
-			for (int i = 0; i < preferences.getWorldSize(); i++) {
-				for (int j = 0; j < preferences.getWorldSize(); j++) {
-					String DNA1 = mutator.mutateDNASequence(getRandomAlleleFromPool());
-					String protein1 = 
-						convertThreeLetterProteinStringToOneLetterProteinString((
-								expresser.expressGene(DNA1, -1)).getProtein());
-					if (!archive.isInArchive(protein1)) {
-						sequencesToBeFolded.add(protein1);
-					}
-					String DNA2 = mutator.mutateDNASequence(getRandomAlleleFromPool());
-					String protein2 = 
-						convertThreeLetterProteinStringToOneLetterProteinString((
-								expresser.expressGene(DNA2, -1)).getProtein());
-					if (!archive.isInArchive(protein2)) {
-						sequencesToBeFolded.add(protein2);
-					}
-					pairs[i][j] = new PairOfProteinAndDNASequences(
-							DNA1, protein1, DNA2, protein2);
+		PairOfProteinAndDNASequences[][] pairs =
+			new PairOfProteinAndDNASequences[preferences.getWorldSize()][preferences.getWorldSize()];
+		HashSet<String> sequencesToBeFolded = new HashSet<String>();
+		// make the new protein sequences and see which are in archive
+		//  make a list of those that need to be folded
+		for (int i = 0; i < preferences.getWorldSize(); i++) {
+			for (int j = 0; j < preferences.getWorldSize(); j++) {
+				String DNA1 = mutator.mutateDNASequence(getRandomAlleleFromPool());
+				String protein1 = 
+					convertThreeLetterProteinStringToOneLetterProteinString((
+							expresser.expressGene(DNA1, -1)).getProtein());
+				if (!archive.isInArchive(protein1)) {
+					sequencesToBeFolded.add(protein1);
 				}
-			}
-
-			if (!keepGoing) {
-				nextGeneration = null;
-				genePool = null;
-				progress = getLengthOfTask();
-				return;
-			}
-
-			// send the sequences out to be folded
-			StringBuffer b = new StringBuffer();
-			Iterator<String> it = sequencesToBeFolded.iterator();
-			while (it.hasNext()) {
-				b.append(it.next() + ",");
-			}
-			if (b.length() > 0) {
-				b.deleteCharAt(b.length() -1);
-			}
-			mge.setStatusLabelText("Sending " 
-					+ sequencesToBeFolded.size() 
-					+ " sequences to be folded");
-			String response = communicator.sendSequencesToServer(b.toString());
-
-			//parse the reply and add to archive
-			String[] responseLines = response.split("<br>");
-			for (int i = 0; i < responseLines.length; i++) {
-				String line = responseLines[i];
-				if (line.indexOf(";") != -1) {
-					archive.addEntryToArchive(line);
+				String DNA2 = mutator.mutateDNASequence(getRandomAlleleFromPool());
+				String protein2 = 
+					convertThreeLetterProteinStringToOneLetterProteinString((
+							expresser.expressGene(DNA2, -1)).getProtein());
+				if (!archive.isInArchive(protein2)) {
+					sequencesToBeFolded.add(protein2);
 				}
-				if (line.indexOf("it took") != -1) {
-					mge.setStatusLabelText(line);
-				}
-			}
-
-			//make new generation using updated archive
-			for (int i = 0; i < preferences.getWorldSize(); i++) {
-				for (int j = 0; j < preferences.getWorldSize(); j++) {
-					PairOfProteinAndDNASequences pair = pairs[i][j];
-					nextGeneration[i][j] = new ThinOrganism(
-							pair.getDNA1(),
-							pair.getDNA2(),
-							(archive.getArchiveEntry(
-									pair.getProtein1())
-							).getColor(),
-							(archive.getArchiveEntry(
-									pair.getProtein2())
-							).getColor(),
-							GlobalDefaults.colorModel.mixTwoColors(
-									(archive.getArchiveEntry(
-											pair.getProtein1())
-									).getColor(), 
-									(archive.getArchiveEntry(
-											pair.getProtein2())
-									).getColor()));
-					progress++;
-				}
-			}
-		} else {
-			// fold locally
-			mge.setStatusLabelText("Populating the next generation");
-			for (int i = 0; i < preferences.getWorldSize(); i++) {
-				for (int j = 0; j < preferences.getWorldSize(); j++) {
-					//loop over making new organisms
-					//  if one has an un-foldable protein
-					//  (one that paints itself into a corner)
-					//  need to go back and try other sequences
-					//  until you get one that works
-					boolean gotAGoodOne = false;
-					while(!gotAGoodOne) {
-						try {
-							nextGeneration[i][j] = thinOrganismFactory.createThinOrganism(
-									mutator.mutateDNASequence(getRandomAlleleFromPool()),
-									mutator.mutateDNASequence(getRandomAlleleFromPool()));
-							gotAGoodOne = true;
-						} catch (FoldingException e) {
-							FoldedProteinArchive.hadToReplaceABadSequence();
-//							System.out.println(
-//									"Had to replace sequence: " + e.getMessage() + "\n"
-//									+ "\tGeneration " + evolutionWorkArea.getGeneration() + "\n"
-//									+ "\tTotalFolded=" 
-//									+ FoldedProteinArchive.getTotalFoldedSequences() + "\n"
-//									+ "\tTotal replaced=" 
-//									+ FoldedProteinArchive.getTotalReplacedSequences());
-							gotAGoodOne = false;
-						}
-					}
-					
-					progress++;
-					if (!keepGoing) {
-						nextGeneration = null;
-						genePool = null;
-						progress = getLengthOfTask();
-						return;
-					}
-				}
+				pairs[i][j] = new PairOfProteinAndDNASequences(
+						DNA1, protein1, DNA2, protein2);
 			}
 		}
+
+		if (!keepGoing) {
+			nextGeneration = null;
+			genePool = null;
+			progress = getLengthOfTask();
+			return;
+		}
+
+		// fold the sequences that haven't been already
+		//   and add to archive
+		mge.setStatusLabelText("Folding " 
+				+ sequencesToBeFolded.size() 
+				+ " new protein sequences.");
+		lengthOfTask = sequencesToBeFolded.size();
+		mge.getProgressBar().setMaximum(lengthOfTask);
+		progress = 0;
+		
+		Iterator<String> aaSeqIt = sequencesToBeFolded.iterator();
+		while (aaSeqIt.hasNext()) {
+			foldProteinAndAddToArchive(aaSeqIt.next(), archive);
+			progress++;
+		}
+
+		//make new generation using updated archive
+		mge.setStatusLabelText("Populating Next Generation");
+		lengthOfTask = preferences.getWorldSize() * preferences.getWorldSize();
+		mge.getProgressBar().setMaximum(lengthOfTask);
+		progress = 0;
+		
+		for (int i = 0; i < preferences.getWorldSize(); i++) {
+			for (int j = 0; j < preferences.getWorldSize(); j++) {
+				PairOfProteinAndDNASequences pair = pairs[i][j];
+				nextGeneration[i][j] = new ThinOrganism(
+						pair.getDNA1(),
+						pair.getDNA2(),
+						(archive.getArchiveEntry(
+								pair.getProtein1())
+						).getColor(),
+						(archive.getArchiveEntry(
+								pair.getProtein2())
+						).getColor(),
+						GlobalDefaults.colorModel.mixTwoColors(
+								(archive.getArchiveEntry(
+										pair.getProtein1())
+								).getColor(), 
+								(archive.getArchiveEntry(
+										pair.getProtein2())
+								).getColor()));
+				// if it's gray, it's dead; count it.
+				if (GlobalDefaults.colorModel.mixTwoColors(
+								(archive.getArchiveEntry(
+										pair.getProtein1())
+								).getColor(), 
+								(archive.getArchiveEntry(
+										pair.getProtein2())
+								).getColor()).equals(Color.GRAY)) {
+					evolutionWorkArea.anOrganismDied();
+				}
+				progress++;
+			}
+		}
+
+		if (!keepGoing) {
+			nextGeneration = null;
+			genePool = null;
+			progress = getLengthOfTask();
+			return;
+		}
+
 		genePool = null;
 		world.setOrganisms(nextGeneration);
 		evolutionWorkArea.updateGenerationLabel();
@@ -302,6 +284,21 @@ public class Evolver implements Runnable {
 				e.printStackTrace();
 			}
 			pic = null;
+		}
+	}
+
+	private void foldProteinAndAddToArchive(String aaSeq, FoldedProteinArchive archive) {
+		try {
+			foldingManager.fold(aaSeq);
+			HexGrid grid = (HexGrid)foldingManager.getGrid();
+			HexCanvas canvas = new HexCanvas();
+			canvas.setGrid(grid);
+			GlobalDefaults.colorModel.categorizeAcids(grid);
+			archive.add(aaSeq, grid.getPP().getProteinString(), grid.getProteinColor());
+		} catch (FoldingException e) {
+			// if folded in a corner, the shape and color are null
+			archive.add(aaSeq, null, null);
+			return;
 		}
 	}
 

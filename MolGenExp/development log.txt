@@ -1396,3 +1396,26 @@ added features
 
 10/29/09
 made version 1.2.3 & posted mac and pc versions
+
+07/01/10
+lots of updates
+1) don't replace sequences when folded in a corner.
+	- have folder return null for the shape
+	- any organism that gets one of these is DEAD
+		- it's fitness = 0
+		- it's color is gray
+	- don't replace sequences
+		- don't count replaced sequences
+		- do count dead ones
+	- did it this way:
+		0) remove all folding server code
+		1) remove 'fold locally' methods from Evolver
+			do it all as though on a server (but no server anymore)
+		2) have folder still throw exception
+			but in Evolver, if you catch it, make color & shape = null
+		3) if either of an organism's colors = null; it's dead. color number = -1
+			fixed stuff in RYBColorModel
+	- currently, it only saves FoldedInACorner proteins in the archive in evolution	mode
+		in biochem, mobo, and genetics, they're rare
+		and it's a pain to fix the code...
+do a long run to see what happens with dead ones..

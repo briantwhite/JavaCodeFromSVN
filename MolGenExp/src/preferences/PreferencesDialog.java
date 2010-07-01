@@ -18,7 +18,6 @@ public class PreferencesDialog extends JDialog {
 	private WorldSettingsPane worldSettingsPane;
 	private MutationSettingsPane mutationSettingsPane;
 	private EvolutionPicturesPane evolutionPicturesPane;
-	private ServerPreferencesPane serverPreferencesPane;
 
 	public PreferencesDialog(MolGenExp mge) {
 		super();
@@ -43,11 +42,6 @@ public class PreferencesDialog extends JDialog {
 		evolutionPicturesPane = new EvolutionPicturesPane(this);
 		tabPane.add(evolutionPicturesPane, "Images of each Generation");
 
-		if (GlobalDefaults.foldingServerAllowed) {
-			serverPreferencesPane = new ServerPreferencesPane(this);
-			tabPane.add(serverPreferencesPane, "Folding Server");
-		}
-		
 		topPanel.add(tabPane);
 
 		getContentPane().add(topPanel);

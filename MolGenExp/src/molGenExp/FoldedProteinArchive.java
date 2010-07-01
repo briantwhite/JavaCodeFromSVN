@@ -24,13 +24,11 @@ public class FoldedProteinArchive {
 	private HashMap<String, FoldedProteinArchiveEntry> archive;    
 	private static final String archiveFileName = "FoldedProteinArchive";
 	private static int totalFoldedSequences;
-	private static int totalReplacedSequences;
 
 	private FoldedProteinArchive() {
 		archive = new HashMap<String, FoldedProteinArchiveEntry>();
 		loadArchiveFromFile();
 		totalFoldedSequences = 0;
-		totalReplacedSequences = 0;
 	}
 
 	public static FoldedProteinArchive getInstance() {
@@ -62,14 +60,6 @@ public class FoldedProteinArchive {
 		return totalFoldedSequences;
 	}
 	
-	public static void hadToReplaceABadSequence() {
-		totalReplacedSequences++;
-	}
-	
-	public static int getTotalReplacedSequences() {
-		return totalReplacedSequences;
-	}
-
 	public void saveArchiveToZipFile() {
 		StringBuffer buf = new StringBuffer();
 		Set<String> keySet = archive.keySet();

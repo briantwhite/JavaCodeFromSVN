@@ -61,6 +61,8 @@ public class EvolutionWorkArea extends WorkPanel {
 
 	private JLabel generationLabel;
 	private int generation = 0;
+	
+	private int totalNumberOfDeadOrganisms = 0;
 
 	Color backgroundColor = new Color(128,128,128);
 
@@ -262,6 +264,12 @@ public class EvolutionWorkArea extends WorkPanel {
 		world.repaint();
 	}
 	
+	// this is when an organism dies because one or both of its proteins
+	//   is folded in a corner
+	public void anOrganismDied() {
+		totalNumberOfDeadOrganisms++;
+	}
+	
 	public void startEvolving(boolean oneGenerationOnly) {
 		world.updateCounts();
 		updateColorCountDisplay();
@@ -296,8 +304,8 @@ public class EvolutionWorkArea extends WorkPanel {
 				String output = myFormatter.format(FoldedProteinArchive.getTotalFoldedSequences());
 				mge.getFoldingStatsLabel().setText(output
 						+ " sequences folded; " 
-						+ FoldedProteinArchive.getTotalReplacedSequences()
-						+ " sequences replaced.");
+						+ totalNumberOfDeadOrganisms
+						+ " organisms died.");
 			}
 		}
 	}
