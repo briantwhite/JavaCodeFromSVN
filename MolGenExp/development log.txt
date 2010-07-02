@@ -1419,3 +1419,16 @@ lots of updates
 		in biochem, mobo, and genetics, they're rare
 		and it's a pain to fix the code...
 do a long run to see what happens with dead ones..
+
+didn't see any
+need a better test
+make a poison DNA (using reverse translation site: www.bioinformatics.org/sms2/rev_trans.html
+from poison protein MLRVPRYTLQFFFTGFPGASEWDVFGT
+GGTATAACCATGCTGCGCGTGCCGCGCTATACCCTGCAGTTTTTTTTTACCGGCTTTCCGGGCGCGAGCGAATGGGATGTGTTTGGCACCTAACCGGGGG
+
+need to change one aa so not poison
+GGTATAACCATGCTGCGCGTGCCGCGCTATACCCTGCAGTTTTCTTTTACCGGCTTTCCGGGCGCGAGCGAATGGGATGTGTTTGGCACCTAACCGGGGG
+is actually red..
+
+on second generation, one died and was logged, but nullPointerException in MolBiolWorkpanel
+	when it tries to find an image of the protein
