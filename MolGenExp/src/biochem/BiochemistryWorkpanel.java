@@ -86,7 +86,6 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		foldedProteinPanel = new FoldedProteinPanel();
 		JScrollPane scroller = new JScrollPane(foldedProteinPanel);
 		resultPanel.add(scroller);
-		resultPanel.add(Box.createHorizontalGlue());
 		
 		proteinPanel.add(proteinSequence, BorderLayout.NORTH);
 		proteinPanel.add(resultPanel, BorderLayout.CENTER);
@@ -128,7 +127,6 @@ public class BiochemistryWorkpanel extends WorkPanel {
 				aaSeqChanged();
 			}
 		});
-
 	}
 
 	private void foldProtein() {
@@ -164,6 +162,8 @@ public class BiochemistryWorkpanel extends WorkPanel {
 					"Folding Error", JOptionPane.WARNING_MESSAGE);
 		}	
 
+		revalidate();
+		repaint();
 	}	
 
 
@@ -229,11 +229,13 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		protex.updateCombinedColor();
 
 		//update the picture as well
-		foldedProteinPanel.updateImage(foldedProteinWithImages.getFullSizePic());
+		foldedProteinPanel.updateImage(foldedProteinWithImages.getFullSizePic(), resultPanel.getSize());
 
 		foldedProteinPanel.setBackground(Color.LIGHT_GRAY);
 		foldButton.setEnabled(false);
 
+		revalidate();
+		repaint();
 	}
 
 	public BufferedImage takeSnapshot() {
