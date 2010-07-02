@@ -20,7 +20,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
-import utilities.GlobalDefaults;
+import preferences.GlobalDefaults;
+
 
 
 

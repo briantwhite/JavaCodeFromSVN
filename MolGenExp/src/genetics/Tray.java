@@ -9,10 +9,11 @@ import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 
+import preferences.GlobalDefaults;
+
 import molGenExp.HistListItem;
 import molGenExp.Organism;
 import molGenExp.OrganismFactory;
-import utilities.GlobalDefaults;
 
 public class Tray extends HistListItem {
 	

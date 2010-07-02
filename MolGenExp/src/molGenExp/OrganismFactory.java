@@ -9,11 +9,10 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-import utilities.ExpressedGene;
-import utilities.GeneExpresser;
-import utilities.GlobalDefaults;
-import utilities.ProteinFolder;
-import biochem.FoldedPolypeptide;
+import molBiol.ExpressedGene;
+import molBiol.GeneExpresser;
+import preferences.GlobalDefaults;
+import biochem.FoldedProteinWithImages;
 import biochem.FoldingException;
 import biochem.FoldingManager;
 import evolution.ThinOrganism;
@@ -42,10 +41,10 @@ public class OrganismFactory {
 	throws FoldingException {
 
 		ExpressedGene eg1 = geneExpresser.expressGene(DNA1, -1);
-		FoldedPolypeptide fp1 = ProteinFolder.foldProtein(eg1.getProtein());
+		FoldedProteinWithImages fp1 = foldingManager.foldWithPix(eg1.getProtein());
 
 		ExpressedGene eg2 = geneExpresser.expressGene(DNA2, -1);
-		FoldedPolypeptide fp2 = ProteinFolder.foldProtein(eg2.getProtein());
+		FoldedProteinWithImages fp2 = foldingManager.foldWithPix(eg2.getProtein());
 		
 		return createOrganism(name,
 				new ExpressedAndFoldedGene(eg1, fp1),
@@ -59,8 +58,8 @@ public class OrganismFactory {
 		
 		//calculate color
 		Color color = GlobalDefaults.colorModel.mixTwoColors(
-				gene1.getFoldedPolypeptide().getColor(), 
-				gene2.getFoldedPolypeptide().getColor());
+				gene1.getFoldedProteinWithImages().getColor(), 
+				gene2.getFoldedProteinWithImages().getColor());
 		
 		//generate icon
 		// see if we've cached one yet
@@ -77,10 +76,10 @@ public class OrganismFactory {
 	public Organism createOrganism(ThinOrganism thinOrg) throws FoldingException {
 
 		ExpressedGene eg1 = geneExpresser.expressGene(thinOrg.getDNA1(), -1);
-		FoldedPolypeptide fp1 = ProteinFolder.foldProtein(eg1.getProtein());
+		FoldedProteinWithImages fp1 = foldingManager.foldWithPix(eg1.getProtein());
 
 		ExpressedGene eg2 = geneExpresser.expressGene(thinOrg.getDNA2(), -1);
-		FoldedPolypeptide fp2 = ProteinFolder.foldProtein(eg2.getProtein());
+		FoldedProteinWithImages fp2 = foldingManager.foldWithPix(eg2.getProtein());
 		
 		return createOrganism("",
 				new ExpressedAndFoldedGene(eg1, fp1),

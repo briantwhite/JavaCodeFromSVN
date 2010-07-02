@@ -21,7 +21,7 @@ public class ProteinHistoryCellRenderer extends JButton
 
 	public Component getListCellRendererComponent(JList list, 
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
-		FoldedPolypeptide fp = (FoldedPolypeptide)value;
+		FoldedProteinWithImages fp = (FoldedProteinWithImages)value;
 		JButton button = new JButton(fp.getThumbnailPic());
 		button.setOpaque(true);
 		button.setBackground(fp.getColor());

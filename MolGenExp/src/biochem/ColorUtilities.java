@@ -1,4 +1,4 @@
-package utilities;
+package biochem;
 
 import java.awt.Color;
 

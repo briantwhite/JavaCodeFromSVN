@@ -15,7 +15,6 @@ package biochem;
 
 import java.util.HashMap;
 
-import utilities.ColorModel;
 
 
 /**

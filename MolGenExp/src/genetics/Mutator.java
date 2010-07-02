@@ -1,20 +1,13 @@
-package utilities;
+package genetics;
 
-import java.awt.Dimension;
 import java.util.Random;
 
-import javax.swing.ImageIcon;
-
-import molBiol.MolBiolHistListItem;
+import molBiol.ExpressedGene;
+import molBiol.GeneExpresser;
 import molGenExp.ExpressedAndFoldedGene;
-import molGenExp.ProteinImageFactory;
-import molGenExp.ProteinImageSet;
 import preferences.MGEPreferences;
-import biochem.BiochemAttributes;
-import biochem.FoldedPolypeptide;
 import biochem.FoldingException;
 import biochem.FoldingManager;
-import biochem.OutputPalette;
 
 public class Mutator {
 
@@ -22,6 +15,7 @@ public class Mutator {
 
 	private MGEPreferences preferences;
 	private GeneExpresser expresser;
+	private FoldingManager foldingManager;
 
 	private Random rand;
 
@@ -31,6 +25,7 @@ public class Mutator {
 		preferences = MGEPreferences.getInstance();
 		expresser = new GeneExpresser();
 		rand = new Random();
+		foldingManager = new FoldingManager();
 	}
 
 	public static Mutator getInstance() {
@@ -52,7 +47,7 @@ public class Mutator {
 		//fold it & get color etc
 		ExpressedAndFoldedGene newEfg = 
 			new ExpressedAndFoldedGene(
-					newGene, ProteinFolder.foldProtein(newGene.getProtein()));
+					newGene, foldingManager.foldWithPix(newGene.getProtein()));
 
 		return newEfg;
 	}

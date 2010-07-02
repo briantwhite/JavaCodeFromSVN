@@ -16,11 +16,13 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
-import utilities.ExpressedGene;
-import utilities.GlobalDefaults;
+import preferences.GlobalDefaults;
+
+import molBiol.ExpressedGene;
 
 
-import biochem.FoldedPolypeptide;
+
+import biochem.FoldedProteinWithImages;
 import biochem.PaintedInACornerFoldingException;
 
 public class Greenhouse extends JList {

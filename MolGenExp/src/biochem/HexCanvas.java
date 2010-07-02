@@ -15,8 +15,8 @@ package biochem;
 
 import java.awt.Polygon;
 
-import utilities.ColorModel;
-import utilities.GlobalDefaults;
+import preferences.GlobalDefaults;
+
 
 
 /**

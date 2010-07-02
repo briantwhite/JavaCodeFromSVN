@@ -7,29 +7,29 @@ import javax.swing.ImageIcon;
 
 import molGenExp.HistListItem;
 
-public class FoldedPolypeptide extends HistListItem {
+public class FoldedProteinWithImages extends HistListItem {
 	private String aaSeq;
-	private Grid fullSizeGrid;
 	private ImageIcon thumbnailPic;
+	private ImageIcon bigPic;
 	private Color color;
 	
-	public FoldedPolypeptide(String seq, 	
-			Grid big, 
+	public FoldedProteinWithImages(String aaSeq, 
+			ImageIcon bigPic,
 			ImageIcon thumb, 
 			Color color) {
-		aaSeq = seq;
-		fullSizeGrid = big;
+		this.aaSeq = aaSeq;
+		this.bigPic = bigPic;
 		thumbnailPic = thumb;
 		this.color = color;
-		toolTipText = seq;
+		toolTipText = aaSeq;
 	}
 
 	public String getAaSeq() {
 		return aaSeq;
 	}
 
-	public Grid getFullSizeGrid() {
-		return fullSizeGrid;
+	public ImageIcon getFullSizePic() {
+		return bigPic;
 	}
 	
 	public ImageIcon getThumbnailPic() {

@@ -4,7 +4,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import utilities.GlobalDefaults;
 
 import molGenExp.MolGenExp;
 

@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import biochem.FoldedPolypeptide;
+import biochem.FoldedProteinWithImages;
 
 public class DNAHistoryCellRenderer extends JButton 
 	implements ListCellRenderer {
@@ -25,9 +25,9 @@ public class DNAHistoryCellRenderer extends JButton
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		MolBiolHistListItem mbhli = (MolBiolHistListItem)value;
 		JButton button = 
-			new JButton(mbhli.getFoldedPolypeptide().getThumbnailPic());
+			new JButton(mbhli.getFoldedProteinWithImages().getThumbnailPic());
 		button.setOpaque(true);
-		button.setBackground(mbhli.getFoldedPolypeptide().getColor());
+		button.setBackground(mbhli.getFoldedProteinWithImages().getColor());
 		button.setBorder(BorderFactory.createLineBorder(
 				isSelected ? Color.GREEN : Color.BLACK, 2));
 		button.setToolTipText(mbhli.getToolTipText());

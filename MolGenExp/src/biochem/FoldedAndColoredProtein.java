@@ -1,13 +1,13 @@
-package molGenExp;
+package biochem;
 
 import java.awt.Color;
 
-public class FoldedProteinArchiveEntry {
+public class FoldedAndColoredProtein {
 	
 	private String proteinString;
 	private Color color;
 	
-	public FoldedProteinArchiveEntry(String proteinString, Color color) {
+	public FoldedAndColoredProtein(String proteinString, Color color) {
 		this.proteinString = proteinString;
 		this.color = color;
 	}

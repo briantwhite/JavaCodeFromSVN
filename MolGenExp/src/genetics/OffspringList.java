@@ -16,15 +16,16 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
-import utilities.ExpressedGene;
-import utilities.GlobalDefaults;
+import preferences.GlobalDefaults;
 
+
+import molBiol.ExpressedGene;
 import molGenExp.CustomListSelectionModel;
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import molGenExp.OrganismCellRenderer;
 
-import biochem.FoldedPolypeptide;
+import biochem.FoldedProteinWithImages;
 import biochem.PaintedInACornerFoldingException;
 
 // the panel that shows the reults of a cross or mutation

@@ -3,8 +3,10 @@ package evolution;
 import java.awt.Color;
 import java.util.HashMap;
 
-import utilities.ColorUtilities;
-import utilities.GlobalDefaults;
+import preferences.GlobalDefaults;
+
+import biochem.ColorUtilities;
+
 
 //keeps the tallies of the number of organisms in the World
 //  with each color

@@ -1,5 +1,6 @@
-package utilities;
+package molBiol;
 
+import preferences.GlobalDefaults;
 import molGenExp.MolGenExp;
 /*
  * the parameters for setting up a genex

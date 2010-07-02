@@ -1,12 +1,11 @@
 package genetics;
 
 
+import biochem.FoldedProteinArchive;
 import biochem.FoldingException;
 import molGenExp.ExpressedAndFoldedGene;
-import molGenExp.FoldedProteinArchive;
 import molGenExp.Organism;
 import molGenExp.OrganismFactory;
-import utilities.Mutator;
 
 public class MutantGenerator implements Runnable {
 

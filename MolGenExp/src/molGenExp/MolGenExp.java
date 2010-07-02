@@ -50,12 +50,13 @@ import javax.swing.event.ChangeListener;
 
 import molBiol.MolBiolWorkbench;
 import molBiol.MolBiolWorkpanel;
+import preferences.GlobalDefaults;
 import preferences.MGEPreferences;
 import preferences.PreferencesDialog;
-import utilities.GlobalDefaults;
 import biochem.AminoAcid;
 import biochem.BiochemistryWorkbench;
 import biochem.BiochemistryWorkpanel;
+import biochem.FoldedProteinArchive;
 import biochem.FoldingException;
 import biochem.PaintedInACornerFoldingException;
 import biochem.StandardTable;

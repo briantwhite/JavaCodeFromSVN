@@ -55,7 +55,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
-import utilities.ColorModel;
 
 
 /**

@@ -6,7 +6,8 @@ import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import utilities.ColorUtilities;
+import biochem.ColorUtilities;
+
 
 public class ColorFitnessSpinner extends JSpinner {
 	

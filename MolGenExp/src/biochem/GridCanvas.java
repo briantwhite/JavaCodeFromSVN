@@ -23,8 +23,8 @@ import java.util.Comparator;
 
 import javax.swing.JPanel;
 
-import utilities.ColorModel;
-import utilities.GlobalDefaults;
+import preferences.GlobalDefaults;
+
 
 import molGenExp.MolGenExp;
 
@@ -170,8 +170,8 @@ public abstract class GridCanvas extends JPanel {
 
 		calculateRequiredCanvasSize();
 		setPreferredSize(requiredCanvasSize);
-		((OutputPalette) parentPanel).getDimension().width = requiredCanvasSize.width;
-		((OutputPalette) parentPanel).getDimension().height = requiredCanvasSize.height;
+//		parentPanel.getSize().width = requiredCanvasSize.width;
+//		parentPanel.getSize().height = requiredCanvasSize.height;
 		revalidate();
 
 		super.paintComponent(g);

@@ -2,17 +2,17 @@ package molBiol;
 
 import molGenExp.ExpressedAndFoldedGene;
 import molGenExp.HistListItem;
-import biochem.FoldedPolypeptide;
+import biochem.FoldedProteinWithImages;
 
 public class MolBiolHistListItem extends HistListItem {
 	private ExpressedAndFoldedGene efg;
-	private FoldedPolypeptide fp;
+	private FoldedProteinWithImages fp;
 	private String htmlString;
 	private String currentDNA;
 	
 	public MolBiolHistListItem(ExpressedAndFoldedGene efg) { 
 		this.efg = efg;
-		this.fp = efg.getFoldedPolypeptide();
+		this.fp = efg.getFoldedProteinWithImages();
 		htmlString = efg.getExpressedGene().getHtmlString();
 		currentDNA = efg.getExpressedGene().getDNA();
 		toolTipText = efg.getExpressedGene().getProtein();
@@ -26,7 +26,7 @@ public class MolBiolHistListItem extends HistListItem {
 		return htmlString;
 	}
 		
-	public FoldedPolypeptide getFoldedPolypeptide() {
+	public FoldedProteinWithImages getFoldedProteinWithImages() {
 		return fp;
 	}
 

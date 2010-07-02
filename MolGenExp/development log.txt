@@ -1432,3 +1432,24 @@ is actually red..
 
 on second generation, one died and was logged, but nullPointerException in MolBiolWorkpanel
 	when it tries to find an image of the protein
+	
+7/2/10
+need to clean up all the protein folding stuff
+- it's now different in several different places
+- it should be encapsulated so all requests go thru one of two methods
+	- should take any aaSeq format
+		foldAndColor(String aaSeq) - returns proteinFoldString and Color (FoldedAndColoredProtein)
+		foldWithPix(String aaSeq) - returns Color, big and thumbnail images 
+				(FoldedProteinWithImages; formerly "FoldedPolypeptide")
+			if FoldedInACorner, proteinFoldingString & Color = null
+			it also is the only one with access to the FoldedProteinArchive
+				it deals with all inputs and outputs
+	- use ProteinImageFactory to make pix
+	- this means making the folded images in biochem just pictures
+build this in Biochem.FoldingManager
+	- move all stuff in Utilities back to the local places
+make FoldingManager.fold(String) private <temporarily> so you can find all the places to fix
+	- move FoldedProteinArchive & FoldedProteinArchiveEntry to Biochem
+	- 
+
+	

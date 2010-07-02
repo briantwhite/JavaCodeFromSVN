@@ -11,7 +11,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
-import utilities.GlobalDefaults;
+import preferences.GlobalDefaults;
+
 
 import biochem.PaintedInACornerFoldingException;
 

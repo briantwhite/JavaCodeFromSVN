@@ -1,4 +1,4 @@
-package molGenExp;
+package biochem;
 
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -16,17 +16,20 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import utilities.GlobalDefaults;
+import preferences.GlobalDefaults;
+
+
+
 
 public class FoldedProteinArchive {
 
 	private static FoldedProteinArchive singleton;
-	private HashMap<String, FoldedProteinArchiveEntry> archive;    
+	private HashMap<String, FoldedAndColoredProtein> archive;    
 	private static final String archiveFileName = "FoldedProteinArchive";
 	private static int totalFoldedSequences;
 
 	private FoldedProteinArchive() {
-		archive = new HashMap<String, FoldedProteinArchiveEntry>();
+		archive = new HashMap<String, FoldedAndColoredProtein>();
 		loadArchiveFromFile();
 		totalFoldedSequences = 0;
 	}
@@ -40,7 +43,7 @@ public class FoldedProteinArchive {
 
 	public synchronized void add(String aaSeq, String proteinString, Color color) {
 		archive.put(aaSeq, 
-				new FoldedProteinArchiveEntry(proteinString, color));
+				new FoldedAndColoredProtein(proteinString, color));
 		totalFoldedSequences++;
 	}
 
@@ -48,7 +51,7 @@ public class FoldedProteinArchive {
 		return archive.containsKey(aaSeq);
 	}
 
-	public synchronized FoldedProteinArchiveEntry getArchiveEntry(String aaSeq) {
+	public synchronized FoldedAndColoredProtein getEntry(String aaSeq) {
 		return archive.get(aaSeq);
 	}
 
@@ -67,7 +70,7 @@ public class FoldedProteinArchive {
 
 		while (it.hasNext()) {
 			String seq = (String)it.next();
-			FoldedProteinArchiveEntry entry = archive.get(seq);
+			FoldedAndColoredProtein entry = archive.get(seq);
 			buf.append(seq);
 			buf.append(";");
 			buf.append(entry.getProteinString());

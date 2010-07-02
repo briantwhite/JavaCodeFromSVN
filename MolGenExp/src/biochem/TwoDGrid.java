@@ -16,8 +16,8 @@ package biochem;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import utilities.ColorModel;
-import utilities.GlobalDefaults;
+import preferences.GlobalDefaults;
+
 
 import molGenExp.MolGenExp;
 

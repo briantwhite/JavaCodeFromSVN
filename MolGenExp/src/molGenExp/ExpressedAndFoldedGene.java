@@ -1,13 +1,13 @@
 package molGenExp;
 
-import utilities.ExpressedGene;
-import biochem.FoldedPolypeptide;
+import molBiol.ExpressedGene;
+import biochem.FoldedProteinWithImages;
 
 public class ExpressedAndFoldedGene {
 	private ExpressedGene eg;
-	private FoldedPolypeptide fp;
+	private FoldedProteinWithImages fp;
 	
-	public ExpressedAndFoldedGene(ExpressedGene eg, FoldedPolypeptide fp) {
+	public ExpressedAndFoldedGene(ExpressedGene eg, FoldedProteinWithImages fp) {
 		this.eg = eg;
 		this.fp = fp;
 	}
@@ -16,7 +16,7 @@ public class ExpressedAndFoldedGene {
 		return eg;
 	}
 	
-	public FoldedPolypeptide getFoldedPolypeptide() {
+	public FoldedProteinWithImages getFoldedProteinWithImages() {
 		return fp;
 	}
 	

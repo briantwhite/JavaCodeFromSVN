@@ -1,6 +1,8 @@
 package evolution;
 
 
+import genetics.Mutator;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -14,12 +16,11 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import molGenExp.FoldedProteinArchive;
+import molBiol.GeneExpresser;
 import molGenExp.MolGenExp;
+import preferences.GlobalDefaults;
 import preferences.MGEPreferences;
-import utilities.GeneExpresser;
-import utilities.GlobalDefaults;
-import utilities.Mutator;
+import biochem.FoldedProteinArchive;
 import biochem.FoldingException;
 import biochem.FoldingManager;
 import biochem.HexCanvas;
@@ -37,8 +38,6 @@ public class Evolver implements Runnable {
 	private boolean keepGoing;
 	private boolean oneGenerationOnly;
 
-	private FoldedProteinArchive archive;
-
 	private MGEPreferences preferences;
 	private Mutator mutator;
 	private GeneExpresser expresser;
@@ -52,7 +51,6 @@ public class Evolver implements Runnable {
 		oneGenerationOnly = false;
 		preferences = MGEPreferences.getInstance();
 		mutator = Mutator.getInstance();
-		archive = FoldedProteinArchive.getInstance();
 		expresser = new GeneExpresser();
 		foldingManager = new FoldingManager();
 	}
@@ -154,27 +152,22 @@ public class Evolver implements Runnable {
 		ThinOrganism[][] nextGeneration = 
 			new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()];
 
+		// make the new protein sequences that need to be folded or found in the archive
 		PairOfProteinAndDNASequences[][] pairs =
 			new PairOfProteinAndDNASequences[preferences.getWorldSize()][preferences.getWorldSize()];
 		HashSet<String> sequencesToBeFolded = new HashSet<String>();
-		// make the new protein sequences and see which are in archive
-		//  make a list of those that need to be folded
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				String DNA1 = mutator.mutateDNASequence(getRandomAlleleFromPool());
 				String protein1 = 
 					convertThreeLetterProteinStringToOneLetterProteinString((
 							expresser.expressGene(DNA1, -1)).getProtein());
-				if (!archive.isInArchive(protein1)) {
-					sequencesToBeFolded.add(protein1);
-				}
+
 				String DNA2 = mutator.mutateDNASequence(getRandomAlleleFromPool());
 				String protein2 = 
 					convertThreeLetterProteinStringToOneLetterProteinString((
 							expresser.expressGene(DNA2, -1)).getProtein());
-				if (!archive.isInArchive(protein2)) {
-					sequencesToBeFolded.add(protein2);
-				}
+
 				pairs[i][j] = new PairOfProteinAndDNASequences(
 						DNA1, protein1, DNA2, protein2);
 			}
@@ -196,9 +189,10 @@ public class Evolver implements Runnable {
 		mge.getProgressBar().setMaximum(lengthOfTask);
 		progress = 0;
 		
+		foldingManager = new FoldingManager();
 		Iterator<String> aaSeqIt = sequencesToBeFolded.iterator();
 		while (aaSeqIt.hasNext()) {
-			foldProteinAndAddToArchive(aaSeqIt.next(), archive);
+			foldingManager.foldAndColor(aaSeqIt.next());
 			progress++;
 		}
 
@@ -211,30 +205,17 @@ public class Evolver implements Runnable {
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				PairOfProteinAndDNASequences pair = pairs[i][j];
+				Color c1 = foldingManager.foldAndColor(pair.getProtein1()).getColor();
+				Color c2 = foldingManager.foldAndColor(pair.getProtein2()).getColor();
+				Color overallColor = GlobalDefaults.colorModel.mixTwoColors(c1, c2);
 				nextGeneration[i][j] = new ThinOrganism(
 						pair.getDNA1(),
 						pair.getDNA2(),
-						(archive.getArchiveEntry(
-								pair.getProtein1())
-						).getColor(),
-						(archive.getArchiveEntry(
-								pair.getProtein2())
-						).getColor(),
-						GlobalDefaults.colorModel.mixTwoColors(
-								(archive.getArchiveEntry(
-										pair.getProtein1())
-								).getColor(), 
-								(archive.getArchiveEntry(
-										pair.getProtein2())
-								).getColor()));
+						c1,
+						c2,
+						overallColor);
 				// if it's gray, it's dead; count it.
-				if (GlobalDefaults.colorModel.mixTwoColors(
-								(archive.getArchiveEntry(
-										pair.getProtein1())
-								).getColor(), 
-								(archive.getArchiveEntry(
-										pair.getProtein2())
-								).getColor()).equals(Color.GRAY)) {
+				if (overallColor.equals(Color.GRAY)) {
 					evolutionWorkArea.anOrganismDied();
 				}
 				progress++;
@@ -284,21 +265,6 @@ public class Evolver implements Runnable {
 				e.printStackTrace();
 			}
 			pic = null;
-		}
-	}
-
-	private void foldProteinAndAddToArchive(String aaSeq, FoldedProteinArchive archive) {
-		try {
-			foldingManager.fold(aaSeq);
-			HexGrid grid = (HexGrid)foldingManager.getGrid();
-			HexCanvas canvas = new HexCanvas();
-			canvas.setGrid(grid);
-			GlobalDefaults.colorModel.categorizeAcids(grid);
-			archive.add(aaSeq, grid.getPP().getProteinString(), grid.getProteinColor());
-		} catch (FoldingException e) {
-			// if folded in a corner, the shape and color are null
-			archive.add(aaSeq, null, null);
-			return;
 		}
 	}
 

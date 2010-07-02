@@ -2,10 +2,11 @@ package evolution;
 
 import java.awt.Color;
 
+import preferences.GlobalDefaults;
+
+import molBiol.ExpressedGene;
+import molBiol.GeneExpresser;
 import molGenExp.Organism;
-import utilities.ExpressedGene;
-import utilities.GeneExpresser;
-import utilities.GlobalDefaults;
 import biochem.FoldingException;
 import biochem.FoldingManager;
 import biochem.HexCanvas;
@@ -60,8 +61,8 @@ public class ThinOrganismFactory {
 	public synchronized ThinOrganism createThinOrganism(Organism o) {
 		return new ThinOrganism(o.getGene1().getExpressedGene().getDNA(),
 				o.getGene2().getExpressedGene().getDNA(),
-				o.getGene1().getFoldedPolypeptide().getColor(),
-				o.getGene2().getFoldedPolypeptide().getColor(),
+				o.getGene1().getFoldedProteinWithImages().getColor(),
+				o.getGene2().getFoldedProteinWithImages().getColor(),
 				o.getColor());
 	}
 
@@ -89,17 +90,9 @@ public class ThinOrganismFactory {
 
 			aaSeq = buf.toString();
 		}
-		HexGrid grid = foldOntoHexGrid(aaSeq);
-		HexCanvas canvas = new HexCanvas();
-		canvas.setGrid(grid);
-		GlobalDefaults.colorModel.categorizeAcids(grid);
-		return grid.getProteinColor();
+		return foldingManager.foldAndColor(aaSeq).getColor();
 	}
 
-	private  HexGrid foldOntoHexGrid(String aaSeq) throws FoldingException {
-		foldingManager.fold(aaSeq);
-		return (HexGrid)foldingManager.getGrid();
-	}
 
 
 }

@@ -10,8 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+import preferences.GlobalDefaults;
 import preferences.MGEPreferences;
-import utilities.GlobalDefaults;
 
 public class OrganismCellRenderer extends JButton 
 implements ListCellRenderer {

@@ -11,15 +11,12 @@
  * option) any later version.
  */
 
-package utilities;
+package biochem;
 
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import biochem.AminoAcid;
-import biochem.Grid;
-import biochem.PaintedInACornerFoldingException;
 
 /**
  * Class representing a generic color model for coloring proteins by 

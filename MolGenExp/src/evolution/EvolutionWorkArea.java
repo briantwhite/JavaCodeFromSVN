@@ -28,14 +28,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import molGenExp.FoldedProteinArchive;
+import biochem.ColorUtilities;
+import biochem.FoldedProteinArchive;
+
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import molGenExp.OrganismFactory;
 import molGenExp.WorkPanel;
+import preferences.GlobalDefaults;
 import preferences.MGEPreferences;
-import utilities.ColorUtilities;
-import utilities.GlobalDefaults;
 
 public class EvolutionWorkArea extends WorkPanel {
 
@@ -353,36 +354,31 @@ public class EvolutionWorkArea extends WorkPanel {
 						output.write(o.getGene1().getExpressedGene().getDNA() + ",");
 						output.write(
 								o.getGene1()
-								.getFoldedPolypeptide()
-								.getFullSizeGrid()
-								.getPP()
-								.getSingleLetterAASequence() + ",");
+								.getFoldedProteinWithImages()
+								.getAaSeq() + ",");
 						output.write(
-								o.getGene1().getFoldedPolypeptide().getColor().getRed() 
+								o.getGene1().getFoldedProteinWithImages().getColor().getRed() 
 								+ ",");
 						output.write(
-								o.getGene1().getFoldedPolypeptide().getColor().getGreen() 
+								o.getGene1().getFoldedProteinWithImages().getColor().getGreen() 
 								+ ",");
 						output.write(
-								o.getGene1().getFoldedPolypeptide().getColor().getBlue() 
+								o.getGene1().getFoldedProteinWithImages().getColor().getBlue() 
 								+ "\n");
 
 						output.write(x + "," + y + ",1,");
 						output.write(o.getGene2().getExpressedGene().getDNA() + ",");
 						output.write(
 								o.getGene2()
-								.getFoldedPolypeptide()
-								.getFullSizeGrid()
-								.getPP()
-								.getSingleLetterAASequence() + ",");
+								.getFoldedProteinWithImages().getAaSeq() + ",");
 						output.write(
-								o.getGene2().getFoldedPolypeptide().getColor().getRed() 
+								o.getGene2().getFoldedProteinWithImages().getColor().getRed() 
 								+ ",");
 						output.write(
-								o.getGene2().getFoldedPolypeptide().getColor().getGreen() 
+								o.getGene2().getFoldedProteinWithImages().getColor().getGreen() 
 								+ ",");
 						output.write(
-								o.getGene2().getFoldedPolypeptide().getColor().getBlue() 
+								o.getGene2().getFoldedProteinWithImages().getColor().getBlue() 
 								+ "\n");
 					}
 				}

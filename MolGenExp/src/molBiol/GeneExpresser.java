@@ -1,8 +1,12 @@
-package utilities;
+package molBiol;
 
 import java.util.ArrayList;
 
-import molBiol.Codon;
+import preferences.GlobalDefaults;
+
+
+import biochem.ColorSequencer;
+
 
 public class GeneExpresser {
 

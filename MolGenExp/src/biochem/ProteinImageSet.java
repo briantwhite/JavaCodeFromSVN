@@ -1,4 +1,4 @@
-package molGenExp;
+package biochem;
 
 import java.awt.image.BufferedImage;
 

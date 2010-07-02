@@ -4,7 +4,8 @@ import java.awt.Color;
 
 import javax.swing.JSlider;
 
-import utilities.ColorUtilities;
+import biochem.ColorUtilities;
+
 
 public class ColorFitnessSlider extends JSlider {
 	

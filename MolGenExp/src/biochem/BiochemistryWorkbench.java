@@ -20,8 +20,8 @@ import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import molGenExp.WorkPanel;
 import molGenExp.Workbench;
+import preferences.GlobalDefaults;
 import preferences.MGEPreferences;
-import utilities.GlobalDefaults;
 
 
 public class BiochemistryWorkbench extends Workbench {
@@ -104,18 +104,21 @@ public class BiochemistryWorkbench extends Workbench {
 		add(mainPanel, BorderLayout.CENTER);
 	}
 
-	public void updateCombinedColor() throws PaintedInACornerFoldingException {
+	public void updateCombinedColor() {
 		Color u = upperWorkPanel.getColor();
 		Color l = lowerWorkPanel.getColor();
+		
+		if ((u == null) || (l == null)) return;
+		
 		Color combined = GlobalDefaults.colorModel.mixTwoColors(u, l);
 		combinedColorPanel.setCombinedColor(combined);
 	}
 
-	public void loadOrganism(Organism o) throws PaintedInACornerFoldingException {
-		upperWorkPanel.setFoldedPolypeptide(
-				o.getGene1().getFoldedPolypeptide());
-		lowerWorkPanel.setFoldedPolypeptide(
-				o.getGene2().getFoldedPolypeptide());
+	public void loadOrganism(Organism o) {
+		upperWorkPanel.setFoldedProteinWithImages(
+				o.getGene1().getFoldedProteinWithImages());
+		lowerWorkPanel.setFoldedProteinWithImages(
+				o.getGene2().getFoldedProteinWithImages());
 	}
 
 	public void addToHistoryList(Object o) 
@@ -135,11 +138,11 @@ public class BiochemistryWorkbench extends Workbench {
 	}
 
 	public void sendToLowerPanel(Object o) throws PaintedInACornerFoldingException {
-		lowerWorkPanel.setFoldedPolypeptide((FoldedPolypeptide)o);
+		lowerWorkPanel.setFoldedProteinWithImages((FoldedProteinWithImages)o);
 	}
 
 	public void sendToUpperPanel(Object o) throws PaintedInACornerFoldingException {
-		upperWorkPanel.setFoldedPolypeptide((FoldedPolypeptide)o);
+		upperWorkPanel.setFoldedProteinWithImages((FoldedProteinWithImages)o);
 	}
 }
 

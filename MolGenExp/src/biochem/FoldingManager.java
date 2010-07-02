@@ -41,14 +41,11 @@
 package biochem;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.text.DecimalFormat;
-import java.util.Vector;
+import java.util.ArrayList;
 
-import utilities.ColorModel;
-
-import molGenExp.FoldedProteinArchive;
-import molGenExp.FoldedProteinArchiveEntry;
-import molGenExp.MolGenExp;
+import javax.swing.ImageIcon;
 
 /**
  * Manages the process of folding the polypeptide chains; serves as a subject
@@ -57,7 +54,7 @@ import molGenExp.MolGenExp;
  * in order to accommodate multiple simultaneous folding threads.
  */
 public class FoldingManager {
-	
+
 	private BiochemAttributes attributes;
 
 
@@ -138,7 +135,7 @@ public class FoldingManager {
 		return currentGrid.getEnergy(currentFolder.hpIndex,
 				currentFolder.hIndex, currentFolder.iIndex);
 	}
-	
+
 	public Grid getGrid() {
 		return currentGrid;
 	}
@@ -281,39 +278,150 @@ public class FoldingManager {
 	// other methods
 
 	/**
-	 * Folding happens here.
-	 * 
-	 * @param attrib
-	 *            Attributes.
-	 * @throws FoldingException
+	 * folding for evolution 
+	 * 	- just folds it and returns shape sequence and color
+	 * 	- no images of the protein
 	 */
-	public synchronized void fold(String sequence) throws FoldingException {
-		//first, see if it's already been folded
+	public FoldedAndColoredProtein foldAndColor(String sequence) {
+		String aaSeq = parseAASeq(sequence);
+		
+		//see if it's in the archive
 		FoldedProteinArchive foldedProteinArchive = 
 			FoldedProteinArchive.getInstance();
+		if (foldedProteinArchive.isInArchive(aaSeq)) {
+			return foldedProteinArchive.getEntry(aaSeq);
+		}
+		
+		// since it isn't, fold it the regular way
+		resetCurrent();
+		currentAttrib = attributes;
+		try {
+			foldPP(aaSeq);
+			
+			// add it to archive
+			foldedProteinArchive.add(
+					aaSeq, 
+					currentGrid.getPP().getProteinString(), 
+					currentGrid.getProteinColor());
+			
+			return new FoldedAndColoredProtein(
+					currentGrid.getPP().getProteinString(), 
+					currentGrid.getProteinColor());
+			
+		} catch (FoldingException e) {
+			// folded in a corner, so return a null fold and color
+			foldedProteinArchive.add(aaSeq, null, null);
+			return new FoldedAndColoredProtein(null, null);
+		}
+	}
+	
+	/**
+	 * folding for biochem
+	 * 	- creates both big and small images
+	 *  - must specify how big the big image needs to be
+	 */
+	public FoldedProteinWithImages foldWithPix(String sequence) {
+		// whatever form it's in, make it single letter code
+		String aaSeq = parseAASeq(sequence);
+		
+		// see if it's in the archive
+		FoldedProteinArchive foldedProteinArchive = 
+			FoldedProteinArchive.getInstance();
+		
+		if (foldedProteinArchive.isInArchive(aaSeq)) {
+			// need to create pix, but don't have to actually fold it
+			
+			// first, place the amino acids according to the proteinString 
+			//   (list of directions)
+			HexCanvas hexCanvas = new HexCanvas();
+			FoldedAndColoredProtein foldedAndColoredProtein = 
+				foldedProteinArchive.getEntry(aaSeq);
+			Polypeptide polypeptide;
+			try {
+				polypeptide = PolypeptideFactory.getInstance().createFromProteinString(
+						foldedAndColoredProtein.getProteinString());
+				hexCanvas.setGrid(new HexGrid(polypeptide));
+			} catch (FoldingException e1) {
+				return null;
+			}
+			
+			//now, make the pix
+			ProteinImageSet imageSet = 
+				ProteinImageFactory.generateImages(hexCanvas);
+			
+			return new FoldedProteinWithImages(
+					aaSeq,
+					new ImageIcon(imageSet.getFullScaleImage()),
+					new ImageIcon(imageSet.getThumbnailImage()),
+					foldedAndColoredProtein.getColor());
+		}
+		
+		// since it isn't, fold it the regular way
+		resetCurrent();
+		currentAttrib = attributes;
+		try {
+			foldPP(aaSeq);
+			
+			// add it to archive
+			foldedProteinArchive.add(
+					aaSeq, 
+					currentGrid.getPP().getProteinString(), 
+					currentGrid.getProteinColor());
+
+			// make the pix
+			HexCanvas hexCanvas = new HexCanvas();
+			hexCanvas.setGrid(currentGrid);
+			ProteinImageSet imageSet = 
+				ProteinImageFactory.generateImages(hexCanvas);		
+			
+			return new FoldedProteinWithImages(
+					aaSeq,
+					new ImageIcon(imageSet.getFullScaleImage()),
+					new ImageIcon(imageSet.getThumbnailImage()),
+					currentGrid.getProteinColor());
+		} catch (FoldingException e) {
+			// folded in a corner, so return a null images and color
+			return new FoldedProteinWithImages(aaSeq, null, null, null);
+		}
+
+	}
+
+	public String parseAASeq(String sequence) {
 		//get the aa seq as a single letter string with no separators
-		AminoAcid[] acids = 
-			factory.parseInputStringToAmAcArray(sequence);
+		AminoAcid[] acids;
+		try {
+			acids = factory.parseInputStringToAmAcArray(sequence);
+		} catch (FoldingException e) {
+			return null;
+		}
 		StringBuffer buf = new StringBuffer();
 		for (int i = 0; i < acids.length; i++) {
 			buf.append(acids[i].getAbName());
 		}
-		String aaSeq = buf.toString();
-
-		//see if it's in the archive
-		if (foldedProteinArchive.isInArchive(aaSeq)) {
-			FoldedProteinArchiveEntry entry = 
-				foldedProteinArchive.getArchiveEntry(aaSeq);
-			currentPP = factory.createFromProteinString(entry.getProteinString());
-			currentPP.setFolded();
-			currentGrid = new HexGrid(currentPP);
+		return buf.toString();
+	}
+	
+	private Direction[] directionStringToDirectionArray(String directionString) {
+		//if there are colons, its aa:direction;aa:direction; etc
+		// if not, it's just directions
+		ArrayList<Direction> directionList = new ArrayList<Direction>();
+		String[] parts = directionString.split(";");
+		if (directionString.indexOf(":") != -1) {
+			for (int i = 0; i < parts.length; i++) {
+				String[] pieces = parts[i].split(":");
+				directionList.add(Direction.getDirection(pieces[1]));
+			}
 		} else {
-			//fold it the regular way
-			resetCurrent();
-			currentAttrib = attributes;
-			foldPP(aaSeq);
-			currentPP.setColor(currentGrid.getProteinColor());
+			for (int i = 0; i < parts.length; i++) {
+				directionList.add(Direction.getDirection(parts[i]));
+			}
 		}
+		Direction[] directionArray = new Direction[directionList.size()];
+		for (int i = 0; i < directionList.size(); i++) {
+			directionArray[i] = (Direction)directionList.get(i);
+		}
+		
+		return directionArray;
 	}
 
 
@@ -348,10 +456,10 @@ public class FoldingManager {
 	 * @param outputPanel
 	 *            OutputPalette
 	 */
-	public void createCanvas(OutputPalette outputPanel) {
-		outputPanel.getDrawingPane().repaint();
-		outputPanel.getDrawingPane().setGrid(currentGrid);
-	}
+//	public void createCanvas(OutputPalette outputPanel) {
+//		outputPanel.getDrawingPane().repaint();
+//		outputPanel.getDrawingPane().setGrid(currentGrid);
+//	}
 
 	// non-public fields
 

@@ -1,13 +1,19 @@
-package utilities;
+package preferences;
 
+import molBiol.MolBiolParams;
 import molGenExp.RYBColorModel;
 import biochem.BiochemAttributes;
+import biochem.ColorModel;
 import biochem.StandardTable;
 
 public class GlobalDefaults {
 	
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;
+	
+	// sizes for images
+	public final static int thumbWidth = 130;
+	public final static int thumbHeight = 70;
 
 	public final static String version = "1.2.3";
 

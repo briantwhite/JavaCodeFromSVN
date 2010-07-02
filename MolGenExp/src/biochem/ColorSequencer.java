@@ -1,4 +1,4 @@
-package utilities;
+package biochem;
 /*
  * Created on Dec 12, 2004
  *
@@ -14,7 +14,7 @@ public class ColorSequencer {
 
 	int exonColor;
 	
-	ColorSequencer() {
+	public ColorSequencer() {
 		exonColor = 1;
 	}
 	

@@ -19,10 +19,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import utilities.ColorModel;
 
 import biochem.AcidInChain;
 import biochem.AminoAcid;
+import biochem.ColorModel;
 import biochem.Direction;
 import biochem.Grid;
 import biochem.HexGrid;

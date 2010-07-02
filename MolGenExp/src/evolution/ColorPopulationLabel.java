@@ -7,7 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import utilities.ColorUtilities;
+import biochem.ColorUtilities;
+
 
 public class ColorPopulationLabel extends JLabel {
 	
