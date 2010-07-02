@@ -90,6 +90,8 @@ public class MutantGenerator implements Runnable {
 			} catch (FoldingException e) {
 				gotAGoodOne = false;
 			}
+			// see if it was folded in a corner
+			if (result.getFoldedProteinWithImages().getFullSizePic() == null) gotAGoodOne = false;
 		}
 		return result;
 	}

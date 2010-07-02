@@ -134,7 +134,15 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	private void foldProtein() {
 		try {
 			foldedProteinWithImages = manager.foldWithPix(proteinSequence.getText().trim());
-
+			
+			// if it folded into a corner, it will have a null for a pic
+			//  detect this and warn user
+			if (foldedProteinWithImages.getFullSizePic() == null) {
+				JOptionPane.showMessageDialog(protex, 
+						GlobalDefaults.paintedInACornerNotice,
+						"Folding Error", JOptionPane.WARNING_MESSAGE);	
+				return;
+			}
 			//display it
 			Color proteinColor = foldedProteinWithImages.getColor();
 			colorChip.setBackground(proteinColor);
