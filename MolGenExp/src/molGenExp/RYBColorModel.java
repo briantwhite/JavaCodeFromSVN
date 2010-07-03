@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import preferences.GlobalDefaults;
+
 
 import biochem.AcidInChain;
 import biochem.AminoAcid;
@@ -55,7 +57,7 @@ public class RYBColorModel extends ColorModel {
 			new Color(255,0,255), // 101 5
 			new Color(255,100,0),	 // 110 6 Orange
 			Color.BLACK,			 // 111 7
-			Color.GRAY			// color for dead organisms (dead b/c 
+			GlobalDefaults.DEAD_COLOR // color for dead organisms (dead b/c 
 								//  one or both proteins are folded in corner)
 	};
 
@@ -68,7 +70,7 @@ public class RYBColorModel extends ColorModel {
 			"Purple",
 			"Orange",
 			"Black",
-			"Gray"
+			GlobalDefaults.DEAD_COLOR_NAME
 	};
 
 	private HashMap<Color, Integer> colorToNumberMap;
@@ -170,7 +172,7 @@ public class RYBColorModel extends ColorModel {
 		// null colors mean that it's a dead organism because
 		//  one or both proteins is folded in a corner
 		if ((a == null) || (b == null)) {
-			return Color.GRAY;
+			return GlobalDefaults.DEAD_COLOR;
 		}
 		int aNum = ((Integer)colorToNumberMap.get(a)).intValue();
 		int bNum = ((Integer)colorToNumberMap.get(b)).intValue();
