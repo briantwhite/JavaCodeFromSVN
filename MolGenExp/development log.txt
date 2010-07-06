@@ -1451,5 +1451,16 @@ build this in Biochem.FoldingManager
 make FoldingManager.fold(String) private <temporarily> so you can find all the places to fix
 	- move FoldedProteinArchive & FoldedProteinArchiveEntry to Biochem
 	- 
-
+7/6/10
+need to do a little cleanup
+- in biochem, a color of null is mapped to white - this is a leftover from early coloring
+	where no color was white
+		need to fix since Color=null means a folded in a corner protein
+	- in MolGenExp.RYBCOlorModel.java, it never returns NULL for a color
+		(this only happens in FoldingManager)
+			so can safely remove it from BiochemistryWOrkPanel's getColor method
 	
+now need to fix evolution of dead ones
+still hangs
+- took some synchronized's out of ColorCountsRecorder (probably not needed)
+- in ColorCountsRecorder, fixed counting of dead color

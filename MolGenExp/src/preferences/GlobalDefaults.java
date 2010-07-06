@@ -1,5 +1,7 @@
 package preferences;
 
+import java.awt.Color;
+
 import molBiol.MolBiolParams;
 import molGenExp.RYBColorModel;
 import biochem.BiochemAttributes;
@@ -38,6 +40,14 @@ public class GlobalDefaults {
 
 	public static String[] colorList = {"White", "Blue", "Yellow", "Green",
 			"Red", "Purple", "Orange", "Black"};
+	
+	/**
+	 * 'dead color' is the color of organisms that have folded in a corner proteins
+	 * they're dead and shown as gray (or whatever the dead color is)
+	 * - note that the folding routing returns a color of NULL if it's folded in a corner
+	 */
+	public static final Color DEAD_COLOR = Color.GRAY;
+	public static final String DEAD_COLOR_NAME = "Gray";
 
 	public static final String paintedInACornerNotice = "<html>"
 		+ "I'm sorry, I cannot fold that protein.<br>"

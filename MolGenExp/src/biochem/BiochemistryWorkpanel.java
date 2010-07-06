@@ -86,7 +86,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		foldedProteinPanel = new FoldedProteinPanel();
 		JScrollPane scroller = new JScrollPane(foldedProteinPanel);
 		resultPanel.add(scroller);
-		
+
 		proteinPanel.add(proteinSequence, BorderLayout.NORTH);
 		proteinPanel.add(resultPanel, BorderLayout.CENTER);
 
@@ -132,7 +132,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	private void foldProtein() {
 		try {
 			foldedProteinWithImages = manager.foldWithPix(proteinSequence.getText().trim());
-			
+
 			// if it folded into a corner, it will have a null for a pic
 			//  detect this and warn user
 			if (foldedProteinWithImages.getFullSizePic() == null) {
@@ -172,12 +172,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	}
 
 	public Color getColor() {
-		
 		if (foldedProteinWithImages == null) return null;
-		
-		if (foldedProteinWithImages.getColor() == null) {
-			return Color.WHITE;
-		}
 		return foldedProteinWithImages.getColor();
 	}
 

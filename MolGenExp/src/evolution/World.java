@@ -17,7 +17,7 @@ import preferences.MGEPreferences;
 public class World extends JPanel implements MouseListener {
 
 	private MGEPreferences preferences;
-	
+
 	private ThinOrganismFactory thinOrganismFactory;
 	private OrganismFactory organismFactory;
 
@@ -28,7 +28,7 @@ public class World extends JPanel implements MouseListener {
 	private int cellSize ;
 	private int selectedCelli = -1;
 	private int selectedCellj = -1;
-	
+
 	public World() {
 		preferences = MGEPreferences.getInstance();
 		thinOrganismFactory = new ThinOrganismFactory();
@@ -54,7 +54,7 @@ public class World extends JPanel implements MouseListener {
 			}
 		}
 	}
-	
+
 	public void updateCounts() {
 		//first, be sure that there are organisms in the world
 		if (getThinOrganism(0,0) != null) {
@@ -68,15 +68,15 @@ public class World extends JPanel implements MouseListener {
 			}
 		}
 	}
-	
+
 	public void paint(Graphics g) {
-		
+
 		int worldSize = preferences.getWorldSize();
-		
+
 		if (worldSize != organisms.length) {
 			resizeWorld();
 		}
-		
+
 		g.setColor(new Color(160,160,160));
 		g.fillRect(0, 0, worldSize * cellSize, worldSize * cellSize);
 
@@ -97,7 +97,7 @@ public class World extends JPanel implements MouseListener {
 					(cellSize * selectedCellj) - 1, 
 					cellSize, cellSize);
 		}
-		
+
 		//if enabled, show the colors of both alleles in upper left corner of cell
 		if (preferences.isShowBothAllelesInWorld()) {
 			for (int i = 0; i < worldSize; i++) {
@@ -118,11 +118,11 @@ public class World extends JPanel implements MouseListener {
 		}
 	}
 
-	public synchronized ThinOrganism getThinOrganism(int i, int j) {
+	public ThinOrganism getThinOrganism(int i, int j) {
 		return organisms[i][j];
 	}
 
-	public synchronized void setOrganisms(ThinOrganism[][] newOrgs) {
+	public void setOrganisms(ThinOrganism[][] newOrgs) {
 		organisms = null;
 		organisms = newOrgs;
 		repaint();
@@ -142,17 +142,17 @@ public class World extends JPanel implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		
+
 		int newCelli = e.getX()/cellSize;
 		if (newCelli < preferences.getWorldSize()) {
 			selectedCelli = newCelli;
 		}
-		
+
 		int newCellj = e.getY()/cellSize;
 		if (newCellj < preferences.getWorldSize()) {
 			selectedCellj = newCellj;
 		}
-		
+
 		repaint();
 	}
 
@@ -163,5 +163,5 @@ public class World extends JPanel implements MouseListener {
 	public void mousePressed(MouseEvent e) {}
 
 	public void mouseReleased(MouseEvent e) {}
-	
+
 }

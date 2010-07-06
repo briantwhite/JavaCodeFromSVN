@@ -56,9 +56,7 @@ public class RYBColorModel extends ColorModel {
 			Color.RED,			 // 100 4
 			new Color(255,0,255), // 101 5
 			new Color(255,100,0),	 // 110 6 Orange
-			Color.BLACK,			 // 111 7
-			GlobalDefaults.DEAD_COLOR // color for dead organisms (dead b/c 
-								//  one or both proteins are folded in corner)
+			Color.BLACK  
 	};
 
 	private String[] numberToColorNameMap = {
@@ -69,8 +67,7 @@ public class RYBColorModel extends ColorModel {
 			"Red",
 			"Purple",
 			"Orange",
-			"Black",
-			GlobalDefaults.DEAD_COLOR_NAME
+			"Black"
 	};
 
 	private HashMap<Color, Integer> colorToNumberMap;
@@ -180,7 +177,8 @@ public class RYBColorModel extends ColorModel {
 	}
 
 	public int getColorNumber(Color c) {
-		if (colorToNumberMap.get(c) == null) return -1;
+		if (colorToNumberMap.get(c) == null) return -1;			// if not on the list, it's the
+																//  dead color
 		return ((Integer)colorToNumberMap.get(c)).intValue();
 	}
 

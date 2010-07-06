@@ -110,10 +110,10 @@ public class Evolver implements Runnable {
 					ThinOrganism org = world.getThinOrganism(i, j);
 					int colorNumber = 
 						GlobalDefaults.colorModel.getColorNumber(org.getOverallColor());
-					// see if color number = 8; meaning it is a dead organism
+					// see if color number = -1; meaning it is a dead organism
 					//  because one or both proteins is folded in a corner
 					//  if so, it's dead, so fitness = 0
-					if (colorNumber != 8) {
+					if (colorNumber != -1) {
 						for (int x = 0; x < fitnessSettings[colorNumber]; x++) {
 							genePool.add(org.getRandomDNASequence());
 						}
@@ -215,7 +215,7 @@ public class Evolver implements Runnable {
 						c2,
 						overallColor);
 				// if it's gray, it's dead; count it.
-				if (overallColor.equals(Color.GRAY)) {
+				if (overallColor.equals(GlobalDefaults.DEAD_COLOR)) {
 					evolutionWorkArea.anOrganismDied();
 				}
 				progress++;

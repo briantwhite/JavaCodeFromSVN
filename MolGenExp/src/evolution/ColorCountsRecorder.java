@@ -28,19 +28,20 @@ public class ColorCountsRecorder {
 		return instance;
 	}
 	
-	public synchronized void setAllToZero() {
+	public void setAllToZero() {
 		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
 			colorCountsMap.put(ColorUtilities.getColorFromString(
 					GlobalDefaults.colorList[i]), 0);
 		}
 	}
 	
-	public synchronized void incrementCount(Color c) {
+	public void incrementCount(Color c) {
+		if (c.equals(GlobalDefaults.DEAD_COLOR)) return;  // don't count the dead ones
 		int oldVal = colorCountsMap.get(c);
 		colorCountsMap.put(c, oldVal + 1);
 	}
 
-	public synchronized int getCount(Color c) {
+	public int getCount(Color c) {
 		return colorCountsMap.get(c);
 	}
 }
