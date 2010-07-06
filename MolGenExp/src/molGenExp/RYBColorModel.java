@@ -54,7 +54,7 @@ public class RYBColorModel extends ColorModel {
 			Color.YELLOW,	     // 010 2 
 			Color.GREEN,			 // 011 3
 			Color.RED,			 // 100 4
-			new Color(255,0,255), // 101 5
+			new Color(255,0,255), // 101 5 Purple
 			new Color(255,100,0),	 // 110 6 Orange
 			Color.BLACK  
 	};

@@ -1464,3 +1464,7 @@ now need to fix evolution of dead ones
 still hangs
 - took some synchronized's out of ColorCountsRecorder (probably not needed)
 - in ColorCountsRecorder, fixed counting of dead color
+now OK
+
+other fixes:
+- can't save dead organism to Greenhouse (MolGenExp line 866)

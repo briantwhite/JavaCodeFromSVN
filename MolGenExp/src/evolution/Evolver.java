@@ -75,7 +75,7 @@ public class Evolver implements Runnable {
 	public void setOneGenerationOnly() {
 		oneGenerationOnly = true;
 	}
-	
+
 	public int getLengthOfTask() {
 		return lengthOfTask;
 	}
@@ -97,7 +97,7 @@ public class Evolver implements Runnable {
 			// find the gene pool
 			// get the fitness settings
 			int[] fitnessSettings = evolutionWorkArea.getFitnessValues();
-			
+
 			lengthOfTask = preferences.getWorldSize() * preferences.getWorldSize();
 			mge.getProgressBar().setMaximum(lengthOfTask);
 			mge.setStatusLabelText("Generating Gene Pool");
@@ -113,6 +113,13 @@ public class Evolver implements Runnable {
 					// see if color number = -1; meaning it is a dead organism
 					//  because one or both proteins is folded in a corner
 					//  if so, it's dead, so fitness = 0
+
+					// added debug - ionclude this code if you want to sto at the first dead one
+//					if (colorNumber == -1) {
+//						keepGoing = false;
+//						return;
+//					}
+					
 					if (colorNumber != -1) {
 						for (int x = 0; x < fitnessSettings[colorNumber]; x++) {
 							genePool.add(org.getRandomDNASequence());
@@ -188,7 +195,7 @@ public class Evolver implements Runnable {
 		lengthOfTask = sequencesToBeFolded.size();
 		mge.getProgressBar().setMaximum(lengthOfTask);
 		progress = 0;
-		
+
 		foldingManager = new FoldingManager();
 		Iterator<String> aaSeqIt = sequencesToBeFolded.iterator();
 		while (aaSeqIt.hasNext()) {
@@ -201,7 +208,7 @@ public class Evolver implements Runnable {
 		lengthOfTask = preferences.getWorldSize() * preferences.getWorldSize();
 		mge.getProgressBar().setMaximum(lengthOfTask);
 		progress = 0;
-		
+
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				PairOfProteinAndDNASequences pair = pairs[i][j];

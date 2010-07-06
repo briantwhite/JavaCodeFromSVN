@@ -6,12 +6,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import biochem.FoldingException;
 
 import molGenExp.Organism;
 import molGenExp.OrganismFactory;
+import preferences.GlobalDefaults;
 import preferences.MGEPreferences;
 
 public class World extends JPanel implements MouseListener {
@@ -132,8 +134,16 @@ public class World extends JPanel implements MouseListener {
 		if ((selectedCelli < 0) && (selectedCellj < 0)) {
 			return null;
 		}
-		return organismFactory.createOrganism(
-				organisms[selectedCelli][ selectedCellj]);
+		ThinOrganism to = organisms[selectedCelli][selectedCellj];
+		if (to.getOverallColor().equals(GlobalDefaults.DEAD_COLOR)) {
+			JOptionPane.showMessageDialog(null, 
+					"Unable to load that organism because it is not viable.\n"
+					+ "It is inviable because one of its proteins cannot be\n"
+					+ "Folded properly. Please choose another organism.", 
+					"Error Folding Protein", 
+					JOptionPane.WARNING_MESSAGE);
+		}
+		return organismFactory.createOrganism(to);
 	}
 
 	public void clearSelectedOrganism() {
@@ -142,6 +152,8 @@ public class World extends JPanel implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		
+		
 
 		int newCelli = e.getX()/cellSize;
 		if (newCelli < preferences.getWorldSize()) {

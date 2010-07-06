@@ -129,11 +129,9 @@ public class MolGenExp extends JFrame {
 	private EvolutionWorkArea evolutionWorkArea;
 
 	private PreferencesDialog preferencesDialog;
-	private MGEPreferences preferences;
 
 	public MolGenExp() {
 		super("Aipotu " + GlobalDefaults.version);
-		preferences = MGEPreferences.getInstance();
 		setupUI();
 		addWindowListener(new ApplicationCloser());
 	}
