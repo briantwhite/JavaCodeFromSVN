@@ -63,7 +63,6 @@ public class World extends JPanel implements MouseListener {
 			colorCountsRecorder.setAllToZero();
 			for (int i = 0; i < preferences.getWorldSize(); i++) {
 				for (int j = 0; j < preferences.getWorldSize(); j++) {
-					ThinOrganism o = getThinOrganism(i, j);
 					colorCountsRecorder.incrementCount(
 							getThinOrganism(i, j).getOverallColor());
 				}

@@ -1467,4 +1467,16 @@ still hangs
 now OK
 
 other fixes:
-- can't save dead organism to Greenhouse (MolGenExp line 866)
+- shouldn't be able to save dead organism to Greenhouse (MolGenExp line 866) 
+	all set
+
+7/9/10
+misc fixes
+- the purple is not a good color 
+	set all colors in one place (RYBColorModel)
+		nix ColorUtilities
+		put it's getColorFromName(String name) into RYBColorModel
+
+- added average fitness for each generation
+
+- changed middle exon color in mobo (GeneExpresser line 299)

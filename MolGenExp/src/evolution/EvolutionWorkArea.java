@@ -28,15 +28,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import biochem.ColorUtilities;
-import biochem.FoldedProteinArchive;
-
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
 import molGenExp.OrganismFactory;
 import molGenExp.WorkPanel;
 import preferences.GlobalDefaults;
 import preferences.MGEPreferences;
+import biochem.FoldedProteinArchive;
 
 public class EvolutionWorkArea extends WorkPanel {
 
@@ -62,6 +60,7 @@ public class EvolutionWorkArea extends WorkPanel {
 
 	private JLabel generationLabel;
 	private int generation = 0;
+	private JLabel averageFitnessLabel;
 	
 	private int totalNumberOfDeadOrganisms = 0;
 
@@ -164,6 +163,8 @@ public class EvolutionWorkArea extends WorkPanel {
 		rightPanel.add(world);
 		generationLabel = new JLabel("Generation 0");
 		rightPanel.add(generationLabel);
+		averageFitnessLabel = new JLabel("Average Fitness = ?");
+		rightPanel.add(averageFitnessLabel);
 
 		this.add(rightPanel);
 
@@ -247,6 +248,10 @@ public class EvolutionWorkArea extends WorkPanel {
 		generation = i;
 		generationLabel.setText("Generation " + generation);
 	}
+	
+	public void updateAverageFitnessDisplay(float af) {
+		averageFitnessLabel.setText("Average Fitness = " + af);
+	}
 
 	public World getWorld() {
 		return world;
@@ -322,12 +327,10 @@ public class EvolutionWorkArea extends WorkPanel {
 		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
 			populationLabels[i].setText(String.valueOf(
 					colorCountsRecorder.getCount(
-							ColorUtilities.getColorFromString(
+							GlobalDefaults.colorModel.getColorFromString(
 							GlobalDefaults.colorList[i]))));
 		}	
 	}
-
-
 
 	public void saveWorldToFile() {
 		if (world.getThinOrganism(0, 0) == null) {

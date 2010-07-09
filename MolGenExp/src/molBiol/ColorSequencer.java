@@ -1,4 +1,4 @@
-package biochem;
+package molBiol;
 /*
  * Created on Dec 12, 2004
  *

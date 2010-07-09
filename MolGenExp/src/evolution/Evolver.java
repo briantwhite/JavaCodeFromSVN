@@ -105,6 +105,7 @@ public class Evolver implements Runnable {
 
 			// each organism in the world contributes fitness # of alleles to pool		
 			genePool = new ArrayList<String>();
+			int totalFitness = 0;
 			for (int i = 0; i < preferences.getWorldSize(); i++) {
 				for (int j = 0; j < preferences.getWorldSize(); j++) {
 					ThinOrganism org = world.getThinOrganism(i, j);
@@ -121,6 +122,7 @@ public class Evolver implements Runnable {
 //					}
 					
 					if (colorNumber != -1) {
+						totalFitness = totalFitness + fitnessSettings[colorNumber];
 						for (int x = 0; x < fitnessSettings[colorNumber]; x++) {
 							genePool.add(org.getRandomDNASequence());
 						}
@@ -128,6 +130,8 @@ public class Evolver implements Runnable {
 					progress++;
 				}
 			}
+			evolutionWorkArea.updateAverageFitnessDisplay(
+					(float)totalFitness/(preferences.getWorldSize() * preferences.getWorldSize()));
 		}
 	}
 

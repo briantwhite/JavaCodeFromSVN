@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import preferences.GlobalDefaults;
 
 
-import biochem.ColorSequencer;
 
 
 public class GeneExpresser {
@@ -297,7 +296,7 @@ public class GeneExpresser {
 		headerBuffer.append("EM.promoter {font-style: normal; background: #90FF90; color: black}");
 		headerBuffer.append("EM.terminator {font-style: normal; background: #FF9090; color: black}");
 		headerBuffer.append("EM.exon {font-style: normal; background: #FF90FF; color: black}");
-		headerBuffer.append("EM.next {font-style: normal; background: #90FFFF; color: black}");
+		headerBuffer.append("EM.next {font-style: normal; background: #FF8C00; color: black}");
 		headerBuffer.append("EM.another {font-style: normal; background: #FFFF50; color: black}");
 		headerBuffer.append("</style></head><body>");
 		return headerBuffer.toString();

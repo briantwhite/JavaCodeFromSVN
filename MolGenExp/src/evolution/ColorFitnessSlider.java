@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JSlider;
 
-import biochem.ColorUtilities;
+import preferences.GlobalDefaults;
 
 
 public class ColorFitnessSlider extends JSlider {
@@ -16,7 +16,7 @@ public class ColorFitnessSlider extends JSlider {
 	public ColorFitnessSlider(String colorString) {
 		super(JSlider.HORIZONTAL, 0, 10, 5);
 		this.colorString = colorString;
-		color = ColorUtilities.getColorFromString(colorString);
+		color = GlobalDefaults.colorModel.getColorFromString(colorString);
 		setMajorTickSpacing(1);
 		setMinorTickSpacing(1);
 		setPaintLabels(true);

@@ -54,8 +54,8 @@ public class RYBColorModel extends ColorModel {
 			Color.YELLOW,	     // 010 2 
 			Color.GREEN,			 // 011 3
 			Color.RED,			 // 100 4
-			new Color(255,0,255), // 101 5 Purple
-			new Color(255,100,0),	 // 110 6 Orange
+			new Color(138,43,226), // 101 5 Purple
+			new Color(255,140,0),	 // 110 6 Orange
 			Color.BLACK  
 	};
 
@@ -71,15 +71,22 @@ public class RYBColorModel extends ColorModel {
 	};
 
 	private HashMap<Color, Integer> colorToNumberMap;
+	private HashMap<String, Color> nameToColorMap;
 
 	/**
 	 * Constructor
 	 */
 	public RYBColorModel() { 
-		super();		
+		super();
+		
 		colorToNumberMap = new HashMap<Color, Integer>();
 		for (int i = 0; i < numberToColorMap.length; i++) {
 			colorToNumberMap.put((Color)numberToColorMap[i], new Integer(i));
+		}
+		
+		nameToColorMap = new HashMap<String, Color>();
+		for (int i = 0; i < numberToColorMap.length; i++) {
+			nameToColorMap.put(numberToColorNameMap[i], numberToColorMap[i]);
 		}
 	}
 
@@ -199,5 +206,11 @@ public class RYBColorModel extends ColorModel {
 		int colorNumber = getColorNumber(c);
 		if (colorNumber == -1) return null;
 		return numberToColorNameMap[getColorNumber(c)];
+	}
+	
+	public Color getColorFromString(String c) {
+		Color result = null;
+		if (nameToColorMap.containsKey(c)) result = nameToColorMap.get(c);
+		return result;
 	}
 }

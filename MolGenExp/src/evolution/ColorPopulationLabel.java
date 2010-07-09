@@ -1,13 +1,10 @@
 package evolution;
 
 import java.awt.Color;
-import java.awt.Component;
 
 import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
 
-import biochem.ColorUtilities;
+import preferences.GlobalDefaults;
 
 
 public class ColorPopulationLabel extends JLabel {
@@ -19,7 +16,7 @@ public class ColorPopulationLabel extends JLabel {
 	public ColorPopulationLabel(String colorString) {
 		super("0", JLabel.CENTER);
 		this.colorString = colorString;
-		color = ColorUtilities.getColorFromString(colorString);
+		color = GlobalDefaults.colorModel.getColorFromString(colorString);
 		
 	}
 	

@@ -63,4 +63,6 @@ public abstract class ColorModel {
 	
 	// color the names of amino acids by their properties
 	public abstract Color colorAaNameText(AminoAcid aa);
+	
+	public abstract Color getColorFromString(String c);
 }

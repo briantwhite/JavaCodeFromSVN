@@ -5,8 +5,6 @@ import java.util.HashMap;
 
 import preferences.GlobalDefaults;
 
-import biochem.ColorUtilities;
-
 
 //keeps the tallies of the number of organisms in the World
 //  with each color
@@ -30,7 +28,7 @@ public class ColorCountsRecorder {
 	
 	public void setAllToZero() {
 		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
-			colorCountsMap.put(ColorUtilities.getColorFromString(
+			colorCountsMap.put(GlobalDefaults.colorModel.getColorFromString(
 					GlobalDefaults.colorList[i]), 0);
 		}
 	}

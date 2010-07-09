@@ -2,11 +2,10 @@ package evolution;
 
 import java.awt.Color;
 
-import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import biochem.ColorUtilities;
+import preferences.GlobalDefaults;
 
 
 public class ColorFitnessSpinner extends JSpinner {
@@ -18,7 +17,7 @@ public class ColorFitnessSpinner extends JSpinner {
 	public ColorFitnessSpinner(String colorString) {
 		super(new SpinnerNumberModel(5, 0, 10, 1));
 		this.colorString = colorString;
-		color = ColorUtilities.getColorFromString(colorString);
+		color = GlobalDefaults.colorModel.getColorFromString(colorString);
 	}
 	
 	public JSpinner getSpinner() {
