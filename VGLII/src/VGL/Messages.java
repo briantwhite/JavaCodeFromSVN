@@ -8,20 +8,34 @@ import GeneticModels.Allele;
 import GeneticModels.Trait;
 
 public class Messages {
-	public static final String BUNDLE_NAME = "VGL.messages"; //$NON-NLS-1$
+	public final String BUNDLE_NAME = "VGL.messages"; //$NON-NLS-1$
 
-	private static ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-			.getBundle(BUNDLE_NAME);
+	private ResourceBundle RESOURCE_BUNDLE;
+	
+	private static Messages instance;
 
 	private Messages() {
+		try {
+			RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+		} catch (MissingResourceException e) {
+			Locale.setDefault(Locale.US);
+			RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+		}
 	}
 	
-	public static void updateResourceBundle() {
+	public static Messages getInstance() {
+		if (instance == null) {
+			instance = new Messages();
+		}
+		return instance;
+	}
+	
+	public void updateResourceBundle() {
 		RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault());
 	}
 	
 	//translate red-eyes/six-antennae/bent-body as appropriate
-	public static String translateLongPhenotypeName(String phenoName) {
+	public String translateLongPhenotypeName(String phenoName) {
 		StringBuffer b = new StringBuffer();
 		String[] parts = phenoName.split("/");
 		for (int i = 0; i < parts.length; i++) {
@@ -33,7 +47,7 @@ public class Messages {
 	}
 	
 	//translate red-eyes as appropriate
-	public static String translatePhenotypeName(String phenoString) {
+	public String translatePhenotypeName(String phenoString) {
 		//first, see if it doesn't have a dash
 		//  if so, just translate it as one word
 		if (phenoString.indexOf("-") == -1) {
@@ -58,43 +72,43 @@ public class Messages {
 		}
 	}
 	
-	public static String getTranslatedAlleleName(Allele a) {
+	public String getTranslatedAlleleName(Allele a) {
 		StringBuffer b = new StringBuffer();
 		if (getString("VGLII.NounAdjective").equals("Y")) {
-			b.append(Messages.getString(
+			b.append(Messages.getInstance().getString(
 					"VGLII." + a.getTrait().getBodyPart().toString())
 					+ "-"
-					+ Messages.getString(
+					+ Messages.getInstance().getString(
 							"VGLII." +a.getTrait().getTraitName().toString()));
 		} else {
-			b.append(Messages.getString(
+			b.append(Messages.getInstance().getString(
 					"VGLII." + a.getTrait().getTraitName().toString())
 					+ "-"
-					+ Messages.getString(
+					+ Messages.getInstance().getString(
 							"VGLII." +a.getTrait().getBodyPart().toString()));
 		}
 		return b.toString();
 	}
 	
-	public static String getTranslatedTraitName(Trait t) {
+	public String getTranslatedTraitName(Trait t) {
 		StringBuffer b = new StringBuffer();
 		if (getString("VGLII.NounAdjective").equals("Y")) {
-			b.append(Messages.getString(
+			b.append(Messages.getInstance().getString(
 					"VGLII." + t.getType().toString())
 					+ "-"
-					+ Messages.getString(
+					+ Messages.getInstance().getString(
 							"VGLII." + t.getBodyPart().toString()));
 		} else {
-			b.append(Messages.getString(
+			b.append(Messages.getInstance().getString(
 					"VGLII." + t.getBodyPart().toString())
 					+ " "
-					+ Messages.getString(
+					+ Messages.getInstance().getString(
 							"VGLII." + t.getType().toString()));
 		}
 		return b.toString();		
 	}
 	
-	public static String getString(String key) {
+	public String getString(String key) {
 		try {
 			return RESOURCE_BUNDLE.getString(key);
 		} catch (MissingResourceException e) {

@@ -254,13 +254,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * This string holds the heading to be displayed on the toggle button when
 	 * the Genetics Details are being shown
 	 */
-	private String hideDetails = Messages.getString("VGLII.HideGeneticModel");
+	private String hideDetails = Messages.getInstance().getString("VGLII.HideGeneticModel");
 
 	/**
 	 * This string holds the heading to be displayed on the toggle button when
 	 * the Genetics Details are not being shown
 	 */
-	private String showDetails = Messages.getString("VGLII.ShowGeneticModel");
+	private String showDetails = Messages.getInstance().getString("VGLII.ShowGeneticModel");
 
 	/**
 	 * This icon is displayed in the toggle button when the Genetics Details are
@@ -345,7 +345,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			if (details != null)
 				this.details = details;
 		this.numberOfTraits = numberOfTraits;
-		setTitle(Messages.getString("VGLII.Cage") + " " + (new Integer(id)).toString());
+		setTitle(Messages.getInstance().getString("VGLII.Cage") + " " + (new Integer(id)).toString());
 		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		setupSubComponents();
 		setupDialogBox(importFrame, numPhenosPresent);
@@ -391,7 +391,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					JFrame frame = new JFrame();
 					frame.setIconImage(null);
 					JDialog imageDlg = new JDialog(frame, 
-							Messages.getString("VGLII.PhenotypeDetails"),
+							Messages.getInstance().getString("VGLII.PhenotypeDetails"),
 							true);
 					imageDlg.setSize(VGLII.PHENO_IMAGE_WIDTH, VGLII.PHENO_IMAGE_HEIGHT);
 					imageDlg.setLocation(512 - VGLII.PHENO_IMAGE_WIDTH/2, 384 - VGLII.PHENO_IMAGE_HEIGHT/2);
@@ -402,7 +402,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					ShowPhenotypeButton button = (ShowPhenotypeButton)evt.getSource();
 
 					// fix the pheno string to more than one line
-					String phenoString = Messages.translateLongPhenotypeName(button.getPhenotypeString());
+					String phenoString = Messages.getInstance().translateLongPhenotypeName(button.getPhenotypeString());
 					phenoString = phenoString.replaceAll("/", "<br>");
 					phenoString = "<html>" + phenoString + "</html>";
 					JLabel phenotypeLabel = 
@@ -421,7 +421,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			showPhenotypeButtons[i].setPreferredSize(new Dimension(38, 38));
 			showPhenotypeButtons[i].setFocusPainted(false);
 			showPhenotypeButtons[i].setToolTipText(
-					Messages.getString("VGLII.ClickToSeeImageOfThisPhenotype"));
+					Messages.getInstance().getString("VGLII.ClickToSeeImageOfThisPhenotype"));
 			i++;
 		}
 	}
@@ -478,7 +478,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		organismsPanel = new JPanel();
 		organismsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		organismsPanel.setBorder(BorderFactory.createTitledBorder(
-				emptyBorder, Messages.getString("VGLII.Organisms"),
+				emptyBorder, Messages.getInstance().getString("VGLII.Organisms"),
 				javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
@@ -488,13 +488,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		countsPanel = new JPanel();
 		countsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		countsPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
-				Messages.getString("VGLII.Count"), 
+				Messages.getInstance().getString("VGLII.Count"), 
 				javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 		countsPanelWrapper.add(Box.createRigidArea(new Dimension(
 				countsPanel.getFontMetrics(
 						countsPanel.getFont()).stringWidth(
-								Messages.getString("VGLII.Count")) + 5 ,1)));
+								Messages.getInstance().getString("VGLII.Count")) + 5 ,1)));
 
 		// headers for the different traits
 		traitPanels = new JPanel[numberOfTraits];
@@ -509,7 +509,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			traitPanels[i].setLayout(new GridLayout(numPhenosPresent, 1));
 			traitPanels[i].setBorder(BorderFactory.createTitledBorder(
 					emptyBorder,
-					Messages.getString("VGLII." +
+					Messages.getInstance().getString("VGLII." +
 							phenotypes.get(scrambledTraitOrder[i]).getTrait().getBodyPart()), 
 							javax.swing.border.TitledBorder.CENTER,
 							javax.swing.border.TitledBorder.ABOVE_TOP));
@@ -523,7 +523,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		picturesPanel = new JPanel();
 		picturesPanel.setLayout(new GridLayout(numPhenosPresent, 1));
 		picturesPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
-				Messages.getString("VGLII.Images"), javax.swing.border.TitledBorder.CENTER,
+				Messages.getInstance().getString("VGLII.Images"), javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
 		childrenOrganismUIs = new OrganismUI[2 * numPhenosPresent][maxOrgsInOneRow];
@@ -677,7 +677,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			phenotypePanels[k].setBorder(etched);
 			phenotypePanels[k].add(
 					new JLabel(
-							Messages.getString("VGLII." +
+							Messages.getInstance().getString("VGLII." +
 									phenoList.get(k).getTrait().getTraitName())));
 			phenotypePanels[k].add(Box.createRigidArea(new Dimension(1, 34)));
 		}
@@ -696,7 +696,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	private void setupParentInfoPanel() {
 		parentInfoPanel = new JPanel();
 		if (id > 1) {
-			JLabel parentLabel = new JLabel(Messages.getString("VGLII.Parents"));
+			JLabel parentLabel = new JLabel(Messages.getInstance().getString("VGLII.Parents"));
 			parentInfoPanel.add(parentLabel);
 			parentOrganismUIs = new OrganismUI[2];
 			Organism o1 = parents.get(0);
@@ -706,13 +706,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			parentOrganismUIs[0] = new OrganismUI(o1, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[0]);
 			parentInfoPanel.add(new JLabel("(" + cageId + ")" 
-					+ " " + Messages.translateLongPhenotypeName(phenoName1)));
+					+ " " + Messages.getInstance().translateLongPhenotypeName(phenoName1)));
 			cageId = o2.getCageId() + 1;
 			String phenoName2 = o2.getPhenotypeString();
 			parentOrganismUIs[1] = new OrganismUI(o2, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[1]);
 			parentInfoPanel.add(new JLabel("(" + cageId + ")"
-					+ " " + Messages.translateLongPhenotypeName(phenoName2)));
+					+ " " + Messages.getInstance().translateLongPhenotypeName(phenoName2)));
 		} else {
 			if (isBeginner) {
 				if (details != null) {
@@ -823,11 +823,11 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 */
 	public void windowClosing(WindowEvent e) {
 		int ans = JOptionPane.showConfirmDialog(this,
-				Messages.getString("VGLII.ClosingConfirmLine1") + "\n" 
-				+ Messages.getString("VGLII.ClosingConfirmLine2") + " #" + id + "?\n"
-				+ "(" + Messages.getString("VGLII.ClosingConfirmLine3") + "\n"
-				+ Messages.getString("VGLII.ClosingConfirmLine4") + ")", 
-				Messages.getString("VGLII.ClosingCage"),
+				Messages.getInstance().getString("VGLII.ClosingConfirmLine1") + "\n" 
+				+ Messages.getInstance().getString("VGLII.ClosingConfirmLine2") + " #" + id + "?\n"
+				+ "(" + Messages.getInstance().getString("VGLII.ClosingConfirmLine3") + "\n"
+				+ Messages.getInstance().getString("VGLII.ClosingConfirmLine4") + ")", 
+				Messages.getInstance().getString("VGLII.ClosingCage"),
 				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 		if (ans == JOptionPane.YES_OPTION)

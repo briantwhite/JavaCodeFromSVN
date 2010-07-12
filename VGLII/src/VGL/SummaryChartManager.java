@@ -157,14 +157,14 @@ public class SummaryChartManager {
 		if(selectedSet.size() == 0) {
 			JOptionPane.showMessageDialog(master,
 					"<html>" + 
-					Messages.getString("VGLII.SummaryChartWarningLine1") + //$NON-NLS-1$
+					Messages.getInstance().getString("VGLII.SummaryChartWarningLine1") + //$NON-NLS-1$
 					"<br>" + 
-					Messages.getString("VGLII.SummaryChartWarningLine2") + //$NON-NLS-1$
+					Messages.getInstance().getString("VGLII.SummaryChartWarningLine2") + //$NON-NLS-1$
 					"<br>" +
-					Messages.getString("VGLII.SummaryChartWarningLine3") + //$NON-NLS-1$
+					Messages.getInstance().getString("VGLII.SummaryChartWarningLine3") + //$NON-NLS-1$
 					"<br>" + 
-					Messages.getString("VGLII.SummaryChartWarningLine4"), //$NON-NLS-1$
-					Messages.getString("VGLII.SummaryChartWarningHeadline"), //$NON-NLS-1$
+					Messages.getInstance().getString("VGLII.SummaryChartWarningLine4"), //$NON-NLS-1$
+					Messages.getInstance().getString("VGLII.SummaryChartWarningHeadline"), //$NON-NLS-1$
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}

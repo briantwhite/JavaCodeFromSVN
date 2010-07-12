@@ -52,11 +52,11 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 	private int[] scrambledTraitOrder;
 	
 	public SummaryChartUI(VGLII vglII) {
-		super(vglII, Messages.getString("VGLII.SummaryChart"), false);
+		super(vglII, Messages.getInstance().getString("VGLII.SummaryChart"), false);
 		this.vglII = vglII;
 		manager = SummaryChartManager.getInstance();
 		scrambledTraitOrder =manager.getScrambledCharacterOrder();
-		setTitle(Messages.getString("VGLII.SummaryChartForCages") + " " + manager.toString());
+		setTitle(Messages.getInstance().getString("VGLII.SummaryChartForCages") + " " + manager.toString());
 		setLayout(new BorderLayout());
 		resultPanel = new JPanel();
 		setupTraitSelectionPanel();
@@ -72,7 +72,7 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 				new BoxLayout(traitSelectionPanel, BoxLayout.X_AXIS));
 		traitSelectionPanel.setBorder(
 				BorderFactory.createTitledBorder(
-						Messages.getString("VGLII.SortOffspringBy") + ":"));
+						Messages.getInstance().getString("VGLII.SortOffspringBy") + ":"));
 		
 		Trait[] traits = manager.getTraitSet();
 		traitCheckBoxes = new JCheckBox[traits.length];
@@ -84,7 +84,7 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 			traitCheckBoxes[i].setSelected(true);
 			
 			traitCheckBoxLabels[i] = 
-				new JLabel(Messages.getTranslatedTraitName(traits[i]));
+				new JLabel(Messages.getInstance().getTranslatedTraitName(traits[i]));
 		}
 		
 		//put them in GUI in randomized order
@@ -115,22 +115,22 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 		PhenotypeCount[] result = manager.calculateTotals(selectedTraits);
 		
 		String[] columnHeadings = {
-				Messages.getString("VGLII.Phenotype"), 
-				Messages.getString("VGLII.Males"), 
-				Messages.getString("VGLII.Females"), 
-				Messages.getString("VGLII.Total")
+				Messages.getInstance().getString("VGLII.Phenotype"), 
+				Messages.getInstance().getString("VGLII.Males"), 
+				Messages.getInstance().getString("VGLII.Females"), 
+				Messages.getInstance().getString("VGLII.Total")
 				};
 		
 		Object[][] data = new Object[result.length][4];
 		for (int i = 0; i < result.length; i++) {
-			data[i][0] = Messages.translateLongPhenotypeName(result[i].getPhenotype());
+			data[i][0] = Messages.getInstance().translateLongPhenotypeName(result[i].getPhenotype());
 			data[i][1] = result[i].getCounts().getMales();
 			data[i][2] = result[i].getCounts().getFemales();
 			data[i][3] = result[i].getCounts().getTotal();
 		}
 		
 		//if none selected, the "phenotype" is "organism"
-		if (selectedTraits.size() == 0) data[0][0] = Messages.getString("VGLII.Organism");
+		if (selectedTraits.size() == 0) data[0][0] = Messages.getInstance().getString("VGLII.Organism");
 			
 		int phenoStringWidth = data[0][0].toString().length() * 8;
 		

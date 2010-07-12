@@ -119,15 +119,15 @@ public class SelectionVial {
 			String femaleInfo = "";
 			if (m_MaleParent != null) {
 				Organism o1 = m_MaleParent.getOrganism();
-				maleInfo = "[ " + Messages.getString("VGLII.Male") + " (" 
-				+ Messages.getString("VGLII.Cage") + "# " + (o1.getCageId() + 1) + ") "
+				maleInfo = "[ " + Messages.getInstance().getString("VGLII.Male") + " (" 
+				+ Messages.getInstance().getString("VGLII.Cage") + "# " + (o1.getCageId() + 1) + ") "
 						+ o1.getPhenotypeString() + "]";
 			}
 
 			if (m_FemaleParent != null) {
 				Organism o2 = m_FemaleParent.getOrganism();
-				femaleInfo = "[ " + Messages.getString("VGLII.Female") 
-				+ " (" + Messages.getString("VGLII.Cage") + "# " + (o2.getCageId() + 1) + ") "
+				femaleInfo = "[ " + Messages.getInstance().getString("VGLII.Female") 
+				+ " (" + Messages.getInstance().getString("VGLII.Cage") + "# " + (o2.getCageId() + 1) + ") "
 						+ o2.getPhenotypeString() + "]";
 			}
 			m_DisplayLabel.setText(" ");

@@ -349,7 +349,7 @@ public class VGLII extends JFrame {
 	 * 
 	 */
 	public VGLII() {
-		super(Messages.getString("VGLII.Name") + version); //$NON-NLS-1$
+		super(Messages.getInstance().getString("VGLII.Name") + version); //$NON-NLS-1$
 		addWindowListener(new ApplicationCloser());
 
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
@@ -550,17 +550,17 @@ public class VGLII extends JFrame {
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
 		//  "File" options.
-		JMenu mnuFile = new JMenu(Messages.getString("VGLII.File"));		 //$NON-NLS-1$
-		newProblemItem = menuItem(Messages.getString("VGLII.NewProblem"), "NewProblem", newImage); //$NON-NLS-1$ //$NON-NLS-2$
-		openProblemItem = menuItem(Messages.getString("VGLII.OpenWork"), "OpenWork", openImage); //$NON-NLS-1$ //$NON-NLS-2$
-		saveProblemItem = menuItem(Messages.getString("VGLII.SaveWork"), "SaveWork", saveImage); //$NON-NLS-1$ //$NON-NLS-2$
-		saveProblemAsItem = menuItem(Messages.getString("VGLII.SaveWorkAs"), "SaveAs", saveAsImage); //$NON-NLS-1$ //$NON-NLS-2$
-		pageSetupItem = menuItem(Messages.getString("VGLII.PageSetup"), "PageSetup", pageSetupImage); //$NON-NLS-1$ //$NON-NLS-2$
-		printItem = menuItem(Messages.getString("VGLII.PrintWork"), "PrintWork", printImage); //$NON-NLS-1$ //$NON-NLS-2$
-		printToFileItem = menuItem(Messages.getString("VGLII.PrintWorkToFile"), "PrintToFile", //$NON-NLS-1$ //$NON-NLS-2$
+		JMenu mnuFile = new JMenu(Messages.getInstance().getString("VGLII.File"));		 //$NON-NLS-1$
+		newProblemItem = menuItem(Messages.getInstance().getString("VGLII.NewProblem"), "NewProblem", newImage); //$NON-NLS-1$ //$NON-NLS-2$
+		openProblemItem = menuItem(Messages.getInstance().getString("VGLII.OpenWork"), "OpenWork", openImage); //$NON-NLS-1$ //$NON-NLS-2$
+		saveProblemItem = menuItem(Messages.getInstance().getString("VGLII.SaveWork"), "SaveWork", saveImage); //$NON-NLS-1$ //$NON-NLS-2$
+		saveProblemAsItem = menuItem(Messages.getInstance().getString("VGLII.SaveWorkAs"), "SaveAs", saveAsImage); //$NON-NLS-1$ //$NON-NLS-2$
+		pageSetupItem = menuItem(Messages.getInstance().getString("VGLII.PageSetup"), "PageSetup", pageSetupImage); //$NON-NLS-1$ //$NON-NLS-2$
+		printItem = menuItem(Messages.getInstance().getString("VGLII.PrintWork"), "PrintWork", printImage); //$NON-NLS-1$ //$NON-NLS-2$
+		printToFileItem = menuItem(Messages.getInstance().getString("VGLII.PrintWorkToFile"), "PrintToFile", //$NON-NLS-1$ //$NON-NLS-2$
 				printFileImage);
-		closeProblemItem = menuItem(Messages.getString("VGLII.CloseWork"), "CloseWork", closeImage); //$NON-NLS-1$ //$NON-NLS-2$
-		exitItem = menuItem(Messages.getString("VGLII.Exit"), "Exit", null); //$NON-NLS-1$ //$NON-NLS-2$
+		closeProblemItem = menuItem(Messages.getInstance().getString("VGLII.CloseWork"), "CloseWork", closeImage); //$NON-NLS-1$ //$NON-NLS-2$
+		exitItem = menuItem(Messages.getInstance().getString("VGLII.Exit"), "Exit", null); //$NON-NLS-1$ //$NON-NLS-2$
 
 		mnuFile.add(newProblemItem);
 		mnuFile.add(openProblemItem);
@@ -579,35 +579,35 @@ public class VGLII extends JFrame {
 		mnuBar.add(mnuFile);
 
 		//  "Utilities" options.
-		JMenu mnuUtilities = new JMenu(Messages.getString("VGLII.Utilities")); //$NON-NLS-1$
-		crossTwoItem = menuItem(Messages.getString("VGLII.CrossTwo"), "CrossTwo", null); //$NON-NLS-1$ //$NON-NLS-2$
+		JMenu mnuUtilities = new JMenu(Messages.getInstance().getString("VGLII.Utilities")); //$NON-NLS-1$
+		crossTwoItem = menuItem(Messages.getInstance().getString("VGLII.CrossTwo"), "CrossTwo", null); //$NON-NLS-1$ //$NON-NLS-2$
 		mnuUtilities.add(crossTwoItem);
 		mnuBar.add(mnuUtilities);
-		cageManagerItem = menuItem(Messages.getString("VGLII.Cages"), "CageManager", null); //$NON-NLS-1$ //$NON-NLS-2$
+		cageManagerItem = menuItem(Messages.getInstance().getString("VGLII.Cages"), "CageManager", null); //$NON-NLS-1$ //$NON-NLS-2$
 		mnuUtilities.add(cageManagerItem);
-		rearrangeCagesItem = menuItem(Messages.getString("VGLII.RearrangeCages"), "RearrangeCages", //$NON-NLS-1$ //$NON-NLS-2$
+		rearrangeCagesItem = menuItem(Messages.getInstance().getString("VGLII.RearrangeCages"), "RearrangeCages", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(rearrangeCagesItem);
-		summaryChartItem = menuItem(Messages.getString("VGLII.CreateSummaryChart"), "SummaryChart", //$NON-NLS-1$ //$NON-NLS-2$
+		summaryChartItem = menuItem(Messages.getInstance().getString("VGLII.CreateSummaryChart"), "SummaryChart", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(summaryChartItem);
-		unselectAllItem = menuItem(Messages.getString("VGLII.UnselectAllCages"), "UnselectAll", //$NON-NLS-1$ //$NON-NLS-2$
+		unselectAllItem = menuItem(Messages.getInstance().getString("VGLII.UnselectAllCages"), "UnselectAll", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(unselectAllItem);
 
 		mnuBar.add(mnuUtilities);
 
 		//  "Help" options.
-		JMenu mnuHelp = new JMenu(Messages.getString("VGLII.Help")); //$NON-NLS-1$
-		onlineHelpItem = menuItem(Messages.getString("VGLII.HelpPage"), "OnlineHelp", //$NON-NLS-1$ //$NON-NLS-2$
+		JMenu mnuHelp = new JMenu(Messages.getInstance().getString("VGLII.Help")); //$NON-NLS-1$
+		onlineHelpItem = menuItem(Messages.getInstance().getString("VGLII.HelpPage"), "OnlineHelp", //$NON-NLS-1$ //$NON-NLS-2$
 				onlineHelpImage);
 		mnuHelp.add(onlineHelpItem);
-		mnuHelp.add(menuItem(Messages.getString("VGLII.AboutVGL"), "About", //$NON-NLS-1$ //$NON-NLS-2$
+		mnuHelp.add(menuItem(Messages.getInstance().getString("VGLII.AboutVGL"), "About", //$NON-NLS-1$ //$NON-NLS-2$
 				aboutImage));
 		mnuBar.add(mnuHelp);
 
 		//language options
-		mnuLanguage = new JMenu(Messages.getString("VGLII.Language"));
+		mnuLanguage = new JMenu(Messages.getInstance().getString("VGLII.Language"));
 		for (int i = 0; i < supportedLanguageMenuItems.length; i++) {
 			mnuLanguage.add(supportedLanguageMenuItems[i]);
 			supportedLanguageMenuItems[i].addActionListener(new LanguageMenuItemListener());
@@ -622,7 +622,7 @@ public class VGLII extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			LanguageSpecifierMenuItem item = (LanguageSpecifierMenuItem)e.getSource();
 			Locale.setDefault(new Locale(item.getLanguage(), item.getCountry()));
-			Messages.updateResourceBundle();
+			Messages.getInstance().updateResourceBundle();
 			mnuBar.removeAll();
 			menuBar();
 			toolBar.removeAll();
@@ -687,29 +687,29 @@ public class VGLII extends JFrame {
 		ImageIcon exitImage = new ImageIcon(exitImageURL);
 
 		newButton = JButtonImageItem(newImage, "NewProblem", //$NON-NLS-1$
-				Messages.getString("VGLII.NewProblem"), KeyEvent.VK_N); //$NON-NLS-1$
-		openButton = JButtonImageItem(openImage, "OpenWork", Messages.getString("VGLII.OpenWork"), //$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getInstance().getInstance().getString("VGLII.NewProblem"), KeyEvent.VK_N); //$NON-NLS-1$
+		openButton = JButtonImageItem(openImage, "OpenWork", Messages.getInstance().getInstance().getString("VGLII.OpenWork"), //$NON-NLS-1$ //$NON-NLS-2$
 				KeyEvent.VK_O);
 		closeButton = JButtonImageItem(closeImage, "CloseWork", //$NON-NLS-1$
-				Messages.getString("VGLII.CloseWork"), KeyEvent.VK_L); //$NON-NLS-1$
-		exitButton = JButtonImageItem(exitImage, "Exit", Messages.getString("VGLII.Exit"), //$NON-NLS-1$ //$NON-NLS-2$
+				Messages.getInstance().getInstance().getString("VGLII.CloseWork"), KeyEvent.VK_L); //$NON-NLS-1$
+		exitButton = JButtonImageItem(exitImage, "Exit", Messages.getInstance().getInstance().getString("VGLII.Exit"), //$NON-NLS-1$ //$NON-NLS-2$
 				KeyEvent.VK_E);
-		saveButton = JButtonImageItem(saveImage, "SaveWork", Messages.getString("VGLII.SaveWork"), //$NON-NLS-1$ //$NON-NLS-2$
+		saveButton = JButtonImageItem(saveImage, "SaveWork", Messages.getInstance().getInstance().getString("VGLII.SaveWork"), //$NON-NLS-1$ //$NON-NLS-2$
 				KeyEvent.VK_S);
-		saveAsButton = JButtonImageItem(saveAsImage, "SaveAs", Messages.getString("VGLII.SaveAs"), //$NON-NLS-1$ //$NON-NLS-2$
+		saveAsButton = JButtonImageItem(saveAsImage, "SaveAs", Messages.getInstance().getInstance().getString("VGLII.SaveAs"), //$NON-NLS-1$ //$NON-NLS-2$
 				KeyEvent.VK_V);
 		crossTwoButton = JButtonImageItem(crossTwoImage, "CrossTwo", //$NON-NLS-1$
-				Messages.getString("VGLII.CrossTwo"), KeyEvent.VK_C); //$NON-NLS-1$
+				Messages.getInstance().getInstance().getString("VGLII.CrossTwo"), KeyEvent.VK_C); //$NON-NLS-1$
 		aboutButton = JButtonImageItem(aboutImage, "About", //$NON-NLS-1$
-				Messages.getString("VGLII.AboutVGL"), KeyEvent.VK_A); //$NON-NLS-1$
+				Messages.getInstance().getInstance().getString("VGLII.AboutVGL"), KeyEvent.VK_A); //$NON-NLS-1$
 
 		printButton = JButtonImageItem(printImage, "PrintWork", //$NON-NLS-1$
-				Messages.getString("VGLII.PrintWork"), KeyEvent.VK_P); //$NON-NLS-1$
+				Messages.getInstance().getInstance().getString("VGLII.PrintWork"), KeyEvent.VK_P); //$NON-NLS-1$
 
 		printToFileButton = JButtonImageItem(printFileImage, "PrintToFile", //$NON-NLS-1$
-				Messages.getString("VGLII.PrintWorkToFile"), KeyEvent.VK_F); //$NON-NLS-1$
+				Messages.getInstance().getInstance().getString("VGLII.PrintWorkToFile"), KeyEvent.VK_F); //$NON-NLS-1$
 		onlineHelpButton = JButtonImageItem(onlineHelpImage, "OnlineHelp", //$NON-NLS-1$
-				Messages.getString("VGLII.HelpPage"), KeyEvent.VK_H); //$NON-NLS-1$
+				Messages.getInstance().getInstance().getString("VGLII.HelpPage"), KeyEvent.VK_H); //$NON-NLS-1$
 
 		toolBar.add(newButton);
 		toolBar.add(openButton);
@@ -850,9 +850,9 @@ public class VGLII extends JFrame {
 					problemsDirectory = defaultProblemDirectory;
 				}
 				problemFile = selectFile(problemsDirectory,
-						Messages.getString("VGLII.NewProbTypeSel"), 
-						Messages.getString("VGLII.SelProbType"), false, //$NON-NLS-1$ //$NON-NLS-2$
-						prbFilterString, Messages.getString("VGLII.ProTypeFiles"), //$NON-NLS-1$
+						Messages.getInstance().getInstance().getString("VGLII.NewProbTypeSel"), 
+						Messages.getInstance().getInstance().getString("VGLII.SelProbType"), false, //$NON-NLS-1$ //$NON-NLS-2$
+						prbFilterString, Messages.getInstance().getInstance().getString("VGLII.ProTypeFiles"), //$NON-NLS-1$
 						JFileChooser.OPEN_DIALOG);
 			} else {
 				problemFile = new File(problemFileName);
@@ -891,9 +891,9 @@ public class VGLII extends JFrame {
 		GeneticModelAndCageSet result = null;
 
 		if (workFileName == null) {
-			workFile = selectFile(desktopDirectory, Messages.getString("VGLII.OpenWork"), //$NON-NLS-1$
-					Messages.getString("VGLII.SelWrkFile"), false, wrkFilterString, 
-					Messages.getString("VGLII.WorkFiles"), //$NON-NLS-1$ //$NON-NLS-2$
+			workFile = selectFile(desktopDirectory, Messages.getInstance().getInstance().getString("VGLII.OpenWork"), //$NON-NLS-1$
+					Messages.getInstance().getInstance().getString("VGLII.SelWrkFile"), false, wrkFilterString, 
+					Messages.getInstance().getInstance().getString("VGLII.WorkFiles"), //$NON-NLS-1$ //$NON-NLS-2$
 					JFileChooser.OPEN_DIALOG);
 		} else {	
 			workFile = new File(workFileName);
@@ -926,9 +926,9 @@ public class VGLII extends JFrame {
 		if (cageCollection != null) {
 			if (currentSavedFile == null)
 				currentSavedFile = selectFile(desktopDirectory,
-						Messages.getString("VGLII.SaveWork"), 
-						Messages.getString("VGLII.EnterSaveFileName"), false, //$NON-NLS-1$ //$NON-NLS-2$
-						wrkFilterString, Messages.getString("VGLII.WorkFiles"), //$NON-NLS-1$
+						Messages.getInstance().getInstance().getString("VGLII.SaveWork"), 
+						Messages.getInstance().getInstance().getString("VGLII.EnterSaveFileName"), false, //$NON-NLS-1$ //$NON-NLS-2$
+						wrkFilterString, Messages.getInstance().getInstance().getString("VGLII.WorkFiles"), //$NON-NLS-1$
 						JFileChooser.SAVE_DIALOG);
 			try {
 				Iterator<CageUI> it = cageCollection.iterator();
@@ -1022,10 +1022,10 @@ public class VGLII extends JFrame {
 	private void printToFile() {
 		if (cageCollection != null) {
 			File printFile = selectFile(desktopDirectory,
-					Messages.getString("VGLII.PrintWorkToFile"), 
-					Messages.getString("VGLII.EnterPrintFileName"), 
+					Messages.getInstance().getInstance().getString("VGLII.PrintWorkToFile"), 
+					Messages.getInstance().getInstance().getString("VGLII.EnterPrintFileName"), 
 					false, //$NON-NLS-1$ //$NON-NLS-2$
-					printFilterString, Messages.getString("VGLII.PrintFiles"), -1); //$NON-NLS-1$
+					printFilterString, Messages.getInstance().getInstance().getString("VGLII.PrintFiles"), -1); //$NON-NLS-1$
 			if (printFile != null) {
 				if (!printFile.getPath().endsWith(".html")) //$NON-NLS-1$
 					printFile = convertTo(printFile, ".html"); //$NON-NLS-1$
@@ -1088,30 +1088,30 @@ public class VGLII extends JFrame {
 			htmlString.append("<table border=1><tr><td align=center colspan=3" //$NON-NLS-1$
 					+ " bgcolor=#C0C0C0>Cage " + (id + 1) + "</td></tr>"); //$NON-NLS-1$ //$NON-NLS-2$
 			htmlString.append("<tr><td nowrap colspan=3>");
-			htmlString.append(Messages.getString("VGLII.Parents")); //$NON-NLS-1$
+			htmlString.append(Messages.getInstance().getInstance().getString("VGLII.Parents")); //$NON-NLS-1$
 			if (parent1 != null && parent2 != null) {
 				htmlString.append("<ul><li>" + parent1.getSexString() + " " //$NON-NLS-1$ //$NON-NLS-2$
-						+ Messages.translateLongPhenotypeName(parent1.getPhenotypeString()) + " " 
-						+ Messages.getString("VGLII.FromCage") //$NON-NLS-1$
+						+ Messages.getInstance().getInstance().translateLongPhenotypeName(parent1.getPhenotypeString()) + " " 
+						+ Messages.getInstance().getInstance().getString("VGLII.FromCage") //$NON-NLS-1$
 						+ (parent1.getCageId() + 1));
 				htmlString.append("<li>" + parent2.getSexString() + " " //$NON-NLS-1$ //$NON-NLS-2$
-						+ Messages.translateLongPhenotypeName(parent2.getPhenotypeString()) + " " 
-						+ Messages.getString("VGLII.FromCage") //$NON-NLS-1$
+						+ Messages.getInstance().getInstance().translateLongPhenotypeName(parent2.getPhenotypeString()) + " " 
+						+ Messages.getInstance().getInstance().getString("VGLII.FromCage") //$NON-NLS-1$
 						+ (parent2.getCageId() + 1) + "</ul>"); //$NON-NLS-1$
 			}
 			htmlString.append("</td></tr>"); //$NON-NLS-1$
 			htmlString.append("<tr><td nowrap align=center colspan=3>");
 			htmlString
-			.append(Messages.getString("VGLII.Offspring")); //$NON-NLS-1$
+			.append(Messages.getInstance().getInstance().getString("VGLII.Offspring")); //$NON-NLS-1$
 			htmlString.append("</td></tr>");
 			htmlString.append("<tr><td nowrap align=center>");
-			htmlString.append(Messages.getString("VGLII.Phenotype") //$NON-NLS-1$
+			htmlString.append(Messages.getInstance().getInstance().getString("VGLII.Phenotype") //$NON-NLS-1$
 					+ "</td>"
 					+ "<td nowrap align=center>"
-					+ Messages.getString("VGLII.Sex") //$NON-NLS-1$
+					+ Messages.getInstance().getInstance().getString("VGLII.Sex") //$NON-NLS-1$
 					+ "</td>"
 					+ "<td nowrap align=center>"
-					+ Messages.getString("VGLII.Count")
+					+ Messages.getInstance().getInstance().getString("VGLII.Count")
 					+ "</td></tr>"); //$NON-NLS-1$
 			Iterator<String> it = children.keySet().iterator();
 			while (it.hasNext()) {
@@ -1119,15 +1119,15 @@ public class VGLII extends JFrame {
 				OrganismList l = children.get(phenotype);
 
 				htmlString.append("<tr><td nowrap align=center>" 
-						+ Messages.translateLongPhenotypeName(phenotype) //$NON-NLS-1$
-						+ "</td>" + "<td nowrap align=center>" + Messages.getString("VGLII.Male") //$NON-NLS-1$ //$NON-NLS-2$
+						+ Messages.getInstance().getInstance().translateLongPhenotypeName(phenotype) //$NON-NLS-1$
+						+ "</td>" + "<td nowrap align=center>" + Messages.getInstance().getInstance().getString("VGLII.Male") //$NON-NLS-1$ //$NON-NLS-2$
 						+ "</td><td nowrap align=center>" + l.getNumberOfMales() //$NON-NLS-1$
 						+ "</td></tr>"); //$NON-NLS-1$
 				htmlString.append("<tr><td nowrap align=center>" 
-						+ Messages.translateLongPhenotypeName(phenotype) //$NON-NLS-1$
+						+ Messages.getInstance().getInstance().translateLongPhenotypeName(phenotype) //$NON-NLS-1$
 						+ "</td>" 
 						+"<td nowrap align=center>"
-						+ Messages.getString("VGLII.Female") //$NON-NLS-1$ //$NON-NLS-2$
+						+ Messages.getInstance().getInstance().getString("VGLII.Female") //$NON-NLS-1$ //$NON-NLS-2$
 						+ "</td><td nowrap align=center>" + l.getNumberOfFemales() //$NON-NLS-1$
 						+ "</td></tr>"); //$NON-NLS-1$
 			}
@@ -1147,10 +1147,10 @@ public class VGLII extends JFrame {
 				cleanUp();
 			} else {
 				int ans1 = JOptionPane.showConfirmDialog(this,
-						Messages.getString("VGLII.ClosingWarningLine1") //$NON-NLS-1$
+						Messages.getInstance().getInstance().getString("VGLII.ClosingWarningLine1") //$NON-NLS-1$
 						+ "\n"
-						+ Messages.getString("VGLII.ClosingWarningLine2"), //$NON-NLS-1$
-						Messages.getString("VGLII.CloseWork"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
+						+ Messages.getInstance().getInstance().getString("VGLII.ClosingWarningLine2"), //$NON-NLS-1$
+						Messages.getInstance().getInstance().getString("VGLII.CloseWork"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
 						JOptionPane.WARNING_MESSAGE);
 				if (ans1 == JOptionPane.YES_OPTION)
 					saveProblem();
@@ -1173,10 +1173,10 @@ public class VGLII extends JFrame {
 				System.exit(0);
 			} else {
 				int ans = JOptionPane.showConfirmDialog(this,
-						Messages.getString("VGLII.QuitWarningLine1") //$NON-NLS-1$
+						Messages.getInstance().getInstance().getString("VGLII.QuitWarningLine1") //$NON-NLS-1$
 						+ "\n"
-						+ Messages.getString("VGLII.QuitWarningLine2"), //$NON-NLS-1$
-						Messages.getString("VGLII.ExitVGL"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
+						+ Messages.getInstance().getInstance().getString("VGLII.QuitWarningLine2"), //$NON-NLS-1$
+						Messages.getInstance().getInstance().getString("VGLII.ExitVGL"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
 						JOptionPane.WARNING_MESSAGE);
 				if (ans == JOptionPane.YES_OPTION) {
 					saveProblem();
@@ -1243,12 +1243,12 @@ public class VGLII extends JFrame {
 				parentUIs[0].setCentralOrganismUI(organismUI2);
 			}
 		} else {
-			JOptionPane.showMessageDialog(this, Messages.getString("VGLII.VGLII") //$NON-NLS-1$
+			JOptionPane.showMessageDialog(this, Messages.getInstance().getInstance().getString("VGLII.VGLII") //$NON-NLS-1$
 					+ "\n"
-					+ Messages.getString("VGLII.CrossWarningLine1") //$NON-NLS-1$
+					+ Messages.getInstance().getInstance().getString("VGLII.CrossWarningLine1") //$NON-NLS-1$
 					+ "\n"
-					+ Messages.getString("VGLII.CrossWarningLine2"), //$NON-NLS-1$
-					Messages.getString("VGLII.CrossTwo"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+					+ Messages.getInstance().getInstance().getString("VGLII.CrossWarningLine2"), //$NON-NLS-1$
+					Messages.getInstance().getInstance().getString("VGLII.CrossTwo"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 		}
 		changeSinceLastSave = true;
 	}
@@ -1264,19 +1264,19 @@ public class VGLII extends JFrame {
 
 		try {
 			helpPane.setPage(VGLII.class.getResource(
-					Messages.getString("VGLII.HelpFileDir") 
+					Messages.getInstance().getInstance().getString("VGLII.HelpFileDir") 
 					+ "/"
 					+ "index.html")); //$NON-NLS-1$
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,
-					Messages.getString("VGLII.HelpWarning1"), //$NON-NLS-1$
-					Messages.getString("VGLII.HelpWarning2"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+					Messages.getInstance().getInstance().getString("VGLII.HelpWarning1"), //$NON-NLS-1$
+					Messages.getInstance().getInstance().getString("VGLII.HelpWarning2"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 			return;
 		}
 
 		JScrollPane helpScrollPane = new JScrollPane(helpPane);
-		JDialog helpDialog = new JDialog(this, Messages.getString("VGLII.HelpPage")); //$NON-NLS-1$
-		JButton backButton = new JButton(Messages.getString("VGLII.ReturnToTop")); //$NON-NLS-1$
+		JDialog helpDialog = new JDialog(this, Messages.getInstance().getInstance().getString("VGLII.HelpPage")); //$NON-NLS-1$
+		JButton backButton = new JButton(Messages.getInstance().getInstance().getString("VGLII.ReturnToTop")); //$NON-NLS-1$
 		helpDialog.getContentPane().setLayout(new BorderLayout());
 		helpDialog.getContentPane().add(backButton, BorderLayout.NORTH);
 		helpDialog.getContentPane().add(helpScrollPane, BorderLayout.CENTER);
@@ -1302,12 +1302,12 @@ public class VGLII extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					helpPane.setPage(VGLII.class.getResource(
-							Messages.getString("VGLII.HelpFileDir") 
+							Messages.getInstance().getInstance().getString("VGLII.HelpFileDir") 
 							+ System.getProperty("file.separator")
 							+ "index.html")); //$NON-NLS-1$
 				} catch (Exception e) {
 					System.err
-					.println(Messages.getString("VGLII.HelpWarning3") + e.toString()); //$NON-NLS-1$
+					.println(Messages.getInstance().getInstance().getString("VGLII.HelpWarning3") + e.toString()); //$NON-NLS-1$
 				}
 			}
 		});
@@ -1430,15 +1430,15 @@ public class VGLII extends JFrame {
 			if (c.getId() > 0) {
 				OrganismUI[] parentUIs = cageUI.getParentUIs();
 				if (parentUIs == null)
-					System.out.println(Messages.getString("VGLII.NoParentsWarning") //$NON-NLS-1$
+					System.out.println(Messages.getInstance().getInstance().getString("VGLII.NoParentsWarning") //$NON-NLS-1$
 							+ " #:"
 							+ c.getId());
 				if (parentUIs[0] == null)
-					System.out.println(Messages.getString("VGLII.NoParent0Warning") //$NON-NLS-1$
+					System.out.println(Messages.getInstance().getInstance().getString("VGLII.NoParent0Warning") //$NON-NLS-1$
 							+ " #:"
 							+ c.getId());
 				if (parentUIs[1] == null)
-					System.out.println(Messages.getString("VGLII.NoParent1Warning") //$NON-NLS-1$
+					System.out.println(Messages.getInstance().getInstance().getString("VGLII.NoParent1Warning") //$NON-NLS-1$
 							+ " #:"
 							+ c.getId());
 				Organism o1 = parentUIs[0].getOrganism();
@@ -1465,24 +1465,24 @@ public class VGLII extends JFrame {
 						}
 					} else {
 						System.out
-						.println(Messages.getString("VGLII.ForOrgs") //$NON-NLS-1$
+						.println(Messages.getInstance().getInstance().getString("VGLII.ForOrgs") //$NON-NLS-1$
 								+ "#:"
 								+ c.getId());
 						if (originalOUI1 == null)
-							System.out.println(Messages.getString("VGLII.OrgFor") + ": " + o1.getId() //$NON-NLS-1$
-									+ " " + o1.getCageId() + " " + Messages.getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+							System.out.println(Messages.getInstance().getInstance().getString("VGLII.OrgFor") + ": " + o1.getId() //$NON-NLS-1$
+									+ " " + o1.getCageId() + " " + Messages.getInstance().getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 						if (originalOUI2 == null)
-							System.out.println(Messages.getString("VGLII.OrgFor") + ": " + o2.getId() //$NON-NLS-1$
-									+ " " + o2.getCageId() + " " + Messages.getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+							System.out.println(Messages.getInstance().getInstance().getString("VGLII.OrgFor") + ": " + o2.getId() //$NON-NLS-1$
+									+ " " + o2.getCageId() + " " + Messages.getInstance().getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 				} else {
-					System.out.println(Messages.getString("VGLII.ForParentsOfCage") + "#: " + c.getId()); //$NON-NLS-1$
+					System.out.println(Messages.getInstance().getInstance().getString("VGLII.ForParentsOfCage") + "#: " + c.getId()); //$NON-NLS-1$
 					if (cage1 == null)
-						System.out.println(Messages.getString("VGLII.CageForOrg") + o1.getId() //$NON-NLS-1$
-								+ " " + o1.getCageId() + " " + Messages.getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+						System.out.println(Messages.getInstance().getInstance().getString("VGLII.CageForOrg") + o1.getId() //$NON-NLS-1$
+								+ " " + o1.getCageId() + " " + Messages.getInstance().getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 					if (cage2 == null)
-						System.out.println(Messages.getString("VGLII.CageForOrg") + o2.getId() //$NON-NLS-1$
-								+ " " + o2.getCageId() + " " + Messages.getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+						System.out.println(Messages.getInstance().getInstance().getString("VGLII.CageForOrg") + o2.getId() //$NON-NLS-1$
+								+ " " + o2.getCageId() + " " + Messages.getInstance().getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 		}
