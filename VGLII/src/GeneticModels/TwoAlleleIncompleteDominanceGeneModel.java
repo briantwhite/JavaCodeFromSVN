@@ -111,31 +111,31 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
-		b.append(Messages.getTranslatedTraitName(t1) + "<br>");
-		b.append(Messages.getString("VGLII.TwoAlleleIncompleteDominance") + "<br>");
+		b.append(Messages.getInstance().getTranslatedTraitName(t1) + "<br>");
+		b.append(Messages.getInstance().getString("VGLII.TwoAlleleIncompleteDominance") + "<br>");
 		b.append("<ul>");
-		b.append("<li>" + Messages.getString("VGLII." + t1.getTraitName()) + " " 
-				+ Messages.getString("VGLII.And") + " " 
-				+ Messages.getString("VGLII." + t2.getTraitName()) 
-				+ " " + Messages.getString("VGLII.AreHomozygotes") + "</li>");
-		b.append("<li>" + Messages.getString("VGLII." + t3.getTraitName()) + " " 
-				+ Messages.getString("VGLII.IsTheHeterozygote") + "</li>");
+		b.append("<li>" + Messages.getInstance().getString("VGLII." + t1.getTraitName()) + " " 
+				+ Messages.getInstance().getString("VGLII.And") + " " 
+				+ Messages.getInstance().getString("VGLII." + t2.getTraitName()) 
+				+ " " + Messages.getInstance().getString("VGLII.AreHomozygotes") + "</li>");
+		b.append("<li>" + Messages.getInstance().getString("VGLII." + t3.getTraitName()) + " " 
+				+ Messages.getInstance().getString("VGLII.IsTheHeterozygote") + "</li>");
 		b.append("</ul>");
 		
 		b.append("<table border=1>");
-		b.append("<tr><th>" + Messages.getString("VGLII.Genotype") + "</th><th>"
-				+ Messages.getString("VGLII.Phenotype") + "</th></tr>");
-		b.append("<tr><td>" + Messages.getString("VGLII." + t1.getTraitName())
-				+ "/" + Messages.getString("VGLII." + t1.getTraitName()) + "</td>");
-		b.append("<td>" + Messages.getString("VGLII." + t1.getTraitName()) +"</td></tr>");
+		b.append("<tr><th>" + Messages.getInstance().getString("VGLII.Genotype") + "</th><th>"
+				+ Messages.getInstance().getString("VGLII.Phenotype") + "</th></tr>");
+		b.append("<tr><td>" + Messages.getInstance().getString("VGLII." + t1.getTraitName())
+				+ "/" + Messages.getInstance().getString("VGLII." + t1.getTraitName()) + "</td>");
+		b.append("<td>" + Messages.getInstance().getString("VGLII." + t1.getTraitName()) +"</td></tr>");
 		
-		b.append("<tr><td>" + Messages.getString("VGLII." + t1.getTraitName()) + "/" 
-				+ Messages.getString("VGLII." + t2.getTraitName()) + "</td>");
-		b.append("<td>" + Messages.getString("VGLII." + t3.getTraitName()) +"</td></tr>");
+		b.append("<tr><td>" + Messages.getInstance().getString("VGLII." + t1.getTraitName()) + "/" 
+				+ Messages.getInstance().getString("VGLII." + t2.getTraitName()) + "</td>");
+		b.append("<td>" + Messages.getInstance().getString("VGLII." + t3.getTraitName()) +"</td></tr>");
 		
-		b.append("<tr><td>" + Messages.getString("VGLII." + t2.getTraitName()) + "/" 
-				+ Messages.getString("VGLII." + t2.getTraitName()) + "</td>");
-		b.append("<td>" + Messages.getString("VGLII." + t2.getTraitName()) +"</td></tr>");
+		b.append("<tr><td>" + Messages.getInstance().getString("VGLII." + t2.getTraitName()) + "/" 
+				+ Messages.getInstance().getString("VGLII." + t2.getTraitName()) + "</td>");
+		b.append("<td>" + Messages.getInstance().getString("VGLII." + t2.getTraitName()) +"</td></tr>");
 		
 		b.append("</table>");
 		return b.toString();

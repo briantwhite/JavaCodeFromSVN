@@ -221,9 +221,9 @@ public class Organism {
 
 	public String getSexString() {
 		if (male) {
-			return Messages.getString("VGLII.Male");
+			return Messages.getInstance().getString("VGLII.Male");
 		} else {
-			return Messages.getString("VGLII.Female");
+			return Messages.getInstance().getString("VGLII.Female");
 		}
 	}
 

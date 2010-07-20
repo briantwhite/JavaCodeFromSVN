@@ -168,24 +168,24 @@ public abstract class ChromosomeModel {
 		StringBuffer b = new StringBuffer();
 		if (geneModels.size() != 0) {
 			if(sexChromosome) {
-				b.append(Messages.getString("VGLII.GeneOnSexChromosome") + ":<br>\n");
+				b.append(Messages.getInstance().getString("VGLII.GeneOnSexChromosome") + ":<br>\n");
 			} else {
-				b.append(Messages.getString("VGLII.GeneOnAutosome") + ":<br>\n");
+				b.append(Messages.getInstance().getString("VGLII.GeneOnAutosome") + ":<br>\n");
 			}
 
 			Iterator<Float> rfIt = recombinationFrequencies.iterator();
 			for (int i = 0; i < geneModels.size(); i++) {
 				GeneModel gm = geneModels.get(i);
-				b.append("-" + Messages.getString("VGLII.Gene") + " " + i + ":");
+				b.append("-" + Messages.getInstance().getString("VGLII.Gene") + " " + i + ":");
 				b.append(gm.toString() + "<br>\n");
 				if (rfIt.hasNext()) {
 					float rf = rfIt.next();
 					if (rf == 0.5f) {
 						b.append("*" + 
-								Messages.getString("VGLII.UnlinkedTo") + ":<br>\n");
+								Messages.getInstance().getString("VGLII.UnlinkedTo") + ":<br>\n");
 					} else {
 						b.append("*" + 
-								Messages.getString("VGLII.RecombinationFreq") 
+								Messages.getInstance().getString("VGLII.RecombinationFreq") 
 								+ " = " + rf + " to:<br>\n");
 					}
 				}

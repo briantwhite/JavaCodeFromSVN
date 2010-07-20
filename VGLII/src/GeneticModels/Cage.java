@@ -239,39 +239,39 @@ public class Cage {
 	public String print() {
 		StringBuffer s = new StringBuffer();
 		s.append("\t\t\t").append(
-				Messages.getString("VGLII.Cage")).append(" ").append(id + 1).append("\n");
+				Messages.getInstance().getString("VGLII.Cage")).append(" ").append(id + 1).append("\n");
 
-		s.append(Messages.getString("VGLII.Parents")).append("\n");
+		s.append(Messages.getInstance().getString("VGLII.Parents")).append("\n");
 		if (parent1 != null) {
 			s.append("\t").append(parent1.getSexString());
 			s.append(" ").append(parent1.getPhenotypeString());
 			s.append(" ").append(
-					Messages.getString("VGLII.FromCage")).append(" ").append(parent1.getCageId() + 1);
+					Messages.getInstance().getString("VGLII.FromCage")).append(" ").append(parent1.getCageId() + 1);
 			s.append("\n");
 		}
 		if (parent2 != null) {
 			s.append("\t").append(parent2.getSexString());
 			s.append(" ").append(parent2.getPhenotypeString());
 			s.append(" ").append(
-					Messages.getString("VGLII.FromCage")).append(" ").append(parent2.getCageId() + 1);
+					Messages.getInstance().getString("VGLII.FromCage")).append(" ").append(parent2.getCageId() + 1);
 			s.append("\n");
 		}
 
-		s.append(Messages.getString("VGLII.Offspring")).append("\n");
+		s.append(Messages.getInstance().getString("VGLII.Offspring")).append("\n");
 		s.append("\t").append(
-				Messages.getString("VGLII.Phenotype")).append("\t").append(
-						Messages.getString("VGLII.Sex")).append("\t\t").append(
-								Messages.getString("VGLII.Count")).append("(#)\n");
+				Messages.getInstance().getString("VGLII.Phenotype")).append("\t").append(
+						Messages.getInstance().getString("VGLII.Sex")).append("\t\t").append(
+								Messages.getInstance().getString("VGLII.Count")).append("(#)\n");
 		Iterator<String> i = children.keySet().iterator();
 		while (i.hasNext()) {
 			String phenotype = i.next();
 			OrganismList l = children.get(phenotype);
 			s.append("\t").append(phenotype);
 			s.append("\t\t").append(
-					Messages.getString("VGLII.Male")).append("\t\t").append(l.getNumberOfMales());
+					Messages.getInstance().getString("VGLII.Male")).append("\t\t").append(l.getNumberOfMales());
 			s.append("\n\t").append(phenotype);
 			s.append("\t\t").append(
-					Messages.getString("VGLII.Female")).append("\t").append(l.getNumberOfFemales());
+					Messages.getInstance().getString("VGLII.Female")).append("\t").append(l.getNumberOfFemales());
 			s.append("\n");
 		}
 		s.append("\n\n");

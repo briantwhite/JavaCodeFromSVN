@@ -976,3 +976,16 @@ Add line 81 to WorkFileProcessor: CharacterSpecificationBank.getInstance().refre
 
 now is AOK
 
+7/2010
+trouble in other languages that weren't supported with a .properties file
+it would die since it couldn't find the right file
+
+modify Messages so that it checks on instantiation and defaults to english
+need to fix all refs from Messages.get to Messages.getInstance().get
+
+started adding in Korean stuff from 
+Se Jin Youn
+Hansung Science High School
+san 5, Hyeonjeo dong, Seodaemun gu
+Seoul, 120-080, Republic of Korea.
+email: sejin.youn@gmail.com

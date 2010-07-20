@@ -108,7 +108,7 @@ public class Chromosome {
 	public String toTranslatedString() {
 		StringBuffer b = new StringBuffer();
 		for(Allele a: alleles) {
-			b.append(Messages.getTranslatedAlleleName(a) + ";");
+			b.append(Messages.getInstance().getTranslatedAlleleName(a) + ";");
 		}
 		if (b.length() > 0) {
 			b.deleteCharAt(b.length() - 1);

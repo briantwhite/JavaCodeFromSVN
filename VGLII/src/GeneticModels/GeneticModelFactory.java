@@ -77,10 +77,10 @@ public class GeneticModelFactory {
 			model.scrambleTraitOrder();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					Messages.getString("VGLII.ErrorOpeningFileLine1") + "\n"
-					+ Messages.getString("VGLII.ErrorOpeningFileLine2") + "\n"
-					+ Messages.getString("VGLII.ErrorOpeningFileLine3"), 
-					Messages.getString("VGLII.ErrorOpeningFileHeadline"),
+					Messages.getInstance().getString("VGLII.ErrorOpeningFileLine1") + "\n"
+					+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine2") + "\n"
+					+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine3"), 
+					Messages.getInstance().getString("VGLII.ErrorOpeningFileHeadline"),
 					JOptionPane.ERROR_MESSAGE);
 		}
 		return model;
@@ -120,10 +120,10 @@ public class GeneticModelFactory {
 						processor.getCages());
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					Messages.getString("VGLII.ErrorOpeningFileLine1") + "\n"
-					+ Messages.getString("VGLII.ErrorOpeningFileLine2") + "\n"
-					+ Messages.getString("VGLII.ErrorOpeningFileLine3"), 
-					Messages.getString("VGLII.ErrorOpeningFileHeadline"),
+					Messages.getInstance().getString("VGLII.ErrorOpeningFileLine1") + "\n"
+					+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine2") + "\n"
+					+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine3"), 
+					Messages.getInstance().getString("VGLII.ErrorOpeningFileHeadline"),
 					JOptionPane.ERROR_MESSAGE);
 		}
 		return result;

@@ -373,9 +373,9 @@ public class GeneticModel {
 		StringBuffer b = new StringBuffer();
 		b.append("<html><body>");
 		if (XX_XYsexLinkage) {
-			b.append("XX/XY " + Messages.getString("VGLII.SexDetermination"));
+			b.append("XX/XY " + Messages.getInstance().getString("VGLII.SexDetermination"));
 		} else {
-			b.append("ZZ/ZW " + Messages.getString("VGLII.SexDetermination"));
+			b.append("ZZ/ZW " + Messages.getInstance().getString("VGLII.SexDetermination"));
 		}
 		b.append("<br>");
 		b.append(autosomeModel.toString());
