@@ -995,3 +995,13 @@ punt on Korean for now - can get it to be visible in the .properties file
 	but can't get the chars to show in the menus.
 move the .properties file into a folder "Future"
 comment out the line in VGLII for the Korean menu item.
+
+several people don't like Circular Dominance
+	so add three parameters to the .pr2 files: 
+	come into play if 3 alleles
+		Gene1_CircDom
+		Gene2_CircDom
+		Gene3_CircDom - 
+			0 = no circ dom; all hierarch dom
+			0.5 = 50/50 circ/hierarch dom <DEFAULT>
+			1 = all circ dom; no hierarch dom
