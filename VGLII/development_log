@@ -989,3 +989,9 @@ Hansung Science High School
 san 5, Hyeonjeo dong, Seodaemun gu
 Seoul, 120-080, Republic of Korea.
 email: sejin.youn@gmail.com
+
+7/31/10
+punt on Korean for now - can get it to be visible in the .properties file
+	but can't get the chars to show in the menus.
+move the .properties file into a folder "Future"
+comment out the line in VGLII for the Korean menu item.
