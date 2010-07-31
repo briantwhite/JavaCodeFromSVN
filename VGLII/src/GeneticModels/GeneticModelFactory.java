@@ -248,20 +248,23 @@ public class GeneticModelFactory {
 			//first gene (always must be one)
 			if (r.nextFloat() < specs.getGene1_chSexLinked()) {
 				model.addFirstSexLinkedGeneModel(getRandomGeneModel(
-						specs.getGene2_ch3Alleles(),
-						specs.getGene1_chIncDom()));
+						specs.getGene1_ch3Alleles(),
+						specs.getGene1_chIncDom(),
+						specs.getGene1_chCircDom()));
 				gene1SexLinked = true;
 			} else {
 				model.addFirstAutosomalGeneModel(getRandomGeneModel(
 						specs.getGene1_ch3Alleles(),
-						specs.getGene1_chIncDom()));
+						specs.getGene1_chIncDom(),
+						specs.getGene1_chCircDom()));
 			}
 
 			// second gene (may be one)
 			if (r.nextFloat() < specs.getGene2_chPresent()) {
 				GeneModel gene2Model = getRandomGeneModel(
 						specs.getGene2_ch3Alleles(), 
-						specs.getGene2_chIncDom());
+						specs.getGene2_chIncDom(),
+						specs.getGene2_chCircDom());
 				addGeneModelRandomly(
 						model, 
 						gene1SexLinked, 
@@ -278,7 +281,8 @@ public class GeneticModelFactory {
 			if (r.nextFloat() < specs.getGene3_chPresent()) {
 				GeneModel gene3Model = getRandomGeneModel(
 						specs.getGene3_ch3Alleles(), 
-						specs.getGene3_chIncDom());
+						specs.getGene3_chIncDom(),
+						specs.getGene3_chCircDom());
 				addGeneModelRandomly(
 						model, 
 						gene1SexLinked, 
@@ -316,10 +320,10 @@ public class GeneticModelFactory {
 			// simple dom
 			if (threeAlleles) {
 				// choice for circ or hierarch dom
-				if (xxxxx) {
-					geneModel = new ThreeAlleleHierarchicalDominanceGeneModel();
-				} else {
+				if (r.nextFloat() < chCircDom) {
 					geneModel = new ThreeAlleleCircularDominanceGeneModel();
+				} else {
+					geneModel = new ThreeAlleleHierarchicalDominanceGeneModel();
 				}				
 			} else {
 				geneModel = new TwoAlleleSimpleDominanceGeneModel();

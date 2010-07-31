@@ -1057,3 +1057,37 @@ revised params are now:
 	* Gene3_IncDom
 	* Gene3_CircDom
 
+- make new problem files
+  only Level07 and Level08 have any circ dom
+  make Level07-nc & -nc-p versions (Gene1_CircDom = 0) so now:
+
+p versions have practice mode
+
+- Level01.pr2 = One Autosomal Gene; 2 Alleles, Simple Dominance 
+- Level02.pr2 = One Autosomal Gene; 2 Alleles, Incomplete Dominance
+- Level03.pr2 = One XX/XY Sex-linked Gene; 2 Alleles, Simple Dominance
+- Level04.pr2 = One XX/XY Sex-linked Gene; 2 Alleles, Incomplete Dominance
+- Level05.pr2 = One Gene (Autosomal or XX/XY Sex-Linked); 2 Alleles, Simple Dominance
+- Level06.pr2 = One Gene (Autosomal or XX/XY Sex-Linked); 2 Alleles, Incomplete Dominance
+- Level07.pr2 = One Gene (Autosomal or XX/XY Sex-Linked); 3 Alleles 
+								(Incomplete, Hierarchical, or Circular dominance)
+- Level07-nc.pr2 = One Gene (Autosomal or XX/XY Sex-Linked); 3 Alleles 
+								(Incomplete or Hierarchical dominance)
+- Level08.pr2 = One Gene (Autosomal, XX/XY Sex-Linked, ZZ/ZW Sex-Linked);
+				(2 or 3 Alleles); (Incomplete, Hierarchical, or Circular dominance)
+- Level08-nc.pr2 = One Gene (Autosomal, XX/XY Sex-Linked, ZZ/ZW Sex-Linked);
+				(2 or 3 Alleles); (Incomplete or Hierarchical dominance)
+- Level09.pr2 = Two Unlinked Autosomal Genes; 2 Alleles each; Simple Dominance
+- Level10.pr2 = Two Linked Autosomal Genes (0.1 < rf < 0.3); 2 Alleles each;
+					Simple Dominance
+- Level11.pr2 = Two Genes, either XX/XY Sex-Linked or Autosomal; 2 Alleles each; 
+					Simple dominance
+
+- Level12.pr2 = Three Linked Autosomal Genes (0.1 < rf < 0.3); 2 Alleles each;
+					Simple dominance
+- Level13.pr2 = Three Sex-Linked Genes (0.1 < rf < 0.3); 2 Alleles each;
+					Simple dominance
+
+needed to fix some of the problem files
+-Level07.pr2 did not allow for sex-linkage
+
