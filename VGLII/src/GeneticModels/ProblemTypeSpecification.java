@@ -33,6 +33,7 @@ public class ProblemTypeSpecification {
 	private float gene1_chSexLinked;
 	private float gene1_ch3Alleles;
 	private float gene1_chIncDom;
+	private float gene1_chCircDom;
 
 	private float gene2_chPresent;
 	private float gene2_chSameChrAsGene1;
@@ -40,6 +41,7 @@ public class ProblemTypeSpecification {
 	private float gene2_maxRfToGene1;
 	private float gene2_ch3Alleles;
 	private float gene2_chIncDom;
+	private float gene2_chCircDom;
 
 	private float gene3_chPresent;
 	private float gene3_chSameChrAsGene1;
@@ -47,6 +49,7 @@ public class ProblemTypeSpecification {
 	private float gene3_maxRfToPrevGene;
 	private float gene3_ch3Alleles;
 	private float gene3_chIncDom;
+	private float gene3_chCircDom;
 
 	public ProblemTypeSpecification() {
 		beginnerMode = false;
@@ -59,6 +62,7 @@ public class ProblemTypeSpecification {
 		gene1_chSexLinked = 0.0f;
 		gene1_ch3Alleles = 0.0f;
 		gene1_chIncDom = 0.0f;
+		gene1_chCircDom = 0.5f;
 
 		gene2_chPresent = 0.0f;
 		gene2_chSameChrAsGene1 = 0.0f;
@@ -66,13 +70,15 @@ public class ProblemTypeSpecification {
 		gene2_maxRfToGene1 = 0.0f;
 		gene2_ch3Alleles = 0.0f;
 		gene2_chIncDom = 0.0f;
+		gene2_chCircDom = 0.5f;
 
 		gene3_chPresent = 0.0f;
 		gene3_chSameChrAsGene1 = 0.0f;
 		gene3_minRfToPrevGene = 0.0f;
 		gene3_maxRfToPrevGene = 0.0f;
 		gene3_ch3Alleles = 0.0f;
-		gene3_chIncDom = 0.0f;		
+		gene3_chIncDom = 0.0f;
+		gene3_chCircDom = 0.5f;
 	}
 
 	public boolean isBeginnerMode() {
@@ -139,6 +145,14 @@ public class ProblemTypeSpecification {
 		this.gene1_chIncDom = gene1_chIncDom;
 	}
 
+	public float getGene1_chCircDom() {
+		return gene1_chCircDom;
+	}
+
+	public void setGene1_chCircDom(float gene1ChCircDom) {
+		gene1_chCircDom = gene1ChCircDom;
+	}
+
 	public float getGene2_chPresent() {
 		return gene2_chPresent;
 	}
@@ -185,6 +199,14 @@ public class ProblemTypeSpecification {
 
 	public void setGene2_chIncDom(float gene2_chIncDom) {
 		this.gene2_chIncDom = gene2_chIncDom;
+	}
+
+	public float getGene2_chCircDom() {
+		return gene2_chCircDom;
+	}
+
+	public void setGene2_chCircDom(float gene2ChCircDom) {
+		gene2_chCircDom = gene2ChCircDom;
 	}
 
 	public float getGene3_chPresent() {
@@ -235,5 +257,12 @@ public class ProblemTypeSpecification {
 		this.gene3_chIncDom = gene3_chIncDom;
 	}
 
+	public float getGene3_chCircDom() {
+		return gene3_chCircDom;
+	}
+
+	public void setGene3_chCircDom(float gene3ChCircDom) {
+		gene3_chCircDom = gene3ChCircDom;
+	}
 
 }

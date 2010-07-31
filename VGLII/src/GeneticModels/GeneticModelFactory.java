@@ -171,6 +171,9 @@ public class GeneticModelFactory {
 			if (name.equals("Gene1_IncDom"))
 				problemSpec.setGene1_chIncDom(
 						Float.parseFloat(current.getTextTrim()));
+			if (name.equals("Gene1_CircDom"))
+				problemSpec.setGene1_chCircDom(
+						Float.parseFloat(current.getTextTrim()));
 
 			if (name.equals("Gene2_Present"))
 				problemSpec.setGene2_chPresent(
@@ -190,6 +193,9 @@ public class GeneticModelFactory {
 			if (name.equals("Gene2_IncDom"))
 				problemSpec.setGene2_chIncDom(
 						Float.parseFloat(current.getTextTrim()));
+			if (name.equals("Gene2_CircDom"))
+				problemSpec.setGene2_chCircDom(
+						Float.parseFloat(current.getTextTrim()));
 
 			if (name.equals("Gene3_Present"))
 				problemSpec.setGene3_chPresent(
@@ -208,6 +214,9 @@ public class GeneticModelFactory {
 						Float.parseFloat(current.getTextTrim()));
 			if (name.equals("Gene3_IncDom"))
 				problemSpec.setGene3_chIncDom(
+						Float.parseFloat(current.getTextTrim()));
+			if (name.equals("Gene3_CircDom"))
+				problemSpec.setGene3_chCircDom(
 						Float.parseFloat(current.getTextTrim()));
 		}
 		return problemSpec;
@@ -288,7 +297,7 @@ public class GeneticModelFactory {
 		return model;
 	}
 
-	private GeneModel getRandomGeneModel(float ch3Alleles, float chIncDom) {
+	private GeneModel getRandomGeneModel(float ch3Alleles, float chIncDom, float chCircDom) {
 
 		GeneModel geneModel = null;
 
@@ -306,8 +315,8 @@ public class GeneticModelFactory {
 		} else {
 			// simple dom
 			if (threeAlleles) {
-				// random choice 50/50 for circ or hierarch dom
-				if (r.nextBoolean()) {
+				// choice for circ or hierarch dom
+				if (xxxxx) {
 					geneModel = new ThreeAlleleHierarchicalDominanceGeneModel();
 				} else {
 					geneModel = new ThreeAlleleCircularDominanceGeneModel();
