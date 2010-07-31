@@ -1061,6 +1061,8 @@ revised params are now:
   only Level07 and Level08 have any circ dom
   make Level07-nc & -nc-p versions (Gene1_CircDom = 0) so now:
 
+also add a 
+- Level05-1.pr2 = One Gene (Autosomal, ZZ/ZW, or XX/XY Sex-Linked); 2 Alleles, Simple Dominance
 p versions have practice mode
 
 - Level01.pr2 = One Autosomal Gene; 2 Alleles, Simple Dominance 
@@ -1068,6 +1070,7 @@ p versions have practice mode
 - Level03.pr2 = One XX/XY Sex-linked Gene; 2 Alleles, Simple Dominance
 - Level04.pr2 = One XX/XY Sex-linked Gene; 2 Alleles, Incomplete Dominance
 - Level05.pr2 = One Gene (Autosomal or XX/XY Sex-Linked); 2 Alleles, Simple Dominance
+- Level05-1.pr2 = One Gene (Autosomal, XX/XY or ZZ/Zw Sex-linked); 2 Alleles, Simple Dominance
 - Level06.pr2 = One Gene (Autosomal or XX/XY Sex-Linked); 2 Alleles, Incomplete Dominance
 - Level07.pr2 = One Gene (Autosomal or XX/XY Sex-Linked); 3 Alleles 
 								(Incomplete, Hierarchical, or Circular dominance)
@@ -1088,6 +1091,7 @@ p versions have practice mode
 - Level13.pr2 = Three Sex-Linked Genes (0.1 < rf < 0.3); 2 Alleles each;
 					Simple dominance
 
-also needed to fix some of the problem files
+also needed to fix one of the problem files
 -Level07.pr2 did not allow for sex-linkage
+
 
