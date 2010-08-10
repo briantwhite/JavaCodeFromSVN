@@ -1104,3 +1104,12 @@ so make new parameter:
 	FieldPopTrueBreeding true/false
 	default is false
 
+8/10/10
+made new problems:
+- Level12TB.pr2 = Three Linked Autosomal Genes (0.1 < rf < 0.3); 2 Alleles each;
+					Simple dominance; Field population true breeding
+
+- Level 10-1.pr2 = Two Unlinked or Linked Autosomal Genes (0.1 < rf < 0.5); 2 Alleles each;
+					Simple Dominance
+					
+call it version 2.1.1
