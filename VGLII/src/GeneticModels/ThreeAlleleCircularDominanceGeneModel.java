@@ -52,7 +52,7 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		return genoPhenoTable[a1.getIntVal()][a2.getIntVal()];
 	}
 
-	public Allele[] getRandomAllelePair() {
+	public Allele[] getRandomAllelePair(boolean trueBreeding) {
 		// want equal frequency of each PHENOTYPE
 		Allele[] allelePair = new Allele[2];
 		switch (rand.nextInt(3)) {
@@ -60,7 +60,11 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		case 0:
 			// phenotype 1
 			// 3 possibilities 1,3 3,1 1,1
-			switch (rand.nextInt(3)) {
+			int x = 2; // default to homozygote if true breeding
+			if (!trueBreeding) {
+				x = rand.nextInt(3);
+			}
+			switch (x) {
 			case 0:
 				allelePair[0] = new Allele(t1, 1);
 				allelePair[1] = new Allele(t3, 3);
@@ -79,7 +83,11 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		case 1:
 			// phenotype 2
 			// 3 possibilities: 1,2  2,1 and 2,2
-			switch (rand.nextInt(3)) {
+			x = 2; // default to homozygote if true breeding
+			if (!trueBreeding) {
+				x = rand.nextInt(3);
+			}
+			switch (x) {
 			case 0:
 				allelePair[0] = new Allele(t1, 1);
 				allelePair[1] = new Allele(t2, 2);
@@ -98,7 +106,11 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		case 2:
 			// phenotype 3
 			// 3 possibilities 2,3 3,2 3,3
-			switch(rand.nextInt(3)) {
+			x = 2; // default to homozygote if true breeding
+			if (!trueBreeding) {
+				x = rand.nextInt(3);
+			}
+			switch (x) {
 			case 0:
 				allelePair[0] = new Allele(t2, 2);
 				allelePair[1] = new Allele(t3, 3);

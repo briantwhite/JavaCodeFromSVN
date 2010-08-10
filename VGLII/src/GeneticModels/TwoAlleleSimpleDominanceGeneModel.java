@@ -51,8 +51,8 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 		return genoPhenoTable[a1.getIntVal()][a2.getIntVal()];
 	}
 
-	public Allele[] getRandomAllelePair() {
-		// want equal frequency of each PHENOTYPE
+	public Allele[] getRandomAllelePair(boolean trueBreeding) {
+		// want equal frequency of each PHENOTYPE unless true breeding
 		Allele[] allelePair = new Allele[2];
 		if (rand.nextInt(2) == 0) {
 			// recessive pheno (1,1)
@@ -60,7 +60,7 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 			allelePair[1] = new Allele(t1, 1);
 		} else {
 			// dominant pheno - 2 ways to be this
-			if (rand.nextInt(2) == 0) {
+			if ((rand.nextInt(2) == 0) || trueBreeding) {
 				// 2,2 homozygote
 				allelePair[0] = new Allele(t2, 2);
 				allelePair[1] = new Allele(t2, 2);				

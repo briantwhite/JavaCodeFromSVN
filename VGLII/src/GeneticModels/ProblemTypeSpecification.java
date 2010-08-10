@@ -23,6 +23,8 @@ package GeneticModels;
 public class ProblemTypeSpecification {
 
 	private boolean beginnerMode;
+	
+	private boolean fieldPopTrueBreeding;
 
 	private int minOffspring;
 	private int maxOffspring;
@@ -53,6 +55,8 @@ public class ProblemTypeSpecification {
 
 	public ProblemTypeSpecification() {
 		beginnerMode = false;
+		
+		fieldPopTrueBreeding = false;
 
 		minOffspring = 25;
 		maxOffspring = 35;
@@ -79,6 +83,14 @@ public class ProblemTypeSpecification {
 		gene3_ch3Alleles = 0.0f;
 		gene3_chIncDom = 0.0f;
 		gene3_chCircDom = 0.5f;
+	}
+
+	public boolean isFieldPopTrueBreeding() {
+		return fieldPopTrueBreeding;
+	}
+
+	public void setFieldPopTrueBreeding(boolean fieldPopTrueBreeding) {
+		this.fieldPopTrueBreeding = fieldPopTrueBreeding;
 	}
 
 	public boolean isBeginnerMode() {

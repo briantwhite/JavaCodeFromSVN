@@ -52,8 +52,8 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 		return genoPhenoTable[a1.getIntVal()][a2.getIntVal()];
 	}
 
-	public Allele[] getRandomAllelePair() {
-		// want equal frequency of each PHENOTYPE
+	public Allele[] getRandomAllelePair(boolean trueBreeding) {
+		// want equal frequency of each PHENOTYPE unless true breeding
 		Allele[] allelePair = new Allele[2];
 		switch (rand.nextInt(3)) {
 
@@ -67,7 +67,11 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 		case 1:
 			// phenotype 2
 			// 3 possibilities: 1,2  2,1 and 2,2
-			switch (rand.nextInt(3)) {
+			int x = 2; // default to homozygote if true breeding
+			if (!trueBreeding) {
+				x = rand.nextInt(3);
+			}
+			switch (x) {
 			case 0:
 				allelePair[0] = new Allele(t1, 1);
 				allelePair[1] = new Allele(t2, 2);
@@ -86,7 +90,11 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 		case 2:
 			// phenotype 3
 			// 5 possibilities 1,3 3,1 2,3 3,2 3,3
-			switch(rand.nextInt(5)) {
+			x = 4; // default to homozygote if true breeding
+			if (!trueBreeding) {
+				x = rand.nextInt(5);
+			}
+			switch (x) {
 			case 0:
 				allelePair[0] = new Allele(t1, 1);
 				allelePair[1] = new Allele(t3, 3);

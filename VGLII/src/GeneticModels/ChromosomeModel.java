@@ -67,12 +67,12 @@ public abstract class ChromosomeModel {
 		return phenos;
 	}
 
-	public Chromosome[] getChromosomePairWithRandomAlleles() {
+	public Chromosome[] getChromosomePairWithRandomAlleles(boolean trueBreeding) {
 		ArrayList<Allele> maternalAlleles = new ArrayList<Allele>();
 		ArrayList<Allele> paternalAlleles = new ArrayList<Allele>();
 		Chromosome[] chromos = new Chromosome[2];
 		for (int i = 0; i < geneModels.size(); i++) {
-			Allele[] allelePair = (geneModels.get(i)).getRandomAllelePair();
+			Allele[] allelePair = (geneModels.get(i)).getRandomAllelePair(trueBreeding);
 			maternalAlleles.add(allelePair[0]);
 			paternalAlleles.add(allelePair[1]);
 		}

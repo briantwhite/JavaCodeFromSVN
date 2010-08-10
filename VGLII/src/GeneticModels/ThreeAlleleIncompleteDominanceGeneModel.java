@@ -58,10 +58,15 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 		return genoPhenoTable[a1.getIntVal()][a2.getIntVal()];
 	}
 
-	public Allele[] getRandomAllelePair() {
-		// want equal frequency of each PHENOTYPE
+	public Allele[] getRandomAllelePair(boolean trueBreeding) {
+		// want equal frequency of each PHENOTYPE unless true breeding
 		Allele[] allelePair = new Allele[2];
-		switch (rand.nextInt(6)) {
+		
+		int x = rand.nextInt(6);
+		
+		if (trueBreeding) x = rand.nextInt(3);  // homozygotes only
+		
+		switch (x) {
 
 		case 0:
 			// phenotype 1

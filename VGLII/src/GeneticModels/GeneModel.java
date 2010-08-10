@@ -48,7 +48,7 @@ public abstract class GeneModel {
 	
 	public abstract Phenotype getPhenotype(Allele a1, Allele a2);
 	
-	public abstract Allele[] getRandomAllelePair();
+	public abstract Allele[] getRandomAllelePair(boolean trueBreeding);
 	
 	public abstract String toString();
 	

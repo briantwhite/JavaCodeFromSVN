@@ -147,6 +147,11 @@ public class GeneticModelFactory {
 		while(it.hasNext()) {
 			Element current = it.next();
 			String name = current.getName();
+			
+			if (name.equals("FieldPopTrueBreeding"))
+				problemSpec.setFieldPopTrueBreeding(
+						Boolean.parseBoolean(current.getTextTrim()));
+			
 			if (name.equals("BeginnerMode"))
 				problemSpec.setBeginnerMode(
 						Boolean.parseBoolean(current.getTextTrim()));
@@ -239,6 +244,9 @@ public class GeneticModelFactory {
 
 		//beginner mode
 		if (specs.isBeginnerMode()) model.setBeginnerMode(true);
+		
+		// field pop is only true-breeding
+		if (specs.isFieldPopTrueBreeding()) model.setFieldPopTrueBreeding(true);
 
 		//# of offspring generated
 		model.setMinOffspring(specs.getMinOffspring());

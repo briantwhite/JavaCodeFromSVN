@@ -98,6 +98,8 @@ public class GeneticModel {
 
 	private boolean beginnerMode;   //allows viewing of model and genotypes
 	
+	private boolean fieldPopTrueBreeding;  // all strains in field pop are true breeding
+	
 	/**
 	 * because we don't want to display the character in the CageUI in the
 	 * order they appear on the chromosome, need a mapping
@@ -157,6 +159,14 @@ public class GeneticModel {
 		this.beginnerMode = beginnerMode;
 	}
 	
+	public boolean isFieldPopTrueBreeding() {
+		return fieldPopTrueBreeding;
+	}
+
+	public void setFieldPopTrueBreeding(boolean fieldPopTrueBreeding) {
+		this.fieldPopTrueBreeding = fieldPopTrueBreeding;
+	}
+	
 	protected void setMinOffspring(int min) {
 		minOffspring = min;
 	}
@@ -206,16 +216,16 @@ public class GeneticModel {
 		int numOffspring = 
 			random.nextInt(maxOffspring - minOffspring) + minOffspring;
 		for (int i = 0; i < numOffspring; i++) {
-			cage.addNew(getRandomOrganism());
+			cage.addNew(getRandomOrganism(fieldPopTrueBreeding));
 		}
 		return cage;
 	}
 
-	private Organism getRandomOrganism() {
+	private Organism getRandomOrganism(boolean trueBreeding) {
 		Chromosome[] autosomes = 
-			autosomeModel.getChromosomePairWithRandomAlleles();
+			autosomeModel.getChromosomePairWithRandomAlleles(trueBreeding);
 		Chromosome[] sexChromosomes = 
-			sexChromosomeModel.getChromosomePairWithRandomAlleles();
+			sexChromosomeModel.getChromosomePairWithRandomAlleles(trueBreeding);
 		ArrayList<Phenotype> phenotypes = new ArrayList<Phenotype>();
 		phenotypes.addAll(
 				autosomeModel.getPhenotypes(autosomes[0], autosomes[1]));

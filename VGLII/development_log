@@ -1096,3 +1096,11 @@ also needed to fix one of the problem files
 
 made it version 2.1.0
 made mac and pc versions and posted
+
+8/5/10
+by request, some wanted the option to have all the field strains pure-breeding
+(especially for the 3-factor crosses)
+so make new parameter:
+	FieldPopTrueBreeding true/false
+	default is false
+

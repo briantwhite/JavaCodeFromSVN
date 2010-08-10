@@ -53,10 +53,15 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 		return genoPhenoTable[a1.getIntVal()][a2.getIntVal()];
 	}
 
-	public Allele[] getRandomAllelePair() {
-		// want equal frequency of each PHENOTYPE
+	public Allele[] getRandomAllelePair(boolean trueBreeding) {
+		// want equal frequency of each PHENOTYPE unless true breeding
 		Allele[] allelePair = new Allele[2];
-		switch (rand.nextInt(3)) {
+		
+		int x = rand.nextInt(3);
+		
+		if (trueBreeding) x = rand.nextInt(2); // homozygotes only if true breeding
+		
+		switch (x) {
 
 		case 0:
 			// 1,1 homozygote
@@ -65,7 +70,12 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 			break;
 
 		case 1:
-			// 1,2 heterozygote
+			// 2,2 homozygote
+			allelePair[0] = new Allele(t2, 2);
+			allelePair[1] = new Allele(t2, 2);	
+			break;
+			
+		case 2:			// 1,2 heterozygote
 			// 2 possibilities: 1,2 and 2,1
 			if(rand.nextInt(2) == 0) {
 				allelePair[0] = new Allele(t1, 1);
@@ -73,14 +83,7 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 			} else {
 				allelePair[0] = new Allele(t2, 2);
 				allelePair[1] = new Allele(t1, 1);								
-			}
-			break;
-			
-		case 2:
-			// 2,2 homozygote
-			allelePair[0] = new Allele(t2, 2);
-			allelePair[1] = new Allele(t2, 2);	
-			
+			}	
 		}
 		return allelePair;
 	}
