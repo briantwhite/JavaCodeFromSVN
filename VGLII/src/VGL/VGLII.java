@@ -1361,6 +1361,7 @@ public class VGLII extends JFrame {
 			calculateCagePosition(dlg);
 			dlg.setVisible(true);
 		}
+		c.setCageUI(dlg);
 		return dlg;
 	}
 
@@ -1428,6 +1429,8 @@ public class VGLII extends JFrame {
 		while (it.hasNext()) {
 			Cage c = it.next();
 			CageUI cageUI = createCageUI(c);
+			cageUI.setLocation(c.getXpos(), c.getYpos());
+			cageUI.setVisible(c.isVisible());
 			if (c.getId() > 0) {
 				OrganismUI[] parentUIs = cageUI.getParentUIs();
 				if (parentUIs == null)

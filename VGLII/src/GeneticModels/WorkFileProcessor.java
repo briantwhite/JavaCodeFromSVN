@@ -181,6 +181,9 @@ public class WorkFileProcessor {
 			int numChildren = e.getAttribute("NumChildren").getIntValue();
 
 			Cage cage = new Cage(cageId);
+			cage.setXpos(e.getAttribute("Xpos").getIntValue());
+			cage.setYpos(e.getAttribute("Ypos").getIntValue());
+			cage.setVisible(e.getAttribute("Visible").getBooleanValue());
 			Iterator<Element> contentsIt = e.getChildren().iterator();
 			while (contentsIt.hasNext()) {
 				Element item = contentsIt.next();

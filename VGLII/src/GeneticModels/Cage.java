@@ -2,12 +2,13 @@ package GeneticModels;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.jdom.Element;
 
+import VGL.CageUI;
 import VGL.GeneticsException;
 import VGL.Messages;
 
@@ -44,6 +45,14 @@ public class Cage {
 
 	private TreeMap<String, OrganismList> children;
 	
+	private Date creationDate;
+	
+	// variables to save in work files
+	private CageUI cageUI;
+	private int Xpos;
+	private int Ypos;
+	private boolean visible;
+	
 	/**
 	 * Constructor for field population which has no parent.
 	 * 
@@ -70,11 +79,40 @@ public class Cage {
 		this.parent2 = p2;
 		this.count = 0;
 		children = new TreeMap<String, OrganismList>();
+		creationDate = new Date();
+	}
+	
+	public void setCageUI(CageUI cageUI) {
+		this.cageUI = cageUI;
 	}
 	
 	public void setParents(Organism p1, Organism p2) {
 		parent1 = p1;
 		parent2 = p2;
+	}
+
+	public int getXpos() {
+		return Xpos;
+	}
+
+	public void setXpos(int xpos) {
+		Xpos = xpos;
+	}
+
+	public int getYpos() {
+		return Ypos;
+	}
+
+	public void setYpos(int ypos) {
+		Ypos = ypos;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 	/**
@@ -200,6 +238,10 @@ public class Cage {
 	 */
 	public Element save() throws Exception {
 		Element ec = new Element("Cage");
+		ec.setAttribute("Created", creationDate.toString());
+		ec.setAttribute("Xpos", String.valueOf(cageUI.getLocation().x));
+		ec.setAttribute("Ypos", String.valueOf(cageUI.getLocation().y));
+		ec.setAttribute("Visible", String.valueOf(cageUI.isVisible()));
 		ec.setAttribute("Id", String.valueOf(id));
 		ec.setAttribute("NumChildren", String.valueOf(count));
 
