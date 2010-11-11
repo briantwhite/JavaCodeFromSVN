@@ -1,6 +1,7 @@
 package GeneticModels;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /*
  * this class deals with phenotypic interactions like
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  */
 
 public class PhenotypeProcessor {
-	
+
 	public static int NO_INTERACTION = 0;
 	public static int COMPLEMENTATION = 1;
 	public static int EPISTASIS = 2;
@@ -20,27 +21,74 @@ public class PhenotypeProcessor {
 
 	private int interactionMode;
 
+	/*
+	 * need traits for the combined pheno if there's an interaction
+	 *  if complementation:
+	 *  	t1 --(gene1)--> t1 --(gene2)--> t2 (like albinism)
+	 *  if epistasis
+	 *  	t1 --(gene1)--> t2 --(gene2)--> t3 (like eye color)
+	 */
+	private TraitSet traitSet;
+	private Trait t1; 
+	private Trait t2;
+	private Trait t3;
+
 	public PhenotypeProcessor(GeneticModel geneticModel) {
 		this.geneticModel = geneticModel;
 		interactionMode = NO_INTERACTION;
-	}
-	
-	public void setInteractionType(int i) {
-		interactionMode = i;
+		traitSet = null;
 	}
 
+	// methods for setting up the processor
+	public void setInteractionType(int i) {
+		interactionMode = i;
+		// if interaction, will need trait set for combined pheno
+		if (interactionMode != NO_INTERACTION) {
+			if (traitSet == null) {
+				traitSet = CharacterSpecificationBank.getInstance().getRandomTraitSet();
+				t1 = traitSet.getRandomTrait();
+				t2 = traitSet.getRandomTrait();
+				t3 = traitSet.getRandomTrait();
+			}
+		}
+	}
+
+	// methods for processing phenotypes once the Processor is set up
+
+	/*
+	 * here, we know that gene1 and gene2 are involved in the interaction
+	 *   so, replace their phenotype with the combined pheno
+	 */
 	public ArrayList<Phenotype> processPhenotypes(ArrayList<Phenotype> originalPhenotypes) {
-		return originalPhenotypes;
+		if (interactionMode != NO_INTERACTION) {
+			ArrayList<Phenotype> newPhenotypes = new ArrayList<Phenotype>();
+			
+			
+			
+			// add remaining phenos, if present
+			Iterator<Phenotype> pI = originalPhenotypes.iterator();
+			pI.next(); // remove gene1's pheno
+			pI.next(); // remove gene2's pheno
+			while(pI.hasNext()) {
+				newPhenotypes.add(pI.next());
+			}
+			return newPhenotypes;
+			
+		} else {
+			return originalPhenotypes;
+		}
 	}
 
 	public int getProcessedNumberOfCharacters(
 			ChromosomeModel autosomeModel, ChromosomeModel sexChromosomeModel) {
 
+		int rawNumberOfChars = autosomeModel.getNumberOfGeneModels() 
+		+ sexChromosomeModel.getNumberOfGeneModels();
+
 		if (interactionMode != NO_INTERACTION) {
-			return 0;	
+			return rawNumberOfChars - 1;  // one fewer chars b/c 2 phenos interacting	
 		} else {
-			return autosomeModel.getNumberOfGeneModels() 
-			+ sexChromosomeModel.getNumberOfGeneModels();
+			return rawNumberOfChars;
 		}
 	}
 
