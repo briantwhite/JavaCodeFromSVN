@@ -221,6 +221,10 @@ public class GeneticModel {
 		return val;
 	}
 	
+	public void setPhenotypeInteraction(int interaction) {
+		phenotypeProcessor.setInteractionType(interaction);
+	}
+	
 	public Cage generateFieldPopulation() {
 		Cage cage = new Cage(0);
 		int numOffspring = 

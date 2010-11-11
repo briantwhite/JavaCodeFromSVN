@@ -11,19 +11,22 @@ import java.util.ArrayList;
  */
 
 public class PhenotypeProcessor {
+	
+	public static int NO_INTERACTION = 0;
+	public static int COMPLEMENTATION = 1;
+	public static int EPISTASIS = 2;
 
 	private GeneticModel geneticModel;
 
-	/*
-	 * flag for presence of epistasis or complementation
-	 *  if false, everything runs normally
-	 *  (all phenos pass through and no other processing needed)
-	 */
-	private boolean epistasisOrComplementation;
+	private int interactionMode;
 
 	public PhenotypeProcessor(GeneticModel geneticModel) {
 		this.geneticModel = geneticModel;
-		epistasisOrComplementation = false;
+		interactionMode = NO_INTERACTION;
+	}
+	
+	public void setInteractionType(int i) {
+		interactionMode = i;
 	}
 
 	public ArrayList<Phenotype> processPhenotypes(ArrayList<Phenotype> originalPhenotypes) {
@@ -33,7 +36,7 @@ public class PhenotypeProcessor {
 	public int getProcessedNumberOfCharacters(
 			ChromosomeModel autosomeModel, ChromosomeModel sexChromosomeModel) {
 
-		if (epistasisOrComplementation) {
+		if (interactionMode != NO_INTERACTION) {
 			return 0;	
 		} else {
 			return autosomeModel.getNumberOfGeneModels() 
@@ -46,7 +49,7 @@ public class PhenotypeProcessor {
 			ChromosomeModel sexChromosomeModel,
 			boolean trueBreeding) {
 
-		if (epistasisOrComplementation) {
+		if (interactionMode != NO_INTERACTION) {
 			return null;	
 		} else {
 			Chromosome[] autosomes = 
@@ -75,7 +78,7 @@ public class PhenotypeProcessor {
 			Chromosome maternalSexChromosome,
 			Chromosome paternalSexChromosome) {
 
-		if (epistasisOrComplementation) {
+		if (interactionMode != NO_INTERACTION) {
 			return null;	
 		} else {
 			StringBuffer b = new StringBuffer();

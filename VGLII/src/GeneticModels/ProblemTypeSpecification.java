@@ -52,6 +52,9 @@ public class ProblemTypeSpecification {
 	private float gene3_ch3Alleles;
 	private float gene3_chIncDom;
 	private float gene3_chCircDom;
+	
+	private float phenotypeInteraction;
+	private float epistasis;
 
 	public ProblemTypeSpecification() {
 		beginnerMode = false;
@@ -83,6 +86,10 @@ public class ProblemTypeSpecification {
 		gene3_ch3Alleles = 0.0f;
 		gene3_chIncDom = 0.0f;
 		gene3_chCircDom = 0.5f;
+		
+		phenotypeInteraction = 0.0f;
+		epistasis = 0.0f;
+		
 	}
 
 	public boolean isFieldPopTrueBreeding() {
@@ -275,6 +282,22 @@ public class ProblemTypeSpecification {
 
 	public void setGene3_chCircDom(float gene3ChCircDom) {
 		gene3_chCircDom = gene3ChCircDom;
+	}
+
+	public float getPhenotypeInteraction() {
+		return phenotypeInteraction;
+	}
+
+	public void setPhenotypeInteraction(float phenotypeInteraction) {
+		this.phenotypeInteraction = phenotypeInteraction;
+	}
+
+	public float getEpistasis() {
+		return epistasis;
+	}
+
+	public void setEpistasis(float epistasis) {
+		this.epistasis = epistasis;
 	}
 
 }

@@ -109,7 +109,7 @@ public class GeneticModelFactory {
 					bytes[i] = (byte) (bytes[i] ^ VGLII.KEY[i % (VGLII.KEY.length - 1)]);
 				}
 			}
-			
+
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(new ByteArrayInputStream(bytes));
 			WorkFileProcessor processor = 
@@ -147,11 +147,11 @@ public class GeneticModelFactory {
 		while(it.hasNext()) {
 			Element current = it.next();
 			String name = current.getName();
-			
+
 			if (name.equals("FieldPopTrueBreeding"))
 				problemSpec.setFieldPopTrueBreeding(
 						Boolean.parseBoolean(current.getTextTrim()));
-			
+
 			if (name.equals("BeginnerMode"))
 				problemSpec.setBeginnerMode(
 						Boolean.parseBoolean(current.getTextTrim()));
@@ -223,6 +223,15 @@ public class GeneticModelFactory {
 			if (name.equals("Gene3_CircDom"))
 				problemSpec.setGene3_chCircDom(
 						Float.parseFloat(current.getTextTrim()));
+
+			// params for epistasis & complementation
+			if (name.equals("PhenotypeInteraction"))
+				problemSpec.setPhenotypeInteraction(
+						Float.parseFloat(current.getTextTrim()));
+			if (name.equals("Epistasis"))
+				problemSpec.setPhenotypeInteraction(
+						Float.parseFloat(current.getTextTrim()));
+
 		}
 		return problemSpec;
 	}
@@ -244,7 +253,7 @@ public class GeneticModelFactory {
 
 		//beginner mode
 		if (specs.isBeginnerMode()) model.setBeginnerMode(true);
-		
+
 		// field pop is only true-breeding
 		if (specs.isFieldPopTrueBreeding()) model.setFieldPopTrueBreeding(true);
 
@@ -253,38 +262,90 @@ public class GeneticModelFactory {
 		model.setMaxOffspring(specs.getMaxOffspring());
 
 		try {
-			//first gene (always must be one)
-			if (r.nextFloat() < specs.getGene1_chSexLinked()) {
-				model.addFirstSexLinkedGeneModel(getRandomGeneModel(
-						specs.getGene1_ch3Alleles(),
-						specs.getGene1_chIncDom(),
-						specs.getGene1_chCircDom()));
-				gene1SexLinked = true;
-			} else {
-				model.addFirstAutosomalGeneModel(getRandomGeneModel(
-						specs.getGene1_ch3Alleles(),
-						specs.getGene1_chIncDom(),
-						specs.getGene1_chCircDom()));
-			}
+			/*
+			 * first, see if there's a phenotype interaction
+			 * if so, this requires a special setup
+			 *  just use the sex-linkage status of genes 1 and 2
+			 *  they must be 2-allele simple dom for these to work
+			 */
+			if (specs.getPhenotypeInteraction() != 0.0f) {
+				if (r.nextFloat() < specs.getPhenotypeInteraction()) {
+					/*
+					 * set up the two gene models
+					 *   they must be 2-allele simple dom
+					 *   but they CAN be sex-linked
+					 */
+					if (r.nextFloat() < specs.getGene1_chSexLinked()) {
+						model.addFirstSexLinkedGeneModel(getRandomGeneModel(0.0f, 0.0f, 0.0f));
+					} else {
+						model.addFirstAutosomalGeneModel(getRandomGeneModel(0.0f, 0.0f, 0.0f));
+					}
 
-			// second gene (may be one)
-			if (r.nextFloat() < specs.getGene2_chPresent()) {
-				GeneModel gene2Model = getRandomGeneModel(
-						specs.getGene2_ch3Alleles(), 
-						specs.getGene2_chIncDom(),
-						specs.getGene2_chCircDom());
-				addGeneModelRandomly(
-						model, 
-						gene1SexLinked, 
-						specs.getGene2_chSameChrAsGene1(), 
-						specs.getGene2_minRfToGene1(), 
-						specs.getGene2_maxRfToGene1(), 
-						gene2Model);
-			} else {
-				// no second gene (therefore no third)
-				return model;
-			}
+					GeneModel gene2Model = getRandomGeneModel(0.0f, 0.0f, 0.0f);
+					addGeneModelRandomly(
+							model, 
+							gene1SexLinked, 
+							specs.getGene2_chSameChrAsGene1(), 
+							specs.getGene2_minRfToGene1(), 
+							specs.getGene2_maxRfToGene1(), 
+							gene2Model);
 
+					if (r.nextFloat() < specs.getEpistasis()) {
+						model.setPhenotypeInteraction(PhenotypeProcessor.EPISTASIS);
+					} else {
+						model.setPhenotypeInteraction(PhenotypeProcessor.COMPLEMENTATION);
+					}
+
+				} else {
+					/* 
+					 * the default is one simply dominant 2-allele model
+					 */
+					if (r.nextFloat() < specs.getGene1_chSexLinked()) {
+						model.addFirstSexLinkedGeneModel(getRandomGeneModel(0.0f, 0.0f, 0.0f));
+					} else {
+						model.addFirstAutosomalGeneModel(getRandomGeneModel(0.0f, 0.0f, 0.0f));
+					}
+					model.setPhenotypeInteraction(PhenotypeProcessor.NO_INTERACTION);
+				}
+				
+			} else {
+				/*
+				 * otherwise, process normally
+				 */
+				model.setPhenotypeInteraction(PhenotypeProcessor.NO_INTERACTION);
+
+				//first gene (always must be one)
+				if (r.nextFloat() < specs.getGene1_chSexLinked()) {
+					model.addFirstSexLinkedGeneModel(getRandomGeneModel(
+							specs.getGene1_ch3Alleles(),
+							specs.getGene1_chIncDom(),
+							specs.getGene1_chCircDom()));
+					gene1SexLinked = true;
+				} else {
+					model.addFirstAutosomalGeneModel(getRandomGeneModel(
+							specs.getGene1_ch3Alleles(),
+							specs.getGene1_chIncDom(),
+							specs.getGene1_chCircDom()));
+				}
+
+				// second gene (may be one)
+				if (r.nextFloat() < specs.getGene2_chPresent()) {
+					GeneModel gene2Model = getRandomGeneModel(
+							specs.getGene2_ch3Alleles(), 
+							specs.getGene2_chIncDom(),
+							specs.getGene2_chCircDom());
+					addGeneModelRandomly(
+							model, 
+							gene1SexLinked, 
+							specs.getGene2_chSameChrAsGene1(), 
+							specs.getGene2_minRfToGene1(), 
+							specs.getGene2_maxRfToGene1(), 
+							gene2Model);
+				} else {
+					// no second gene (therefore no third)
+					return model;
+				}
+			}
 			//third gene (may be one)
 			if (r.nextFloat() < specs.getGene3_chPresent()) {
 				GeneModel gene3Model = getRandomGeneModel(
@@ -302,6 +363,7 @@ public class GeneticModelFactory {
 				// no third gene (therefore no third)
 				return model;
 			}
+
 		} catch (GeneticsException e) {
 			e.printStackTrace();
 		}

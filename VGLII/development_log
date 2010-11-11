@@ -1138,4 +1138,17 @@ route needed stuff thru there
 		- getToolTipText
 set it up to pass it all through at first..
 
+specifying complementation or epistasis in the .pr2 file works like this:
+- if there's going to be compl or epi, it's a special case
+	- alternatives are:
+		- (no interaction) = one 2-allele simple dominance model
+		- (interaction) = two 2-allele simple dominance models that interact
+			(they'll be genes 1 and 2)
+		*thus, the only relevant specs are sex-linkage chance for the genes 
+- so the params are:
+	PhenotypeInteraction <float> = chance there'll be epistasis or complementation
+	Epistasis <float> = chance, if there's an interaction, that it'll be epistasis
+						otherwise, complementation
+	
+ 
 	
