@@ -146,77 +146,11 @@ public class Organism {
 
 	//shows genotype
 	public String getToolTipTextString() {
-		StringBuffer b = new StringBuffer();
-		if (maternalAutosome.getAllAlleles().size() > 0) {
-			b.append("A:{");
-			b.append(maternalAutosome.toTranslatedString());
-			b.append("}/{");
-			b.append(paternalAutosome.toTranslatedString());
-			b.append("} ");
-		}
-
-		if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
-			b.append("X");
-		} else {
-			b.append("Z");
-		}
-
-		// see if there's any alleles on the sex chromosomes
-		if ((maternalSexChromosome.getAllAlleles().size() > 0) ||
-				(paternalSexChromosome.getAllAlleles().size() > 0)){
-
-			// if so, print them, unless they're a null
-			b.append(":");
-
-			if (maternalSexChromosome != NullSexChromosome.getInstance()) {
-				b.append("[");
-				b.append(maternalSexChromosome.toTranslatedString());
-				b.append("]/");
-			}
-
-			if (paternalSexChromosome != NullSexChromosome.getInstance()) {	
-				b.append("[");
-				b.append(paternalSexChromosome.toTranslatedString());
-				b.append("]/");
-			} 
-
-			// if heterogametic, need to finish with Y or W
-			if ((maternalSexChromosome == NullSexChromosome.getInstance()) ||
-					(paternalSexChromosome == NullSexChromosome.getInstance())){
-				if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
-					b.append("Y");
-				} else {
-					b.append("W");
-				}
-			} else {
-				// trim trailing slash
-				b.deleteCharAt(b.length() - 1);
-			}
-
-		} else {
-
-			// no alleles on sex chromosomes, so just show XX, XY, ZZ, or ZW as appropriate
-			//  see if homo or heterogametic
-			if ((maternalSexChromosome == NullSexChromosome.getInstance()) ||
-					(paternalSexChromosome == NullSexChromosome.getInstance())) {
-
-				//heterogametic
-				if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
-					b.append("Y");
-				} else {
-					b.append("W");
-				}
-			} else {
-
-				//homogametic
-				if (geneticModel.getSexLinkageType() == GeneticModel.XX_XY) {
-					b.append("X");
-				} else {
-					b.append("Z");
-				}
-			}
-		}
-		return b.toString();
+		return geneticModel.getPhenoTypeProcessor().getProcessedToolTipTextString(
+				maternalAutosome, 
+				paternalAutosome, 
+				maternalSexChromosome, 
+				paternalSexChromosome);
 	}
 
 	public String getSexString() {

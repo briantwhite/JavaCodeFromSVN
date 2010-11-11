@@ -28,58 +28,61 @@ import VGL.Messages;
  * @version 1.0 $Id: GeneticModel.java,v 1.26 2009-09-18 19:55:12 brian Exp $
  */
 
-//This is the wrapper class for the entire genetic model
-//- it chooses from the characters and traits randomly to set up 
-//each gene model.
-//- it generates random organisms to populate the field cage
-//- it generates offspring from selected parents
+/* This is the wrapper class for the entire genetic model
+ * - it chooses from the characters and traits randomly to set up 
+ * each gene model.
+ * - it generates random organisms to populate the field cage
+ * - it generates offspring from selected parents
 
-//It works like this:
-//- organisms contain 4 chromosomes
-//- 2 copies of the autosome (maternal and paternal)
-//- 2 copies of the sex chromosome (maternal and paternal)
-//- each chromosome is an ArrayList of Alleles
+ * It works like this:
+ * - organisms contain 4 chromosomes
+ * - 2 copies of the autosome (maternal and paternal)
+ * - 2 copies of the sex chromosome (maternal and paternal)
+ * - each chromosome is an ArrayList of Alleles
 
-//- there is a ChromosomeModel for each type of chromosome (auto & sex)
-//- each ChromosomeModel consists of 0 or more GeneModels
-//- the GeneModels handle the genotype-phenotype conversion for one gene each
+ * - there is a ChromosomeModel for each type of chromosome (auto & sex)
+ * - each ChromosomeModel consists of 0 or more GeneModels
+ * - the GeneModels handle the genotype-phenotype conversion for one gene each
 
-//- there is a NullSexChromosome with no alleles (actually all Null alleles)
-//this is the Y or W chromosome
+ * - there is a NullSexChromosome with no alleles (actually all Null alleles)
+ * this is the Y or W chromosome
 
-//- to make a random organism
-//1) the GeneticModel asks each GeneModel for 2 random alleles
-//chosen to give roughly equal #s of each phenotype
-//2) the GeneticModel builds these into a chromosome pair
-//and turns this into an Organism
+ * - to make a random organism
+ * 1) the GeneticModel asks each GeneModel for 2 random alleles
+ * chosen to give roughly equal #s of each phenotype
+ * 2) the GeneticModel builds these into a chromosome pair
+ * and turns this into an Organism
 
-//- cross 2 organisms
-//1) the genetic model takes care of recombination in each parent
-//using the CHromosomeModel to make 2 gametes
-//2) the gametes are combined in to an Organism and its phenotype
-//is determined
+ * - cross 2 organisms
+ * 1) the genetic model takes care of recombination in each parent
+ * using the CHromosomeModel to make 2 gametes
+ * 2) the gametes are combined in to an Organism and its phenotype
+ * is determined
 
-//- phenotypes are determined :
-//1) the GeneticModel has each ChromosomeModel distribute its Alleles
-//to the GeneModels to get a Phenotype from each
-//2) these are pooled into a set of phenotypes for display, sorting, etc.
+ * - phenotypes are determined :
+ * 1) the GeneticModel has each ChromosomeModel distribute its Alleles
+ * to the GeneModels to get a Phenotype from each
+ * 2) these are pooled into a set of phenotypes for display, sorting, etc.
+ * 3) all pass through PhenotypeProcessor for dealing with epistasis, etc.
 
-//- An Allele consists of:
-//- an intVal = used as an integer index to the genotype-phenotype table
-//(0 = the null allele - from the Y or W chromosome)
-//- a Trait which contains:
-//bodyPart (eye, antenna, etc)
-//type (shape, colo, etc)
-//traitName (green, long, etc)
+ * - An Allele consists of:
+ * - an intVal = used as an integer index to the genotype-phenotype table
+ * (0 = the null allele - from the Y or W chromosome)
+ * - a Trait which contains:
+ * bodyPart (eye, antenna, etc)
+ * type (shape, colo, etc)
+ * traitName (green, long, etc)
 
-//to build a GeneticModel: 
-//1) Choose XX/XY or ZZ/ZW sex-linkage when you build one
-//2) add the gene models to the autosome or sex chromosome as needed
-//- the first one is added just as a model
-//- any more on the same chromo must be added with a recombination freq
-//unlinked genes have a 50% rf.
-//(therefore, autosomes are modeled as one big autosome where the
-//total rf can be bigger than 100%)
+ * to build a GeneticModel: 
+ * 1) Choose XX/XY or ZZ/ZW sex-linkage when you build one
+ * 2) add the gene models to the autosome or sex chromosome as needed
+ * - the first one is added just as a model
+ * - any more on the same chromo must be added with a recombination freq
+ * unlinked genes have a 50% rf.
+ * (therefore, autosomes are modeled as one big autosome where the
+ * total rf can be bigger than 100%)
+ * 3) then add in PhenotypeProcessor and set up epistasis, etc.
+ */
 
 public class GeneticModel {
 
@@ -91,6 +94,8 @@ public class GeneticModel {
 
 	private ChromosomeModel autosomeModel;
 	private ChromosomeModel sexChromosomeModel;
+	
+	private PhenotypeProcessor phenotypeProcessor;
 
 	private boolean XX_XYsexLinkage; 
 
@@ -114,7 +119,12 @@ public class GeneticModel {
 		this.XX_XYsexLinkage = XX_XYsexLinkage;
 		autosomeModel = new AutosomeModel();
 		sexChromosomeModel = new SexChromosomeModel();
+		phenotypeProcessor = new PhenotypeProcessor(this);
 		random = new Random();
+	}
+	
+	protected PhenotypeProcessor getPhenoTypeProcessor() {
+		return phenotypeProcessor;
 	}
 
 	protected void addFirstAutosomalGeneModel(GeneModel gm) throws GeneticsException {
@@ -222,23 +232,10 @@ public class GeneticModel {
 	}
 
 	private Organism getRandomOrganism(boolean trueBreeding) {
-		Chromosome[] autosomes = 
-			autosomeModel.getChromosomePairWithRandomAlleles(trueBreeding);
-		Chromosome[] sexChromosomes = 
-			sexChromosomeModel.getChromosomePairWithRandomAlleles(trueBreeding);
-		ArrayList<Phenotype> phenotypes = new ArrayList<Phenotype>();
-		phenotypes.addAll(
-				autosomeModel.getPhenotypes(autosomes[0], autosomes[1]));
-		phenotypes.addAll(  
-				sexChromosomeModel.getPhenotypes(sexChromosomes[0], sexChromosomes[1]));
-		return new Organism(
-				autosomes[0],
-				autosomes[1],
-				sexChromosomes[0],
-				sexChromosomes[1],
-				phenotypes,
-				isMale(sexChromosomes[0], sexChromosomes[1]),
-				this);
+		return phenotypeProcessor.getProcessedRandomOrganism(
+				autosomeModel, 
+				sexChromosomeModel, 
+				trueBreeding);
 	}
 
 	public Cage crossTwo(int newCageID, Organism mom, Organism dad) {
@@ -283,7 +280,7 @@ public class GeneticModel {
 				paternalAutosomeContribution,
 				maternalSexChromosomeContribution,
 				paternalSexChromosomeContribution,
-				phenotypes,
+				phenotypeProcessor.processPhenotypes(phenotypes),
 				isMale(maternalSexChromosomeContribution, 
 						paternalSexChromosomeContribution),
 						this);
@@ -330,9 +327,8 @@ public class GeneticModel {
 	}
 
 	public int getNumberOfCharacters() {
-		return autosomeModel.getNumberOfGeneModels() 
-		+ sexChromosomeModel.getNumberOfGeneModels();
-
+		return phenotypeProcessor.getProcessedNumberOfCharacters(
+				autosomeModel, sexChromosomeModel);
 	}
 	
 	public int[] getScrambledCharacterOrder() {

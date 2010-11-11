@@ -1124,3 +1124,18 @@ revisions:
 - have it save the time when a cage was created (for logging purposes)
 	in the xml, there is now an Attribute called "Created" which is a string like Thu Oct 28 15:53:58 EDT 2010
 experimenatlly tagged it as version 2.1.2
+
+11/11/10
+started working on epistasis
+created PhenotypeProcessor to deal with phenotypic interactions, etc.
+all phenotypes managed in PhenotypeProcessor
+route needed stuff thru there
+	in GeneticModel
+		- getPhenotype
+		- getRandomOrganism
+		- getNumberOfCharacters
+	in Organism
+		- getToolTipText
+set it up to pass it all through at first..
+
+	
