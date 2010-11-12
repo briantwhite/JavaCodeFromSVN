@@ -1149,6 +1149,7 @@ specifying complementation or epistasis in the .pr2 file works like this:
 	PhenotypeInteraction <float> = chance there'll be epistasis or complementation
 	Epistasis <float> = chance, if there's an interaction, that it'll be epistasis
 						otherwise, complementation
-	
+
+the gene models are going to need an index so I can find them
  
 	

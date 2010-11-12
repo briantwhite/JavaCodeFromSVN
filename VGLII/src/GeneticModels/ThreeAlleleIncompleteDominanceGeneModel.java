@@ -37,13 +37,14 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 	private Trait t5;  // 2,3 heterozygote
 	private Trait t6;  // 3,1 heterozygote
 
-	public ThreeAlleleIncompleteDominanceGeneModel() {
-		super();
+	public ThreeAlleleIncompleteDominanceGeneModel(int index) {
+		super(index);
 	}
 
 	//build from saved work file
 	public ThreeAlleleIncompleteDominanceGeneModel(
 			List<Element> traitList, int chromo, int gene) {
+		super(gene);
 		Iterator<Element> elIt = traitList.iterator();
 		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
 		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);

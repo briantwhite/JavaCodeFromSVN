@@ -132,8 +132,8 @@ public class GeneticModelFactory {
 	public GeneticModel createTestModel() {
 		GeneticModel model = new GeneticModel(true);
 		try {
-			model.addFirstAutosomalGeneModel(new TwoAlleleSimpleDominanceGeneModel());
-			model.addNextAutosomalGeneModel(0.2f, new TwoAlleleSimpleDominanceGeneModel());
+			model.addFirstAutosomalGeneModel(new TwoAlleleSimpleDominanceGeneModel(0));
+			model.addNextAutosomalGeneModel(0.2f, new TwoAlleleSimpleDominanceGeneModel(1));
 		} catch (GeneticsException e) {
 			e.printStackTrace();
 		}
@@ -276,12 +276,12 @@ public class GeneticModelFactory {
 					 *   but they CAN be sex-linked
 					 */
 					if (r.nextFloat() < specs.getGene1_chSexLinked()) {
-						model.addFirstSexLinkedGeneModel(getRandomGeneModel(0.0f, 0.0f, 0.0f));
+						model.addFirstSexLinkedGeneModel(getRandomGeneModel(0, 0.0f, 0.0f, 0.0f));
 					} else {
-						model.addFirstAutosomalGeneModel(getRandomGeneModel(0.0f, 0.0f, 0.0f));
+						model.addFirstAutosomalGeneModel(getRandomGeneModel(0, 0.0f, 0.0f, 0.0f));
 					}
 
-					GeneModel gene2Model = getRandomGeneModel(0.0f, 0.0f, 0.0f);
+					GeneModel gene2Model = getRandomGeneModel(1, 0.0f, 0.0f, 0.0f);
 					addGeneModelRandomly(
 							model, 
 							gene1SexLinked, 
@@ -301,9 +301,9 @@ public class GeneticModelFactory {
 					 * the default is one simply dominant 2-allele model
 					 */
 					if (r.nextFloat() < specs.getGene1_chSexLinked()) {
-						model.addFirstSexLinkedGeneModel(getRandomGeneModel(0.0f, 0.0f, 0.0f));
+						model.addFirstSexLinkedGeneModel(getRandomGeneModel(0, 0.0f, 0.0f, 0.0f));
 					} else {
-						model.addFirstAutosomalGeneModel(getRandomGeneModel(0.0f, 0.0f, 0.0f));
+						model.addFirstAutosomalGeneModel(getRandomGeneModel(0, 0.0f, 0.0f, 0.0f));
 					}
 					model.setPhenotypeInteraction(PhenotypeProcessor.NO_INTERACTION);
 				}
@@ -317,12 +317,14 @@ public class GeneticModelFactory {
 				//first gene (always must be one)
 				if (r.nextFloat() < specs.getGene1_chSexLinked()) {
 					model.addFirstSexLinkedGeneModel(getRandomGeneModel(
+							0,
 							specs.getGene1_ch3Alleles(),
 							specs.getGene1_chIncDom(),
 							specs.getGene1_chCircDom()));
 					gene1SexLinked = true;
 				} else {
 					model.addFirstAutosomalGeneModel(getRandomGeneModel(
+							0,
 							specs.getGene1_ch3Alleles(),
 							specs.getGene1_chIncDom(),
 							specs.getGene1_chCircDom()));
@@ -331,6 +333,7 @@ public class GeneticModelFactory {
 				// second gene (may be one)
 				if (r.nextFloat() < specs.getGene2_chPresent()) {
 					GeneModel gene2Model = getRandomGeneModel(
+							1,
 							specs.getGene2_ch3Alleles(), 
 							specs.getGene2_chIncDom(),
 							specs.getGene2_chCircDom());
@@ -347,8 +350,20 @@ public class GeneticModelFactory {
 				}
 			}
 			//third gene (may be one)
+			/*
+			 * if we could have done epi or comp but we didn't
+			 *   we got only one gene model
+			 *   so the 'third' gene, if present, is really the second
+			 *   index = 1
+			 */
+			int lastGeneIndex = 2;
+			if ((specs.getPhenotypeInteraction() != 0.0f) 
+					&& (model.getPhenoTypeProcessor().getInteractionType() != PhenotypeProcessor.NO_INTERACTION)) {
+				lastGeneIndex = 1;
+			}
 			if (r.nextFloat() < specs.getGene3_chPresent()) {
 				GeneModel gene3Model = getRandomGeneModel(
+						lastGeneIndex,
 						specs.getGene3_ch3Alleles(), 
 						specs.getGene3_chIncDom(),
 						specs.getGene3_chCircDom());
@@ -371,7 +386,7 @@ public class GeneticModelFactory {
 		return model;
 	}
 
-	private GeneModel getRandomGeneModel(float ch3Alleles, float chIncDom, float chCircDom) {
+	private GeneModel getRandomGeneModel(int index, float ch3Alleles, float chIncDom, float chCircDom) {
 
 		GeneModel geneModel = null;
 
@@ -381,9 +396,9 @@ public class GeneticModelFactory {
 		if (r.nextFloat() < chIncDom) {
 			// inc dom
 			if (threeAlleles) {
-				geneModel = new ThreeAlleleIncompleteDominanceGeneModel();
+				geneModel = new ThreeAlleleIncompleteDominanceGeneModel(index);
 			} else {
-				geneModel = new TwoAlleleIncompleteDominanceGeneModel();
+				geneModel = new TwoAlleleIncompleteDominanceGeneModel(index);
 			}
 
 		} else {
@@ -391,12 +406,12 @@ public class GeneticModelFactory {
 			if (threeAlleles) {
 				// choice for circ or hierarch dom
 				if (r.nextFloat() < chCircDom) {
-					geneModel = new ThreeAlleleCircularDominanceGeneModel();
+					geneModel = new ThreeAlleleCircularDominanceGeneModel(index);
 				} else {
-					geneModel = new ThreeAlleleHierarchicalDominanceGeneModel();
+					geneModel = new ThreeAlleleHierarchicalDominanceGeneModel(index);
 				}				
 			} else {
-				geneModel = new TwoAlleleSimpleDominanceGeneModel();
+				geneModel = new TwoAlleleSimpleDominanceGeneModel(index);
 			}
 		}
 		return geneModel;

@@ -1,6 +1,7 @@
 package GeneticModels;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import org.jdom.Element;
@@ -223,6 +224,21 @@ public class GeneticModel {
 	
 	public void setPhenotypeInteraction(int interaction) {
 		phenotypeProcessor.setInteractionType(interaction);
+	}
+	
+	public GeneModel getGeneModelByIndex(int index) {
+		Iterator<GeneModel> aIt = autosomeModel.getGeneModels().iterator();
+		while(aIt.hasNext()) {
+			GeneModel m = aIt.next();
+			if(m.getIndex() == index) return m;
+		}
+		
+		Iterator<GeneModel> sIt = sexChromosomeModel.getGeneModels().iterator();
+		while(sIt.hasNext()) {
+			GeneModel m = sIt.next();
+			if(m.getIndex() == index) return m;
+		}
+		return null;
 	}
 	
 	public Cage generateFieldPopulation() {

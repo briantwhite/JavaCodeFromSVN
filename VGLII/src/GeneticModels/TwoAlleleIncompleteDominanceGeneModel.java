@@ -34,13 +34,14 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 	private Trait t2;  // other homozygote trait
 	private Trait t3;  // heterozygote trait
 
-	public TwoAlleleIncompleteDominanceGeneModel() {
-		super();
+	public TwoAlleleIncompleteDominanceGeneModel(int index) {
+		super(index);
 	}
 	
 	//build from saved work file
 	public TwoAlleleIncompleteDominanceGeneModel(
 			List<Element> traitList, int chromo, int gene) {
+		super(gene);
 		Iterator<Element> elIt = traitList.iterator();
 		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
 		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);

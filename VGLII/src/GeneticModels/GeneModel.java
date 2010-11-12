@@ -27,6 +27,8 @@ import org.jdom.Element;
 
 public abstract class GeneModel {
 	
+	int index; 
+	
 	CharacterSpecificationBank charSpecBank;
 	TraitSet traitSet;
 	
@@ -34,7 +36,8 @@ public abstract class GeneModel {
 	
 	Phenotype[][] genoPhenoTable;
 	
-	public GeneModel() {
+	public GeneModel(int index) {
+		this.index = index;
 		rand = new Random();
 		charSpecBank = CharacterSpecificationBank.getInstance();
 		traitSet = charSpecBank.getRandomTraitSet();
@@ -42,6 +45,10 @@ public abstract class GeneModel {
 		setupGenoPhenoTable();
 	}
 	
+	public int getIndex() {
+		return index;
+	}
+			
 	public abstract void pickRandomTraits();
 		
 	public abstract void setupGenoPhenoTable();

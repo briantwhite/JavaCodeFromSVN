@@ -19,7 +19,7 @@ public class PhenotypeProcessor {
 
 	private GeneticModel geneticModel;
 
-	private int interactionMode;
+	private int interactionType;
 
 	/*
 	 * need traits for the combined pheno if there's an interaction
@@ -35,15 +35,15 @@ public class PhenotypeProcessor {
 
 	public PhenotypeProcessor(GeneticModel geneticModel) {
 		this.geneticModel = geneticModel;
-		interactionMode = NO_INTERACTION;
+		interactionType = NO_INTERACTION;
 		traitSet = null;
 	}
 
 	// methods for setting up the processor
 	public void setInteractionType(int i) {
-		interactionMode = i;
+		interactionType = i;
 		// if interaction, will need trait set for combined pheno
-		if (interactionMode != NO_INTERACTION) {
+		if (interactionType != NO_INTERACTION) {
 			if (traitSet == null) {
 				traitSet = CharacterSpecificationBank.getInstance().getRandomTraitSet();
 				t1 = traitSet.getRandomTrait();
@@ -51,6 +51,10 @@ public class PhenotypeProcessor {
 				t3 = traitSet.getRandomTrait();
 			}
 		}
+	}
+	
+	public int getInteractionType() {
+		return interactionType;
 	}
 
 	// methods for processing phenotypes once the Processor is set up
@@ -60,15 +64,17 @@ public class PhenotypeProcessor {
 	 *   so, replace their phenotype with the combined pheno
 	 */
 	public ArrayList<Phenotype> processPhenotypes(ArrayList<Phenotype> originalPhenotypes) {
-		if (interactionMode != NO_INTERACTION) {
+		if (interactionType != NO_INTERACTION) {
+
 			ArrayList<Phenotype> newPhenotypes = new ArrayList<Phenotype>();
-			
-			
+			if (interactionType == COMPLEMENTATION) {
+				
+			} else {
+				
+			}
 			
 			// add remaining phenos, if present
 			Iterator<Phenotype> pI = originalPhenotypes.iterator();
-			pI.next(); // remove gene1's pheno
-			pI.next(); // remove gene2's pheno
 			while(pI.hasNext()) {
 				newPhenotypes.add(pI.next());
 			}
@@ -78,6 +84,18 @@ public class PhenotypeProcessor {
 			return originalPhenotypes;
 		}
 	}
+	
+	/*
+	 * look up in the gene model indicated by index
+	 * to see if the submitted phenotype represents
+	 * the dominant (the gene is functional in epi & comp) 
+	 * or recessive (non-functional)
+	 */
+	private boolean isDominantPheno(int index, Phenotype pheno) {
+		TwoAlleleSimpleDominanceGeneModel gm = 
+			(TwoAlleleSimpleDominanceGeneModel) geneticModel.getGeneModelByIndex(index);
+		return gm.getDominantTrait().toString().equals(pheno.getTrait().toString());
+	}
 
 	public int getProcessedNumberOfCharacters(
 			ChromosomeModel autosomeModel, ChromosomeModel sexChromosomeModel) {
@@ -85,7 +103,7 @@ public class PhenotypeProcessor {
 		int rawNumberOfChars = autosomeModel.getNumberOfGeneModels() 
 		+ sexChromosomeModel.getNumberOfGeneModels();
 
-		if (interactionMode != NO_INTERACTION) {
+		if (interactionType != NO_INTERACTION) {
 			return rawNumberOfChars - 1;  // one fewer chars b/c 2 phenos interacting	
 		} else {
 			return rawNumberOfChars;
@@ -97,7 +115,7 @@ public class PhenotypeProcessor {
 			ChromosomeModel sexChromosomeModel,
 			boolean trueBreeding) {
 
-		if (interactionMode != NO_INTERACTION) {
+		if (interactionType != NO_INTERACTION) {
 			return null;	
 		} else {
 			Chromosome[] autosomes = 
@@ -126,7 +144,7 @@ public class PhenotypeProcessor {
 			Chromosome maternalSexChromosome,
 			Chromosome paternalSexChromosome) {
 
-		if (interactionMode != NO_INTERACTION) {
+		if (interactionType != NO_INTERACTION) {
 			return null;	
 		} else {
 			StringBuffer b = new StringBuffer();

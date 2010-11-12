@@ -34,13 +34,14 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 	private Trait t2;  // intermediate trait
 	private Trait t3;  // totally dominant trait
 
-	public ThreeAlleleHierarchicalDominanceGeneModel() {
-		super();
+	public ThreeAlleleHierarchicalDominanceGeneModel(int index) {
+		super(index);
 	}
 
 	//build from saved work file
 	public ThreeAlleleHierarchicalDominanceGeneModel(
 			List<Element> traitList, int chromo, int gene) {
+		super(gene);
 		Iterator<Element> elIt = traitList.iterator();
 		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
 		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);

@@ -34,13 +34,14 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 	private Trait t1;  // recessive trait
 	private Trait t2;  // dominant trait
 
-	public TwoAlleleSimpleDominanceGeneModel() {
-		super();
+	public TwoAlleleSimpleDominanceGeneModel(int index) {
+		super(index);
 	}
 	
 	//build from saved work file
 	public TwoAlleleSimpleDominanceGeneModel(
 			List<Element> traitList, int chromo, int gene) {
+		super(gene);
 		Iterator<Element> elIt = traitList.iterator();
 		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
 		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);
@@ -49,6 +50,14 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 
 	public Phenotype getPhenotype(Allele a1, Allele a2) {
 		return genoPhenoTable[a1.getIntVal()][a2.getIntVal()];
+	}
+	
+	public Trait getRecessiveTrait() {
+		return t1;
+	}
+	
+	public Trait getDominantTrait() {
+		return t2;
 	}
 
 	public Allele[] getRandomAllelePair(boolean trueBreeding) {
