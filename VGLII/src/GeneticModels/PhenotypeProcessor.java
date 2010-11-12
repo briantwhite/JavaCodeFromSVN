@@ -66,6 +66,9 @@ public class PhenotypeProcessor {
 	public ArrayList<Phenotype> processPhenotypes(ArrayList<Phenotype> originalPhenotypes) {
 		if (interactionType != NO_INTERACTION) {
 
+			/*
+			 * find, process, and pull out the phenos involved in the interaction
+			 */
 			ArrayList<Phenotype> newPhenotypes = new ArrayList<Phenotype>();
 			if (interactionType == COMPLEMENTATION) {
 				
@@ -73,7 +76,9 @@ public class PhenotypeProcessor {
 				
 			}
 			
-			// add remaining phenos, if present
+			/*
+			 * pass through whatever is left
+			 */
 			Iterator<Phenotype> pI = originalPhenotypes.iterator();
 			while(pI.hasNext()) {
 				newPhenotypes.add(pI.next());
