@@ -1151,5 +1151,19 @@ specifying complementation or epistasis in the .pr2 file works like this:
 						otherwise, complementation
 
 the gene models are going to need an index so I can find them
+
+11/12/10
+working on it
+for .pr2 file, need some more info
+Complementation =
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<BeginnerMode>True</BeginnerMode>
+	<ZZ_ZW>0.0</ZZ_ZW>
+	<Gene2_SameChrAsGene1>1.0</Gene2_SameChrAsGene1>
+	<Gene2_MinRfToGene1>0.5</Gene2_MinRfToGene1>
+	<Gene2_MaxRfToGene1>0.5</Gene2_MaxRfToGene1>
+	<PhenotypeInteraction>1.0</PhenotypeInteraction>
+</root>
  
 	

@@ -277,6 +277,7 @@ public class GeneticModelFactory {
 					 */
 					if (r.nextFloat() < specs.getGene1_chSexLinked()) {
 						model.addFirstSexLinkedGeneModel(getRandomGeneModel(0, 0.0f, 0.0f, 0.0f));
+						gene1SexLinked = true;
 					} else {
 						model.addFirstAutosomalGeneModel(getRandomGeneModel(0, 0.0f, 0.0f, 0.0f));
 					}

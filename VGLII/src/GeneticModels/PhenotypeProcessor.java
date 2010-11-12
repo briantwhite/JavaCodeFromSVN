@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.TreeSet;
 
+import VGL.Messages;
+
 /*
  * this class deals with phenotypic interactions like
  *   epistasis & complementation
@@ -224,6 +226,16 @@ public class PhenotypeProcessor {
 			// go thru the genes and deal with them as needed
 			autosomes = getProcessedChromsome(autosomeModel, g1Dom, g2Dom, trueBreeding);
 			sexChromosomes = getProcessedChromsome(sexChromosomeModel, g1Dom, g2Dom, trueBreeding);
+			//for sex-chromo, one chromo needs to be all null alleles (Y or W)
+			// half of the time 
+			if (r.nextInt(2) == 0) {
+				//choose which one
+				if (r.nextInt(2) == 0) {
+					sexChromosomes[0] = NullSexChromosome.getInstance();
+				} else {
+					sexChromosomes[1] = NullSexChromosome.getInstance();;
+				}
+			}
 
 		} else {
 			autosomes = autosomeModel.getChromosomePairWithRandomAlleles(trueBreeding);
@@ -376,25 +388,33 @@ public class PhenotypeProcessor {
 		}
 
 		if (interactionType != NO_INTERACTION) {
-			String g1DomPheno = ((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(0))
-			.getDominantTrait().toString();
-			String g1RecPheno = ((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(0))
-			.getRecessiveTrait().toString();
-			String g2DomPheno = ((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(1))
-			.getDominantTrait().toString();
-			String g2RecPheno = ((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(1))
-			.getRecessiveTrait().toString();
+			String g1DomPheno = Messages.getInstance().getTranslatedAlleleName(
+					new Allele(
+							((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(0))
+							.getDominantTrait(), 1));
+			String g1RecPheno = Messages.getInstance().getTranslatedAlleleName(
+					new Allele(
+							((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(0))
+							.getRecessiveTrait(), 1));
+			String g2DomPheno = Messages.getInstance().getTranslatedAlleleName(
+					new Allele(
+							((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(1))
+							.getDominantTrait(), 1));
+			String g2RecPheno = Messages.getInstance().getTranslatedAlleleName(
+					new Allele(
+							((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(1))
+							.getRecessiveTrait(), 1));
 
 			String s = b.toString();
-			s.replaceAll(g1DomPheno, "A");
-			s.replaceAll(g1RecPheno, "a");
-			s.replaceAll(g2DomPheno, "B");
-			s.replaceAll(g2RecPheno, "b");
-			
+			s = s.replaceAll(g1DomPheno, "A");
+			s = s.replaceAll(g1RecPheno, "a");
+			s = s.replaceAll(g2DomPheno, "B");
+			s = s.replaceAll(g2RecPheno, "b");
+
 			return s;
-			
+
 		} else {
-			
+
 			return b.toString();
 		}
 	}
