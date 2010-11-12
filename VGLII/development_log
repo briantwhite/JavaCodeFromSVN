@@ -1165,5 +1165,18 @@ Complementation =
 	<Gene2_MaxRfToGene1>0.5</Gene2_MaxRfToGene1>
 	<PhenotypeInteraction>1.0</PhenotypeInteraction>
 </root>
+
+seems to be working!
+check #s - 20 crosses of AaBb x AaBb with epistasis (526 offspring)
+expect 9:4:3 = 295.875:131.5:98.625
+got 302:140:84
+on-line chisq calc gives p = .25 so OK!
+http://www.people.ku.edu/~preacher/chisq/chisq.htm
+
+now need to:
+1) be sure third gene works OK
+2) get model to display properly in practice mode
+3) get saving and loading to work
+
  
 	

@@ -229,7 +229,7 @@ public class GeneticModelFactory {
 				problemSpec.setPhenotypeInteraction(
 						Float.parseFloat(current.getTextTrim()));
 			if (name.equals("Epistasis"))
-				problemSpec.setPhenotypeInteraction(
+				problemSpec.setEpistasis(
 						Float.parseFloat(current.getTextTrim()));
 
 		}
