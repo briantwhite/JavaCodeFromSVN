@@ -39,9 +39,7 @@ public abstract class GeneModel {
 	public GeneModel(int index) {
 		this.index = index;
 		rand = new Random();
-		charSpecBank = CharacterSpecificationBank.getInstance();
-		traitSet = charSpecBank.getRandomTraitSet();
-		pickRandomTraits();
+		setupTraits();
 		setupGenoPhenoTable();
 	}
 	
@@ -49,7 +47,7 @@ public abstract class GeneModel {
 		return index;
 	}
 			
-	public abstract void pickRandomTraits();
+	public abstract void setupTraits();
 		
 	public abstract void setupGenoPhenoTable();
 	

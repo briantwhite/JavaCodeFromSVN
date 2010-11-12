@@ -126,9 +126,11 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		return allelePair;
 	}
 	
-	public void pickRandomTraits() {
+	public void setupTraits() {
 		//there are two alleles and three possible phenos
 		// get the phenos first; then load table
+		charSpecBank = CharacterSpecificationBank.getInstance();
+		traitSet = charSpecBank.getRandomTraitSet();
 		t1 = traitSet.getRandomTrait();   // dom to 3; rec to 2
 		t2 = traitSet.getRandomTrait();   // dom to 1; rec to 3
 		t3 = traitSet.getRandomTrait();   // dom to 2; rec to 1

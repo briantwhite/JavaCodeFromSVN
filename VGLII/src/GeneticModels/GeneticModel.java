@@ -404,6 +404,45 @@ public class GeneticModel {
 			b.append("ZZ/ZW " + Messages.getInstance().getString("VGLII.SexDetermination"));
 		}
 		b.append("<br>");
+		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
+			b.append(Messages.getInstance().getString("VGLII.Complementation") + ": ");
+			b.append(Messages.getInstance().getTranslatedTraitName(phenotypeProcessor.getT1()));
+			b.append("<br>"
+					+ Messages.getInstance().getTranslatedAlleleName(
+							new Allele(phenotypeProcessor.getT1(), 0))
+					+ " ---(" 
+					+ Messages.getInstance().getString("VGLII.Gene")
+					+ " A)--->"
+					+ Messages.getInstance().getTranslatedAlleleName(
+							new Allele(phenotypeProcessor.getT1(), 0))
+					+ "<br> ---("
+					+ Messages.getInstance().getString("VGLII.Gene")
+					+ " B)--->"
+					+ Messages.getInstance().getTranslatedAlleleName(
+							new Allele(phenotypeProcessor.getT2(), 0))
+					+ "<br>");
+			b.append("<br>");
+		}
+		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.EPISTASIS) {
+			b.append(Messages.getInstance().getString("VGLII.Epistasis") + ": ");
+			b.append(Messages.getInstance().getTranslatedTraitName(phenotypeProcessor.getT1()));
+			b.append("<br>"
+					+ Messages.getInstance().getTranslatedAlleleName(
+							new Allele(phenotypeProcessor.getT1(), 0))
+					+ " ---(" 
+					+ Messages.getInstance().getString("VGLII.Gene")
+					+ " A)--->"
+					+ Messages.getInstance().getTranslatedAlleleName(
+							new Allele(phenotypeProcessor.getT2(), 0))
+					+ "<br> ---("
+					+ Messages.getInstance().getString("VGLII.Gene")
+					+ " B)--->"
+					+ Messages.getInstance().getTranslatedAlleleName(
+							new Allele(phenotypeProcessor.getT3(), 0))
+					+ "<br>");
+			b.append("<br>");
+		}
+		
 		b.append(autosomeModel.toString());
 		b.append(sexChromosomeModel.toString());
 		b.append("</body></html>");

@@ -276,13 +276,13 @@ public class GeneticModelFactory {
 					 *   but they CAN be sex-linked
 					 */
 					if (r.nextFloat() < specs.getGene1_chSexLinked()) {
-						model.addFirstSexLinkedGeneModel(getRandomGeneModel(0, 0.0f, 0.0f, 0.0f));
+						model.addFirstSexLinkedGeneModel(new InteractingGeneModel(0));
 						gene1SexLinked = true;
 					} else {
-						model.addFirstAutosomalGeneModel(getRandomGeneModel(0, 0.0f, 0.0f, 0.0f));
+						model.addFirstAutosomalGeneModel(new InteractingGeneModel(0));
 					}
 
-					GeneModel gene2Model = getRandomGeneModel(1, 0.0f, 0.0f, 0.0f);
+					GeneModel gene2Model = new InteractingGeneModel(1);
 					addGeneModelRandomly(
 							model, 
 							gene1SexLinked, 
@@ -351,23 +351,14 @@ public class GeneticModelFactory {
 				}
 			}
 			//third gene (may be one)
-			/*
-			 * if we could have done epi or comp but we didn't
-			 *   we got only one gene model
-			 *   so the 'third' gene, if present, is really the second
-			 *   index = 1
-			 */
-			int lastGeneIndex = 2;
-			if ((specs.getPhenotypeInteraction() != 0.0f) 
-					&& (model.getPhenoTypeProcessor().getInteractionType() != PhenotypeProcessor.NO_INTERACTION)) {
-				lastGeneIndex = 1;
-			}
+
 			if (r.nextFloat() < specs.getGene3_chPresent()) {
 				GeneModel gene3Model = getRandomGeneModel(
-						lastGeneIndex,
+						2,
 						specs.getGene3_ch3Alleles(), 
 						specs.getGene3_chIncDom(),
 						specs.getGene3_chCircDom());
+
 				addGeneModelRandomly(
 						model, 
 						gene1SexLinked, 
@@ -375,6 +366,7 @@ public class GeneticModelFactory {
 						specs.getGene3_minRfToPrevGene(), 
 						specs.getGene3_maxRfToPrevGene(), 
 						gene3Model);
+
 			} else {
 				// no third gene (therefore no third)
 				return model;

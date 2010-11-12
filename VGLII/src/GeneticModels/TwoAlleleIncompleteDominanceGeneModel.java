@@ -89,9 +89,11 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 		return allelePair;
 	}
 	
-	public void pickRandomTraits() {
+	public void setupTraits() {
 		//there are two alleles and three possible phenos
 		// get the phenos first; then load table
+		charSpecBank = CharacterSpecificationBank.getInstance();
+		traitSet = charSpecBank.getRandomTraitSet();
 		t1 = traitSet.getRandomTrait();   // homozygote 1
 		t2 = traitSet.getRandomTrait();   // homozygote 2
 		t3 = traitSet.getRandomTrait();   // heterozygote

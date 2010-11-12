@@ -127,9 +127,11 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 		return allelePair;
 	}
 
-	public void pickRandomTraits() {
+	public void setupTraits() {
 		//there are three alleles and six possible phenos
 		// get the phenos first; then load table
+		charSpecBank = CharacterSpecificationBank.getInstance();
+		traitSet = charSpecBank.getRandomTraitSet();
 		t1 = traitSet.getRandomTrait();   // homo 1
 		t2 = traitSet.getRandomTrait();   // homo 2
 		t3 = traitSet.getRandomTrait();   // homo 3

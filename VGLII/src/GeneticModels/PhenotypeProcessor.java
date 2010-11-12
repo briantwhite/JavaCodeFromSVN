@@ -63,6 +63,18 @@ public class PhenotypeProcessor {
 	public int getInteractionType() {
 		return interactionType;
 	}
+	
+	public Trait getT1() {
+		return t1;
+	}
+	
+	public Trait getT2() {
+		return t2;
+	}
+	
+	public Trait getT3() {
+		return t3;
+	}
 
 	// methods for processing phenotypes once the Processor is set up
 
@@ -78,17 +90,16 @@ public class PhenotypeProcessor {
 			 * you have to do it this way because the phenos may not be in gene
 			 * order in the ArrayList
 			 * 
-			 * first, get the names of the dominant and recessive forms of each gene
-			 *  involved in the interaction
+			 * first get the phenotype strings for the comparisons
 			 */
-			String g1DomPheno = ((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(0))
-			.getDominantTrait().toString();
-			String g1RecPheno = ((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(0))
-			.getRecessiveTrait().toString();
-			String g2DomPheno = ((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(1))
-			.getDominantTrait().toString();
-			String g2RecPheno = ((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(1))
-			.getRecessiveTrait().toString();
+			String g1Dp = 
+				((InteractingGeneModel)geneticModel.getGeneModelByIndex(0)).getDominantTrait().toString();
+			String g1Rp = 
+				((InteractingGeneModel)geneticModel.getGeneModelByIndex(0)).getRecessiveTrait().toString();
+			String g2Dp = 
+				((InteractingGeneModel)geneticModel.getGeneModelByIndex(1)).getDominantTrait().toString();
+			String g2Rp = 
+				((InteractingGeneModel)geneticModel.getGeneModelByIndex(1)).getRecessiveTrait().toString();
 			// then, see what forms we have
 			boolean g1Dom = false;
 			boolean g2Dom = false;
@@ -96,21 +107,21 @@ public class PhenotypeProcessor {
 			for (int i = 0; i < originalPhenotypes.size(); i++) {
 				String pheno = originalPhenotypes.get(i).getTrait().toString();
 
-				if (pheno.equals(g1DomPheno)) {
+				if (pheno.equals(g1Dp)) {
 					g1Dom = true;
 					indicesToDelete.add(new Integer(i));
 				}
 
-				if (pheno.equals(g1RecPheno)) {
+				if (pheno.equals(g1Rp)) {
 					indicesToDelete.add(new Integer(i));
 				}
 
-				if (pheno.equals(g2DomPheno)) {
+				if (pheno.equals(g2Dp)) {
 					g2Dom = true;
 					indicesToDelete.add(new Integer(i));
 				}
 
-				if (pheno.equals(g2RecPheno)) {
+				if (pheno.equals(g2Rp)) {
 					indicesToDelete.add(new Integer(i));
 				}				
 			}
@@ -248,6 +259,7 @@ public class PhenotypeProcessor {
 				autosomeModel.getPhenotypes(autosomes[0], autosomes[1]));
 		phenotypes.addAll(  
 				sexChromosomeModel.getPhenotypes(sexChromosomes[0], sexChromosomes[1]));
+
 		return new Organism(
 				autosomes[0],
 				autosomes[1],
@@ -292,20 +304,20 @@ public class PhenotypeProcessor {
 
 	private Allele[] getProcessedAllelePair(GeneModel gm, boolean domPheno, boolean trueBreeding) {
 		Allele[] alleles = new Allele[2];
-		TwoAlleleSimpleDominanceGeneModel tasdGm = (TwoAlleleSimpleDominanceGeneModel)gm;
+		InteractingGeneModel iGm = (InteractingGeneModel)gm;
 		if (domPheno) {
 			// two ways AA and Aa
 			if (r.nextBoolean() || trueBreeding) {
-				alleles[0] = new Allele(tasdGm.getDominantTrait(), 2);
-				alleles[1] = new Allele(tasdGm.getDominantTrait(), 2);
+				alleles[0] = new Allele(iGm.getDominantTrait(), 2);
+				alleles[1] = new Allele(iGm.getDominantTrait(), 2);
 			} else {
-				alleles[0] = new Allele(tasdGm.getDominantTrait(), 2);
-				alleles[1] = new Allele(tasdGm.getRecessiveTrait(), 1);							
+				alleles[0] = new Allele(iGm.getDominantTrait(), 2);
+				alleles[1] = new Allele(iGm.getRecessiveTrait(), 1);							
 			}
 		} else {
 			// one way aa
-			alleles[0] = new Allele(tasdGm.getRecessiveTrait(), 1);
-			alleles[1] = new Allele(tasdGm.getRecessiveTrait(), 1);							
+			alleles[0] = new Allele(iGm.getRecessiveTrait(), 1);
+			alleles[1] = new Allele(iGm.getRecessiveTrait(), 1);							
 		}
 		return alleles;
 	}
@@ -390,19 +402,19 @@ public class PhenotypeProcessor {
 		if (interactionType != NO_INTERACTION) {
 			String g1DomPheno = Messages.getInstance().getTranslatedAlleleName(
 					new Allele(
-							((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(0))
+							((InteractingGeneModel)geneticModel.getGeneModelByIndex(0))
 							.getDominantTrait(), 1));
 			String g1RecPheno = Messages.getInstance().getTranslatedAlleleName(
 					new Allele(
-							((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(0))
+							((InteractingGeneModel)geneticModel.getGeneModelByIndex(0))
 							.getRecessiveTrait(), 1));
 			String g2DomPheno = Messages.getInstance().getTranslatedAlleleName(
 					new Allele(
-							((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(1))
+							((InteractingGeneModel)geneticModel.getGeneModelByIndex(1))
 							.getDominantTrait(), 1));
 			String g2RecPheno = Messages.getInstance().getTranslatedAlleleName(
 					new Allele(
-							((TwoAlleleSimpleDominanceGeneModel)geneticModel.getGeneModelByIndex(1))
+							((InteractingGeneModel)geneticModel.getGeneModelByIndex(1))
 							.getRecessiveTrait(), 1));
 
 			String s = b.toString();

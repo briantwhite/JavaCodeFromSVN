@@ -1178,5 +1178,19 @@ now need to:
 2) get model to display properly in practice mode
 3) get saving and loading to work
 
+Problem with (1) - not enough traits
+	so make the interacting geneModels special - they use A, a, B, and b as their phenotypes
+	InteractingGeneModel
+
+setting up proper printouts
+terms that need to be translated:
+Non-Functional
+Functional
+Epistasis
+Complementation
+
+fixed (1) and (2)
+
+
  
 	

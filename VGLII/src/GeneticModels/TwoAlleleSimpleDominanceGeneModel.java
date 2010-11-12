@@ -52,14 +52,6 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 		return genoPhenoTable[a1.getIntVal()][a2.getIntVal()];
 	}
 	
-	public Trait getRecessiveTrait() {
-		return t1;
-	}
-	
-	public Trait getDominantTrait() {
-		return t2;
-	}
-
 	public Allele[] getRandomAllelePair(boolean trueBreeding) {
 		// want equal frequency of each PHENOTYPE unless true breeding
 		Allele[] allelePair = new Allele[2];
@@ -87,9 +79,11 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 		return allelePair;
 	}
 
-	public void pickRandomTraits() {
+	public void setupTraits() {
 		//there are two alleles and two possible phenos
 		// get the phenos first; then load table
+		charSpecBank = CharacterSpecificationBank.getInstance();
+		traitSet = charSpecBank.getRandomTraitSet();
 		t1 = traitSet.getRandomTrait();   // recessive
 		t2 = traitSet.getRandomTrait();   // dominant	
 	}

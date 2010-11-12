@@ -116,9 +116,11 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 		return allelePair;
 	}
 	
-	public void pickRandomTraits() {
+	public void setupTraits() {
 		//there are three alleles and three possible phenos
 		// get the phenos first; then load table
+		charSpecBank = CharacterSpecificationBank.getInstance();
+		traitSet = charSpecBank.getRandomTraitSet();
 		t1 = traitSet.getRandomTrait();   // fully recessive
 		t2 = traitSet.getRandomTrait();   // intermediate
 		t3 = traitSet.getRandomTrait();   // fully dominant
