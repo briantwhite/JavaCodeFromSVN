@@ -299,16 +299,23 @@ public class GeneticModelFactory {
 
 				} else {
 					/* 
-					 * the default is one simply dominant 2-allele model
+					 * the default is one simply dominant 2-allele model (for Complementation)
+					 * or a three allele hierarchical model for Epistasis
 					 */
-					if (r.nextFloat() < specs.getGene1_chSexLinked()) {
-						model.addFirstSexLinkedGeneModel(getRandomGeneModel(0, 0.0f, 0.0f, 0.0f));
+					GeneModel gm;
+					if (r.nextFloat() < specs.getEpistasis()) {
+						gm = getRandomGeneModel(0, 1.0f, 0.0f, 0.0f);
 					} else {
-						model.addFirstAutosomalGeneModel(getRandomGeneModel(0, 0.0f, 0.0f, 0.0f));
+						gm = getRandomGeneModel(0, 0.0f, 0.0f, 0.0f);
+					}
+					if (r.nextFloat() < specs.getGene1_chSexLinked()) {
+						model.addFirstSexLinkedGeneModel(gm);
+					} else {
+						model.addFirstAutosomalGeneModel(gm);
 					}
 					model.setPhenotypeInteraction(PhenotypeProcessor.NO_INTERACTION);
 				}
-				
+
 			} else {
 				/*
 				 * otherwise, process normally
