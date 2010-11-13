@@ -378,10 +378,13 @@ public class GeneticModel {
 	public Element save() throws Exception {
 		Element e = new Element("GeneticModel");
 		e.setAttribute("XX_XYSexDetermination", String.valueOf(XX_XYsexLinkage));
+		e.setAttribute("PhenotypeInteractionType", 
+				String.valueOf(phenotypeProcessor.getInteractionType()));
 		e.setAttribute("BeginnerMode", String.valueOf(beginnerMode));
 		e.setAttribute("NumberOfCharacters", String.valueOf(getNumberOfCharacters()));
 		e.setAttribute("MinOffspring", String.valueOf(minOffspring));
 		e.setAttribute("MaxOffspring", String.valueOf(maxOffspring));
+		
 		Element scrambler = new Element("CharacterOrderScrambler");
 		for (int i = 0; i < getNumberOfCharacters(); i++) {
 			Element temp = new Element("Character");
@@ -390,6 +393,15 @@ public class GeneticModel {
 			scrambler.addContent(temp);
 		}
 		e.addContent(scrambler);
+		
+		if (phenotypeProcessor.getInteractionType() != PhenotypeProcessor.NO_INTERACTION) {
+			e.setAttribute("Phenotype1", phenotypeProcessor.getT1().toString());
+			e.setAttribute("Phenotype2", phenotypeProcessor.getT2().toString());
+			if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.EPISTASIS) {
+				e.setAttribute("Phenotype3", phenotypeProcessor.getT3().toString());
+			}
+		}
+		
 		e.addContent(autosomeModel.save());
 		e.addContent(sexChromosomeModel.save());
 		return e;
