@@ -20,8 +20,8 @@ public class InteractingGeneModel extends GeneModel {
 			List<Element> traitList, int chromo, int gene) {
 		super(gene);
 		Iterator<Element> elIt = traitList.iterator();
-		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
-		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);
+		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1, true);
+		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2, true);
 		setupGenoPhenoTable();
 	}
 
@@ -71,11 +71,11 @@ public class InteractingGeneModel extends GeneModel {
 		 * an interaction
 		 */
 		if (index == 0) {
-			t1 = new SimpleTrait("a", "", "");   // recessive
-			t2 = new SimpleTrait("A", "", "");   // dominant
+			t1 = new SimpleTrait("a");   // recessive
+			t2 = new SimpleTrait("A");   // dominant
 		} else {
-			t1 = new SimpleTrait("b", "", "");   // recessive
-			t2 = new SimpleTrait("B", "", "");   // dominant
+			t1 = new SimpleTrait("b");   // recessive
+			t2 = new SimpleTrait("B");   // dominant
 		}
 	}
 
@@ -135,7 +135,7 @@ public class InteractingGeneModel extends GeneModel {
 	public Element save(int index, float rf) throws Exception {
 		Element e = new Element("GeneModel");
 		e.setAttribute("Index", String.valueOf(index));
-		e.setAttribute("Type", "TwoAlleleSimpleDominance");
+		e.setAttribute("Type", "Interacting");
 		e.setAttribute("RfToPrevious", String.valueOf(rf));
 		e.addContent(t1.save(1));
 		e.addContent(t2.save(2));

@@ -43,9 +43,9 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 			List<Element> traitList, int chromo, int gene) {
 		super(gene);
 		Iterator<Element> elIt = traitList.iterator();
-		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
-		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);
-		t3 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 3);
+		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1, true);
+		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2, true);
+		t3 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 3, true);
 		setupGenoPhenoTable();
 	}
 

@@ -2,6 +2,7 @@ package GeneticModels;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.TreeSet;
 
@@ -62,18 +63,31 @@ public class PhenotypeProcessor {
 		}
 	}
 
+	// for setting up from a saved work file
+	public void load(Element e) throws Exception {
+		interactionType = e.getAttribute("InteractionType").getIntValue();
+System.out.println("loading interaction type " + interactionType);
+		if (interactionType != NO_INTERACTION) {
+			List<Element> traitList = e.getChildren();
+			Iterator<Element> eIt = traitList.iterator();
+			t1 = TraitFactory.getInstance().buildTrait(eIt.next(), 0, 0, 0, false);
+			t2 = TraitFactory.getInstance().buildTrait(eIt.next(), 0, 0, 0, false);
+			t3 = TraitFactory.getInstance().buildTrait(eIt.next(), 0, 0, 0, false);
+		}
+	}
+
 	public int getInteractionType() {
 		return interactionType;
 	}
-	
+
 	public Trait getT1() {
 		return t1;
 	}
-	
+
 	public Trait getT2() {
 		return t2;
 	}
-	
+
 	public Trait getT3() {
 		return t3;
 	}
@@ -323,13 +337,15 @@ public class PhenotypeProcessor {
 		}
 		return alleles;
 	}
-	
+
 	public Element save() throws Exception {
 		Element e = new Element("PhenotypeProcessor");
 		e.setAttribute("InteractionType", String.valueOf(interactionType));
-		e.addContent(t1.save(1));
-		e.addContent(t2.save(2));
-		e.addContent(t3.save(3));		
+		if (interactionType != NO_INTERACTION) {
+			e.addContent(t1.save(1));
+			e.addContent(t2.save(2));
+			e.addContent(t3.save(3));	
+		}
 		return e;
 	}
 

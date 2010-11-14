@@ -50,7 +50,7 @@ public class TraitFactory {
 			int numChromos, 
 			int numGenes, 
 			int maxNumTraitsPerGene) {
-		
+
 		traitBank = new Trait[numChromos][numGenes][maxNumTraitsPerGene + 1];
 		
 		for (int i = 0; i < numChromos; i++) {
@@ -62,7 +62,7 @@ public class TraitFactory {
 		}
 	}
 	
-	public Trait buildTrait(Element e, int chromo, int gene, int traitNum) {
+	public Trait buildTrait(Element e, int chromo, int gene, int traitNum, boolean addToTraitBank) {
 		String traitName = e.getAttributeValue("TraitName");
 		String type = e.getAttributeValue("Type");
 		String bodyPart = e.getAttributeValue("BodyPart");
@@ -73,8 +73,10 @@ public class TraitFactory {
 			t = new NumberTrait(traitName, bodyPart);
 		} else if (type.equals("Shape")) {
 			t = new ShapeTrait(traitName, bodyPart);
-		} 
-		traitBank[chromo][gene][traitNum] = t;
+		} else if (type.equals("Simple")) {
+			t = new SimpleTrait(traitName);
+		}
+		if (addToTraitBank) traitBank[chromo][gene][traitNum] = t;
 		return t;
 	}
 	

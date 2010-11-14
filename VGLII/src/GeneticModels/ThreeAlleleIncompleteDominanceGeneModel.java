@@ -46,12 +46,12 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 			List<Element> traitList, int chromo, int gene) {
 		super(gene);
 		Iterator<Element> elIt = traitList.iterator();
-		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1);
-		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2);
-		t3 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 3);
-		t4 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 4);
-		t5 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 5);
-		t6 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 6);
+		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1, true);
+		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2, true);
+		t3 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 3, true);
+		t4 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 4, true);
+		t5 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 5, true);
+		t6 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 6, true);
 		setupGenoPhenoTable();
 	}
 

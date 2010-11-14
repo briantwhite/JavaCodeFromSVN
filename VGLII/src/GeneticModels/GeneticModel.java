@@ -316,7 +316,7 @@ public class GeneticModel {
 				autosomeModel.getPhenotypes(mA, pA));
 		phenotypes.addAll(  
 				sexChromosomeModel.getPhenotypes(mS, pS));
-		return phenotypes;
+		return phenotypeProcessor.processPhenotypes(phenotypes);
 	}
 
 	public boolean isMale(Chromosome sexChr1, Chromosome sexChr2) {		
@@ -345,7 +345,15 @@ public class GeneticModel {
 	public boolean getSexLinkageType() {
 		return XX_XYsexLinkage;
 	}
+	
+	public int getNumberOfGeneModels() {
+		return autosomeModel.getNumberOfGeneModels() + sexChromosomeModel.getNumberOfGeneModels();
+	}
 
+	/*
+	 * this is the same as # of gene models
+	 * EXCEPT when there's epistasis or complementation
+	 */
 	public int getNumberOfCharacters() {
 		return phenotypeProcessor.getProcessedNumberOfCharacters(
 				autosomeModel, sexChromosomeModel);
@@ -379,10 +387,11 @@ public class GeneticModel {
 		Element e = new Element("GeneticModel");
 		e.setAttribute("XX_XYSexDetermination", String.valueOf(XX_XYsexLinkage));
 		e.setAttribute("BeginnerMode", String.valueOf(beginnerMode));
+		e.setAttribute("NumberOfGeneModels", String.valueOf(getNumberOfGeneModels()));
 		e.setAttribute("NumberOfCharacters", String.valueOf(getNumberOfCharacters()));
 		e.setAttribute("MinOffspring", String.valueOf(minOffspring));
 		e.setAttribute("MaxOffspring", String.valueOf(maxOffspring));
-		
+
 		Element scrambler = new Element("CharacterOrderScrambler");
 		for (int i = 0; i < getNumberOfCharacters(); i++) {
 			Element temp = new Element("Character");
@@ -391,7 +400,8 @@ public class GeneticModel {
 			scrambler.addContent(temp);
 		}
 		e.addContent(scrambler);
-		e.addContent(phenotypeProcessor.save());		
+		
+		e.addContent(phenotypeProcessor.save());
 		e.addContent(autosomeModel.save());
 		e.addContent(sexChromosomeModel.save());
 		return e;

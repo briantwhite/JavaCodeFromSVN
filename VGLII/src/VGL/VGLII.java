@@ -944,11 +944,13 @@ public class VGLII extends JFrame {
 						currentSavedFile = convertTo(currentSavedFile,
 								"." + wrkFilterString); //$NON-NLS-1$
 					}
+
 					Document doc = getXMLDoc(al); 
+
 					XMLOutputter outputter = 
 						new XMLOutputter(Format.getPrettyFormat());
 					String xmlString = outputter.outputString(doc);
-
+System.out.println(xmlString);
 					//encrypt it with XOR and zip it to prevent cheating
 					byte[] xmlBytes = null;
 					try {
@@ -991,9 +993,7 @@ public class VGLII extends JFrame {
 	private Document getXMLDoc(ArrayList<Cage> cages) throws Exception {
 		// creating the whole tree
 		Element root = new Element("VglII"); //$NON-NLS-1$
-
 		root.addContent(geneticModel.save());
-
 		Element organisms = new Element("Organisms"); //$NON-NLS-1$
 		for (int i = 0; i < cages.size(); i++) {
 			Cage c = cages.get(i);

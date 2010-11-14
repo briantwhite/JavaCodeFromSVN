@@ -6,8 +6,8 @@ package GeneticModels;
  */
 public class SimpleTrait extends Trait {
 
-	public SimpleTrait(String traitName, String type, String bodyPart) {
-		super(traitName, type, bodyPart);
+	public SimpleTrait(String traitName) {
+		super(traitName, "Simple", "");
 	}
 
 }

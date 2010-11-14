@@ -77,7 +77,19 @@ public class WorkFileProcessor {
 		} 
 		int numberOfCharacters = e.getAttribute("NumberOfCharacters").getIntValue();
 
-		TraitFactory.getInstance().initializeTraitBank(2, numberOfCharacters, 6);
+		/*
+		 * see if this is an older work file - saved before addition of
+		 * epistasis & complementation
+		 * 	in this case, there is no difference between #GeneModels & #Chars
+		 */
+		int numberOfGeneModels = 0;
+		if (e.getAttribute("NumberOfGeneModels") == null) { 	
+			numberOfGeneModels = numberOfCharacters;
+		} else {
+			numberOfGeneModels = e.getAttribute("NumberOfGeneModels").getIntValue();
+		}
+
+		TraitFactory.getInstance().initializeTraitBank(2, numberOfGeneModels, 6);
 		CharacterSpecificationBank.getInstance().refreshAll();
 
 		// now the rest
@@ -98,7 +110,8 @@ public class WorkFileProcessor {
 				boolean sexChromosome = 
 					current.getAttribute("SexChromosome").getBooleanValue();
 				processChromosomeModelInfo(model, sexChromosome, current);
-			}
+			} else if (name.equals("PhenotypeProcessor")) 
+					model.getPhenoTypeProcessor().load(current);
 		}
 		return model;
 	}
@@ -156,6 +169,8 @@ public class WorkFileProcessor {
 		} else if(type.equals("ThreeAlleleIncompleteDominance")) {
 			return new ThreeAlleleIncompleteDominanceGeneModel(
 					traitList, chromo, gene);						
+		} else if (type.equals("Interacting")){
+			return new InteractingGeneModel(traitList, chromo, gene);
 		} else {
 			return null;
 		}
