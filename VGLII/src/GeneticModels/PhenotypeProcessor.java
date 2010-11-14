@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.TreeSet;
 
+import org.jdom.Element;
+
 import VGL.Messages;
 
 /*
@@ -320,6 +322,15 @@ public class PhenotypeProcessor {
 			alleles[1] = new Allele(iGm.getRecessiveTrait(), 1);							
 		}
 		return alleles;
+	}
+	
+	public Element save() throws Exception {
+		Element e = new Element("PhenotypeProcessor");
+		e.setAttribute("InteractionType", String.valueOf(interactionType));
+		e.addContent(t1.save(1));
+		e.addContent(t2.save(2));
+		e.addContent(t3.save(3));		
+		return e;
 	}
 
 	public String getProcessedToolTipTextString(
