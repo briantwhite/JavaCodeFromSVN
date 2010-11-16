@@ -98,9 +98,9 @@ public class VGLII extends JFrame {
 		new LanguageSpecifierMenuItem("English", "en", "US"),
 		new LanguageSpecifierMenuItem("Español", "es", "ES"),
 		new LanguageSpecifierMenuItem("Français", "fr", "FR"),
-//		new LanguageSpecifierMenuItem("Korean", "ko", "KR")
+		//		new LanguageSpecifierMenuItem("Korean", "ko", "KR")
 	};
-	
+
 	/**
 	 * key for encrypting work files
 	 *   XORed with bytes of work file
@@ -950,7 +950,7 @@ public class VGLII extends JFrame {
 					XMLOutputter outputter = 
 						new XMLOutputter(Format.getPrettyFormat());
 					String xmlString = outputter.outputString(doc);
-System.out.println(xmlString);
+
 					//encrypt it with XOR and zip it to prevent cheating
 					byte[] xmlBytes = null;
 					try {
@@ -958,11 +958,11 @@ System.out.println(xmlString);
 					} catch (UnsupportedEncodingException e1) {
 						e1.printStackTrace();
 					}
-					
+
 					for (int i = 0; i < xmlBytes.length; i++) {
 						xmlBytes[i] = (byte) (xmlBytes[i] ^ KEY[i % (KEY.length - 1)]);
 					}
-					
+
 					ZipOutputStream zipWriter = null;
 					try {
 						zipWriter = 
@@ -1429,8 +1429,18 @@ System.out.println(xmlString);
 		while (it.hasNext()) {
 			Cage c = it.next();
 			CageUI cageUI = createCageUI(c);
-			cageUI.setLocation(c.getXpos(), c.getYpos());
+
+			/*
+			 *  see if the location and visibility have been saved
+			 *  if not, calculate them
+			 */
+			if (c.getXpos() == -1) {
+				calculateCagePosition(cageUI);
+			} else {
+				cageUI.setLocation(c.getXpos(), c.getYpos());
+			}
 			cageUI.setVisible(c.isVisible());
+
 			if (c.getId() > 0) {
 				OrganismUI[] parentUIs = cageUI.getParentUIs();
 				if (parentUIs == null)

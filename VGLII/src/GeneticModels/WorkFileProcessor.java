@@ -111,7 +111,7 @@ public class WorkFileProcessor {
 					current.getAttribute("SexChromosome").getBooleanValue();
 				processChromosomeModelInfo(model, sexChromosome, current);
 			} else if (name.equals("PhenotypeProcessor")) 
-					model.getPhenoTypeProcessor().load(current);
+				model.getPhenoTypeProcessor().load(current);
 		}
 		return model;
 	}
@@ -196,9 +196,21 @@ public class WorkFileProcessor {
 			int numChildren = e.getAttribute("NumChildren").getIntValue();
 
 			Cage cage = new Cage(cageId);
-			cage.setXpos(e.getAttribute("Xpos").getIntValue());
-			cage.setYpos(e.getAttribute("Ypos").getIntValue());
-			cage.setVisible(e.getAttribute("Visible").getBooleanValue());
+
+			/*
+			 * see if it's an old style cage (version 2.1.1 & earlier)
+			 * in that case, we didn't save the position and visibility
+			 * so need to fill them in
+			 */
+			if (e.getAttribute("Xpos") != null) {
+				cage.setXpos(e.getAttribute("Xpos").getIntValue());
+				cage.setYpos(e.getAttribute("Ypos").getIntValue());
+				cage.setVisible(e.getAttribute("Visible").getBooleanValue());
+			} else {
+				cage.setXpos(-1);
+				cage.setYpos(-1);
+				cage.setVisible(true);
+			}
 			Iterator<Element> contentsIt = e.getChildren().iterator();
 			while (contentsIt.hasNext()) {
 				Element item = contentsIt.next();

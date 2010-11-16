@@ -1194,6 +1194,22 @@ Complementation
 
 fixed (1) and (2)
 
+got (3) going
+
+11/16/10
+seems to be working; do some tests
+- be sure that you can run, save, and load:
+	- compl models OK
+	- 2-allele simple dom models from compl.pr2 OK
+	- epi models OK
+	- 3-allele hierarch models from epi.pr2 OK
+	- regular level1 models OK
+	- regular 3-gene models OK
+	- be sure you can load an old VGLII model FAIL 
+		(needed to deal with contingency of missing Xpos, Ypos, & visibility)
+		now OK
+
+** epistasis & complementation are now AOK!!!
 
  
 	
