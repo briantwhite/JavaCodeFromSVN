@@ -1211,5 +1211,9 @@ seems to be working; do some tests
 
 ** epistasis & complementation are now AOK!!!
 
- 
-	
+11/26/10
+UI changes (thanks to Cameron Betts)
+- put parent info at top of panel; added titled & colored border
+- labeled field pop as such; added titled & colored border
+- put phenotypes at left most column(s); added titled & colored border
+

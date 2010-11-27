@@ -36,6 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import GeneticModels.Cage;
 import GeneticModels.Organism;
@@ -69,6 +70,10 @@ import PhenotypeImages.PhenotypeImageBank;
 public class CageUI extends JDialog 
 implements WindowListener, MouseListener, Comparable<CageUI> {
 
+	private static Color FIELD_POP_COLOR = new Color(0x2E8B57);
+	private static Color PARENT_COLOR = new Color(0x8E2323);
+	private static Color OFFSPRING_COLOR = new Color(0x007FFF);
+	
 	/**
 	 * the background color when the Cage is selected
 	 * for membership in the summary chart
@@ -465,6 +470,19 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		superPanel.setBorder(BorderFactory.createLineBorder(unselectedColor, 2));
 		detailsPanel = new JPanel();
 		detailsPanel.setLayout(new BorderLayout());
+		if (id > 1) {
+			TitledBorder border = BorderFactory.createTitledBorder(
+					Messages.getInstance().getString("VGLII.Offspring"));
+			border.setTitleColor(OFFSPRING_COLOR);
+			border.setBorder(BorderFactory.createLineBorder(OFFSPRING_COLOR));
+			detailsPanel.setBorder(border);
+		} else {
+			TitledBorder border = BorderFactory.createTitledBorder(
+					Messages.getInstance().getString("VGLII.FieldPop"));
+			border.setTitleColor(FIELD_POP_COLOR);
+			border.setBorder(BorderFactory.createLineBorder(FIELD_POP_COLOR));
+			detailsPanel.setBorder(border);
+		}
 		individualPanel = new JPanel();
 		FlowLayout fl = new FlowLayout();
 		fl.setHgap(1);
@@ -544,18 +562,19 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			picturesPanel.add(showPhenotypeButtons[i]);
 		}
 
-		organismsPanelWrapper.add(organismsPanel);
-		individualPanel.add(organismsPanelWrapper);
-		
-		countsPanelWrapper.add(countsPanel);
-		individualPanel.add(countsPanelWrapper);
-		
 		for (int i = 0; i < numberOfTraits; i++) {
 			individualPanel.add(traitPanelWrappers[i]);
 		}
+
+		organismsPanelWrapper.add(organismsPanel);
+		individualPanel.add(organismsPanelWrapper);
+
+		countsPanelWrapper.add(countsPanel);
+		individualPanel.add(countsPanelWrapper);
+
 		individualPanel.add(picturesPanel);
 		detailsPanel.add(individualPanel, BorderLayout.NORTH);
-		superPanel.add(detailsPanel, BorderLayout.NORTH);
+		superPanel.add(detailsPanel, BorderLayout.SOUTH);
 	}
 
 	/**
@@ -696,8 +715,11 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	private void setupParentInfoPanel() {
 		parentInfoPanel = new JPanel();
 		if (id > 1) {
-			JLabel parentLabel = new JLabel(Messages.getInstance().getString("VGLII.Parents"));
-			parentInfoPanel.add(parentLabel);
+			TitledBorder border = BorderFactory.createTitledBorder(
+					Messages.getInstance().getString("VGLII.Parents"));
+			border.setTitleColor(PARENT_COLOR);
+			border.setBorder(BorderFactory.createLineBorder(PARENT_COLOR));
+			parentInfoPanel.setBorder(border);
 			parentOrganismUIs = new OrganismUI[2];
 			Organism o1 = parents.get(0);
 			Organism o2 = parents.get(1);
@@ -705,13 +727,20 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			String phenoName1 = o1.getPhenotypeString();
 			parentOrganismUIs[0] = new OrganismUI(o1, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[0]);
-			parentInfoPanel.add(new JLabel("(" + cageId + ")" 
+			parentInfoPanel.add(new JLabel("("
+					+ Messages.getInstance().getString("VGLII.Cage")
+					+ " "
+					+ cageId + ")" 
 					+ " " + Messages.getInstance().translateLongPhenotypeName(phenoName1)));
+			parentInfoPanel.add(new JLabel(" X "));
 			cageId = o2.getCageId() + 1;
 			String phenoName2 = o2.getPhenotypeString();
 			parentOrganismUIs[1] = new OrganismUI(o2, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[1]);
-			parentInfoPanel.add(new JLabel("(" + cageId + ")"
+			parentInfoPanel.add(new JLabel("(" 
+					+ Messages.getInstance().getString("VGLII.Cage")
+					+ " "
+					+ cageId + ")"
 					+ " " + Messages.getInstance().translateLongPhenotypeName(phenoName2)));
 		} else {
 			if (isBeginner) {
@@ -743,7 +772,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 				}
 			}
 		}
-		superPanel.add(parentInfoPanel, BorderLayout.SOUTH);
+		superPanel.add(parentInfoPanel, BorderLayout.NORTH);
 	}
 
 	/**
