@@ -106,6 +106,8 @@ public class GeneticModel {
 	
 	private boolean fieldPopTrueBreeding;  // all strains in field pop are true breeding
 	
+	private ProblemTypeSpecification problemTypeSpecification;
+	
 	/**
 	 * because we don't want to display the character in the CageUI in the
 	 * order they appear on the chromosome, need a mapping
@@ -124,8 +126,16 @@ public class GeneticModel {
 		random = new Random();
 	}
 	
-	protected PhenotypeProcessor getPhenoTypeProcessor() {
+	public PhenotypeProcessor getPhenoTypeProcessor() {
 		return phenotypeProcessor;
+	}
+	
+	public void setProblemTypeSPecification(ProblemTypeSpecification specs) {
+		problemTypeSpecification = specs;
+	}
+	
+	public ProblemTypeSpecification getProblemTypeSpecification() {
+		return problemTypeSpecification;
 	}
 
 	protected void addFirstAutosomalGeneModel(GeneModel gm) throws GeneticsException {
@@ -401,6 +411,7 @@ public class GeneticModel {
 		}
 		e.addContent(scrambler);
 		
+		e.addContent(problemTypeSpecification.save());
 		e.addContent(phenotypeProcessor.save());
 		e.addContent(autosomeModel.save());
 		e.addContent(sexChromosomeModel.save());

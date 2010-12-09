@@ -157,4 +157,9 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 		e.addContent(t3.save(3));
 		return e;
 	}
+	
+	public String getCharacter() {
+		return t1.getBodyPart() + " " + t1.getType();
+	}
+
 }

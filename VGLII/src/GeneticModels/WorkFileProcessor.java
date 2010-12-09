@@ -96,6 +96,13 @@ public class WorkFileProcessor {
 		while(it.hasNext()) {
 			Element current = it.next();
 			String name = current.getName();
+			
+			if (name.equals("ProblemTypeSpecification")) {
+				model.setProblemTypeSPecification(
+						GeneticModelFactory.getInstance().processModelSpecElements(
+								current.getChildren()));
+			}
+			
 			if (name.equals("CharacterOrderScrambler")) {
 				int[] scrambler = new int[numberOfCharacters];
 				Iterator<Element> scIt = current.getChildren().iterator();

@@ -145,4 +145,8 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 		return e;
 	}
 
+	public String getCharacter() {
+		return t1.getBodyPart() + " " + t1.getType();
+	}
+
 }

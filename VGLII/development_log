@@ -1217,3 +1217,5 @@ UI changes (thanks to Cameron Betts)
 - labeled field pop as such; added titled & colored border
 - put phenotypes at left most column(s); added titled & colored border
 
+12/7/10
+started working on model building widget

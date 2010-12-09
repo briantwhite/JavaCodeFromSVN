@@ -59,7 +59,11 @@ import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
+import ModelBuilder.ModelBuilderUI;
+import ModelBuilder.WorkingModel;
 import PhenotypeImages.PhenotypeImageBank;
+
+import com.sun.xml.internal.bind.v2.model.impl.ModelBuilder;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -119,6 +123,16 @@ public class VGLII extends JFrame {
 	 */
 	private GeneticModel geneticModel;
 
+	/**
+	 * the model builder for the current problem
+	 */
+	private ModelBuilderUI modelBuilder;
+	
+	/**
+	 * the model the student is building
+	 */
+	private WorkingModel workingModel;
+	
 	/**
 	 * The common file chooser instance for the application
 	 */
@@ -259,6 +273,11 @@ public class VGLII extends JFrame {
 	 * menu item to clear selected cages
 	 */
 	private JMenuItem unselectAllItem = null;
+	
+	/**
+	 * menu item to show the ModelBuilder
+	 */
+	private JMenuItem modelBuilderItem = null;
 
 	/**
 	 * Button to open a saved problem
@@ -427,6 +446,8 @@ public class VGLII extends JFrame {
 			summaryChart();
 		else if (cmd.equals("UnselectAll")) //$NON-NLS-1$
 			unselectAll();
+		else if (cmd.equals("ModelBuilder"))
+			showModelBuilder();
 	}
 
 	/**
@@ -581,17 +602,24 @@ public class VGLII extends JFrame {
 
 		//  "Utilities" options.
 		JMenu mnuUtilities = new JMenu(Messages.getInstance().getString("VGLII.Utilities")); //$NON-NLS-1$
+
 		crossTwoItem = menuItem(Messages.getInstance().getString("VGLII.CrossTwo"), "CrossTwo", null); //$NON-NLS-1$ //$NON-NLS-2$
 		mnuUtilities.add(crossTwoItem);
-		mnuBar.add(mnuUtilities);
+
+		modelBuilderItem = menuItem(Messages.getInstance().getString("VGLII.ShowModelBuilder"), "ModelBuilder", null);
+		mnuUtilities.add(modelBuilderItem);
+		
 		cageManagerItem = menuItem(Messages.getInstance().getString("VGLII.Cages"), "CageManager", null); //$NON-NLS-1$ //$NON-NLS-2$
 		mnuUtilities.add(cageManagerItem);
+		
 		rearrangeCagesItem = menuItem(Messages.getInstance().getString("VGLII.RearrangeCages"), "RearrangeCages", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(rearrangeCagesItem);
+		
 		summaryChartItem = menuItem(Messages.getInstance().getString("VGLII.CreateSummaryChart"), "SummaryChart", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(summaryChartItem);
+		
 		unselectAllItem = menuItem(Messages.getInstance().getString("VGLII.UnselectAllCages"), "UnselectAll", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(unselectAllItem);
@@ -878,6 +906,7 @@ public class VGLII extends JFrame {
 			createCageUI(fieldPop);
 			enableAll(true);
 			disableLanguageMenu();
+			modelBuilder = new ModelBuilderUI(this, geneticModel);
 		}
 	}
 
@@ -1563,6 +1592,10 @@ public class VGLII extends JFrame {
 	 */
 	private void disableLanguageMenu() {
 		mnuLanguage.setEnabled(false);
+	}
+	
+	private void showModelBuilder() {
+		modelBuilder.setVisible(true);
 	}
 
 }

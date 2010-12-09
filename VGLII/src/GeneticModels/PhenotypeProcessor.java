@@ -66,7 +66,6 @@ public class PhenotypeProcessor {
 	// for setting up from a saved work file
 	public void load(Element e) throws Exception {
 		interactionType = e.getAttribute("InteractionType").getIntValue();
-System.out.println("loading interaction type " + interactionType);
 		if (interactionType != NO_INTERACTION) {
 			List<Element> traitList = e.getChildren();
 			Iterator<Element> eIt = traitList.iterator();

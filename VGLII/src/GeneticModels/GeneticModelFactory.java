@@ -140,7 +140,7 @@ public class GeneticModelFactory {
 		return model;
 	}
 
-	private ProblemTypeSpecification processModelSpecElements(List<Element> elements) {
+	public ProblemTypeSpecification processModelSpecElements(List<Element> elements) {
 		ProblemTypeSpecification problemSpec = new ProblemTypeSpecification();
 
 		Iterator<Element> it = elements.iterator();
@@ -250,6 +250,8 @@ public class GeneticModelFactory {
 		} else {
 			model = new GeneticModel(true);
 		}
+		
+		model.setProblemTypeSPecification(specs);
 
 		//beginner mode
 		if (specs.isBeginnerMode()) model.setBeginnerMode(true);

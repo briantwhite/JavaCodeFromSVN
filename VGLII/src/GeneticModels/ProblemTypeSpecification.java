@@ -1,4 +1,7 @@
 package GeneticModels;
+
+import org.jdom.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -23,7 +26,7 @@ package GeneticModels;
 public class ProblemTypeSpecification {
 
 	private boolean beginnerMode;
-	
+
 	private boolean fieldPopTrueBreeding;
 
 	private int minOffspring;
@@ -52,13 +55,13 @@ public class ProblemTypeSpecification {
 	private float gene3_ch3Alleles;
 	private float gene3_chIncDom;
 	private float gene3_chCircDom;
-	
+
 	private float phenotypeInteraction;
 	private float epistasis;
 
 	public ProblemTypeSpecification() {
 		beginnerMode = false;
-		
+
 		fieldPopTrueBreeding = false;
 
 		minOffspring = 25;
@@ -86,10 +89,10 @@ public class ProblemTypeSpecification {
 		gene3_ch3Alleles = 0.0f;
 		gene3_chIncDom = 0.0f;
 		gene3_chCircDom = 0.5f;
-		
+
 		phenotypeInteraction = 0.0f;
 		epistasis = 0.0f;
-		
+
 	}
 
 	public boolean isFieldPopTrueBreeding() {
@@ -298,6 +301,36 @@ public class ProblemTypeSpecification {
 
 	public void setEpistasis(float epistasis) {
 		this.epistasis = epistasis;
+	}
+
+	public Element save() throws Exception {
+		Element e = new Element("ProblemTypeSpecification");
+		e.setAttribute("FieldPopTrueBreeding", String.valueOf(fieldPopTrueBreeding));
+		e.setAttribute("BeginnerMode", String.valueOf(beginnerMode));
+		e.setAttribute("MinOffspring", String.valueOf(minOffspring));
+		e.setAttribute("MaxOffspring", String.valueOf(maxOffspring));
+		e.setAttribute("ZZ_ZW", String.valueOf(chZZ_ZW));
+		e.setAttribute("Gene1_SexLinked", String.valueOf(gene1_chSexLinked));
+		e.setAttribute("Gene1_3Alleles", String.valueOf(gene1_ch3Alleles));
+		e.setAttribute("Gene1_IncDom", String.valueOf(gene1_chIncDom));
+		e.setAttribute("Gene1_CircDom", String.valueOf(gene1_chCircDom));
+		e.setAttribute("Gene2_Present", String.valueOf(gene2_chPresent));
+		e.setAttribute("Gene2_SameChrAsGene1", String.valueOf(gene2_chSameChrAsGene1));
+		e.setAttribute("Gene2_MinRfToGene1", String.valueOf(gene2_minRfToGene1));
+		e.setAttribute("Gene2_MaxRfToGene1", String.valueOf(gene2_maxRfToGene1));
+		e.setAttribute("Gene2_3Alleles", String.valueOf(gene2_ch3Alleles));
+		e.setAttribute("Gene2_IncDom", String.valueOf(gene2_chIncDom));
+		e.setAttribute("Gene2_CircDom", String.valueOf(gene2_chCircDom));
+		e.setAttribute("Gene3_Present", String.valueOf(gene3_chPresent));
+		e.setAttribute("Gene3_SameChrAsGene1", String.valueOf(gene3_chSameChrAsGene1));
+		e.setAttribute("Gene3_MinRfToPrevGene", String.valueOf(gene3_minRfToPrevGene));
+		e.setAttribute("Gene3_MaxRfToPrevGene", String.valueOf(gene3_maxRfToPrevGene));
+		e.setAttribute("Gene3_3Alleles", String.valueOf(gene3_ch3Alleles));
+		e.setAttribute("Gene3_IncDom", String.valueOf(gene3_chIncDom));
+		e.setAttribute("Gene3_CircDom", String.valueOf(gene3_chCircDom));
+		e.setAttribute("PhenotypeInteraction", String.valueOf(phenotypeInteraction));
+		e.setAttribute("Epistasis", String.valueOf(epistasis));
+		return e;
 	}
 
 }

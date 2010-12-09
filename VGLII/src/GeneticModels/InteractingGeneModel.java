@@ -141,6 +141,11 @@ public class InteractingGeneModel extends GeneModel {
 		e.addContent(t2.save(2));
 		return e;
 	}
+	
+	public String getCharacter() {
+		return t1.getBodyPart() + " " + t1.getType();
+	}
+
 
 }
 
