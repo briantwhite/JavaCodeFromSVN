@@ -62,6 +62,7 @@ public class ModelBuilderUI extends JDialog {
 				modelPanes[i] = new ModelPane(i, geneModels[i], 
 						geneticModel.getProblemTypeSpecification());
 				tabs.addTab(geneModels[i].getCharacter(), modelPanes[i]);
+				modelPanes[i].setupActionListeners();
 			}
 
 		} else {

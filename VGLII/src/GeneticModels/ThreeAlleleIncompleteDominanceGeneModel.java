@@ -216,5 +216,17 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 	public String getCharacter() {
 		return t1.getBodyPart() + " " + t1.getType();
 	}
+	public String[] getTraits() {
+		String[] t = new String[7];
+		t[0] = "?";
+		t[1] = t1.getTraitName();
+		t[2] = t2.getTraitName();
+		t[3] = t3.getTraitName();
+		t[4] = t4.getTraitName();
+		t[5] = t5.getTraitName();
+		t[6] = t6.getTraitName();
+		return t;
+	}
+
 
 }

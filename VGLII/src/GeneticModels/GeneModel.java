@@ -57,6 +57,8 @@ public abstract class GeneModel {
 	
 	public abstract String getCharacter();
 	
+	public abstract String[] getTraits();
+	
 	public abstract String toString();
 	
 	public abstract Element save(int index, float rf) throws Exception;

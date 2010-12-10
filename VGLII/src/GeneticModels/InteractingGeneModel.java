@@ -146,6 +146,14 @@ public class InteractingGeneModel extends GeneModel {
 		return t1.getBodyPart() + " " + t1.getType();
 	}
 
+	public String[] getTraits() {
+		String[] t = new String[3];
+		t[0] = "?";
+		t[1] = t1.getTraitName();
+		t[2] = t2.getTraitName();
+		return t;
+	}
+
 
 }
 

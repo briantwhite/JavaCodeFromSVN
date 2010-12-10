@@ -26,9 +26,13 @@ public class ModelPane extends JPanel implements ItemListener {
 	private JComboBox sexLinkageChoices;
 	private JComboBox alleleNumberChoices;
 	private JComboBox interactionTypeChoices;
-	private JComboBox a1a2interactionChoices;
-	private JComboBox a2a3interactionChoices;
-	private JComboBox a1a3interactionChoices;
+	private JComboBox t1Choices;
+	private JComboBox t2Choices;
+	private JComboBox t3Choices;
+	private JComboBox t4Choices;
+	private JComboBox t5Choices;
+	private JComboBox t6Choices;
+	
 
 	private JPanel interactionTypePanel;
 	private JPanel interactionDetailsPanel;
@@ -98,7 +102,6 @@ public class ModelPane extends JPanel implements ItemListener {
 					new JLabel("2-" +
 							Messages.getInstance().getString("VGLII.Allele")));
 		}
-		alleleNumberChoices.addItemListener(this);
 		masterPanel.add(alleleNumberChoicePanel);
 
 		// allele interaction type
@@ -157,12 +160,26 @@ public class ModelPane extends JPanel implements ItemListener {
 
 
 		// specific allele interactions
-		interactionDetailsPanel = new JPanel();
+		String[] traits = geneModel.getTraits();
+		interactionDetailsPanel = new JPanel(new CardLayout());
 		interactionDetailsPanel.setBorder(
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
-		interactionDetailsPanel.add(
+		
+		JPanel unknownInteractionPanel = new JPanel();  // panel for 'unknown'
+		unknownInteractionPanel.add(
 				new JLabel(Messages.getInstance().getString("VGLII.MustSelectType")));
+		interactionDetailsPanel.add(unknownInteractionPanel, 
+				Messages.getInstance().getString("VGLII.Unknown"));
+		
+		JPanel twoSimplePanel = new JPanel();	//panel for 2-allele simple dom
+		t1Choices = new JComboBox(traits);
+		twoSimplePanel.add(t1Choices);
+		t2Choices = new JComboBox(traits);
+		twoSimplePanel.add(t2Choices);
+		interactionDetailsPanel.add(twoSimplePanel, 
+				Messages.getInstance().getString("VGLII.SimpleDominance"));
+		
 		masterPanel.add(interactionDetailsPanel);
 
 
@@ -173,9 +190,13 @@ public class ModelPane extends JPanel implements ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getSource().equals(alleleNumberChoices)) {
 			CardLayout cl = (CardLayout)(interactionTypePanel.getLayout());
-			System.out.println((String)e.getItem());
 			cl.show(interactionTypePanel, (String)e.getItem());
 		}
 	}
 
+	public void setupActionListeners() {
+		if (alleleNumberChoices != null) {
+			alleleNumberChoices.addItemListener(this);	
+		}
+	}
 }
