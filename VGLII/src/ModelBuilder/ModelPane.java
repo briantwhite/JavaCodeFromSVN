@@ -2,6 +2,7 @@ package ModelBuilder;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -173,12 +174,35 @@ public class ModelPane extends JPanel implements ItemListener {
 				Messages.getInstance().getString("VGLII.Unknown"));
 		
 		JPanel twoSimplePanel = new JPanel();	//panel for 2-allele simple dom
+		twoSimplePanel.setLayout(new GridLayout(1,3));
 		t1Choices = new JComboBox(traits);
 		twoSimplePanel.add(t1Choices);
+		twoSimplePanel.add(new JLabel(Messages.getInstance().getString("VGLII.IsDominantTo")));
 		t2Choices = new JComboBox(traits);
 		twoSimplePanel.add(t2Choices);
 		interactionDetailsPanel.add(twoSimplePanel, 
 				Messages.getInstance().getString("VGLII.SimpleDominance"));
+		
+		JPanel twoIncPanel = new JPanel(); 		// panel for 2-allele inc dom
+		twoIncPanel.setLayout(new GridLayout(3,2));
+		t1Choices = new JComboBox(traits);
+		twoIncPanel.add(t1Choices);
+		twoIncPanel.add(new JLabel(Messages.getInstance().getString("VGLII.IsAHomozygote")));
+		t2Choices = new JComboBox(traits);
+		twoIncPanel.add(t2Choices);
+		twoIncPanel.add(new JLabel(Messages.getInstance().getString("VGLII.IsAHomozygote")));
+		t3Choices = new JComboBox(traits);
+		twoIncPanel.add(t3Choices);
+		twoIncPanel.add(new JLabel(Messages.getInstance().getString("VGLII.IsAHeterozygote")));
+		interactionDetailsPanel.add(twoIncPanel,
+				Messages.getInstance().getString("VGLII.IncompleteDominance"));
+		
+		JPanel threeSimplePanel = new JPanel();		// panel for 3-allele circ & hierar
+		
+		t1Choices = new JComboBox(traits);
+		threeSimplePanel.add(t1Choices);
+		three
+		
 		
 		masterPanel.add(interactionDetailsPanel);
 
