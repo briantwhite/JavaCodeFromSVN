@@ -34,6 +34,8 @@ public class ModelPane extends JPanel implements ItemListener {
 	private JComboBox t5Choices;
 	private JComboBox t6Choices;
 	
+	private boolean circularPossible;
+
 
 	private JPanel interactionTypePanel;
 	private JPanel interactionDetailsPanel;
@@ -106,121 +108,58 @@ public class ModelPane extends JPanel implements ItemListener {
 		masterPanel.add(alleleNumberChoicePanel);
 
 		// allele interaction type
-		interactionTypePanel = new JPanel(new CardLayout());
+		circularPossible = true;
+		if ((specs.getGene1_chCircDom() == 0.0)
+				|| (specs.getGene2_chCircDom() == 0.0)
+				|| (specs.getGene3_chCircDom() == 0.0)) circularPossible = false;
+
+		interactionTypePanel = new JPanel();
 		interactionTypePanel.setBorder(
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.GeneralAllelicInteractions")));
-
-		JPanel unknownPanel = new JPanel();	// panel for 'unknown' # of alleles
-		unknownPanel.add(
-				new JLabel(Messages.getInstance().getString("VGLII.MustSelectNumAlleles")));
-		interactionTypePanel.add(unknownPanel, Messages.getInstance().getString("VGLII.Unknown"));
-
-		JPanel twoAllelePanel = new JPanel();	// panel for 2 allele models
-		ArrayList<String> twoAlleleInteractionChoices = new ArrayList<String>();
-		twoAlleleInteractionChoices.add(Messages.getInstance().getString("VGLII.Unknown"));
-		twoAlleleInteractionChoices.add(Messages.getInstance().getString("VGLII.SimpleDominance"));
-		if ((specs.getGene1_chIncDom() > 0.0)
-				|| (specs.getGene2_chIncDom() > 0.0)
-				|| (specs.getGene3_chIncDom() > 0.0)) {
-			twoAlleleInteractionChoices.add(
-					Messages.getInstance().getString("VGLII.IncompleteDominance"));
-		}
-		String[] twoAIC = new String[twoAlleleInteractionChoices.size()];
-		for (int i = 0; i < twoAIC.length; i++) {
-			twoAIC[i] = twoAlleleInteractionChoices.get(i);
-		}
-		interactionTypeChoices = new JComboBox(twoAIC);
-		twoAllelePanel.add(interactionTypeChoices);
-		interactionTypePanel.add(twoAllelePanel, "2-" +
-				Messages.getInstance().getString("VGLII.Allele"));
-
-		JPanel threeAllelePanel = new JPanel();		// panel for 3 allele models
-		ArrayList<String> threeAlleleInteractionChoices = new ArrayList<String>();
-		threeAlleleInteractionChoices.add(Messages.getInstance().getString("VGLII.Unknown"));
-		threeAlleleInteractionChoices.add(
-				Messages.getInstance().getString("VGLII.HierarchicalDominance"));
-		if ((specs.getGene1_chCircDom() > 0.0)
-				|| (specs.getGene2_chCircDom() > 0.0)
-				|| (specs.getGene3_chCircDom() > 0.0)) {
-			threeAlleleInteractionChoices.add(
-					Messages.getInstance().getString("VGLII.CircularDominance"));			
-		}
-		threeAlleleInteractionChoices.add(
-				Messages.getInstance().getString("VGLII.IncompleteDominance"));
-		String[] threeAIC = new String[threeAlleleInteractionChoices.size()];
-		for (int i = 0; i < threeAIC.length; i++) {
-			threeAIC[i] = threeAlleleInteractionChoices.get(i);
-		}
-		interactionTypeChoices = new JComboBox(threeAIC);
-		threeAllelePanel.add(interactionTypeChoices);
-		interactionTypePanel.add(threeAllelePanel, "3-" +
-				Messages.getInstance().getString("VGLII.Allele"));
+		interactionTypePanel.add(new UnknownInteractionPanel());
 
 		masterPanel.add(interactionTypePanel);
-
-
-		// specific allele interactions
-		String[] traits = geneModel.getTraits();
-		interactionDetailsPanel = new JPanel(new CardLayout());
-		interactionDetailsPanel.setBorder(
-				BorderFactory.createTitledBorder(
-						Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
-		
-		JPanel unknownInteractionPanel = new JPanel();  // panel for 'unknown'
-		unknownInteractionPanel.add(
-				new JLabel(Messages.getInstance().getString("VGLII.MustSelectType")));
-		interactionDetailsPanel.add(unknownInteractionPanel, 
-				Messages.getInstance().getString("VGLII.Unknown"));
-		
-		JPanel twoSimplePanel = new JPanel();	//panel for 2-allele simple dom
-		twoSimplePanel.setLayout(new GridLayout(1,3));
-		t1Choices = new JComboBox(traits);
-		twoSimplePanel.add(t1Choices);
-		twoSimplePanel.add(new JLabel(Messages.getInstance().getString("VGLII.IsDominantTo")));
-		t2Choices = new JComboBox(traits);
-		twoSimplePanel.add(t2Choices);
-		interactionDetailsPanel.add(twoSimplePanel, 
-				Messages.getInstance().getString("VGLII.SimpleDominance"));
-		
-		JPanel twoIncPanel = new JPanel(); 		// panel for 2-allele inc dom
-		twoIncPanel.setLayout(new GridLayout(3,2));
-		t1Choices = new JComboBox(traits);
-		twoIncPanel.add(t1Choices);
-		twoIncPanel.add(new JLabel(Messages.getInstance().getString("VGLII.IsAHomozygote")));
-		t2Choices = new JComboBox(traits);
-		twoIncPanel.add(t2Choices);
-		twoIncPanel.add(new JLabel(Messages.getInstance().getString("VGLII.IsAHomozygote")));
-		t3Choices = new JComboBox(traits);
-		twoIncPanel.add(t3Choices);
-		twoIncPanel.add(new JLabel(Messages.getInstance().getString("VGLII.IsAHeterozygote")));
-		interactionDetailsPanel.add(twoIncPanel,
-				Messages.getInstance().getString("VGLII.IncompleteDominance"));
-		
-		JPanel threeSimplePanel = new JPanel();		// panel for 3-allele circ & hierar
-		
-		t1Choices = new JComboBox(traits);
-		threeSimplePanel.add(t1Choices);
-		three
-		
-		
-		masterPanel.add(interactionDetailsPanel);
-
 
 		this.add(masterPanel);
 	}
 
 
 	public void itemStateChanged(ItemEvent e) {
+
 		if (e.getSource().equals(alleleNumberChoices)) {
-			CardLayout cl = (CardLayout)(interactionTypePanel.getLayout());
-			cl.show(interactionTypePanel, (String)e.getItem());
+			if (e.getItem().toString().equals(
+					Messages.getInstance().getString("VGLII.Unknown"))) {
+				interactionTypePanel.removeAll();
+				interactionTypePanel.add(new UnknownInteractionPanel());
+				interactionTypePanel.revalidate();
+			}
+			if (e.getItem().toString().equals(
+					"2-" + Messages.getInstance().getString("VGLII.Allele"))) {
+				interactionTypePanel.removeAll();
+				interactionTypePanel.add(new TwoAllelePanel(interactionTypeChoices));
+				interactionTypePanel.revalidate();				
+			}
+			if (e.getItem().toString().equals(
+					"3-" + Messages.getInstance().getString("VGLII.Allele"))) {
+				interactionTypePanel.removeAll();
+				interactionTypePanel.add(
+						new ThreeAllelePanel(interactionTypeChoices, circularPossible));
+				interactionTypePanel.revalidate();				
+			}
+
+		}
+		if (e.getSource().equals(interactionTypeChoices)) {
+
 		}
 	}
 
 	public void setupActionListeners() {
 		if (alleleNumberChoices != null) {
 			alleleNumberChoices.addItemListener(this);	
+		}
+		if (interactionTypeChoices != null) {
+			interactionTypeChoices.addItemListener(this);
 		}
 	}
 }
