@@ -118,9 +118,16 @@ public class ModelPane extends JPanel implements ItemListener {
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.GeneralAllelicInteractions")));
 		interactionTypePanel.add(new UnknownInteractionPanel());
-
 		masterPanel.add(interactionTypePanel);
-
+		
+		// allele interaction details
+		interactionDetailsPanel = new JPanel();
+		interactionDetailsPanel.setBorder(
+				BorderFactory.createTitledBorder(
+						Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
+		interactionDetailsPanel.add(new UnknownSpecificsPanel());
+		masterPanel.add(interactionDetailsPanel);
+		
 		this.add(masterPanel);
 	}
 
@@ -137,19 +144,37 @@ public class ModelPane extends JPanel implements ItemListener {
 			if (e.getItem().toString().equals(
 					"2-" + Messages.getInstance().getString("VGLII.Allele"))) {
 				interactionTypePanel.removeAll();
-				interactionTypePanel.add(new TwoAllelePanel(interactionTypeChoices));
+				interactionTypePanel.add(new TwoAllelePanel(this, interactionTypeChoices));
 				interactionTypePanel.revalidate();				
 			}
 			if (e.getItem().toString().equals(
 					"3-" + Messages.getInstance().getString("VGLII.Allele"))) {
 				interactionTypePanel.removeAll();
 				interactionTypePanel.add(
-						new ThreeAllelePanel(interactionTypeChoices, circularPossible));
+						new ThreeAllelePanel(this, interactionTypeChoices, circularPossible));
 				interactionTypePanel.revalidate();				
 			}
 
 		}
+		
 		if (e.getSource().equals(interactionTypeChoices)) {
+
+			if (alleleNumberChoices.getSelectedItem().toString().equals(
+					"2-" + Messages.getInstance().getString("VGLII.Allele"))) {
+				if (e.getItem().toString().equals(
+						Messages.getInstance().getString("VGLII.Unknown"))) {
+					interactionDetailsPanel.removeAll();
+					interactionDetailsPanel.add(new UnknownSpecificsPanel());
+					interactionDetailsPanel.revalidate();
+				}
+				if (e.getItem().toString().equals(
+						Messages.getInstance().getString("VGLII.SimpleDominance"))) {
+					interactionDetailsPanel.removeAll();
+					interactionDetailsPanel.add(
+							new TwoSimplePanel(geneModel.getTraits(), t1Choices, t2Choices));
+					interactionTypePanel.revalidate();
+				}
+			}
 
 		}
 	}
