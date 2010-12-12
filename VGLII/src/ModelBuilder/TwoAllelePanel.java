@@ -8,15 +8,19 @@ import VGL.Messages;
 
 public class TwoAllelePanel extends JPanel {
 	
-	public TwoAllelePanel(ModelPane parent,
-			JComboBox interactionTypeChoices) {
+	private JComboBox interactionTypeChoices;
+	
+	public TwoAllelePanel() {
 		String[] choices = new String[3];
 		choices[0] = Messages.getInstance().getString("VGLII.Unknown");
 		choices[1] = Messages.getInstance().getString("VGLII.SimpleDominance");
 		choices[2] = Messages.getInstance().getString("VGLII.IncompleteDominance");
 		interactionTypeChoices = new JComboBox(choices);
-		interactionTypeChoices.addItemListener(parent);
 		this.add(interactionTypeChoices);
+	}
+	
+	public JComboBox getInteractionTypeChoices() {
+		return interactionTypeChoices;
 	}
 
 }

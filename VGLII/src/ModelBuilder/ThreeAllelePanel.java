@@ -6,10 +6,10 @@ import javax.swing.JPanel;
 import VGL.Messages;
 
 public class ThreeAllelePanel extends JPanel {
+	
+	private JComboBox interactionTypeChoices;
 
-	public ThreeAllelePanel(ModelPane parent,
-			JComboBox interactionTypeChoices, 
-			boolean circularPossible) {
+	public ThreeAllelePanel(boolean circularPossible) {
 		String[] choices = null;
 		if (circularPossible) {
 			choices = new String[4];
@@ -24,8 +24,12 @@ public class ThreeAllelePanel extends JPanel {
 			choices[2] = Messages.getInstance().getString("VGLII.IncompleteDominance");
 		}
 		interactionTypeChoices = new JComboBox(choices);
-		interactionTypeChoices.addItemListener(parent);
 		this.add(interactionTypeChoices);
 	}
+	
+	public JComboBox getInteractionTypeChoices() {
+		return interactionTypeChoices;
+	}
+
 
 }

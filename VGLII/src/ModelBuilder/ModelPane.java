@@ -144,14 +144,19 @@ public class ModelPane extends JPanel implements ItemListener {
 			if (e.getItem().toString().equals(
 					"2-" + Messages.getInstance().getString("VGLII.Allele"))) {
 				interactionTypePanel.removeAll();
-				interactionTypePanel.add(new TwoAllelePanel(this, interactionTypeChoices));
+				TwoAllelePanel twap = new TwoAllelePanel();
+				interactionTypeChoices = twap.getInteractionTypeChoices();
+				interactionTypeChoices.addItemListener(this);
+				interactionTypePanel.add(twap);
 				interactionTypePanel.revalidate();				
 			}
 			if (e.getItem().toString().equals(
 					"3-" + Messages.getInstance().getString("VGLII.Allele"))) {
 				interactionTypePanel.removeAll();
-				interactionTypePanel.add(
-						new ThreeAllelePanel(this, interactionTypeChoices, circularPossible));
+				ThreeAllelePanel thap = new ThreeAllelePanel(circularPossible);
+				interactionTypeChoices = thap.getInteractionTypeChoices();
+				interactionTypeChoices.addItemListener(this);
+				interactionTypePanel.add(thap);
 				interactionTypePanel.revalidate();				
 			}
 
@@ -182,9 +187,6 @@ public class ModelPane extends JPanel implements ItemListener {
 	public void setupActionListeners() {
 		if (alleleNumberChoices != null) {
 			alleleNumberChoices.addItemListener(this);	
-		}
-		if (interactionTypeChoices != null) {
-			interactionTypeChoices.addItemListener(this);
 		}
 	}
 }
