@@ -1,8 +1,9 @@
 package ModelBuilder;
 
+import java.awt.GridLayout;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import VGL.Messages;
 
@@ -18,6 +19,7 @@ public class ThreeHierPanel extends ModelDetailsPanel {
 		t1Choices = new JComboBox(phenos);
 		t2Choices = new JComboBox(phenos);
 		t3Choices = new JComboBox(phenos);
+		setLayout(new GridLayout(5,1));
 		add(t3Choices);
 		add(new JLabel(Messages.getInstance().getString("VGLII.IsDominantTo")));
 		add(t2Choices);
