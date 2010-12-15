@@ -1,8 +1,9 @@
 package ModelBuilder;
 
+import java.awt.GridLayout;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import VGL.Messages;
 
@@ -13,6 +14,7 @@ public class TwoSimplePanel extends ModelDetailsPanel {
 			JComboBox t2Choices) {
 		this.t1Choices = t1Choices;
 		this.t2Choices = t2Choices;
+		setLayout(new GridLayout(3,1));
 		t2Choices = new JComboBox(phenos);
 		add(t2Choices);
 		add(new JLabel(Messages.getInstance().getString("VGLII.IsDominantTo")));
