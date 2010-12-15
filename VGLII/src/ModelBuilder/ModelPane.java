@@ -33,7 +33,7 @@ public class ModelPane extends JPanel implements ItemListener {
 	private JComboBox t4Choices;
 	private JComboBox t5Choices;
 	private JComboBox t6Choices;
-	
+
 	private boolean circularPossible;
 
 
@@ -119,7 +119,7 @@ public class ModelPane extends JPanel implements ItemListener {
 						Messages.getInstance().getString("VGLII.GeneralAllelicInteractions")));
 		interactionTypePanel.add(new UnknownInteractionPanel());
 		masterPanel.add(interactionTypePanel);
-		
+
 		// allele interaction details
 		interactionDetailsPanel = new JPanel();
 		interactionDetailsPanel.setBorder(
@@ -127,7 +127,7 @@ public class ModelPane extends JPanel implements ItemListener {
 						Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
 		interactionDetailsPanel.add(new UnknownSpecificsPanel());
 		masterPanel.add(interactionDetailsPanel);
-		
+
 		this.add(masterPanel);
 	}
 
@@ -161,7 +161,7 @@ public class ModelPane extends JPanel implements ItemListener {
 			}
 
 		}
-		
+
 		if (e.getSource().equals(interactionTypeChoices)) {
 
 			if (alleleNumberChoices.getSelectedItem().toString().equals(
@@ -179,8 +179,53 @@ public class ModelPane extends JPanel implements ItemListener {
 							new TwoSimplePanel(geneModel.getTraits(), t1Choices, t2Choices));
 					interactionTypePanel.revalidate();
 				}
+				if (e.getItem().toString().equals(
+						Messages.getInstance().getString("VGLII.IncompleteDominance"))) {
+					interactionDetailsPanel.removeAll();
+					interactionDetailsPanel.add(
+							new TwoIncPanel(geneModel.getTraits(), t1Choices, t2Choices, t3Choices));
+					interactionTypePanel.revalidate();
+				}
 			}
-
+			if (alleleNumberChoices.getSelectedItem().toString().equals(
+					"3-" + Messages.getInstance().getString("VGLII.Allele"))) {
+				if (e.getItem().toString().equals(
+						Messages.getInstance().getString("VGLII.Unknown"))) {
+					interactionDetailsPanel.removeAll();
+					interactionDetailsPanel.add(new UnknownSpecificsPanel());
+					interactionDetailsPanel.revalidate();
+				}
+				if (e.getItem().toString().equals(
+						Messages.getInstance().getString("VGLII.IncompleteDominance"))) {
+					interactionDetailsPanel.removeAll();
+					interactionDetailsPanel.add(
+							new ThreeIncPanel(
+									geneModel.getTraits(), 
+									t1Choices, 
+									t2Choices, 
+									t3Choices,
+									t4Choices,
+									t5Choices,
+									t6Choices));
+					interactionTypePanel.revalidate();					
+				}
+				if (e.getItem().toString().equals(
+						Messages.getInstance().getString("VGLII.HierarchicalDominance"))) {
+					interactionDetailsPanel.removeAll();
+					interactionDetailsPanel.add(
+							new ThreeHierPanel(geneModel.getTraits(), 
+									t1Choices, t2Choices, t3Choices));
+					interactionTypePanel.revalidate();					
+				}
+				if (e.getItem().toString().equals(
+						Messages.getInstance().getString("VGLII.CircularDominance"))) {
+					interactionDetailsPanel.removeAll();
+					interactionDetailsPanel.add(
+							new ThreeCircPanel(geneModel.getTraits(), 
+									t1Choices, t2Choices, t3Choices));
+					interactionTypePanel.revalidate();					
+				}
+			}
 		}
 	}
 
