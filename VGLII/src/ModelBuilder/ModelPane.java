@@ -140,6 +140,11 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionTypePanel.removeAll();
 				interactionTypePanel.add(new UnknownInteractionPanel());
 				interactionTypePanel.revalidate();
+				
+				interactionDetailsPanel.removeAll();
+				interactionDetailsPanel.add(new UnknownSpecificsPanel());
+				interactionDetailsPanel.revalidate();
+				revalidate();
 			}
 			if (e.getItem().toString().equals(
 					"2-" + Messages.getInstance().getString("VGLII.Allele"))) {
@@ -149,6 +154,11 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionTypeChoices.addItemListener(this);
 				interactionTypePanel.add(twap);
 				interactionTypePanel.revalidate();				
+				
+				interactionDetailsPanel.removeAll();
+				interactionDetailsPanel.add(new UnknownSpecificsPanel());
+				interactionDetailsPanel.revalidate();
+				revalidate();
 			}
 			if (e.getItem().toString().equals(
 					"3-" + Messages.getInstance().getString("VGLII.Allele"))) {
@@ -158,6 +168,11 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionTypeChoices.addItemListener(this);
 				interactionTypePanel.add(thap);
 				interactionTypePanel.revalidate();				
+				
+				interactionDetailsPanel.removeAll();
+				interactionDetailsPanel.add(new UnknownSpecificsPanel());
+				interactionDetailsPanel.revalidate();
+				revalidate();
 			}
 
 		}
@@ -171,6 +186,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(new UnknownSpecificsPanel());
 					interactionDetailsPanel.revalidate();
+					revalidate();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.SimpleDominance"))) {
@@ -178,6 +194,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.add(
 							new TwoSimplePanel(geneModel.getTraits(), t1Choices, t2Choices));
 					interactionTypePanel.revalidate();
+					revalidate();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.IncompleteDominance"))) {
@@ -185,6 +202,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.add(
 							new TwoIncPanel(geneModel.getTraits(), t1Choices, t2Choices, t3Choices));
 					interactionTypePanel.revalidate();
+					revalidate();
 				}
 			}
 			if (alleleNumberChoices.getSelectedItem().toString().equals(
@@ -194,6 +212,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(new UnknownSpecificsPanel());
 					interactionDetailsPanel.revalidate();
+					revalidate();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.IncompleteDominance"))) {
@@ -207,7 +226,8 @@ public class ModelPane extends JPanel implements ItemListener {
 									t4Choices,
 									t5Choices,
 									t6Choices));
-					interactionTypePanel.revalidate();					
+					interactionTypePanel.revalidate();		
+					revalidate();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.HierarchicalDominance"))) {
@@ -215,7 +235,8 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.add(
 							new ThreeHierPanel(geneModel.getTraits(), 
 									t1Choices, t2Choices, t3Choices));
-					interactionTypePanel.revalidate();					
+					interactionTypePanel.revalidate();	
+					revalidate();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.CircularDominance"))) {
@@ -223,7 +244,8 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.add(
 							new ThreeCircPanel(geneModel.getTraits(), 
 									t1Choices, t2Choices, t3Choices));
-					interactionTypePanel.revalidate();					
+					interactionTypePanel.revalidate();	
+					revalidate();
 				}
 			}
 		}

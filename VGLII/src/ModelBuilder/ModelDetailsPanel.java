@@ -19,7 +19,10 @@ public abstract class ModelDetailsPanel extends JPanel {
 	
 	private URL combineArrowURL = CageUI.class.getResource("UIimages/combineArrow.gif");
 	ImageIcon combineArrow = new ImageIcon(combineArrowURL);
-	
+
+	private URL combineArrow2URL = CageUI.class.getResource("UIimages/combineArrow2.gif");
+	ImageIcon combineArrow2 = new ImageIcon(combineArrow2URL);
+
 	public abstract String[] getChoices();
 
 }
