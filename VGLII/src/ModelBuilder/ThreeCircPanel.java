@@ -61,7 +61,7 @@ public class ThreeCircPanel extends ModelDetailsPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D)g;
-		g2d.setColor(Color.BLACK);
+		g2d.setColor(Color.GRAY);
 		g2d.setStroke(new BasicStroke(5F));
 		g2d.drawArc(70, 15, 80, l.getLocation().y, -90, 180);
 		
