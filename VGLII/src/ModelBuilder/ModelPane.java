@@ -22,7 +22,7 @@ import VGL.Messages;
 public class ModelPane extends JPanel implements ItemListener {
 
 	private int index;
-	private GeneModel geneModel;
+	private String[] traits;
 	private ProblemTypeSpecification specs;
 	private ModelBuilderUI modelBuilderUI;
 
@@ -44,10 +44,10 @@ public class ModelPane extends JPanel implements ItemListener {
 	private JPanel interactionTypePanel;
 	private JPanel interactionDetailsPanel;
 
-	public ModelPane(int index, GeneModel geneModel, ProblemTypeSpecification specs,
+	public ModelPane(int index, String[] traits, ProblemTypeSpecification specs,
 			ModelBuilderUI modelBuilderUI) {
 		this.index = index;
-		this.geneModel = geneModel;
+		this.traits = traits;
 		this.specs = specs;
 		this.modelBuilderUI = modelBuilderUI;
 		setupUI();
@@ -219,6 +219,9 @@ public class ModelPane extends JPanel implements ItemListener {
 					"2-" + Messages.getInstance().getString("VGLII.Allele"))) {
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.Unknown"))) {
+					interactionDetailsPanel.setBorder(
+							BorderFactory.createTitledBorder(
+									Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(new UnknownSpecificsPanel());
 					interactionDetailsPanel.revalidate();
@@ -227,18 +230,48 @@ public class ModelPane extends JPanel implements ItemListener {
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.SimpleDominance"))) {
+					interactionDetailsPanel.setBorder(
+							BorderFactory.createTitledBorder(
+									Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
-							new TwoSimplePanel(geneModel.getTraits(), t1Choices, t2Choices));
+							new TwoSimplePanel(traits, t1Choices, t2Choices));
 					interactionTypePanel.revalidate();
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.IncompleteDominance"))) {
+					interactionDetailsPanel.setBorder(
+							BorderFactory.createTitledBorder(
+									Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
-							new TwoIncPanel(geneModel.getTraits(), t1Choices, t2Choices, t3Choices));
+							new TwoIncPanel(traits, t1Choices, t2Choices, t3Choices));
+					interactionTypePanel.revalidate();
+					modelBuilderUI.pack();
+					modelBuilderUI.repaint();
+				}
+				if (e.getItem().toString().equals(
+						Messages.getInstance().getString("VGLII.Complementation"))) {
+					interactionDetailsPanel.setBorder(
+							BorderFactory.createTitledBorder(
+									Messages.getInstance().getString("VGLII.Pathway")));
+					interactionDetailsPanel.removeAll();
+					interactionDetailsPanel.add(
+							new ComplementationPanel(traits, t1Choices, t2Choices));
+					interactionTypePanel.revalidate();
+					modelBuilderUI.pack();
+					modelBuilderUI.repaint();
+				}
+				if (e.getItem().toString().equals(
+						Messages.getInstance().getString("VGLII.Epistasis"))) {
+					interactionDetailsPanel.setBorder(
+							BorderFactory.createTitledBorder(
+									Messages.getInstance().getString("VGLII.Pathway")));
+					interactionDetailsPanel.removeAll();
+					interactionDetailsPanel.add(
+							new TwoIncPanel(traits, t1Choices, t2Choices, t3Choices));
 					interactionTypePanel.revalidate();
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
@@ -259,7 +292,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
 							new ThreeIncPanel(
-									geneModel.getTraits(), 
+									traits, 
 									t1Choices, 
 									t2Choices, 
 									t3Choices,
@@ -274,7 +307,7 @@ public class ModelPane extends JPanel implements ItemListener {
 						Messages.getInstance().getString("VGLII.HierarchicalDominance"))) {
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
-							new ThreeHierPanel(geneModel.getTraits(), 
+							new ThreeHierPanel(traits, 
 									t1Choices, t2Choices, t3Choices));
 					interactionTypePanel.revalidate();	
 					modelBuilderUI.pack();
@@ -284,7 +317,7 @@ public class ModelPane extends JPanel implements ItemListener {
 						Messages.getInstance().getString("VGLII.CircularDominance"))) {
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
-							new ThreeCircPanel(geneModel.getTraits(), 
+							new ThreeCircPanel(traits, 
 									t1Choices, t2Choices, t3Choices));
 					interactionTypePanel.revalidate();	
 					modelBuilderUI.pack();

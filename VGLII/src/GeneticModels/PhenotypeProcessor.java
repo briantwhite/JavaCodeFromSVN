@@ -90,6 +90,19 @@ public class PhenotypeProcessor {
 	public Trait getT3() {
 		return t3;
 	}
+	
+	public String[] getTraits() {
+		String[] r = new String[4];
+		r[0] = "?";
+		r[1] = t1.getTraitName();
+		r[2] = t2.getTraitName();
+		r[3] = t3.getTraitName();
+		return r;
+	}
+	
+	public String getCharacter() {
+		return t1.getBodyPart() + " " + t1.getType();
+	}
 
 	// methods for processing phenotypes once the Processor is set up
 
