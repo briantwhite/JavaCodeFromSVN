@@ -271,7 +271,7 @@ public class ModelPane extends JPanel implements ItemListener {
 									Messages.getInstance().getString("VGLII.Pathway")));
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
-							new TwoIncPanel(traits, t1Choices, t2Choices, t3Choices));
+							new EpistasisPanel(traits, t1Choices, t2Choices, t3Choices));
 					interactionTypePanel.revalidate();
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();

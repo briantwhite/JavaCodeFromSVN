@@ -17,7 +17,7 @@ public class TwoAllelePanel extends JPanel {
 		ArrayList<String> choiceStrings = new ArrayList<String>();
 		choiceStrings.add(Messages.getInstance().getString("VGLII.Unknown"));
 		choiceStrings.add(Messages.getInstance().getString("VGLII.SimpleDominance"));
-		if (incDomPossible) {
+		if (incDomPossible || epistasisPossible) {
 			choiceStrings.add(Messages.getInstance().getString("VGLII.IncompleteDominance"));
 		}
 		if (complementationPossible) {

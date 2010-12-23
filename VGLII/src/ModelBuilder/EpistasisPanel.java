@@ -4,64 +4,44 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import VGL.Messages;
 
-public class ComplementationPanel extends ModelDetailsPanel implements ItemListener {
-
-	JComboBox intermediateChoices;  // for middle choice; linked to 1st one
+public class EpistasisPanel extends ModelDetailsPanel {
 	JLabel gALabel;
 	JLabel gBLabel;
 
-	public ComplementationPanel(String[] allPhenos,
+	public EpistasisPanel(String[] phenos,
 			JComboBox t1Choices,
-			JComboBox t2Choices) {
-		// don't use last pheno if complementation
-		String[] phenos = new String[3];
-		phenos[0] = allPhenos[0];
-		phenos[1] = allPhenos[1];
-		phenos[2] = allPhenos[2];
+			JComboBox t2Choices,
+			JComboBox t3Choices) {
 		t1Choices = new JComboBox(phenos);
-		t1Choices.addItemListener(this);
 		t2Choices = new JComboBox(phenos);
+		t3Choices = new JComboBox(phenos);
 		this.t1Choices = t1Choices;
 		this.t2Choices = t2Choices;
-		intermediateChoices = new JComboBox(phenos);
-		intermediateChoices.addItemListener(this);
+		this.t3Choices = t3Choices;
 
 		add(t1Choices);
 		gALabel = new JLabel(Messages.getInstance().getString("VGLII.Gene") + " A");
 		add(gALabel);
-		add(intermediateChoices);
+		add(t2Choices);
 		gBLabel = new JLabel(Messages.getInstance().getString("VGLII.Gene") + " B");
 		add(gBLabel);
-		add(t2Choices);
+		add(t3Choices);
 	}
 
 	public String[] getChoices() {
-		String[] r = new String[2];
+		String[] r = new String[3];
 		r[0] = t1Choices.getSelectedItem().toString();
 		r[1] = t2Choices.getSelectedItem().toString();
+		r[2] = t3Choices.getSelectedItem().toString();
 		return r;
 	}
 
-	// make the first 2 choices track each other
-	public void itemStateChanged(ItemEvent e) {
-		if (e.getStateChange() == ItemEvent.SELECTED) {
-			if (e.getSource().equals(t1Choices)) {
-				intermediateChoices.setSelectedItem(t1Choices.getSelectedItem());
-			}
-
-			if (e.getSource().equals(intermediateChoices)) {
-				t1Choices.setSelectedItem(intermediateChoices.getSelectedItem());
-			}
-		}
-	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -84,3 +64,4 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 
 
 }
+
