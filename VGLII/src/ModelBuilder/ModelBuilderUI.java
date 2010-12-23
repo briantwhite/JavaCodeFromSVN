@@ -1,6 +1,7 @@
 package ModelBuilder;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,6 +21,7 @@ public class ModelBuilderUI extends JDialog {
 	private JFrame parentFrame;
 	private WorkingModel workingModel;
 	private GeneticModel geneticModel;
+	private LinkagePanel linkagePanel;
 
 	// from saved work file
 	public ModelBuilderUI (
@@ -90,6 +92,23 @@ public class ModelBuilderUI extends JDialog {
 				modelPanes[1] = new ModelPane(1, geneModels[1].getTraits(), specs, this);
 			}
 
+		}
+		
+		// set up for linkage if needed
+		if ((specs.getGene2_chSameChrAsGene1() != 0.0) || 
+				(specs.getGene3_chSameChrAsGene1() != 0.0)) {
+			ArrayList<String> characters = new ArrayList<String>();
+			characters.add(geneModels[0].getCharacter());
+			characters.add(geneModels[1].getCharacter());
+			if (geneticModel.getNumberOfGeneModels() == 3) {
+				characters.add(geneModels[2].getCharacter());
+			}
+			String[] chars = new String[characters.size()];
+			for (int i = 0; i < characters.size(); i++) {
+				chars[i] = characters.get(i);
+			}
+			linkagePanel = new LinkagePanel(chars);
+			tabs.add(Messages.getInstance().getString("VGLII.Linkage"), linkagePanel);
 		}
 
 		masterPanel.add(tabs);
