@@ -1,6 +1,7 @@
 package ModelBuilder;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
@@ -36,7 +37,9 @@ public class ModelPane extends JPanel implements ItemListener {
 	private JComboBox t6Choices;
 
 	private boolean circularPossible;
-
+	private boolean incDomPossible;
+	private boolean complementationPossible;
+	private boolean epistasisPossible;
 
 	private JPanel interactionTypePanel;
 	private JPanel interactionDetailsPanel;
@@ -60,11 +63,12 @@ public class ModelPane extends JPanel implements ItemListener {
 		sexLinkagePanel.setBorder(
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.SexLinkage")));
+		ArrayList<String>sexLinkageChoiceStrings = new ArrayList<String>();
 		if (specs.getGene1_chSexLinked() > 0.0) {
-			ArrayList<String>sexLinkageChoiceStrings = new ArrayList<String>();
 			sexLinkageChoiceStrings.add(
 					Messages.getInstance().getString(
 					"VGLII.Unknown"));
+			sexLinkageChoiceStrings.add(Messages.getInstance().getString("VGLII.NotSexLinked"));
 			sexLinkageChoiceStrings.add("XX " 
 					+ Messages.getInstance().getString("VGLII.Female")
 					+ "/XY "
@@ -75,17 +79,15 @@ public class ModelPane extends JPanel implements ItemListener {
 						+ "/ZW "
 						+ Messages.getInstance().getString("VGLII.Female"));
 			}
-			String[] slcs = new String[sexLinkageChoiceStrings.size()];
-			for (int i = 0; i < slcs.length; i++) {
-				slcs[i] = sexLinkageChoiceStrings.get(i);
-			}
-			sexLinkageChoices = new JComboBox(slcs);
-			sexLinkagePanel.add(sexLinkageChoices);
 		} else {
-			sexLinkagePanel.add(
-					new JLabel(
-							Messages.getInstance().getString("VGLII.NotSexLinked")));
+			sexLinkageChoiceStrings.add(Messages.getInstance().getString("VGLII.NotSexLinked"));
 		}
+		String[] slcs = new String[sexLinkageChoiceStrings.size()];
+		for (int i = 0; i < slcs.length; i++) {
+			slcs[i] = sexLinkageChoiceStrings.get(i);
+		}
+		sexLinkageChoices = new JComboBox(slcs);
+		sexLinkagePanel.add(sexLinkageChoices);
 		masterPanel.add(sexLinkagePanel);
 
 
@@ -94,20 +96,23 @@ public class ModelPane extends JPanel implements ItemListener {
 		alleleNumberChoicePanel.setBorder(
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.NumberOfAlleles")));
+		String[] alleleNumberStrings;
+		boolean isOnly2Alleles;
 		if ((specs.getGene1_ch3Alleles() > 0.0) ||
 				(specs.getGene2_ch3Alleles() > 0.0) ||
 				(specs.getGene3_ch3Alleles() > 0.0)) {
-			String[] alleleNumberStrings = new String[3];
+			isOnly2Alleles = false;
+			alleleNumberStrings = new String[3];
 			alleleNumberStrings[0] = Messages.getInstance().getString("VGLII.Unknown");
 			alleleNumberStrings[1] = "2-" + Messages.getInstance().getString("VGLII.Allele");
 			alleleNumberStrings[2] = "3-" + Messages.getInstance().getString("VGLII.Allele");
-			alleleNumberChoices = new JComboBox(alleleNumberStrings);
-			alleleNumberChoicePanel.add(alleleNumberChoices);
 		} else {
-			alleleNumberChoicePanel.add(
-					new JLabel("2-" +
-							Messages.getInstance().getString("VGLII.Allele")));
+			isOnly2Alleles = true;
+			alleleNumberStrings = new String[1];
+			alleleNumberStrings[0] = "2-" + Messages.getInstance().getString("VGLII.Allele");
 		}
+		alleleNumberChoices = new JComboBox(alleleNumberStrings);
+		alleleNumberChoicePanel.add(alleleNumberChoices);
 		masterPanel.add(alleleNumberChoicePanel);
 
 		// allele interaction type
@@ -115,12 +120,36 @@ public class ModelPane extends JPanel implements ItemListener {
 		if ((specs.getGene1_chCircDom() == 0.0)
 				|| (specs.getGene2_chCircDom() == 0.0)
 				|| (specs.getGene3_chCircDom() == 0.0)) circularPossible = false;
+		
+		incDomPossible = true;
+		if ((specs.getGene1_chIncDom() == 0.0)
+				|| (specs.getGene2_chIncDom() == 0.0)
+				|| (specs.getGene3_chIncDom() == 0.0)) incDomPossible = false;
+		
+		complementationPossible = false;
+		if ((specs.getPhenotypeInteraction() > 0.0)
+				&& (specs.getEpistasis() != 1.0)) complementationPossible = true;
+		
+		epistasisPossible = false;
+		if ((specs.getPhenotypeInteraction() > 0.0)
+				&& (specs.getEpistasis() != 0.0)) epistasisPossible = true;
 
 		interactionTypePanel = new JPanel();
 		interactionTypePanel.setBorder(
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.GeneralAllelicInteractions")));
-		interactionTypePanel.add(new UnknownInteractionPanel());
+		if (isOnly2Alleles) {
+			interactionTypePanel.removeAll();
+			TwoAllelePanel twap = new TwoAllelePanel(
+					incDomPossible, complementationPossible, epistasisPossible);
+			interactionTypeChoices = twap.getInteractionTypeChoices();
+			interactionTypeChoices.addItemListener(this);
+			interactionTypePanel.add(twap);
+			interactionTypePanel.revalidate();				
+		} else {
+			interactionTypePanel.add(new UnknownInteractionPanel());
+		}
+
 		masterPanel.add(interactionTypePanel);
 
 		// allele interaction details
@@ -143,7 +172,7 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionTypePanel.removeAll();
 				interactionTypePanel.add(new UnknownInteractionPanel());
 				interactionTypePanel.revalidate();
-				
+
 				interactionDetailsPanel.removeAll();
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
 				interactionDetailsPanel.revalidate();
@@ -153,12 +182,13 @@ public class ModelPane extends JPanel implements ItemListener {
 			if (e.getItem().toString().equals(
 					"2-" + Messages.getInstance().getString("VGLII.Allele"))) {
 				interactionTypePanel.removeAll();
-				TwoAllelePanel twap = new TwoAllelePanel();
+				TwoAllelePanel twap = new TwoAllelePanel(incDomPossible,
+						complementationPossible, epistasisPossible);
 				interactionTypeChoices = twap.getInteractionTypeChoices();
 				interactionTypeChoices.addItemListener(this);
 				interactionTypePanel.add(twap);
 				interactionTypePanel.revalidate();				
-				
+
 				interactionDetailsPanel.removeAll();
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
 				interactionDetailsPanel.revalidate();
@@ -173,7 +203,7 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionTypeChoices.addItemListener(this);
 				interactionTypePanel.add(thap);
 				interactionTypePanel.revalidate();				
-				
+
 				interactionDetailsPanel.removeAll();
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
 				interactionDetailsPanel.revalidate();
