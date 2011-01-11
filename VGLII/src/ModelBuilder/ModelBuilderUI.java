@@ -85,7 +85,7 @@ public class ModelBuilderUI extends JDialog {
 				tabs.addTab(geneticModel.getPhenoTypeProcessor().getCharacter()	, modelPanes[0]);
 			}
 			modelPanes[0].setupActionListeners();
-			
+
 			// if a last character, add it (it's index = 2 since 1st 2 are interacting)
 			if (geneticModel.getNumberOfCharacters() == 2) {
 				geneModels[1] = geneticModel.getGeneModelByIndex(2);
@@ -93,22 +93,18 @@ public class ModelBuilderUI extends JDialog {
 			}
 
 		}
-		
+
 		// set up for linkage if needed
-		if ((specs.getGene2_chSameChrAsGene1() != 0.0) || 
-				(specs.getGene3_chSameChrAsGene1() != 0.0)) {
-			ArrayList<String> characters = new ArrayList<String>();
-			characters.add(geneModels[0].getCharacter());
-			characters.add(geneModels[1].getCharacter());
-			if (geneticModel.getNumberOfGeneModels() == 3) {
-				characters.add(geneModels[2].getCharacter());
+		if (geneticModel.getNumberOfGeneModels() > 1) {
+			if ((specs.getGene2_chSameChrAsGene1() != 0.0) &&
+					(specs.getGene2_minRfToGene1() < 0.5)) {
+				setupLinkagePanel(geneModels, tabs);
 			}
-			String[] chars = new String[characters.size()];
-			for (int i = 0; i < characters.size(); i++) {
-				chars[i] = characters.get(i);
+			if ((geneticModel.getNumberOfGeneModels() > 2) &&
+					(specs.getGene3_chSameChrAsGene1() != 0.0) &&
+					(specs.getGene3_chSameChrAsGene1() < 0.5)) {
+				setupLinkagePanel(geneModels, tabs);
 			}
-			linkagePanel = new LinkagePanel(chars);
-			tabs.add(Messages.getInstance().getString("VGLII.Linkage"), linkagePanel);
 		}
 
 		masterPanel.add(tabs);
@@ -116,6 +112,21 @@ public class ModelBuilderUI extends JDialog {
 		this.add(outerPanel);
 		this.pack();
 
+	}
+
+	private void setupLinkagePanel(GeneModel[] geneModels, JTabbedPane tabs) {
+		ArrayList<String> characters = new ArrayList<String>();
+		characters.add(geneModels[0].getCharacter());
+		characters.add(geneModels[1].getCharacter());
+		if (geneticModel.getNumberOfGeneModels() == 3) {
+			characters.add(geneModels[2].getCharacter());
+		}
+		String[] chars = new String[characters.size()];
+		for (int i = 0; i < characters.size(); i++) {
+			chars[i] = characters.get(i);
+		}
+		linkagePanel = new LinkagePanel(chars);
+		tabs.add(Messages.getInstance().getString("VGLII.Linkage"), linkagePanel);
 	}
 
 }
