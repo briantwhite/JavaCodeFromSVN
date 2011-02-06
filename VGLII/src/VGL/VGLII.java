@@ -1288,7 +1288,7 @@ public class VGLII extends JFrame {
 				Integer numSelected = (Integer)JOptionPane.showInputDialog(null, 
 						Messages.getInstance().getString("VGLII.SuperCrossMessage"),
 						Messages.getInstance().getString("VGLII.SuperCross"),
-						JOptionPane.QUESTION_MESSAGE,
+						JOptionPane.PLAIN_MESSAGE,
 						null,
 						new Object[] {
 						new Integer(100),
