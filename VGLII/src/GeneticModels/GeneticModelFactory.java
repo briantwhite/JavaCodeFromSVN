@@ -112,6 +112,10 @@ public class GeneticModelFactory {
 
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(new ByteArrayInputStream(bytes));
+			
+			// for debugging
+//			System.out.println(new String(bytes));
+			
 			WorkFileProcessor processor = 
 				new WorkFileProcessor(doc.getRootElement().getChildren());
 			result = 

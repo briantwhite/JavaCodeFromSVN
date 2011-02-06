@@ -970,6 +970,7 @@ public class VGLII extends JFrame {
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
+		modelBuilder = new ModelBuilderUI(this, geneticModel);
 		changeSinceLastSave = true;
 	}
 
