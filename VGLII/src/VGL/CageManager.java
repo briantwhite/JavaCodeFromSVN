@@ -86,6 +86,11 @@ public class CageManager extends JDialog {
 	 * The ok button for the dialog
 	 */
 	private JButton okButton;
+	
+	/**
+	 * invert selection button for dialog
+	 */
+	private JButton invertSelectionButton;
 
 	/**
 	 * The table widget that contains the listing of all the currently existing
@@ -212,12 +217,13 @@ public class CageManager extends JDialog {
 		optionPanel.add(new JPanel(), BorderLayout.EAST);
 		southButtonPanel = new JPanel();
 		JPanel okButtonPanel = new JPanel();
-		JPanel cancelButtonPanel = new JPanel();
+		JPanel invertSelectionButtonPanel = new JPanel();
 		okButtonPanel.setLayout(new BorderLayout());
-		cancelButtonPanel.setLayout(new BorderLayout());
+		invertSelectionButtonPanel.setLayout(new BorderLayout());
 		okButtonPanel.add(okButton, BorderLayout.CENTER);
+		invertSelectionButtonPanel.add(invertSelectionButton, BorderLayout.CENTER);
 		southButtonPanel.add(okButtonPanel);
-		southButtonPanel.add(cancelButtonPanel);
+		southButtonPanel.add(invertSelectionButtonPanel);
 		optionPanel.add(southButtonPanel, BorderLayout.SOUTH);
 	}
 
@@ -226,11 +232,18 @@ public class CageManager extends JDialog {
 	 * and close the dialog.
 	 */
 	private void setupButtons() {
-		okButton = new JButton("OK");
+		okButton = new JButton(Messages.getInstance().getString("VGLII.OK"));
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ok();
 			}
+		});
+		invertSelectionButton = 
+			new JButton(Messages.getInstance().getString("VGLII.InvertSelection"));
+		invertSelectionButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				invertSelection();
+			}			
 		});
 	}
 
@@ -242,10 +255,16 @@ public class CageManager extends JDialog {
 	}
 
 	/**
-	 * The stuff to be done if user clicks on the CANCEL button of the dialog
+	 * The stuff to be done if user clicks on the invert selection button of the dialog
 	 */
-	private void cancel() {
-		setVisible(false);
+	private void invertSelection() {
+		for (int i = 0; i < selectionTableModel.getRowCount(); i++) {
+			if ((Boolean)(selectionTableModel.getValueAt(i, 0))) {
+				selectionTableModel.setValueAt(new Boolean(false), i, 0);
+			} else {
+				selectionTableModel.setValueAt(new Boolean(true), i, 0);				
+			}
+		}
 	}
 
 	/**

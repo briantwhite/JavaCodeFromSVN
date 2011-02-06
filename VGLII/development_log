@@ -1226,3 +1226,6 @@ tested with all current problem files & it bhaves properly
 (it includes a linkage pane with models 10, 10-1, 12, 12TB, 13 only; 
 1, 2, 3, 4, 5, 5-1, 6, 6, 7NC, 8, 8NC, 9, 11, 11-1 do not)
 
+2/6/11
+some improvements from sophie
+- add to cage manager an "invert selection" button
