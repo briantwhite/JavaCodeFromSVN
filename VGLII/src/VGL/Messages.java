@@ -108,6 +108,11 @@ public class Messages {
 		return b.toString();		
 	}
 	
+	// change "Red" to "Rouge"
+	public String getTranslatedShortTraitName(String s) {
+		return Messages.getInstance().getString("VGLII." + s);
+	}
+	
 	public String getString(String key) {
 		try {
 			return RESOURCE_BUNDLE.getString(key);

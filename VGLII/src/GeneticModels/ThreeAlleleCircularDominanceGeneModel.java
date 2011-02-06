@@ -228,9 +228,9 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 	public String[] getTraitStrings() {
 		String[] t = new String[4];
 		t[0] = "?";
-		t[1] = t1.getTraitName();
-		t[2] = t2.getTraitName();
-		t[3] = t3.getTraitName();
+		t[1] = Messages.getInstance().getTranslatedShortTraitName(t1.getTraitName());
+		t[2] = Messages.getInstance().getTranslatedShortTraitName(t2.getTraitName());
+		t[3] = Messages.getInstance().getTranslatedShortTraitName(t3.getTraitName());
 		return t;
 	}
 
