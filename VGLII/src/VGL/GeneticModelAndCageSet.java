@@ -2,6 +2,8 @@ package VGL;
 
 import java.util.ArrayList;
 
+import org.jdom.Element;
+
 import GeneticModels.Cage;
 import GeneticModels.GeneticModel;
 /**
@@ -35,10 +37,14 @@ public class GeneticModelAndCageSet {
 	
 	private GeneticModel geneticModel;
 	private ArrayList<Cage> cages;
+	private Element modelBuilderState;
 	
-	public GeneticModelAndCageSet(GeneticModel geneticModel, ArrayList<Cage> cages) {
+	public GeneticModelAndCageSet(GeneticModel geneticModel, 
+			ArrayList<Cage> cages,
+			Element modelBuilderState) {
 		this.geneticModel = geneticModel;
 		this.cages = cages;
+		this.modelBuilderState = modelBuilderState;
 	}
 
 	public GeneticModel getGeneticModel() {
@@ -49,6 +55,8 @@ public class GeneticModelAndCageSet {
 		return cages;
 	}
 	
-	
+	public Element getModelBuilderState() {
+		return modelBuilderState;
+	}
 
 }

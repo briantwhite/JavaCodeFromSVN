@@ -39,6 +39,7 @@ public class WorkFileProcessor {
 
 	private GeneticModel geneticModel;
 	private ArrayList<Cage> cages;
+	private Element modelBuilderState;
 
 	public WorkFileProcessor(List<Element> elements) {
 		Iterator<Element> it = elements.iterator();
@@ -48,10 +49,15 @@ public class WorkFileProcessor {
 			try {
 				if (name.equals("GeneticModel")) geneticModel = processSavedModelInfo(current);
 				if (name.equals("Organisms")) cages = processSavedCages(current);
+				if (name.equals("ModelBuilderState")) modelBuilderState = current;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public Element getModelBuilderState() {
+		return modelBuilderState;
 	}
 
 	public GeneticModel getGeneticModel() {

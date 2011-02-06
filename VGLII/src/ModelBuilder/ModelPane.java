@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -335,9 +337,66 @@ public class ModelPane extends JPanel implements ItemListener {
 		}
 	}
 	
-	public Element save() {
-		Element mpe = new Element(character);
+	public void setStateFromFile(Element element) {
+		List<Element> elements = element.getChildren();
+		Iterator<Element> it = elements.iterator();
+		while(it.hasNext()) {
+			Element e = it.next();
+		}
+	}
 		
+	public Element save() {
+		Element mpe = new Element("Character");
+		mpe.setAttribute("Name", character);
+		mpe.setAttribute("Index", String.valueOf(index));
+		
+		Element e = null;
+		e = new Element("SexLinkage");
+		e.setText(String.valueOf(sexLinkageChoices.getSelectedItem()));
+		mpe.addContent(e);
+		
+		e = new Element("AlleleNumber");
+		e.setText(String.valueOf(alleleNumberChoices.getSelectedItem()));
+		mpe.addContent(e);
+		
+		e = new Element("InteractionType");
+		e.setText(String.valueOf(interactionTypeChoices.getSelectedItem()));
+		mpe.addContent(e);
+
+		// can't get selections this way - need to get to panels for info
+		System.out.println(interactionDetailsPanel.getComponentCount());
+//		e = new Element("T1");
+//		e.setText(String.valueOf(t1Choices.getSelectedItem()));
+//		mpe.addContent(e);
+//		
+//		e = new Element("T2");
+//		e.setText(String.valueOf(t2Choices.getSelectedItem()));
+//		mpe.addContent(e);
+//		
+//		if (t3Choices != null) {
+//			e = new Element("T3");
+//			e.setText(String.valueOf(t3Choices.getSelectedItem()));
+//			mpe.addContent(e);
+//		}
+//
+//		if (t4Choices != null) {
+//			e = new Element("T4");
+//			e.setText(String.valueOf(t4Choices.getSelectedItem()));
+//			mpe.addContent(e);
+//		}
+//
+//		if (t5Choices != null) {
+//			e = new Element("T5");
+//			e.setText(String.valueOf(t5Choices.getSelectedItem()));
+//			mpe.addContent(e);
+//		}
+//
+//		if (t6Choices != null) {
+//			e = new Element("T6");
+//			e.setText(String.valueOf(t6Choices.getSelectedItem()));
+//			mpe.addContent(e);
+//		}
+
 		return mpe;
 	}
 }

@@ -2,6 +2,8 @@ package ModelBuilder;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -149,6 +151,14 @@ public class ModelBuilderUI extends JDialog {
 		}
 		linkagePanel = new LinkagePanel(chars);
 		tabs.add(Messages.getInstance().getString("VGLII.Linkage"), linkagePanel);
+	}
+	
+	public void configureFromFile(Element root) {
+		List<Element> elements = root.getChildren();
+		Iterator<Element> it = elements.iterator();
+		while (it.hasNext()) {
+			Element e = it.next();
+		}
 	}
 	
 	public Element save() {

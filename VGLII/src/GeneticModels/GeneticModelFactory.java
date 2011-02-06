@@ -114,14 +114,15 @@ public class GeneticModelFactory {
 			Document doc = builder.build(new ByteArrayInputStream(bytes));
 			
 			// for debugging
-//			System.out.println(new String(bytes));
+			System.out.println(new String(bytes));
 			
 			WorkFileProcessor processor = 
 				new WorkFileProcessor(doc.getRootElement().getChildren());
 			result = 
 				new GeneticModelAndCageSet(
 						processor.getGeneticModel(), 
-						processor.getCages());
+						processor.getCages(),
+						processor.getModelBuilderState());
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
 					Messages.getInstance().getString("VGLII.ErrorOpeningFileLine1") + "\n"

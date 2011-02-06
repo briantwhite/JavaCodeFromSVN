@@ -971,6 +971,7 @@ public class VGLII extends JFrame {
 			System.out.print(e.getMessage());
 		}
 		modelBuilder = new ModelBuilderUI(this, geneticModel);
+		modelBuilder.configureFromFile(result.getModelBuilderState());
 		changeSinceLastSave = true;
 	}
 
