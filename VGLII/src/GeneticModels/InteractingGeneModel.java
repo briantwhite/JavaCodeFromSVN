@@ -111,9 +111,9 @@ public class InteractingGeneModel extends GeneModel {
 		b.append(Messages.getInstance().getString("VGLII.TwoAlleleSimpleDominance") + "<br>");
 		b.append("<ul>");
 		b.append("<li>" + d + " "
-				+ Messages.getInstance().getString("VGLII.IsRecessive") + "</li>");
-		b.append("<li>" + r + " " 
 				+ Messages.getInstance().getString("VGLII.IsDominant") + "</li>");
+		b.append("<li>" + r + " " 
+				+ Messages.getInstance().getString("VGLII.IsRecessive") + "</li>");
 		b.append("</ul>");
 
 		b.append("<table border=1>");
@@ -131,7 +131,7 @@ public class InteractingGeneModel extends GeneModel {
 		b.append("</table>");
 		return b.toString();
 	}
-
+	
 	public Element save(int index, float rf) throws Exception {
 		Element e = new Element("GeneModel");
 		e.setAttribute("Index", String.valueOf(index));
@@ -145,8 +145,15 @@ public class InteractingGeneModel extends GeneModel {
 	public String getCharacter() {
 		return t1.getBodyPart() + " " + t1.getType();
 	}
+	
+	public Trait[] getTraits() {
+		Trait[] t = new Trait[2];
+		t[0] = t1;
+		t[1] = t2;
+		return t;
+	}
 
-	public String[] getTraits() {
+	public String[] getTraitStrings() {
 		String[] t = new String[3];
 		t[0] = "?";
 		t[1] = t1.getTraitName();

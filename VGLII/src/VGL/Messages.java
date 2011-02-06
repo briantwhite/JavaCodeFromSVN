@@ -90,7 +90,7 @@ public class Messages {
 		return b.toString();
 	}
 	
-	public String getTranslatedTraitName(Trait t) {
+	public String getTranslatedCharacterName(Trait t) {
 		StringBuffer b = new StringBuffer();
 		if (getString("VGLII.NounAdjective").equals("Y")) {
 			b.append(Messages.getInstance().getString(

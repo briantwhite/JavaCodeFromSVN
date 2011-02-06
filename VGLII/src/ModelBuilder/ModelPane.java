@@ -1,9 +1,6 @@
 package ModelBuilder;
 
-import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -12,16 +9,17 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import GeneticModels.GeneModel;
+import org.jdom.Element;
+
 import GeneticModels.ProblemTypeSpecification;
 import VGL.Messages;
 
 public class ModelPane extends JPanel implements ItemListener {
 
 	private int index;
+	private String character;
 	private String[] traits;
 	private ProblemTypeSpecification specs;
 	private ModelBuilderUI modelBuilderUI;
@@ -44,9 +42,13 @@ public class ModelPane extends JPanel implements ItemListener {
 	private JPanel interactionTypePanel;
 	private JPanel interactionDetailsPanel;
 
-	public ModelPane(int index, String[] traits, ProblemTypeSpecification specs,
+	public ModelPane(int index, 
+			String character,
+			String[] traits, 
+			ProblemTypeSpecification specs,
 			ModelBuilderUI modelBuilderUI) {
 		this.index = index;
+		this.character = character;
 		this.traits = traits;
 		this.specs = specs;
 		this.modelBuilderUI = modelBuilderUI;
@@ -331,5 +333,11 @@ public class ModelPane extends JPanel implements ItemListener {
 		if (alleleNumberChoices != null) {
 			alleleNumberChoices.addItemListener(this);	
 		}
+	}
+	
+	public Element save() {
+		Element mpe = new Element(character);
+		
+		return mpe;
 	}
 }

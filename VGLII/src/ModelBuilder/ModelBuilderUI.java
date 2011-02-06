@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import org.jdom.Element;
+
 import GeneticModels.GeneModel;
 import GeneticModels.GeneticModel;
 import GeneticModels.PhenotypeProcessor;
@@ -22,6 +24,7 @@ public class ModelBuilderUI extends JDialog {
 	private WorkingModel workingModel;
 	private GeneticModel geneticModel;
 	private LinkagePanel linkagePanel;
+	private ModelPane[] modelPanes;
 
 	// from saved work file
 	public ModelBuilderUI (
@@ -54,15 +57,21 @@ public class ModelBuilderUI extends JDialog {
 		masterPanel.add(Box.createRigidArea(new Dimension(400,1)));
 		JTabbedPane tabs = new JTabbedPane();
 		GeneModel[] geneModels = new GeneModel[geneticModel.getNumberOfGeneModels()];
-		ModelPane[] modelPanes = new ModelPane[geneticModel.getNumberOfCharacters()];
+		modelPanes = new ModelPane[geneticModel.getNumberOfCharacters()];
 
 		ProblemTypeSpecification specs = geneticModel.getProblemTypeSpecification();
 		if (specs.getPhenotypeInteraction() == 0.0) {
 			// simple if no complementation or epistasis
 			for (int i = 0; i < geneticModel.getNumberOfGeneModels(); i++) {
 				geneModels[i] = geneticModel.getGeneModelByIndex(i);
-				modelPanes[i] = new ModelPane(i, geneModels[i].getTraits(), specs, this);
-				tabs.addTab(geneModels[i].getCharacter(), modelPanes[i]);
+				modelPanes[i] = new ModelPane(i,
+						geneModels[i].getCharacter(),
+						geneModels[i].getTraitStrings(), 
+						specs, 
+						this);
+				tabs.addTab(Messages.getInstance().getTranslatedCharacterName(
+						geneModels[i].getTraits()[0]), 
+						modelPanes[i]);
 				modelPanes[i].setupActionListeners();
 			}
 		} else {
@@ -72,24 +81,37 @@ public class ModelBuilderUI extends JDialog {
 			if (geneticModel.getPhenoTypeProcessor().getInteractionType() == PhenotypeProcessor.NO_INTERACTION) {
 				// if no interaction, just get the first gene model
 				modelPanes[0] = new ModelPane(0, 
-						geneModels[0].getTraits(), 
+						geneModels[0].getCharacter(),
+						geneModels[0].getTraitStrings(), 
 						specs, 
 						this);
-				tabs.addTab(geneModels[0].getCharacter(), modelPanes[0]);
+				tabs.addTab(Messages.getInstance().getTranslatedCharacterName(
+						geneModels[0].getTraits()[0]), 
+						modelPanes[0]);
 			} else {
 				// if there is an interaction, need to get the phenotypes from the PhenoProcessor
 				modelPanes[0] = new ModelPane(0, 
+						geneticModel.getPhenoTypeProcessor().getCharacter(),
 						geneticModel.getPhenoTypeProcessor().getTraits(), 
 						specs, 
 						this);
-				tabs.addTab(geneticModel.getPhenoTypeProcessor().getCharacter()	, modelPanes[0]);
+				tabs.addTab(Messages.getInstance().getTranslatedCharacterName(
+						geneticModel.getPhenoTypeProcessor().getT1()), 
+						modelPanes[0]);
 			}
 			modelPanes[0].setupActionListeners();
 
 			// if a last character, add it (it's index = 2 since 1st 2 are interacting)
 			if (geneticModel.getNumberOfCharacters() == 2) {
 				geneModels[1] = geneticModel.getGeneModelByIndex(2);
-				modelPanes[1] = new ModelPane(1, geneModels[1].getTraits(), specs, this);
+				modelPanes[1] = new ModelPane(1, 
+						geneModels[1].getCharacter(),
+						geneModels[1].getTraitStrings(), 
+						specs, 
+						this);
+				tabs.addTab(Messages.getInstance().getTranslatedCharacterName(
+						geneModels[1].getTraits()[0]), 
+						modelPanes[1]);
 			}
 
 		}
@@ -127,6 +149,14 @@ public class ModelBuilderUI extends JDialog {
 		}
 		linkagePanel = new LinkagePanel(chars);
 		tabs.add(Messages.getInstance().getString("VGLII.Linkage"), linkagePanel);
+	}
+	
+	public Element save() {
+		Element mbuie = new Element("ModelBuilderState");
+		for (int i = 0; i < modelPanes.length; i++) {
+			mbuie.addContent(modelPanes[i].save());
+		}
+		return mbuie;
 	}
 
 }

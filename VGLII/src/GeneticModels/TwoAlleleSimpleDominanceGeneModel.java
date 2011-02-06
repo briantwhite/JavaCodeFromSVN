@@ -107,7 +107,7 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
-		b.append(Messages.getInstance().getTranslatedTraitName(t1) + "<br>");
+		b.append(Messages.getInstance().getTranslatedCharacterName(t1) + "<br>");
 		b.append(Messages.getInstance().getString("VGLII.TwoAlleleSimpleDominance") + "<br>");
 		b.append("<ul>");
 		b.append("<li>" + Messages.getInstance().getString("VGLII." + t1.getTraitName()) + " " 
@@ -148,8 +148,15 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 	public String getCharacter() {
 		return t1.getBodyPart() + " " + t1.getType();
 	}
-
-	public String[] getTraits() {
+	
+	public Trait[] getTraits() {
+		Trait[] t = new Trait[2];
+		t[0] = t1;
+		t[1] = t2;
+		return t;
+	}
+	
+	public String[] getTraitStrings() {
 		String[] t = new String[3];
 		t[0] = "?";
 		t[1] = t1.getTraitName();

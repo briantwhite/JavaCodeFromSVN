@@ -1053,9 +1053,10 @@ public class VGLII extends JFrame {
 			Cage c = cages.get(i);
 			organisms.addContent(c.save());
 		}
-
 		root.addContent(organisms);
 
+		root.addContent(modelBuilder.save());
+		
 		Document doc = new Document(root);
 		return doc;
 	}

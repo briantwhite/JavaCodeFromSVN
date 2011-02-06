@@ -438,7 +438,7 @@ public class GeneticModel {
 		b.append("<br>");
 		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
 			b.append(Messages.getInstance().getString("VGLII.Complementation") + ": ");
-			b.append(Messages.getInstance().getTranslatedTraitName(phenotypeProcessor.getT1()));
+			b.append(Messages.getInstance().getTranslatedCharacterName(phenotypeProcessor.getT1()));
 			b.append("<br>"
 					+ Messages.getInstance().getTranslatedAlleleName(
 							new Allele(phenotypeProcessor.getT1(), 0))
@@ -457,7 +457,7 @@ public class GeneticModel {
 		}
 		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.EPISTASIS) {
 			b.append(Messages.getInstance().getString("VGLII.Epistasis") + ": ");
-			b.append(Messages.getInstance().getTranslatedTraitName(phenotypeProcessor.getT1()));
+			b.append(Messages.getInstance().getTranslatedCharacterName(phenotypeProcessor.getT1()));
 			b.append("<br>"
 					+ Messages.getInstance().getTranslatedAlleleName(
 							new Allele(phenotypeProcessor.getT1(), 0))

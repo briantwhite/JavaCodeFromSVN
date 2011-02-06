@@ -84,7 +84,7 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 			traitCheckBoxes[i].setSelected(true);
 			
 			traitCheckBoxLabels[i] = 
-				new JLabel(Messages.getInstance().getTranslatedTraitName(traits[i]));
+				new JLabel(Messages.getInstance().getTranslatedCharacterName(traits[i]));
 		}
 		
 		//put them in GUI in randomized order

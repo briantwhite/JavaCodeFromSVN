@@ -166,7 +166,7 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
-		b.append(Messages.getInstance().getTranslatedTraitName(t1) + "<br>");
+		b.append(Messages.getInstance().getTranslatedCharacterName(t1) + "<br>");
 		b.append(Messages.getInstance().getString("VGLII.ThreeAlleleIncompleteDominance") + "<br>");
 		b.append("<table border=1>");
 		b.append("<tr><th>" + Messages.getInstance().getString("VGLII.Genotype") + "</th><th>"
@@ -216,7 +216,19 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 	public String getCharacter() {
 		return t1.getBodyPart() + " " + t1.getType();
 	}
-	public String[] getTraits() {
+	
+	public Trait[] getTraits() {
+		Trait[] t = new Trait[6];
+		t[0] = t1;
+		t[1] = t2;
+		t[2] = t3;
+		t[3] = t4;
+		t[4] = t5;
+		t[5] = t6;
+		return t;
+	}
+	
+	public String[] getTraitStrings() {
 		String[] t = new String[7];
 		t[0] = "?";
 		t[1] = t1.getTraitName();

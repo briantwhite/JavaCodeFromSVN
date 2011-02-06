@@ -168,7 +168,7 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
-		b.append(Messages.getInstance().getTranslatedTraitName(t1) + "<br>");
+		b.append(Messages.getInstance().getTranslatedCharacterName(t1) + "<br>");
 		b.append(Messages.getInstance().getString("VGLII.ThreeAlleleCircularDominance") + "<br>");
 		
 		b.append("<table border=1>");
@@ -217,7 +217,15 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		return t1.getBodyPart() + " " + t1.getType();
 	}
 	
-	public String[] getTraits() {
+	public Trait[] getTraits() {
+		Trait[] t = new Trait[3];
+		t[0] = t1;
+		t[1] = t2;
+		t[2] = t3;
+		return t;
+	}
+	
+	public String[] getTraitStrings() {
 		String[] t = new String[4];
 		t[0] = "?";
 		t[1] = t1.getTraitName();

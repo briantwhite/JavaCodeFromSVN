@@ -57,7 +57,9 @@ public abstract class GeneModel {
 	
 	public abstract String getCharacter();
 	
-	public abstract String[] getTraits();
+	public abstract Trait[] getTraits();
+	
+	public abstract String[] getTraitStrings();
 	
 	public abstract String toString();
 	
