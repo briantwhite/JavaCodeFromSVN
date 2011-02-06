@@ -73,7 +73,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	private static Color FIELD_POP_COLOR = new Color(0x2E8B57);
 	private static Color PARENT_COLOR = new Color(0x8E2323);
 	private static Color OFFSPRING_COLOR = new Color(0x007FFF);
-	
+
+	/**
+	 * sets an upper bound so the cages (esp the Super Cross)
+	 *  don't get too big
+	 */
+	private static int absoluteMaxOrgsPerRow = 20;
+
 	/**
 	 * the background color when the Cage is selected
 	 * for membership in the summary chart
@@ -85,6 +91,12 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * summary chart
 	 */
 	private boolean isSelected;
+
+	/**
+	 * boolean to indicarte if this is a superCross
+	 *  (and thus requires special layout
+	 */
+	private boolean isSuperCross;
 
 	/**
 	 * manager for membership in selected set for summary chart
@@ -329,6 +341,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 */
 	public CageUI(Frame importFrame, 
 			boolean isbeginnersmode, 
+			boolean isSuperCross,
 			Cage cage,
 			SelectionVial sv, 
 			String details, 
@@ -339,6 +352,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		addWindowListener(this);
 		addMouseListener(this);
 		this.isBeginner = isbeginnersmode;
+		this.isSuperCross = isSuperCross;
 		this.cage = cage;
 		vial = sv;
 		image = importFrame.getIconImage();
@@ -603,34 +617,63 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		Iterator<Organism> it = childrenSortedByPhenotype[number].iterator();
 
 		//lay out two neat rows of OrganismUIs
-		int count = 0;
-		int i = 0;
-		int j = 0;
-		while (it.hasNext()) {
-			Organism o1 = (Organism) it.next();
-			count++;
-			if (count <= maxOrgsInOneRow) {
-				topRowOfOrganismUIs[i] = new OrganismUI(o1, false, isBeginner,
-						vial);
-				topRowOfOrganismsPanel.add(topRowOfOrganismUIs[i]);
-				i++;
-			} else {
-				bottomRowOFOrganismUIs[j] = new OrganismUI(o1, false, isBeginner,
-						vial);
-				bottomRowOfOrganismsPanel.add(bottomRowOFOrganismUIs[j]);
-				j++;
+		if (isSuperCross) {
+			// if super cross, need a row of males and a row of females
+			int i = 0;
+			while (it.hasNext() && (i < (2 * absoluteMaxOrgsPerRow))) {
+				Organism o = (Organism) it.next();
+				// first, a row of males (or females, if there are no males)
+				if (i < absoluteMaxOrgsPerRow) {
+					topRowOfOrganismUIs[i] = new OrganismUI(o, false, isBeginner, vial);
+					topRowOfOrganismsPanel.add(topRowOfOrganismUIs[i]);
+					i++;
+				} else {
+					// second row:
+					// then see if there are any females
+					//   if so, then make a row of females
+					//   if not, make another row of males
+					if (childrenSortedByPhenotype[number].getNumberOfFemales() > 0) {
+						// run thru the remaining males
+						while (((Organism)it.next()).getSexString().equals(
+								Messages.getInstance().getString("VGLII.Male"))) {}
+					} 
+					bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow] = 
+						new OrganismUI(o, false, isBeginner, vial);
+					bottomRowOfOrganismsPanel.add(
+							bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow]);
+					i++;
+				}
 			}
-		}
-		if (i < maxOrgsInOneRow) {
-			while (i < maxOrgsInOneRow) {
-				topRowOfOrganismsPanel.add(Box.createRigidArea(new Dimension(15, 15)));
-				i++;
+		} else {
+			int count = 0;
+			int i = 0;
+			int j = 0;
+			while (it.hasNext()) {
+				Organism o1 = (Organism) it.next();
+				count++;
+				if (count <= maxOrgsInOneRow) {
+					topRowOfOrganismUIs[i] = new OrganismUI(o1, false, isBeginner,
+							vial);
+					topRowOfOrganismsPanel.add(topRowOfOrganismUIs[i]);
+					i++;
+				} else {
+					bottomRowOFOrganismUIs[j] = new OrganismUI(o1, false, isBeginner,
+							vial);
+					bottomRowOfOrganismsPanel.add(bottomRowOFOrganismUIs[j]);
+					j++;
+				}
 			}
-		}
-		if (j < maxOrgsInOneRow) {
-			while (j < maxOrgsInOneRow) {
-				bottomRowOfOrganismsPanel.add(Box.createRigidArea(new Dimension(15, 15)));
-				j++;
+			if (i < maxOrgsInOneRow) {
+				while (i < maxOrgsInOneRow) {
+					topRowOfOrganismsPanel.add(Box.createRigidArea(new Dimension(15, 15)));
+					i++;
+				}
+			}
+			if (j < maxOrgsInOneRow) {
+				while (j < maxOrgsInOneRow) {
+					bottomRowOfOrganismsPanel.add(Box.createRigidArea(new Dimension(15, 15)));
+					j++;
+				}
 			}
 		}
 		JPanel organismPanel = new JPanel();
@@ -660,8 +703,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		if (childrenSortedByPhenotype[number].getNumberOfFemales() < 10)
 			fCount = "0" + fCount;
 		JLabel femaleCountLabel = new JLabel(fCount);
-		maleCountLabel.setPreferredSize(new Dimension(25, 15));
-		femaleCountLabel.setPreferredSize(new Dimension(25, 15));
+		if (isSuperCross) {
+			maleCountLabel.setPreferredSize(new Dimension(35, 15));
+			femaleCountLabel.setPreferredSize(new Dimension(35, 15));
+		} else {
+			maleCountLabel.setPreferredSize(new Dimension(25, 15));
+			femaleCountLabel.setPreferredSize(new Dimension(25, 15));
+		}
 		maleCountLabel.setHorizontalTextPosition(javax.swing.JLabel.RIGHT);
 		maleCountLabel.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
 		femaleCountLabel.setHorizontalTextPosition(javax.swing.JLabel.RIGHT);
@@ -823,6 +871,10 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 
 	public int getId() {
 		return id;
+	}
+
+	public boolean isSuperCross() {
+		return isSuperCross;
 	}
 
 	/**

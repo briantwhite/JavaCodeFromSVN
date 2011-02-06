@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TreeMap;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
@@ -62,8 +63,6 @@ import GeneticModels.OrganismList;
 import ModelBuilder.ModelBuilderUI;
 import ModelBuilder.WorkingModel;
 import PhenotypeImages.PhenotypeImageBank;
-
-import com.sun.xml.internal.bind.v2.model.impl.ModelBuilder;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -117,6 +116,8 @@ public class VGLII extends JFrame {
 	 */
 	public final static int PHENO_IMAGE_WIDTH = 900;
 	public final static int PHENO_IMAGE_HEIGHT = 700;
+	
+	private Random random;
 
 	/**
 	 * the genetic model for the current problem
@@ -229,6 +230,11 @@ public class VGLII extends JFrame {
 	 */
 	private JMenuItem crossTwoItem = null;
 
+	/**
+	 * menu item for super cross - ³1000 offspring
+	 */
+	private JMenuItem superCrossItem = null;
+	
 	/**
 	 * Menu item to display "about VGL" box
 	 */
@@ -372,6 +378,8 @@ public class VGLII extends JFrame {
 		super(Messages.getInstance().getString("VGLII.Name") + version); //$NON-NLS-1$
 		addWindowListener(new ApplicationCloser());
 
+		random = new Random();
+		
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
 				+ System.getProperty("file.separator") //$NON-NLS-1$
 				+ "Desktop"); //$NON-NLS-1$
@@ -431,7 +439,9 @@ public class VGLII extends JFrame {
 		else if (cmd.equals("CloseWork")) //$NON-NLS-1$
 			closeProblem();
 		else if (cmd.equals("CrossTwo")) //$NON-NLS-1$
-			crossTwo();
+			crossTwo(false);
+		else if (cmd.equals("SuperCross"))
+			crossTwo(true);
 		else if (cmd.equals("Exit")) //$NON-NLS-1$
 			exitApplication();
 		else if (cmd.equals("About")) //$NON-NLS-1$
@@ -603,24 +613,38 @@ public class VGLII extends JFrame {
 		//  "Utilities" options.
 		JMenu mnuUtilities = new JMenu(Messages.getInstance().getString("VGLII.Utilities")); //$NON-NLS-1$
 
-		crossTwoItem = menuItem(Messages.getInstance().getString("VGLII.CrossTwo"), "CrossTwo", null); //$NON-NLS-1$ //$NON-NLS-2$
+		crossTwoItem = menuItem(Messages.getInstance().getString("VGLII.CrossTwo"), 
+				"CrossTwo", 
+				null); //$NON-NLS-1$ //$NON-NLS-2$
 		mnuUtilities.add(crossTwoItem);
+		
+		superCrossItem = menuItem(Messages.getInstance().getString("VGLII.SuperCross"), 
+				"SuperCross", 
+				null);
+		mnuUtilities.add(superCrossItem);
 
-		modelBuilderItem = menuItem(Messages.getInstance().getString("VGLII.ShowModelBuilder"), "ModelBuilder", null);
+		modelBuilderItem = menuItem(Messages.getInstance().getString("VGLII.ShowModelBuilder"), 
+				"ModelBuilder", 
+				null);
 		mnuUtilities.add(modelBuilderItem);
 		
-		cageManagerItem = menuItem(Messages.getInstance().getString("VGLII.Cages"), "CageManager", null); //$NON-NLS-1$ //$NON-NLS-2$
+		cageManagerItem = menuItem(Messages.getInstance().getString("VGLII.Cages"), 
+				"CageManager", 
+				null); //$NON-NLS-1$ //$NON-NLS-2$
 		mnuUtilities.add(cageManagerItem);
 		
-		rearrangeCagesItem = menuItem(Messages.getInstance().getString("VGLII.RearrangeCages"), "RearrangeCages", //$NON-NLS-1$ //$NON-NLS-2$
+		rearrangeCagesItem = menuItem(Messages.getInstance().getString("VGLII.RearrangeCages"), 
+				"RearrangeCages", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(rearrangeCagesItem);
 		
-		summaryChartItem = menuItem(Messages.getInstance().getString("VGLII.CreateSummaryChart"), "SummaryChart", //$NON-NLS-1$ //$NON-NLS-2$
+		summaryChartItem = menuItem(Messages.getInstance().getString("VGLII.CreateSummaryChart"), 
+				"SummaryChart", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(summaryChartItem);
 		
-		unselectAllItem = menuItem(Messages.getInstance().getString("VGLII.UnselectAllCages"), "UnselectAll", //$NON-NLS-1$ //$NON-NLS-2$
+		unselectAllItem = menuItem(Messages.getInstance().getString("VGLII.UnselectAllCages"), 
+				"UnselectAll", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(unselectAllItem);
 
@@ -903,7 +927,7 @@ public class VGLII extends JFrame {
 			cageCollection = new ArrayList<CageUI>();
 
 			Cage fieldPop = geneticModel.generateFieldPopulation();
-			createCageUI(fieldPop);
+			createCageUI(fieldPop, false);
 			enableAll(true);
 			disableLanguageMenu();
 			modelBuilder = new ModelBuilderUI(this, geneticModel);
@@ -1252,14 +1276,42 @@ public class VGLII extends JFrame {
 	/**
 	 * Method that actually sets up the cross between two organisms
 	 */
-	private void crossTwo() {
+	private void crossTwo(boolean isSuperCross) {
 		OrganismUI organismUI1 = selectionVial.getMaleParent();
 		OrganismUI organismUI2 = selectionVial.getFemaleParent();
 		if (organismUI1 != null && organismUI2 != null) {
 			Organism o1 = organismUI1.getOrganism();
 			Organism o2 = organismUI2.getOrganism();
-			Cage c = geneticModel.crossTwo(nextCageId, o1, o2);
-			CageUI cageUI = createCageUI(c);
+			
+			int numOffspring = 0;
+			if (isSuperCross) {
+				Integer numSelected = (Integer)JOptionPane.showInputDialog(null, 
+						Messages.getInstance().getString("VGLII.SuperCrossMessage"),
+						Messages.getInstance().getString("VGLII.SuperCross"),
+						JOptionPane.QUESTION_MESSAGE,
+						null,
+						new Object[] {
+						new Integer(100),
+						new Integer(200),
+						new Integer(500),
+						new Integer(1000),
+						new Integer(2000)
+				},
+				new Integer(100));
+				if (numSelected == null) return;
+				numOffspring = numSelected.intValue();
+			} else {
+				numOffspring = random.nextInt(geneticModel.getMaxOffspring() - geneticModel.getMinOffspring())
+				+ geneticModel.getMinOffspring();
+			}
+			
+			Cage c = geneticModel.crossTwo(nextCageId, 
+					o1, 
+					o2, 
+					numOffspring,
+					isSuperCross);
+
+			CageUI cageUI = createCageUI(c, isSuperCross);
 			OrganismUI[] parentUIs = cageUI.getParentUIs();
 			if (parentUIs[0].getOrganism().isMale() == o1.isMale()) {
 				organismUI1.getReferencesList().add(parentUIs[0]);
@@ -1282,8 +1334,7 @@ public class VGLII extends JFrame {
 		}
 		changeSinceLastSave = true;
 	}
-
-
+	
 	/**
 	 * This method invokes .html help into a JEditor pane
 	 */
@@ -1373,12 +1424,13 @@ public class VGLII extends JFrame {
 	 *            The cage object whose UI is to be created
 	 * @return the newly created cageUI
 	 */
-	private CageUI createCageUI(Cage c) {
+	private CageUI createCageUI(Cage c, boolean isSuperCross) {
 		CageUI dlg = null;
 		String details = null;
 		details = geneticModel.toString();
 		dlg = new CageUI(this, 
 				geneticModel.isBeginnerMode(), 
+				isSuperCross,
 				c, 
 				selectionVial,
 				details, 
@@ -1411,6 +1463,7 @@ public class VGLII extends JFrame {
 		saveButton.setEnabled(value);
 		saveAsButton.setEnabled(value);
 		crossTwoButton.setEnabled(value);
+		superCrossItem.setEnabled(value);
 		cageManagerItem.setEnabled(value);
 		rearrangeCagesItem.setEnabled(value);
 		saveProblemItem.setEnabled(value);
@@ -1457,7 +1510,7 @@ public class VGLII extends JFrame {
 		Iterator<Cage> it = cages.iterator();
 		while (it.hasNext()) {
 			Cage c = it.next();
-			CageUI cageUI = createCageUI(c);
+			CageUI cageUI = createCageUI(c, c.isSuperCross());
 
 			/*
 			 *  see if the location and visibility have been saved

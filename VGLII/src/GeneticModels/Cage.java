@@ -47,6 +47,8 @@ public class Cage {
 	
 	private Date creationDate;
 	
+	private boolean isSuperCross;
+	
 	// variables to save in work files
 	private CageUI cageUI;
 	private int Xpos;
@@ -60,7 +62,7 @@ public class Cage {
 	 *            the cage's id
 	 */
 	public Cage(int id) {
-		this(id, null, null);
+		this(id, null, null, false);
 	}
 
 	/**
@@ -73,13 +75,14 @@ public class Cage {
 	 * @param p2
 	 *            the second parent
 	 */
-	public Cage(int id, Organism p1, Organism p2) {
+	public Cage(int id, Organism p1, Organism p2, boolean isSuper) {
 		this.id = id;
 		this.parent1 = p1;
 		this.parent2 = p2;
 		this.count = 0;
 		children = new TreeMap<String, OrganismList>();
 		creationDate = new Date();
+		this.isSuperCross = isSuper;
 	}
 	
 	public void setCageUI(CageUI cageUI) {
@@ -113,6 +116,14 @@ public class Cage {
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+	
+	public void setSuper(boolean b) {
+		isSuperCross = b;
+	}
+	
+	public boolean isSuperCross() {
+		return isSuperCross;
 	}
 
 	/**
@@ -242,6 +253,7 @@ public class Cage {
 		ec.setAttribute("Xpos", String.valueOf(cageUI.getLocation().x));
 		ec.setAttribute("Ypos", String.valueOf(cageUI.getLocation().y));
 		ec.setAttribute("Visible", String.valueOf(cageUI.isVisible()));
+		ec.setAttribute("SuperCross", String.valueOf(cageUI.isSuperCross()));
 		ec.setAttribute("Id", String.valueOf(id));
 		ec.setAttribute("NumChildren", String.valueOf(count));
 

@@ -192,8 +192,16 @@ public class GeneticModel {
 		minOffspring = min;
 	}
 	
+	public int getMinOffspring() {
+		return minOffspring;
+	}
+	
 	protected void setMaxOffspring(int max) {
 		maxOffspring = max;
+	}
+	
+	public int getMaxOffspring() {
+		return maxOffspring;
 	}
 
 	/**
@@ -268,10 +276,11 @@ public class GeneticModel {
 				trueBreeding);
 	}
 
-	public Cage crossTwo(int newCageID, Organism mom, Organism dad) {
-		Cage cage = new Cage(newCageID, mom, dad);
-		int numOffspring = 
-			random.nextInt(maxOffspring - minOffspring) + minOffspring;
+	public Cage crossTwo(int newCageID, 
+			Organism mom, Organism dad, 
+			int numOffspring, 
+			boolean isSuperCross) {
+		Cage cage = new Cage(newCageID, mom, dad, isSuperCross);
 		for (int i = 0; i < numOffspring; i++) {
 			cage.addNew(getOffspringOrganism(newCageID, mom, dad));
 		}
