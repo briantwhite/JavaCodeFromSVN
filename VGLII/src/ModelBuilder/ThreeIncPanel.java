@@ -6,13 +6,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import VGL.Messages;
 
-public class ThreeIncPanel extends ModelDetailsPanel {
+public class ThreeIncPanel extends ModelDetailsPanel implements ItemListener {
 	
 	private JLabel t5;	// marker for arrow
 	
@@ -22,13 +24,9 @@ public class ThreeIncPanel extends ModelDetailsPanel {
 			JComboBox t3Choices,
 			JComboBox t4Choices,
 			JComboBox t5Choices,
-			JComboBox t6Choices) {
-		this.t1Choices = t1Choices;
-		this.t2Choices = t2Choices;
-		this.t3Choices = t3Choices;
-		this.t4Choices = t4Choices;
-		this.t5Choices = t5Choices;
-		this.t6Choices = t6Choices;
+			JComboBox t6Choices,
+			ModelPane mp) {
+
 		t1Choices = new JComboBox(phenos);
 		t2Choices = new JComboBox(phenos);
 		t3Choices = new JComboBox(phenos);
@@ -173,17 +171,51 @@ public class ThreeIncPanel extends ModelDetailsPanel {
 		c.anchor = GridBagConstraints.EAST;
 		gridBag.setConstraints(t6Choices, c);
 		add(t6Choices);
+		
+		this.t1Choices = t1Choices;
+		t1Choices.addItemListener(this);
+		this.t2Choices = t2Choices;
+		t2Choices.addItemListener(this);
+		this.t3Choices = t3Choices;
+		t3Choices.addItemListener(this);
+		this.t4Choices = t1Choices;
+		t4Choices.addItemListener(this);
+		this.t5Choices = t2Choices;
+		t5Choices.addItemListener(this);
+		this.t6Choices = t3Choices;
+		t6Choices.addItemListener(this);
+		
+		this.mp = mp;
+
 	}
 	
-	public String[] getChoices() {
-		String[] r = new String[6];
-		r[0] = t1Choices.getSelectedItem().toString();
-		r[1] = t2Choices.getSelectedItem().toString();
-		r[2] = t3Choices.getSelectedItem().toString();		
-		r[3] = t4Choices.getSelectedItem().toString();
-		r[4] = t5Choices.getSelectedItem().toString();
-		r[5] = t6Choices.getSelectedItem().toString();		
-		return r;
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+			if (e.getSource().equals(t1Choices)) {
+				mp.setT1Value((String)t1Choices.getSelectedItem());
+			}
+		
+			if (e.getSource().equals(t2Choices)) {
+				mp.setT2Value((String)t2Choices.getSelectedItem());
+			}
+			
+			if (e.getSource().equals(t3Choices)) {
+				mp.setT3Value((String)t3Choices.getSelectedItem());
+			}
+			
+			if (e.getSource().equals(t4Choices)) {
+				mp.setT4Value((String)t4Choices.getSelectedItem());
+			}
+		
+			if (e.getSource().equals(t5Choices)) {
+				mp.setT5Value((String)t5Choices.getSelectedItem());
+			}
+			
+			if (e.getSource().equals(t6Choices)) {
+				mp.setT6Value((String)t6Choices.getSelectedItem());
+			}
+
+		}
 	}
 
 	public void paintComponent(Graphics g) {

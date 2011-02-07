@@ -43,6 +43,15 @@ public class ModelPane extends JPanel implements ItemListener {
 
 	private JPanel interactionTypePanel;
 	private JPanel interactionDetailsPanel;
+	
+	// values updated by the model details panels
+	private String t1Value;
+	private String t2Value;
+	private String t3Value;
+	private String t4Value;
+	private String t5Value;
+	private String t6Value;
+
 
 	public ModelPane(int index, 
 			String character,
@@ -166,7 +175,39 @@ public class ModelPane extends JPanel implements ItemListener {
 
 		this.add(masterPanel);
 	}
+	
+	public void setT1Value(String t1Value) {
+		this.t1Value = t1Value;
+	}
 
+	public void setT2Value(String t2Value) {
+		this.t2Value = t2Value;
+	}
+
+	public void setT3Value(String t3Value) {
+		this.t3Value = t3Value;
+	}
+
+	public void setT4Value(String t4Value) {
+		this.t4Value = t4Value;
+	}
+
+	public void setT5Value(String t5Value) {
+		this.t5Value = t5Value;
+	}
+
+	public void setT6Value(String t6Value) {
+		this.t6Value = t6Value;
+	}
+
+	public void clearValues() {
+		t1Value = "";
+		t2Value = "";
+		t3Value = "";
+		t4Value = "";
+		t5Value = "";
+		t6Value = "";
+	}
 
 	public void itemStateChanged(ItemEvent e) {
 
@@ -182,6 +223,7 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionDetailsPanel.revalidate();
 				modelBuilderUI.pack();
 				modelBuilderUI.repaint();
+				clearValues();
 			}
 			if (e.getItem().toString().equals(
 					"2-" + Messages.getInstance().getString("VGLII.Allele"))) {
@@ -198,6 +240,7 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionDetailsPanel.revalidate();
 				modelBuilderUI.pack();
 				modelBuilderUI.repaint();
+				clearValues();
 			}
 			if (e.getItem().toString().equals(
 					"3-" + Messages.getInstance().getString("VGLII.Allele"))) {
@@ -213,6 +256,7 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionDetailsPanel.revalidate();
 				modelBuilderUI.pack();
 				modelBuilderUI.repaint();
+				clearValues();
 			}
 
 		}
@@ -231,6 +275,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.revalidate();
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
+					clearValues();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.SimpleDominance"))) {
@@ -239,10 +284,11 @@ public class ModelPane extends JPanel implements ItemListener {
 									Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
-							new TwoSimplePanel(traits, t1Choices, t2Choices));
+							new TwoSimplePanel(traits, t1Choices, t2Choices, this));
 					interactionTypePanel.revalidate();
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
+					clearValues();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.IncompleteDominance"))) {
@@ -251,10 +297,11 @@ public class ModelPane extends JPanel implements ItemListener {
 									Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
-							new TwoIncPanel(traits, t1Choices, t2Choices, t3Choices));
+							new TwoIncPanel(traits, t1Choices, t2Choices, t3Choices, this));
 					interactionTypePanel.revalidate();
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
+					clearValues();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.Complementation"))) {
@@ -263,10 +310,11 @@ public class ModelPane extends JPanel implements ItemListener {
 									Messages.getInstance().getString("VGLII.Pathway")));
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
-							new ComplementationPanel(traits, t1Choices, t2Choices));
+							new ComplementationPanel(traits, t1Choices, t2Choices, this));
 					interactionTypePanel.revalidate();
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
+					clearValues();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.Epistasis"))) {
@@ -275,10 +323,11 @@ public class ModelPane extends JPanel implements ItemListener {
 									Messages.getInstance().getString("VGLII.Pathway")));
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
-							new EpistasisPanel(traits, t1Choices, t2Choices, t3Choices));
+							new EpistasisPanel(traits, t1Choices, t2Choices, t3Choices, this));
 					interactionTypePanel.revalidate();
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
+					clearValues();
 				}
 			}
 			if (alleleNumberChoices.getSelectedItem().toString().equals(
@@ -290,6 +339,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.revalidate();
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
+					clearValues();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.IncompleteDominance"))) {
@@ -302,30 +352,34 @@ public class ModelPane extends JPanel implements ItemListener {
 									t3Choices,
 									t4Choices,
 									t5Choices,
-									t6Choices));
+									t6Choices, 
+									this));
 					interactionTypePanel.revalidate();		
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
+					clearValues();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.HierarchicalDominance"))) {
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
 							new ThreeHierPanel(traits, 
-									t1Choices, t2Choices, t3Choices));
+									t1Choices, t2Choices, t3Choices, this));
 					interactionTypePanel.revalidate();	
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
+					clearValues();
 				}
 				if (e.getItem().toString().equals(
 						Messages.getInstance().getString("VGLII.CircularDominance"))) {
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(
 							new ThreeCircPanel(traits, 
-									t1Choices, t2Choices, t3Choices));
+									t1Choices, t2Choices, t3Choices, this));
 					interactionTypePanel.revalidate();	
 					modelBuilderUI.pack();
 					modelBuilderUI.repaint();
+					clearValues();
 				}
 			}
 		}
@@ -364,38 +418,29 @@ public class ModelPane extends JPanel implements ItemListener {
 		mpe.addContent(e);
 
 		// can't get selections this way - need to get to panels for info
-		System.out.println(interactionDetailsPanel.getComponentCount());
-//		e = new Element("T1");
-//		e.setText(String.valueOf(t1Choices.getSelectedItem()));
-//		mpe.addContent(e);
-//		
-//		e = new Element("T2");
-//		e.setText(String.valueOf(t2Choices.getSelectedItem()));
-//		mpe.addContent(e);
-//		
-//		if (t3Choices != null) {
-//			e = new Element("T3");
-//			e.setText(String.valueOf(t3Choices.getSelectedItem()));
-//			mpe.addContent(e);
-//		}
-//
-//		if (t4Choices != null) {
-//			e = new Element("T4");
-//			e.setText(String.valueOf(t4Choices.getSelectedItem()));
-//			mpe.addContent(e);
-//		}
-//
-//		if (t5Choices != null) {
-//			e = new Element("T5");
-//			e.setText(String.valueOf(t5Choices.getSelectedItem()));
-//			mpe.addContent(e);
-//		}
-//
-//		if (t6Choices != null) {
-//			e = new Element("T6");
-//			e.setText(String.valueOf(t6Choices.getSelectedItem()));
-//			mpe.addContent(e);
-//		}
+		e = new Element("T1");
+		e.addContent(t1Value);
+		mpe.addContent(e);
+
+		e = new Element("T2");
+		e.addContent(t2Value);
+		mpe.addContent(e);
+
+		e = new Element("T3");
+		e.addContent(t3Value);
+		mpe.addContent(e);
+
+		e = new Element("T4");
+		e.addContent(t4Value);
+		mpe.addContent(e);
+
+		e = new Element("T5");
+		e.addContent(t5Value);
+		mpe.addContent(e);
+
+		e = new Element("T6");
+		e.addContent(t6Value);
+		mpe.addContent(e);
 
 		return mpe;
 	}

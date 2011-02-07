@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -20,7 +22,11 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 
 	public ComplementationPanel(String[] allPhenos,
 			JComboBox t1Choices,
-			JComboBox t2Choices) {
+			JComboBox t2Choices,
+			ModelPane mp) {
+		
+		this.mp = mp;
+		
 		// don't use last pheno if complementation
 		String[] phenos = new String[3];
 		phenos[0] = allPhenos[0];
@@ -30,7 +36,9 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 		t1Choices.addItemListener(this);
 		t2Choices = new JComboBox(phenos);
 		this.t1Choices = t1Choices;
+		t1Choices.addItemListener(this);
 		this.t2Choices = t2Choices;
+		t2Choices.addItemListener(this);
 		intermediateChoices = new JComboBox(phenos);
 		intermediateChoices.addItemListener(this);
 
@@ -43,22 +51,21 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 		add(t2Choices);
 	}
 
-	public String[] getChoices() {
-		String[] r = new String[2];
-		r[0] = t1Choices.getSelectedItem().toString();
-		r[1] = t2Choices.getSelectedItem().toString();
-		return r;
-	}
 
-	// make the first 2 choices track each other
+	// make the first 2 choices track each other and report changes to UI
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			if (e.getSource().equals(t1Choices)) {
 				intermediateChoices.setSelectedItem(t1Choices.getSelectedItem());
+				mp.setT1Value((String)t1Choices.getSelectedItem());
 			}
 
 			if (e.getSource().equals(intermediateChoices)) {
 				t1Choices.setSelectedItem(intermediateChoices.getSelectedItem());
+			}
+			
+			if (e.getSource().equals(t2Choices)) {
+				mp.setT2Value((String)t2Choices.getSelectedItem());
 			}
 		}
 	}
@@ -81,6 +88,7 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 		g2d.drawLine(gBLabel.getLocation().x + 35, gBLabel.getLocation().y + 23, 
 				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
 	}
+
 
 
 }

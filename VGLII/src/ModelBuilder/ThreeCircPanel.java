@@ -5,26 +5,33 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import VGL.Messages;
 
-public class ThreeCircPanel extends ModelDetailsPanel {
+public class ThreeCircPanel extends ModelDetailsPanel implements ItemListener {
 	
 	JLabel l;
 
 	public ThreeCircPanel(String[] phenos,
 			JComboBox t1Choices,
 			JComboBox t2Choices,
-			JComboBox t3Choices) {
+			JComboBox t3Choices,
+			ModelPane mp) {
 		t1Choices = new JComboBox(phenos);
 		t2Choices = new JComboBox(phenos);
 		t3Choices = new JComboBox(phenos);
 		this.t1Choices = t1Choices;
+		t1Choices.addItemListener(this);
 		this.t2Choices = t2Choices;
+		t2Choices.addItemListener(this);
 		this.t3Choices = t3Choices;
+		t3Choices.addItemListener(this);
+		this.mp = mp;
 				
 		setLayout(new GridLayout(7,2));
 		
@@ -49,14 +56,6 @@ public class ThreeCircPanel extends ModelDetailsPanel {
 		
 	}
 
-	public String[] getChoices() {
-		String[] r = new String[3];
-		r[0] = t1Choices.getSelectedItem().toString();
-		r[1] = t2Choices.getSelectedItem().toString();
-		r[2] = t3Choices.getSelectedItem().toString();		
-		return r;
-	}
-
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -72,5 +71,21 @@ public class ThreeCircPanel extends ModelDetailsPanel {
 		g2d.drawLine(95,l.getLocation().y + 15,105,l.getLocation().y + 15);
 	}
 
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+			if (e.getSource().equals(t1Choices)) {
+				mp.setT1Value((String)t1Choices.getSelectedItem());
+			}
+		
+			if (e.getSource().equals(t2Choices)) {
+				mp.setT2Value((String)t2Choices.getSelectedItem());
+			}
+			
+			if (e.getSource().equals(t3Choices)) {
+				mp.setT3Value((String)t3Choices.getSelectedItem());
+			}
+	
+		}
+	}
 
 }

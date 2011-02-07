@@ -27,6 +27,7 @@ public class ModelBuilderUI extends JDialog {
 	private GeneticModel geneticModel;
 	private LinkagePanel linkagePanel;
 	private ModelPane[] modelPanes;
+	
 
 	// from saved work file
 	public ModelBuilderUI (
@@ -37,6 +38,7 @@ public class ModelBuilderUI extends JDialog {
 		this.parentFrame = parentFrame;
 		this.workingModel = workingModel;
 		this.geneticModel = geneticModel;
+		
 		setupUI();
 	}
 
@@ -46,7 +48,7 @@ public class ModelBuilderUI extends JDialog {
 			GeneticModel geneticModel) {
 		this(parentFrame, new WorkingModel(geneticModel), geneticModel);
 	}
-
+	
 	private void setupUI() {
 		this.setTitle(Messages.getInstance().getString("VGLII.ModelBuilder"));
 

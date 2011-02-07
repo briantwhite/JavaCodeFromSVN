@@ -4,26 +4,34 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import VGL.Messages;
 
-public class EpistasisPanel extends ModelDetailsPanel {
+public class EpistasisPanel extends ModelDetailsPanel implements ItemListener {
 	JLabel gALabel;
 	JLabel gBLabel;
+
 
 	public EpistasisPanel(String[] phenos,
 			JComboBox t1Choices,
 			JComboBox t2Choices,
-			JComboBox t3Choices) {
+			JComboBox t3Choices,
+			ModelPane mp) {
 		t1Choices = new JComboBox(phenos);
 		t2Choices = new JComboBox(phenos);
 		t3Choices = new JComboBox(phenos);
 		this.t1Choices = t1Choices;
+		t1Choices.addItemListener(this);
 		this.t2Choices = t2Choices;
+		t2Choices.addItemListener(this);
 		this.t3Choices = t3Choices;
+		t3Choices.addItemListener(this);
+		this.mp = mp;
 
 		add(t1Choices);
 		gALabel = new JLabel(Messages.getInstance().getString("VGLII.Gene") + " A");
@@ -60,6 +68,23 @@ public class EpistasisPanel extends ModelDetailsPanel {
 				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
 		g2d.drawLine(gBLabel.getLocation().x + 35, gBLabel.getLocation().y + 23, 
 				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
+	}
+
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+			if (e.getSource().equals(t1Choices)) {
+				mp.setT1Value((String)t1Choices.getSelectedItem());
+			}
+		
+			if (e.getSource().equals(t2Choices)) {
+				mp.setT2Value((String)t2Choices.getSelectedItem());
+			}
+			
+			if (e.getSource().equals(t3Choices)) {
+				mp.setT3Value((String)t3Choices.getSelectedItem());
+			}
+	
+		}
 	}
 
 
