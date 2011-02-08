@@ -1,6 +1,7 @@
 package ModelBuilder;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -156,18 +157,35 @@ public class ModelBuilderUI extends JDialog {
 	}
 	
 	public void configureFromFile(Element root) {
+
 		List<Element> elements = root.getChildren();
 		Iterator<Element> it = elements.iterator();
 		while (it.hasNext()) {
 			Element e = it.next();
+			if (e.getName().equals("Character")) {
+				int index = Integer.parseInt(e.getAttributeValue("Index"));
+				modelPanes[index].setStateFromFile(e);
+			}
+			if (e.getName().equals("LinkagePanel")) {
+				linkagePanel.setStateFromFile(e);
+			}
 		}
+		
+		setVisible(Boolean.parseBoolean(root.getAttributeValue("Visible")));
+		setLocation(new Point(
+				Integer.parseInt(root.getAttributeValue("Xpos")),
+						Integer.parseInt(root.getAttributeValue("Ypos"))));
 	}
 	
 	public Element save() {
 		Element mbuie = new Element("ModelBuilderState");
+		mbuie.setAttribute("Visible", String.valueOf(this.isVisible()));
+		mbuie.setAttribute("Xpos", String.valueOf(this.getLocation().x));
+		mbuie.setAttribute("Ypos", String.valueOf(this.getLocation().y));
 		for (int i = 0; i < modelPanes.length; i++) {
 			mbuie.addContent(modelPanes[i].save());
 		}
+		if (linkagePanel != null) mbuie.addContent(linkagePanel.save());
 		return mbuie;
 	}
 

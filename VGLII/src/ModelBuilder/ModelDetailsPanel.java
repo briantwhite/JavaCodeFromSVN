@@ -25,4 +25,12 @@ public abstract class ModelDetailsPanel extends JPanel implements ItemListener {
 	private URL combineArrow2URL = CageUI.class.getResource("UIimages/combineArrow2.gif");
 	ImageIcon combineArrow2 = new ImageIcon(combineArrow2URL);
 
+	// must over-ride these for the combo boxes present in each details panel type
+	public void updateT1Choices(String s) {}
+	public void updateT2Choices(String s) {}
+	public void updateT3Choices(String s) {}
+	public void updateT4Choices(String s) {}
+	public void updateT5Choices(String s) {}
+	public void updateT6Choices(String s) {}
+	
 }

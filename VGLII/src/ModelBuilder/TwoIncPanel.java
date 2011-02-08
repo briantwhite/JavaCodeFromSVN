@@ -60,4 +60,16 @@ public class TwoIncPanel extends ModelDetailsPanel implements ItemListener {
 		}
 	}
 
+	public void updateT1Choices(String s) {
+		t1Choices.setSelectedItem(s);
+	}
+	
+	public void updateT2Choices(String s) {
+		t2Choices.setSelectedItem(s);
+	}
+	
+	public void updateT3Choices(String s) {
+		t3Choices.setSelectedItem(s);
+	}
+
 }

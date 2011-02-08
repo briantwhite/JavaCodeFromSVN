@@ -56,7 +56,18 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ItemListener {
 		
 	}
 
+	public void updateT1Choices(String s) {
+		t1Choices.setSelectedItem(s);
+	}
 	
+	public void updateT2Choices(String s) {
+		t2Choices.setSelectedItem(s);
+	}
+	
+	public void updateT3Choices(String s) {
+		t3Choices.setSelectedItem(s);
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D)g;

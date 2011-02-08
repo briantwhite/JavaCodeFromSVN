@@ -1,5 +1,6 @@
 package ModelBuilder;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -129,15 +130,15 @@ public class ModelPane extends JPanel implements ItemListener {
 		masterPanel.add(alleleNumberChoicePanel);
 
 		// allele interaction type
-		circularPossible = true;
-		if ((specs.getGene1_chCircDom() == 0.0)
-				|| (specs.getGene2_chCircDom() == 0.0)
-				|| (specs.getGene3_chCircDom() == 0.0)) circularPossible = false;
+		circularPossible = false;
+		if ((specs.getGene1_chCircDom() != 0.0)
+				|| (specs.getGene2_chCircDom() != 0.0)
+				|| (specs.getGene3_chCircDom() != 0.0)) circularPossible = true;
 		
-		incDomPossible = true;
-		if ((specs.getGene1_chIncDom() == 0.0)
-				|| (specs.getGene2_chIncDom() == 0.0)
-				|| (specs.getGene3_chIncDom() == 0.0)) incDomPossible = false;
+		incDomPossible = false;
+		if ((specs.getGene1_chIncDom() != 0.0)
+				|| (specs.getGene2_chIncDom() != 0.0)
+				|| (specs.getGene3_chIncDom() != 0.0)) incDomPossible = true;
 		
 		complementationPossible = false;
 		if ((specs.getPhenotypeInteraction() > 0.0)
@@ -392,10 +393,55 @@ public class ModelPane extends JPanel implements ItemListener {
 	}
 	
 	public void setStateFromFile(Element element) {
+		
 		List<Element> elements = element.getChildren();
 		Iterator<Element> it = elements.iterator();
 		while(it.hasNext()) {
 			Element e = it.next();
+			if (e.getName().equals("SexLinkage")) {
+				sexLinkageChoices.setSelectedItem((String)e.getText());
+			}
+			
+			if (e.getName().equals("AlleleNumber")) {
+				alleleNumberChoices.setSelectedItem((String)e.getText());
+			}
+			
+			if (e.getName().equals("InteractionType")) {
+				interactionTypeChoices.setSelectedItem((String)e.getText());
+			}
+
+			// get a reference to the details panel
+			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
+
+			if (e.getName().equals("T1")) {
+				setT1Value((String)e.getText());
+				mdp.updateT1Choices((String)e.getText());
+			}
+			
+			if (e.getName().equals("T2")) {
+				setT2Value((String)e.getText());
+				mdp.updateT2Choices((String)e.getText());
+			}
+			
+			if (e.getName().equals("T3")) {
+				setT3Value((String)e.getText());
+				mdp.updateT3Choices((String)e.getText());
+			}
+			
+			if (e.getName().equals("T4")) {
+				setT4Value((String)e.getText());
+				mdp.updateT4Choices((String)e.getText());
+			}
+			
+			if (e.getName().equals("T5")) {
+				setT5Value((String)e.getText());
+				mdp.updateT5Choices((String)e.getText());
+			}
+			
+			if (e.getName().equals("T6")) {
+				setT6Value((String)e.getText());
+				mdp.updateT6Choices((String)e.getText());
+			}
 		}
 	}
 		
