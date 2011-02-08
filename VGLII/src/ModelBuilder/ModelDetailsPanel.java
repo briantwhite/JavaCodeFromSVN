@@ -33,4 +33,5 @@ public abstract class ModelDetailsPanel extends JPanel implements ItemListener {
 	public void updateT5Choices(String s) {}
 	public void updateT6Choices(String s) {}
 	
+	public abstract String getAsHtml();
 }

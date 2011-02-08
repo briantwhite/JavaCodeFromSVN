@@ -188,5 +188,15 @@ public class ModelBuilderUI extends JDialog {
 		if (linkagePanel != null) mbuie.addContent(linkagePanel.save());
 		return mbuie;
 	}
+	
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		for (int i = 0; i < modelPanes.length; i++) {
+			b.append(modelPanes[i].getAsHtml());
+		}
+		if (linkagePanel != null) b.append(linkagePanel.getAsHtml());
+		
+		return b.toString();
+	}
 
 }

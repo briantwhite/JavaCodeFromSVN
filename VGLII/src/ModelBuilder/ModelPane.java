@@ -463,7 +463,6 @@ public class ModelPane extends JPanel implements ItemListener {
 		e.setText(String.valueOf(interactionTypeChoices.getSelectedItem()));
 		mpe.addContent(e);
 
-		// can't get selections this way - need to get to panels for info
 		e = new Element("T1");
 		e.addContent(t1Value);
 		mpe.addContent(e);
@@ -489,5 +488,17 @@ public class ModelPane extends JPanel implements ItemListener {
 		mpe.addContent(e);
 
 		return mpe;
+	}
+	
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<b>" + character + "</b><br>");
+		b.append("<ul>");
+		b.append("<li>" + alleleNumberChoices.getSelectedItem() + "</li>");
+		b.append("<li>" + interactionTypeChoices.getSelectedItem() + "</li>");
+		ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
+		b.append(mdp.getAsHtml());
+		b.append("</ul><br>");
+		return b.toString();
 	}
 }

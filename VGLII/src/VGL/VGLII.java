@@ -1190,6 +1190,13 @@ public class VGLII extends JFrame {
 			}
 			htmlString.append("</table><p></p>"); //$NON-NLS-1$
 		}
+		
+		htmlString.append("<br><br><hr>");
+		htmlString.append("<h3>");
+		htmlString.append(Messages.getInstance().getString("VGLII.ModelBuilder"));
+		htmlString.append("</h3>");
+		htmlString.append(modelBuilder.getAsHtml());
+		
 		htmlString.append("</body></html>"); //$NON-NLS-1$
 		return htmlString.toString();
 	}

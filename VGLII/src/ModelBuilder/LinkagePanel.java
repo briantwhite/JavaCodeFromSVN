@@ -17,9 +17,12 @@ public class LinkagePanel extends JPanel {
 	private JComboBox g1g2Linked;
 	private JComboBox g2g3Linked;
 	private JComboBox g3g1Linked;
+	
+	private String[] chars;
 
 	public LinkagePanel(String[] characters) {
 		String[] choices = new String[3];
+		this.chars = characters;
 		choices[0] = Messages.getInstance().getString("VGLII.Unknown");
 		choices[1] = Messages.getInstance().getString("VGLII.Unlinked");
 		choices[2] = Messages.getInstance().getString("VGLII.Linked");
@@ -29,25 +32,25 @@ public class LinkagePanel extends JPanel {
 
 
 		add(new JLabel(
-				characters[0] + " "
+				chars[0] + " "
 				+ Messages.getInstance().getString("VGLII.And") + " "
-				+ characters[1] + " "
+				+ chars[1] + " "
 				+ Messages.getInstance().getString("VGLII.Are")));
 		add(g1g2Linked);
 
-		if (characters.length == 3) {
+		if (chars.length == 3) {
 			setLayout(new GridLayout(3,2));
 			add(new JLabel(
-					characters[1] + " "
+					chars[1] + " "
 					+ Messages.getInstance().getString("VGLII.And") + " "
-					+ characters[2] + " "
+					+ chars[2] + " "
 					+ Messages.getInstance().getString("VGLII.Are")));
 			add(g2g3Linked);
 
 			add(new JLabel(
-					characters[0] + " "
+					chars[0] + " "
 					+ Messages.getInstance().getString("VGLII.And") + " "
-					+ characters[2] + " "
+					+ chars[2] + " "
 					+ Messages.getInstance().getString("VGLII.Are")));
 			add(g3g1Linked);
 
@@ -89,4 +92,29 @@ public class LinkagePanel extends JPanel {
 		return lpe;
 	}
 
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<b>");
+		b.append(Messages.getInstance().getString("VGLII.Linkage"));
+		b.append("</b><br><ul>");
+		b.append("<li>" + chars[0] + " "
+				+ Messages.getInstance().getString("VGLII.And") + " "
+				+ chars[1] + " "
+				+ Messages.getInstance().getString("VGLII.Are") + " ");
+		b.append((String)g1g2Linked.getSelectedItem() + "</li>");
+		if (chars.length == 3) {
+			b.append("<li>" + chars[1] + " "
+					+ Messages.getInstance().getString("VGLII.And") + " "
+					+ chars[2] + " "
+					+ Messages.getInstance().getString("VGLII.Are"));
+			b.append((String)g2g3Linked.getSelectedItem() + "</li>");
+			b.append("<li>" + chars[0] + " "
+					+ Messages.getInstance().getString("VGLII.And") + " "
+					+ chars[2] + " "
+					+ Messages.getInstance().getString("VGLII.Are"));
+			b.append((String)g3g1Linked.getSelectedItem() + "</li>");
+		}
+		b.append("</ul>");
+		return b.toString();
+	}
 }
