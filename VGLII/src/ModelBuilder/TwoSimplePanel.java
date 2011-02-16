@@ -52,5 +52,18 @@ public class TwoSimplePanel extends ModelDetailsPanel implements ItemListener {
 		t2Choices.setSelectedItem(s);
 	}
 	
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		
+		b.append("<li>" + (String)t1Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.IsRecessive") + "</li>");
+				
+		b.append("<li>" + (String)t2Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.IsDominant") + "</li>");
+		
+		b.append("</ul>");
+		return b.toString();
+	}
 
 }

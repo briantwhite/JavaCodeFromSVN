@@ -15,5 +15,14 @@ public class UnknownSpecificsPanel extends ModelDetailsPanel {
 
 	public void itemStateChanged(ItemEvent e) {}
 
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		
+		b.append("<li>" + Messages.getInstance().getString("VGLII.Unknown") + "</li> ");
+		
+		b.append("</ul>");
+		return b.toString();
+	}
 
 }

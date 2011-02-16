@@ -106,12 +106,12 @@ public class LinkagePanel extends JPanel {
 			b.append("<li>" + chars[1] + " "
 					+ Messages.getInstance().getString("VGLII.And") + " "
 					+ chars[2] + " "
-					+ Messages.getInstance().getString("VGLII.Are"));
+					+ Messages.getInstance().getString("VGLII.Are") + " ");
 			b.append((String)g2g3Linked.getSelectedItem() + "</li>");
 			b.append("<li>" + chars[0] + " "
 					+ Messages.getInstance().getString("VGLII.And") + " "
 					+ chars[2] + " "
-					+ Messages.getInstance().getString("VGLII.Are"));
+					+ Messages.getInstance().getString("VGLII.Are") + " ");
 			b.append((String)g3g1Linked.getSelectedItem() + "</li>");
 		}
 		b.append("</ul>");

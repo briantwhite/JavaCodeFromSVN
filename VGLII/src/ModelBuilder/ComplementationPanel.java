@@ -98,5 +98,19 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 	}
 
 
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>");
+		b.append((String)t1Choices.getSelectedItem());
+		b.append(" ---(" + Messages.getInstance().getString("VGLII.Gene") + " A)--->");
+		b.append((String)intermediateChoices.getSelectedItem());
+		b.append(" ---(" + Messages.getInstance().getString("VGLII.Gene") + " B)--->");
+		b.append((String)t2Choices.getSelectedItem());
+		b.append("</li></ul>");
+		return b.toString();
+	}
+
+
 
 }

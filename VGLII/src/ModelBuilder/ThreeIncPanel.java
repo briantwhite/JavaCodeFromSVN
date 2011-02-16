@@ -259,4 +259,39 @@ public class ThreeIncPanel extends ModelDetailsPanel implements ItemListener {
 				t5.getLocation().x - 5, t5.getLocation().y + 15);
 	}
 
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		
+		b.append("<li>" + (String)t1Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.IsPureBreeding") + "</li>");
+		
+		b.append("<li>" + (String)t4Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.IsInBetween") + " ");
+		b.append((String)t1Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.And") + " ");
+		b.append((String)t2Choices.getSelectedItem() + "</li>");
+		
+		b.append("<li>" + (String)t2Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.IsPureBreeding") + "</li>");
+		
+		b.append("<li>" + (String)t5Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.IsInBetween") + " ");
+		b.append((String)t2Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.And") + " ");
+		b.append((String)t3Choices.getSelectedItem() + "</li>");
+
+		b.append("<li>" + (String)t3Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.IsPureBreeding") + "</li>");
+		
+		b.append("<li>" + (String)t6Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.IsInBetween") + " ");
+		b.append((String)t1Choices.getSelectedItem() + " ");
+		b.append(Messages.getInstance().getString("VGLII.And") + " ");
+		b.append((String)t3Choices.getSelectedItem() + "</li>");
+
+		b.append("</ul>");
+		return b.toString();
+	}
+
 }

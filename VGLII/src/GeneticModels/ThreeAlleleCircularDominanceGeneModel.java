@@ -30,9 +30,9 @@ import VGL.Messages;
 
 public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 
-	private Trait t1;  // totally recessive trait
-	private Trait t2;  // intermediate trait
-	private Trait t3;  // totally dominant trait
+	private Trait t1;  // rec to 2; dom to 3
+	private Trait t2;  // rec to 3; dom to 1
+	private Trait t3;  // rec to 1; dom to 2
 
 	public ThreeAlleleCircularDominanceGeneModel(int index) {
 		super(index);

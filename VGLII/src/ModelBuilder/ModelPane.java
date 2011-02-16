@@ -441,6 +441,8 @@ public class ModelPane extends JPanel implements ItemListener {
 			if (e.getName().equals("T6")) {
 				setT6Value((String)e.getText());
 				mdp.updateT6Choices((String)e.getText());
+System.out.println("The mdp is " + mdp.getName());
+System.out.println("in ModelPane - set T6=" + (String)e.getText());
 			}
 		}
 	}
