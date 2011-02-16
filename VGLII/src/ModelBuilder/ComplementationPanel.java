@@ -77,7 +77,7 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 	public void updateT2Choices(String s) {
 		t2Choices.setSelectedItem(s);
 	}
-	
+		
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D)g;
@@ -107,10 +107,12 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 		b.append((String)intermediateChoices.getSelectedItem());
 		b.append(" ---(" + Messages.getInstance().getString("VGLII.Gene") + " B)--->");
 		b.append((String)t2Choices.getSelectedItem());
-		b.append("</li></ul>");
+		b.append("</li>");
+		b.append("<li><font color=blue>" + Messages.getInstance().getString("VGLII.RelevantCross"));
+		b.append(" " + relevantCrossChoices.getSelectedItem() + "</font></li>");
+		b.append("</ul>");
 		return b.toString();
 	}
-
 
 
 }

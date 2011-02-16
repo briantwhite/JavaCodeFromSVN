@@ -227,6 +227,8 @@ public class ModelPane extends JPanel implements ItemListener {
 	public void updateCageChoices(int nextCageId) {
 		sexLinkageCageChoices.addItem(
 				Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
+		ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
+		mdp.updateCageChoiceList(nextCageId);
 		revalidate();
 	}
 	
