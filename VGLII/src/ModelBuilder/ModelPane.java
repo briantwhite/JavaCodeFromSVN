@@ -494,6 +494,7 @@ public class ModelPane extends JPanel implements ItemListener {
 		StringBuffer b = new StringBuffer();
 		b.append("<b>" + character + "</b><br>");
 		b.append("<ul>");
+		b.append("<li>" + sexLinkageChoices.getSelectedItem() + "</li>");
 		b.append("<li>" + alleleNumberChoices.getSelectedItem() + "</li>");
 		b.append("<li>" + interactionTypeChoices.getSelectedItem() + "</li>");
 		ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];

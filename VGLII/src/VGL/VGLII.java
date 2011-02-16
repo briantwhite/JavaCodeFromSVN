@@ -116,7 +116,7 @@ public class VGLII extends JFrame {
 	 */
 	public final static int PHENO_IMAGE_WIDTH = 900;
 	public final static int PHENO_IMAGE_HEIGHT = 700;
-	
+
 	private Random random;
 
 	/**
@@ -128,12 +128,12 @@ public class VGLII extends JFrame {
 	 * the model builder for the current problem
 	 */
 	private ModelBuilderUI modelBuilder;
-	
+
 	/**
 	 * the model the student is building
 	 */
 	private WorkingModel workingModel;
-	
+
 	/**
 	 * The common file chooser instance for the application
 	 */
@@ -234,7 +234,7 @@ public class VGLII extends JFrame {
 	 * menu item for super cross - ³1000 offspring
 	 */
 	private JMenuItem superCrossItem = null;
-	
+
 	/**
 	 * Menu item to display "about VGL" box
 	 */
@@ -279,7 +279,7 @@ public class VGLII extends JFrame {
 	 * menu item to clear selected cages
 	 */
 	private JMenuItem unselectAllItem = null;
-	
+
 	/**
 	 * menu item to show the ModelBuilder
 	 */
@@ -379,7 +379,7 @@ public class VGLII extends JFrame {
 		addWindowListener(new ApplicationCloser());
 
 		random = new Random();
-		
+
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
 				+ System.getProperty("file.separator") //$NON-NLS-1$
 				+ "Desktop"); //$NON-NLS-1$
@@ -617,7 +617,7 @@ public class VGLII extends JFrame {
 				"CrossTwo", 
 				null); //$NON-NLS-1$ //$NON-NLS-2$
 		mnuUtilities.add(crossTwoItem);
-		
+
 		superCrossItem = menuItem(Messages.getInstance().getString("VGLII.SuperCross"), 
 				"SuperCross", 
 				null);
@@ -627,22 +627,22 @@ public class VGLII extends JFrame {
 				"ModelBuilder", 
 				null);
 		mnuUtilities.add(modelBuilderItem);
-		
+
 		cageManagerItem = menuItem(Messages.getInstance().getString("VGLII.Cages"), 
 				"CageManager", 
 				null); //$NON-NLS-1$ //$NON-NLS-2$
 		mnuUtilities.add(cageManagerItem);
-		
+
 		rearrangeCagesItem = menuItem(Messages.getInstance().getString("VGLII.RearrangeCages"), 
 				"RearrangeCages", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(rearrangeCagesItem);
-		
+
 		summaryChartItem = menuItem(Messages.getInstance().getString("VGLII.CreateSummaryChart"), 
 				"SummaryChart", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(summaryChartItem);
-		
+
 		unselectAllItem = menuItem(Messages.getInstance().getString("VGLII.UnselectAllCages"), 
 				"UnselectAll", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
@@ -970,8 +970,20 @@ public class VGLII extends JFrame {
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
-		modelBuilder = new ModelBuilderUI(this, geneticModel);
-		modelBuilder.configureFromFile(result.getModelBuilderState());
+
+		/**
+		 *  problems saved with older versions won't have the
+		 *    model specs saved in the problem file
+		 *    so you can't have the model builder
+		 *    - so disable it
+		 */
+		if (geneticModel.getProblemTypeSpecification() != null) {
+			modelBuilder = new ModelBuilderUI(this, geneticModel);
+			modelBuilder.configureFromFile(result.getModelBuilderState());
+		} else {
+			modelBuilderItem.setEnabled(false);
+		}
+		
 		changeSinceLastSave = true;
 	}
 
@@ -1057,7 +1069,7 @@ public class VGLII extends JFrame {
 		root.addContent(organisms);
 
 		root.addContent(modelBuilder.save());
-		
+
 		Document doc = new Document(root);
 		return doc;
 	}
@@ -1190,13 +1202,13 @@ public class VGLII extends JFrame {
 			}
 			htmlString.append("</table><p></p>"); //$NON-NLS-1$
 		}
-		
+
 		htmlString.append("<br><br><hr>");
 		htmlString.append("<h3>");
 		htmlString.append(Messages.getInstance().getString("VGLII.ModelBuilder"));
 		htmlString.append("</h3>");
 		htmlString.append(modelBuilder.getAsHtml());
-		
+
 		htmlString.append("</body></html>"); //$NON-NLS-1$
 		return htmlString.toString();
 	}
@@ -1292,7 +1304,7 @@ public class VGLII extends JFrame {
 		if (organismUI1 != null && organismUI2 != null) {
 			Organism o1 = organismUI1.getOrganism();
 			Organism o2 = organismUI2.getOrganism();
-			
+
 			int numOffspring = 0;
 			if (isSuperCross) {
 				Integer numSelected = (Integer)JOptionPane.showInputDialog(null, 
@@ -1301,11 +1313,11 @@ public class VGLII extends JFrame {
 						JOptionPane.PLAIN_MESSAGE,
 						null,
 						new Object[] {
-						new Integer(100),
-						new Integer(200),
-						new Integer(500),
-						new Integer(1000),
-						new Integer(2000)
+					new Integer(100),
+					new Integer(200),
+					new Integer(500),
+					new Integer(1000),
+					new Integer(2000)
 				},
 				new Integer(100));
 				if (numSelected == null) return;
@@ -1314,7 +1326,7 @@ public class VGLII extends JFrame {
 				numOffspring = random.nextInt(geneticModel.getMaxOffspring() - geneticModel.getMinOffspring())
 				+ geneticModel.getMinOffspring();
 			}
-			
+
 			Cage c = geneticModel.crossTwo(nextCageId, 
 					o1, 
 					o2, 
@@ -1344,7 +1356,7 @@ public class VGLII extends JFrame {
 		}
 		changeSinceLastSave = true;
 	}
-	
+
 	/**
 	 * This method invokes .html help into a JEditor pane
 	 */
@@ -1656,7 +1668,7 @@ public class VGLII extends JFrame {
 	private void disableLanguageMenu() {
 		mnuLanguage.setEnabled(false);
 	}
-	
+
 	private void showModelBuilder() {
 		modelBuilder.setVisible(true);
 	}
