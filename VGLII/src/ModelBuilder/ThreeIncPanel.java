@@ -178,11 +178,11 @@ public class ThreeIncPanel extends ModelDetailsPanel implements ItemListener {
 		t2Choices.addItemListener(this);
 		this.t3Choices = t3Choices;
 		t3Choices.addItemListener(this);
-		this.t4Choices = t1Choices;
+		this.t4Choices = t4Choices;
 		t4Choices.addItemListener(this);
-		this.t5Choices = t2Choices;
+		this.t5Choices = t5Choices;
 		t5Choices.addItemListener(this);
-		this.t6Choices = t3Choices;
+		this.t6Choices = t6Choices;
 		t6Choices.addItemListener(this);
 		
 		this.mp = mp;
@@ -191,6 +191,7 @@ public class ThreeIncPanel extends ModelDetailsPanel implements ItemListener {
 	
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
+
 			if (e.getSource().equals(t1Choices)) {
 				mp.setT1Value((String)t1Choices.getSelectedItem());
 			}
