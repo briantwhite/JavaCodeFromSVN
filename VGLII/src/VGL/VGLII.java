@@ -1294,6 +1294,15 @@ public class VGLII extends JFrame {
 		SummaryChartManager.getInstance().clearSelectedSet();
 		SummaryChartManager.getInstance().hideSummaryChart();
 	}
+	
+	public String[] getCageList() {
+		String[] list = new String[cageCollection.size() + 1];
+		list[0] = "?";
+		for (int i = 1; i < cageCollection.size() + 1; i++) {
+			list[i] = Messages.getInstance().getString("VGLII.Cage") + " " + i;
+		}
+		return list;
+	}
 
 	/**
 	 * Method that actually sets up the cross between two organisms
@@ -1355,6 +1364,7 @@ public class VGLII extends JFrame {
 					Messages.getInstance().getInstance().getString("VGLII.CrossTwo"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 		}
 		changeSinceLastSave = true;
+		modelBuilder.updateCageChoices(nextCageId);
 	}
 
 	/**

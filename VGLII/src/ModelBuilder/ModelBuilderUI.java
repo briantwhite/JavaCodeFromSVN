@@ -20,10 +20,12 @@ import GeneticModels.GeneticModel;
 import GeneticModels.PhenotypeProcessor;
 import GeneticModels.ProblemTypeSpecification;
 import VGL.Messages;
+import VGL.VGLII;
+
 
 public class ModelBuilderUI extends JDialog {
 
-	private JFrame parentFrame;
+	private VGLII vglII;
 	private WorkingModel workingModel;
 	private GeneticModel geneticModel;
 	private LinkagePanel linkagePanel;
@@ -32,11 +34,11 @@ public class ModelBuilderUI extends JDialog {
 
 	// from saved work file
 	public ModelBuilderUI (
-			JFrame parentFrame, 
+			VGLII vglII, 
 			WorkingModel workingModel, 
 			GeneticModel geneticModel) {
-		super(parentFrame);
-		this.parentFrame = parentFrame;
+		super(vglII);
+		this.vglII = vglII;
 		this.workingModel = workingModel;
 		this.geneticModel = geneticModel;
 		
@@ -45,9 +47,9 @@ public class ModelBuilderUI extends JDialog {
 
 	// for new problem
 	public ModelBuilderUI(
-			JFrame parentFrame,
+			VGLII vglII,
 			GeneticModel geneticModel) {
-		this(parentFrame, new WorkingModel(geneticModel), geneticModel);
+		this(vglII, new WorkingModel(geneticModel), geneticModel);
 	}
 	
 	private void setupUI() {
@@ -175,6 +177,16 @@ public class ModelBuilderUI extends JDialog {
 		setLocation(new Point(
 				Integer.parseInt(root.getAttributeValue("Xpos")),
 						Integer.parseInt(root.getAttributeValue("Ypos"))));
+	}
+	
+	public VGLII getVGLII() {
+		return vglII;
+	}
+	
+	public void updateCageChoices(int nextCageId) {
+		for (int i = 0; i < modelPanes.length; i++) {
+			modelPanes[i].updateCageChoices(nextCageId);
+		}
 	}
 	
 	public Element save() {

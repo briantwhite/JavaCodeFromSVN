@@ -1,7 +1,7 @@
 package ModelBuilder;
 
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jdom.Element;
@@ -28,6 +29,7 @@ public class ModelPane extends JPanel implements ItemListener {
 	private ModelBuilderUI modelBuilderUI;
 
 	private JComboBox sexLinkageChoices;
+	private JComboBox sexLinkageCageChoices;
 	private JComboBox alleleNumberChoices;
 	private JComboBox interactionTypeChoices;
 	private JComboBox t1Choices;
@@ -74,6 +76,7 @@ public class ModelPane extends JPanel implements ItemListener {
 
 		// sex linkage info
 		JPanel sexLinkagePanel = new JPanel();
+		sexLinkagePanel.setLayout(new GridLayout(0,1));
 		sexLinkagePanel.setBorder(
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.SexLinkage")));
@@ -102,6 +105,17 @@ public class ModelPane extends JPanel implements ItemListener {
 		}
 		sexLinkageChoices = new JComboBox(slcs);
 		sexLinkagePanel.add(sexLinkageChoices);
+		
+		// if sex-linkage, need a relevant cage selector
+		if (specs.getGene1_chSexLinked() > 0.0) {
+			JPanel innerPanel = new JPanel();
+			innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
+			sexLinkageCageChoices = new JComboBox(modelBuilderUI.getVGLII().getCageList());
+			innerPanel.add(
+					new JLabel(Messages.getInstance().getString("VGLII.RelevantCage")));
+			innerPanel.add(sexLinkageCageChoices);
+			sexLinkagePanel.add(innerPanel);
+		}
 		masterPanel.add(sexLinkagePanel);
 
 
@@ -210,6 +224,12 @@ public class ModelPane extends JPanel implements ItemListener {
 		t6Value = "";
 	}
 
+	public void updateCageChoices(int nextCageId) {
+		sexLinkageCageChoices.addItem(
+				Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
+		revalidate();
+	}
+	
 	public void itemStateChanged(ItemEvent e) {
 
 		if (e.getSource().equals(alleleNumberChoices)) {
