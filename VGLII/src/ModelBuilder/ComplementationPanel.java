@@ -108,8 +108,6 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 		b.append(" ---(" + Messages.getInstance().getString("VGLII.Gene") + " B)--->");
 		b.append((String)t2Choices.getSelectedItem());
 		b.append("</li>");
-		b.append("<li><font color=blue>" + Messages.getInstance().getString("VGLII.RelevantCross"));
-		b.append(" " + relevantCrossChoices.getSelectedItem() + "</font></li>");
 		b.append("</ul>");
 		return b.toString();
 	}

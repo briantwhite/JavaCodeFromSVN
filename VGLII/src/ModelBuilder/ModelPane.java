@@ -32,6 +32,7 @@ public class ModelPane extends JPanel implements ItemListener {
 	private JComboBox sexLinkageCageChoices;
 	private JComboBox alleleNumberChoices;
 	private JComboBox interactionTypeChoices;
+	private JComboBox interactionCageChoices;
 	private JComboBox t1Choices;
 	private JComboBox t2Choices;
 	private JComboBox t3Choices;
@@ -46,7 +47,7 @@ public class ModelPane extends JPanel implements ItemListener {
 
 	private JPanel interactionTypePanel;
 	private JPanel interactionDetailsPanel;
-	
+
 	// values updated by the model details panels
 	private String t1Value;
 	private String t2Value;
@@ -76,7 +77,6 @@ public class ModelPane extends JPanel implements ItemListener {
 
 		// sex linkage info
 		JPanel sexLinkagePanel = new JPanel();
-		sexLinkagePanel.setLayout(new GridLayout(0,1));
 		sexLinkagePanel.setBorder(
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.SexLinkage")));
@@ -105,17 +105,7 @@ public class ModelPane extends JPanel implements ItemListener {
 		}
 		sexLinkageChoices = new JComboBox(slcs);
 		sexLinkagePanel.add(sexLinkageChoices);
-		
-		// if sex-linkage, need a relevant cage selector
-		if (specs.getGene1_chSexLinked() > 0.0) {
-			JPanel innerPanel = new JPanel();
-			innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
-			sexLinkageCageChoices = new JComboBox(modelBuilderUI.getVGLII().getCageList());
-			innerPanel.add(
-					new JLabel(Messages.getInstance().getString("VGLII.RelevantCage")));
-			innerPanel.add(sexLinkageCageChoices);
-			sexLinkagePanel.add(innerPanel);
-		}
+
 		masterPanel.add(sexLinkagePanel);
 
 
@@ -148,16 +138,16 @@ public class ModelPane extends JPanel implements ItemListener {
 		if ((specs.getGene1_chCircDom() != 0.0)
 				|| (specs.getGene2_chCircDom() != 0.0)
 				|| (specs.getGene3_chCircDom() != 0.0)) circularPossible = true;
-		
+
 		incDomPossible = false;
 		if ((specs.getGene1_chIncDom() != 0.0)
 				|| (specs.getGene2_chIncDom() != 0.0)
 				|| (specs.getGene3_chIncDom() != 0.0)) incDomPossible = true;
-		
+
 		complementationPossible = false;
 		if ((specs.getPhenotypeInteraction() > 0.0)
 				&& (specs.getEpistasis() != 1.0)) complementationPossible = true;
-		
+
 		epistasisPossible = false;
 		if ((specs.getPhenotypeInteraction() > 0.0)
 				&& (specs.getEpistasis() != 0.0)) epistasisPossible = true;
@@ -187,10 +177,35 @@ public class ModelPane extends JPanel implements ItemListener {
 						Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
 		interactionDetailsPanel.add(new UnknownSpecificsPanel());
 		masterPanel.add(interactionDetailsPanel);
+		
+		// relevant crosses
+		JPanel relevantCrossPanel = new JPanel();
+		relevantCrossPanel.setLayout(new GridLayout(2,0));
+		relevantCrossPanel.setBorder(
+				BorderFactory.createTitledBorder(
+						Messages.getInstance().getString("VGLII.RelevantCages")));
+		// if sex-linkage, need a relevant cage selector
+		if (specs.getGene1_chSexLinked() > 0.0) {
+			JPanel upperPanel = new JPanel();
+			upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.X_AXIS));
+			sexLinkageCageChoices = new JComboBox(modelBuilderUI.getVGLII().getCageList());
+			upperPanel.add(
+					new JLabel(Messages.getInstance().getString("VGLII.ForSexLinkage")));
+			upperPanel.add(sexLinkageCageChoices);
+			relevantCrossPanel.add(upperPanel);
+		}
+		JPanel lowerPanel = new JPanel();
+		lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.X_AXIS));
+		interactionCageChoices = new JComboBox(modelBuilderUI.getVGLII().getCageList());
+		lowerPanel.add(
+				new JLabel(Messages.getInstance().getString("VGLII.ForDetails")));
+		lowerPanel.add(interactionCageChoices);
+		relevantCrossPanel.add(lowerPanel);
+		masterPanel.add(relevantCrossPanel);
 
 		this.add(masterPanel);
 	}
-	
+
 	public void setT1Value(String t1Value) {
 		this.t1Value = t1Value;
 	}
@@ -225,13 +240,15 @@ public class ModelPane extends JPanel implements ItemListener {
 	}
 
 	public void updateCageChoices(int nextCageId) {
-		sexLinkageCageChoices.addItem(
+		if (sexLinkageCageChoices != null) {
+			sexLinkageCageChoices.addItem(
+					Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
+		}
+		interactionCageChoices.addItem(
 				Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
-		ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
-		mdp.updateCageChoiceList(nextCageId);
 		revalidate();
 	}
-	
+
 	public void itemStateChanged(ItemEvent e) {
 
 		if (e.getSource().equals(alleleNumberChoices)) {
@@ -413,9 +430,9 @@ public class ModelPane extends JPanel implements ItemListener {
 			alleleNumberChoices.addItemListener(this);	
 		}
 	}
-	
+
 	public void setStateFromFile(Element element) {
-		
+
 		List<Element> elements = element.getChildren();
 		Iterator<Element> it = elements.iterator();
 		while(it.hasNext()) {
@@ -423,11 +440,11 @@ public class ModelPane extends JPanel implements ItemListener {
 			if (e.getName().equals("SexLinkage")) {
 				sexLinkageChoices.setSelectedItem((String)e.getText());
 			}
-			
+
 			if (e.getName().equals("AlleleNumber")) {
 				alleleNumberChoices.setSelectedItem((String)e.getText());
 			}
-			
+
 			if (e.getName().equals("InteractionType")) {
 				interactionTypeChoices.setSelectedItem((String)e.getText());
 			}
@@ -439,48 +456,48 @@ public class ModelPane extends JPanel implements ItemListener {
 				setT1Value((String)e.getText());
 				mdp.updateT1Choices((String)e.getText());
 			}
-			
+
 			if (e.getName().equals("T2")) {
 				setT2Value((String)e.getText());
 				mdp.updateT2Choices((String)e.getText());
 			}
-			
+
 			if (e.getName().equals("T3")) {
 				setT3Value((String)e.getText());
 				mdp.updateT3Choices((String)e.getText());
 			}
-			
+
 			if (e.getName().equals("T4")) {
 				setT4Value((String)e.getText());
 				mdp.updateT4Choices((String)e.getText());
 			}
-			
+
 			if (e.getName().equals("T5")) {
 				setT5Value((String)e.getText());
 				mdp.updateT5Choices((String)e.getText());
 			}
-			
+
 			if (e.getName().equals("T6")) {
 				setT6Value((String)e.getText());
 				mdp.updateT6Choices((String)e.getText());
 			}
 		}
 	}
-		
+
 	public Element save() {
 		Element mpe = new Element("Character");
 		mpe.setAttribute("Name", character);
 		mpe.setAttribute("Index", String.valueOf(index));
-		
+
 		Element e = null;
 		e = new Element("SexLinkage");
 		e.setText(String.valueOf(sexLinkageChoices.getSelectedItem()));
 		mpe.addContent(e);
-		
+
 		e = new Element("AlleleNumber");
 		e.setText(String.valueOf(alleleNumberChoices.getSelectedItem()));
 		mpe.addContent(e);
-		
+
 		e = new Element("InteractionType");
 		e.setText(String.valueOf(interactionTypeChoices.getSelectedItem()));
 		mpe.addContent(e);
@@ -511,7 +528,7 @@ public class ModelPane extends JPanel implements ItemListener {
 
 		return mpe;
 	}
-	
+
 	public String getAsHtml() {
 		StringBuffer b = new StringBuffer();
 		b.append("<b>" + character + "</b><br>");

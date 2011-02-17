@@ -18,7 +18,6 @@ public abstract class ModelDetailsPanel extends JPanel implements ItemListener {
 	JComboBox t4Choices;
 	JComboBox t5Choices;
 	JComboBox t6Choices;
-	JComboBox relevantCrossChoices;
 	ModelPane mp;
 	
 	private URL combineArrowURL = CageUI.class.getResource("UIimages/combineArrow.gif");
@@ -34,16 +33,6 @@ public abstract class ModelDetailsPanel extends JPanel implements ItemListener {
 	public void updateT4Choices(String s) {}
 	public void updateT5Choices(String s) {}
 	public void updateT6Choices(String s) {}
-	
-	public void updateRelevantCrossChoices(String choice) {
-		relevantCrossChoices.setSelectedItem(choice);
-	}
-	
-	public void updateCageChoiceList(int nextCageId) {
-		relevantCrossChoices.addItem(
-				Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
-		revalidate();
-	}
-	
+		
 	public abstract String getAsHtml();
 }
