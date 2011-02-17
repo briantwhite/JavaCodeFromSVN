@@ -102,7 +102,7 @@ public class WorkFileProcessor {
 		while(it.hasNext()) {
 			Element current = it.next();
 			String name = current.getName();
-			
+
 			if (name.equals("ProblemTypeSpecification")) {
 				model.setProblemTypeSPecification(
 						GeneticModelFactory.getInstance().processModelSpecElements(
@@ -166,6 +166,7 @@ public class WorkFileProcessor {
 
 	private GeneModel buildGeneModel(Element e, int chromo, int gene) {
 		String type = e.getAttributeValue("Type");
+
 		List<Element> traitList = e.getChildren();
 		if (type.equals("TwoAlleleSimpleDominance")) {
 			return new TwoAlleleSimpleDominanceGeneModel(

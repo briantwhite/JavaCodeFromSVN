@@ -140,7 +140,7 @@ public class ModelBuilderUI extends JDialog {
 		outerPanel.add(masterPanel);
 		this.add(outerPanel);
 		this.pack();
-
+		this.setLocation(500, 500);
 	}
 
 	private void setupLinkagePanel(GeneModel[] geneModels, JTabbedPane tabs) {

@@ -44,6 +44,7 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		super(gene);
 		Iterator<Element> elIt = traitList.iterator();
 		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1, true);
+
 		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2, true);
 		t3 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 3, true);
 		setupGenoPhenoTable();
@@ -138,12 +139,6 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 
 	public void setupGenoPhenoTable() {
 		genoPhenoTable = new Phenotype[4][4];
-
-		//there are two alleles and two possible phenos
-		// get the phenos first; then load table
-		t1 = traitSet.getRandomTrait();   // dom to 3; rec to 2
-		t2 = traitSet.getRandomTrait();   // dom to 1; rec to 3
-		t3 = traitSet.getRandomTrait();   // dom to 2; rec to 1
 		
 		genoPhenoTable[0][0] = null;  				//impossible
 		genoPhenoTable[0][1] = new Phenotype(t1);  	// 1,Y = 1

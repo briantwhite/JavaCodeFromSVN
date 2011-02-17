@@ -177,7 +177,7 @@ public class ModelPane extends JPanel implements ItemListener {
 						Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
 		interactionDetailsPanel.add(new UnknownSpecificsPanel());
 		masterPanel.add(interactionDetailsPanel);
-		
+
 		// relevant crosses
 		JPanel relevantCrossPanel = new JPanel();
 		relevantCrossPanel.setLayout(new GridLayout(2,0));
@@ -481,6 +481,15 @@ public class ModelPane extends JPanel implements ItemListener {
 				setT6Value((String)e.getText());
 				mdp.updateT6Choices((String)e.getText());
 			}
+			
+			if (e.getName().equals("SexLinkageCage")) {
+				sexLinkageCageChoices.setSelectedItem((String)e.getText());
+			}
+
+			if (e.getName().equals("DetailsCage")) {
+				interactionCageChoices.setSelectedItem((String)e.getText());
+			}
+
 		}
 	}
 
@@ -526,6 +535,16 @@ public class ModelPane extends JPanel implements ItemListener {
 		e.addContent(t6Value);
 		mpe.addContent(e);
 
+		if (sexLinkageCageChoices != null) {
+			e = new Element("SexLinkageCage");
+			e.addContent(String.valueOf(sexLinkageCageChoices.getSelectedItem()));
+			mpe.addContent(e);
+		}
+		
+		e = new Element("DetailsCage");
+		e.addContent(String.valueOf(interactionCageChoices.getSelectedItem()));
+		mpe.addContent(e);
+		
 		return mpe;
 	}
 
@@ -535,9 +554,20 @@ public class ModelPane extends JPanel implements ItemListener {
 		b.append("<ul>");
 		b.append("<li>" + sexLinkageChoices.getSelectedItem() + "</li>");
 		b.append("<li>" + alleleNumberChoices.getSelectedItem() + "</li>");
-		b.append("<li>" + interactionTypeChoices.getSelectedItem() + "</li>");
-		ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
-		b.append(mdp.getAsHtml());
+		if (interactionTypeChoices != null) {
+			b.append("<li>" + interactionTypeChoices.getSelectedItem() + "</li>");
+			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
+			b.append(mdp.getAsHtml());
+		}
+		b.append("<li>" + Messages.getInstance().getString("VGLII.RelevantCages") + "</li>");
+		b.append("<ul>");
+		if (sexLinkageCageChoices != null) {
+			b.append("<li>" + Messages.getInstance().getString("VGLII.ForSexLinkage") + " ");
+			b.append(sexLinkageCageChoices.getSelectedItem() + "</li>");
+		}
+		b.append("<li>" + Messages.getInstance().getString("VGLII.ForDetails") + " ");
+		b.append(interactionCageChoices.getSelectedItem() + "</li>");
+		b.append("</ul>");
 		b.append("</ul><br>");
 		return b.toString();
 	}

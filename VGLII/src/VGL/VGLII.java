@@ -42,6 +42,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.border.SoftBevelBorder;
@@ -92,7 +93,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "2.1.1"; //$NON-NLS-1$
+	public final static String version = "3.0.0"; //$NON-NLS-1$
 
 	/**
 	 * the list of supported languages
@@ -623,11 +624,8 @@ public class VGLII extends JFrame {
 				null);
 		mnuUtilities.add(superCrossItem);
 
-		modelBuilderItem = menuItem(Messages.getInstance().getString("VGLII.ShowModelBuilder"), 
-				"ModelBuilder", 
-				null);
-		mnuUtilities.add(modelBuilderItem);
-
+		mnuUtilities.add(new JSeparator());
+		
 		cageManagerItem = menuItem(Messages.getInstance().getString("VGLII.Cages"), 
 				"CageManager", 
 				null); //$NON-NLS-1$ //$NON-NLS-2$
@@ -638,6 +636,8 @@ public class VGLII extends JFrame {
 				null);
 		mnuUtilities.add(rearrangeCagesItem);
 
+		mnuUtilities.add(new JSeparator());
+		
 		summaryChartItem = menuItem(Messages.getInstance().getString("VGLII.CreateSummaryChart"), 
 				"SummaryChart", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
@@ -647,6 +647,13 @@ public class VGLII extends JFrame {
 				"UnselectAll", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
 		mnuUtilities.add(unselectAllItem);
+
+		mnuUtilities.add(new JSeparator());
+		
+		modelBuilderItem = menuItem(Messages.getInstance().getString("VGLII.ShowModelBuilder"), 
+				"ModelBuilder", 
+				null);
+		mnuUtilities.add(modelBuilderItem);
 
 		mnuBar.add(mnuUtilities);
 
@@ -801,7 +808,7 @@ public class VGLII extends JFrame {
 	 */
 	private void aboutVGL() {
 		JLabel aboutLabel = new JLabel("<html><body><font size=+2>Virtual Genetics Lab II</font><br>" //$NON-NLS-1$
-				+ "Release Version " + version + "<br>" + "Copyright 2009<br>" + "VGL Team:<br>" //$NON-NLS-4$
+				+ "Release Version " + version + "<br>" + "Copyright 2011<br>" + "VGL Team:<br>" //$NON-NLS-4$
 				+ "<ul>" //$NON-NLS-1$
 				+ "<li><b>Lead Programmer:</b></li>" //$NON-NLS-1$
 				+ "<ul><li>Brian White (University of Massachusetts, Boston)</li>"
@@ -983,7 +990,7 @@ public class VGLII extends JFrame {
 		} else {
 			modelBuilderItem.setEnabled(false);
 		}
-		
+
 		changeSinceLastSave = true;
 	}
 
@@ -1294,7 +1301,7 @@ public class VGLII extends JFrame {
 		SummaryChartManager.getInstance().clearSelectedSet();
 		SummaryChartManager.getInstance().hideSummaryChart();
 	}
-	
+
 	public String[] getCageList() {
 		String[] list = new String[cageCollection.size() + 1];
 		list[0] = "?";
@@ -1355,6 +1362,8 @@ public class VGLII extends JFrame {
 				parentUIs[1].setCentralOrganismUI(organismUI1);
 				parentUIs[0].setCentralOrganismUI(organismUI2);
 			}
+			changeSinceLastSave = true;
+			modelBuilder.updateCageChoices(nextCageId);
 		} else {
 			JOptionPane.showMessageDialog(this, Messages.getInstance().getInstance().getString("VGLII.VGLII") //$NON-NLS-1$
 					+ "\n"
@@ -1363,8 +1372,6 @@ public class VGLII extends JFrame {
 					+ Messages.getInstance().getInstance().getString("VGLII.CrossWarningLine2"), //$NON-NLS-1$
 					Messages.getInstance().getInstance().getString("VGLII.CrossTwo"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 		}
-		changeSinceLastSave = true;
-		modelBuilder.updateCageChoices(nextCageId);
 	}
 
 	/**
@@ -1430,7 +1437,9 @@ public class VGLII extends JFrame {
 	 * sets up the cage manager dialog and displays it
 	 */
 	private void cageManager() {
-		CageManager dlg = new CageManager(this, "Cages", cageCollection); //$NON-NLS-1$
+		CageManager dlg = new CageManager(
+				this, Messages.getInstance().getString("VGLII.Cages"), 
+				cageCollection); //$NON-NLS-1$
 		dlg.setVisible(true);
 		dlg = null;
 	}

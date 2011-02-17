@@ -66,6 +66,7 @@ public class TraitFactory {
 		String traitName = e.getAttributeValue("TraitName");
 		String type = e.getAttributeValue("Type");
 		String bodyPart = e.getAttributeValue("BodyPart");
+
 		Trait t = null;
 		if (type.equals("Color")) {
 			t = new ColorTrait(traitName, bodyPart);
@@ -77,6 +78,7 @@ public class TraitFactory {
 			t = new SimpleTrait(traitName);
 		}
 		if (addToTraitBank) traitBank[chromo][gene][traitNum] = t;
+
 		return t;
 	}
 	
