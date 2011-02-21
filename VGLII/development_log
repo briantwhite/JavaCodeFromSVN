@@ -1235,3 +1235,22 @@ some improvements from sophie
 got Model Builder working and saving
 version 3.0.0
 sent out for translation from Sophie
+
+2/21/11
+rearranging problems
+start by making NewProblems folder
+	- make folder Classic for equivalents of VGL levels
+		(if there's an equivalent file, just rename it)
+		in Classic/
+			OLD FILE	EQUIVALENT
+			Level01.prb	Level01p.pr2
+			Level02.prb	Level01.pr2
+			Level03.prb	Level03p.pr2
+			Level04.prb	Level03.pr2
+			Level05.prb none - edit Level06p.pr2
+			Level06.prb	none - edit Level06.pr2
+			Level07.prb	none - edit Level08p.pr2
+			Level08.prb	none - edit Level08.pr2
+			Level09.prb Level08p.prb
+			Level10.prb Level08.pr2
+
