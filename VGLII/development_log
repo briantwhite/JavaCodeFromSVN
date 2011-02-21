@@ -1254,3 +1254,41 @@ start by making NewProblems folder
 			Level09.prb Level08p.prb
 			Level10.prb Level08.pr2
 
+	- make folder OneGene for one gene files
+			(also do the corresponding p versions)
+			OLD NAME		NEW NAME
+			Level01.pr2		OneGene01.pr2
+			Level02.pr2		OneGene02.pr2
+			Level03.pr2		OneGene03.pr2
+			Level04.pr2		OneGene04.pr2
+			Level05.pr2		OneGene05.pr2
+			Level05-1.pr2	OneGene06.pr2
+			Level06.pr2		OneGene07.pr2
+			Level07NC.pr2	OneGene08.pr2
+			Level07.pr2		OneGene09.pr2
+			Level08NC.pr2	OneGene10.pr2
+			Level08.pr2		OneGene11.pr2
+
+Brian-Whites-MacBook-Air:Problems brian$ cp Level01.pr2 ../NewProblems/OneGene/OneGene01.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level01p.pr2 ../NewProblems/OneGene/OneGene01p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level02.pr2 ../NewProblems/OneGene/OneGene02.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level02p.pr2 ../NewProblems/OneGene/OneGene02p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level03.pr2 ../NewProblems/OneGene/OneGene03.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level03p.pr2 ../NewProblems/OneGene/OneGene03p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level04.pr2 ../NewProblems/OneGene/OneGene04.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level04p.pr2 ../NewProblems/OneGene/OneGene04p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level05.pr2 ../NewProblems/OneGene/OneGene05.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level05p.pr2 ../NewProblems/OneGene/OneGene05p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level05-1.pr2 ../NewProblems/OneGene/OneGene06.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level05-1p.pr2 ../NewProblems/OneGene/OneGene06p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level06.pr2 ../NewProblems/OneGene/OneGene07.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level06p.pr2 ../NewProblems/OneGene/OneGene07p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level07NC.pr2 ../NewProblems/OneGene/OneGene08.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level07NCp.pr2 ../NewProblems/OneGene/OneGene08p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level07.pr2 ../NewProblems/OneGene/OneGene09.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level07p.pr2 ../NewProblems/OneGene/OneGene09p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level08NC.pr2 ../NewProblems/OneGene/OneGene10.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level08NCp.pr2 ../NewProblems/OneGene/OneGene10p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level08.pr2 ../NewProblems/OneGene/OneGene11.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level08p.pr2 ../NewProblems/OneGene/OneGene11p.pr2
+
