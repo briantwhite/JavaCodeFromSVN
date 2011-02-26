@@ -1314,3 +1314,23 @@ Brian-Whites-MacBook-Air:Problems brian$ cp Level11p.pr2 ../NewProblems/TwoGenes
 Brian-Whites-MacBook-Air:Problems brian$ cp Level11-1.pr2 ../NewProblems/TwoGenes/TwoGenes05.pr2
 Brian-Whites-MacBook-Air:Problems brian$ cp Level11-1p.pr2 ../NewProblems/TwoGenes/TwoGenes05p.pr2
 
+	- make folder ThreeGenes for three gene files
+			(also do the corresponding p versions)
+			OLD NAME		NEW NAME
+			Level12TB.pr2	ThreeGenes01.pr2
+			Level12.pr2		ThreeGenes02.pr2
+			Level13.pr2		ThreeGenes03.pr2
+
+Brian-Whites-MacBook-Air:Problems brian$ cp Level12TB.pr2 ../NewProblems/ThreeGenes/ThreeGenes01.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level12TBp.pr2 ../NewProblems/ThreeGenes/ThreeGenes01p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level12.pr2 ../NewProblems/ThreeGenes/ThreeGenes02.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level12p.pr2 ../NewProblems/ThreeGenes/ThreeGenes02p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level13.pr2 ../NewProblems/ThreeGenes/ThreeGenes03.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level13p.pr2 ../NewProblems/ThreeGenes/ThreeGenes03p.pr2
+
+	- make folder InteractingGenes for interacting gene files
+			(also do the corresponding p versions - need to make non-p versions)
+			OLD NAME		NEW NAME
+			comp.pr2		Complementation01.pr2
+			epi.pr2			Epistasis01.pr2
+
