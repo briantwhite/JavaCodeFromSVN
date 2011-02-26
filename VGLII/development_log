@@ -1335,3 +1335,17 @@ Brian-Whites-MacBook-Air:Problems brian$ cp Level13p.pr2 ../NewProblems/ThreeGen
 			epi.pr2			Epistasis01.pr2
 
 renamed as Interactions01 and 02, respectively
+
+swapped the Problems folders
+	Problems became OldProblems
+	NewProblems became Problems
+	
+for internationalization and grading, need to make ModelBuilder save in english and only display 
+in the local language..
+
+make reverseTranslate(String) in Messages - use this in save only
+	(so it processes in local language but saves in english)
+- reverse translate fails on things like "Body Shape" - it takes 2 translations to do this
+	("Body" and "Shape")
+		also, what about 2 english words with the same french translation..
+- will have to use indices...
