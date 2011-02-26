@@ -106,6 +106,11 @@ public class VGLII extends JFrame {
 	};
 
 	/**
+	 * boolean for whether grading will work
+	 */
+	private boolean graderEnabled;
+	
+	/**
 	 * key for encrypting work files
 	 *   XORed with bytes of work file
 	 */
@@ -235,6 +240,11 @@ public class VGLII extends JFrame {
 	 * menu item for super cross - ³1000 offspring
 	 */
 	private JMenuItem superCrossItem = null;
+
+	/**
+	 * menu item for grading
+	 */
+	private JMenuItem graderItem = null;
 
 	/**
 	 * Menu item to display "about VGL" box
@@ -380,6 +390,8 @@ public class VGLII extends JFrame {
 		addWindowListener(new ApplicationCloser());
 
 		random = new Random();
+		
+		graderEnabled = true;
 
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
 				+ System.getProperty("file.separator") //$NON-NLS-1$
@@ -443,6 +455,8 @@ public class VGLII extends JFrame {
 			crossTwo(false);
 		else if (cmd.equals("SuperCross"))
 			crossTwo(true);
+		else if (cmd.equals("Grader"))
+			grade();
 		else if (cmd.equals("Exit")) //$NON-NLS-1$
 			exitApplication();
 		else if (cmd.equals("About")) //$NON-NLS-1$
@@ -625,7 +639,7 @@ public class VGLII extends JFrame {
 		mnuUtilities.add(superCrossItem);
 
 		mnuUtilities.add(new JSeparator());
-		
+
 		cageManagerItem = menuItem(Messages.getInstance().getString("VGLII.Cages"), 
 				"CageManager", 
 				null); //$NON-NLS-1$ //$NON-NLS-2$
@@ -637,7 +651,7 @@ public class VGLII extends JFrame {
 		mnuUtilities.add(rearrangeCagesItem);
 
 		mnuUtilities.add(new JSeparator());
-		
+
 		summaryChartItem = menuItem(Messages.getInstance().getString("VGLII.CreateSummaryChart"), 
 				"SummaryChart", //$NON-NLS-1$ //$NON-NLS-2$
 				null);
@@ -649,11 +663,17 @@ public class VGLII extends JFrame {
 		mnuUtilities.add(unselectAllItem);
 
 		mnuUtilities.add(new JSeparator());
-		
+
 		modelBuilderItem = menuItem(Messages.getInstance().getString("VGLII.ShowModelBuilder"), 
 				"ModelBuilder", 
 				null);
 		mnuUtilities.add(modelBuilderItem);
+
+		if (graderEnabled) {
+			mnuUtilities.add(new JSeparator());
+			graderItem = menuItem("Grade Students' Work", "Grader", null);
+			mnuUtilities.add(graderItem);
+		}
 
 		mnuBar.add(mnuUtilities);
 
@@ -1690,6 +1710,19 @@ public class VGLII extends JFrame {
 
 	private void showModelBuilder() {
 		modelBuilder.setVisible(true);
+	}
+	
+	/*
+	 * if enabled, grade students' work
+	 */
+	private void grade() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setDialogTitle("Choose the DIRECTORY where the work files are stored");
+		int val = fileChooser.showOpenDialog(this);
+		if (val == JFileChooser.APPROVE_OPTION) {
+			Grader grader = new Grader(fileChooser.getSelectedFile());
+		}
 	}
 
 }
