@@ -193,54 +193,54 @@ public class ThreeIncPanel extends ModelDetailsPanel implements ItemListener {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 
 			if (e.getSource().equals(t1Choices)) {
-				mp.setT1Value((String)t1Choices.getSelectedItem());
+				mp.setT1Value(t1Choices.getSelectedIndex());
 			}
 		
 			if (e.getSource().equals(t2Choices)) {
-				mp.setT2Value((String)t2Choices.getSelectedItem());
+				mp.setT2Value(t2Choices.getSelectedIndex());
 			}
 			
 			if (e.getSource().equals(t3Choices)) {
-				mp.setT3Value((String)t3Choices.getSelectedItem());
+				mp.setT3Value(t3Choices.getSelectedIndex());
 			}
 			
 			if (e.getSource().equals(t4Choices)) {
-				mp.setT4Value((String)t4Choices.getSelectedItem());
+				mp.setT4Value(t4Choices.getSelectedIndex());
 			}
 		
 			if (e.getSource().equals(t5Choices)) {
-				mp.setT5Value((String)t5Choices.getSelectedItem());
+				mp.setT5Value(t5Choices.getSelectedIndex());
 			}
 			
 			if (e.getSource().equals(t6Choices)) {
-				mp.setT6Value((String)t6Choices.getSelectedItem());
+				mp.setT6Value(t6Choices.getSelectedIndex());
 			}
 
 		}
 	}
 	
-	public void updateT1Choices(String s) {
-		t1Choices.setSelectedItem(s);
+	public void updateT1Choices(int x) {
+		t1Choices.setSelectedIndex(x);
 	}
 	
-	public void updateT2Choices(String s) {
-		t2Choices.setSelectedItem(s);
+	public void updateT2Choices(int x) {
+		t2Choices.setSelectedIndex(x);
 	}
 	
-	public void updateT3Choices(String s) {
-		t3Choices.setSelectedItem(s);
+	public void updateT3Choices(int x) {
+		t3Choices.setSelectedIndex(x);
 	}
 	
-	public void updateT4Choices(String s) {
-		t4Choices.setSelectedItem(s);
+	public void updateT4Choices(int x) {
+		t4Choices.setSelectedIndex(x);
 	}
 	
-	public void updateT5Choices(String s) {
-		t5Choices.setSelectedItem(s);
+	public void updateT5Choices(int x) {
+		t5Choices.setSelectedIndex(x);
 	}
 	
-	public void updateT6Choices(String s) {
-		t6Choices.setSelectedItem(s);
+	public void updateT6Choices(int x) {
+		t6Choices.setSelectedIndex(x);
 	}
 
 

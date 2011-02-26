@@ -57,7 +57,7 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			if (e.getSource().equals(t1Choices)) {
 				intermediateChoices.setSelectedItem(t1Choices.getSelectedItem());
-				mp.setT1Value((String)t1Choices.getSelectedItem());
+				mp.setT1Value(t1Choices.getSelectedIndex());
 			}
 
 			if (e.getSource().equals(intermediateChoices)) {
@@ -65,17 +65,17 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 			}
 			
 			if (e.getSource().equals(t2Choices)) {
-				mp.setT2Value((String)t2Choices.getSelectedItem());
+				mp.setT2Value(t2Choices.getSelectedIndex());
 			}
 		}
 	}
 
-	public void updateT1Choices(String s) {
-		t1Choices.setSelectedItem(s);
+	public void updateT1Choices(int x) {
+		t1Choices.setSelectedIndex(x);
 	}
 	
-	public void updateT2Choices(String s) {
-		t2Choices.setSelectedItem(s);
+	public void updateT2Choices(int x) {
+		t2Choices.setSelectedIndex(x);
 	}
 		
 	public void paintComponent(Graphics g) {

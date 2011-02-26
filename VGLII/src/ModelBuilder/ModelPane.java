@@ -49,12 +49,12 @@ public class ModelPane extends JPanel implements ItemListener {
 	private JPanel interactionDetailsPanel;
 
 	// values updated by the model details panels
-	private String t1Value;
-	private String t2Value;
-	private String t3Value;
-	private String t4Value;
-	private String t5Value;
-	private String t6Value;
+	private int t1Value;
+	private int t2Value;
+	private int t3Value;
+	private int t4Value;
+	private int t5Value;
+	private int t6Value;
 
 
 	public ModelPane(int index, 
@@ -206,37 +206,37 @@ public class ModelPane extends JPanel implements ItemListener {
 		this.add(masterPanel);
 	}
 
-	public void setT1Value(String t1Value) {
+	public void setT1Value(int t1Value) {
 		this.t1Value = t1Value;
 	}
 
-	public void setT2Value(String t2Value) {
+	public void setT2Value(int t2Value) {
 		this.t2Value = t2Value;
 	}
 
-	public void setT3Value(String t3Value) {
+	public void setT3Value(int t3Value) {
 		this.t3Value = t3Value;
 	}
 
-	public void setT4Value(String t4Value) {
+	public void setT4Value(int t4Value) {
 		this.t4Value = t4Value;
 	}
 
-	public void setT5Value(String t5Value) {
+	public void setT5Value(int t5Value) {
 		this.t5Value = t5Value;
 	}
 
-	public void setT6Value(String t6Value) {
+	public void setT6Value(int t6Value) {
 		this.t6Value = t6Value;
 	}
 
 	public void clearValues() {
-		t1Value = "";
-		t2Value = "";
-		t3Value = "";
-		t4Value = "";
-		t5Value = "";
-		t6Value = "";
+		t1Value = 0;
+		t2Value = 0;
+		t3Value = 0;
+		t4Value = 0;
+		t5Value = 0;
+		t6Value = 0;
 	}
 
 	public void updateCageChoices(int nextCageId) {
@@ -438,56 +438,56 @@ public class ModelPane extends JPanel implements ItemListener {
 		while(it.hasNext()) {
 			Element e = it.next();
 			if (e.getName().equals("SexLinkage")) {
-				sexLinkageChoices.setSelectedItem((String)e.getText());
+				sexLinkageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
 			}
 
 			if (e.getName().equals("AlleleNumber")) {
-				alleleNumberChoices.setSelectedItem((String)e.getText());
+				alleleNumberChoices.setSelectedIndex(Integer.parseInt(e.getText()));
 			}
 
 			if (e.getName().equals("InteractionType")) {
-				interactionTypeChoices.setSelectedItem((String)e.getText());
+				interactionTypeChoices.setSelectedIndex(Integer.parseInt(e.getText()));
 			}
 
 			// get a reference to the details panel
 			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
 
 			if (e.getName().equals("T1")) {
-				setT1Value((String)e.getText());
-				mdp.updateT1Choices((String)e.getText());
+				setT1Value(Integer.parseInt(e.getText()));
+				mdp.updateT1Choices(Integer.parseInt(e.getText()));
 			}
 
 			if (e.getName().equals("T2")) {
-				setT2Value((String)e.getText());
-				mdp.updateT2Choices((String)e.getText());
+				setT2Value(Integer.parseInt(e.getText()));
+				mdp.updateT2Choices(Integer.parseInt(e.getText()));
 			}
 
 			if (e.getName().equals("T3")) {
-				setT3Value((String)e.getText());
-				mdp.updateT3Choices((String)e.getText());
+				setT3Value(Integer.parseInt(e.getText()));
+				mdp.updateT3Choices(Integer.parseInt(e.getText()));
 			}
 
 			if (e.getName().equals("T4")) {
-				setT4Value((String)e.getText());
-				mdp.updateT4Choices((String)e.getText());
+				setT4Value(Integer.parseInt(e.getText()));
+				mdp.updateT4Choices(Integer.parseInt(e.getText()));
 			}
 
 			if (e.getName().equals("T5")) {
-				setT5Value((String)e.getText());
-				mdp.updateT5Choices((String)e.getText());
+				setT5Value(Integer.parseInt(e.getText()));
+				mdp.updateT5Choices(Integer.parseInt(e.getText()));
 			}
 
 			if (e.getName().equals("T6")) {
-				setT6Value((String)e.getText());
-				mdp.updateT6Choices((String)e.getText());
+				setT6Value(Integer.parseInt(e.getText()));
+				mdp.updateT6Choices(Integer.parseInt(e.getText()));
 			}
 			
 			if (e.getName().equals("SexLinkageCage")) {
-				sexLinkageCageChoices.setSelectedItem((String)e.getText());
+				sexLinkageCageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
 			}
 
 			if (e.getName().equals("DetailsCage")) {
-				interactionCageChoices.setSelectedItem((String)e.getText());
+				interactionCageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
 			}
 
 		}
@@ -500,49 +500,49 @@ public class ModelPane extends JPanel implements ItemListener {
 
 		Element e = null;
 		e = new Element("SexLinkage");
-		e.setText(String.valueOf(sexLinkageChoices.getSelectedItem()));
+		e.setText(String.valueOf(sexLinkageChoices.getSelectedIndex()));
 		mpe.addContent(e);
 
 		e = new Element("AlleleNumber");
-		e.setText(String.valueOf(alleleNumberChoices.getSelectedItem()));
+		e.setText(String.valueOf(alleleNumberChoices.getSelectedIndex()));
 		mpe.addContent(e);
 
 		e = new Element("InteractionType");
-		e.setText(String.valueOf(interactionTypeChoices.getSelectedItem()));
+		e.setText(String.valueOf(interactionTypeChoices.getSelectedIndex()));
 		mpe.addContent(e);
 
 		e = new Element("T1");
-		e.addContent(t1Value);
+		e.addContent(String.valueOf(t1Value));
 		mpe.addContent(e);
 
 		e = new Element("T2");
-		e.addContent(t2Value);
+		e.addContent(String.valueOf(t2Value));
 		mpe.addContent(e);
 
 		e = new Element("T3");
-		e.addContent(t3Value);
+		e.addContent(String.valueOf(t3Value));
 		mpe.addContent(e);
 
 		e = new Element("T4");
-		e.addContent(t4Value);
+		e.addContent(String.valueOf(t4Value));
 		mpe.addContent(e);
 
 		e = new Element("T5");
-		e.addContent(t5Value);
+		e.addContent(String.valueOf(t5Value));
 		mpe.addContent(e);
 
 		e = new Element("T6");
-		e.addContent(t6Value);
+		e.addContent(String.valueOf(t6Value));
 		mpe.addContent(e);
 
 		if (sexLinkageCageChoices != null) {
 			e = new Element("SexLinkageCage");
-			e.addContent(String.valueOf(sexLinkageCageChoices.getSelectedItem()));
+			e.addContent(String.valueOf(sexLinkageCageChoices.getSelectedIndex()));
 			mpe.addContent(e);
 		}
 		
 		e = new Element("DetailsCage");
-		e.addContent(String.valueOf(interactionCageChoices.getSelectedItem()));
+		e.addContent(String.valueOf(interactionCageChoices.getSelectedIndex()));
 		mpe.addContent(e);
 		
 		return mpe;
