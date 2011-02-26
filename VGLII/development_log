@@ -1300,9 +1300,8 @@ did the two gene problems
 			Level09.pr2		TwoGenes01.pr2
 			Level10.pr2		TwoGenes02.pr2
 			Level10-1.pr2	TwoGenes03.pr2
-			<new problem>	TwoGenes04.pr2
-			Level11.pr2		TwoGenes05.pr2
-			Level11-1.pr2	TwoGenes06.pr2
+			Level11.pr2		TwoGenes04.pr2
+			Level11-1.pr2	TwoGenes05.pr2
 
 Brian-Whites-MacBook-Air:Problems brian$ cp Level09.pr2 ../NewProblems/TwoGenes/TwoGenes01.pr2
 Brian-Whites-MacBook-Air:Problems brian$ cp Level09p.pr2 ../NewProblems/TwoGenes/TwoGenes01p.pr2
@@ -1310,8 +1309,8 @@ Brian-Whites-MacBook-Air:Problems brian$ cp Level10.pr2 ../NewProblems/TwoGenes/
 Brian-Whites-MacBook-Air:Problems brian$ cp Level10p.pr2 ../NewProblems/TwoGenes/TwoGenes02p.pr2
 Brian-Whites-MacBook-Air:Problems brian$ cp Level10-1.pr2 ../NewProblems/TwoGenes/TwoGenes03.pr2
 Brian-Whites-MacBook-Air:Problems brian$ cp Level10-1p.pr2 ../NewProblems/TwoGenes/TwoGenes03p.pr2
-Brian-Whites-MacBook-Air:Problems brian$ cp Level11.pr2 ../NewProblems/TwoGenes/TwoGenes05.pr2
-Brian-Whites-MacBook-Air:Problems brian$ cp Level11p.pr2 ../NewProblems/TwoGenes/TwoGenes05p.pr2
-Brian-Whites-MacBook-Air:Problems brian$ cp Level11-1.pr2 ../NewProblems/TwoGenes/TwoGenes06.pr2
-Brian-Whites-MacBook-Air:Problems brian$ cp Level11-1p.pr2 ../NewProblems/TwoGenes/TwoGenes06p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level11.pr2 ../NewProblems/TwoGenes/TwoGenes04.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level11p.pr2 ../NewProblems/TwoGenes/TwoGenes04p.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level11-1.pr2 ../NewProblems/TwoGenes/TwoGenes05.pr2
+Brian-Whites-MacBook-Air:Problems brian$ cp Level11-1p.pr2 ../NewProblems/TwoGenes/TwoGenes05p.pr2
 
