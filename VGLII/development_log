@@ -1336,10 +1336,18 @@ Brian-Whites-MacBook-Air:Problems brian$ cp Level13p.pr2 ../NewProblems/ThreeGen
 
 renamed as Interactions01 and 02, respectively
 
-swapped the Problems folders
-	Problems became OldProblems
-	NewProblems became Problems
-	
+had a REALLY hard time moving the problem files
+had to
+	- delete the problem file folders
+	- commit the change
+	- make a new problem file folder
+	- commit the change
+	- drag 1 set of prob files to folder
+	- commit the change
+	- make a folder in problems and move the files in
+	- commit the change
+	(do the last steps for each folder of problems)!
+		
 for internationalization and grading, need to make ModelBuilder save in english and only display 
 in the local language..
 
