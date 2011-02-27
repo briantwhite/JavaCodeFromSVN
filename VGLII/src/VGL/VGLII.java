@@ -1722,7 +1722,8 @@ public class VGLII extends JFrame {
 		fileChooser.setDialogTitle("Choose the DIRECTORY where the work files are stored");
 		int val = fileChooser.showOpenDialog(this);
 		if (val == JFileChooser.APPROVE_OPTION) {
-			Grader grader = new Grader(fileChooser.getSelectedFile());
+			Grader grader = new Grader(fileChooser.getSelectedFile(), geneticModel, modelBuilder);
+			grader.openDirectoryAndLoadFiles();
 		}
 	}
 
