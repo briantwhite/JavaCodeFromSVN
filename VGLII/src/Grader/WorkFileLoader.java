@@ -5,8 +5,8 @@ import java.util.TreeMap;
 
 import javax.swing.DefaultListModel;
 
-import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
+import VGL.GeneticModelAndCageSet;
 
 public class WorkFileLoader implements Runnable {
 	
@@ -37,9 +37,11 @@ public class WorkFileLoader implements Runnable {
 					currentDirectory.getAbsolutePath() 
 					+ System.getProperty("file.separator") 
 					+ fileName);
-//			GeneticModel geneticModel = 
-//				(GeneticModelFactory.getInstance().readModelFromFile(workFile)).getGeneticModel();
-//			namesAndModels.put(fileName, geneticModel);
+			GeneticModelAndCageSet set = 
+				GeneticModelFactory.getInstance().readModelFromFile(workFile);
+			filenamesAndResults.put(fileName, 
+					new GradedResult(set.getGeneticModel(), 
+							set.getModelBuilderState()));
 			progress++;
 		}
 	}
