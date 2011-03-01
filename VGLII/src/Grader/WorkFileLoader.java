@@ -40,7 +40,9 @@ public class WorkFileLoader implements Runnable {
 			GeneticModelAndCageSet set = 
 				GeneticModelFactory.getInstance().readModelFromFile(workFile);
 			filenamesAndResults.put(fileName, 
-					new GradedResult(set.getGeneticModel(), 
+					new GradedResult(
+							set.getGeneticModel(), 
+							set.getCages(),
 							set.getModelBuilderState()));
 			progress++;
 		}

@@ -61,6 +61,7 @@ import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
+import Grader.GradedResult;
 import Grader.Grader;
 import ModelBuilder.ModelBuilderUI;
 import ModelBuilder.WorkingModel;
@@ -110,7 +111,7 @@ public class VGLII extends JFrame {
 	 * boolean for whether grading will work
 	 */
 	private boolean graderEnabled;
-	
+
 	/**
 	 * key for encrypting work files
 	 *   XORed with bytes of work file
@@ -391,7 +392,7 @@ public class VGLII extends JFrame {
 		addWindowListener(new ApplicationCloser());
 
 		random = new Random();
-		
+
 		graderEnabled = true;
 
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
@@ -992,7 +993,7 @@ public class VGLII extends JFrame {
 			geneticModel = result.getGeneticModel();
 			cageCollection = new ArrayList<CageUI>();
 			nextCageId = 0;
-			reopenCages(result.getCages());
+			reopenCages(result.getCages(), true);
 			enableAll(true);
 			disableLanguageMenu();
 		} catch (Exception e) {
@@ -1301,7 +1302,7 @@ public class VGLII extends JFrame {
 	 * Method to release temporary objects and re-initialize objects and
 	 * variables before exiting the application or after closing a problem
 	 */
-	private void cleanUp() {
+	public void cleanUp() {
 		if (cageCollection != null) {
 			Iterator<CageUI> it = cageCollection.iterator();
 			while (it.hasNext()) {
@@ -1321,6 +1322,9 @@ public class VGLII extends JFrame {
 		statusLabel.setText(""); //$NON-NLS-1$
 		SummaryChartManager.getInstance().clearSelectedSet();
 		SummaryChartManager.getInstance().hideSummaryChart();
+		if (modelBuilder != null) {
+			modelBuilder.setVisible(false);
+		}
 	}
 
 	public String[] getCageList() {
@@ -1568,7 +1572,7 @@ public class VGLII extends JFrame {
 	 * @throws Exception
 	 *             in case any or all of the cages are not correct
 	 */
-	private void reopenCages(ArrayList<Cage> cages) throws Exception {
+	private void reopenCages(ArrayList<Cage> cages, boolean showAllVisibleCages) throws Exception {
 		Iterator<Cage> it = cages.iterator();
 		while (it.hasNext()) {
 			Cage c = it.next();
@@ -1583,7 +1587,11 @@ public class VGLII extends JFrame {
 			} else {
 				cageUI.setLocation(c.getXpos(), c.getYpos());
 			}
-			cageUI.setVisible(c.isVisible());
+			if (showAllVisibleCages) {
+				cageUI.setVisible(c.isVisible());
+			} else {
+				cageUI.setVisible(false);
+			}
 
 			if (c.getId() > 0) {
 				OrganismUI[] parentUIs = cageUI.getParentUIs();
@@ -1712,7 +1720,7 @@ public class VGLII extends JFrame {
 	private void showModelBuilder() {
 		modelBuilder.setVisible(true);
 	}
-	
+
 	/*
 	 * if enabled, grade students' work
 	 */
@@ -1722,10 +1730,33 @@ public class VGLII extends JFrame {
 		fileChooser.setDialogTitle("Choose the DIRECTORY where the work files are stored");
 		int val = fileChooser.showOpenDialog(this);
 		if (val == JFileChooser.APPROVE_OPTION) {
-			Grader grader = new Grader(fileChooser.getSelectedFile(), geneticModel, modelBuilder);
+			Grader grader = new Grader(fileChooser.getSelectedFile(), this);
 			grader.openDirectoryAndLoadFiles();
 		}
 	}
 
+	/**
+	 * load a saved genetic model, cages, and model builder
+	 *  from the Grader
+	 *  but don't show any of the gui components
+	 */
+	public void setupForGrading(GradedResult result, boolean showCagesEtc) {
+		PhenotypeImageBank.getInstance().resetDefaults();
+		geneticModel = result.getGeneticModel();
+		cageCollection = new ArrayList<CageUI>();
+		nextCageId = 0;
+		try {
+			reopenCages(result.getCageSet(), showCagesEtc);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		modelBuilder = new ModelBuilderUI(this, geneticModel);
+		modelBuilder.configureFromFile(result.getModelBuilderState());
+		modelBuilder.setVisible(showCagesEtc);
+	}
+
+	public ModelBuilderUI getModelBuilder() {
+		return modelBuilder;
+	}
 }
 

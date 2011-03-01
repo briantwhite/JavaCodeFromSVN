@@ -1361,3 +1361,7 @@ make reverseTranslate(String) in Messages - use this in save only
 2/27/11
 working on grader
 
+3/1/11
+working on grader, got it to load work
+shift-click shows all the cages, etc
+
