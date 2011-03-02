@@ -188,7 +188,7 @@ public class ModelPane extends JPanel implements ItemListener {
 		if (specs.getGene1_chSexLinked() > 0.0) {
 			JPanel upperPanel = new JPanel();
 			upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.X_AXIS));
-			sexLinkageCageChoices = new JComboBox(modelBuilderUI.getVGLII().getCageList());
+			sexLinkageCageChoices = new JComboBox(getCageList());
 			upperPanel.add(
 					new JLabel(Messages.getInstance().getString("VGLII.ForSexLinkage")));
 			upperPanel.add(sexLinkageCageChoices);
@@ -196,7 +196,7 @@ public class ModelPane extends JPanel implements ItemListener {
 		}
 		JPanel lowerPanel = new JPanel();
 		lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.X_AXIS));
-		interactionCageChoices = new JComboBox(modelBuilderUI.getVGLII().getCageList());
+		interactionCageChoices = new JComboBox(getCageList());
 		lowerPanel.add(
 				new JLabel(Messages.getInstance().getString("VGLII.ForDetails")));
 		lowerPanel.add(interactionCageChoices);
@@ -424,6 +424,25 @@ public class ModelPane extends JPanel implements ItemListener {
 			}
 		}
 	}
+	
+	public String[] getCageList() {
+		int numCages = modelBuilderUI.getVGLII().getNumCages();
+		
+		/*
+		 * see if there are no CageUI's in the VGL
+		 * 	if so, that means this is a problem for grading
+		 * 	so need to get number of cages from cage set that was loaded in file.
+		 */
+		if (numCages == -1) numCages = modelBuilderUI.getGenticModelAndCageSet().getCages().size();
+		
+		String[] list = new String[numCages + 1];
+		list[0] = "?";
+		for (int i = 1; i < numCages + 1; i++) {
+			list[i] = Messages.getInstance().getString("VGLII.Cage") + " " + i;
+		}
+		return list;
+	}
+
 
 	public void setupActionListeners() {
 		if (alleleNumberChoices != null) {

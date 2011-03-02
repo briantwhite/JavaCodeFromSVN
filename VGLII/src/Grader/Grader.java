@@ -3,7 +3,6 @@ package Grader;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -27,7 +26,7 @@ import javax.swing.Timer;
 import javax.swing.text.Caret;
 
 import GeneticModels.GeneticModel;
-import ModelBuilder.ModelBuilderUI;
+import VGL.GeneticModelAndCageSet;
 import VGL.VGLII;
 
 public class Grader extends JFrame {
@@ -50,13 +49,13 @@ public class Grader extends JFrame {
 	public JScrollPane theirAnswerScroller;
 	public Caret topOfTheirAnswer;
 
-	private TreeMap<String, GradedResult> filenamesAndResults;
+	private TreeMap<String, GeneticModelAndCageSet> filenamesAndResults;
 
 	public Grader(File workingDir, VGLII vglII) {
 		this.workingDir = workingDir;
 		this.vglII = vglII;
 		fileLoadingTimer = new Timer(100, new FileLoadingTimerListener());
-		filenamesAndResults = new TreeMap<String, GradedResult>();
+		filenamesAndResults = new TreeMap<String, GeneticModelAndCageSet>();
 		setupUI();
 		pack();
 		setVisible(true);
@@ -172,7 +171,7 @@ public class Grader extends JFrame {
 		
 		vglII.cleanUp();
 		
-		GradedResult result = filenamesAndResults.get(fileName);
+		GeneticModelAndCageSet result = filenamesAndResults.get(fileName);
 
 		vglII.setupForGrading(result, showCagesEtc);
 

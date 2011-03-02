@@ -61,10 +61,8 @@ import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
-import Grader.GradedResult;
 import Grader.Grader;
 import ModelBuilder.ModelBuilderUI;
-import ModelBuilder.WorkingModel;
 import PhenotypeImages.PhenotypeImageBank;
 
 /**
@@ -136,11 +134,6 @@ public class VGLII extends JFrame {
 	 * the model builder for the current problem
 	 */
 	private ModelBuilderUI modelBuilder;
-
-	/**
-	 * the model the student is building
-	 */
-	private WorkingModel workingModel;
 
 	/**
 	 * The common file chooser instance for the application
@@ -993,7 +986,7 @@ public class VGLII extends JFrame {
 			geneticModel = result.getGeneticModel();
 			cageCollection = new ArrayList<CageUI>();
 			nextCageId = 0;
-			reopenCages(result.getCages(), true);
+			reopenCages(result.getCages());
 			enableAll(true);
 			disableLanguageMenu();
 		} catch (Exception e) {
@@ -1327,15 +1320,6 @@ public class VGLII extends JFrame {
 		}
 	}
 
-	public String[] getCageList() {
-		String[] list = new String[cageCollection.size() + 1];
-		list[0] = "?";
-		for (int i = 1; i < cageCollection.size() + 1; i++) {
-			list[i] = Messages.getInstance().getString("VGLII.Cage") + " " + i;
-		}
-		return list;
-	}
-
 	/**
 	 * Method that actually sets up the cross between two organisms
 	 */
@@ -1572,7 +1556,7 @@ public class VGLII extends JFrame {
 	 * @throws Exception
 	 *             in case any or all of the cages are not correct
 	 */
-	private void reopenCages(ArrayList<Cage> cages, boolean showAllVisibleCages) throws Exception {
+	private void reopenCages(ArrayList<Cage> cages) throws Exception {
 		Iterator<Cage> it = cages.iterator();
 		while (it.hasNext()) {
 			Cage c = it.next();
@@ -1587,11 +1571,7 @@ public class VGLII extends JFrame {
 			} else {
 				cageUI.setLocation(c.getXpos(), c.getYpos());
 			}
-			if (showAllVisibleCages) {
-				cageUI.setVisible(c.isVisible());
-			} else {
-				cageUI.setVisible(false);
-			}
+			cageUI.setVisible(c.isVisible());
 
 			if (c.getId() > 0) {
 				OrganismUI[] parentUIs = cageUI.getParentUIs();
@@ -1710,6 +1690,21 @@ public class VGLII extends JFrame {
 				.getY());
 	}
 
+	/*
+	 * Get number of cages for the model builder UI
+	 * - if this is an open, working problem, there will be 
+	 * 		CageUI's in the cageCollection
+	 * - if it's just being graded, there are no CageUI's
+	 * 		so return -1 as a flag
+	 */
+	public int getNumCages() {
+		if (cageCollection != null) {
+			return cageCollection.size();
+		} else {
+			return -1;
+		}
+	}
+
 	/**
 	 * this disables language selection after a problem has been opened
 	 */
@@ -1740,17 +1735,20 @@ public class VGLII extends JFrame {
 	 *  from the Grader
 	 *  but don't show any of the gui components
 	 */
-	public void setupForGrading(GradedResult result, boolean showCagesEtc) {
+	public void setupForGrading(GeneticModelAndCageSet result, boolean showCagesEtc) {
 		PhenotypeImageBank.getInstance().resetDefaults();
 		geneticModel = result.getGeneticModel();
-		cageCollection = new ArrayList<CageUI>();
-		nextCageId = 0;
-		try {
-			reopenCages(result.getCageSet(), showCagesEtc);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (showCagesEtc) {
+			cageCollection = new ArrayList<CageUI>();
+			nextCageId = 0;
+			try {
+				reopenCages(result.getCages());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		modelBuilder = new ModelBuilderUI(this, geneticModel);
+
+		modelBuilder = new ModelBuilderUI(this, result, showCagesEtc);
 		modelBuilder.configureFromFile(result.getModelBuilderState());
 		modelBuilder.setVisible(showCagesEtc);
 	}

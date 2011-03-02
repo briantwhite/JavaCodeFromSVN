@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -19,6 +18,7 @@ import GeneticModels.GeneModel;
 import GeneticModels.GeneticModel;
 import GeneticModels.PhenotypeProcessor;
 import GeneticModels.ProblemTypeSpecification;
+import VGL.GeneticModelAndCageSet;
 import VGL.Messages;
 import VGL.VGLII;
 
@@ -26,33 +26,32 @@ import VGL.VGLII;
 public class ModelBuilderUI extends JDialog {
 
 	private VGLII vglII;
-	private WorkingModel workingModel;
+	private GeneticModelAndCageSet result;
 	private GeneticModel geneticModel;
 	private LinkagePanel linkagePanel;
 	private ModelPane[] modelPanes;
-	
 
-	// from saved work file
-	public ModelBuilderUI (
-			VGLII vglII, 
-			WorkingModel workingModel, 
-			GeneticModel geneticModel) {
+
+	// from new problem or saved work file
+	public ModelBuilderUI (VGLII vglII, GeneticModel geneticModel) {
 		super(vglII);
 		this.vglII = vglII;
-		this.workingModel = workingModel;
 		this.geneticModel = geneticModel;
-		
-		setupUI();
+		setupUI(true);
 	}
 
-	// for new problem
-	public ModelBuilderUI(
-			VGLII vglII,
-			GeneticModel geneticModel) {
-		this(vglII, new WorkingModel(geneticModel), geneticModel);
+
+	// for problem for grading
+	public ModelBuilderUI(VGLII vglII, GeneticModelAndCageSet result, boolean makeVisible) {
+		super(vglII);
+		this.vglII = vglII;
+		this.geneticModel = result.getGeneticModel();
+		this.result = result;
+		setupUI(makeVisible);
 	}
-	
-	private void setupUI() {
+
+	private void setupUI(boolean makeVisible) {
+
 		this.setTitle(Messages.getInstance().getString("VGLII.ModelBuilder"));
 
 		JPanel outerPanel = new JPanel();
@@ -138,9 +137,12 @@ public class ModelBuilderUI extends JDialog {
 
 		masterPanel.add(tabs);
 		outerPanel.add(masterPanel);
-		this.add(outerPanel);
-		this.pack();
-		this.setLocation(500, 500);
+
+		if(makeVisible) {
+			this.add(outerPanel);
+			this.pack();
+			this.setLocation(500, 500);
+		}
 	}
 
 	private void setupLinkagePanel(GeneModel[] geneModels, JTabbedPane tabs) {
@@ -157,7 +159,7 @@ public class ModelBuilderUI extends JDialog {
 		linkagePanel = new LinkagePanel(chars);
 		tabs.add(Messages.getInstance().getString("VGLII.Linkage"), linkagePanel);
 	}
-	
+
 	public void configureFromFile(Element root) {
 
 		List<Element> elements = root.getChildren();
@@ -172,23 +174,27 @@ public class ModelBuilderUI extends JDialog {
 				linkagePanel.setStateFromFile(e);
 			}
 		}
-		
+
 		setVisible(Boolean.parseBoolean(root.getAttributeValue("Visible")));
 		setLocation(new Point(
 				Integer.parseInt(root.getAttributeValue("Xpos")),
-						Integer.parseInt(root.getAttributeValue("Ypos"))));
+				Integer.parseInt(root.getAttributeValue("Ypos"))));
 	}
-	
+
 	public VGLII getVGLII() {
 		return vglII;
 	}
-	
+
+	public GeneticModelAndCageSet getGenticModelAndCageSet() {
+		return result;
+	}
+
 	public void updateCageChoices(int nextCageId) {
 		for (int i = 0; i < modelPanes.length; i++) {
 			modelPanes[i].updateCageChoices(nextCageId);
 		}
 	}
-	
+
 	public Element save() {
 		Element mbuie = new Element("ModelBuilderState");
 		mbuie.setAttribute("Visible", String.valueOf(this.isVisible()));
@@ -200,14 +206,14 @@ public class ModelBuilderUI extends JDialog {
 		if (linkagePanel != null) mbuie.addContent(linkagePanel.save());
 		return mbuie;
 	}
-	
+
 	public String getAsHtml() {
 		StringBuffer b = new StringBuffer();
 		for (int i = 0; i < modelPanes.length; i++) {
 			b.append(modelPanes[i].getAsHtml());
 		}
 		if (linkagePanel != null) b.append(linkagePanel.getAsHtml());
-		
+
 		return b.toString();
 	}
 

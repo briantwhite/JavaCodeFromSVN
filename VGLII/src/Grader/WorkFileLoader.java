@@ -12,7 +12,7 @@ public class WorkFileLoader implements Runnable {
 	
 	private File currentDirectory;
 	private DefaultListModel workFileNames;
-	private TreeMap<String, GradedResult> filenamesAndResults;
+	private TreeMap<String, GeneticModelAndCageSet> filenamesAndResults;
 	
 	private boolean keepGoing;
 	
@@ -21,7 +21,7 @@ public class WorkFileLoader implements Runnable {
 	public WorkFileLoader(
 			File currentDirectory,
 			DefaultListModel workFileNames, 
-			TreeMap<String, GradedResult> filenamesAndResults) {
+			TreeMap<String, GeneticModelAndCageSet> filenamesAndResults) {
 		this.currentDirectory = currentDirectory;
 		this.workFileNames = workFileNames;
 		this.filenamesAndResults = filenamesAndResults;
@@ -37,13 +37,9 @@ public class WorkFileLoader implements Runnable {
 					currentDirectory.getAbsolutePath() 
 					+ System.getProperty("file.separator") 
 					+ fileName);
-			GeneticModelAndCageSet set = 
-				GeneticModelFactory.getInstance().readModelFromFile(workFile);
-			filenamesAndResults.put(fileName, 
-					new GradedResult(
-							set.getGeneticModel(), 
-							set.getCages(),
-							set.getModelBuilderState()));
+			filenamesAndResults.put(
+					fileName, 
+					GeneticModelFactory.getInstance().readModelFromFile(workFile));
 			progress++;
 		}
 	}
