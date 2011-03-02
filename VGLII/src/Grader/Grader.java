@@ -185,11 +185,11 @@ public class Grader extends JFrame {
 		correctAnswer.setCaret(null);
 		correctAnswer.setCaret(topOfCorrectAnswer);
 
-		theirAnswer.setText(vglII.getModelBuilder().getAsHtml());
+		theirAnswer.setText(vglII.getModelBuilder().getAsHtml(true));
 		theirAnswer.setCaret(null);
 		theirAnswer.setCaret(topOfTheirAnswer);
 
-		if (showCagesEtc) this.toFront();
+		this.toFront();
 	}
 
 	private String makeBeginnerModeString(GeneticModel model) {

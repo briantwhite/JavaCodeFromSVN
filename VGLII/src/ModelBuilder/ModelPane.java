@@ -567,11 +567,22 @@ public class ModelPane extends JPanel implements ItemListener {
 		return mpe;
 	}
 
-	public String getAsHtml() {
+	/*
+	 * if for grader, the items that are not choices
+	 * 		(that is, their choice lists have zero length)
+	 *   	should be shown grayed out
+	 */
+	public String getAsHtml(boolean isForGrader) {
 		StringBuffer b = new StringBuffer();
 		b.append("<b>" + character + "</b><br>");
 		b.append("<ul>");
-		b.append("<li>" + sexLinkageChoices.getSelectedItem() + "</li>");
+
+		b.append("<li>");
+		if (sexLinkageChoices.getItemCount() == 1) b.append("<font color=gray>");
+		b.append(sexLinkageChoices.getSelectedItem());
+		if (sexLinkageChoices.getItemCount() == 1) b.append("</font>");
+		b.append("</li>");
+		
 		b.append("<li>" + alleleNumberChoices.getSelectedItem() + "</li>");
 		if (interactionTypeChoices != null) {
 			b.append("<li>" + interactionTypeChoices.getSelectedItem() + "</li>");

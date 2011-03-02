@@ -92,7 +92,7 @@ public class LinkagePanel extends JPanel {
 		return lpe;
 	}
 
-	public String getAsHtml() {
+	public String getAsHtml(boolean isForGrader) {
 		StringBuffer b = new StringBuffer();
 		b.append("<b>");
 		b.append(Messages.getInstance().getString("VGLII.Linkage"));

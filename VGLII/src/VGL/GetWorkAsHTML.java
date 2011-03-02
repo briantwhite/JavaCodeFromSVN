@@ -82,7 +82,7 @@ public class GetWorkAsHTML {
 		htmlString.append("<h3>");
 		htmlString.append(Messages.getInstance().getString("VGLII.ModelBuilder"));
 		htmlString.append("</h3>");
-		htmlString.append(modelBuilder.getAsHtml());
+		htmlString.append(modelBuilder.getAsHtml(false));
 
 		htmlString.append("</body></html>"); //$NON-NLS-1$
 		return htmlString.toString();

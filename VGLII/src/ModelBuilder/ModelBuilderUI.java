@@ -207,14 +207,14 @@ public class ModelBuilderUI extends JDialog {
 		return mbuie;
 	}
 
-	public String getAsHtml() {
+	public String getAsHtml(boolean isForGrader) {
 		StringBuffer b = new StringBuffer();
 		for (int i = 0; i < modelPanes.length; i++) {
-			b.append(modelPanes[i].getAsHtml());
+			b.append(modelPanes[i].getAsHtml(isForGrader));
 		}
-		if (linkagePanel != null) b.append(linkagePanel.getAsHtml());
+		if (linkagePanel != null) b.append(linkagePanel.getAsHtml(isForGrader));
 
 		return b.toString();
 	}
-
+	
 }
