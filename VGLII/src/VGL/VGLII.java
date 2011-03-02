@@ -1586,6 +1586,7 @@ public class VGLII extends JFrame {
 	 * load a saved genetic model, cages, and model builder
 	 *  from the Grader
 	 *  but don't show any of the gui components
+	 *    unless showCagesEtc is true
 	 */
 	public void setupForGrading(GeneticModelAndCageSet result, boolean showCagesEtc) {
 		PhenotypeImageBank.getInstance().resetDefaults();

@@ -1365,3 +1365,6 @@ working on grader
 working on grader, got it to load work
 shift-click shows all the cages, etc
 
+3/2/11
+cleaned up VGLII.java
+	moved out some big methods that could be made static
