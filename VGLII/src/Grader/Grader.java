@@ -189,7 +189,7 @@ public class Grader extends JFrame {
 		theirAnswer.setCaret(null);
 		theirAnswer.setCaret(topOfTheirAnswer);
 
-		this.toFront();
+		if (showCagesEtc) this.toFront();
 	}
 
 	private String makeBeginnerModeString(GeneticModel model) {
