@@ -1370,3 +1370,6 @@ cleaned up VGLII.java
 	moved out some big methods that could be made static
 started graying out grader options in their answer when it wasn't a choice
 
+3/3/11
+finished graying out no choice options
+started making GeneticModel output html for the grader

@@ -176,12 +176,7 @@ public class Grader extends JFrame {
 		vglII.setupForGrading(result, showCagesEtc);
 
 		GeneticModel geneticModel = result.getGeneticModel();
-		String answer = geneticModel.toString();
-		answer = answer.replace("<body>", "<body><font color=red size=+2>" 
-				+ fileName 
-				+ " " + makeBeginnerModeString(geneticModel)
-				+ "</font><hr>");
-		correctAnswer.setText(answer);
+		correctAnswer.setText(geneticModel.getHTMLForGrader());
 		correctAnswer.setCaret(null);
 		correctAnswer.setCaret(topOfCorrectAnswer);
 

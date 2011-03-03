@@ -480,5 +480,33 @@ public class GeneticModel {
 		b.append("</body></html>");
 		return b.toString();
 	}
+	
+	public String getHTMLForGrader() {
+		StringBuffer b = new StringBuffer();
+		
+		b.append("<font color=red>");
+		b.append("Practice Mode: ");
+		if (beginnerMode) {
+			b.append("en");
+		} else {
+			b.append("dis");
+		}
+		b.append("abled. </font><br><hr>");
+		
+		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
+			
+		} else if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.EPISTASIS) {
+			
+		} else {
+			for (int i = 0; i < getNumberOfGeneModels(); i++) {
+				GeneModel gm = getGeneModelByIndex(i);
+				b.append("<b>" + gm.getCharacter() + "</b><br>");
+				
+				b.append("<hr>");
+			}
+		}
+		
+		return b.toString();
+	}
 
 }
