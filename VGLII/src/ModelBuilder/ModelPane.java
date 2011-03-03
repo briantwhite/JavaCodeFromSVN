@@ -21,6 +21,12 @@ import GeneticModels.ProblemTypeSpecification;
 import VGL.Messages;
 
 public class ModelPane extends JPanel implements ItemListener {
+	
+	/*
+	 *  color for list items where the student didn't have 
+	 *    a choice - so don't grade
+	 */
+	private static final String NOT_A_CHOICE_COLOR = "gray";
 
 	private int index;
 	private String character;
@@ -578,14 +584,28 @@ public class ModelPane extends JPanel implements ItemListener {
 		b.append("<ul>");
 
 		b.append("<li>");
-		if (sexLinkageChoices.getItemCount() == 1) b.append("<font color=gray>");
+		if (sexLinkageChoices.getItemCount() == 1) 
+			b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
 		b.append(sexLinkageChoices.getSelectedItem());
 		if (sexLinkageChoices.getItemCount() == 1) b.append("</font>");
 		b.append("</li>");
 		
-		b.append("<li>" + alleleNumberChoices.getSelectedItem() + "</li>");
+		b.append("<li>");
+		if (alleleNumberChoices.getItemCount() == 1) 
+			b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
+		b.append(alleleNumberChoices.getSelectedItem());
+		if (alleleNumberChoices.getItemCount() == 1) b.append("</font>");
+		b.append("</li>");
+		
 		if (interactionTypeChoices != null) {
-			b.append("<li>" + interactionTypeChoices.getSelectedItem() + "</li>");
+			
+			b.append("<li>");
+			if (interactionTypeChoices.getItemCount() == 1)
+				b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
+			b.append(interactionTypeChoices.getSelectedItem());
+			if (interactionTypeChoices.getItemCount() == 1) b.append("</font>");
+			b.append("</li>");
+			
 			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
 			b.append(mdp.getAsHtml());
 		}
