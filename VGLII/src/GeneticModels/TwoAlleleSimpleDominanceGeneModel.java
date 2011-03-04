@@ -164,4 +164,21 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 		return t;
 	}
 
+	public String getDomTypeText() {
+		return "Simple";
+	}
+
+	public String getInteractionHTML() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>" + t1.getTraitName() + " is recessive.</li>");
+		b.append("<li>" + t2.getTraitName() + " is dominant.</li>");
+		b.append("</ul>");
+		return b.toString();
+	}
+
+	public String getNumAlleleText() {
+		return "2";
+	}
+
 }

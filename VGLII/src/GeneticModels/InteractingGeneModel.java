@@ -161,6 +161,24 @@ public class InteractingGeneModel extends GeneModel {
 		return t;
 	}
 
+	@Override
+	public String getDomTypeText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getInteractionHTML() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getNumAlleleText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
 

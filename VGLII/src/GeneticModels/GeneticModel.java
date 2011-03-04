@@ -484,14 +484,6 @@ public class GeneticModel {
 	public String getHTMLForGrader() {
 		StringBuffer b = new StringBuffer();
 		
-		b.append("<font color=red>");
-		b.append("Practice Mode: ");
-		if (beginnerMode) {
-			b.append("en");
-		} else {
-			b.append("dis");
-		}
-		b.append("abled. </font><br><hr>");
 		
 		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
 			
@@ -499,13 +491,59 @@ public class GeneticModel {
 			
 		} else {
 			for (int i = 0; i < getNumberOfGeneModels(); i++) {
+				
+				// the character
 				GeneModel gm = getGeneModelByIndex(i);
 				b.append("<b>" + gm.getCharacter() + "</b><br>");
 				
+				// the info
+				b.append("<ul>");
+				
+				/*
+				 *  sex-linked or not:
+				 *  	see if you find the model on an autosome 
+				 *  	or sex-chromo
+				 */
+				for (int j = 0; j < autosomeModel.getGeneModels().size(); j++) {
+					if (((autosomeModel.getGeneModels()).get(j)).getIndex() == i) {
+						b.append("<li>Not sex-linked</li>");
+						break;
+					}
+				}
+				for (int j = 0; j < sexChromosomeModel.getGeneModels().size(); j++) {
+					if (((sexChromosomeModel.getGeneModels()).get(j)).getIndex() == i) {
+						if (XX_XYsexLinkage) {
+							b.append("<li>XX/XY Sex-linked</li>");
+						} else {
+							b.append("<li>ZZ/ZW Sex-linked</li>");
+						}
+					}
+				}
+				
+				// number of alleles
+				b.append("<li>" + gm.getNumAlleleText() + "-allele</li>");
+				
+				// interaction type
+				b.append("<li>" + gm.getDomTypeText() + " Dominance</li>");
+				
+				//details
+				b.append("<ul>" + gm.getInteractionHTML() + "</ul>");
+				
+				// end it
+				b.append("</ul>");
 				b.append("<hr>");
 			}
 		}
-		
+
+		b.append("<font color=red>");
+		b.append("Practice Mode: ");
+		if (beginnerMode) {
+			b.append("en");
+		} else {
+			b.append("dis");
+		}
+		b.append("abled. </font>");
+
 		return b.toString();
 	}
 

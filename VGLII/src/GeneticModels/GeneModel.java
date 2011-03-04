@@ -63,6 +63,12 @@ public abstract class GeneModel {
 	
 	public abstract String toString();
 	
+	public abstract String getNumAlleleText();
+	
+	public abstract String getDomTypeText();
+	
+	public abstract String getInteractionHTML();
+	
 	public abstract Element save(int index, float rf) throws Exception;
 	
 }

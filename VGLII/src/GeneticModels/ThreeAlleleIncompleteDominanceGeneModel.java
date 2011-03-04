@@ -62,11 +62,11 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 	public Allele[] getRandomAllelePair(boolean trueBreeding) {
 		// want equal frequency of each PHENOTYPE unless true breeding
 		Allele[] allelePair = new Allele[2];
-		
+
 		int x = rand.nextInt(6);
-		
+
 		if (trueBreeding) x = rand.nextInt(3);  // homozygotes only
-		
+
 		switch (x) {
 
 		case 0:
@@ -212,11 +212,11 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 		e.addContent(t6.save(6));
 		return e;
 	}
-	
+
 	public String getCharacter() {
 		return t1.getBodyPart() + " " + t1.getType();
 	}
-	
+
 	public Trait[] getTraits() {
 		Trait[] t = new Trait[6];
 		t[0] = t1;
@@ -227,7 +227,7 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 		t[5] = t6;
 		return t;
 	}
-	
+
 	public String[] getTraitStrings() {
 		String[] t = new String[7];
 		t[0] = "?";
@@ -238,6 +238,31 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 		t[5] = Messages.getInstance().getTranslatedShortTraitName(t5.getTraitName());
 		t[6] = Messages.getInstance().getTranslatedShortTraitName(t6.getTraitName());
 		return t;
+	}
+
+	public String getDomTypeText() {
+		return "Incomplete";
+	}
+
+	public String getInteractionHTML() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>" + t1.getTraitName() + " is pure breeding.</li>");
+		b.append("<li>" + t4.getTraitName() + " is in between ");
+		b.append(t1.getTraitName() + " and " + t2.getTraitName() + ".</li>");
+		b.append("<li>" + t2.getTraitName() + " is pure breeding.</li>");
+		b.append("<li>" + t5.getTraitName() + " is in between ");
+		b.append(t2.getTraitName() + " and " + t3.getTraitName() + ".</li>");
+		b.append("<li>" + t3.getTraitName() + " is pure breeding.</li>");
+		b.append("<li>" + t6.getTraitName() + " is in between ");
+		b.append(t1.getTraitName() + " and " + t3.getTraitName() + ".</li>");
+		b.append("</ul>");
+		return b.toString();
+	}
+
+
+	public String getNumAlleleText() {
+		return "3";
 	}
 
 

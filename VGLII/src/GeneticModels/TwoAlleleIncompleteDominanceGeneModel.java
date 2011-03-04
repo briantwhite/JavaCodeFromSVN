@@ -178,6 +178,26 @@ public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 		t[3] = Messages.getInstance().getTranslatedShortTraitName(t3.getTraitName());
 		return t;
 	}
+	
+	public String getDomTypeText() {
+		return "Incomplete";
+	}
+
+	public String getInteractionHTML() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>" + t1.getTraitName() + " is pure breeding.</li>");
+		b.append("<li>" + t3.getTraitName() + " is in between ");
+		b.append(t1.getTraitName() + " and " + t2.getTraitName() + ".</li>");
+		b.append("<li>" + t2.getTraitName() + " is pure breeding.</li>");
+		b.append("</ul>");
+		return b.toString();
+	}
+
+	public String getNumAlleleText() {
+		return "2";
+	}
+
 
 
 }

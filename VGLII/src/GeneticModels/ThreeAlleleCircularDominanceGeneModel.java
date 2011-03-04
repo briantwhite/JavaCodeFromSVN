@@ -229,5 +229,25 @@ public class ThreeAlleleCircularDominanceGeneModel extends GeneModel {
 		return t;
 	}
 
+	public String getDomTypeText() {
+		return "Circular";
+	}
+
+	public String getInteractionHTML() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>" + t1.getTraitName() + " is dominant to ");
+		b.append(t3.getTraitName() + " and recessive to " + t2.getTraitName() + ".</li>");
+		b.append("<li>" + t2.getTraitName() + " is dominant to ");
+		b.append(t1.getTraitName() + " and recessive to " + t3.getTraitName() + ".</li>");
+		b.append("<li>" + t3.getTraitName() + " is dominant to ");
+		b.append(t2.getTraitName() + " and recessive to " + t1.getTraitName() + ".</li>");
+		b.append("</ul>");
+		return b.toString();
+	}
+
+	public String getNumAlleleText() {
+		return "3";
+	}
 
 }

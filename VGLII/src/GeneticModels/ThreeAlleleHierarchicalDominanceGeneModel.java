@@ -226,5 +226,23 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 		return t;
 	}
 
+	public String getDomTypeText() {
+		return "Hierarchical";
+	}
+
+	public String getInteractionHTML() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>" + t1.getTraitName() + " is recessive to all.</li>");
+		b.append("<li>" + t2.getTraitName() + " is dominant to ");
+		b.append(t1.getTraitName() + " and recessive to " + t3.getTraitName() + ".</li>");
+		b.append("<li>" + t3.getTraitName() + " is dominant to all.</li>");
+		b.append("</ul>");
+		return b.toString();
+	}
+
+	public String getNumAlleleText() {
+		return "3";
+	}
 
 }
