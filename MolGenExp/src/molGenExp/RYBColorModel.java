@@ -178,6 +178,7 @@ public class RYBColorModel extends ColorModel {
 		if ((a == null) || (b == null)) {
 			return GlobalDefaults.DEAD_COLOR;
 		}
+System.out.println("rybcolormodel: colA=" + a + " colB=" + b);
 		int aNum = ((Integer)colorToNumberMap.get(a)).intValue();
 		int bNum = ((Integer)colorToNumberMap.get(b)).intValue();
 		return numberToColorMap[aNum | bNum];

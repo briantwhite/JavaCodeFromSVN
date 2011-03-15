@@ -280,7 +280,8 @@ public class MolGenExp extends JFrame {
 		statusPanel.add(foldingStatsLabel);
 		foldingStatsLabel.setToolTipText("<html>Certain protein sequences cannot be folded properly<br>"
 				+ "with the 2-dimensional algorithm Aipotu uses.<br>These sequences are "
-				+ "automatically replaced with new sequences as needed.</html>");
+				+ "are lethal to the organism that contains them.<br>"
+				+ "Dead organisms are shown in gray.</html>");
 		statusPanel.add(Box.createHorizontalStrut(20));
 
 		mainPanel.add(statusPanel, BorderLayout.SOUTH);

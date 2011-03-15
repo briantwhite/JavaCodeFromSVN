@@ -1489,3 +1489,22 @@ so run 10 self-crosses of red:
 chi-squared p-value = 0.5
 * so not a significant deviation
 * so OK!
+
+3/15/11
+evolution died after 24 generations
+(no grays yet)
+     [java] Exception in thread "Thread-4" java.lang.NullPointerException
+     [java] 	at molGenExp.RYBColorModel.mixTwoColors(RYBColorModel.java:181)
+     [java] 	at evolution.Evolver.makeNextGeneration(Evolver.java:221)
+
+     in mixTwoColors
+     		int aNum = ((Integer)colorToNumberMap.get(a)).intValue();
+found it
+     [java] rybcolormodel: colA=java.awt.Color[r=255,g=100,b=0] colB=java.awt.Color[r=0,g=255,b=0]
+     [java] Exception in thread "Thread-3" java.lang.NullPointerException
+orange should only be 255,140,0 not 255,100,0 
+somewhere, there's another orange...
+
+found it in the folded protein archive
+MSNRHILLVFWRQ has color 255/100/0 - the old orange
+so delete folded prot archive and re-make

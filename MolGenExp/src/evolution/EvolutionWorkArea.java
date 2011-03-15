@@ -308,10 +308,10 @@ public class EvolutionWorkArea extends WorkPanel {
 				mge.getProgressBar().setValue(evolver.getProgress());
 				DecimalFormat myFormatter = new DecimalFormat("###,###");
 				String output = myFormatter.format(FoldedProteinArchive.getTotalFoldedSequences());
-				mge.getFoldingStatsLabel().setText(output
-						+ " sequences folded; " 
+				mge.getFoldingStatsLabel().setText("Of the " + output
+						+ " protein sequences folded, " 
 						+ totalNumberOfDeadOrganisms
-						+ " organisms died.");
+						+ " were lethal.");
 			}
 		}
 	}
