@@ -17,7 +17,7 @@ public class GlobalDefaults {
 	public final static int thumbWidth = 130;
 	public final static int thumbHeight = 70;
 
-	public final static String version = "1.2.3";
+	public final static String version = "1.3.0";
 
 	public final static String sampleDNA = 
 		new String("CAGCTATAACCGAGATTGATGTCTAG"
