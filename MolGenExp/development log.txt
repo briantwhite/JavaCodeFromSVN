@@ -1512,3 +1512,11 @@ so delete folded prot archive and re-make
 now should be ok
 version 1.3.0
 run a lot to be sure ok
+
+overnight
+1343 generations, 33,817 proteins, 8 lethal OK
+860 gen, 17,536 prot, 1 lethal OK
+
+3/16/11
+added relative fitness calc and display
+version 1.3.1

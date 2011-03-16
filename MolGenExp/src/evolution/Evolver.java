@@ -96,7 +96,7 @@ public class Evolver implements Runnable {
 		if (keepGoing) {
 			// find the gene pool
 			// get the fitness settings
-			int[] fitnessSettings = evolutionWorkArea.getFitnessValues();
+			Fitnesses[] fitnessSettings = evolutionWorkArea.getFitnessValues();
 
 			lengthOfTask = preferences.getWorldSize() * preferences.getWorldSize();
 			mge.getProgressBar().setMaximum(lengthOfTask);
@@ -105,7 +105,7 @@ public class Evolver implements Runnable {
 
 			// each organism in the world contributes fitness # of alleles to pool		
 			genePool = new ArrayList<String>();
-			int totalFitness = 0;
+			double totalFitness = 0.0f;
 			for (int i = 0; i < preferences.getWorldSize(); i++) {
 				for (int j = 0; j < preferences.getWorldSize(); j++) {
 					ThinOrganism org = world.getThinOrganism(i, j);
@@ -122,8 +122,8 @@ public class Evolver implements Runnable {
 //					}
 					
 					if (colorNumber != -1) {
-						totalFitness = totalFitness + fitnessSettings[colorNumber];
-						for (int x = 0; x < fitnessSettings[colorNumber]; x++) {
+						totalFitness = totalFitness + fitnessSettings[colorNumber].absFit;
+						for (int x = 0; x < fitnessSettings[colorNumber].relFit; x++) {
 							genePool.add(org.getRandomDNASequence());
 						}
 					}
@@ -131,7 +131,7 @@ public class Evolver implements Runnable {
 				}
 			}
 			evolutionWorkArea.updateAverageFitnessDisplay(
-					(float)totalFitness/(preferences.getWorldSize() * preferences.getWorldSize()));
+					(float)totalFitness/((float)(preferences.getWorldSize() * preferences.getWorldSize())));
 		}
 	}
 

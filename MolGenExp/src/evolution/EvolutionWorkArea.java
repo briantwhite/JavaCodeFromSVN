@@ -27,6 +27,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import molGenExp.MolGenExp;
 import molGenExp.Organism;
@@ -36,7 +38,7 @@ import preferences.GlobalDefaults;
 import preferences.MGEPreferences;
 import biochem.FoldedProteinArchive;
 
-public class EvolutionWorkArea extends WorkPanel {
+public class EvolutionWorkArea extends WorkPanel implements ChangeListener {
 
 	private MolGenExp mge;
 	private MGEPreferences preferences;
@@ -68,6 +70,7 @@ public class EvolutionWorkArea extends WorkPanel {
 
 	ColorFitnessSpinner[] spinners = new ColorFitnessSpinner[GlobalDefaults.colorList.length];
 	ColorPopulationLabel[] populationLabels = new ColorPopulationLabel[GlobalDefaults.colorList.length];
+	JLabel[] absFitLabels = new JLabel[GlobalDefaults.colorList.length];
 
 	public EvolutionWorkArea(MolGenExp mge) {
 		this.mge = mge;
@@ -94,19 +97,24 @@ public class EvolutionWorkArea extends WorkPanel {
 		settingsAndCountPanel.setOpaque(true);
 		settingsAndCountPanel.setBackground(Color.BLACK);
 
-		settingsAndCountPanel.setLayout(new GridLayout(9, 3, 2, 2));
+		settingsAndCountPanel.setLayout(new GridLayout(9, 4, 2, 2));
 
 		JLabel cLabel = new JLabel("<html><b><u>Color</u></b></html>");
 		cLabel.setOpaque(true);
 		cLabel.setBackground(backgroundColor);
 		settingsAndCountPanel.add(cLabel);
 
-		JLabel rfLabel = new JLabel("<html><b><u>Relative Fitness</u></b></html>");
+		JLabel rfLabel = new JLabel("<html><b><u>Relative<br>Fitness</u></b></html>");
 		rfLabel.setOpaque(true);
 		rfLabel.setBackground(backgroundColor);
 		settingsAndCountPanel.add(rfLabel);
 
-		JLabel pcLabel = new JLabel("<html><b><u>Population Count</u></b></html>");
+		JLabel afLabel = new JLabel("<html><b><u>Absolute<br>Fitness</u></b></html>");
+		afLabel.setOpaque(true);
+		afLabel.setBackground(backgroundColor);
+		settingsAndCountPanel.add(afLabel);
+
+		JLabel pcLabel = new JLabel("<html><b><u>Population<br>Count</u></b></html>");
 		pcLabel.setOpaque(true);
 		pcLabel.setBackground(backgroundColor);
 		settingsAndCountPanel.add(pcLabel);
@@ -114,6 +122,7 @@ public class EvolutionWorkArea extends WorkPanel {
 		JLabel[] colorLabels = new JLabel[GlobalDefaults.colorList.length];
 		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
 			spinners[i] = new ColorFitnessSpinner(GlobalDefaults.colorList[i]);
+			spinners[i].addChangeListener(this);
 			colorLabels[i] = new JLabel(spinners[i].getColorString());
 			colorLabels[i].setBackground(backgroundColor);
 			colorLabels[i].setForeground(spinners[i].getColor());
@@ -124,6 +133,11 @@ public class EvolutionWorkArea extends WorkPanel {
 			spinners[i].setOpaque(true);
 			spinners[i].setBackground(backgroundColor);
 			settingsAndCountPanel.add(spinners[i]);
+			
+			absFitLabels[i] = new JLabel("--");
+			absFitLabels[i].setOpaque(true);
+			absFitLabels[i].setBackground(backgroundColor);
+			settingsAndCountPanel.add(absFitLabels[i]);
 
 			populationLabels[i] = new ColorPopulationLabel(GlobalDefaults.colorList[i]);
 			populationLabels[i].setOpaque(true);
@@ -213,6 +227,7 @@ public class EvolutionWorkArea extends WorkPanel {
 			}
 		});
 
+		updateAbsFitnessDisplay(getFitnessValues());
 	}
 
 	public ColorPopulationLabel[] getPopulationLabels() {
@@ -250,18 +265,26 @@ public class EvolutionWorkArea extends WorkPanel {
 	}
 	
 	public void updateAverageFitnessDisplay(float af) {
-		averageFitnessLabel.setText("Average Fitness = " + af);
+		averageFitnessLabel.setText(String.format("Average Fitness = %3.3f", af));
 	}
 
 	public World getWorld() {
 		return world;
 	}
 
-	public int[] getFitnessValues() {
-		int[] values = new int[spinners.length];
+	public Fitnesses[] getFitnessValues() {
+		Fitnesses[] values = new Fitnesses[spinners.length];
+		int totalRelFitness = 0;
 		for (int i = 0; i < spinners.length; i++) {
-			values[i] = ((Integer)spinners[i].getValue()).intValue();
+			values[i] = new Fitnesses();
+			int x = ((Integer)spinners[i].getValue()).intValue();
+			values[i].relFit = x;
+			totalRelFitness += x;
 		}
+		for (int i = 0; i < spinners.length; i++) {
+			int x = ((Integer)spinners[i].getValue()).intValue();
+			values[i].absFit = ((double)x)/((double)totalRelFitness);
+		}		
 		return values;
 	}
 
@@ -509,4 +532,18 @@ public class EvolutionWorkArea extends WorkPanel {
 		return imageBuffer;
 	}
 
+	
+	/*
+	 * event handler when fitness spinners changed
+	 */
+	public void stateChanged(ChangeEvent arg0) {
+		updateAbsFitnessDisplay(getFitnessValues());
+	}
+
+	private void updateAbsFitnessDisplay(Fitnesses[] fitnesses) {
+		for (int i = 0; i < spinners.length; i++) {
+			absFitLabels[i].setText(String.format("%3.3f", fitnesses[i].absFit));
+		}		
+
+	}
 }
