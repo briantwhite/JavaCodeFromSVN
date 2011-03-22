@@ -1373,6 +1373,7 @@ public class VGLII extends JFrame {
 		closeProblemItem.setEnabled(value);
 		closeButton.setEnabled(value);
 		crossTwoItem.setEnabled(value);
+		modelBuilderItem.setEnabled(value);
 	}
 
 	/**
