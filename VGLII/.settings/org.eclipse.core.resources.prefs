@@ -1,4 +1,6 @@
-#Sat Jul 31 09:39:09 EDT 2010
+#Tue Mar 22 17:28:32 EDT 2011
 eclipse.preferences.version=1
 encoding//Future/messages_ko_KR.properties=UTF-8
 encoding//src/VGL/Help_es/index.html=ISO-8859-1
+encoding//src/VGL/Help_fr/index.html=UTF-8
+encoding//src/VGL/messages_fr_FR.properties=UTF-8
