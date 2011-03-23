@@ -1373,3 +1373,6 @@ started graying out grader options in their answer when it wasn't a choice
 3/3/11
 finished graying out no choice options
 started making GeneticModel output html for the grader
+
+3/23/11
+getting grader to show prob file name and linkage

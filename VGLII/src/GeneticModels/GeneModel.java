@@ -46,7 +46,7 @@ public abstract class GeneModel {
 	public int getIndex() {
 		return index;
 	}
-			
+	
 	public abstract void setupTraits();
 		
 	public abstract void setupGenoPhenoTable();

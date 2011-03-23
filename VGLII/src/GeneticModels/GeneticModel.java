@@ -96,6 +96,9 @@ public class GeneticModel {
 	private ChromosomeModel autosomeModel;
 	private ChromosomeModel sexChromosomeModel;
 	
+	private ArrayList<GeneModel> allGeneModels;
+	private ArrayList<Boolean> allGeneModelLocations;
+	
 	private PhenotypeProcessor phenotypeProcessor;
 
 	private boolean XX_XYsexLinkage; 
@@ -257,19 +260,52 @@ public class GeneticModel {
 		phenotypeProcessor.setInteractionType(interaction);
 	}
 	
+	/**
+	 * this implements a list of all the gene models (both autosomsal
+	 * and sex-linked) for access by the grader and phenotype interactions
+	 * 
+	 * it indexes autosomal models then sex-linked models
+	 * 
+	 * the first time through, it makes the list
+	 *   subsequent calls just pull out the model
+	 */
 	public GeneModel getGeneModelByIndex(int index) {
-		Iterator<GeneModel> aIt = autosomeModel.getGeneModels().iterator();
-		while(aIt.hasNext()) {
-			GeneModel m = aIt.next();
-			if(m.getIndex() == index) return m;
+		if (allGeneModels == null) {
+			allGeneModels = new ArrayList<GeneModel>();
+			Iterator<GeneModel> aIt = autosomeModel.getGeneModels().iterator();
+			while(aIt.hasNext()) {
+				allGeneModels.add(aIt.next());
+			}
+			
+			Iterator<GeneModel> sIt = sexChromosomeModel.getGeneModels().iterator();
+			while(sIt.hasNext()) {
+				allGeneModels.add(sIt.next());
+			}	
 		}
+		return allGeneModels.get(index);
+	}
+	
+	/**
+	 * lists gene models by sex linked or not
+	 *  first time thru, makes list
+	 */
+	public boolean isGeneModelSexLinkedByIndex(int index) {
+		if (allGeneModelLocations == null) {
+			allGeneModelLocations = new ArrayList<Boolean>();
+			Iterator<GeneModel> aIt = autosomeModel.getGeneModels().iterator();
+			while(aIt.hasNext()) {
+				aIt.next();
+				allGeneModelLocations.add(new Boolean(false));
+			}
+			
+			Iterator<GeneModel> sIt = sexChromosomeModel.getGeneModels().iterator();
+			while(sIt.hasNext()) {
+				sIt.next();
+				allGeneModelLocations.add(new Boolean(true));
+			}	
+		}
+		return allGeneModelLocations.get(index);
 		
-		Iterator<GeneModel> sIt = sexChromosomeModel.getGeneModels().iterator();
-		while(sIt.hasNext()) {
-			GeneModel m = sIt.next();
-			if(m.getIndex() == index) return m;
-		}
-		return null;
 	}
 	
 	public Cage generateFieldPopulation() {
@@ -512,27 +548,19 @@ public class GeneticModel {
 				// the info
 				b.append("<ul>");
 				
-				/*
-				 *  sex-linked or not:
-				 *  	see if you find the model on an autosome 
-				 *  	or sex-chromo
-				 */
-				for (int j = 0; j < autosomeModel.getGeneModels().size(); j++) {
-					if (((autosomeModel.getGeneModels()).get(j)).getIndex() == i) {
-						b.append("<li>Not sex-linked</li>");
-						break;
+				// sex linked or not
+				b.append("<li>");
+				if (isGeneModelSexLinkedByIndex(i)) {
+					b.append("Not sex-linked");
+				} else {
+					if (XX_XYsexLinkage) {
+						b.append("XX/XY Sex-linked");
+					} else {
+						b.append("ZZ/ZW Sex-linked");
 					}
 				}
-				for (int j = 0; j < sexChromosomeModel.getGeneModels().size(); j++) {
-					if (((sexChromosomeModel.getGeneModels()).get(j)).getIndex() == i) {
-						if (XX_XYsexLinkage) {
-							b.append("<li>XX/XY Sex-linked</li>");
-						} else {
-							b.append("<li>ZZ/ZW Sex-linked</li>");
-						}
-					}
-				}
-				
+				b.append("</li>");
+								
 				// number of alleles
 				b.append("<li>" + gm.getNumAlleleText() + "-allele</li>");
 				
