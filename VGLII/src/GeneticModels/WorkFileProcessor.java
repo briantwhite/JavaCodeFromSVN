@@ -37,16 +37,19 @@ import VGL.GeneticModelAndCageSet;
  */
 public class WorkFileProcessor {
 
+	private String problemFileName;
 	private GeneticModel geneticModel;
 	private ArrayList<Cage> cages;
 	private Element modelBuilderState;
 
 	public WorkFileProcessor(List<Element> elements) {
+		problemFileName = "";
 		Iterator<Element> it = elements.iterator();
 		while (it.hasNext()) {
 			Element current = it.next();
 			String name = current.getName();
 			try {
+				if (name.equals("ProbFileName")) problemFileName = current.getText();
 				if (name.equals("GeneticModel")) geneticModel = processSavedModelInfo(current);
 				if (name.equals("Organisms")) cages = processSavedCages(current);
 				if (name.equals("ModelBuilderState")) modelBuilderState = current;
@@ -72,6 +75,8 @@ public class WorkFileProcessor {
 
 		GeneticModel model = 
 			new GeneticModel(e.getAttribute("XX_XYSexDetermination").getBooleanValue());
+		
+		model.setProblemFileName(problemFileName);
 
 		model.setMinOffspring(e.getAttribute("MinOffspring").getIntValue());
 		model.setMaxOffspring(e.getAttribute("MaxOffspring").getIntValue());

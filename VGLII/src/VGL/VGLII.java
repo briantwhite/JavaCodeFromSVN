@@ -347,6 +347,11 @@ public class VGLII extends JFrame {
 	private JButton onlineHelpButton = null;
 
 	/**
+	 * the current problem file 
+	 */
+	private File problemFile;
+	
+	/**
 	 * The current file to which work is being saved to
 	 */
 	private File currentSavedFile = null;
@@ -892,7 +897,7 @@ public class VGLII extends JFrame {
 	 * Method to set up a new problem for the user
 	 */
 	private void newProblem(String problemFileName) {
-		File problemFile = null;
+		problemFile = null;
 
 		if (cageCollection == null) {
 			if (problemFileName == null) {
@@ -1059,6 +1064,11 @@ public class VGLII extends JFrame {
 	private Document getXMLDoc(ArrayList<Cage> cages) throws Exception {
 		// creating the whole tree
 		Element root = new Element("VglII"); //$NON-NLS-1$
+		
+		Element pfn = new Element("ProbFileName");
+		pfn.addContent(problemFile.getName());
+		root.addContent(pfn);
+		
 		root.addContent(geneticModel.save());
 		Element organisms = new Element("Organisms"); //$NON-NLS-1$
 		for (int i = 0; i < cages.size(); i++) {

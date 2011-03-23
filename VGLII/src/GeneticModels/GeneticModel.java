@@ -109,6 +109,11 @@ public class GeneticModel {
 	private ProblemTypeSpecification problemTypeSpecification;
 	
 	/**
+	 * the name of the problem file used to start this problem
+	 */
+	private String problemFileName; 
+	
+	/**
 	 * because we don't want to display the character in the CageUI in the
 	 * order they appear on the chromosome, need a mapping
 	 * between the trait number and the displayed trait number
@@ -202,6 +207,14 @@ public class GeneticModel {
 	
 	public int getMaxOffspring() {
 		return maxOffspring;
+	}
+	
+	public String getProblemFileName() {
+		return problemFileName;
+	}
+	
+	public void setProblemFileName(String name) {
+		problemFileName = name;
 	}
 
 	/**
@@ -536,13 +549,9 @@ public class GeneticModel {
 		}
 
 		b.append("<font color=red>");
-		b.append("Practice Mode: ");
-		if (beginnerMode) {
-			b.append("en");
-		} else {
-			b.append("dis");
-		}
-		b.append("abled. </font>");
+		b.append("Problem File was: ");
+		b.append(problemFileName);
+		b.append("</font>");
 
 		return b.toString();
 	}

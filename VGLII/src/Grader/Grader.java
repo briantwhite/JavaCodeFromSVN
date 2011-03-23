@@ -187,16 +187,4 @@ public class Grader extends JFrame {
 		this.toFront();
 	}
 
-	private String makeBeginnerModeString(GeneticModel model) {
-		StringBuffer buf = new StringBuffer();
-		buf.append("Beginner Mode ");
-		if(model.isBeginnerMode()) {
-			buf.append("On");
-		} else {
-			buf.append("Off");
-		}
-		buf.append(" ");
-		return buf.toString();
-	}
-
 }
