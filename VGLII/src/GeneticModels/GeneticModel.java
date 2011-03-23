@@ -89,16 +89,16 @@ public class GeneticModel {
 
 	public static final boolean XX_XY = true;
 	public static final boolean ZZ_ZW = false;
-	
+
 	private int minOffspring;
 	private int maxOffspring;
 
 	private ChromosomeModel autosomeModel;
 	private ChromosomeModel sexChromosomeModel;
-	
+
 	private ArrayList<GeneModel> allGeneModels;
 	private ArrayList<Boolean> allGeneModelLocations;
-	
+
 	private PhenotypeProcessor phenotypeProcessor;
 
 	private boolean XX_XYsexLinkage; 
@@ -106,16 +106,16 @@ public class GeneticModel {
 	private Random random;
 
 	private boolean beginnerMode;   //allows viewing of model and genotypes
-	
+
 	private boolean fieldPopTrueBreeding;  // all strains in field pop are true breeding
-	
+
 	private ProblemTypeSpecification problemTypeSpecification;
-	
+
 	/**
 	 * the name of the problem file used to start this problem
 	 */
 	private String problemFileName; 
-	
+
 	/**
 	 * because we don't want to display the character in the CageUI in the
 	 * order they appear on the chromosome, need a mapping
@@ -133,15 +133,15 @@ public class GeneticModel {
 		phenotypeProcessor = new PhenotypeProcessor(this);
 		random = new Random();
 	}
-	
+
 	public PhenotypeProcessor getPhenoTypeProcessor() {
 		return phenotypeProcessor;
 	}
-	
+
 	public void setProblemTypeSPecification(ProblemTypeSpecification specs) {
 		problemTypeSpecification = specs;
 	}
-	
+
 	public ProblemTypeSpecification getProblemTypeSpecification() {
 		return problemTypeSpecification;
 	}
@@ -179,15 +179,15 @@ public class GeneticModel {
 		sexChromosomeModel.addGeneModel(gm);
 		sexChromosomeModel.addRecombinationFrequency(rf);
 	}
-	
+
 	public boolean isBeginnerMode() {
 		return beginnerMode;
 	}
-	
+
 	protected void setBeginnerMode(boolean beginnerMode) {
 		this.beginnerMode = beginnerMode;
 	}
-	
+
 	public boolean isFieldPopTrueBreeding() {
 		return fieldPopTrueBreeding;
 	}
@@ -195,27 +195,27 @@ public class GeneticModel {
 	public void setFieldPopTrueBreeding(boolean fieldPopTrueBreeding) {
 		this.fieldPopTrueBreeding = fieldPopTrueBreeding;
 	}
-	
+
 	protected void setMinOffspring(int min) {
 		minOffspring = min;
 	}
-	
+
 	public int getMinOffspring() {
 		return minOffspring;
 	}
-	
+
 	protected void setMaxOffspring(int max) {
 		maxOffspring = max;
 	}
-	
+
 	public int getMaxOffspring() {
 		return maxOffspring;
 	}
-	
+
 	public String getProblemFileName() {
 		return problemFileName;
 	}
-	
+
 	public void setProblemFileName(String name) {
 		problemFileName = name;
 	}
@@ -226,25 +226,25 @@ public class GeneticModel {
 	 */
 	protected void scrambleTraitOrder() {
 		scrambledCharacterOrder = new int[getNumberOfCharacters()];
-		
+
 		// fill array with blanks
 		for (int i = 0; i < scrambledCharacterOrder.length; i++) {
 			scrambledCharacterOrder[i] = -1;
 		}
-		
+
 		// fill array with possible values to draw from
 		int[] source = new int[getNumberOfCharacters()];
 		for (int i = 0; i < source.length; i++) {
 			source[i] = i;
 		}
-		
+
 		//draw them randomly
 		for (int i = 0; i < scrambledCharacterOrder.length; i++) {
 			scrambledCharacterOrder[i] = pickRandomUnusedInt(source);
 		}
-		
+
 	}
-	
+
 	private int pickRandomUnusedInt(int[] source) {
 		int i = random.nextInt(source.length);
 		int val = source[i];
@@ -255,11 +255,11 @@ public class GeneticModel {
 		source[i] = -1;
 		return val;
 	}
-	
+
 	public void setPhenotypeInteraction(int interaction) {
 		phenotypeProcessor.setInteractionType(interaction);
 	}
-	
+
 	/**
 	 * this implements a list of all the gene models (both autosomsal
 	 * and sex-linked) for access by the grader and phenotype interactions
@@ -276,7 +276,7 @@ public class GeneticModel {
 			while(aIt.hasNext()) {
 				allGeneModels.add(aIt.next());
 			}
-			
+
 			Iterator<GeneModel> sIt = sexChromosomeModel.getGeneModels().iterator();
 			while(sIt.hasNext()) {
 				allGeneModels.add(sIt.next());
@@ -284,7 +284,7 @@ public class GeneticModel {
 		}
 		return allGeneModels.get(index);
 	}
-	
+
 	/**
 	 * lists gene models by sex linked or not
 	 *  first time thru, makes list
@@ -297,7 +297,7 @@ public class GeneticModel {
 				aIt.next();
 				allGeneModelLocations.add(new Boolean(false));
 			}
-			
+
 			Iterator<GeneModel> sIt = sexChromosomeModel.getGeneModels().iterator();
 			while(sIt.hasNext()) {
 				sIt.next();
@@ -305,9 +305,9 @@ public class GeneticModel {
 			}	
 		}
 		return allGeneModelLocations.get(index);
-		
+
 	}
-	
+
 	public Cage generateFieldPopulation() {
 		Cage cage = new Cage(0);
 		int numOffspring = 
@@ -373,7 +373,7 @@ public class GeneticModel {
 						paternalSexChromosomeContribution),
 						this);
 	}
-	
+
 	protected ArrayList<Phenotype> getPhenotypes(
 			Chromosome mA,
 			Chromosome pA,
@@ -413,7 +413,7 @@ public class GeneticModel {
 	public boolean getSexLinkageType() {
 		return XX_XYsexLinkage;
 	}
-	
+
 	public int getNumberOfGeneModels() {
 		return autosomeModel.getNumberOfGeneModels() + sexChromosomeModel.getNumberOfGeneModels();
 	}
@@ -426,15 +426,15 @@ public class GeneticModel {
 		return phenotypeProcessor.getProcessedNumberOfCharacters(
 				autosomeModel, sexChromosomeModel);
 	}
-	
+
 	public int[] getScrambledCharacterOrder() {
 		return scrambledCharacterOrder;
 	}
-	
+
 	protected void setScrambledCharacterOrder(int[] scrambler) {
 		scrambledCharacterOrder = scrambler;
 	}
-	
+
 	public boolean anyTraitsOnSexChromosome() {
 		if (sexChromosomeModel.getNumberOfGeneModels() > 0) {
 			return true;
@@ -450,7 +450,7 @@ public class GeneticModel {
 			return false;
 		}
 	}
-	
+
 	public Element save() throws Exception {
 		Element e = new Element("GeneticModel");
 		e.setAttribute("XX_XYSexDetermination", String.valueOf(XX_XYsexLinkage));
@@ -468,7 +468,7 @@ public class GeneticModel {
 			scrambler.addContent(temp);
 		}
 		e.addContent(scrambler);
-		
+
 		e.addContent(problemTypeSpecification.save());
 		e.addContent(phenotypeProcessor.save());
 		e.addContent(autosomeModel.save());
@@ -491,17 +491,17 @@ public class GeneticModel {
 			b.append("<br>"
 					+ Messages.getInstance().getTranslatedAlleleName(
 							new Allele(phenotypeProcessor.getT1(), 0))
-					+ " ---(" 
-					+ Messages.getInstance().getString("VGLII.Gene")
-					+ " A)--->"
-					+ Messages.getInstance().getTranslatedAlleleName(
-							new Allele(phenotypeProcessor.getT1(), 0))
-					+ "<br> ---("
-					+ Messages.getInstance().getString("VGLII.Gene")
-					+ " B)--->"
-					+ Messages.getInstance().getTranslatedAlleleName(
-							new Allele(phenotypeProcessor.getT2(), 0))
-					+ "<br>");
+							+ " ---(" 
+							+ Messages.getInstance().getString("VGLII.Gene")
+							+ " A)--->"
+							+ Messages.getInstance().getTranslatedAlleleName(
+									new Allele(phenotypeProcessor.getT1(), 0))
+									+ "<br> ---("
+									+ Messages.getInstance().getString("VGLII.Gene")
+									+ " B)--->"
+									+ Messages.getInstance().getTranslatedAlleleName(
+											new Allele(phenotypeProcessor.getT2(), 0))
+											+ "<br>");
 			b.append("<br>");
 		}
 		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.EPISTASIS) {
@@ -510,44 +510,39 @@ public class GeneticModel {
 			b.append("<br>"
 					+ Messages.getInstance().getTranslatedAlleleName(
 							new Allele(phenotypeProcessor.getT1(), 0))
-					+ " ---(" 
-					+ Messages.getInstance().getString("VGLII.Gene")
-					+ " A)--->"
-					+ Messages.getInstance().getTranslatedAlleleName(
-							new Allele(phenotypeProcessor.getT2(), 0))
-					+ "<br> ---("
-					+ Messages.getInstance().getString("VGLII.Gene")
-					+ " B)--->"
-					+ Messages.getInstance().getTranslatedAlleleName(
-							new Allele(phenotypeProcessor.getT3(), 0))
-					+ "<br>");
+							+ " ---(" 
+							+ Messages.getInstance().getString("VGLII.Gene")
+							+ " A)--->"
+							+ Messages.getInstance().getTranslatedAlleleName(
+									new Allele(phenotypeProcessor.getT2(), 0))
+									+ "<br> ---("
+									+ Messages.getInstance().getString("VGLII.Gene")
+									+ " B)--->"
+									+ Messages.getInstance().getTranslatedAlleleName(
+											new Allele(phenotypeProcessor.getT3(), 0))
+											+ "<br>");
 			b.append("<br>");
 		}
-		
+
 		b.append(autosomeModel.toString());
 		b.append(sexChromosomeModel.toString());
 		b.append("</body></html>");
 		return b.toString();
 	}
-	
+
 	public String getHTMLForGrader() {
 		StringBuffer b = new StringBuffer();
-		
-		
-		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
-			
-		} else if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.EPISTASIS) {
-			
-		} else {
+
+
+		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.NO_INTERACTION) {
 			for (int i = 0; i < getNumberOfGeneModels(); i++) {
-				
 				// the character
 				GeneModel gm = getGeneModelByIndex(i);
 				b.append("<b>" + gm.getCharacter() + "</b><br>");
-				
+
 				// the info
 				b.append("<ul>");
-				
+
 				// sex linked or not
 				b.append("<li>");
 				if (isGeneModelSexLinkedByIndex(i)) {
@@ -560,24 +555,100 @@ public class GeneticModel {
 					}
 				}
 				b.append("</li>");
-								
+
 				// number of alleles
 				b.append("<li>" + gm.getNumAlleleText() + "-allele</li>");
-				
+
 				// interaction type
 				b.append("<li>" + gm.getDomTypeText() + " Dominance</li>");
-				
+
 				//details
 				b.append("<ul>" + gm.getInteractionHTML() + "</ul>");
-				
+
 				// end it
 				b.append("</ul>");
 				b.append("<hr>");
+
+				b.append(autosomeModel.getHTMLForGrading());
+				b.append(sexChromosomeModel.getHTMLForGrading());
 			}
+		} else {
+			// since its epistasis or complementation, need to deal with it differently
+			b.append("<b>" + phenotypeProcessor.getCharacter() + "</b><br>");
+			b.append("<ul>");
+			b.append("<li>");
+			if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
+				b.append("Complementation");
+			} else {
+				b.append("Epistasis:");
+			}
+			b.append("</li><ul>");
+
+			b.append("<li>Gene A is ");
+			if (isGeneModelSexLinkedByIndex(0)) {
+				if (XX_XYsexLinkage) {
+					b.append("XX/XY");
+				} else {
+					b.append("ZZ/ZW");
+				}
+				b.append(" sex-linked.");
+			} else {
+				b.append(" autosomal.");
+			}
+			b.append("</li>");
+
+			b.append("<li>Gene B is ");
+			if (isGeneModelSexLinkedByIndex(1)) {
+				if (XX_XYsexLinkage) {
+					b.append("XX/XY");
+				} else {
+					b.append("ZZ/ZW");
+				}
+				b.append(" sex-linked.");
+			} else {
+				b.append(" autosomal.");
+			}
+			b.append("</li>");
+
+			// see if both on same chromo for linkage info
+			if ((isGeneModelSexLinkedByIndex(0) && isGeneModelSexLinkedByIndex(1)) 
+					|| (!isGeneModelSexLinkedByIndex(0) && !isGeneModelSexLinkedByIndex(1))) {
+				float rf = 0.5f;
+				if (isGeneModelSexLinkedByIndex(0)) {
+					if (sexChromosomeModel.getRecombinationFrequencies().size() > 0) {
+						rf = sexChromosomeModel.getRecombinationFrequencies().get(0);
+					}
+				} else {
+					if (autosomeModel.getRecombinationFrequencies().size() > 0) {
+						rf = autosomeModel.getRecombinationFrequencies().get(0);
+					}
+				}
+				b.append("<li> Gene A and Gene B are ");
+				if (rf != 0.5f) {
+					b.append(String.format("linked with RF=%3.2f", rf));
+				} else {
+					b.append("unlinked");
+				}
+				b.append("</li>");
+			}
+
+			b.append("<li>");
+			b.append(phenotypeProcessor.getT1().getTraitName());
+			b.append(" ---(Gene A)---> ");
+			if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
+				b.append(phenotypeProcessor.getT1().getTraitName());
+				b.append(" ---(Gene B)---> ");
+				b.append(phenotypeProcessor.getT2().getTraitName());
+			} else {
+				b.append(phenotypeProcessor.getT2().getTraitName());
+				b.append(" ---(Gene B)---> ");
+				b.append(phenotypeProcessor.getT3().getTraitName());
+			}
+			b.append("</li>");
+
+			b.append("</ul>");
+			b.append("</ul>");
 		}
-		
-		b.append(autosomeModel.getHTMLForGrading());
-		b.append(sexChromosomeModel.getHTMLForGrading());
 
 		b.append("<font color=red>");
 		b.append("Problem File was: ");

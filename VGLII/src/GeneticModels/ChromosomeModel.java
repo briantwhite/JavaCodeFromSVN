@@ -52,6 +52,10 @@ public abstract class ChromosomeModel {
 	public void addRecombinationFrequency(float rf) {
 		recombinationFrequencies.add(rf);
 	}
+	
+	public ArrayList<Float> getRecombinationFrequencies() {
+		return recombinationFrequencies;
+	}
 
 	public ArrayList<GeneModel> getGeneModels() {
 		return geneModels;
