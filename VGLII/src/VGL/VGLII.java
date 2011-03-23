@@ -971,6 +971,7 @@ public class VGLII extends JFrame {
 			reopenCages(result.getCages());
 			enableAll(true);
 			disableLanguageMenu();
+			problemFile = new File(geneticModel.getProblemFileName());
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
