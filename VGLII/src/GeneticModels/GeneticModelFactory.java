@@ -311,8 +311,10 @@ public class GeneticModelFactory {
 					 */
 					GeneModel gm;
 					if (r.nextFloat() < specs.getEpistasis()) {
-						gm = getRandomGeneModel(0, 1.0f, 0.0f, 0.0f);
+						// epistasis - 2 allele inc dom
+						gm = getRandomGeneModel(0, 0.0f, 1.0f, 0.0f);
 					} else {
+						// compl - 2 allele simple dom
 						gm = getRandomGeneModel(0, 0.0f, 0.0f, 0.0f);
 					}
 					if (r.nextFloat() < specs.getGene1_chSexLinked()) {
