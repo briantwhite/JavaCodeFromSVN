@@ -1376,3 +1376,8 @@ started making GeneticModel output html for the grader
 
 3/23/11
 getting grader to show prob file name and linkage
+
+problem:
+with epi and comp
+the model builder shows inc dom as the alternative
+but the problem file has others
