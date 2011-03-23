@@ -52,7 +52,7 @@ public abstract class ChromosomeModel {
 	public void addRecombinationFrequency(float rf) {
 		recombinationFrequencies.add(rf);
 	}
-	
+
 	public ArrayList<GeneModel> getGeneModels() {
 		return geneModels;
 	}
@@ -194,6 +194,42 @@ public abstract class ChromosomeModel {
 					}
 				}
 			}
+		}
+		return b.toString();
+	}
+
+	public String getHTMLForGrading() {
+		StringBuffer b = new StringBuffer();
+		if (recombinationFrequencies.size() != 0) {
+			b.append("<b>");
+			b.append("Linkage on ");
+			if (sexChromosome) {
+				b.append("sex-chromosome");
+			} else {
+				b.append("autosome");
+			}
+			b.append(":</b><br><ul>");
+			Iterator<Float> rfIt = recombinationFrequencies.iterator();
+			for (int i = 0; i < geneModels.size(); i++) {
+				GeneModel gm = geneModels.get(i);
+				b.append("<li>");
+				b.append(gm.getCharacter());
+				if (rfIt.hasNext()) {
+					float rf = rfIt.next();
+					if (rf == 0.5f) {
+						b.append(" is not linked to ");
+					} else {
+						b.append(String.format(" is linked with RF=%3.2f to ", rf));
+					}
+				} else {
+					if (recombinationFrequencies.size() == 2) b.append(" is linked to ");
+				}
+				int next = i + 1;
+				if (next > (geneModels.size() - 1)) next = 0;
+				b.append(geneModels.get(next).getCharacter());
+				b.append("</li>");
+			}
+			b.append("</ul>");
 		}
 		return b.toString();
 	}

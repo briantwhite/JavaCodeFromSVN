@@ -547,6 +547,9 @@ public class GeneticModel {
 				b.append("<hr>");
 			}
 		}
+		
+		b.append(autosomeModel.getHTMLForGrading());
+		b.append(sexChromosomeModel.getHTMLForGrading());
 
 		b.append("<font color=red>");
 		b.append("Problem File was: ");
