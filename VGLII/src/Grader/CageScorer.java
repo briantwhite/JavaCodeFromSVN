@@ -1,10 +1,14 @@
 package Grader;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
 import GeneticModels.Cage;
+import GeneticModels.Organism;
 import GeneticModels.OrganismList;
+import GeneticModels.Phenotype;
+import GeneticModels.PhenotypeProcessor;
 
 /**
  * takes a Cage and determines if it shows:
@@ -56,6 +60,25 @@ public class CageScorer {
 			b.append("Does not show ");
 		}
 		b.append("evidence of sex linkage.</li>");
+		
+		/**
+		 * now look for evidence of dominance, etc
+		 * go phenotype by phenotype - unless there's epistasis or compl
+		 */
+		// get a token organism for reference purposes
+		phenoIt = children.keySet().iterator();
+		Organism org = children.get(phenoIt.next()).get(0);
+		if (org.getGeneticModel().getPhenoTypeProcessor().getInteractionType() 
+				== PhenotypeProcessor.NO_INTERACTION) {
+			// iterate over the phenotypes
+			ArrayList<Phenotype> phenotypes = org.getPhenotypes();
+			for (int i = 0; i < phenotypes.size(); i++) {
+				Phenotype pheno = phenotypes.get(i);
+			}
+			
+		} else {
+			
+		}
 		
 		b.append("</ul>");
 		return b.toString();
