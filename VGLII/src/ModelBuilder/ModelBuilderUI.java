@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -195,6 +197,25 @@ public class ModelBuilderUI extends JDialog {
 		}
 	}
 
+	/**
+	 * get all the selected cage numbers 
+	 * 	note - these are the DISPLAY numbers
+	 * 		so need to subtract 1 to get internal index number
+	 * 	also, don't include 0's - they're "?"
+	 * these will be in numerical order
+	 */
+	public TreeSet<Integer> getChosenRelevantCages() {
+		TreeSet<Integer> relevantCages = new TreeSet<Integer>();
+		for (int i = 0; i < modelPanes.length; i++) {
+			ArrayList<Integer> indices = modelPanes[i].getRelevantCages();
+			for (int j = 0; j < indices.size(); j++) {
+				int num = indices.get(j);
+				if (num != 0) relevantCages.add(num);
+			}
+		}	
+		return relevantCages;
+	}
+
 	public Element save() {
 		Element mbuie = new Element("ModelBuilderState");
 		mbuie.setAttribute("Visible", String.valueOf(this.isVisible()));
@@ -217,5 +238,5 @@ public class ModelBuilderUI extends JDialog {
 
 		return b.toString();
 	}
-	
+
 }

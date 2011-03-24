@@ -1385,3 +1385,6 @@ fix:
 	alternative for compl = 2 allele simple dom
 	alternative for epi = 2 allele inc dom
 fix in GeneticModelFactory, TwoAllelePanel, website
+
+3/24/11
+working on cage scoring

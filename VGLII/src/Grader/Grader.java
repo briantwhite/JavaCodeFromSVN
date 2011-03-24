@@ -9,7 +9,10 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -25,6 +28,7 @@ import javax.swing.ProgressMonitor;
 import javax.swing.Timer;
 import javax.swing.text.Caret;
 
+import GeneticModels.Cage;
 import GeneticModels.GeneticModel;
 import VGL.GeneticModelAndCageSet;
 import VGL.VGLII;
@@ -180,11 +184,35 @@ public class Grader extends JFrame {
 		correctAnswer.setCaret(null);
 		correctAnswer.setCaret(topOfCorrectAnswer);
 
-		theirAnswer.setText(vglII.getModelBuilder().getAsHtml(true));
+		theirAnswer.setText(vglII.getModelBuilder().getAsHtml(true) 
+				+ getCageScores(result.getCages()));
 		theirAnswer.setCaret(null);
 		theirAnswer.setCaret(topOfTheirAnswer);
 
 		this.toFront();
+	}
+	
+	private String getCageScores(ArrayList<Cage> cages) {
+		StringBuffer b = new StringBuffer();
+		TreeSet<Integer> selectedCages = 
+			vglII.getModelBuilder().getChosenRelevantCages();
+		b.append("<hr>");
+		b.append("<b>Selected Cages:</b>");
+		b.append("<ul>");
+		
+		if(selectedCages.size() == 0) {
+			b.append("<li>No cages were selected.</li>");
+		} else {
+			Iterator<Integer> cageNumIt = selectedCages.iterator();
+			while (cageNumIt.hasNext()) {
+				int cageNum = cageNumIt.next();
+				b.append(CageScorer.scoreCage(cages.get(cageNum - 1)));
+			}
+			
+		}
+		
+		b.append("</ul>");
+		return b.toString();
 	}
 
 }

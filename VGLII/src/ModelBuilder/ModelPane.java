@@ -449,6 +449,21 @@ public class ModelPane extends JPanel implements ItemListener {
 		return list;
 	}
 
+	/**
+	 * get the cages selected as relevant
+	 * since the 0th element in the choice list is "?"
+	 * the index = the displayed cage number
+	 * so need to subtract 1 to get internal cage index
+	 * @return
+	 */
+	public ArrayList<Integer> getRelevantCages() {
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		if (sexLinkageCageChoices != null) 
+			result.add(sexLinkageCageChoices.getSelectedIndex());
+		if (interactionCageChoices != null)
+			result.add(interactionCageChoices.getSelectedIndex());
+		return result;
+	}
 
 	public void setupActionListeners() {
 		if (alleleNumberChoices != null) {

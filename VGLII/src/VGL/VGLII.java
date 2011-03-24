@@ -1568,7 +1568,7 @@ public class VGLII extends JFrame {
 			return -1;
 		}
 	}
-
+	
 	/**
 	 * this disables language selection after a problem has been opened
 	 */
