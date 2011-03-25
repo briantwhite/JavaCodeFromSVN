@@ -568,10 +568,10 @@ public class GeneticModel {
 				// end it
 				b.append("</ul>");
 				b.append("<hr>");
-
-				b.append(autosomeModel.getHTMLForGrading());
-				b.append(sexChromosomeModel.getHTMLForGrading());
 			}
+			b.append(autosomeModel.getHTMLForGrading());
+			b.append(sexChromosomeModel.getHTMLForGrading());
+			
 		} else {
 			// since its epistasis or complementation, need to deal with it differently
 			b.append("<b>" + phenotypeProcessor.getCharacter() + "</b><br>");

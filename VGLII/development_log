@@ -1394,3 +1394,10 @@ ditto
 be generous, all sex-link cagesalso give dominance
 (actually, you need to know if XX/XY or ZZ/ZW to get full dominance from a 
 sex-linkage result, but ok for now)
+
+tested with 
+	one gene auto simple
+	one gene auto inc
+	one gene sex link simple
+	two genes sex/auto
+	three genes auto
