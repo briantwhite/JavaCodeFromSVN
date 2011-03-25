@@ -27,61 +27,77 @@ public class CageScorer {
 	public static String scoreCage(Cage cage) {
 		StringBuffer b = new StringBuffer();
 
-		b.append("<li><b>Cage ");
+		b.append("<b>Cage ");
 		b.append(cage.getId() + 1);
-		b.append(" </b></li>");
+		b.append(" </b>");
 		b.append("<ul>");
 
 		// can't get data from the field pop
 		if (cage.getId() == 0) {
 			b.append("<li>You cannot get any information from the field Cage,</li>");
 		} else {
-			/**
-			 * look for sex linkage first:
-			 * - for each child phenotype, if you find
-			 * 		males but no females
-			 * 			or
-			 * 		females but no males
-			 * -> it shows evidence of sex linkage
-			 * -> if not, it does not show evidence of sex linkage
-			 */
-			boolean showsSexLinkage = false;
+
+			// get a token organism for reference purposes
 			TreeMap<String, OrganismList> children = cage.getChildren();
 			Iterator<String> phenoIt = children.keySet().iterator();
-			while (phenoIt.hasNext()) {
-				String pheno = phenoIt.next();
-				OrganismList oList = children.get(pheno);
-				int males = oList.getNumberOfMales();
-				int females = oList.getNumberOfFemales();
-				if (((males == 0) && (females > 0)) || ((males > 0) && (females == 0))) {
-					showsSexLinkage = true;
-				}
-			}
-			b.append("<li>");
-			if (showsSexLinkage) {
-				b.append("Shows ");
-			} else {
-				b.append("Does not show ");
-			}
-			b.append("evidence of sex linkage.</li>");
-
-			/**
-			 * now look for evidence of dominance, etc
-			 * go phenotype by phenotype - unless there's epistasis or compl
-			 */
-			// get a token organism for reference purposes
 			phenoIt = children.keySet().iterator();
 			Organism org = children.get(phenoIt.next()).get(0);
+
+			// for now, can't deal with epistasis & complementation
 			if (org.getGeneticModel().getPhenoTypeProcessor().getInteractionType() 
 					== PhenotypeProcessor.NO_INTERACTION) {
+
 				// iterate over the phenotypes
 				ArrayList<Phenotype> phenotypes = org.getPhenotypes();
 				for (int i = 0; i < phenotypes.size(); i++) {
 					Phenotype currentPheno = org.getPhenotypes().get(i);
+
+					b.append("<li><b>");
+					b.append(currentPheno.getTrait().getBodyPart() + " ");
+					b.append(currentPheno.getTrait().getType());
+					b.append("</b></li>");
+					b.append("<ul>");
+					
+					/**
+					 * look for sex linkage first:
+					 * - for each child phenotype of this trait, if you find
+					 * 		males but no females
+					 * 			or
+					 * 		females but no males
+					 * -> it shows evidence of sex linkage
+					 * -> if not, it does not show evidence of sex linkage
+					 * 
+					 * note: you have to check all the olists with red eyes (eg)
+					 * 	so, red eyes & six legs but also red eyes & 4 legs
+					 */
+					boolean showsSexLinkage = false;
+					phenoIt = children.keySet().iterator();
+					int males = 0;
+					int females = 0;
+					while (phenoIt.hasNext()) {
+						String pheno = phenoIt.next();
+						OrganismList oList = children.get(pheno);
+						Organism o = oList.get(0);
+						if (o.getPhenotypes().get(i).getTrait().toString().equals(
+								currentPheno.getTrait().toString())) {
+							males += oList.getNumberOfMales();
+							females += oList.getNumberOfFemales();
+						}
+					}
+					b.append("<li>");
+					if (((males == 0) && (females > 0)) || ((males > 0) && (females == 0))) {
+						showsSexLinkage = true;
+						b.append("<font color=green>Shows ");
+					} else {
+						b.append("<font color=black>Does not show ");
+					}
+					b.append("evidence of <u>sex linkage</u></font></li> ");
+
 					Phenotype p1Pheno = cage.getParents().get(0).getPhenotypes().get(i);
 					Phenotype p2Pheno = cage.getParents().get(1).getPhenotypes().get(i);
 
 					/**
+					 * Then look for evidence of dominance, etc
 					 * three ways it can be interesting
 					 * 	Case 1) if p1Pheno not found in any kids: 
 					 * 			A x B -> B only or -> C only
@@ -109,18 +125,16 @@ public class CageScorer {
 								&& (!kidPheno.toString().equals(p2Pheno.toString()))) 
 							case3 = true;
 					}
-
 					b.append("<li>");
-					if (case1 || case2 || case3) {
+					if (case1 || case2 || case3 || showsSexLinkage) {
 						b.append("<font color = green>");
-						b.append("Shows evidence of dominance for ");
+						b.append("Shows ");
 					} else {
 						b.append("<font color = black>");
-						b.append("Shows  no evidence of dominance for ");
+						b.append("Does not show ");
 					}
-					b.append(currentPheno.getTrait().getBodyPart() + " ");
-					b.append(currentPheno.getTrait().getType());
-					b.append("</font></li>");
+					b.append("evidence of <i>dominance</i></font></li>");
+					b.append("</ul>");
 				}
 
 			} else {

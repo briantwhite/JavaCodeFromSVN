@@ -1388,3 +1388,9 @@ fix in GeneticModelFactory, TwoAllelePanel, website
 
 3/24/11
 working on cage scoring
+
+3/25/11
+ditto
+be generous, all sex-link cagesalso give dominance
+(actually, you need to know if XX/XY or ZZ/ZW to get full dominance from a 
+sex-linkage result, but ok for now)

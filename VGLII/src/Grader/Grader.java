@@ -197,11 +197,10 @@ public class Grader extends JFrame {
 		TreeSet<Integer> selectedCages = 
 			vglII.getModelBuilder().getChosenRelevantCages();
 		b.append("<hr>");
-		b.append("<b>Selected Cages:</b>");
-		b.append("<ul>");
+		b.append("<b>Selected Cages:</b><br>");
 		
 		if(selectedCages.size() == 0) {
-			b.append("<li>No cages were selected.</li>");
+			b.append("<b>No cages were selected.</b>");
 		} else {
 			Iterator<Integer> cageNumIt = selectedCages.iterator();
 			while (cageNumIt.hasNext()) {

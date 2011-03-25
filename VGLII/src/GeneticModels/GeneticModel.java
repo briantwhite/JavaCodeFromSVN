@@ -546,13 +546,13 @@ public class GeneticModel {
 				// sex linked or not
 				b.append("<li>");
 				if (isGeneModelSexLinkedByIndex(i)) {
-					b.append("Not sex-linked");
-				} else {
 					if (XX_XYsexLinkage) {
 						b.append("XX/XY Sex-linked");
 					} else {
 						b.append("ZZ/ZW Sex-linked");
 					}
+				} else {
+					b.append("Not sex-linked");
 				}
 				b.append("</li>");
 
