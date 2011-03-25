@@ -112,13 +112,15 @@ public class CageScorer {
 
 					b.append("<li>");
 					if (case1 || case2 || case3) {
+						b.append("<font color = green>");
 						b.append("Shows evidence of dominance for ");
 					} else {
+						b.append("<font color = black>");
 						b.append("Shows  no evidence of dominance for ");
 					}
 					b.append(currentPheno.getTrait().getBodyPart() + " ");
 					b.append(currentPheno.getTrait().getType());
-					b.append("</li>");
+					b.append("</font></li>");
 				}
 
 			} else {

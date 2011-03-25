@@ -628,10 +628,12 @@ public class ModelPane extends JPanel implements ItemListener {
 		b.append("<ul>");
 		if (sexLinkageCageChoices != null) {
 			b.append("<li>" + Messages.getInstance().getString("VGLII.ForSexLinkage") + " ");
-			b.append(sexLinkageCageChoices.getSelectedItem() + "</li>");
+			b.append("<b>");
+			b.append(sexLinkageCageChoices.getSelectedItem() + "</b></li>");
 		}
 		b.append("<li>" + Messages.getInstance().getString("VGLII.ForDetails") + " ");
-		b.append(interactionCageChoices.getSelectedItem() + "</li>");
+		b.append("<b>");
+		b.append(interactionCageChoices.getSelectedItem() + "</b></li>");
 		b.append("</ul>");
 		b.append("</ul><br>");
 		return b.toString();
