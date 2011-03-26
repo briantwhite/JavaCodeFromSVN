@@ -111,13 +111,6 @@ public class VGLII extends JFrame {
 	private boolean graderEnabled;
 
 	/**
-	 * key for encrypting work files
-	 *   XORed with bytes of work file
-	 */
-	public final static byte[] KEY = 
-		(new String("The Virtual Genetics Lab is Awesome!")).getBytes();
-
-	/**
 	 * the dimensions of the Phenotype image
 	 */
 	public final static int PHENO_IMAGE_WIDTH = 900;
@@ -1018,43 +1011,7 @@ public class VGLII extends JFrame {
 					}
 
 					Document doc = getXMLDoc(al); 
-
-					XMLOutputter outputter = 
-						new XMLOutputter(Format.getPrettyFormat());
-					String xmlString = outputter.outputString(doc);
-
-					//encrypt it with XOR and zip it to prevent cheating
-					byte[] xmlBytes = null;
-					try {
-						xmlBytes = xmlString.getBytes("UTF-8"); //$NON-NLS-1$
-					} catch (UnsupportedEncodingException e1) {
-						e1.printStackTrace();
-					}
-
-					for (int i = 0; i < xmlBytes.length; i++) {
-						xmlBytes[i] = (byte) (xmlBytes[i] ^ KEY[i % (KEY.length - 1)]);
-					}
-
-					ZipOutputStream zipWriter = null;
-					try {
-						zipWriter = 
-							new ZipOutputStream(new FileOutputStream(currentSavedFile));
-						zipWriter.setLevel(Deflater.DEFAULT_COMPRESSION);
-						zipWriter.putNextEntry(new ZipEntry("encrypted.txt")); //$NON-NLS-1$
-						zipWriter.write(xmlBytes, 0, xmlBytes.length);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					finally {
-						try {
-							if (zipWriter != null) {
-								zipWriter.close();
-							}
-						}
-						catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
+					EncryptionTools.saveXOREncrypted(doc, currentSavedFile);
 				}
 			} catch (Exception e) {
 			}

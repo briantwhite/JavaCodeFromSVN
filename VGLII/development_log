@@ -1401,3 +1401,7 @@ tested with
 	one gene sex link simple
 	two genes sex/auto
 	three genes auto
+
+3/26/11
+working on security - started by moving encrypt/decrypt of work files to 
+	EncryptionTools static methods

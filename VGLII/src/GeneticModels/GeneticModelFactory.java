@@ -41,6 +41,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
+import VGL.EncryptionTools;
 import VGL.GeneticModelAndCageSet;
 import VGL.Messages;
 import VGL.VGLII;
@@ -87,50 +88,15 @@ public class GeneticModelFactory {
 	}
 
 	public GeneticModelAndCageSet readModelFromFile(File workFile) {
-
 		GeneticModelAndCageSet result = null;
-		try {
-			ZipFile workZip = new ZipFile(workFile);
-			Enumeration zipFileEntries = workZip.entries();
-			ZipEntry zipEntry = (ZipEntry)zipFileEntries.nextElement();
-			InputStream input = workZip.getInputStream(zipEntry);
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			int next = input.read();
-			while (next > -1) {
-				bos.write(next);
-				next = input.read();
-			}
-			bos.flush();
-			byte[] bytes = bos.toByteArray();
-
-			if (zipEntry.getName().equals("encrypted.txt")) {
-				// decrypt if it was encrypted
-				for (int i = 0; i < bytes.length; i++) {
-					bytes[i] = (byte) (bytes[i] ^ VGLII.KEY[i % (VGLII.KEY.length - 1)]);
-				}
-			}
-
-			SAXBuilder builder = new SAXBuilder();
-			Document doc = builder.build(new ByteArrayInputStream(bytes));
-			
-			// for debugging
-			System.out.println(new String(bytes));
-			
-			WorkFileProcessor processor = 
-				new WorkFileProcessor(doc.getRootElement().getChildren());
-			result = 
-				new GeneticModelAndCageSet(
-						processor.getGeneticModel(), 
-						processor.getCages(),
-						processor.getModelBuilderState());
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
-					Messages.getInstance().getString("VGLII.ErrorOpeningFileLine1") + "\n"
-					+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine2") + "\n"
-					+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine3"), 
-					Messages.getInstance().getString("VGLII.ErrorOpeningFileHeadline"),
-					JOptionPane.ERROR_MESSAGE);
-		}
+		Document doc = EncryptionTools.readXOREncrypted(workFile);
+		WorkFileProcessor processor = 
+			new WorkFileProcessor(doc.getRootElement().getChildren());
+		result = 
+			new GeneticModelAndCageSet(
+					processor.getGeneticModel(), 
+					processor.getCages(),
+					processor.getModelBuilderState());
 		return result;
 	}
 
@@ -255,7 +221,7 @@ public class GeneticModelFactory {
 		} else {
 			model = new GeneticModel(true);
 		}
-		
+
 		model.setProblemTypeSPecification(specs);
 
 		//beginner mode
