@@ -622,17 +622,36 @@ public class ModelPane extends JPanel implements ItemListener {
 			b.append("</li>");
 			
 			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
-			b.append(mdp.getAsHtml());
+			b.append(mdp.getAsHtml(isForGrader));
 		}
-		b.append("<li>" + Messages.getInstance().getString("VGLII.RelevantCages") + "</li>");
-		b.append("<ul>");
+		
+		b.append("<li>");
+		if (isForGrader) {
+			b.append("Relevant Cages:");
+		} else {
+			b.append(Messages.getInstance().getString("VGLII.RelevantCages"));
+		}
+		b.append("</li><ul>");
+		
 		if (sexLinkageCageChoices != null) {
-			b.append("<li>" + Messages.getInstance().getString("VGLII.ForSexLinkage") + " ");
+			b.append("<li>");
+			if (isForGrader) {
+				b.append("For/against Sex-linkage:");
+			} else {
+				b.append(Messages.getInstance().getString("VGLII.ForSexLinkage") + " ");				
+			}
 			b.append("<b>");
 			b.append(sexLinkageCageChoices.getSelectedItem() + "</b></li>");
 		}
-		b.append("<li>" + Messages.getInstance().getString("VGLII.ForDetails") + " ");
+		
+		b.append("<li>");
+		if (isForGrader) {
+			b.append("For Dominance, etc:");
+		} else {
+			b.append(Messages.getInstance().getString("VGLII.ForDetails") + " ");
+		}
 		b.append("<b>");
+		
 		b.append(interactionCageChoices.getSelectedItem() + "</b></li>");
 		b.append("</ul>");
 		b.append("</ul><br>");

@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import VGL.Messages;
 
 public class ThreeCircPanel extends ModelDetailsPanel implements ItemListener {
-	
+
 	JLabel l;
 
 	public ThreeCircPanel(String[] phenos,
@@ -32,12 +32,12 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ItemListener {
 		this.t3Choices = t3Choices;
 		t3Choices.addItemListener(this);
 		this.mp = mp;
-				
+
 		setLayout(new GridLayout(7,2));
-		
+
 		add(t3Choices);
 		add(new JLabel(""));
-		
+
 		add(new JLabel(Messages.getInstance().getString("VGLII.IsDominantTo")));
 		add(new JLabel(""));
 
@@ -49,21 +49,21 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ItemListener {
 
 		add(t1Choices);
 		add(new JLabel(""));
-		
+
 		l = new JLabel(Messages.getInstance().getString("VGLII.IsDominantTo"));
 		add(l);
 		add(new JLabel(""));
-		
+
 	}
 
 	public void updateT1Choices(int x) {
 		t1Choices.setSelectedIndex(x);
 	}
-	
+
 	public void updateT2Choices(int x) {
 		t2Choices.setSelectedIndex(x);
 	}
-	
+
 	public void updateT3Choices(int x) {
 		t3Choices.setSelectedIndex(x);
 	}
@@ -74,11 +74,11 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ItemListener {
 		g2d.setColor(Color.GRAY);
 		g2d.setStroke(new BasicStroke(5F));
 		g2d.drawArc(70, 15, 80, l.getLocation().y, -90, 180);
-		
+
 		g2d.drawLine(95,15,105,15);
 		g2d.drawLine(105,10,95,15);
 		g2d.drawLine(105,20,95,15);
-		
+
 		g2d.drawLine(95,l.getLocation().y + 15,105,l.getLocation().y + 15);
 	}
 
@@ -87,40 +87,58 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ItemListener {
 			if (e.getSource().equals(t1Choices)) {
 				mp.setT1Value(t1Choices.getSelectedIndex());
 			}
-		
+
 			if (e.getSource().equals(t2Choices)) {
 				mp.setT2Value(t2Choices.getSelectedIndex());
 			}
-			
+
 			if (e.getSource().equals(t3Choices)) {
 				mp.setT3Value(t3Choices.getSelectedIndex());
 			}
-	
+
 		}
 	}
 
-	public String getAsHtml() {
+	public String getAsHtml(boolean isForGrader) {
 		StringBuffer b = new StringBuffer();
 		b.append("<ul>");
-		
-		b.append("<li>" + (String)t1Choices.getSelectedItem() + " ");
-		b.append(Messages.getInstance().getString("VGLII.IsDominantTo") + " ");
-		b.append((String)t3Choices.getSelectedItem() + "; ");
-		b.append(Messages.getInstance().getString("VGLII.IsRecessiveTo") + " ");
-		b.append((String)t2Choices.getSelectedItem() + "</li>");
-		
-		b.append("<li>" + (String)t2Choices.getSelectedItem() + " ");
-		b.append(Messages.getInstance().getString("VGLII.IsDominantTo") + " ");
-		b.append((String)t1Choices.getSelectedItem() + "; ");
-		b.append(Messages.getInstance().getString("VGLII.IsRecessiveTo") + " ");
-		b.append((String)t3Choices.getSelectedItem() + "</li>");
-		
-		b.append("<li>" + (String)t3Choices.getSelectedItem() + " ");
-		b.append(Messages.getInstance().getString("VGLII.IsDominantTo") + " ");
-		b.append((String)t2Choices.getSelectedItem() + "; ");
-		b.append(Messages.getInstance().getString("VGLII.IsRecessiveTo") + " ");
-		b.append((String)t1Choices.getSelectedItem() + "</li>");
-		
+		if (isForGrader) {
+			b.append("<li>" + (String)t1Choices.getSelectedItem() + " ");
+			b.append("is dominant to ");
+			b.append((String)t3Choices.getSelectedItem() + "; ");
+			b.append("is recessive to ");
+			b.append((String)t2Choices.getSelectedItem() + "</li>");
+
+			b.append("<li>" + (String)t2Choices.getSelectedItem() + " ");
+			b.append("is dominant to ");
+			b.append((String)t1Choices.getSelectedItem() + "; ");
+			b.append("is recessive to ");
+			b.append((String)t3Choices.getSelectedItem() + "</li>");
+
+			b.append("<li>" + (String)t3Choices.getSelectedItem() + " ");
+			b.append("is dominant to ");
+			b.append((String)t2Choices.getSelectedItem() + "; ");
+			b.append("is recessive to ");
+			b.append((String)t1Choices.getSelectedItem() + "</li>");
+		} else {
+			b.append("<li>" + (String)t1Choices.getSelectedItem() + " ");
+			b.append(Messages.getInstance().getString("VGLII.IsDominantTo") + " ");
+			b.append((String)t3Choices.getSelectedItem() + "; ");
+			b.append(Messages.getInstance().getString("VGLII.IsRecessiveTo") + " ");
+			b.append((String)t2Choices.getSelectedItem() + "</li>");
+
+			b.append("<li>" + (String)t2Choices.getSelectedItem() + " ");
+			b.append(Messages.getInstance().getString("VGLII.IsDominantTo") + " ");
+			b.append((String)t1Choices.getSelectedItem() + "; ");
+			b.append(Messages.getInstance().getString("VGLII.IsRecessiveTo") + " ");
+			b.append((String)t3Choices.getSelectedItem() + "</li>");
+
+			b.append("<li>" + (String)t3Choices.getSelectedItem() + " ");
+			b.append(Messages.getInstance().getString("VGLII.IsDominantTo") + " ");
+			b.append((String)t2Choices.getSelectedItem() + "; ");
+			b.append(Messages.getInstance().getString("VGLII.IsRecessiveTo") + " ");
+			b.append((String)t1Choices.getSelectedItem() + "</li>");
+		}
 		b.append("</ul>");
 		return b.toString();
 	}

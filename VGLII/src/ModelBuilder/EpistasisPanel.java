@@ -99,14 +99,29 @@ public class EpistasisPanel extends ModelDetailsPanel implements ItemListener {
 		}
 	}
 
-	public String getAsHtml() {
+	public String getAsHtml(boolean isForGrader) {
 		StringBuffer b = new StringBuffer();
 		b.append("<ul>");
 		b.append("<li>");
 		b.append((String)t1Choices.getSelectedItem());
-		b.append(" ---(" + Messages.getInstance().getString("VGLII.Gene") + " A)--->");
+		b.append(" ---(");
+		if (isForGrader) {
+			b.append("Gene");
+		} else {
+			b.append(Messages.getInstance().getString("VGLII.Gene"));			
+		}
+		b.append(" A)--->");
+		
 		b.append((String)t2Choices.getSelectedItem());
-		b.append(" ---(" + Messages.getInstance().getString("VGLII.Gene") + " B)--->");
+		
+		b.append(" ---(");
+		if (isForGrader) {
+			b.append("Gene");
+		} else {
+			b.append(Messages.getInstance().getString("VGLII.Gene"));			
+		}
+		b.append(" B)--->");
+		
 		b.append((String)t3Choices.getSelectedItem());
 		b.append("</li></ul>");
 		return b.toString();
