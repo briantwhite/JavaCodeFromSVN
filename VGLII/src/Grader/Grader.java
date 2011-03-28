@@ -21,6 +21,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
@@ -66,6 +69,19 @@ public class Grader extends JFrame {
 	}
 
 	private void setupUI() {
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		JMenu helpMenu = new JMenu("Help");
+		menuBar.add(Box.createHorizontalGlue());
+		menuBar.add(helpMenu);
+		JMenuItem helpItem = new JMenuItem("Help");
+		helpMenu.add(helpItem);
+		helpItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GraderHelp.showhelp();
+			}
+		});
+		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		mainPanel.add(Box.createRigidArea(new Dimension(1,400)));
