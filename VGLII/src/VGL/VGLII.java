@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -38,6 +39,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
@@ -404,9 +406,47 @@ public class VGLII extends JFrame {
 						e1.printStackTrace();
 					}
 				}
+				
+				if (name.equals("Pswd")) {
+					b64cryptPW = e.getText();
+				}
 			}
-			System.out.println(date.toString());
-			graderEnabled = true;
+			
+			if ((date == null) || (b64cryptPW == null)) {
+				graderEnabled = false;
+			} else {
+				Date today = new Date();
+				if (today.compareTo(date) > 0) {
+					JOptionPane.showMessageDialog(this, 
+							"<html>Your grading token (grader.key) has expired<br>"
+							+ "on " + date.toString() + ".<br>"
+							+ "You will not be able to grade VGLII problems.<br>"
+							+ "You should contact Brian.White@umb.edu for a new one.",
+							"grader.key expired",
+							JOptionPane.WARNING_MESSAGE);
+					graderEnabled = false;
+				} else {
+					JPanel panel = new JPanel();
+					panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+					JPasswordField pwf = new JPasswordField(15);
+					panel.add(new JLabel(
+							"<html>Your grading token is valid.<br>"
+							+ "It will expire on " + date.toString() + ".<br>"
+							+ "Enter your grading password below:"));
+					panel.add(pwf);
+					int action = JOptionPane.showConfirmDialog(this,
+							panel,
+							"Enter grading password",
+							JOptionPane.OK_CANCEL_OPTION);
+					if (action == JOptionPane.OK_OPTION) {
+						String enteredPwd = new String(pwf.getPassword());
+						System.out.println(enteredPwd);
+					} else {
+						graderEnabled = false;
+					}
+				}
+			}
+			
 		}
 		
 		setupUI(); 
