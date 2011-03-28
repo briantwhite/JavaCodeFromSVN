@@ -98,7 +98,7 @@ public class EncryptionTools {
 			doc = builder.build(new ByteArrayInputStream(bytes));
 
 			// for debugging
-			System.out.println(new String(bytes));
+//			System.out.println(new String(bytes));
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,

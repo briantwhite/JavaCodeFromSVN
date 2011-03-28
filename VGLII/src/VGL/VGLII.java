@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -377,8 +378,6 @@ public class VGLII extends JFrame {
 
 		random = new Random();
 
-		graderEnabled = false;
-
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
 				+ System.getProperty("file.separator") //$NON-NLS-1$
 				+ "Desktop"); //$NON-NLS-1$
@@ -387,67 +386,7 @@ public class VGLII extends JFrame {
 		}
 		
 		// see if grading is enabled
-		File graderTokenFile = new File("grader.key");
-		if (graderTokenFile.exists()) {
-			Document doc = EncryptionTools.readXOREncrypted(graderTokenFile);
-			List<Element> elements = doc.getRootElement().getChildren(); 
-			Iterator<Element> elIt = elements.iterator();
-			Date date = null;
-			String b64cryptPW = null;
-			while (elIt.hasNext()) {
-				Element e = elIt.next();
-				String name = e.getName();
-				
-				if (name.equals("ExpDate")) {
-					SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-					try {
-						date = sdf.parse(e.getText());
-					} catch (ParseException e1) {
-						e1.printStackTrace();
-					}
-				}
-				
-				if (name.equals("Pswd")) {
-					b64cryptPW = e.getText();
-				}
-			}
-			
-			if ((date == null) || (b64cryptPW == null)) {
-				graderEnabled = false;
-			} else {
-				Date today = new Date();
-				if (today.compareTo(date) > 0) {
-					JOptionPane.showMessageDialog(this, 
-							"<html>Your grading token (grader.key) has expired<br>"
-							+ "on " + date.toString() + ".<br>"
-							+ "You will not be able to grade VGLII problems.<br>"
-							+ "You should contact Brian.White@umb.edu for a new one.",
-							"grader.key expired",
-							JOptionPane.WARNING_MESSAGE);
-					graderEnabled = false;
-				} else {
-					JPanel panel = new JPanel();
-					panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-					JPasswordField pwf = new JPasswordField(15);
-					panel.add(new JLabel(
-							"<html>Your grading token is valid.<br>"
-							+ "It will expire on " + date.toString() + ".<br>"
-							+ "Enter your grading password below:"));
-					panel.add(pwf);
-					int action = JOptionPane.showConfirmDialog(this,
-							panel,
-							"Enter grading password",
-							JOptionPane.OK_CANCEL_OPTION);
-					if (action == JOptionPane.OK_OPTION) {
-						String enteredPwd = new String(pwf.getPassword());
-						System.out.println(enteredPwd);
-					} else {
-						graderEnabled = false;
-					}
-				}
-			}
-			
-		}
+		graderEnabled = KeyFileChecker.checkGradingKey(this);
 		
 		setupUI(); 
 		changeSinceLastSave = true;
