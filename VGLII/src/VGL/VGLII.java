@@ -16,23 +16,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import java.util.TreeMap;
-import java.util.zip.Deflater;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
-import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,26 +38,20 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.border.SoftBevelBorder;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
 
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
 
 import GeneticModels.Cage;
 import GeneticModels.CharacterSpecificationBank;
 import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
-import GeneticModels.OrganismList;
 import Grader.Grader;
 import ModelBuilder.ModelBuilderUI;
 import PhenotypeImages.PhenotypeImageBank;
@@ -384,7 +375,7 @@ public class VGLII extends JFrame {
 
 		random = new Random();
 
-		graderEnabled = true;
+		graderEnabled = false;
 
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
 				+ System.getProperty("file.separator") //$NON-NLS-1$
@@ -392,6 +383,32 @@ public class VGLII extends JFrame {
 		if (!desktopDirectory.exists()) {
 			desktopDirectory = defaultProblemDirectory;
 		}
+		
+		// see if grading is enabled
+		File graderTokenFile = new File("grader.key");
+		if (graderTokenFile.exists()) {
+			Document doc = EncryptionTools.readXOREncrypted(graderTokenFile);
+			List<Element> elements = doc.getRootElement().getChildren(); 
+			Iterator<Element> elIt = elements.iterator();
+			Date date = null;
+			String b64cryptPW = null;
+			while (elIt.hasNext()) {
+				Element e = elIt.next();
+				String name = e.getName();
+				
+				if (name.equals("ExpDate")) {
+					SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+					try {
+						date = sdf.parse(e.getText());
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+			System.out.println(date.toString());
+			graderEnabled = true;
+		}
+		
 		setupUI(); 
 		changeSinceLastSave = true;
 	}
