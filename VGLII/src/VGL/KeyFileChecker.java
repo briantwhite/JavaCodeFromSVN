@@ -24,7 +24,7 @@ public class KeyFileChecker {
 		if (!graderTokenFile.exists()) {
 			return false;
 		} else {
-			Document doc = EncryptionTools.readXOREncrypted(graderTokenFile);
+			Document doc = EncryptionTools.readRSAEncrypted(graderTokenFile);
 			List<Element> elements = doc.getRootElement().getChildren(); 
 			Iterator<Element> elIt = elements.iterator();
 			Date date = null;

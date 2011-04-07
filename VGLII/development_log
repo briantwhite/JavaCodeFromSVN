@@ -1405,3 +1405,9 @@ tested with
 3/26/11
 working on security - started by moving encrypt/decrypt of work files to 
 	EncryptionTools static methods
+
+
+4/7/11
+changed decryption of grader.key to RSA
+made VGL/keys folder and put private.key there (ok; it's used for decryption)
+now AOK
