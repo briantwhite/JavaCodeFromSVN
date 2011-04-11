@@ -166,7 +166,7 @@ public class EncryptionTools {
 			doc = builder.build(new ByteArrayInputStream(xmlBytes));
 
 			// for debugging
-			System.out.println(new String(xmlBytes));
+//			System.out.println(new String(xmlBytes));
 
 		} catch (Exception e) {
 			e.printStackTrace();

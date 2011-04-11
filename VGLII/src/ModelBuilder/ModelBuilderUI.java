@@ -25,40 +25,40 @@ import VGL.Messages;
 import VGL.VGLII;
 
 
-public class ModelBuilderUI extends JDialog {
-
+public class ModelBuilderUI extends JPanel {
+	
 	private VGLII vglII;
+
 	private GeneticModelAndCageSet result;
 	private GeneticModel geneticModel;
 	private LinkagePanel linkagePanel;
 	private ModelPane[] modelPanes;
+	
+	private boolean desiredVisibility;
+	private int desiredXpos;
+	private int desiredYpos;
 
 
 	// from new problem or saved work file
 	public ModelBuilderUI (VGLII vglII, GeneticModel geneticModel) {
-		super(vglII);
 		this.vglII = vglII;
 		this.geneticModel = geneticModel;
-		setupUI(true);
+		setupUI();
 	}
 
 
 	// for problem for grading
 	public ModelBuilderUI(VGLII vglII, GeneticModelAndCageSet result) {
-		super(vglII);
 		this.vglII = vglII;
 		this.geneticModel = result.getGeneticModel();
 		this.result = result;
-		setupUI(false);
+		setupUI();
 	}
 
-	private void setupUI(boolean makeVisible) {
+	private void setupUI() {
 
-		this.setTitle(Messages.getInstance().getString("VGLII.ModelBuilder"));
-
-		JPanel outerPanel = new JPanel();
-		outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.X_AXIS));
-		outerPanel.add(Box.createRigidArea(new Dimension(1,300)));
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		add(Box.createRigidArea(new Dimension(1,300)));
 
 		JPanel masterPanel = new JPanel();
 		masterPanel.setLayout(new BoxLayout(masterPanel,BoxLayout.Y_AXIS));
@@ -138,13 +138,7 @@ public class ModelBuilderUI extends JDialog {
 		}
 
 		masterPanel.add(tabs);
-		outerPanel.add(masterPanel);
-
-		if(makeVisible) {
-			this.add(outerPanel);
-			this.pack();
-			this.setLocation(500, 500);
-		}
+		add(masterPanel);
 	}
 
 	private void setupLinkagePanel(GeneModel[] geneModels, JTabbedPane tabs) {
@@ -177,10 +171,10 @@ public class ModelBuilderUI extends JDialog {
 			}
 		}
 
-		setVisible(Boolean.parseBoolean(root.getAttributeValue("Visible")));
-		setLocation(new Point(
-				Integer.parseInt(root.getAttributeValue("Xpos")),
-				Integer.parseInt(root.getAttributeValue("Ypos"))));
+		desiredVisibility = Boolean.parseBoolean(root.getAttributeValue("Visible"));
+		desiredXpos = Integer.parseInt(root.getAttributeValue("Xpos"));
+		desiredYpos = Integer.parseInt(root.getAttributeValue("Ypos"));
+
 	}
 
 	public VGLII getVGLII() {
@@ -189,6 +183,18 @@ public class ModelBuilderUI extends JDialog {
 
 	public GeneticModelAndCageSet getGenticModelAndCageSet() {
 		return result;
+	}
+	
+	public boolean getDesiredVisibility() {
+		return desiredVisibility;
+	}
+	
+	public int getDesiredXpos() {
+		return desiredXpos;
+	}
+	
+	public int getDesiredYpos() {
+		return desiredYpos;
 	}
 
 	public void updateCageChoices(int nextCageId) {
@@ -218,9 +224,9 @@ public class ModelBuilderUI extends JDialog {
 
 	public Element save() {
 		Element mbuie = new Element("ModelBuilderState");
-		mbuie.setAttribute("Visible", String.valueOf(this.isVisible()));
-		mbuie.setAttribute("Xpos", String.valueOf(this.getLocation().x));
-		mbuie.setAttribute("Ypos", String.valueOf(this.getLocation().y));
+		mbuie.setAttribute("Visible", String.valueOf(this.getParent().isVisible()));
+		mbuie.setAttribute("Xpos", String.valueOf(this.getParent().getLocationOnScreen().x));
+		mbuie.setAttribute("Ypos", String.valueOf(this.getParent().getLocationOnScreen().y));
 		for (int i = 0; i < modelPanes.length; i++) {
 			mbuie.addContent(modelPanes[i].save());
 		}

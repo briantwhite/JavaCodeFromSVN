@@ -17,21 +17,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.security.MessageDigest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,7 +35,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
@@ -121,6 +115,7 @@ public class VGLII extends JFrame {
 	 * the model builder for the current problem
 	 */
 	private ModelBuilderUI modelBuilder;
+	private JDialog modelBuilderDialog;
 
 	/**
 	 * The common file chooser instance for the application
@@ -924,6 +919,11 @@ public class VGLII extends JFrame {
 			enableAll(true);
 			disableLanguageMenu();
 			modelBuilder = new ModelBuilderUI(this, geneticModel);
+			modelBuilderDialog = new JDialog(this);
+			modelBuilderDialog.setTitle(Messages.getInstance().getString("VGLII.ModelBuilder"));
+			modelBuilderDialog.add(modelBuilder);
+			modelBuilderDialog.pack();
+			modelBuilderDialog.setLocation(300, 300);
 		}
 	}
 
@@ -974,6 +974,12 @@ public class VGLII extends JFrame {
 		if (geneticModel.getProblemTypeSpecification() != null) {
 			modelBuilder = new ModelBuilderUI(this, geneticModel);
 			modelBuilder.configureFromFile(result.getModelBuilderState());
+			modelBuilderDialog = new JDialog(this);
+			modelBuilderDialog.setTitle(Messages.getInstance().getString("VGLII.ModelBuilder"));
+			modelBuilderDialog.add(modelBuilder);
+			modelBuilderDialog.pack();
+			modelBuilderDialog.setVisible(modelBuilder.getDesiredVisibility());
+			modelBuilderDialog.setLocation(modelBuilder.getDesiredXpos(), modelBuilder.getDesiredYpos());
 		} else {
 			modelBuilderItem.setEnabled(false);
 		}
@@ -1530,7 +1536,7 @@ public class VGLII extends JFrame {
 	}
 
 	private void showModelBuilder() {
-		modelBuilder.setVisible(true);
+		modelBuilderDialog.setVisible(true);
 	}
 
 	/*

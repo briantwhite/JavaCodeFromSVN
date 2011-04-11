@@ -55,7 +55,6 @@ public class WorkFileLoader implements Runnable {
 			ModelBuilderUI mbui = new ModelBuilderUI(vglII, gmcs);
 			mbui.configureFromFile(gmcs.getModelBuilderState());
 			String studentAnswerHTML = mbui.getAsHtml(true) + getCageScores(gmcs.getCages(), mbui);
-			mbui.dispose();
 			
 			filenamesAndResults.put(
 					fileName, new GradingResult(studentAnswerHTML, correctAnswerHTML));
