@@ -1547,30 +1547,6 @@ public class VGLII extends JFrame {
 		}
 	}
 
-	/**
-	 * load a saved genetic model, cages, and model builder
-	 *  from the Grader
-	 *  but don't show any of the gui components
-	 *    unless showCagesEtc is true
-	 */
-	public void setupForGrading(GeneticModelAndCageSet result, boolean showCagesEtc) {
-		PhenotypeImageBank.getInstance().resetDefaults();
-		geneticModel = result.getGeneticModel();
-		if (showCagesEtc) {
-			cageCollection = new ArrayList<CageUI>();
-			nextCageId = 0;
-			try {
-				reopenCages(result.getCages());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		modelBuilder = new ModelBuilderUI(this, result, showCagesEtc);
-		modelBuilder.configureFromFile(result.getModelBuilderState());
-		modelBuilder.setVisible(showCagesEtc);
-	}
-
 	public ModelBuilderUI getModelBuilder() {
 		return modelBuilder;
 	}

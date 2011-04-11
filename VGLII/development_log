@@ -1411,3 +1411,11 @@ working on security - started by moving encrypt/decrypt of work files to
 changed decryption of grader.key to RSA
 made VGL/keys folder and put private.key there (ok; it's used for decryption)
 now AOK
+
+4/11/11
+problem: loading a lot of files to grade runs out of memory
+fix:
+	- don't have option to see cages of a problem
+	- do all scoring for each file, save html for grader and clean up completely
+	
+got it to work, but it pops up lots of useless ModelBuilderUIs...

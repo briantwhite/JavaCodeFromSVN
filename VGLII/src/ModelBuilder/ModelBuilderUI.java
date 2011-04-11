@@ -44,12 +44,12 @@ public class ModelBuilderUI extends JDialog {
 
 
 	// for problem for grading
-	public ModelBuilderUI(VGLII vglII, GeneticModelAndCageSet result, boolean makeVisible) {
+	public ModelBuilderUI(VGLII vglII, GeneticModelAndCageSet result) {
 		super(vglII);
 		this.vglII = vglII;
 		this.geneticModel = result.getGeneticModel();
 		this.result = result;
-		setupUI(makeVisible);
+		setupUI(false);
 	}
 
 	private void setupUI(boolean makeVisible) {

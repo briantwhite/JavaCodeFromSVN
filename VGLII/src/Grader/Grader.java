@@ -56,13 +56,13 @@ public class Grader extends JFrame {
 	public JScrollPane theirAnswerScroller;
 	public Caret topOfTheirAnswer;
 
-	private TreeMap<String, GeneticModelAndCageSet> filenamesAndResults;
+	private TreeMap<String, GradingResult> filenamesAndResults;
 
 	public Grader(File workingDir, VGLII vglII) {
 		this.workingDir = workingDir;
 		this.vglII = vglII;
 		fileLoadingTimer = new Timer(100, new FileLoadingTimerListener());
-		filenamesAndResults = new TreeMap<String, GeneticModelAndCageSet>();
+		filenamesAndResults = new TreeMap<String, GradingResult>();
 		setupUI();
 		pack();
 		setVisible(true);
@@ -103,14 +103,9 @@ public class Grader extends JFrame {
 		workFileList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				JList list = (JList) evt.getSource();
-				boolean showCagesEtc = false;
-				if ((evt.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK) { 
-					showCagesEtc = true;
-				} 
-
 				String workFileName =
 					(workFileNames.get((list.locationToIndex(evt.getPoint())))).toString();
-				showWorkByName(workFileName, showCagesEtc);
+				showWorkByName(workFileName);
 			}
 
 		});
@@ -158,7 +153,8 @@ public class Grader extends JFrame {
 		workFileLoader = new WorkFileLoader(
 				workingDir, 
 				workFileNames, 
-				filenamesAndResults);
+				filenamesAndResults,
+				vglII);
 		Thread t = new Thread(workFileLoader);
 		t.start();
 		fileLoadingTimer.start();
@@ -187,47 +183,20 @@ public class Grader extends JFrame {
 		}		
 	}
 
-	private void showWorkByName(String fileName, boolean showCagesEtc) {
-		
-		vglII.cleanUp();
-		
-		GeneticModelAndCageSet result = filenamesAndResults.get(fileName);
+	private void showWorkByName(String fileName) {
+				
+		GradingResult result = filenamesAndResults.get(fileName);
 
-		vglII.setupForGrading(result, showCagesEtc);
-
-		GeneticModel geneticModel = result.getGeneticModel();
-		correctAnswer.setText(geneticModel.getHTMLForGrader());
+		correctAnswer.setText(result.getCorrectAnswerHTML());
 		correctAnswer.setCaret(null);
 		correctAnswer.setCaret(topOfCorrectAnswer);
 
-		theirAnswer.setText(vglII.getModelBuilder().getAsHtml(true) 
-				+ getCageScores(result.getCages()));
+		theirAnswer.setText(result.getStudentAnswerHTML());
 		theirAnswer.setCaret(null);
 		theirAnswer.setCaret(topOfTheirAnswer);
 
 		this.toFront();
 	}
 	
-	private String getCageScores(ArrayList<Cage> cages) {
-		StringBuffer b = new StringBuffer();
-		TreeSet<Integer> selectedCages = 
-			vglII.getModelBuilder().getChosenRelevantCages();
-		b.append("<hr>");
-		b.append("<b>Selected Cages:</b><br>");
-		
-		if(selectedCages.size() == 0) {
-			b.append("<b>No cages were selected.</b>");
-		} else {
-			Iterator<Integer> cageNumIt = selectedCages.iterator();
-			while (cageNumIt.hasNext()) {
-				int cageNum = cageNumIt.next();
-				b.append(CageScorer.scoreCage(cages.get(cageNum - 1)));
-			}
-			
-		}
-		
-		b.append("</ul>");
-		return b.toString();
-	}
 
 }
