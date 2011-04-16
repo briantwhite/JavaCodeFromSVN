@@ -1,6 +1,7 @@
 package VGL;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.PublicKey;
 import java.text.ParseException;
@@ -106,6 +107,14 @@ public class KeyFileChecker {
 	}
 	
 	public static PublicKey checkSaveForGradingKey() {
-		return null;
+		PublicKey result = null;
+		File studentKeyFile = new File("student.key");
+		if (!studentKeyFile.exists()) return result;
+		try {
+			result = EncryptionTools.readPublicKeyFromFile("student.key");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

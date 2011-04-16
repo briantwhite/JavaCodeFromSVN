@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,7 +15,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.spec.RSAPrivateKeySpec;
+import java.security.spec.RSAPublicKeySpec;
 import java.util.Enumeration;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
@@ -30,6 +33,13 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 public class EncryptionTools {
+
+	/*
+	 * an offset to add to the modulus of student.key and instructor.key
+	 * to add a little security - that way, they can't just make
+	 * an rsa key pair and have them work
+	 */
+	private static String OFFSET = "923678";
 
 	/**
 	 * key for encrypting work files
@@ -187,6 +197,29 @@ public class EncryptionTools {
 			KeyFactory fact = KeyFactory.getInstance("RSA");
 			PrivateKey privateKey = fact.generatePrivate(keySpec);
 			return privateKey;
+		} catch (Exception e) {
+			throw new RuntimeException("Spurious serialisation error", e);
+		} finally {
+			oin.close();
+		}
+	}
+
+	/**
+	 * reads in public key (student.key) used for encrypted saving
+	 * subtracts "offset" - added security
+	 * 
+	 */
+	public static PublicKey readPublicKeyFromFile(String keyFileName) throws IOException {
+		ObjectInputStream oin =
+			new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFileName)));
+		try {
+			BigInteger m = (BigInteger) oin.readObject();
+			m = m.subtract(new BigInteger(OFFSET));
+			BigInteger e = (BigInteger) oin.readObject();
+			RSAPublicKeySpec keySpec = new RSAPublicKeySpec(m, e);
+			KeyFactory fact = KeyFactory.getInstance("RSA");
+			PublicKey pubKey = fact.generatePublic(keySpec);
+			return pubKey;
 		} catch (Exception e) {
 			throw new RuntimeException("Spurious serialisation error", e);
 		} finally {
