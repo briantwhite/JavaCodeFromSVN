@@ -1422,3 +1422,6 @@ got it to work, but it pops up lots of useless ModelBuilderUIs...
 
 fixed that by making the MBUI a JPanel that only appears if it's built into a dialog
 (for grading, it's never shown)
+
+4/16/11
+starting to work on SaveForGrading

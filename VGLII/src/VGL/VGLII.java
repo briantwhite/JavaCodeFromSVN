@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
@@ -95,8 +96,21 @@ public class VGLII extends JFrame {
 
 	/**
 	 * boolean for whether grading will work
+	 * requires all of these:
+	 * 	1) non-expired grader.key in same directory as VGL
+	 *  2) entry of correct password from grader.key
+	 *  3) instructor.key in same directory as VGL
 	 */
 	private boolean graderEnabled;
+	
+	/**
+	 * whether Save for Grading is enabled
+	 * requires presence of student.key in 
+	 * same directory as VGL
+	 */
+	private boolean saveForGradingEnabled;
+	
+	private PublicKey saveForGradingKey;
 
 	/**
 	 * the dimensions of the Phenotype image
@@ -167,6 +181,11 @@ public class VGLII extends JFrame {
 	 * The filter type to display Print files
 	 */
 	private static final String printFilterString = new String("html"); //$NON-NLS-1$
+	
+	/**
+	 * Filter to display work saved for grading
+	 */
+	private static final String saveForGradingFilterString = new String("gr2");
 
 	/**
 	 * main menu bar
@@ -197,6 +216,14 @@ public class VGLII extends JFrame {
 	 * Menu item to save current work to a different file than the current one
 	 */
 	private JMenuItem saveProblemAsItem = null;
+	
+	/**
+	 * Menu item to save work for grading
+	 * (encrypted with student.key)
+	 * student.key must be present
+	 * Only shown if saveForGradingEnabled = true
+	 */
+	private JMenuItem saveForGradingItem = null;
 
 	/**
 	 * Menu item to close the current work
@@ -220,6 +247,7 @@ public class VGLII extends JFrame {
 
 	/**
 	 * menu item for grading
+	 * only shown if graderEnabled = true
 	 */
 	private JMenuItem graderItem = null;
 
@@ -381,7 +409,12 @@ public class VGLII extends JFrame {
 		}
 		
 		// see if grading is enabled
-		graderEnabled = KeyFileChecker.checkGradingKey(this);
+		graderEnabled = KeyFileChecker.checkGradingKeys(this);
+		
+		// see if SaveForGrading is enabled
+		saveForGradingEnabled = false;
+		saveForGradingKey = KeyFileChecker.checkSaveForGradingKey();
+		if (saveForGradingKey != null) saveForGradingEnabled = true;
 		
 		setupUI(); 
 		changeSinceLastSave = true;
@@ -427,6 +460,8 @@ public class VGLII extends JFrame {
 			saveProblem();
 		else if (cmd.equals("SaveAs")) //$NON-NLS-1$
 			saveAsProblem();
+		else if (cmd.equals("SaveForGrading"))
+			saveForGrading();
 		else if (cmd.equals("PrintToFile")) //$NON-NLS-1$
 			printToFile();
 		else if (cmd.equals("PageSetup")) //$NON-NLS-1$
@@ -598,6 +633,11 @@ public class VGLII extends JFrame {
 		mnuFile.addSeparator();
 		mnuFile.add(saveProblemItem);
 		mnuFile.add(saveProblemAsItem);
+		if (saveForGradingEnabled) {
+			saveForGradingItem = 
+				menuItem(Messages.getInstance().getString("VGLII.SaveForGrading"), "SaveForGrading", null);
+			mnuFile.add(saveForGradingItem);
+		}
 		mnuFile.addSeparator();
 		mnuFile.add(pageSetupItem);
 		mnuFile.add(printItem);
@@ -1019,6 +1059,21 @@ public class VGLII extends JFrame {
 			}
 		}
 		changeSinceLastSave = false;
+	}
+	
+	/**
+	 * saves for grading using rsa key
+	 * 
+	 */
+	private void saveForGrading() {
+		if (cageCollection != null) {
+			File gradingFile = selectFile(desktopDirectory,
+					Messages.getInstance().getInstance().getString("VGLII.SaveForGrading"), 
+					Messages.getInstance().getInstance().getString("VGLII.EnterSaveFileName"), false, //$NON-NLS-1$ //$NON-NLS-2$
+					saveForGradingFilterString, Messages.getInstance().getInstance().getString("VGLII.WorkFiles"), //$NON-NLS-1$
+					JFileChooser.SAVE_DIALOG);
+		
+		}
 	}
 
 	private Document getXMLDoc(ArrayList<Cage> cages) throws Exception {

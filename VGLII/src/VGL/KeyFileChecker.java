@@ -2,6 +2,7 @@ package VGL;
 
 import java.io.File;
 import java.security.MessageDigest;
+import java.security.PublicKey;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +20,7 @@ import org.jdom.Element;
 
 public class KeyFileChecker {
 
-	public static boolean checkGradingKey(VGLII vglII) {
+	public static boolean checkGradingKeys(VGLII vglII) {
 		File graderTokenFile = new File("grader.key");
 		if (!graderTokenFile.exists()) {
 			return false;
@@ -102,5 +103,9 @@ public class KeyFileChecker {
 				}
 			}
 		}
+	}
+	
+	public static PublicKey checkSaveForGradingKey() {
+		return null;
 	}
 }
