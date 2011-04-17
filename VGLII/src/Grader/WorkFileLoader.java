@@ -48,7 +48,7 @@ public class WorkFileLoader implements Runnable {
 					+ System.getProperty("file.separator") 
 					+ fileName);
 			GeneticModelAndCageSet gmcs = 
-				GeneticModelFactory.getInstance().readModelFromFile(workFile);
+				GeneticModelFactory.getInstance().readModelFromXORFile(workFile);
 			
 			String correctAnswerHTML = gmcs.getGeneticModel().getHTMLForGrader();
 			

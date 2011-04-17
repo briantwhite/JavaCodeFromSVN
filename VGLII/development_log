@@ -1441,3 +1441,6 @@ fixed some bugs
 	so just save all the time (remove that boolean from VGL)
 - fixed KeyFileChecker so that the password field automaticaslly gets 
 	the focus
+- a little refactoring to make it easier to use RSA encryption in save for grading
+	GeneticModelFactory.readModelFromFile(file)
+		split into readfromXML which is called by read from XOREncry file or readRSA

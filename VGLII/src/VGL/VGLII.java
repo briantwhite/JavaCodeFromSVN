@@ -982,7 +982,7 @@ public class VGLII extends JFrame {
 		if (!workFile.exists()) return;
 
 		try {
-			result = GeneticModelFactory.getInstance().readModelFromFile(workFile);
+			result = GeneticModelFactory.getInstance().readModelFromXORFile(workFile);
 			if (result == null) return;
 
 			PhenotypeImageBank.getInstance().resetDefaults();

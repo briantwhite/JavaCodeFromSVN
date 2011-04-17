@@ -87,9 +87,13 @@ public class GeneticModelFactory {
 		return model;
 	}
 
-	public GeneticModelAndCageSet readModelFromFile(File workFile) {
-		GeneticModelAndCageSet result = null;
+	public GeneticModelAndCageSet readModelFromXORFile(File workFile) {
 		Document doc = EncryptionTools.readXOREncrypted(workFile);
+		return readModelFromXML(doc);
+	}
+	
+	private GeneticModelAndCageSet readModelFromXML(Document doc) {
+		GeneticModelAndCageSet result = null;
 		WorkFileProcessor processor = 
 			new WorkFileProcessor(doc.getRootElement().getChildren());
 		result = 
