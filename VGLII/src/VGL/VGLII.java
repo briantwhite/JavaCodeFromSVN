@@ -102,14 +102,14 @@ public class VGLII extends JFrame {
 	 *  3) instructor.key in same directory as VGL
 	 */
 	private boolean graderEnabled;
-	
+
 	/**
 	 * whether Save for Grading is enabled
 	 * requires presence of student.key in 
 	 * same directory as VGL
 	 */
 	private boolean saveForGradingEnabled;
-	
+
 	private PublicKey saveForGradingKey;
 
 	/**
@@ -181,7 +181,7 @@ public class VGLII extends JFrame {
 	 * The filter type to display Print files
 	 */
 	private static final String printFilterString = new String("html"); //$NON-NLS-1$
-	
+
 	/**
 	 * Filter to display work saved for grading
 	 */
@@ -216,7 +216,7 @@ public class VGLII extends JFrame {
 	 * Menu item to save current work to a different file than the current one
 	 */
 	private JMenuItem saveProblemAsItem = null;
-	
+
 	/**
 	 * Menu item to save work for grading
 	 * (encrypted with student.key)
@@ -360,7 +360,7 @@ public class VGLII extends JFrame {
 	 * the current problem file 
 	 */
 	private File problemFile;
-	
+
 	/**
 	 * The current file to which work is being saved to
 	 */
@@ -385,13 +385,6 @@ public class VGLII extends JFrame {
 	private Point nextCageScreenPosition;
 
 	/**
-	 * keeps track if there have been changes (crosses only)
-	 * since last save
-	 *  that way, it won't bug you to save a second time
-	 */
-	private boolean changeSinceLastSave;
-
-	/**
 	 * The constructor
 	 * 
 	 */
@@ -407,17 +400,16 @@ public class VGLII extends JFrame {
 		if (!desktopDirectory.exists()) {
 			desktopDirectory = defaultProblemDirectory;
 		}
-		
+
 		// see if grading is enabled
 		graderEnabled = KeyFileChecker.checkGradingKeys(this);
-		
+
 		// see if SaveForGrading is enabled
 		saveForGradingEnabled = false;
 		saveForGradingKey = KeyFileChecker.checkSaveForGradingKey();
 		if (saveForGradingKey != null) saveForGradingEnabled = true;
-		
+
 		setupUI(); 
-		changeSinceLastSave = true;
 	}
 
 
@@ -1023,8 +1015,6 @@ public class VGLII extends JFrame {
 		} else {
 			modelBuilderItem.setEnabled(false);
 		}
-
-		changeSinceLastSave = true;
 	}
 
 	/**
@@ -1056,11 +1046,11 @@ public class VGLII extends JFrame {
 					EncryptionTools.saveXOREncrypted(doc, currentSavedFile);
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		changeSinceLastSave = false;
 	}
-	
+
 	/**
 	 * saves for grading using rsa key
 	 * 
@@ -1072,18 +1062,18 @@ public class VGLII extends JFrame {
 					Messages.getInstance().getInstance().getString("VGLII.EnterSaveFileName"), false, //$NON-NLS-1$ //$NON-NLS-2$
 					saveForGradingFilterString, Messages.getInstance().getInstance().getString("VGLII.WorkFiles"), //$NON-NLS-1$
 					JFileChooser.SAVE_DIALOG);
-		
+
 		}
 	}
 
 	private Document getXMLDoc(ArrayList<Cage> cages) throws Exception {
 		// creating the whole tree
 		Element root = new Element("VglII"); //$NON-NLS-1$
-		
+
 		Element pfn = new Element("ProbFileName");
 		pfn.addContent(problemFile.getName());
 		root.addContent(pfn);
-		
+
 		root.addContent(geneticModel.save());
 		Element organisms = new Element("Organisms"); //$NON-NLS-1$
 		for (int i = 0; i < cages.size(); i++) {
@@ -1170,22 +1160,18 @@ public class VGLII extends JFrame {
 	 */
 	private void closeProblem() {
 		if (cageCollection != null) {
-			if (!changeSinceLastSave) {
+			int ans1 = JOptionPane.showConfirmDialog(this,
+					Messages.getInstance().getInstance().getString("VGLII.ClosingWarningLine1") //$NON-NLS-1$
+					+ "\n"
+					+ Messages.getInstance().getInstance().getString("VGLII.ClosingWarningLine2"), //$NON-NLS-1$
+					Messages.getInstance().getInstance().getString("VGLII.CloseWork"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
+					JOptionPane.WARNING_MESSAGE);
+			if (ans1 == JOptionPane.YES_OPTION)
+				saveProblem();
+			if (ans1 == JOptionPane.NO_OPTION) 
 				cleanUp();
-			} else {
-				int ans1 = JOptionPane.showConfirmDialog(this,
-						Messages.getInstance().getInstance().getString("VGLII.ClosingWarningLine1") //$NON-NLS-1$
-						+ "\n"
-						+ Messages.getInstance().getInstance().getString("VGLII.ClosingWarningLine2"), //$NON-NLS-1$
-						Messages.getInstance().getInstance().getString("VGLII.CloseWork"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
-						JOptionPane.WARNING_MESSAGE);
-				if (ans1 == JOptionPane.YES_OPTION)
-					saveProblem();
-				if (ans1 == JOptionPane.NO_OPTION) 
-					cleanUp();
-				if (ans1 != JOptionPane.CANCEL_OPTION)
-					return;
-			}
+			if (ans1 != JOptionPane.CANCEL_OPTION)
+				return;
 		}
 	}
 
@@ -1194,26 +1180,21 @@ public class VGLII extends JFrame {
 	 */
 	private void exitApplication() {
 		if (cageCollection != null) {
-			if (!changeSinceLastSave) {
+
+			int ans = JOptionPane.showConfirmDialog(this,
+					Messages.getInstance().getInstance().getString("VGLII.QuitWarningLine1") //$NON-NLS-1$
+					+ "\n"
+					+ Messages.getInstance().getInstance().getString("VGLII.QuitWarningLine2"), //$NON-NLS-1$
+					Messages.getInstance().getInstance().getString("VGLII.ExitVGL"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
+					JOptionPane.WARNING_MESSAGE);
+			if (ans == JOptionPane.YES_OPTION) {
 				saveProblem();
 				cleanUp();
 				System.exit(0);
-			} else {
-				int ans = JOptionPane.showConfirmDialog(this,
-						Messages.getInstance().getInstance().getString("VGLII.QuitWarningLine1") //$NON-NLS-1$
-						+ "\n"
-						+ Messages.getInstance().getInstance().getString("VGLII.QuitWarningLine2"), //$NON-NLS-1$
-						Messages.getInstance().getInstance().getString("VGLII.ExitVGL"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
-						JOptionPane.WARNING_MESSAGE);
-				if (ans == JOptionPane.YES_OPTION) {
-					saveProblem();
-					cleanUp();
-					System.exit(0);
-				}
-				if (ans != JOptionPane.CANCEL_OPTION) {
-					cleanUp();
-					System.exit(0);
-				}
+			}
+			if (ans != JOptionPane.CANCEL_OPTION) {
+				cleanUp();
+				System.exit(0);
 			}
 		} else {
 			System.exit(0);
@@ -1300,7 +1281,6 @@ public class VGLII extends JFrame {
 				parentUIs[1].setCentralOrganismUI(organismUI1);
 				parentUIs[0].setCentralOrganismUI(organismUI2);
 			}
-			changeSinceLastSave = true;
 			modelBuilder.updateCageChoices(nextCageId);
 		} else {
 			JOptionPane.showMessageDialog(this, Messages.getInstance().getInstance().getString("VGLII.VGLII") //$NON-NLS-1$
@@ -1582,7 +1562,7 @@ public class VGLII extends JFrame {
 			return -1;
 		}
 	}
-	
+
 	/**
 	 * this disables language selection after a problem has been opened
 	 */

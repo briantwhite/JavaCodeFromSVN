@@ -26,14 +26,14 @@ import VGL.VGLII;
 
 
 public class ModelBuilderUI extends JPanel {
-	
+
 	private VGLII vglII;
 
 	private GeneticModelAndCageSet result;
 	private GeneticModel geneticModel;
 	private LinkagePanel linkagePanel;
 	private ModelPane[] modelPanes;
-	
+
 	private boolean desiredVisibility;
 	private int desiredXpos;
 	private int desiredYpos;
@@ -184,15 +184,15 @@ public class ModelBuilderUI extends JPanel {
 	public GeneticModelAndCageSet getGenticModelAndCageSet() {
 		return result;
 	}
-	
+
 	public boolean getDesiredVisibility() {
 		return desiredVisibility;
 	}
-	
+
 	public int getDesiredXpos() {
 		return desiredXpos;
 	}
-	
+
 	public int getDesiredYpos() {
 		return desiredYpos;
 	}
@@ -224,9 +224,15 @@ public class ModelBuilderUI extends JPanel {
 
 	public Element save() {
 		Element mbuie = new Element("ModelBuilderState");
-		mbuie.setAttribute("Visible", String.valueOf(this.getParent().isVisible()));
-		mbuie.setAttribute("Xpos", String.valueOf(this.getParent().getLocationOnScreen().x));
-		mbuie.setAttribute("Ypos", String.valueOf(this.getParent().getLocationOnScreen().y));
+		boolean visible = this.getParent().isShowing();
+		mbuie.setAttribute("Visible", String.valueOf(visible));
+		if (visible) {
+			mbuie.setAttribute("Xpos", String.valueOf(this.getParent().getLocationOnScreen().x));
+			mbuie.setAttribute("Ypos", String.valueOf(this.getParent().getLocationOnScreen().y));
+		} else {
+			mbuie.setAttribute("Xpos", String.valueOf(300));
+			mbuie.setAttribute("Ypos", String.valueOf(300));
+		}
 		for (int i = 0; i < modelPanes.length; i++) {
 			mbuie.addContent(modelPanes[i].save());
 		}

@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -65,12 +67,20 @@ public class KeyFileChecker {
 				} else {
 					JPanel panel = new JPanel();
 					panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-					JPasswordField pwf = new JPasswordField(15);
+					final JPasswordField pwf = new JPasswordField(15);
 					panel.add(new JLabel(
 							"<html>Your grading token is valid.<br>"
 							+ "It will expire on " + date.toString() + ".<br>"
 							+ "Enter your grading password below:"));
 					panel.add(pwf);
+					pwf.addAncestorListener(new AncestorListener() {
+						public void ancestorAdded(AncestorEvent event) {
+							pwf.requestFocusInWindow();
+						}
+						public void ancestorMoved(AncestorEvent event) {}
+						public void ancestorRemoved(AncestorEvent event) {}
+					});
+
 					int action = JOptionPane.showConfirmDialog(vglII,
 							panel,
 							"Enter grading password",

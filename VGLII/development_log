@@ -1425,3 +1425,19 @@ fixed that by making the MBUI a JPanel that only appears if it's built into a di
 
 4/16/11
 starting to work on SaveForGrading
+
+4/17/11
+fixed some bugs
+- changed text in ModelBuilderUI to 'for allele interaction type'
+- when there was trouble making XML for saving work, it had been quietly dying
+	because an exception was being caught but no stack trace
+		(made debugging hard)
+	- fixed in VGLII.saveProblem()
+- if you try to save without showing the model builder, there's an error
+	"component must be showing on the screen to determine its location"
+	needed to use isShowing() not isVisible() in mbui's save
+- nix the "change since last save" feature - always save
+	this is because it's very hard to tell if the MBUI has changed
+	so just save all the time (remove that boolean from VGL)
+- fixed KeyFileChecker so that the password field automaticaslly gets 
+	the focus

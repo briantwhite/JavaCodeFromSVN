@@ -634,7 +634,7 @@ public class ModelPane extends JPanel implements ItemListener {
 		
 		b.append("<li>");
 		if (isForGrader) {
-			b.append("For Dominance, etc:");
+			b.append("For allele interaction type:");
 		} else {
 			b.append(Messages.getInstance().getString("VGLII.ForDetails") + " ");
 		}
