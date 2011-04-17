@@ -8,9 +8,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.KeyFactory;
@@ -115,7 +117,7 @@ public class EncryptionTools {
 			doc = builder.build(new ByteArrayInputStream(bytes));
 
 			// for debugging
-//			System.out.println(new String(bytes));
+			//			System.out.println(new String(bytes));
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
@@ -128,12 +130,66 @@ public class EncryptionTools {
 
 		return doc;
 	}
+	
+	// used by Save For Grading
+	public static void saveRSAEncrypted(Document doc, File outFile, PublicKey pubKey) {
+		XMLOutputter outputter = 
+			new XMLOutputter(Format.getPrettyFormat());
+		String xmlString = outputter.outputString(doc);
+
+		//encrypt it with RSA
+		byte[] xmlBytes = null;
+		try {
+			xmlBytes = xmlString.getBytes("UTF-8"); //$NON-NLS-1$
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+
+		String rsaString = rsaEncrypt(xmlBytes, pubKey);
+
+		PrintWriter out = null;
+		try {
+			out = new PrintWriter(new FileWriter(outFile));
+			out.println(rsaString);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			out.close();
+		}
+	}
+
+	private static String rsaEncrypt(byte[] data, PublicKey pubKey) {
+		byte[] rsaBytes = null;
+		try {
+			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+			cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+			rsaBytes = cipher.doFinal(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String out = new String(Base64Coder.encode(rsaBytes));
+		return out;
+	}
 
 	/*
 	 * uses keys/private.key "private key" - use only to read grader.key
 	 * in VGLII (this key is made public)
 	 */
 	public static Document readRSAEncrypted(File inFile) {
+		PrivateKey privKey = null;
+		try {
+			privKey = readPrivateKeyFromJARFile("keys/private.key");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (privKey != null) {
+			return readRSAEncrypted(inFile, privKey);
+		} else {
+			return null;
+		}
+	}
+
+	public static Document readRSAEncrypted(File inFile, PrivateKey privKey) {
 		Document doc = null;
 
 		BufferedReader in = null;
@@ -163,7 +219,6 @@ public class EncryptionTools {
 
 		byte[] xmlBytes = null;
 		try {
-			PrivateKey privKey = readPrivateKeyFromFile("keys/private.key");
 			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
 			cipher.init(Cipher.DECRYPT_MODE, privKey);
 			xmlBytes = cipher.doFinal(rsaBytes);
@@ -176,22 +231,52 @@ public class EncryptionTools {
 			doc = builder.build(new ByteArrayInputStream(xmlBytes));
 
 			// for debugging
-//			System.out.println(new String(xmlBytes));
+			//			System.out.println(new String(xmlBytes));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return doc;
+		return doc;		
 	}
 
-	private static PrivateKey readPrivateKeyFromFile(String keyFileName) throws IOException {
+	/**
+	 * get PrivateKey from a file in the jar
+	 * 	used for getting the key to decrypt the grader.key
+	 * 
+	 */
+	private static PrivateKey readPrivateKeyFromJARFile(String keyFileName) throws IOException {
 		InputStream in =
 			EncryptionTools.class.getResourceAsStream(keyFileName);
 		ObjectInputStream oin =
 			new ObjectInputStream(new BufferedInputStream(in));
 		try {
 			BigInteger m = (BigInteger) oin.readObject();
+			BigInteger e = (BigInteger) oin.readObject();
+			RSAPrivateKeySpec keySpec = new RSAPrivateKeySpec(m, e);
+			KeyFactory fact = KeyFactory.getInstance("RSA");
+			PrivateKey privateKey = fact.generatePrivate(keySpec);
+			return privateKey;
+		} catch (Exception e) {
+			throw new RuntimeException("Spurious serialisation error", e);
+		} finally {
+			oin.close();
+		}
+	}
+
+	/**
+	 * get PrivateKey from a file in the same directory as VGL
+	 * 	used for reading in instructor.key
+	 * 	for grading
+	 * - also subtracts offset from modulus
+	 * 
+	 */
+	public static PrivateKey readPrivateKeyFromFile(String keyFileName) throws IOException {
+		ObjectInputStream oin =
+			new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFileName)));
+		try {
+			BigInteger m = (BigInteger) oin.readObject();
+			m = m.subtract(new BigInteger(OFFSET));
 			BigInteger e = (BigInteger) oin.readObject();
 			RSAPrivateKeySpec keySpec = new RSAPrivateKeySpec(m, e);
 			KeyFactory fact = KeyFactory.getInstance("RSA");

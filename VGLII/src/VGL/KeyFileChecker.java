@@ -3,6 +3,7 @@ package VGL;
 import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,10 +24,10 @@ import org.jdom.Element;
 
 public class KeyFileChecker {
 
-	public static boolean checkGradingKeys(VGLII vglII) {
+	public static PrivateKey checkGradingKeys(VGLII vglII) {
 		File graderTokenFile = new File("grader.key");
 		if (!graderTokenFile.exists()) {
-			return false;
+			return null;
 		} else {
 			Document doc = EncryptionTools.readRSAEncrypted(graderTokenFile);
 			List<Element> elements = doc.getRootElement().getChildren(); 
@@ -52,7 +53,7 @@ public class KeyFileChecker {
 			}
 
 			if ((date == null) || (b64cryptPW == null)) {
-				return false;
+				return null;
 			} else {
 				Date today = new Date();
 				if (today.compareTo(date) > 0) {
@@ -63,7 +64,7 @@ public class KeyFileChecker {
 							+ "You should contact Brian.White@umb.edu for a new one.",
 							"grader.key expired",
 							JOptionPane.WARNING_MESSAGE);
-					return false;
+					return null;
 				} else {
 					JPanel panel = new JPanel();
 					panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -86,7 +87,7 @@ public class KeyFileChecker {
 							"Enter grading password",
 							JOptionPane.OK_CANCEL_OPTION);
 					if (action != JOptionPane.OK_OPTION) {
-						return false;
+						return null;
 					} else {
 						String enteredPwd = new String(pwf.getPassword());
 						MessageDigest md = null;
@@ -106,16 +107,31 @@ public class KeyFileChecker {
 									"Password Incorrect; grading disabled.",
 									"Incorrect Password",
 									JOptionPane.WARNING_MESSAGE);
-							return false;
+							return null;
 						} else {
-							return true;
+							// get the grading key "instructor.key"
+							File instructorKeyFile = new File("instructor.key");
+							if (!instructorKeyFile.exists()) {
+								JOptionPane.showMessageDialog(vglII, 
+										"Cannot find instructor.key; grading disabled.",
+										"Missing Key file",
+										JOptionPane.WARNING_MESSAGE);
+								return null;
+							} else {
+								try {
+									return EncryptionTools.readPrivateKeyFromFile("instructor.key");
+								} catch (IOException e) {
+									e.printStackTrace();
+									return null;
+								}
+							}
 						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	public static PublicKey checkSaveForGradingKey() {
 		PublicKey result = null;
 		File studentKeyFile = new File("student.key");

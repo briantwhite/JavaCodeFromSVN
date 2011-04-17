@@ -1444,3 +1444,12 @@ fixed some bugs
 - a little refactoring to make it easier to use RSA encryption in save for grading
 	GeneticModelFactory.readModelFromFile(file)
 		split into readfromXML which is called by read from XOREncry file or readRSA
+- set up to require:
+	student.key for "Save For Grading"
+	grader.key AND instructor.key for "Grade Students Work"
+
+Problem, can't rsa encrypt blocks larger than 117 bytes
+	need to break up (or punt); see: 
+	http://www.aviransplace.com/2004/10/12/using-rsa-encryption-with-java/3/
+	http://www.coderanch.com/t/481259/Streams/java/read-text-file-buffer-at
+	

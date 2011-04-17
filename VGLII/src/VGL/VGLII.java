@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -102,14 +103,13 @@ public class VGLII extends JFrame {
 	 *  3) instructor.key in same directory as VGL
 	 */
 	private boolean graderEnabled;
-
+	private PrivateKey gradingKey;
 	/**
 	 * whether Save for Grading is enabled
 	 * requires presence of student.key in 
 	 * same directory as VGL
 	 */
 	private boolean saveForGradingEnabled;
-
 	private PublicKey saveForGradingKey;
 
 	/**
@@ -402,7 +402,9 @@ public class VGLII extends JFrame {
 		}
 
 		// see if grading is enabled
-		graderEnabled = KeyFileChecker.checkGradingKeys(this);
+		graderEnabled = false;
+		gradingKey = KeyFileChecker.checkGradingKeys(this);
+		if (gradingKey != null) graderEnabled = true;
 
 		// see if SaveForGrading is enabled
 		saveForGradingEnabled = false;
@@ -1057,11 +1059,31 @@ public class VGLII extends JFrame {
 	 */
 	private void saveForGrading() {
 		if (cageCollection != null) {
-			File gradingFile = selectFile(desktopDirectory,
+			File fileForGrading = selectFile(desktopDirectory,
 					Messages.getInstance().getInstance().getString("VGLII.SaveForGrading"), 
 					Messages.getInstance().getInstance().getString("VGLII.EnterSaveFileName"), false, //$NON-NLS-1$ //$NON-NLS-2$
 					saveForGradingFilterString, Messages.getInstance().getInstance().getString("VGLII.WorkFiles"), //$NON-NLS-1$
 					JFileChooser.SAVE_DIALOG);
+			try {
+				Iterator<CageUI> it = cageCollection.iterator();
+				ArrayList<Cage> al = new ArrayList<Cage>();
+				while (it.hasNext()) {
+					CageUI cui = it.next();
+					Cage c = cui.getCage();
+					al.add(c);
+				}
+				if (fileForGrading != null) {
+					if (!fileForGrading.getPath().endsWith(saveForGradingFilterString)) {
+						fileForGrading = convertTo(fileForGrading,
+								"." + saveForGradingFilterString); //$NON-NLS-1$
+					}
+
+					Document doc = getXMLDoc(al); 
+					EncryptionTools.saveRSAEncrypted(doc, fileForGrading, saveForGradingKey);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		}
 	}
