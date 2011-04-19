@@ -1610,8 +1610,13 @@ public class VGLII extends JFrame {
 		}
 	}
 
+	public PrivateKey getGradingKey() {
+		return gradingKey;
+	}
+	
 	public ModelBuilderUI getModelBuilder() {
 		return modelBuilder;
 	}
+	
 }
 

@@ -21,12 +21,9 @@ package GeneticModels;
  * @version 1.0 $Id$
  */
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.security.PrivateKey;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -38,13 +35,11 @@ import javax.swing.JOptionPane;
 
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 import VGL.EncryptionTools;
 import VGL.GeneticModelAndCageSet;
 import VGL.Messages;
-import VGL.VGLII;
 
 public class GeneticModelFactory {
 
@@ -89,6 +84,11 @@ public class GeneticModelFactory {
 
 	public GeneticModelAndCageSet readModelFromXORFile(File workFile) {
 		Document doc = EncryptionTools.readXOREncrypted(workFile);
+		return readModelFromXML(doc);
+	}
+	
+	public GeneticModelAndCageSet readModelFromRSAFile(File workFile, PrivateKey gradingKey) {
+		Document doc = EncryptionTools.readRSAEncrypted(workFile, gradingKey);
 		return readModelFromXML(doc);
 	}
 	

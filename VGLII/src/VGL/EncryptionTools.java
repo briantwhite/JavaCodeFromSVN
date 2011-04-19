@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.KeyFactory;
@@ -130,14 +131,14 @@ public class EncryptionTools {
 
 		return doc;
 	}
-	
+
 	// used by Save For Grading
 	public static void saveRSAEncrypted(Document doc, File outFile, PublicKey pubKey) {
 		XMLOutputter outputter = 
 			new XMLOutputter(Format.getPrettyFormat());
 		String xmlString = outputter.outputString(doc);
 
-		//encrypt it with RSA
+		//get bytes ready for RSA
 		byte[] xmlBytes = null;
 		try {
 			xmlBytes = xmlString.getBytes("UTF-8"); //$NON-NLS-1$
@@ -145,12 +146,11 @@ public class EncryptionTools {
 			e1.printStackTrace();
 		}
 
-		String rsaString = rsaEncrypt(xmlBytes, pubKey);
-
+		// RSA encrypt and save
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(new FileWriter(outFile));
-			out.println(rsaString);
+			out.println(rsaEncrypt(xmlBytes, pubKey));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -159,18 +159,35 @@ public class EncryptionTools {
 	}
 
 	private static String rsaEncrypt(byte[] data, PublicKey pubKey) {
-		byte[] rsaBytes = null;
+		StringBuffer rsaByteBuffer = new StringBuffer();
 		try {
 			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, pubKey);
-			rsaBytes = cipher.doFinal(data);
+			// do in blocks of 100 bytes; separated by ";"
+			int numBlocks = (data.length + 99)/100;
+			for (int i = 0; i < numBlocks; i++) {
+				// copy in block of 100 bytes
+				byte[] currentData = new byte[100];
+				int j = 0;
+				for (j = 0; ( (j < 100) && ((j + (100 * i)) < data.length) ); j++) {
+					currentData[j] = data[j + (100 * i)];
+				}
+
+				//pad last block to 100 bytes with spaces
+				while (j < 100) {
+					currentData[j] = ' ';
+					j++;
+				}
+				rsaByteBuffer.append(Base64Coder.encode(cipher.doFinal(currentData)));
+				rsaByteBuffer.append(";"); // separator between blocks
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String out = new String(Base64Coder.encode(rsaBytes));
+		String out = rsaByteBuffer.toString();
 		return out;
 	}
-
+	
 	/*
 	 * uses keys/private.key "private key" - use only to read grader.key
 	 * in VGLII (this key is made public)
@@ -215,29 +232,38 @@ public class EncryptionTools {
 			}
 		}
 
-		byte[] rsaBytes = Base64Coder.decode(input);
+		String[] base64RSABlocks = input.split(";");
 
-		byte[] xmlBytes = null;
+		StringBuffer xmlBuffer = new StringBuffer();
 		try {
 			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
 			cipher.init(Cipher.DECRYPT_MODE, privKey);
-			xmlBytes = cipher.doFinal(rsaBytes);
+			
+			for (int i = 0; i < base64RSABlocks.length; i++) {
+				xmlBuffer.append(
+						new String(
+								cipher.doFinal(
+										Base64Coder.decode(base64RSABlocks[i]))));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+		String xmlString = xmlBuffer.toString();
+		
+		// for debugging
+		System.out.println(xmlString);
+		
 		try {
 			SAXBuilder builder = new SAXBuilder();
-			doc = builder.build(new ByteArrayInputStream(xmlBytes));
+			doc = builder.build(new StringReader(xmlString));
 
-			// for debugging
-			//			System.out.println(new String(xmlBytes));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return doc;		
+		return doc;
 	}
 
 	/**

@@ -146,7 +146,7 @@ public class Grader extends JFrame {
 	public void openDirectoryAndLoadFiles() {
 		String[] files = workingDir.list();
 		for (int i = 0; i < files.length; i++) {
-			if (files[i].endsWith(".wr2")) {
+			if (files[i].endsWith(".gr2")) {
 				workFileNames.addElement(files[i]);
 			}
 		}
