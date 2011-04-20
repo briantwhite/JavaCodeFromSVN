@@ -1452,4 +1452,9 @@ Problem, can't rsa encrypt blocks larger than 117 bytes
 	need to break up (or punt); see: 
 	http://www.aviransplace.com/2004/10/12/using-rsa-encryption-with-java/3/
 	http://www.coderanch.com/t/481259/Streams/java/read-text-file-buffer-at
+
+4/19/11
+got SaveForGrading working
+added some more French & spanish text
+version 3.1.0
 	

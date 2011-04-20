@@ -83,7 +83,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.0.0"; //$NON-NLS-1$
+	public final static String version = "3.1.0"; //$NON-NLS-1$
 
 	/**
 	 * the list of supported languages

@@ -252,7 +252,7 @@ public class EncryptionTools {
 		String xmlString = xmlBuffer.toString();
 		
 		// for debugging
-		System.out.println(xmlString);
+		// System.out.println(xmlString);
 		
 		try {
 			SAXBuilder builder = new SAXBuilder();
