@@ -267,7 +267,7 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionDetailsPanel.removeAll();
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
 				interactionDetailsPanel.revalidate();
-				modelBuilderUI.repaint();
+				modelBuilderUI.updateUI();
 				clearValues();
 			}
 			if (e.getItem().toString().equals(
@@ -283,7 +283,7 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionDetailsPanel.removeAll();
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
 				interactionDetailsPanel.revalidate();
-				modelBuilderUI.repaint();
+				modelBuilderUI.updateUI();
 				clearValues();
 			}
 			if (e.getItem().toString().equals(
@@ -298,7 +298,7 @@ public class ModelPane extends JPanel implements ItemListener {
 				interactionDetailsPanel.removeAll();
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
 				interactionDetailsPanel.revalidate();
-				modelBuilderUI.repaint();
+				modelBuilderUI.updateUI();
 				clearValues();
 			}
 
@@ -316,7 +316,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(new UnknownSpecificsPanel());
 					interactionDetailsPanel.revalidate();
-					modelBuilderUI.repaint();
+					modelBuilderUI.updateUI();
 					clearValues();
 				}
 				if (e.getItem().toString().equals(
@@ -328,7 +328,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.add(
 							new TwoSimplePanel(traits, t1Choices, t2Choices, this));
 					interactionTypePanel.revalidate();
-					modelBuilderUI.repaint();
+					modelBuilderUI.updateUI();
 					clearValues();
 				}
 				if (e.getItem().toString().equals(
@@ -340,7 +340,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.add(
 							new TwoIncPanel(traits, t1Choices, t2Choices, t3Choices, this));
 					interactionTypePanel.revalidate();
-					modelBuilderUI.repaint();
+					modelBuilderUI.updateUI();
 					clearValues();
 				}
 				if (e.getItem().toString().equals(
@@ -352,7 +352,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.add(
 							new ComplementationPanel(traits, t1Choices, t2Choices, this));
 					interactionTypePanel.revalidate();
-					modelBuilderUI.repaint();
+					modelBuilderUI.updateUI();
 					clearValues();
 				}
 				if (e.getItem().toString().equals(
@@ -364,7 +364,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.add(
 							new EpistasisPanel(traits, t1Choices, t2Choices, t3Choices, this));
 					interactionTypePanel.revalidate();
-					modelBuilderUI.repaint();
+					modelBuilderUI.updateUI();
 					clearValues();
 				}
 			}
@@ -375,7 +375,7 @@ public class ModelPane extends JPanel implements ItemListener {
 					interactionDetailsPanel.removeAll();
 					interactionDetailsPanel.add(new UnknownSpecificsPanel());
 					interactionDetailsPanel.revalidate();
-					modelBuilderUI.repaint();
+					modelBuilderUI.updateUI();
 					clearValues();
 				}
 				if (e.getItem().toString().equals(
@@ -392,7 +392,7 @@ public class ModelPane extends JPanel implements ItemListener {
 									t6Choices, 
 									this));
 					interactionTypePanel.revalidate();		
-					modelBuilderUI.repaint();
+					modelBuilderUI.updateUI();
 					clearValues();
 				}
 				if (e.getItem().toString().equals(
@@ -402,7 +402,7 @@ public class ModelPane extends JPanel implements ItemListener {
 							new ThreeHierPanel(traits, 
 									t1Choices, t2Choices, t3Choices, this));
 					interactionTypePanel.revalidate();	
-					modelBuilderUI.repaint();
+					modelBuilderUI.updateUI();
 					clearValues();
 				}
 				if (e.getItem().toString().equals(
@@ -412,7 +412,7 @@ public class ModelPane extends JPanel implements ItemListener {
 							new ThreeCircPanel(traits, 
 									t1Choices, t2Choices, t3Choices, this));
 					interactionTypePanel.revalidate();	
-					modelBuilderUI.repaint();
+					modelBuilderUI.updateUI();
 					clearValues();
 				}
 			}

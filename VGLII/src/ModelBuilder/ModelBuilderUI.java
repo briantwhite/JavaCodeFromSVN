@@ -1,11 +1,9 @@
 package ModelBuilder;
 
 import java.awt.Dimension;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.swing.Box;
@@ -27,6 +25,7 @@ import VGL.VGLII;
 
 public class ModelBuilderUI extends JPanel {
 
+	private JDialog parentDialog;
 	private VGLII vglII;
 
 	private GeneticModelAndCageSet result;
@@ -40,7 +39,8 @@ public class ModelBuilderUI extends JPanel {
 
 
 	// from new problem or saved work file
-	public ModelBuilderUI (VGLII vglII, GeneticModel geneticModel) {
+	public ModelBuilderUI (JDialog parentDialog, VGLII vglII, GeneticModel geneticModel) {
+		this.parentDialog = parentDialog;
 		this.vglII = vglII;
 		this.geneticModel = geneticModel;
 		setupUI();
@@ -49,6 +49,7 @@ public class ModelBuilderUI extends JPanel {
 
 	// for problem for grading
 	public ModelBuilderUI(VGLII vglII, GeneticModelAndCageSet result) {
+		this.parentDialog = null;
 		this.vglII = vglII;
 		this.geneticModel = result.getGeneticModel();
 		this.result = result;
@@ -154,6 +155,12 @@ public class ModelBuilderUI extends JPanel {
 		}
 		linkagePanel = new LinkagePanel(chars);
 		tabs.add(Messages.getInstance().getString("VGLII.Linkage"), linkagePanel);
+	}
+
+	public void updateUI() {
+		repaint();
+		revalidate();
+		if (parentDialog != null) parentDialog.pack();
 	}
 
 	public void configureFromFile(Element root) {

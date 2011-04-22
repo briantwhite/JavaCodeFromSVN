@@ -952,8 +952,8 @@ public class VGLII extends JFrame {
 			createCageUI(fieldPop, false);
 			enableAll(true);
 			disableLanguageMenu();
-			modelBuilder = new ModelBuilderUI(this, geneticModel);
 			modelBuilderDialog = new JDialog(this);
+			modelBuilder = new ModelBuilderUI(modelBuilderDialog, this, geneticModel);
 			modelBuilderDialog.setTitle(Messages.getInstance().getString("VGLII.ModelBuilder"));
 			modelBuilderDialog.add(modelBuilder);
 			modelBuilderDialog.pack();
@@ -1006,9 +1006,9 @@ public class VGLII extends JFrame {
 		 *    - so disable it
 		 */
 		if (geneticModel.getProblemTypeSpecification() != null) {
-			modelBuilder = new ModelBuilderUI(this, geneticModel);
-			modelBuilder.configureFromFile(result.getModelBuilderState());
 			modelBuilderDialog = new JDialog(this);
+			modelBuilder = new ModelBuilderUI(modelBuilderDialog, this, geneticModel);
+			modelBuilder.configureFromFile(result.getModelBuilderState());
 			modelBuilderDialog.setTitle(Messages.getInstance().getString("VGLII.ModelBuilder"));
 			modelBuilderDialog.add(modelBuilder);
 			modelBuilderDialog.pack();
