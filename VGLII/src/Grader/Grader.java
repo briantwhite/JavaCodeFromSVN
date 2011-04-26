@@ -172,11 +172,11 @@ public class Grader extends JFrame {
 					(workFileLoader.getProgress() == workFileLoader.getLengthOfTask())) {
 				workFileLoader.stop();
 				fileLoadingTimer.stop();
-				Grader.this.setCursor(Cursor.DEFAULT_CURSOR);
+				vglII.setCursor(Cursor.DEFAULT_CURSOR);
 				fileLoadingProgressMonitor.close();
 				workFileList.setEnabled(true);
 			} else {
-				Grader.this.setCursor(Cursor.WAIT_CURSOR);
+				vglII.setCursor(Cursor.WAIT_CURSOR);
 				fileLoadingProgressMonitor.setProgress(workFileLoader.getProgress());
 				workFileList.setEnabled(false);
 			}
