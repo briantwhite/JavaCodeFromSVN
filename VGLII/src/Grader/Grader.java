@@ -5,35 +5,32 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.ProgressMonitor;
 import javax.swing.Timer;
 import javax.swing.text.Caret;
 
-import GeneticModels.Cage;
-import GeneticModels.GeneticModel;
-import VGL.GeneticModelAndCageSet;
+import VGL.EncryptionTools;
 import VGL.VGLII;
 
 public class Grader extends JFrame {
@@ -43,7 +40,11 @@ public class Grader extends JFrame {
 
 	private Timer fileLoadingTimer;
 	private WorkFileLoader workFileLoader;
-	private ProgressMonitor fileLoadingProgressMonitor;
+	private JProgressBar fileLoadingProgressBar;
+	private JLabel filenameLabel;
+	private JProgressBar decryptionProgressBar;
+	private JDialog progressDialog;
+	private boolean loadingFiles;
 
 	private JList workFileList;
 	private DefaultListModel workFileNames;
@@ -81,7 +82,7 @@ public class Grader extends JFrame {
 				GraderHelp.showhelp();
 			}
 		});
-		
+
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		mainPanel.add(Box.createRigidArea(new Dimension(1,400)));
@@ -158,33 +159,62 @@ public class Grader extends JFrame {
 		Thread t = new Thread(workFileLoader);
 		t.start();
 		fileLoadingTimer.start();
-		fileLoadingProgressMonitor = new ProgressMonitor(
-				Grader.this,
-				"Reading in " + workFileNames.getSize() + " work files.",
-				"",
-				0, 
-				workFileLoader.getLengthOfTask());
+
+		loadingFiles = true;
+
+		progressDialog = new JDialog(this, true);
+		progressDialog.setTitle("Loading files for Grading...");
+		progressDialog.setPreferredSize(new Dimension(300, 120));
+		JPanel progressPanel = new JPanel();
+		progressPanel.setLayout(new BoxLayout(progressPanel, BoxLayout.Y_AXIS));
+		progressPanel.add(
+				new JLabel("Reading in " + workFileNames.getSize() + " work files."));
+		fileLoadingProgressBar = new JProgressBar(0, workFileNames.getSize());
+		fileLoadingProgressBar.setValue(0);
+		progressPanel.add(fileLoadingProgressBar);
+		filenameLabel = new JLabel("Loading...");
+		progressPanel.add(filenameLabel);
+		decryptionProgressBar = new JProgressBar();
+		progressPanel.add(decryptionProgressBar);
+		JButton cancelButton = new JButton("Cancel");
+		progressPanel.add(cancelButton);
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				progressDialog.dispose();
+			}
+		});
+
+		progressDialog.add(progressPanel);
+		progressDialog.pack();
+		progressDialog.setVisible(true);
+		loadingFiles = false;
 	}
 
 	class FileLoadingTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if(fileLoadingProgressMonitor.isCanceled() || 
+			if(!loadingFiles || 
 					(workFileLoader.getProgress() == workFileLoader.getLengthOfTask())) {
 				workFileLoader.stop();
 				fileLoadingTimer.stop();
 				vglII.setCursor(Cursor.DEFAULT_CURSOR);
-				fileLoadingProgressMonitor.close();
+				progressDialog.dispose();
 				workFileList.setEnabled(true);
 			} else {
 				vglII.setCursor(Cursor.WAIT_CURSOR);
-				fileLoadingProgressMonitor.setProgress(workFileLoader.getProgress());
+				fileLoadingProgressBar.setValue(workFileLoader.getProgress());
+				filenameLabel.setText(workFileLoader.getCurrentFileName());
+				decryptionProgressBar.setMinimum(0);
+				decryptionProgressBar.setMaximum(
+						EncryptionTools.getInstance().getNumberOfEncryptedBlocks());
+				decryptionProgressBar.setValue(
+						EncryptionTools.getInstance().getProgress());
 				workFileList.setEnabled(false);
 			}
 		}		
 	}
 
 	private void showWorkByName(String fileName) {
-				
+
 		GradingResult result = filenamesAndResults.get(fileName);
 
 		correctAnswer.setText(result.getCorrectAnswerHTML());
@@ -197,6 +227,6 @@ public class Grader extends JFrame {
 
 		this.toFront();
 	}
-	
+
 
 }

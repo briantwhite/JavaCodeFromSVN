@@ -1457,4 +1457,7 @@ Problem, can't rsa encrypt blocks larger than 117 bytes
 got SaveForGrading working
 added some more French & spanish text
 version 3.1.0
-	
+
+4/26/11
+added dual progress bar for loading grading files
+  ones with SUperCross take a LONG time to load

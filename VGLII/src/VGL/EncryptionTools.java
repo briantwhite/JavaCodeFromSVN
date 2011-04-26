@@ -51,7 +51,31 @@ public class EncryptionTools {
 	private final static byte[] KEY = 
 		(new String("The Virtual Genetics Lab is Awesome!")).getBytes();
 
-	public static void saveXOREncrypted(Document doc, File outFile) {
+	private static EncryptionTools instance;
+	
+	// values used for progress bar for loading files to grade
+	private int numberOfEncryptedBlocks;
+	private int progress;
+
+	private EncryptionTools() {
+		numberOfEncryptedBlocks = 0;
+		progress = 0;
+	}
+	
+	public static EncryptionTools getInstance() {
+		if (instance == null) instance = new EncryptionTools();
+		return instance;
+	}
+
+	// values used for progress bar for loading files to grade
+	public int getNumberOfEncryptedBlocks() {
+		return numberOfEncryptedBlocks;
+	}	
+	public int getProgress() {
+		return progress;
+	}
+	
+	public void saveXOREncrypted(Document doc, File outFile) {
 		XMLOutputter outputter = 
 			new XMLOutputter(Format.getPrettyFormat());
 		String xmlString = outputter.outputString(doc);
@@ -90,7 +114,7 @@ public class EncryptionTools {
 		}
 	}
 
-	public static Document readXOREncrypted(File inFile) {
+	public Document readXOREncrypted(File inFile) {
 		ZipFile workZip;
 		Document doc = null;
 		try {
@@ -133,7 +157,7 @@ public class EncryptionTools {
 	}
 
 	// used by Save For Grading
-	public static void saveRSAEncrypted(Document doc, File outFile, PublicKey pubKey) {
+	public void saveRSAEncrypted(Document doc, File outFile, PublicKey pubKey) {
 		XMLOutputter outputter = 
 			new XMLOutputter(Format.getPrettyFormat());
 		String xmlString = outputter.outputString(doc);
@@ -158,7 +182,7 @@ public class EncryptionTools {
 		}
 	}
 
-	private static String rsaEncrypt(byte[] data, PublicKey pubKey) {
+	private String rsaEncrypt(byte[] data, PublicKey pubKey) {
 		StringBuffer rsaByteBuffer = new StringBuffer();
 		try {
 			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
@@ -192,7 +216,7 @@ public class EncryptionTools {
 	 * uses keys/private.key "private key" - use only to read grader.key
 	 * in VGLII (this key is made public)
 	 */
-	public static Document readRSAEncrypted(File inFile) {
+	public Document readRSAEncrypted(File inFile) {
 		PrivateKey privKey = null;
 		try {
 			privKey = readPrivateKeyFromJARFile("keys/private.key");
@@ -206,7 +230,7 @@ public class EncryptionTools {
 		}
 	}
 
-	public static Document readRSAEncrypted(File inFile, PrivateKey privKey) {
+	public Document readRSAEncrypted(File inFile, PrivateKey privKey) {
 		Document doc = null;
 
 		BufferedReader in = null;
@@ -233,6 +257,8 @@ public class EncryptionTools {
 		}
 
 		String[] base64RSABlocks = input.split(";");
+		numberOfEncryptedBlocks = base64RSABlocks.length;
+		progress = 0;
 
 		StringBuffer xmlBuffer = new StringBuffer();
 		try {
@@ -244,6 +270,7 @@ public class EncryptionTools {
 						new String(
 								cipher.doFinal(
 										Base64Coder.decode(base64RSABlocks[i]))));
+				progress++;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -271,7 +298,7 @@ public class EncryptionTools {
 	 * 	used for getting the key to decrypt the grader.key
 	 * 
 	 */
-	private static PrivateKey readPrivateKeyFromJARFile(String keyFileName) throws IOException {
+	private PrivateKey readPrivateKeyFromJARFile(String keyFileName) throws IOException {
 		InputStream in =
 			EncryptionTools.class.getResourceAsStream(keyFileName);
 		ObjectInputStream oin =
@@ -297,7 +324,7 @@ public class EncryptionTools {
 	 * - also subtracts offset from modulus
 	 * 
 	 */
-	public static PrivateKey readPrivateKeyFromFile(String keyFileName) throws IOException {
+	public PrivateKey readPrivateKeyFromFile(String keyFileName) throws IOException {
 		ObjectInputStream oin =
 			new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFileName)));
 		try {
@@ -320,7 +347,7 @@ public class EncryptionTools {
 	 * subtracts "offset" - added security
 	 * 
 	 */
-	public static PublicKey readPublicKeyFromFile(String keyFileName) throws IOException {
+	public PublicKey readPublicKeyFromFile(String keyFileName) throws IOException {
 		ObjectInputStream oin =
 			new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFileName)));
 		try {

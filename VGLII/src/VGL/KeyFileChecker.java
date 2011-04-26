@@ -29,7 +29,7 @@ public class KeyFileChecker {
 		if (!graderTokenFile.exists()) {
 			return null;
 		} else {
-			Document doc = EncryptionTools.readRSAEncrypted(graderTokenFile);
+			Document doc = EncryptionTools.getInstance().readRSAEncrypted(graderTokenFile);
 			List<Element> elements = doc.getRootElement().getChildren(); 
 			Iterator<Element> elIt = elements.iterator();
 			Date date = null;
@@ -119,7 +119,8 @@ public class KeyFileChecker {
 								return null;
 							} else {
 								try {
-									return EncryptionTools.readPrivateKeyFromFile("instructor.key");
+									return EncryptionTools.getInstance().readPrivateKeyFromFile(
+											"instructor.key");
 								} catch (IOException e) {
 									e.printStackTrace();
 									return null;
@@ -137,7 +138,7 @@ public class KeyFileChecker {
 		File studentKeyFile = new File("student.key");
 		if (!studentKeyFile.exists()) return result;
 		try {
-			result = EncryptionTools.readPublicKeyFromFile("student.key");
+			result = EncryptionTools.getInstance().readPublicKeyFromFile("student.key");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -1045,7 +1045,7 @@ public class VGLII extends JFrame {
 					}
 
 					Document doc = getXMLDoc(al); 
-					EncryptionTools.saveXOREncrypted(doc, currentSavedFile);
+					EncryptionTools.getInstance().saveXOREncrypted(doc, currentSavedFile);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1079,7 +1079,8 @@ public class VGLII extends JFrame {
 					}
 
 					Document doc = getXMLDoc(al); 
-					EncryptionTools.saveRSAEncrypted(doc, fileForGrading, saveForGradingKey);
+					EncryptionTools.getInstance().saveRSAEncrypted(
+							doc, fileForGrading, saveForGradingKey);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

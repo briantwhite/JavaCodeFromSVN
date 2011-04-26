@@ -25,6 +25,7 @@ public class WorkFileLoader implements Runnable {
 	private boolean keepGoing;
 	
 	private int progress;
+	private String currentFileName;
 	
 	public WorkFileLoader(
 			File currentDirectory,
@@ -47,6 +48,7 @@ public class WorkFileLoader implements Runnable {
 					currentDirectory.getAbsolutePath() 
 					+ System.getProperty("file.separator") 
 					+ fileName);
+			currentFileName = fileName;
 			GeneticModelAndCageSet gmcs = 
 				GeneticModelFactory.getInstance().readModelFromRSAFile(workFile, vglII.getGradingKey());
 			
@@ -95,5 +97,9 @@ public class WorkFileLoader implements Runnable {
 
 	public int getProgress() {
 		return progress;
+	}
+	
+	public String getCurrentFileName() {
+		return currentFileName;
 	}
 }
