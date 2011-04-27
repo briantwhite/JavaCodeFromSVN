@@ -162,9 +162,10 @@ public class Grader extends JFrame {
 
 		loadingFiles = true;
 
-		progressDialog = new JDialog(this, true);
+		progressDialog = new JDialog(vglII, true);
+		progressDialog.setLocationRelativeTo(null);
 		progressDialog.setTitle("Loading files for Grading...");
-		progressDialog.setPreferredSize(new Dimension(300, 120));
+		progressDialog.setPreferredSize(new Dimension(300, 170));
 		JPanel progressPanel = new JPanel();
 		progressPanel.setLayout(new BoxLayout(progressPanel, BoxLayout.Y_AXIS));
 		progressPanel.add(
@@ -183,8 +184,20 @@ public class Grader extends JFrame {
 				progressDialog.dispose();
 			}
 		});
+		
+		JPanel wrapperPanel = new JPanel();
+		wrapperPanel.setLayout(new BoxLayout(wrapperPanel, BoxLayout.X_AXIS));
+		wrapperPanel.add(Box.createRigidArea(new Dimension(25, 0)));
+		wrapperPanel.add(progressPanel);
+		wrapperPanel.add(Box.createRigidArea(new Dimension(25, 0)));
+		
+		JPanel outerPanel = new JPanel();
+		outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
+		outerPanel.add(Box.createRigidArea(new Dimension(0, 25)));
+		outerPanel.add(wrapperPanel);
+		outerPanel.add(Box.createRigidArea(new Dimension(0, 25)));
 
-		progressDialog.add(progressPanel);
+		progressDialog.add(outerPanel);
 		progressDialog.pack();
 		progressDialog.setVisible(true);
 		loadingFiles = false;

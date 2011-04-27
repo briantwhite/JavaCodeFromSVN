@@ -1461,3 +1461,7 @@ version 3.1.0
 4/26/11
 added dual progress bar for loading grading files
   ones with SUperCross take a LONG time to load
+
+4/27/11
+made grader loading progress dialog look better
+added a little spanish & french translation
