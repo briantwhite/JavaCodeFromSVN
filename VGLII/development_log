@@ -1501,4 +1501,23 @@ to fix, reduce the amount to be decrypted
 since not showing the cages anyway, just save the html for the grader!
 
 much faster...
+
+did some testing
+(of new .gr2 mode)
+ran jar file by double-clicking
+under mac os
+	- took 10 .wr2 files from Patty's "VGLBonus" folder
+		opened in VGLII, saved for grading using Patty's new tokens
+		saved into "for grading"/
+	- all 10 opened in "Grade Students' Work" 
+under win xp
+	- took 2 more of those .wr2 files
+		opened and saved as above
+	- all 12 opened in "Grade Students' Work"
+back to mac os
+	- all 12 opened AOK
+
+therefore, can save for grading in either mac or win and open with either AOK
+** good!
+
      
