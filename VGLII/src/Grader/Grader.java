@@ -201,6 +201,8 @@ public class Grader extends JFrame {
 		progressDialog.pack();
 		progressDialog.setVisible(true);
 		loadingFiles = false;
+		
+		setVisible(true);
 	}
 
 	class FileLoadingTimerListener implements ActionListener {

@@ -292,6 +292,7 @@ public class EncryptionTools {
 
 		return doc;
 	}
+	
 
 	/**
 	 * get PrivateKey from a file in the jar

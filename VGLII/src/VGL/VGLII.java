@@ -51,6 +51,7 @@ import GeneticModels.CharacterSpecificationBank;
 import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
+import Grader.CageScorer;
 import Grader.Grader;
 import ModelBuilder.ModelBuilderUI;
 import PhenotypeImages.PhenotypeImageBank;
@@ -1078,7 +1079,7 @@ public class VGLII extends JFrame {
 								"." + saveForGradingFilterString); //$NON-NLS-1$
 					}
 
-					Document doc = getXMLDoc(al); 
+					Document doc = getGradingDoc(al); 
 					EncryptionTools.getInstance().saveRSAEncrypted(
 							doc, fileForGrading, saveForGradingKey);
 				}
@@ -1087,6 +1088,21 @@ public class VGLII extends JFrame {
 			}
 
 		}
+	}
+	
+	private Document getGradingDoc(ArrayList<Cage> cages) {
+		Element root = new Element("GraderInfo");
+		
+		Element studentAnswer = new Element("StudentAnswer");
+		studentAnswer.addContent(modelBuilder.getAsHtml(true)		
+				+ CageScorer.getCageScores(cages, modelBuilder));
+		root.addContent(studentAnswer);
+		
+		Element correctAnswer = new Element("CorrectAnswer");
+		correctAnswer.addContent(geneticModel.getHTMLForGrader());
+		root.addContent(correctAnswer);
+		
+		return new Document(root);
 	}
 
 	private Document getXMLDoc(ArrayList<Cage> cages) throws Exception {

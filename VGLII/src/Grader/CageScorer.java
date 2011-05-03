@@ -3,12 +3,14 @@ package Grader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import GeneticModels.Cage;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
 import GeneticModels.Phenotype;
 import GeneticModels.PhenotypeProcessor;
+import ModelBuilder.ModelBuilderUI;
 
 /**
  * takes a Cage and determines if it shows:
@@ -24,7 +26,29 @@ import GeneticModels.PhenotypeProcessor;
  */
 public class CageScorer {
 
-	public static String scoreCage(Cage cage) {
+	public static String getCageScores(ArrayList<Cage> cages, ModelBuilderUI mbui) {
+		StringBuffer b = new StringBuffer();
+		TreeSet<Integer> selectedCages = 
+			mbui.getChosenRelevantCages();
+		b.append("<hr>");
+		b.append("<b>Selected Cages:</b><br>");
+		
+		if(selectedCages.size() == 0) {
+			b.append("<b>No cages were selected.</b>");
+		} else {
+			Iterator<Integer> cageNumIt = selectedCages.iterator();
+			while (cageNumIt.hasNext()) {
+				int cageNum = cageNumIt.next();
+				b.append(scoreCage(cages.get(cageNum - 1)));
+			}
+			
+		}
+		
+		b.append("</ul>");
+		return b.toString();
+	}
+
+	private static String scoreCage(Cage cage) {
 		StringBuffer b = new StringBuffer();
 
 		b.append("<b>Cage ");

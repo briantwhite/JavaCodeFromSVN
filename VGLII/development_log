@@ -1465,3 +1465,40 @@ added dual progress bar for loading grading files
 4/27/11
 made grader loading progress dialog look better
 added a little spanish & french translation
+
+5/3/11
+opening files runs very SLOWLY
+do profiling:
+java -Xrunhprof:cpu=samples,file=log.txt -jar VGLII.jar 
+
+look in log.txt
+CPU SAMPLES BEGIN (total = 3105) Mon May  2 20:57:49 2011
+rank   self  accum   count trace method
+   1 29.15% 29.15%     905 300723 java.math.BigInteger.oddModPow
+   2 25.22% 54.36%     783 301747 java.math.BigInteger.oddModPow
+   3  6.51% 60.87%     202 300727 java.math.BigInteger.montReduce
+   4  5.28% 66.15%     164 300728 java.math.BigInteger.oddModPow
+   5  5.15% 71.30%     160 300724 java.math.BigInteger.oddModPow
+
+TRACE 300723:
+        java.math.BigInteger.oddModPow(BigInteger.java:1822)
+        java.math.BigInteger.modPow(BigInteger.java:1571)
+        sun.security.rsa.RSACore.crypt(RSACore.java:96)
+        sun.security.rsa.RSACore.rsa(RSACore.java:86)
+TRACE 301747:
+        java.math.BigInteger.oddModPow(BigInteger.java:1821)
+        java.math.BigInteger.modPow(BigInteger.java:1571)
+        sun.security.rsa.RSACore.crypt(RSACore.java:96)
+        sun.security.rsa.RSACore.rsa(RSACore.java:86)
+TRACE 300727:
+        java.math.BigInteger.montReduce(BigInteger.java:1861)
+        java.math.BigInteger.oddModPow(BigInteger.java:1822)
+        java.math.BigInteger.modPow(BigInteger.java:1571)
+        sun.security.rsa.RSACore.crypt(RSACore.java:96)
+
+so its the decryption that takes so long
+to fix, reduce the amount to be decrypted
+since not showing the cages anyway, just save the html for the grader!
+
+much faster...
+     

@@ -1,17 +1,16 @@
 package Grader;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
 
-import GeneticModels.Cage;
-import GeneticModels.GeneticModelFactory;
-import ModelBuilder.ModelBuilderUI;
-import VGL.GeneticModelAndCageSet;
+import org.jdom.Document;
+import org.jdom.Element;
+
+import VGL.EncryptionTools;
 import VGL.VGLII;
 
 public class WorkFileLoader implements Runnable {
@@ -49,15 +48,18 @@ public class WorkFileLoader implements Runnable {
 					+ System.getProperty("file.separator") 
 					+ fileName);
 			currentFileName = fileName;
-			GeneticModelAndCageSet gmcs = 
-				GeneticModelFactory.getInstance().readModelFromRSAFile(workFile, vglII.getGradingKey());
-			
-			String correctAnswerHTML = gmcs.getGeneticModel().getHTMLForGrader();
-			
-			ModelBuilderUI mbui = new ModelBuilderUI(vglII, gmcs);
-			mbui.configureFromFile(gmcs.getModelBuilderState());
-			String studentAnswerHTML = mbui.getAsHtml(true) + getCageScores(gmcs.getCages(), mbui);
-			
+
+			Document doc = 
+				EncryptionTools.getInstance().readRSAEncrypted(workFile, vglII.getGradingKey());
+			List<Element> els = doc.getRootElement().getChildren();
+			String studentAnswerHTML = "";
+			String correctAnswerHTML = "";
+			Iterator<Element> elIt = els.iterator();
+			while (elIt.hasNext()) {
+				Element e = elIt.next();
+				if (e.getName().equals("StudentAnswer")) studentAnswerHTML = e.getText();
+				if (e.getName().equals("CorrectAnswer")) correctAnswerHTML = e.getText();
+			}
 			filenamesAndResults.put(
 					fileName, new GradingResult(studentAnswerHTML, correctAnswerHTML));
 			
@@ -65,28 +67,6 @@ public class WorkFileLoader implements Runnable {
 		}
 	}
 	
-	private String getCageScores(ArrayList<Cage> cages, ModelBuilderUI mbui) {
-		StringBuffer b = new StringBuffer();
-		TreeSet<Integer> selectedCages = 
-			mbui.getChosenRelevantCages();
-		b.append("<hr>");
-		b.append("<b>Selected Cages:</b><br>");
-		
-		if(selectedCages.size() == 0) {
-			b.append("<b>No cages were selected.</b>");
-		} else {
-			Iterator<Integer> cageNumIt = selectedCages.iterator();
-			while (cageNumIt.hasNext()) {
-				int cageNum = cageNumIt.next();
-				b.append(CageScorer.scoreCage(cages.get(cageNum - 1)));
-			}
-			
-		}
-		
-		b.append("</ul>");
-		return b.toString();
-	}
-
 	public void stop() {
 		keepGoing = false;
 	}
