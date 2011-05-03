@@ -1520,4 +1520,6 @@ back to mac os
 therefore, can save for grading in either mac or win and open with either AOK
 ** good!
 
+fixed bug - closing work left blank ModelBuilder
+	need to dispose() of the JDialog
      

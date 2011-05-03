@@ -1267,6 +1267,9 @@ public class VGLII extends JFrame {
 		if (modelBuilder != null) {
 			modelBuilder.setVisible(false);
 		}
+		if (modelBuilderDialog != null) {
+			modelBuilderDialog.dispose();
+		}
 	}
 
 	/**
