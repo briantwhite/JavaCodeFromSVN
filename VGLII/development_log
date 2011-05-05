@@ -1532,4 +1532,7 @@ then in terminal
 for i in *copy; do mv "$i" "${i/.gr2 copy/}"_new.gr2; done
 
 worked AOK with 108 files.
+
+5/5/11
+made mac, linux, and pc versions & posted on web
      
