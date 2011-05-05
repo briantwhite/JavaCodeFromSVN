@@ -1522,4 +1522,14 @@ therefore, can save for grading in either mac or win and open with either AOK
 
 fixed bug - closing work left blank ModelBuilder
 	need to dispose() of the JDialog
+
+5/4/11
+tested with 108 .gr2 files (Patty had reported that, with old, uncompressed .gr2's,
+it hung with more than 20
+
+made them by using os x to duplicate the 12 ones I made
+then in terminal
+for i in *copy; do mv "$i" "${i/.gr2 copy/}"_new.gr2; done
+
+worked AOK with 108 files.
      
