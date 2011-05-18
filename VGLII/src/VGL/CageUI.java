@@ -558,7 +558,11 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 				Messages.getInstance().getString("VGLII.Images"), javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.ABOVE_TOP));
 
-		childrenOrganismUIs = new OrganismUI[2 * numPhenosPresent][maxOrgsInOneRow];
+		if (isSuperCross) {
+			childrenOrganismUIs = new OrganismUI[2 * numPhenosPresent][absoluteMaxOrgsPerRow];
+		} else {
+			childrenOrganismUIs = new OrganismUI[2 * numPhenosPresent][maxOrgsInOneRow];
+		}
 
 		//For each phenotype, setup its own panels for organismUIs,count and
 		//pictures and add them to the right places in the organismpanel,
@@ -606,7 +610,12 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		JPanel topRowOfOrganismsPanel = new JPanel();
 		JPanel bottomRowOfOrganismsPanel = new JPanel();
 
-		GridLayout gridlt = new GridLayout(1, maxOrgsInOneRow);
+		GridLayout gridlt = null;
+		if (isSuperCross) {
+			gridlt = new GridLayout(1, absoluteMaxOrgsPerRow);
+		} else {
+			gridlt = new GridLayout(1, maxOrgsInOneRow);
+		}
 		gridlt.setHgap(1);
 		gridlt.setVgap(2);
 		topRowOfOrganismsPanel.setLayout(gridlt);
@@ -632,7 +641,8 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					// then see if there are any females
 					//   if so, then make a row of females
 					//   if not, make another row of males
-					if (childrenSortedByPhenotype[number].getNumberOfFemales() > 0) {
+					if ((childrenSortedByPhenotype[number].getNumberOfFemales() > 0) 
+							&& (it.hasNext())) {
 						// run thru the remaining males
 						while (((Organism)it.next()).getSexString().equals(
 								Messages.getInstance().getString("VGLII.Male"))) {}
