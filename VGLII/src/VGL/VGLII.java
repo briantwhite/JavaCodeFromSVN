@@ -1665,7 +1665,6 @@ public class VGLII extends JFrame {
 
 	public void setChangeSinceLastSave() {
 		changeSinceLastSave = true;
-		System.out.println("VGLII line 1663 - set change since last save to true");
 	}
 
 }
