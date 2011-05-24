@@ -1541,4 +1541,7 @@ Sophie found a bug in SuperCross - some layout issues in CageUI
 	fixed
 	version 3.1.2
 
+5/24/11
+put back changeSinceLast save and set it up to work with ModelBuilder
+still version 3.1.2
      

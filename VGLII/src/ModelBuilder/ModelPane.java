@@ -21,7 +21,7 @@ import GeneticModels.ProblemTypeSpecification;
 import VGL.Messages;
 
 public class ModelPane extends JPanel implements ItemListener {
-	
+
 	/*
 	 *  color for list items where the student didn't have 
 	 *    a choice - so don't grade
@@ -110,6 +110,7 @@ public class ModelPane extends JPanel implements ItemListener {
 			slcs[i] = sexLinkageChoiceStrings.get(i);
 		}
 		sexLinkageChoices = new JComboBox(slcs);
+		sexLinkageChoices.addItemListener(this);
 		sexLinkagePanel.add(sexLinkageChoices);
 
 		masterPanel.add(sexLinkagePanel);
@@ -195,6 +196,7 @@ public class ModelPane extends JPanel implements ItemListener {
 			JPanel upperPanel = new JPanel();
 			upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.X_AXIS));
 			sexLinkageCageChoices = new JComboBox(getCageList());
+			sexLinkageCageChoices.addItemListener(this);
 			upperPanel.add(
 					new JLabel(Messages.getInstance().getString("VGLII.ForSexLinkage")));
 			upperPanel.add(sexLinkageCageChoices);
@@ -203,6 +205,7 @@ public class ModelPane extends JPanel implements ItemListener {
 		JPanel lowerPanel = new JPanel();
 		lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.X_AXIS));
 		interactionCageChoices = new JComboBox(getCageList());
+		interactionCageChoices.addItemListener(this);
 		lowerPanel.add(
 				new JLabel(Messages.getInstance().getString("VGLII.ForDetails")));
 		lowerPanel.add(interactionCageChoices);
@@ -214,29 +217,36 @@ public class ModelPane extends JPanel implements ItemListener {
 
 	public void setT1Value(int t1Value) {
 		this.t1Value = t1Value;
+		modelBuilderUI.getVGLII().setChangeSinceLastSave();
 	}
 
 	public void setT2Value(int t2Value) {
 		this.t2Value = t2Value;
+		modelBuilderUI.getVGLII().setChangeSinceLastSave();
 	}
 
 	public void setT3Value(int t3Value) {
 		this.t3Value = t3Value;
+		modelBuilderUI.getVGLII().setChangeSinceLastSave();
 	}
 
 	public void setT4Value(int t4Value) {
 		this.t4Value = t4Value;
+		modelBuilderUI.getVGLII().setChangeSinceLastSave();
 	}
 
 	public void setT5Value(int t5Value) {
 		this.t5Value = t5Value;
+		modelBuilderUI.getVGLII().setChangeSinceLastSave();
 	}
 
 	public void setT6Value(int t6Value) {
 		this.t6Value = t6Value;
+		modelBuilderUI.getVGLII().setChangeSinceLastSave();
 	}
 
 	public void clearValues() {
+		modelBuilderUI.getVGLII().setChangeSinceLastSave();
 		t1Value = 0;
 		t2Value = 0;
 		t3Value = 0;
@@ -256,6 +266,8 @@ public class ModelPane extends JPanel implements ItemListener {
 	}
 
 	public void itemStateChanged(ItemEvent e) {
+
+		modelBuilderUI.getVGLII().setChangeSinceLastSave();
 
 		if (e.getSource().equals(alleleNumberChoices)) {
 			if (e.getItem().toString().equals(
@@ -418,17 +430,17 @@ public class ModelPane extends JPanel implements ItemListener {
 			}
 		}
 	}
-	
+
 	public String[] getCageList() {
 		int numCages = modelBuilderUI.getVGLII().getNumCages();
-		
+
 		/*
 		 * see if there are no CageUI's in the VGL
 		 * 	if so, that means this is a problem for grading
 		 * 	so need to get number of cages from cage set that was loaded in file.
 		 */
 		if (numCages == -1) numCages = modelBuilderUI.getGenticModelAndCageSet().getCages().size();
-		
+
 		String[] list = new String[numCages + 1];
 		list[0] = "?";
 		for (int i = 1; i < numCages + 1; i++) {
@@ -509,7 +521,7 @@ public class ModelPane extends JPanel implements ItemListener {
 				setT6Value(Integer.parseInt(e.getText()));
 				mdp.updateT6Choices(Integer.parseInt(e.getText()));
 			}
-			
+
 			if (e.getName().equals("SexLinkageCage")) {
 				sexLinkageCageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
 			}
@@ -535,9 +547,11 @@ public class ModelPane extends JPanel implements ItemListener {
 		e.setText(String.valueOf(alleleNumberChoices.getSelectedIndex()));
 		mpe.addContent(e);
 
-		e = new Element("InteractionType");
-		e.setText(String.valueOf(interactionTypeChoices.getSelectedIndex()));
-		mpe.addContent(e);
+		if (interactionTypeChoices != null) {
+			e = new Element("InteractionType");
+			e.setText(String.valueOf(interactionTypeChoices.getSelectedIndex()));
+			mpe.addContent(e);
+		}
 
 		e = new Element("T1");
 		e.addContent(String.valueOf(t1Value));
@@ -568,11 +582,11 @@ public class ModelPane extends JPanel implements ItemListener {
 			e.addContent(String.valueOf(sexLinkageCageChoices.getSelectedIndex()));
 			mpe.addContent(e);
 		}
-		
+
 		e = new Element("DetailsCage");
 		e.addContent(String.valueOf(interactionCageChoices.getSelectedIndex()));
 		mpe.addContent(e);
-		
+
 		return mpe;
 	}
 
@@ -592,27 +606,27 @@ public class ModelPane extends JPanel implements ItemListener {
 		b.append(sexLinkageChoices.getSelectedItem());
 		if (sexLinkageChoices.getItemCount() == 1) b.append("</font>");
 		b.append("</li>");
-		
+
 		b.append("<li>");
 		if (alleleNumberChoices.getItemCount() == 1) 
 			b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
 		b.append(alleleNumberChoices.getSelectedItem());
 		if (alleleNumberChoices.getItemCount() == 1) b.append("</font>");
 		b.append("</li>");
-		
+
 		if (interactionTypeChoices != null) {
-			
+
 			b.append("<li>");
 			if (interactionTypeChoices.getItemCount() == 1)
 				b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
 			b.append(interactionTypeChoices.getSelectedItem());
 			if (interactionTypeChoices.getItemCount() == 1) b.append("</font>");
 			b.append("</li>");
-			
+
 			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
 			b.append(mdp.getAsHtml(isForGrader));
 		}
-		
+
 		b.append("<li>");
 		if (isForGrader) {
 			b.append("Relevant Cages:");
@@ -620,7 +634,7 @@ public class ModelPane extends JPanel implements ItemListener {
 			b.append(Messages.getInstance().getString("VGLII.RelevantCages"));
 		}
 		b.append("</li><ul>");
-		
+
 		if (sexLinkageCageChoices != null) {
 			b.append("<li>");
 			if (isForGrader) {
@@ -631,7 +645,7 @@ public class ModelPane extends JPanel implements ItemListener {
 			b.append("<b>");
 			b.append(sexLinkageCageChoices.getSelectedItem() + "</b></li>");
 		}
-		
+
 		b.append("<li>");
 		if (isForGrader) {
 			b.append("For allele interaction type:");
@@ -639,7 +653,7 @@ public class ModelPane extends JPanel implements ItemListener {
 			b.append(Messages.getInstance().getString("VGLII.ForDetails") + " ");
 		}
 		b.append("<b>");
-		
+
 		b.append(interactionCageChoices.getSelectedItem() + "</b></li>");
 		b.append("</ul>");
 		b.append("</ul><br>");

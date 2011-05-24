@@ -122,6 +122,14 @@ public class VGLII extends JFrame {
 	private Random random;
 
 	/**
+	 * boolean set when anything savable changes
+	 * 	new cross
+	 *  change to ModelBuilder
+	 * cleared when user saves work
+	 */
+	private boolean changeSinceLastSave;
+
+	/**
 	 * the genetic model for the current problem
 	 */
 	private GeneticModel geneticModel;
@@ -413,6 +421,7 @@ public class VGLII extends JFrame {
 		if (saveForGradingKey != null) saveForGradingEnabled = true;
 
 		setupUI(); 
+		changeSinceLastSave = false;
 	}
 
 
@@ -959,6 +968,8 @@ public class VGLII extends JFrame {
 			modelBuilderDialog.add(modelBuilder);
 			modelBuilderDialog.pack();
 			modelBuilderDialog.setLocation(300, 300);
+
+			changeSinceLastSave = true;
 		}
 	}
 
@@ -1018,6 +1029,7 @@ public class VGLII extends JFrame {
 		} else {
 			modelBuilderItem.setEnabled(false);
 		}
+		changeSinceLastSave = false;
 	}
 
 	/**
@@ -1047,6 +1059,7 @@ public class VGLII extends JFrame {
 
 					Document doc = getXMLDoc(al); 
 					EncryptionTools.getInstance().saveXOREncrypted(doc, currentSavedFile);
+					changeSinceLastSave = false;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1089,19 +1102,19 @@ public class VGLII extends JFrame {
 
 		}
 	}
-	
+
 	private Document getGradingDoc(ArrayList<Cage> cages) {
 		Element root = new Element("GraderInfo");
-		
+
 		Element studentAnswer = new Element("StudentAnswer");
 		studentAnswer.addContent(modelBuilder.getAsHtml(true)		
 				+ CageScorer.getCageScores(cages, modelBuilder));
 		root.addContent(studentAnswer);
-		
+
 		Element correctAnswer = new Element("CorrectAnswer");
 		correctAnswer.addContent(geneticModel.getHTMLForGrader());
 		root.addContent(correctAnswer);
-		
+
 		return new Document(root);
 	}
 
@@ -1198,6 +1211,10 @@ public class VGLII extends JFrame {
 	 * all related objects
 	 */
 	private void closeProblem() {
+		if (!changeSinceLastSave) {
+			cleanUp();
+			return;
+		}
 		if (cageCollection != null) {
 			int ans1 = JOptionPane.showConfirmDialog(this,
 					Messages.getInstance().getInstance().getString("VGLII.ClosingWarningLine1") //$NON-NLS-1$
@@ -1205,8 +1222,10 @@ public class VGLII extends JFrame {
 					+ Messages.getInstance().getInstance().getString("VGLII.ClosingWarningLine2"), //$NON-NLS-1$
 					Messages.getInstance().getInstance().getString("VGLII.CloseWork"), JOptionPane.YES_NO_CANCEL_OPTION, //$NON-NLS-1$
 					JOptionPane.WARNING_MESSAGE);
-			if (ans1 == JOptionPane.YES_OPTION)
+			if (ans1 == JOptionPane.YES_OPTION) {
 				saveProblem();
+				cleanUp();
+			}
 			if (ans1 == JOptionPane.NO_OPTION) 
 				cleanUp();
 			if (ans1 != JOptionPane.CANCEL_OPTION)
@@ -1218,6 +1237,10 @@ public class VGLII extends JFrame {
 	 * Exits the application after doing the necessary cleanup
 	 */
 	private void exitApplication() {
+		if (!changeSinceLastSave) {
+			cleanUp();
+			System.exit(0);
+		}
 		if (cageCollection != null) {
 
 			int ans = JOptionPane.showConfirmDialog(this,
@@ -1324,6 +1347,7 @@ public class VGLII extends JFrame {
 				parentUIs[0].setCentralOrganismUI(organismUI2);
 			}
 			modelBuilder.updateCageChoices(nextCageId);
+			changeSinceLastSave = true;
 		} else {
 			JOptionPane.showMessageDialog(this, Messages.getInstance().getInstance().getString("VGLII.VGLII") //$NON-NLS-1$
 					+ "\n"
@@ -1634,10 +1658,15 @@ public class VGLII extends JFrame {
 	public PrivateKey getGradingKey() {
 		return gradingKey;
 	}
-	
+
 	public ModelBuilderUI getModelBuilder() {
 		return modelBuilder;
 	}
-	
+
+	public void setChangeSinceLastSave() {
+		changeSinceLastSave = true;
+		System.out.println("VGLII line 1663 - set change since last save to true");
+	}
+
 }
 
