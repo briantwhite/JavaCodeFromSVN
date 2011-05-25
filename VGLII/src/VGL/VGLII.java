@@ -1029,6 +1029,7 @@ public class VGLII extends JFrame {
 		} else {
 			modelBuilderItem.setEnabled(false);
 		}
+		currentSavedFile = workFile; // save now to file you just loaded
 		changeSinceLastSave = false;
 	}
 
