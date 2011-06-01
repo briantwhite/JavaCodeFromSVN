@@ -1,0 +1,7 @@
+6/1/2011
+project had been working for a long time
+now, added problems and grading
+
+first, need to get xml working
+put jdom.jar in workspace, add <zipfileset src="jdom.jar"/> to the build.xml
+added jdom.jar to build as a jar

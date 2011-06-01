@@ -1,3 +1,4 @@
+package GX;
 /*
  * the parameters for setting up a genex
  * Created on May 5, 2005

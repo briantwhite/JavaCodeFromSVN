@@ -6,10 +6,11 @@
 	<target name="jarfile" depends="compile" description="Makes executable jar">
 		<jar destfile="bin/genex.jar">
 		    <manifest>
-			    <attribute name="Main-Class" value="Genex"/>
+			    <attribute name="Main-Class" value="GX.Genex"/>
             </manifest>
             <fileset dir="bin/"/>
             <fileset dir="resources/"/>
+			<zipfileset src="jdom.jar"/>
         </jar>
 		<move file="bin/genex.jar" todir="web/"/>
 	</target>
