@@ -11,7 +11,7 @@ public class RequirementFactory {
 		List<Element> parts = e.getChildren();
 		if (e.getAttributeValue("type").equals("BaseSelection")) r = new BaseSelectionRequirement(parts);
 		if (e.getAttributeValue("type").equals("SingleMutation")) r = new SingleMutationRequirement();
-		
+		if (e.getAttributeValue("type").equals("ShorterProtein")) r = new ShorterProteinRequirement();
 		return r;
 	}
 

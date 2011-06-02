@@ -34,11 +34,11 @@
         
         <Problem>
         	<Number>3</Number>
-        	<Name>Single mutation</Name>
-        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, change one base.</Description>
-        	<FailString>You did not change only one base.</FailString>
-        	<Requirement type="SingleMutation">
-        	</Requirement>
+        	<Name>Shorter Protein</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, change one base so that the protein is shorter.</Description>
+        	<FailString>You did not change only one base and/or the protein is not shorter.</FailString>
+        	<Requirement type="SingleMutation"></Requirement>
+        	<Requirement type="ShorterProtein"></Requirement>
         </Problem>
         
 </root>
