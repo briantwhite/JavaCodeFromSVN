@@ -10,6 +10,8 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
+import Requirements.RequirementFactory;
+
 
 public class ProblemFileReader {
 	
@@ -51,6 +53,8 @@ public class ProblemFileReader {
 			if (e.getName().equals("Name")) p.setName(e.getTextTrim());
 			if (e.getName().equals("Number")) p.setNumber(Integer.parseInt(e.getTextTrim()));
 			if (e.getName().equals("Description")) p.setDescription(e.getTextTrim());
+			if (e.getName().equals("FailString")) p.setFailureString(e.getTextTrim());
+			if (e.getName().equals("Requirement")) p.addRequirement(RequirementFactory.build(e));
 		}
 		
 		return p;

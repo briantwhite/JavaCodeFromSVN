@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root>
+<root>        
         <Problem>
         	<Number>0</Number>
-        	<Name>Test Problem</Name>
-        	<Description>This is a test problem.</Description>
+        	<Name>Base in an Intron</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, select any DNA base that corresponds to an intron.</Description>
+        	<FailString>That base is not in an intron.</FailString>
+        	<Requirement type="BaseSelection">
+        		<Bases>27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91</Bases>
+        	</Requirement>
+        </Problem>
+        
+        <Problem>
+        	<Number>1</Number>
+        	<Name>Base in 5' untranslated region</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, select any DNA base that corresponds to the 
+        		&lt;font color=red&gt;5'&lt;/font&gt; untranslated region.</Description>
+        	<FailString>That base is not in the 5' UTR.</FailString>
+        	<Requirement type="BaseSelection">
+        		<Bases>11,12,13,14,15,16,17,18,19</Bases>
+        	</Requirement>
+        </Problem>
+        
+        <Problem>
+        	<Number>2</Number>
+        	<Name>Base in 3' untranslated region</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, select any DNA base that corresponds to the 
+        		&lt;font color=red&gt;3'&lt;/font&gt; untranslated region.</Description>
+        	<FailString>That base is not in the 3' UTR.</FailString>
+        	<Requirement type="BaseSelection">
+        		<Bases>105,106,107,108,109,110,111,112,113,114,115</Bases>
+        	</Requirement>
         </Problem>
 </root>
