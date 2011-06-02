@@ -50,6 +50,7 @@ public class ProblemFileReader {
 			Element e = elIt.next();
 			if (e.getName().equals("Name")) p.setName(e.getTextTrim());
 			if (e.getName().equals("Number")) p.setNumber(Integer.parseInt(e.getTextTrim()));
+			if (e.getName().equals("Description")) p.setDescription(e.getTextTrim());
 		}
 		
 		return p;

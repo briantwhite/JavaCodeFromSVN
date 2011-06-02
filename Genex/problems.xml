@@ -3,5 +3,6 @@
         <Problem>
         	<Number>0</Number>
         	<Name>Test Problem</Name>
+        	<Description>This is a test problem.</Description>
         </Problem>
 </root>

@@ -2,11 +2,14 @@ package Problems;
 
 import java.util.HashSet;
 
+import Requirements.Requirement;
+
 public class Problem {
 	
 	private HashSet<Requirement> requirements;
 	private String name;
 	private int number;
+	private String description;
 	
 	public Problem() {
 		requirements = new HashSet<Requirement>();
@@ -30,6 +33,14 @@ public class Problem {
 	
 	public void addRequirement(Requirement r) {
 		requirements.add(r);
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 	
 	public String evaluate(GenexState gs) {
