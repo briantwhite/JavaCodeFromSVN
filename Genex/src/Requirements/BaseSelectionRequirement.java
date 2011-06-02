@@ -23,6 +23,7 @@ public class BaseSelectionRequirement extends Requirement {
 					desiredBaseList.add(new Integer(Integer.parseInt(bases[i])));
 				}
 			}
+			if (e.getName().equals("FailString")) failureString = e.getTextTrim();
 		}
 	}
 

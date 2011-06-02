@@ -11,7 +11,6 @@ public class Problem {
 	private String name;
 	private int number;
 	private String description;
-	private String failureString;
 
 	public Problem() {
 		requirements = new HashSet<Requirement>();
@@ -45,28 +44,26 @@ public class Problem {
 		return description;
 	}
 
-	public void setFailureString(String fail) {
-		failureString = fail;
-	}
-
-	public String getFailureString() {
-		return failureString;
-	}
 
 	/*
 	 * if any of the requirements fail, this fails
 	 */
 	public String evaluate(GenexState gs) {
+		StringBuffer failBuffer = new StringBuffer();
 		Iterator<Requirement> rIt = requirements.iterator();
 		boolean satisfied = true;
 		while (rIt.hasNext()) {
 			Requirement r = rIt.next();
-			if (!r.isSatisfied(gs)) satisfied = false;
+			if (!r.isSatisfied(gs)) {
+				satisfied = false;
+				failBuffer.append(r.getFailureString());
+				failBuffer.append("<br>");
+			}
 		}
 		if (satisfied) {
 			return "OK";
 		} else {
-			return failureString;
+			return failBuffer.toString();
 		}
 	}
 

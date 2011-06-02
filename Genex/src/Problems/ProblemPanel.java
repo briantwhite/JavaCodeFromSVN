@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -16,13 +17,15 @@ public class ProblemPanel extends JPanel {
 	private static final String HTML_START = "<html><body>";
 	private static final String HTML_END = "</body></html>";
 	
+	private JDialog parentDialog;
 	private Problem prob;
 	private GenexGUI genexGUI;
 	
 	private JLabel resultLabel;
 	
-	public ProblemPanel(Problem p, GenexGUI genexGUI) {
+	public ProblemPanel(JDialog parentDialog, Problem p, GenexGUI genexGUI) {
 		super();
+		this.parentDialog = parentDialog;
 		prob = p;
 		this.genexGUI = genexGUI;
 		setupUI();
@@ -54,14 +57,18 @@ public class ProblemPanel extends JPanel {
 			add(resultLabel);
 			revalidate();
 			repaint();
+			parentDialog.pack();
+			parentDialog.repaint();
 		} else {
 			remove(resultLabel);
-			resultLabel = new JLabel(result);
+			resultLabel = new JLabel(HTML_START + result + HTML_END);
 			resultLabel.setOpaque(true);
 			resultLabel.setBackground(Color.RED);
 			add(resultLabel);
 			revalidate();
 			repaint();
+			parentDialog.pack();
+			parentDialog.repaint();
 		}
 	}
 
