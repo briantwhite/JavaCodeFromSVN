@@ -31,4 +31,14 @@
         		<Bases>105,106,107,108,109,110,111,112,113,114,115</Bases>
         	</Requirement>
         </Problem>
+        
+        <Problem>
+        	<Number>3</Number>
+        	<Name>Single mutation</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, change one base.</Description>
+        	<FailString>You did not change only one base.</FailString>
+        	<Requirement type="SingleMutation">
+        	</Requirement>
+        </Problem>
+        
 </root>
