@@ -12,7 +12,7 @@ public class ProblemSetFactory {
 		ProblemPanel[] problemPanels = new ProblemPanel[problems.length];
 		JTabbedPane tabs = new JTabbedPane();
 		for (int i = 0; i < problems.length; i++) {
-			problemPanels[i] = new ProblemPanel(problems[i]);
+			problemPanels[i] = new ProblemPanel(problems[i], genexGUI);
 			tabs.addTab("(" + (i+1) + ") " + problems[i].getName(), problemPanels[i]);
 		}
 		masterPanel.add(tabs);

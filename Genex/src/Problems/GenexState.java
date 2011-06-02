@@ -9,7 +9,7 @@ public class GenexState {
 	private String startingDNAsequence;
 	private int selectedBase;
 	private String currentDNASequence;
-	private int numberOfIntrons;
+	private int numberOfExons;
 	private String rnaSequence;
 	private String proteinSequence;
 	
@@ -17,15 +17,16 @@ public class GenexState {
 			String startingDNAsequence,
 			int selectedBase,
 			String currentDNASequence,
-			int numberOfIntrons,
+			int numberOfExons,
 			String rnaSequence,
 			String proteinSequence) {
 		this.startingDNAsequence = startingDNAsequence;
 		this.selectedBase = selectedBase;
 		this.currentDNASequence = currentDNASequence;
-		this.numberOfIntrons = numberOfIntrons;
+		this.numberOfExons = numberOfExons;
 		this.rnaSequence = rnaSequence;
 		this.proteinSequence = proteinSequence;
+		System.out.println("GenexState\n" + toString());
 	}
 
 	public String getStartingDNAsequence() {
@@ -40,8 +41,8 @@ public class GenexState {
 		return currentDNASequence;
 	}
 
-	public int getNumberOfIntrons() {
-		return numberOfIntrons;
+	public int getNumberOfExons() {
+		return numberOfExons;
 	}
 
 	public String getRnaSequence() {
@@ -50,6 +51,18 @@ public class GenexState {
 
 	public String getProteinSequence() {
 		return proteinSequence;
+	}
+	
+	public String toString() {
+		StringBuffer b = new StringBuffer();
+		b.append("State:\n");
+		b.append("\tStarting DNA=" + startingDNAsequence + "\n");
+		b.append("\tSelected base=" + selectedBase + "\n");
+		b.append("\tCurrent DNA=" + currentDNASequence + "\n");
+		b.append("\tNum Exons=" + numberOfExons + "\n");
+		b.append("\tRNA=" + rnaSequence + "\n");
+		b.append("\tProtein=" + proteinSequence + "\n" + "\n");
+		return b.toString();
 	}
 
 }
