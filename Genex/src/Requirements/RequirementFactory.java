@@ -21,7 +21,8 @@ public class RequirementFactory {
 		if (e.getAttributeValue("type").equals("ParticularProtein")) r = new ParticularProteinRequirement(parts);
 		if (e.getAttributeValue("type").equals("ProteinLength")) r = new ProteinLengthRequirement(parts);
 		if (e.getAttributeValue("type").equals("IntronNumber")) r = new IntronNumberRequirement(parts);
-		
+		if (e.getAttributeValue("type").equals("MutationLocation")) r = new MutationLocationRequirement(parts);
+
 		return r;
 	}
 

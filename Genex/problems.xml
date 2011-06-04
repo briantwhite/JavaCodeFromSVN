@@ -67,13 +67,14 @@
           <Problem>
         	<Number>5</Number>
         	<Name>Same Protein</Name>
-        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, change one base in the coding region 
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, change one base in the 
+        	    &lt;font color=red&gt;coding region&lt;/font&gt; 
         		so that the protein sequence is unchanged.</Description>
         	<Requirement type="SingleMutation">
         		<FailString>You did not make a single base change.</FailString>
         	</Requirement>
-        	<Requirement type="BaseSelection">
-        		<Bases>20,21,22,23,24,25,26,55,56,57,58,59,60,61,62,63,64,65,66,67,92,93,94,95,96,97,98,99,100,101,102,103,104</Bases>
+        	<Requirement type="MutationLocation">
+        		<Locations>20,21,22,23,24,25,26,55,56,57,58,59,60,61,62,63,64,65,66,67,92,93,94,95,96,97,98,99,100,101,102,103,104</Locations>
         		<FailString>Your change is not in the coding region.</FailString>
         	</Requirement>
         	<Requirement type="SameProtein">
