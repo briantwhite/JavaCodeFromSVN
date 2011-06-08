@@ -86,8 +86,7 @@
         	<Number>6</Number>
         	<Name>Particular Protein</Name>
         	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, change one base in the coding region 
-        		so that the protein sequence becomes:&lt;br&gt;MetPro&lt;font color=red&gt;Trp&lt;/font&gt;
-        		SerAspValGluArgGlyPro.</Description>
+        		so that the protein sequence becomes:&lt;br&gt;MetPro&lt;font color=red&gt;Trp&lt;/font&gt;SerAspValGluArgGlyPro.</Description>
         	<Requirement type="SingleMutation">
         		<FailString>You did not make a single base change.</FailString>
         	</Requirement>
