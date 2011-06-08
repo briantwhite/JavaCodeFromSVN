@@ -84,7 +84,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.1.2"; //$NON-NLS-1$
+	public final static String version = "3.1.3"; //$NON-NLS-1$
 
 	/**
 	 * the list of supported languages
@@ -954,6 +954,8 @@ public class VGLII extends JFrame {
 
 			if (geneticModel == null) return;
 
+			geneticModel.setProblemFileName(problemFile.getName());
+			
 			nextCageId = 0;
 			selectionVial = new SelectionVial(statusLabel);
 			cageCollection = new ArrayList<CageUI>();
