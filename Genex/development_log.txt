@@ -5,3 +5,21 @@ now, added problems and grading
 first, need to get xml working
 put jdom.jar in workspace, add <zipfileset src="jdom.jar"/> to the build.xml
 added jdom.jar to build as a jar
+
+6/9/11
+trying to fix bug
+sometimes, when you enter a new DNA sequence and click on a base, nothing is selected
+also, this sequence GTATAACCATGCCCTAACGGGG
+gives an error when you enter it (even before you click on anything!)
+     [java] Exception in thread "AWT-EventQueue-0" java.lang.IllegalStateException: Attempt to mutate in notification
+     [java] 	at javax.swing.text.AbstractDocument.writeLock(AbstractDocument.java:1323)
+     [java] 	at javax.swing.text.AbstractDocument.remove(AbstractDocument.java:570)
+     [java] 	at javax.swing.JEditorPane.setText(JEditorPane.java:1493)
+     [java] 	at GX.GenexGUI.refreshDisplay(GenexGUI.java:464)
+something strange with the new DNA thing...
+
+fixed it by changing from textPane.caretListener() to textPane.mouseListener() and viewToModel()
+
+need to fix layout also
+
+version 2.0
