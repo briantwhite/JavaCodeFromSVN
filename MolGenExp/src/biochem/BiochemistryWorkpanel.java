@@ -126,7 +126,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		loadSampleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				proteinSequence.setText(GlobalDefaults.sampleProtein);
-				aaSeqChanged();
+				foldProtein();
 			}
 		});
 	}

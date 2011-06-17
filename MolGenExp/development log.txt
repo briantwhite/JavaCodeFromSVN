@@ -1532,4 +1532,13 @@ troubles in Biochem
 - folding from entered seq never showed sequence or protein (but it was folded)!
 - layout issues
 fixed them all
+
+6/17/11
+fixed MoBo to have better listener for text selection
+(done in genex first)
+in mol biol workpanel - replace caretListener with mouseListener
+fixed other misc bugs
+
 version 1.3.2
+made mac, pc, and linux versions
+
