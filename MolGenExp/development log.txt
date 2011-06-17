@@ -1526,3 +1526,10 @@ version 1.3.1
 
 3/17/11
 made mac, pc, linux versions & posted
+
+6/16/11
+troubles in Biochem
+- folding from entered seq never showed sequence or protein (but it was folded)!
+- layout issues
+fixed them all
+version 1.3.2

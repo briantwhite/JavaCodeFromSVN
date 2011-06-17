@@ -92,7 +92,7 @@ public class BiochemistryWorkbench extends Workbench {
 		combinedColorPanel = new CombinedColorPanel();
 		rightPanel.add(combinedColorPanel);
 		rightPanel.add(lowerWorkPanel);
-
+		
 		JPanel mainPanel = new JPanel();
 
 		mainPanel.setLayout(

@@ -5,14 +5,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
 import molGenExp.WorkPanel;
@@ -30,7 +29,9 @@ import preferences.MGEPreferences;
 public class BiochemistryWorkpanel extends WorkPanel {
 
 	final BiochemistryWorkbench protex;
-
+	
+	Color defaultBackgroundColor;
+	
 	JPanel proteinPanel;
 	JTextField proteinSequence;
 	TripleLetterCodeDocument tlcDoc;
@@ -58,7 +59,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		super();
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createTitledBorder(title));
-		this.setBackground(Color.lightGray);
+		defaultBackgroundColor = this.getBackground();
 
 		this.protex = protex;
 
@@ -85,6 +86,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		resultPanel.setBorder(BorderFactory.createTitledBorder("Folded Protein"));
 		foldedProteinPanel = new FoldedProteinPanel();
 		JScrollPane scroller = new JScrollPane(foldedProteinPanel);
+		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		resultPanel.add(scroller);
 
 		proteinPanel.add(proteinSequence, BorderLayout.NORTH);
@@ -150,11 +152,12 @@ public class BiochemistryWorkpanel extends WorkPanel {
 			} else {
 				colorChip.setToolTipText(null);
 			}
-
+			foldedProteinPanel.updateImage(foldedProteinWithImages.getFullSizePic(), foldedProteinPanel.getSize());
+			
 			protex.addToHistoryList(foldedProteinWithImages);
 
 			foldButton.setEnabled(false);
-			foldedProteinPanel.setBackground(Color.lightGray);
+			resultPanel.setBackground(defaultBackgroundColor);
 
 		} catch (FoldingException e) {
 			JOptionPane.showMessageDialog(protex, 
@@ -188,7 +191,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	// the aa seq is changed
 	public void aaSeqChanged() {
 		foldButton.setEnabled(true);
-		foldedProteinPanel.setBackground(Color.PINK);		
+		resultPanel.setBackground(Color.PINK);
 	}
 
 	public void setFoldedProteinWithImages(FoldedProteinWithImages fp) {
@@ -224,9 +227,9 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		protex.updateCombinedColor();
 
 		//update the picture as well
-		foldedProteinPanel.updateImage(foldedProteinWithImages.getFullSizePic(), resultPanel.getSize());
+		foldedProteinPanel.updateImage(foldedProteinWithImages.getFullSizePic(), foldedProteinPanel.getSize());
 
-		foldedProteinPanel.setBackground(Color.LIGHT_GRAY);
+		resultPanel.setBackground(defaultBackgroundColor);
 		foldButton.setEnabled(false);
 
 		revalidate();

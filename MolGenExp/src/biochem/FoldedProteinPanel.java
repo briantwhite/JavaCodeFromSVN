@@ -19,12 +19,15 @@ public class FoldedProteinPanel extends JPanel {
 				
 		// make blank starting image
 		BufferedImage bi = 
-			new BufferedImage(2000, 300, BufferedImage.TYPE_INT_RGB);
+			new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		Graphics g = bi.getGraphics();
 		g.setColor(BiochemistryWorkbench.BACKGROUND_COLOR);
-		g.fillRect(0, 0, 2000, 300);
+		g.fillRect(0, 0, 800, 600);
 		image = new ImageIcon(bi);
 		g.dispose();
+		setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight()));
+		revalidate();
+		repaint();
 	}
 	
 	// fill out image to window size
@@ -49,6 +52,8 @@ public class FoldedProteinPanel extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight()));
 		g.drawImage(image.getImage(), 0, 0, null);
 	}
 
