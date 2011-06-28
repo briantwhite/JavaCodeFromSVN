@@ -9,8 +9,7 @@
 			    <attribute name="Main-Class" value="GX.Genex"/>
             </manifest>
             <fileset dir="bin/"/>
-            <fileset dir="resources/"/>
-			<zipfileset src="jdom.jar"/>
+ 			<zipfileset src="jdom.jar"/>
         </jar>
 		<move file="bin/genex.jar" todir="web/"/>
 	</target>

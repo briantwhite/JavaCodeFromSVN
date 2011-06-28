@@ -23,3 +23,9 @@ fixed it by changing from textPane.caretListener() to textPane.mouseListener() a
 need to fix layout also
 
 version 2.0
+
+6/28/11
+bug - the help does not display due to package structure issues
+moved stuff around
+now OK
+version 2.0.1
