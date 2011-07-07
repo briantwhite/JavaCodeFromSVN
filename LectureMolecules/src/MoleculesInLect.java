@@ -80,6 +80,7 @@ public class MoleculesInLect extends JFrame {
 		lecturePane.addTab("Catalase", CatLectPanel.make(captionLabel, jmolPanel, viewer));
 		lecturePane.addTab("Membranes", MembranePanel.make(captionLabel, jmolPanel, viewer));
 		lecturePane.addTab("DNA", DnaPanel.make(captionLabel, jmolPanel, viewer));
+		lecturePane.addTab("Subtilisin", SubtilisinPanel.make(captionLabel, jmolPanel, viewer));
 
 		lecturePane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
