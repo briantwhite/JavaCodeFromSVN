@@ -1,0 +1,16 @@
+7/6/11
+tried putting it in google code
+1) went to google code and made lecture-molecules site
+2) on google code site set the repository to revision 0
+3) svnsync init --username brian.white@umb.edu https://lecture-molecules.googlecode.com/svn 
+		svn+ssh://brianmac2.bio.umb.edu/usr/local/SVN/trunk/LectureMolecules
+		
+	- seemed to work although exited with warning - killed by signal 15
+
+4) svnsync sync --username brian.white@umb.edu https://lecture-molecules.googlecode.com/svn
+
+this took FOREVER!
+
+then it failed
+punt
+
