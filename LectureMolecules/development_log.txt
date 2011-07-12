@@ -14,3 +14,5 @@ this took FOREVER!
 then it failed
 punt
 
+just added subtilisin and ribozyme
+refactored

@@ -78,9 +78,10 @@ public class MoleculesInLect extends JFrame {
 		lecturePane.addTab("Hemoglobin III", HemoLect2Panel.make(captionLabel, jmolPanel, viewer));
 		lecturePane.addTab("Alkaline Phosphatase", ApLectPanel.make(captionLabel, jmolPanel, viewer));
 		lecturePane.addTab("Catalase", CatLectPanel.make(captionLabel, jmolPanel, viewer));
+		lecturePane.addTab("Subtilisin", SubtilisinPanel.make(captionLabel, jmolPanel, viewer));
 		lecturePane.addTab("Membranes", MembranePanel.make(captionLabel, jmolPanel, viewer));
 		lecturePane.addTab("DNA", DnaPanel.make(captionLabel, jmolPanel, viewer));
-		lecturePane.addTab("Subtilisin", SubtilisinPanel.make(captionLabel, jmolPanel, viewer));
+		lecturePane.addTab("Ribozyme", RibozymePanel.make(captionLabel, jmolPanel, viewer));
 
 		lecturePane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {

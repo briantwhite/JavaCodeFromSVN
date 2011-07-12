@@ -7,47 +7,53 @@ import javax.swing.JRadioButton;
 import org.jmol.api.JmolViewer;
 
 
-public class SubtilisinPanel {
-
+public class RibozymePanel {
+	
 	public static JPanel make(final JLabel captionLabel, final JmolPanel jmolPanel, final JmolViewer viewer) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		
 		panel.add(new JLabel("<html><font color=red size=+2>"
-				+ "Subtilisin"
+				+ "Ribozyme"
 				+ "<br></font></html>"));
 		
-		panel.add(Utils.makeLoadStructureButton("Load Subtilisin",
-				"1S01.pdb",
-				"restrict protein;"
+		panel.add(Utils.makeLoadStructureButton("Load Ribozyme",
+				"1U6B.pdb",
+				"restrict RNA;"
 				+ "spacefill on;"
 				+ "color cpk;",
-				"Subtilisin",
+				"Ribozyme",
 				captionLabel,
 				jmolPanel));
 		
-		panel.add(Utils.makeScriptButton("Show active site",
+		panel.add(Utils.makeScriptButton("Show backbone and bases",
 				"reset;"
-				+ "restrict protein;"
-				+ "spacefill on;"
+				+ "select all;"
+				+ "spacefill off;"
+				+ "color cpk;"
+				+ "restrict RNA;"
+				+ "select backbone and RNA;"
 				+ "color white;"
-				+ "select 32 or 64 or 221;"
-				+ "color green;",
-				"<font color=green>Active Site</font>",
+				+ "backbone 0.5;"
+				+ "wireframe on;",
+				"<font color=white>Backbone</font>",
 				captionLabel,
 				jmolPanel));
 		
-		panel.add(Utils.makeScriptButton("Show active site and met 222",
+		panel.add(Utils.makeScriptButton("Show substrate",
 				"reset;"
-				+ "restrict protein;"
-				+ "spacefill on;"
+				+ "select all;"
+				+ "spacefill off;"
+				+ "restrict RNA;"
+				+ "select RNA;"
 				+ "color white;"
-				+ "select 32 or 64 or 221;"
-				+ "color green;"
-				+ "select 222;"
-				+ "color red;",
-				"<font color=green>Active Site</font> <font color=red>Met 222</font>",
+				+ "spacefill on;"
+				+ "select :C;"
+				+ "color red;"
+				+ "select :D;"
+				+ "color purple;",
+				"<font color=white>Ribozyme</font> <font color=red>Sub</font><font color=purple>strate</font>",
 				captionLabel,
 				jmolPanel));
 		
