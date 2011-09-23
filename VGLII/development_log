@@ -1550,4 +1550,22 @@ made it so that: when you open a work file, VGL remembers the name
 	when saves happen - so you save to the same file
 
 made mac, pc, and linux versions and posted
+
+9/23/11
+some bug fixes:
+
+1) some had noticed "poison" .wr2 files
+	they would partially open - not all the cages
+		and then you would not be able to cross, etc
+		(it was as though it had never enabled the menus after loading the problem)
+	it was when they'd crossed individuals from a super cross - that made an un-openable cage
+	beacuse CageUI.getOrganismUIFor(int id) counts up to the masOrgsPerRow not absoluteMaxOrgsPerRow
+	fixed that method
+now AOK
+
+2) when saving for grading, the dialog still calls them "work files" not "grading files"
+	fixed VGL and messages files
+
+- still need french and spanish for "Files for grading"
+version 3.1.4
      

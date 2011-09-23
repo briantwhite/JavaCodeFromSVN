@@ -994,8 +994,12 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * @return the OrganismUI of the organism
 	 */
 	public OrganismUI getOrganismUIFor(int id) {
+		
+		int orgsPerRow = maxOrgsInOneRow;
+		if (isSuperCross) orgsPerRow = absoluteMaxOrgsPerRow;
+
 		for (int i = 0; i < 2 * numPhenosPresent; i++) {
-			for (int j = 0; j < maxOrgsInOneRow; j++) {
+			for (int j = 0; j < orgsPerRow; j++) {
 				OrganismUI organismUI = ((OrganismUI) (childrenOrganismUIs[i][j]));
 				if (organismUI != null) {
 					if (organismUI.getOrganism().getId() == id)

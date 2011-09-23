@@ -84,7 +84,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.1.3"; //$NON-NLS-1$
+	public final static String version = "3.1.4"; //$NON-NLS-1$
 
 	/**
 	 * the list of supported languages
@@ -1079,7 +1079,7 @@ public class VGLII extends JFrame {
 			File fileForGrading = selectFile(desktopDirectory,
 					Messages.getInstance().getInstance().getString("VGLII.SaveForGrading"), 
 					Messages.getInstance().getInstance().getString("VGLII.EnterSaveFileName"), false, //$NON-NLS-1$ //$NON-NLS-2$
-					saveForGradingFilterString, Messages.getInstance().getInstance().getString("VGLII.WorkFiles"), //$NON-NLS-1$
+					saveForGradingFilterString, Messages.getInstance().getInstance().getString("VGLII.GradingFiles"), //$NON-NLS-1$
 					JFileChooser.SAVE_DIALOG);
 			try {
 				Iterator<CageUI> it = cageCollection.iterator();
