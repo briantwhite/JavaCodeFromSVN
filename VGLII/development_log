@@ -1567,5 +1567,12 @@ now AOK
 	fixed VGL and messages files
 
 - still need french and spanish for "Files for grading"
+
+9/26/11
+- double-checked to be sure no more maxOrgsPerRow in CageUI - it's OK
+- fixed the translations of "Files for Grading"
 version 3.1.4
+
+
+
      
