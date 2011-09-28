@@ -1571,6 +1571,9 @@ now AOK
 9/26/11
 - double-checked to be sure no more maxOrgsPerRow in CageUI - it's OK
 - fixed the translations of "Files for Grading"
+
+9/28/11
+made it warn you if you try to save a file with poison characters in the name
 version 3.1.4
 
 

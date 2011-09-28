@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -914,10 +916,42 @@ public class VGLII extends JFrame {
 		//need to kill the dialog so it won't re-appear on de-iconify
 		Window[] windows = this.getOwnedWindows();
 		for (int i = 0; i < windows.length; i++) {
-			if (windows[i].toString().matches("title=New Problem Type Selection")) { //$NON-NLS-1$
+			if (windows[i].toString().contains(
+					Messages.getInstance().getString("VGLII.NewProbTypeSel"))) { //$NON-NLS-1$
 				windows[i].dispose();
 			}
 		}
+		
+		// if it's a save or print dialog, need to be sure no 'poison' characters in filename
+		if ((dialogType != JFileChooser.OPEN_DIALOG) && (result != null)) {
+			String originalName = result.getName();
+			Pattern poisonChars = Pattern.compile("[/!@#$%^&(){}~*\\[\\]]+");
+			Matcher poisonFinder = poisonChars.matcher(originalName);
+			if (poisonFinder.find()) {
+				Matcher fixer = poisonChars.matcher(originalName);
+				String newName = fixer.replaceAll("_");
+				result = new File(result.getParent() + System.getProperty("file.separator") + newName);
+				
+				int choice = JOptionPane.showConfirmDialog(
+						this,
+						"<html>" 
+						+ Messages.getInstance().getString("VGLII.BadFileName1")
+						+ "<br>" 
+						+ Messages.getInstance().getString("VGLII.BadFileName2")
+						+ "<br>" 
+						+ Messages.getInstance().getString("VGLII.BadFileName3")
+						+ ": " 
+						+ result.getName()
+						+ "</html>",
+						Messages.getInstance().getString("VGLII.Error"),
+						JOptionPane.YES_NO_OPTION);
+				
+				if (choice == JOptionPane.NO_OPTION) {
+					result = null;
+				}
+			}
+		}
+		
 		return result;
 	}
 
