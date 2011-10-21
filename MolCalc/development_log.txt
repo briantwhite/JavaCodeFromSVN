@@ -1,0 +1,12 @@
+10/21/11
+needed to update for intel macs
+it won't run on Lion
+but running now gives warning
+	Specified VM install not found: type MacOS X VM, name JVM 1.4.2 (MacOS X Default)
+
+Run menu -> External Tools -> External Tools Configurations...
+	JRE tab
+		was set to "Separate JVM"
+		changed to "run in the same jre as the workspace"
+
+now compiles and runs on lion
