@@ -1,0 +1,28 @@
+To do list
+(items are removed to development log as they are done)
+
+1) have 2 cages to show sex-linkage when needed (when xx/xy or zz/zw are possible)
+	need to process both
+	
+2) a problem like TwoGenes05 where the genes can be linked or unlinked
+
+3) recombination frequency in model builder
+	enter numerical value (if they enter "50", it puts "unlinked")
+		to nearest 0.1 map unit
+	evidentiary crosses
+		one parent must be heterozygous for both markers in question
+		other parent must have at least one recessive allele for each gene in question
+
+4) chi-square calc to summary chart
+	add "sex" as a checkbox to summary chart
+	add "expected values" column to summary chart
+	when values entered for all possible types
+		calculate chi-squared value
+
+5) screenshots of individual cages/windows
+	on all windows have menus:
+		file:
+			close
+			print
+		edit:
+			copy pic to clipboard
