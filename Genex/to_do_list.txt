@@ -1,0 +1,4 @@
+12/6/11
+- fix middle intron color to match the one in Aipotu (it is more visible)
+
+- if terminator missing, still transcribe, but go to end
