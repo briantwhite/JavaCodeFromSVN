@@ -28,8 +28,4 @@ To do list
 			copy pic to clipboard
 			
 
-BUGS
-1) From Julie Noor: 
-	I've had a couple students report that they couldn't save their work 
-	(either as .wr2 or .gr2 files) if they try to make the filename all caps.  
-	Just thought I'd let you know.
+
