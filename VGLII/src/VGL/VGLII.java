@@ -95,7 +95,7 @@ public class VGLII extends JFrame {
 		new LanguageSpecifierMenuItem("English", "en", "US"),
 		new LanguageSpecifierMenuItem("Español", "es", "ES"),
 		new LanguageSpecifierMenuItem("Français", "fr", "FR"),
-		//		new LanguageSpecifierMenuItem("Korean", "ko", "KR")
+		new LanguageSpecifierMenuItem("\uC5B8\uC5B4", "ko", "KR")
 	};
 
 	/**
