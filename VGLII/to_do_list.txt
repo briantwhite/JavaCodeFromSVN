@@ -27,5 +27,8 @@ To do list
 		edit:
 			copy pic to clipboard
 			
+6) Evidentiary crosses for epistasis and complementation are crosses involving that pheno
+	that are conspicuous (kids ­ parents)
+			
 
 
