@@ -1583,5 +1583,5 @@ posted to web after testing
 (before this, added Korean menu stuff - still need help's index.html)
 added recombination freq to model builder
 
-
+made CageScorer a real (not static) class to facilitate analysis of linkage
      

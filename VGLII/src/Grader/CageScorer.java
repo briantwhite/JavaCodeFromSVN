@@ -13,7 +13,7 @@ import GeneticModels.PhenotypeProcessor;
 import ModelBuilder.ModelBuilderUI;
 
 /**
- * takes a Cage and determines if it shows:
+ * takes a set of Cages and determines if each shows:
  * 	-sex linkage or not
  * 		= if sex imbalance in offspring (eg red females but no red males)
  * 	-interaction evidence for one or more traits
@@ -21,12 +21,21 @@ import ModelBuilder.ModelBuilderUI;
  * 			A x B -> all A or all B
  * 			A x A -> any pheno other than A
  * 			A x B -> any pheno other than A or B
+ * - linkage
  * @author brian
  *
  */
 public class CageScorer {
+	
+	private ArrayList<Cage> cages;
+	private ModelBuilderUI mbui;
+	
+	public CageScorer(ArrayList<Cage> cages, ModelBuilderUI mbui) {
+		this.cages = cages;
+		this.mbui = mbui;
+	}
 
-	public static String getCageScores(ArrayList<Cage> cages, ModelBuilderUI mbui) {
+	public String getCageScores() {
 		StringBuffer b = new StringBuffer();
 		TreeSet<Integer> selectedCages = 
 			mbui.getChosenRelevantCages();
@@ -48,7 +57,7 @@ public class CageScorer {
 		return b.toString();
 	}
 
-	private static String scoreCage(Cage cage) {
+	private String scoreCage(Cage cage) {
 		StringBuffer b = new StringBuffer();
 
 		b.append("<b>Cage ");
@@ -66,13 +75,13 @@ public class CageScorer {
 			Iterator<String> phenoIt = children.keySet().iterator();
 			phenoIt = children.keySet().iterator();
 			Organism org = children.get(phenoIt.next()).get(0);
+			ArrayList<Phenotype> phenotypes = org.getPhenotypes();
 
 			// for now, can't deal with epistasis & complementation
 			if (org.getGeneticModel().getPhenoTypeProcessor().getInteractionType() 
 					== PhenotypeProcessor.NO_INTERACTION) {
 
 				// iterate over the phenotypes
-				ArrayList<Phenotype> phenotypes = org.getPhenotypes();
 				for (int i = 0; i < phenotypes.size(); i++) {
 					Phenotype currentPheno = org.getPhenotypes().get(i);
 
@@ -165,8 +174,35 @@ public class CageScorer {
 				b.append("<li>Sorry, this has not been implemented "
 						+ "for Complementation or Epistasis yet.</li>");
 			}
+			
+			/*
+			 * now, try for linkage
+			 * only do this if more than one pheno
+			 * try each pair of phenos
+			 */
+			if (phenotypes.size() > 1) {
+				for (int i = 0; i < phenotypes.size(); i++) {
+					for (int j = i + 1; j < phenotypes.size(); j++) {
+						b.append(checkForEvidenceOfLinkageBetween(i, j));
+					}
+				}
+			}
 		}
 		b.append("</ul>");
+		return b.toString();
+	}
+	
+	/*
+	 * check for evidence of linkage
+	 * to be evidentiary, 
+	 * 		one parent must be heterozygous for both traits
+	 * 	and: the other must have at least one recessive allele for both traits
+	 * 
+	 */
+	private String checkForEvidenceOfLinkageBetween(int pheno1, int pheno2) {
+		StringBuffer b = new StringBuffer();
+		 
+		System.out.println("cage scorer: looking for linkage between " + pheno1 + " and " + pheno2);
 		return b.toString();
 	}
 }
