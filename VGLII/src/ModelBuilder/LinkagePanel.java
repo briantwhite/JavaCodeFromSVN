@@ -21,11 +21,14 @@ public class LinkagePanel extends JPanel {
 	private String[] chars;
 
 	public LinkagePanel(String[] characters) {
-		String[] choices = new String[3];
+		String[] choices = new String[51];
 		this.chars = characters;
 		choices[0] = Messages.getInstance().getString("VGLII.Unknown");
 		choices[1] = Messages.getInstance().getString("VGLII.Unlinked");
-		choices[2] = Messages.getInstance().getString("VGLII.Linked");
+		for (int i = 2; i < 51; i++) {
+			choices[i] = Messages.getInstance().getString("VGLII.Linked") 
+			+ " & RF= " + (i - 1) + "%";
+		}
 		g1g2Linked = new JComboBox(choices);
 		g2g3Linked = new JComboBox(choices);
 		g3g1Linked = new JComboBox(choices);
