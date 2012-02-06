@@ -230,6 +230,7 @@ public class EncryptionTools {
 		}
 	}
 
+	// returns null if file is in wrong format
 	public Document readRSAEncrypted(File inFile, PrivateKey privKey) {
 		Document doc = null;
 
@@ -273,7 +274,8 @@ public class EncryptionTools {
 				progress++;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			return null;
 		}
 
 		String xmlString = xmlBuffer.toString();
@@ -287,7 +289,8 @@ public class EncryptionTools {
 
 
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			return null;
 		}
 
 		return doc;

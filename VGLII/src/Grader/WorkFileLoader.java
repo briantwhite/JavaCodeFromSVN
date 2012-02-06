@@ -14,18 +14,18 @@ import VGL.EncryptionTools;
 import VGL.VGLII;
 
 public class WorkFileLoader implements Runnable {
-	
+
 	private VGLII vglII;
-	
+
 	private File currentDirectory;
 	private DefaultListModel workFileNames;
 	private TreeMap<String, GradingResult> filenamesAndResults;
-	
+
 	private boolean keepGoing;
-	
+
 	private int progress;
 	private String currentFileName;
-	
+
 	public WorkFileLoader(
 			File currentDirectory,
 			DefaultListModel workFileNames, 
@@ -51,26 +51,32 @@ public class WorkFileLoader implements Runnable {
 
 			Document doc = 
 				EncryptionTools.getInstance().readRSAEncrypted(workFile, vglII.getGradingKey());
-			List<Element> els = doc.getRootElement().getChildren();
 			String studentAnswerHTML = "";
 			String correctAnswerHTML = "";
-			Iterator<Element> elIt = els.iterator();
-			while (elIt.hasNext()) {
-				Element e = elIt.next();
-				if (e.getName().equals("StudentAnswer")) studentAnswerHTML = e.getText();
-				if (e.getName().equals("CorrectAnswer")) correctAnswerHTML = e.getText();
+			if (doc != null) { 
+				List<Element> els = doc.getRootElement().getChildren();
+				Iterator<Element> elIt = els.iterator();
+				while (elIt.hasNext()) {
+					Element e = elIt.next();
+					if (e.getName().equals("StudentAnswer")) studentAnswerHTML = e.getText();
+					if (e.getName().equals("CorrectAnswer")) correctAnswerHTML = e.getText();
+				}
+			} else {
+				studentAnswerHTML = "Could not read this file. Perhaps it was a .wr2 renamed to .gr2." +
+				"You can try renaming it to .wr2 and opening it using Open Work...";
+				correctAnswerHTML = "Cannot be graded.";
 			}
 			filenamesAndResults.put(
 					fileName, new GradingResult(studentAnswerHTML, correctAnswerHTML));
-			
+
 			progress++;
 		}
 	}
-	
+
 	public void stop() {
 		keepGoing = false;
 	}
-	
+
 	public int getLengthOfTask() {
 		return workFileNames.getSize();
 	}
@@ -78,7 +84,7 @@ public class WorkFileLoader implements Runnable {
 	public int getProgress() {
 		return progress;
 	}
-	
+
 	public String getCurrentFileName() {
 		return currentFileName;
 	}

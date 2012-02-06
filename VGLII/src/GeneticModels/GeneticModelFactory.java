@@ -86,12 +86,16 @@ public class GeneticModelFactory {
 		Document doc = EncryptionTools.getInstance().readXOREncrypted(workFile);
 		return readModelFromXML(doc);
 	}
-	
+
 	public GeneticModelAndCageSet readModelFromRSAFile(File workFile, PrivateKey gradingKey) {
 		Document doc = EncryptionTools.getInstance().readRSAEncrypted(workFile, gradingKey);
-		return readModelFromXML(doc);
+		if (doc == null) {
+			return null;
+		} else {
+			return readModelFromXML(doc);
+		}
 	}
-	
+
 	private GeneticModelAndCageSet readModelFromXML(Document doc) {
 		GeneticModelAndCageSet result = null;
 		WorkFileProcessor processor = 

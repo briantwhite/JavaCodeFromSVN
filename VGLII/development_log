@@ -1584,4 +1584,94 @@ posted to web after testing
 added recombination freq to model builder
 
 made CageScorer a real (not static) class to facilitate analysis of linkage
+
+2/6/12
+7) Bug: if they rename a .wr2 file as .gr2 it messes up the grader
+	need to detect and put "unreadable file" in grader
+
+the error looks like this:
+     [java] java.lang.IllegalArgumentException: Length of Base64 encoded input string is not a multiple of 4.
+     [java] 	at VGL.Base64Coder.decode(Base64Coder.java:195)
+     [java] 	at VGL.Base64Coder.decode(Base64Coder.java:183)
+     [java] 	at VGL.Base64Coder.decode(Base64Coder.java:173)
+     [java] 	at VGL.EncryptionTools.readRSAEncrypted(EncryptionTools.java:272)
+     [java] 	at Grader.WorkFileLoader.run(WorkFileLoader.java:53)
+     [java] 	at java.lang.Thread.run(Thread.java:680)
+     [java] org.jdom.input.JDOMParseException: Error on line 1: Premature end of file.
+     [java] 	at org.jdom.input.SAXBuilder.build(SAXBuilder.java:468)
+     [java] 	at org.jdom.input.SAXBuilder.build(SAXBuilder.java:851)
+     [java] 	at VGL.EncryptionTools.readRSAEncrypted(EncryptionTools.java:286)
+     [java] 	at Grader.WorkFileLoader.run(WorkFileLoader.java:53)
+     [java] 	at java.lang.Thread.run(Thread.java:680)
+     [java] Caused by: org.xml.sax.SAXParseException: Premature end of file.
+     [java] 	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:195)
+     [java] 	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.fatalError(ErrorHandlerWrapper.java:174)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:388)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLScanner.reportFatalError(XMLScanner.java:1414)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$PrologDriver.next(XMLDocumentScannerImpl.java:1059)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:648)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:140)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:511)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:808)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:737)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:119)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1205)
+     [java] 	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:522)
+     [java] 	at org.jdom.input.SAXBuilder.build(SAXBuilder.java:453)
+     [java] 	... 4 more
+     [java] Caused by: org.xml.sax.SAXParseException: Premature end of file.
+     [java] 	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:195)
+     [java] 	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.fatalError(ErrorHandlerWrapper.java:174)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:388)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLScanner.reportFatalError(XMLScanner.java:1414)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$PrologDriver.next(XMLDocumentScannerImpl.java:1059)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:648)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:140)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:511)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:808)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:737)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:119)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1205)
+     [java] 	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:522)
+     [java] 	at org.jdom.input.SAXBuilder.build(SAXBuilder.java:453)
+     [java] 	at org.jdom.input.SAXBuilder.build(SAXBuilder.java:851)
+     [java] 	at VGL.EncryptionTools.readRSAEncrypted(EncryptionTools.java:286)
+     [java] 	at Grader.WorkFileLoader.run(WorkFileLoader.java:53)
+     [java] 	at java.lang.Thread.run(Thread.java:680)
+     [java] Caused by: org.xml.sax.SAXParseException: Premature end of file.
+     [java] 	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:195)
+     [java] 	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.fatalError(ErrorHandlerWrapper.java:174)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:388)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLScanner.reportFatalError(XMLScanner.java:1414)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$PrologDriver.next(XMLDocumentScannerImpl.java:1059)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:648)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:140)
+     [java] 	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:511)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:808)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:737)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:119)
+     [java] 	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1205)
+     [java] 	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:522)
+     [java] 	at org.jdom.input.SAXBuilder.build(SAXBuilder.java:453)
+     [java] 	at org.jdom.input.SAXBuilder.build(SAXBuilder.java:851)
+     [java] 	at VGL.EncryptionTools.readRSAEncrypted(EncryptionTools.java:286)
+     [java] 	at Grader.WorkFileLoader.run(WorkFileLoader.java:53)
+     [java] 	at java.lang.Thread.run(Thread.java:680)
+     [java] Exception in thread "Thread-4" java.lang.NullPointerException
+     [java] 	at Grader.WorkFileLoader.run(WorkFileLoader.java:54)
+     [java] 	at java.lang.Thread.run(Thread.java:680)
+
+so, maybe detect it in EncryptionTools and return null
+then detect that and report that the file was unreadable rather than dying
+in the grader, make the entry "Unreadable file; probably a .wr2 renamed to .gr2"
+
+fixed by making EncryptionTools' Document readRSAEncrypted(File inFile, PrivateKey privKey)
+return null if unreadable
+then fixed GeneticModelFactory's GeneticModelAndCageSet readModelFromRSAFile(File workFile, PrivateKey gradingKey)
+return null if it gets a null document from readRSAEncrypted
+then WorkFileLoader inserts an appropriate message for the grader if it gets null
+
+tested OK
+
+
      
