@@ -13,14 +13,26 @@ import org.jdom.Element;
 import VGL.Messages;
 
 public class LinkagePanel extends JPanel {
+	
+	private ModelBuilderUI mbui;
 
 	private JComboBox g1g2Linked;
 	private JComboBox g2g3Linked;
 	private JComboBox g3g1Linked;
 	
+	private JComboBox g1g2LinkageRelevantCage;
+	private JComboBox g2g3LinkageRelevantCage;
+	private JComboBox g3g1LinkageRelevantCage;	
+	
 	private String[] chars;
 
-	public LinkagePanel(String[] characters) {
+	public LinkagePanel(String[] characters, ModelBuilderUI mbui) {
+		this.mbui = mbui;
+
+		g1g2LinkageRelevantCage = new JComboBox(getCageList());
+		g2g3LinkageRelevantCage = new JComboBox(getCageList());
+		g3g1LinkageRelevantCage = new JComboBox(getCageList());
+		
 		String[] choices = new String[51];
 		this.chars = characters;
 		choices[0] = Messages.getInstance().getString("VGLII.Unknown");
@@ -40,6 +52,9 @@ public class LinkagePanel extends JPanel {
 				+ chars[1] + " "
 				+ Messages.getInstance().getString("VGLII.Are")));
 		add(g1g2Linked);
+		
+		add(new JLabel(Messages.getInstance().getString("VGLII.RelevantCages")));
+		add(g1g2LinkageRelevantCage);
 
 		if (chars.length == 3) {
 			setLayout(new GridLayout(3,2));
@@ -120,4 +135,23 @@ public class LinkagePanel extends JPanel {
 		b.append("</ul>");
 		return b.toString();
 	}
+	
+	public String[] getCageList() {
+		int numCages = mbui.getVGLII().getNumCages();
+
+		/*
+		 * see if there are no CageUI's in the VGL
+		 * 	if so, that means this is a problem for grading
+		 * 	so need to get number of cages from cage set that was loaded in file.
+		 */
+		if (numCages == -1) numCages = mbui.getGenticModelAndCageSet().getCages().size();
+
+		String[] list = new String[numCages + 1];
+		list[0] = "?";
+		for (int i = 1; i < numCages + 1; i++) {
+			list[i] = Messages.getInstance().getString("VGLII.Cage") + " " + i;
+		}
+		return list;
+	}
+
 }

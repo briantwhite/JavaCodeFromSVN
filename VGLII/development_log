@@ -1673,5 +1673,8 @@ then WorkFileLoader inserts an appropriate message for the grader if it gets nul
 
 tested OK
 
+back to linkage
+adding a choice for evidentiary cage
 
+bug - when linkage panel made, there's no mbui - it's null...
      

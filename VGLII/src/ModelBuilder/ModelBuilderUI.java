@@ -153,7 +153,7 @@ public class ModelBuilderUI extends JPanel {
 		for (int i = 0; i < characters.size(); i++) {
 			chars[i] = characters.get(i);
 		}
-		linkagePanel = new LinkagePanel(chars);
+		linkagePanel = new LinkagePanel(chars, vglII.getModelBuilder());
 		tabs.add(Messages.getInstance().getString("VGLII.Linkage"), linkagePanel);
 	}
 
