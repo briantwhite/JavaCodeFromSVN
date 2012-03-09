@@ -2,3 +2,9 @@
 - fix middle intron color to match the one in Aipotu (it is more visible)
 
 - if terminator missing, still transcribe, but go to end
+
+3/9/12
+- add to problems file:
+	- the params from the applet
+		- add param SpaceBetweenPromoterAndmRNAStart
+	- multiple starting DNAs - automatically chose randomly
