@@ -8,3 +8,7 @@
 	- the params from the applet
 		- add param SpaceBetweenPromoterAndmRNAStart
 	- multiple starting DNAs - automatically chose randomly
+	
+- in text of problem set, change asking for a 
+	“single base change”, I’d talk about “a single base substitution”, 
+	otherwise you are tempted to delete/insert a base. (Sophie Javerzat)
