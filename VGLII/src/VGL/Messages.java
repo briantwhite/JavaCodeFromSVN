@@ -11,7 +11,7 @@ public class Messages {
 	public final String BUNDLE_NAME = "VGL.messages"; //$NON-NLS-1$
 
 	private ResourceBundle RESOURCE_BUNDLE;
-	
+
 	private static Messages instance;
 
 	private Messages() {
@@ -22,19 +22,19 @@ public class Messages {
 			RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 		}
 	}
-	
+
 	public static Messages getInstance() {
 		if (instance == null) {
 			instance = new Messages();
 		}
 		return instance;
 	}
-	
+
 	public void updateResourceBundle() {
 		RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault());
 	}
-	
-	//translate red-eyes/six-antennae/bent-body as appropriate
+
+	//translate Male/red-eyes/six-antennae/bent-body as appropriate
 	public String translateLongPhenotypeName(String phenoName) {
 		StringBuffer b = new StringBuffer();
 		String[] parts = phenoName.split("/");
@@ -45,7 +45,7 @@ public class Messages {
 		b.deleteCharAt(b.length() - 1);
 		return b.toString();
 	}
-	
+
 	//translate red-eyes as appropriate
 	public String translatePhenotypeName(String phenoString) {
 		//first, see if it doesn't have a dash
@@ -53,15 +53,15 @@ public class Messages {
 		if (phenoString.indexOf("-") == -1) {
 			return getString("VGLII." + phenoString);
 		}
-		
+
 		//then, parse the two parts on either side of the dash
 		// it is initially adjective-noun (eg. "red-eyes")
 		String[] parts = phenoString.split("-");
-		
+
 		//translate the parts
 		String adjective = getString("VGLII." + parts[0]);
 		String noun = getString("VGLII." + parts[1]);
-		
+
 		// then, put them in the right order
 		if ((RESOURCE_BUNDLE.getString("VGLII.NounAdjective")).equals("Y")) {
 			// for example, french
@@ -71,7 +71,7 @@ public class Messages {
 			return adjective + "-" + noun;
 		}
 	}
-	
+
 	public String getTranslatedAlleleName(Allele a) {
 		StringBuffer b = new StringBuffer();
 		if (getString("VGLII.NounAdjective").equals("Y")) {
@@ -89,7 +89,7 @@ public class Messages {
 		}
 		return b.toString();
 	}
-	
+
 	public String getTranslatedCharacterName(Trait t) {
 		StringBuffer b = new StringBuffer();
 		if (getString("VGLII.NounAdjective").equals("Y")) {
@@ -107,12 +107,12 @@ public class Messages {
 		}
 		return b.toString();		
 	}
-	
+
 	// change "Red" to "Rouge"
 	public String getTranslatedShortTraitName(String s) {
 		return Messages.getInstance().getString("VGLII." + s);
 	}
-	
+
 	public String getString(String key) {
 		try {
 			return RESOURCE_BUNDLE.getString(key);

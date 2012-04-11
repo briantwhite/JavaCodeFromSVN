@@ -23,19 +23,19 @@ package VGL;
 public class PhenotypeCount {
 	
 	private String phenotype;
-	private MFTotCounts counts;
+	private int count;
 	
-	public PhenotypeCount(String phenotype, MFTotCounts counts) {
+	public PhenotypeCount(String phenotype, int count) {
 		this.phenotype = phenotype;
-		this.counts = counts;
+		this.count = count;
 	}
 
 	public String getPhenotype() {
 		return phenotype;
 	}
-
-	public MFTotCounts getCounts() {
-		return counts;
+	
+	public int getCount() {
+		return count;
 	}
 
 }

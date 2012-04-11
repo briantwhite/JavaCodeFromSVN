@@ -89,7 +89,7 @@ public class SummaryChartManager {
 	 * @param traitsToCount
 	 * @return
 	 */
-	public PhenotypeCount[] calculateTotals(ArrayList<Integer> selectedTraits) {
+	public PhenotypeCount[] calculateTotals(ArrayList<Integer> selectedTraits, boolean sortBySex) {
 		TreeMap<String, MFTotCounts> totals = new TreeMap<String, MFTotCounts>();
 
 		Iterator<CageUI> cageUIIterator = selectedSet.iterator();
@@ -108,14 +108,27 @@ public class SummaryChartManager {
 				totals.put(customPhenotypeString, oldTotal.add(oList.getMFTotCounts()));
 			}
 		}
+		
+		PhenotypeCount[] result;
+		if (sortBySex) {
+			result = new PhenotypeCount[totals.keySet().size() * 2];
+		} else {
+			result = new PhenotypeCount[totals.keySet().size()];
+		}
 
-		PhenotypeCount[] result = new PhenotypeCount[totals.keySet().size()];
 		Iterator<String> customPhenoIterator = totals.keySet().iterator();
 		int i = 0;
 		while (customPhenoIterator.hasNext()) {
 			String pheno = customPhenoIterator.next();
-			result[i] = new PhenotypeCount(pheno, totals.get(pheno));
-			i++;
+			if (sortBySex) {
+				result[i] = new PhenotypeCount("Male/" + pheno, totals.get(pheno).getMales());
+				i++;
+				result[i] = new PhenotypeCount("Female/" + pheno, totals.get(pheno).getFemales());
+				i++;
+			} else {
+				result[i] = new PhenotypeCount(pheno, totals.get(pheno).getTotal());
+				i++;
+			}
 		}
 
 		return result;

@@ -44,6 +44,7 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 	private SummaryChartManager manager;
 	
 	private JCheckBox[] traitCheckBoxes;
+	private JCheckBox sexCheckBox;
 	
 	private JLabel[] traitCheckBoxLabels;
 	
@@ -94,6 +95,15 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 			traitSelectionPanel.add(Box.createHorizontalStrut(15));
 		}
 		
+		// add sex check box
+		sexCheckBox = new JCheckBox();
+		sexCheckBox.addActionListener(this);
+		sexCheckBox.setSelected(true);
+		
+		traitSelectionPanel.add(new JLabel(Messages.getInstance().getString("VGLII.Sex")));
+		traitSelectionPanel.add(sexCheckBox);
+		traitSelectionPanel.add(Box.createHorizontalStrut(15));
+		
 		add(traitSelectionPanel, BorderLayout.NORTH);
 		add(resultPanel, BorderLayout.CENTER);
 	}
@@ -112,27 +122,28 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 			}
 		}
 
-		PhenotypeCount[] result = manager.calculateTotals(selectedTraits);
+		PhenotypeCount[] result = manager.calculateTotals(selectedTraits, sexCheckBox.isSelected());
 		
 		String[] columnHeadings = {
 				Messages.getInstance().getString("VGLII.Phenotype"), 
-				Messages.getInstance().getString("VGLII.Males"), 
-				Messages.getInstance().getString("VGLII.Females"), 
 				Messages.getInstance().getString("VGLII.Total")
 				};
 		
 		Object[][] data = new Object[result.length][4];
 		for (int i = 0; i < result.length; i++) {
 			data[i][0] = Messages.getInstance().translateLongPhenotypeName(result[i].getPhenotype());
-			data[i][1] = result[i].getCounts().getMales();
-			data[i][2] = result[i].getCounts().getFemales();
-			data[i][3] = result[i].getCounts().getTotal();
+			data[i][1] = result[i].getCount();
 		}
 		
 		//if none selected, the "phenotype" is "organism"
-		if (selectedTraits.size() == 0) data[0][0] = Messages.getInstance().getString("VGLII.Organism");
-			
-		int phenoStringWidth = data[0][0].toString().length() * 8;
+		if ((selectedTraits.size() == 0) && !sexCheckBox.isSelected()) data[0][0] = Messages.getInstance().getString("VGLII.Organism");
+		
+		// set width of columns sensibly - find longest one
+		int maxPhenoStringLength = 0;
+		for (int i = 0; i < result.length; i++) {
+			if (data[i][0].toString().length() > maxPhenoStringLength) maxPhenoStringLength = data[i][0].toString().length();
+		}
+		int phenoStringWidth = maxPhenoStringLength * 8;
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
