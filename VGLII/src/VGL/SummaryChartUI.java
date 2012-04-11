@@ -12,8 +12,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 
 import GeneticModels.Trait;
 /**
@@ -37,7 +42,7 @@ import GeneticModels.Trait;
  * @version 1.0 $Id: SummaryChartUI.java,v 1.8 2009-09-22 19:06:35 brian Exp $
  */
 
-public class SummaryChartUI extends JDialog implements ActionListener {
+public class SummaryChartUI extends JDialog implements ActionListener, TableModelListener {
 	
 	private VGLII vglII;
 	
@@ -48,9 +53,15 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 	
 	private JLabel[] traitCheckBoxLabels;
 	
+	private JTextArea[] expectedCounts;
+	
 	private JPanel resultPanel;
 	
+	private Object[][] data;
+	
 	private int[] scrambledTraitOrder;
+	
+	private JLabel chiSquaredLabel;
 	
 	public SummaryChartUI(VGLII vglII) {
 		super(vglII, Messages.getInstance().getString("VGLII.SummaryChart"), false);
@@ -106,6 +117,9 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 		
 		add(traitSelectionPanel, BorderLayout.NORTH);
 		add(resultPanel, BorderLayout.CENTER);
+		
+		chiSquaredLabel = new JLabel("Chi-squared p-value = ");
+		add(chiSquaredLabel, BorderLayout.SOUTH);
 	}
 	
 
@@ -126,13 +140,15 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 		
 		String[] columnHeadings = {
 				Messages.getInstance().getString("VGLII.Phenotype"), 
-				Messages.getInstance().getString("VGLII.Total")
+				Messages.getInstance().getString("VGLII.Total"),
+				Messages.getInstance().getString("VGLII.Expected")
 				};
 		
-		Object[][] data = new Object[result.length][4];
+		data = new Object[result.length][3];
 		for (int i = 0; i < result.length; i++) {
 			data[i][0] = Messages.getInstance().translateLongPhenotypeName(result[i].getPhenotype());
 			data[i][1] = result[i].getCount();
+			data[i][2] = "";
 		}
 		
 		//if none selected, the "phenotype" is "organism"
@@ -147,10 +163,11 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		JTable table = new JTable(data, columnHeadings);
+		JTable table = new JTable(new SummaryDataTableModel(data, columnHeadings));
 		table.setGridColor(Color.BLACK);
 		table.setShowGrid(true);
 		table.getColumnModel().getColumn(0).setPreferredWidth(phenoStringWidth);
+		table.getModel().addTableModelListener(this);
 		panel.add(table.getTableHeader());
 		panel.add(table);
 		resultPanel.removeAll();
@@ -158,4 +175,62 @@ public class SummaryChartUI extends JDialog implements ActionListener {
 		resultPanel.revalidate();
 		repaint();
 	}
+
+	public void tableChanged(TableModelEvent arg0) {
+		
+		// be sure all "expected" values are integers
+		boolean badEntry = false;
+		for (int i = 0; i < data.length; i++) {
+			try {
+				System.out.println(data[1][2]);
+				Integer.parseInt((String)data[i][2]);
+			} catch (NumberFormatException e) {
+				badEntry = true;
+			}
+		}
+		if (badEntry) {
+			JOptionPane.showMessageDialog(this, "Bad Entry");
+		}
+		
+	}
+
+	private class SummaryDataTableModel extends AbstractTableModel {
+		
+		Object[][] data;
+		String[] columnHeadings;
+		
+		public SummaryDataTableModel(Object[][] data, String[] columnHeadings) {
+			super();
+			this.data = data;
+			this.columnHeadings = columnHeadings;
+		}
+		
+		public int getColumnCount() {
+			return data[0].length;
+		}
+		
+		public String getColumnName(int i) {
+			return columnHeadings[i];
+		}
+		
+		public int getRowCount() {
+			return data.length;
+		}
+		
+		public boolean isCellEditable(int row, int col) { 
+			if (col == 2) return true;
+			return false; 
+		}
+		
+		public Object getValueAt(int arg0, int arg1) {
+			return data[arg0][arg1];
+		}
+		
+		public void setValueAt(Object value, int row, int col) {
+	        data[row][col] = value;
+	        fireTableCellUpdated(row, col);
+	    }
+		
+	}
+
 }
