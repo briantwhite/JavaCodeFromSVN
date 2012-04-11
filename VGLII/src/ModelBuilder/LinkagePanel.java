@@ -13,17 +13,17 @@ import org.jdom.Element;
 import VGL.Messages;
 
 public class LinkagePanel extends JPanel {
-	
+
 	private ModelBuilderUI mbui;
 
 	private JComboBox g1g2Linked;
 	private JComboBox g2g3Linked;
 	private JComboBox g3g1Linked;
-	
+
 	private JComboBox g1g2LinkageRelevantCage;
 	private JComboBox g2g3LinkageRelevantCage;
 	private JComboBox g3g1LinkageRelevantCage;	
-	
+
 	private String[] chars;
 
 	public LinkagePanel(String[] characters, ModelBuilderUI mbui) {
@@ -32,7 +32,7 @@ public class LinkagePanel extends JPanel {
 		g1g2LinkageRelevantCage = new JComboBox(getCageList());
 		g2g3LinkageRelevantCage = new JComboBox(getCageList());
 		g3g1LinkageRelevantCage = new JComboBox(getCageList());
-		
+
 		String[] choices = new String[51];
 		this.chars = characters;
 		choices[0] = Messages.getInstance().getString("VGLII.Unknown");
@@ -52,7 +52,7 @@ public class LinkagePanel extends JPanel {
 				+ chars[1] + " "
 				+ Messages.getInstance().getString("VGLII.Are")));
 		add(g1g2Linked);
-		
+
 		add(new JLabel(Messages.getInstance().getString("VGLII.RelevantCages")));
 		add(g1g2LinkageRelevantCage);
 
@@ -135,10 +135,15 @@ public class LinkagePanel extends JPanel {
 		b.append("</ul>");
 		return b.toString();
 	}
-	
-	public String[] getCageList() {
-		int numCages = mbui.getVGLII().getNumCages();
 
+	public String[] getCageList() {
+
+		// if the mbui isn't set up yet, it must be a problem starting fresh
+		//  so make no cages in list (to avoid null pointer ref - see dev_log 4/11/12)
+		int numCages = 0;
+		if (mbui != null) {
+			numCages = mbui.getVGLII().getNumCages();
+		}
 		/*
 		 * see if there are no CageUI's in the VGL
 		 * 	if so, that means this is a problem for grading

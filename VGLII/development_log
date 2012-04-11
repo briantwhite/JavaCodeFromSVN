@@ -1677,4 +1677,10 @@ back to linkage
 adding a choice for evidentiary cage
 
 bug - when linkage panel made, there's no mbui - it's null...
-     
+
+
+4/11/12
+added "sex" checkbox to Summary Chart in preparation for chi-squared calculation
+
+added test to LinkagePanel: if mbui == null, just say there are no cages in the list (see above bug)
+
