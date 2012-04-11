@@ -23,6 +23,10 @@ To do list
 	simpler way:
 		just have a table split out with counts of all phenos X sexes
 		fill in expected ratios and click calculate once
+	
+	starting:
+		add a checkbox for "sex" in the "summary chart"
+			once that works, it'll be easy to add chi-sq
 
 5) screenshots of individual cages/windows
 	on all windows have menus:
