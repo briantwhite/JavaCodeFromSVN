@@ -43,26 +43,26 @@ import GeneticModels.Trait;
  */
 
 public class SummaryChartUI extends JDialog implements ActionListener, TableModelListener {
-	
+
 	private VGLII vglII;
-	
+
 	private SummaryChartManager manager;
-	
+
 	private JCheckBox[] traitCheckBoxes;
 	private JCheckBox sexCheckBox;
-	
+
 	private JLabel[] traitCheckBoxLabels;
-	
+
 	private JTextArea[] expectedCounts;
-	
+
 	private JPanel resultPanel;
-	
+
 	private Object[][] data;
-	
+
 	private int[] scrambledTraitOrder;
-	
+
 	private JLabel chiSquaredLabel;
-	
+
 	public SummaryChartUI(VGLII vglII) {
 		super(vglII, Messages.getInstance().getString("VGLII.SummaryChart"), false);
 		this.vglII = vglII;
@@ -77,7 +77,7 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 		pack();
 		setVisible(true);
 	}
-	
+
 	private void setupTraitSelectionPanel() {
 		JPanel traitSelectionPanel = new JPanel();
 		traitSelectionPanel.setLayout(
@@ -85,7 +85,7 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 		traitSelectionPanel.setBorder(
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.SortOffspringBy") + ":"));
-		
+
 		Trait[] traits = manager.getTraitSet();
 		traitCheckBoxes = new JCheckBox[traits.length];
 		traitCheckBoxLabels = new JLabel[traits.length];
@@ -94,34 +94,34 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 			traitCheckBoxes[i] = new JCheckBox();
 			traitCheckBoxes[i].addActionListener(this);
 			traitCheckBoxes[i].setSelected(true);
-			
+
 			traitCheckBoxLabels[i] = 
 				new JLabel(Messages.getInstance().getTranslatedCharacterName(traits[i]));
 		}
-		
+
 		//put them in GUI in randomized order
 		for (int i = 0; i < traits.length; i++) {
 			traitSelectionPanel.add(traitCheckBoxLabels[scrambledTraitOrder[i]]);
 			traitSelectionPanel.add(traitCheckBoxes[scrambledTraitOrder[i]]);
 			traitSelectionPanel.add(Box.createHorizontalStrut(15));
 		}
-		
+
 		// add sex check box
 		sexCheckBox = new JCheckBox();
 		sexCheckBox.addActionListener(this);
 		sexCheckBox.setSelected(true);
-		
+
 		traitSelectionPanel.add(new JLabel(Messages.getInstance().getString("VGLII.Sex")));
 		traitSelectionPanel.add(sexCheckBox);
 		traitSelectionPanel.add(Box.createHorizontalStrut(15));
-		
+
 		add(traitSelectionPanel, BorderLayout.NORTH);
 		add(resultPanel, BorderLayout.CENTER);
-		
+
 		chiSquaredLabel = new JLabel("Chi-squared p-value = ");
 		add(chiSquaredLabel, BorderLayout.SOUTH);
 	}
-	
+
 
 	public void actionPerformed(ActionEvent e) {
 		updateDisplay();
@@ -137,30 +137,30 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 		}
 
 		PhenotypeCount[] result = manager.calculateTotals(selectedTraits, sexCheckBox.isSelected());
-		
+
 		String[] columnHeadings = {
 				Messages.getInstance().getString("VGLII.Phenotype"), 
 				Messages.getInstance().getString("VGLII.Total"),
 				Messages.getInstance().getString("VGLII.Expected")
-				};
-		
+		};
+
 		data = new Object[result.length][3];
 		for (int i = 0; i < result.length; i++) {
 			data[i][0] = Messages.getInstance().translateLongPhenotypeName(result[i].getPhenotype());
 			data[i][1] = result[i].getCount();
 			data[i][2] = "";
 		}
-		
+
 		//if none selected, the "phenotype" is "organism"
 		if ((selectedTraits.size() == 0) && !sexCheckBox.isSelected()) data[0][0] = Messages.getInstance().getString("VGLII.Organism");
-		
+
 		// set width of columns sensibly - find longest one
 		int maxPhenoStringLength = 0;
 		for (int i = 0; i < result.length; i++) {
 			if (data[i][0].toString().length() > maxPhenoStringLength) maxPhenoStringLength = data[i][0].toString().length();
 		}
 		int phenoStringWidth = maxPhenoStringLength * 8;
-		
+
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		JTable table = new JTable(new SummaryDataTableModel(data, columnHeadings));
@@ -177,60 +177,81 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 	}
 
 	public void tableChanged(TableModelEvent arg0) {
-		
-		// be sure all "expected" values are integers
-		boolean badEntry = false;
+
+		// be sure all "expected" values are non blank
+		boolean haveAllEntries = true;
 		for (int i = 0; i < data.length; i++) {
-			try {
-				System.out.println(data[1][2]);
-				Integer.parseInt((String)data[i][2]);
-			} catch (NumberFormatException e) {
-				badEntry = true;
+			if (data[i][2] == "") {
+				haveAllEntries = false;
+				break;
 			}
 		}
-		if (badEntry) {
-			JOptionPane.showMessageDialog(this, "Bad Entry");
-		}
 		
+		if (haveAllEntries) {
+			float[] expectedCounts = new float[data.length];
+			int totalObserved = 0;
+			int totalExpected = 0;
+			for (int i = 0; i < data.length; i++) {
+				totalObserved = totalObserved + (Integer)data[i][1];
+				totalExpected = totalExpected + (Integer)data[i][2];				
+			}
+			
+			float scaleFactor = (float)totalObserved/(float)totalExpected;
+			for (int i = 0; i < data.length; i++) {
+				expectedCounts[i] = (float)((Integer)data[i][2]) * scaleFactor;
+				System.out.println("obs = " + (Integer)data[i][1] + " exp = " + expectedCounts[i]);
+			}
+			
+			chiSquaredLabel.setText("obs = " + totalObserved + " exp = " + totalExpected);
+			
+		} else {
+			chiSquaredLabel.setText("Chi-squared p-value = ");
+		}
+
 	}
 
 	private class SummaryDataTableModel extends AbstractTableModel {
-		
+
 		Object[][] data;
 		String[] columnHeadings;
-		
+
 		public SummaryDataTableModel(Object[][] data, String[] columnHeadings) {
 			super();
 			this.data = data;
 			this.columnHeadings = columnHeadings;
 		}
-		
+
 		public int getColumnCount() {
 			return data[0].length;
 		}
-		
+
 		public String getColumnName(int i) {
 			return columnHeadings[i];
 		}
-		
+
 		public int getRowCount() {
 			return data.length;
 		}
-		
+
+		public Class getColumnClass(int c) {
+			if (c == 2) return Integer.class;
+			return String.class;
+		}
+
 		public boolean isCellEditable(int row, int col) { 
 			if (col == 2) return true;
 			return false; 
 		}
-		
+
 		public Object getValueAt(int arg0, int arg1) {
 			return data[arg0][arg1];
 		}
-		
+
 		public void setValueAt(Object value, int row, int col) {
-	        data[row][col] = value;
-	        fireTableCellUpdated(row, col);
-	    }
-		
+			data[row][col] = value;
+			fireTableCellUpdated(row, col);
+		}
+
 	}
 
 }
