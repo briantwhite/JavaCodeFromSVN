@@ -1689,3 +1689,25 @@ trying to get org.apache.commons jar file into project
 got commons-math3-3.0-bin.tar.gz from http://commons.apache.org/math/download_math.cgi
 unzipped and un-tarred
 put whole folder under VGLII and saved to SVN
+
+followed instructions from
+http://www.java-forums.org/new-java/10601-how-make-apache-commons-stringutils-etc-work-eclipse.html
+In eclipse:
+A Put the library in the java build path
+
+Window -> Preferences: Java - Build path - User Libraries push the "New..." button, 
+	and in the "User library name:" enter 'appache-commons-lang'.
+Click to select "appache-commons-lang" in the "Defined user libraries" list 
+	and then click on the "Add JARs..." button and browse for commons-lang-2.4.jar 
+	(in the folder you've saved earlier) and select it.
+Now in the "Defined user libraries", under commons-lang-2.4.jar you have to have
+	"Source attachment" and "Javadoc location" ; for each of them, select it, then 
+	push "Edit..." , then "External file" and browse for the corresponding jar 
+	(/commons-lang-2.4-sources.jar and commons-lang-2.4-sources.jar
+
+B. In your project add this user library
+In the Package Explorer right-click on the project name, go to Properties, and 
+	select the Libraries tab; click the "Add Library..." button, from the list 
+	select "User library" , "Next", mark [x] appache-commons-lang, and click "Finish"
+
+will use ChiSquareTest.chiSquareTest()
