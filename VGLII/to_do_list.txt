@@ -18,7 +18,7 @@ To do list
 	add "expected values" column to summary chart
 	when values entered for all possible types
 		calculate chi-squared value
-		
+	- be sure to give both the chi-squared value and the p-value	
 
 5) screenshots of individual cages/windows
 	on all windows have menus:
