@@ -1684,3 +1684,8 @@ added "sex" checkbox to Summary Chart in preparation for chi-squared calculation
 
 added test to LinkagePanel: if mbui == null, just say there are no cages in the list (see above bug)
 
+4/13/12
+trying to get org.apache.commons jar file into project
+got commons-math3-3.0-bin.tar.gz from http://commons.apache.org/math/download_math.cgi
+unzipped and un-tarred
+put whole folder under VGLII and saved to SVN
