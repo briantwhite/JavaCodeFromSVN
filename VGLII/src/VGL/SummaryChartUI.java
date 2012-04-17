@@ -44,6 +44,8 @@ import GeneticModels.Trait;
  */
 
 public class SummaryChartUI extends JDialog implements ActionListener, TableModelListener {
+	
+	private static String CHI_SQUARE_DEFAULT = "<html>\u03C7<sup>2</sup>= <br><i>p</i>=</html>";
 
 	private VGLII vglII;
 
@@ -119,7 +121,7 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 		add(traitSelectionPanel, BorderLayout.NORTH);
 		add(resultPanel, BorderLayout.CENTER);
 
-		chiSquaredLabel = new JLabel("Chi-squared p-value = ");
+		chiSquaredLabel = new JLabel(CHI_SQUARE_DEFAULT);
 		add(chiSquaredLabel, BorderLayout.SOUTH);
 	}
 
@@ -198,13 +200,14 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 			
 			ChiSquareTest cst = new ChiSquareTest();
 			chiSquaredLabel.setText(
-					"chisq = " 
+					"<html>\u03C7<sup>2</sup>= " 
 					+ cst.chiSquare(expectedCounts, observedCounts) 
-					+ " p = " 
-					+ cst.chiSquareTest(expectedCounts, observedCounts));
+					+ " <br><i>p</i>= " 
+					+ cst.chiSquareTest(expectedCounts, observedCounts)
+					+ "</html>");
 			
 		} else {
-			chiSquaredLabel.setText("Chi-squared p-value = ");
+			chiSquaredLabel.setText(CHI_SQUARE_DEFAULT);
 		}
 
 	}
