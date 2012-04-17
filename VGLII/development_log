@@ -1714,3 +1714,11 @@ will use ChiSquareTest.chiSquareTest()
 
 4/17/12
 needed to add zipfilest src = the math.jar to make apache.commons work
+
+need translations for:
+VGLII.Observed=Observed
+VGLII.Expected=Expected
+VGLII.Chi-sqZeroTitle=Invalid Expected Value
+VGLII.Chi-sqZeroText=All Expected values must be > 0.
+
+also help file info

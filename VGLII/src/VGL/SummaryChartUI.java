@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -19,6 +20,10 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
 import GeneticModels.Trait;
@@ -128,6 +133,7 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 
 	public void actionPerformed(ActionEvent e) {
 		updateDisplay();
+		updateChiSqValues();
 	}
 
 	private void updateDisplay() {
@@ -180,15 +186,19 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 	}
 
 	public void tableChanged(TableModelEvent arg0) {
+		updateChiSqValues();
+	}
 
+	private void updateChiSqValues() {
 		// be sure all "expected" values are non blank
 		boolean haveAllEntries = true;
 		for (int i = 0; i < data.length; i++) {
-			if (data[i][2] == "") {
+			if ((data[i][2] == "") || (data[i][2] == null)) {
 				haveAllEntries = false;
 				break;
 			}
 		}
+
 		
 		if (haveAllEntries) {
 			long[] observedCounts = new long[data.length];
@@ -199,19 +209,34 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 			}
 			
 			ChiSquareTest cst = new ChiSquareTest();
+			
+			double chiSq;
+			double pVal;
+			try {
+				chiSq = cst.chiSquare(expectedCounts, observedCounts);
+				pVal = cst.chiSquareTest(expectedCounts, observedCounts);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(
+						this, 
+						Messages.getInstance().getString("VGLII.Chi-sqZeroText"), 
+						Messages.getInstance().getString("VGLII.Chi-sqZeroTitle"), 
+						JOptionPane.ERROR_MESSAGE);
+				chiSquaredLabel.setText(CHI_SQUARE_DEFAULT);
+				return;
+			} 
+			
 			chiSquaredLabel.setText(
 					"<html>\u03C7<sup>2</sup>= " 
-					+ String.format("%7.3g", cst.chiSquare(expectedCounts, observedCounts))
+					+ String.format("%7.3g", chiSq)
 					+ " <br><i>p</i>= " 
-					+ String.format("%7.3g", cst.chiSquareTest(expectedCounts, observedCounts))
+					+ String.format("%7.3g", pVal)
 					+ "</html>");
 			
 		} else {
 			chiSquaredLabel.setText(CHI_SQUARE_DEFAULT);
 		}
-
 	}
-
+	
 	private class SummaryDataTableModel extends AbstractTableModel {
 
 		Object[][] data;
