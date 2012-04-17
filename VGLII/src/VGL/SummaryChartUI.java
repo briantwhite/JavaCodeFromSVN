@@ -201,9 +201,9 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 			ChiSquareTest cst = new ChiSquareTest();
 			chiSquaredLabel.setText(
 					"<html>\u03C7<sup>2</sup>= " 
-					+ cst.chiSquare(expectedCounts, observedCounts) 
+					+ String.format("%7.3g", cst.chiSquare(expectedCounts, observedCounts))
 					+ " <br><i>p</i>= " 
-					+ cst.chiSquareTest(expectedCounts, observedCounts)
+					+ String.format("%7.3g", cst.chiSquareTest(expectedCounts, observedCounts))
 					+ "</html>");
 			
 		} else {
