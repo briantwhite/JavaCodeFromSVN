@@ -1711,3 +1711,6 @@ In the Package Explorer right-click on the project name, go to Properties, and
 	select "User library" , "Next", mark [x] appache-commons-lang, and click "Finish"
 
 will use ChiSquareTest.chiSquareTest()
+
+4/17/12
+needed to add zipfilest src = the math.jar to make apache.commons work

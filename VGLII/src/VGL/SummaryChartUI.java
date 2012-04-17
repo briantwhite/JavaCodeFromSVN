@@ -12,13 +12,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
+
+import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
 import GeneticModels.Trait;
 /**
@@ -188,21 +189,19 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 		}
 		
 		if (haveAllEntries) {
-			float[] expectedCounts = new float[data.length];
-			int totalObserved = 0;
-			int totalExpected = 0;
+			long[] observedCounts = new long[data.length];
+			double[] expectedCounts = new double[data.length];
 			for (int i = 0; i < data.length; i++) {
-				totalObserved = totalObserved + (Integer)data[i][1];
-				totalExpected = totalExpected + (Integer)data[i][2];				
+				observedCounts[i] = new Long((Integer)data[i][1]);
+				expectedCounts[i] = new Double((Integer)data[i][2]);				
 			}
 			
-			float scaleFactor = (float)totalObserved/(float)totalExpected;
-			for (int i = 0; i < data.length; i++) {
-				expectedCounts[i] = (float)((Integer)data[i][2]) * scaleFactor;
-				System.out.println("obs = " + (Integer)data[i][1] + " exp = " + expectedCounts[i]);
-			}
-			
-			chiSquaredLabel.setText("obs = " + totalObserved + " exp = " + totalExpected);
+			ChiSquareTest cst = new ChiSquareTest();
+			chiSquaredLabel.setText(
+					"chisq = " 
+					+ cst.chiSquare(expectedCounts, observedCounts) 
+					+ " p = " 
+					+ cst.chiSquareTest(expectedCounts, observedCounts));
 			
 		} else {
 			chiSquaredLabel.setText("Chi-squared p-value = ");
