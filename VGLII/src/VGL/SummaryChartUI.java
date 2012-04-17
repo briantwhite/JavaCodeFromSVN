@@ -140,7 +140,7 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 
 		String[] columnHeadings = {
 				Messages.getInstance().getString("VGLII.Phenotype"), 
-				Messages.getInstance().getString("VGLII.Total"),
+				Messages.getInstance().getString("VGLII.Observed"),
 				Messages.getInstance().getString("VGLII.Expected")
 		};
 
