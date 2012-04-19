@@ -1,5 +1,6 @@
 <html>
 <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <title>Virtual Genetics Lab Help </title>
 </head>
@@ -33,7 +34,7 @@
 <br>
 <a href="#How to Print to File">How to Print to File</a>
 <br>
-<a href="#Summarize Cages">How to summarize the results from a set of cages</a>
+<a href="#Summarize Cages">How to summarize the results from a set of cages and calculate a &#x03C7<sup>2</sup> value</a>
 <br>
 <a href="#Close/Re-open Cages">Close/Re-open Cages</a>
 <br>
@@ -300,8 +301,8 @@ printer friendly format into a file. The file will have a .html extension.
 		</p>
 <br>
 
-<a name="Summarize Cages"></a><font color="purple"><i>How to summarize the results from a set of cages
-</i></font>
+<a name="Summarize Cages"></a><font color="purple"><i>How to summarize the results from a set of cages 
+and calculate a &#x03C7<sup>2</sup> value</i></font>
 <br>
 <p>By selecting one or more Cages and choosing &quot;Create Summary Chart&quot; from the Utilities menu, you can 
 have VGLII count the number of each type of organism found in the selected set of Cages.<p>
@@ -309,13 +310,21 @@ First, double-click on each of the cages to select them for summarization; their
  to show that they are selected.  You can unselect selected cages by double-clicking on them; you 
 can unselect all cages by choosing &quot;Unselect All&quot; from the Utilities menu.<p>
 Once you have selected a set of Cages, choose &quot;Create Summary Chart&quot; from the Utilities menu and you
-will see something like this:<p>
-<img src="fig5.jpg"><br>
-The top line shows that this was a summary of cages 7, 8, 9, 10, &amp; 11.<br>
-These were produced from crosses of two heterozygous parents; thus, we would expect a 3:1 ratio.<br>
-The observed ratio 120:26 is very close.<br>
+will see something like this:<br>
 You can choose which Characters to summarize by selecting the appropriate Characters at the top
-of the window.
+of the window.<p>
+<img src="fig5.jpg"><br><br>
+The top line shows that this was a summary of cages 1, 2, 3, 4, &amp; 5.<br>
+
+These were produced from crosses of two heterozygous parents; thus, we would expect a 3:1 ratio.<br>
+You can enter expected values into the cells in the <b>Expected</b> column. These must be whole
+numbers greater than zero. <br>
+When all the cells have valid values in them, VGLII will display
+the &#x03C7<sup>2</sup> value and the corresponding p value.<br>
+In this case, the observed ratio is 103:42 which appears very close to the expected 3:1. <br>
+This is confirmed by a p-value greater than 0.05.  Thus, these data do not deviate
+significantly from a 3:1 ratio. <br>
+</p>
 <br>
 <a name="Close/Re-open Cages"></a><font color="purple"><i>Close/Re-open Cages</i></font>
 <br>

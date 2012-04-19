@@ -1722,3 +1722,10 @@ VGLII.Chi-sqZeroTitle=Invalid Expected Value
 VGLII.Chi-sqZeroText=All Expected values must be > 0.
 
 also help file info
+
+4/19/12
+fixed help in english & added tool tip text
+will also need translations for tool tip text
+VGLII.ExpectedLine1=Enter <u>whole number</u> values for 
+VGLII.ExpectedLine2=expected quantities of offspring.
+VGLII.ExpectedLine3=\u03C7<sup>2</sup> is calculated when all values entered.

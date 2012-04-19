@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -19,11 +20,8 @@ import javax.swing.JTextArea;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.JTableHeader;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
 import GeneticModels.Trait;
@@ -49,8 +47,16 @@ import GeneticModels.Trait;
  */
 
 public class SummaryChartUI extends JDialog implements ActionListener, TableModelListener {
-	
+
 	private static String CHI_SQUARE_DEFAULT = "<html>\u03C7<sup>2</sup>= <br><i>p</i>=</html>";
+
+	protected String[] columnToolTips = {
+			null, // "phenotype" assumed obvious
+			null, // "observed" assumed obvious
+			"<html>"
+			+ Messages.getInstance().getString("VGLII.ExpectedLine1") + "<br>"
+			+ Messages.getInstance().getString("VGLII.ExpectedLine2") + "<br>"
+			+ Messages.getInstance().getString("VGLII.ExpectedLine3")};
 
 	private VGLII vglII;
 
@@ -60,8 +66,6 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 	private JCheckBox sexCheckBox;
 
 	private JLabel[] traitCheckBoxLabels;
-
-	private JTextArea[] expectedCounts;
 
 	private JPanel resultPanel;
 
@@ -172,7 +176,21 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		JTable table = new JTable(new SummaryDataTableModel(data, columnHeadings));
+		JTable table = new JTable(new SummaryDataTableModel(data, columnHeadings)) {
+			//Implement table header tool tips.
+			protected JTableHeader createDefaultTableHeader() {
+				return new JTableHeader(columnModel) {
+					public String getToolTipText(MouseEvent e) {
+						String tip = null;
+						java.awt.Point p = e.getPoint();
+						int index = columnModel.getColumnIndexAtX(p.x);
+						int realIndex = 
+							columnModel.getColumn(index).getModelIndex();
+						return columnToolTips[realIndex];
+					}
+				};
+			}
+		};
 		table.setGridColor(Color.BLACK);
 		table.setShowGrid(true);
 		table.getColumnModel().getColumn(0).setPreferredWidth(phenoStringWidth);
@@ -199,7 +217,7 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 			}
 		}
 
-		
+
 		if (haveAllEntries) {
 			long[] observedCounts = new long[data.length];
 			double[] expectedCounts = new double[data.length];
@@ -207,9 +225,9 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 				observedCounts[i] = new Long((Integer)data[i][1]);
 				expectedCounts[i] = new Double((Integer)data[i][2]);				
 			}
-			
+
 			ChiSquareTest cst = new ChiSquareTest();
-			
+
 			double chiSq;
 			double pVal;
 			try {
@@ -224,19 +242,19 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 				chiSquaredLabel.setText(CHI_SQUARE_DEFAULT);
 				return;
 			} 
-			
+
 			chiSquaredLabel.setText(
 					"<html>\u03C7<sup>2</sup>= " 
 					+ String.format("%7.3g", chiSq)
 					+ " <br><i>p</i>= " 
 					+ String.format("%7.3g", pVal)
 					+ "</html>");
-			
+
 		} else {
 			chiSquaredLabel.setText(CHI_SQUARE_DEFAULT);
 		}
 	}
-	
+
 	private class SummaryDataTableModel extends AbstractTableModel {
 
 		Object[][] data;
