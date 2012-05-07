@@ -14,12 +14,6 @@ To do list
 		one parent must be heterozygous for both markers in question
 		other parent must have at least one recessive allele for each gene in question
 
-4) chi-square calc to summary chart
-	add "expected values" column to summary chart
-	when values entered for all possible types
-		calculate chi-squared value
-	- be sure to give both the chi-squared value and the p-value	
-
 5) screenshots of individual cages/windows
 	on all windows have menus:
 		file:
@@ -30,6 +24,11 @@ To do list
 			
 6) Evidentiary crosses for epistasis and complementation are crosses involving that pheno
 	that are conspicuous (kids ­ parents)
+
+7) make summary chart & chi-squared:
+	- if visible:
+		- save when problem saved
+		- print when print & printToFile
 
 			
 
