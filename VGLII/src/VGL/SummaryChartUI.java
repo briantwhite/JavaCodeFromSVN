@@ -298,4 +298,11 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 
 	}
 
+	public Object[][] getData() {
+		return data;
+	}
+	
+	public String getChiSqHtml() {
+		return chiSquaredLabel.getText();
+	}
 }

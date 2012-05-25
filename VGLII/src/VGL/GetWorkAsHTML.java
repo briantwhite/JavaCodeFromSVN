@@ -32,30 +32,30 @@ public class GetWorkAsHTML {
 			htmlString.append("<table border=1><tr><td align=center colspan=3" //$NON-NLS-1$
 					+ " bgcolor=#C0C0C0>Cage " + (id + 1) + "</td></tr>"); //$NON-NLS-1$ //$NON-NLS-2$
 			htmlString.append("<tr><td nowrap colspan=3>");
-			htmlString.append(Messages.getInstance().getInstance().getString("VGLII.Parents")); //$NON-NLS-1$
+			htmlString.append(Messages.getInstance().getString("VGLII.Parents")); //$NON-NLS-1$
 			if (parent1 != null && parent2 != null) {
 				htmlString.append("<ul><li>" + parent1.getSexString() + " " //$NON-NLS-1$ //$NON-NLS-2$
-						+ Messages.getInstance().getInstance().translateLongPhenotypeName(parent1.getPhenotypeString()) + " " 
-						+ Messages.getInstance().getInstance().getString("VGLII.FromCage") //$NON-NLS-1$
+						+ Messages.getInstance().translateLongPhenotypeName(parent1.getPhenotypeString()) + " " 
+						+ Messages.getInstance().getString("VGLII.FromCage") //$NON-NLS-1$
 						+ (parent1.getCageId() + 1));
 				htmlString.append("<li>" + parent2.getSexString() + " " //$NON-NLS-1$ //$NON-NLS-2$
-						+ Messages.getInstance().getInstance().translateLongPhenotypeName(parent2.getPhenotypeString()) + " " 
-						+ Messages.getInstance().getInstance().getString("VGLII.FromCage") //$NON-NLS-1$
+						+ Messages.getInstance().translateLongPhenotypeName(parent2.getPhenotypeString()) + " " 
+						+ Messages.getInstance().getString("VGLII.FromCage") //$NON-NLS-1$
 						+ (parent2.getCageId() + 1) + "</ul>"); //$NON-NLS-1$
 			}
 			htmlString.append("</td></tr>"); //$NON-NLS-1$
 			htmlString.append("<tr><td nowrap align=center colspan=3>");
 			htmlString
-			.append(Messages.getInstance().getInstance().getString("VGLII.Offspring")); //$NON-NLS-1$
+			.append(Messages.getInstance().getString("VGLII.Offspring")); //$NON-NLS-1$
 			htmlString.append("</td></tr>");
 			htmlString.append("<tr><td nowrap align=center>");
-			htmlString.append(Messages.getInstance().getInstance().getString("VGLII.Phenotype") //$NON-NLS-1$
+			htmlString.append(Messages.getInstance().getString("VGLII.Phenotype") //$NON-NLS-1$
 					+ "</td>"
 					+ "<td nowrap align=center>"
-					+ Messages.getInstance().getInstance().getString("VGLII.Sex") //$NON-NLS-1$
+					+ Messages.getInstance().getString("VGLII.Sex") //$NON-NLS-1$
 					+ "</td>"
 					+ "<td nowrap align=center>"
-					+ Messages.getInstance().getInstance().getString("VGLII.Count")
+					+ Messages.getInstance().getString("VGLII.Count")
 					+ "</td></tr>"); //$NON-NLS-1$
 			Iterator<String> it = children.keySet().iterator();
 			while (it.hasNext()) {
@@ -63,15 +63,15 @@ public class GetWorkAsHTML {
 				OrganismList l = children.get(phenotype);
 
 				htmlString.append("<tr><td nowrap align=center>" 
-						+ Messages.getInstance().getInstance().translateLongPhenotypeName(phenotype) //$NON-NLS-1$
-						+ "</td>" + "<td nowrap align=center>" + Messages.getInstance().getInstance().getString("VGLII.Male") //$NON-NLS-1$ //$NON-NLS-2$
+						+ Messages.getInstance().translateLongPhenotypeName(phenotype) //$NON-NLS-1$
+						+ "</td>" + "<td nowrap align=center>" + Messages.getInstance().getString("VGLII.Male") //$NON-NLS-1$ //$NON-NLS-2$
 						+ "</td><td nowrap align=center>" + l.getNumberOfMales() //$NON-NLS-1$
 						+ "</td></tr>"); //$NON-NLS-1$
 				htmlString.append("<tr><td nowrap align=center>" 
-						+ Messages.getInstance().getInstance().translateLongPhenotypeName(phenotype) //$NON-NLS-1$
+						+ Messages.getInstance().translateLongPhenotypeName(phenotype) //$NON-NLS-1$
 						+ "</td>" 
 						+"<td nowrap align=center>"
-						+ Messages.getInstance().getInstance().getString("VGLII.Female") //$NON-NLS-1$ //$NON-NLS-2$
+						+ Messages.getInstance().getString("VGLII.Female") //$NON-NLS-1$ //$NON-NLS-2$
 						+ "</td><td nowrap align=center>" + l.getNumberOfFemales() //$NON-NLS-1$
 						+ "</td></tr>"); //$NON-NLS-1$
 			}
@@ -83,6 +83,12 @@ public class GetWorkAsHTML {
 		htmlString.append(Messages.getInstance().getString("VGLII.ModelBuilder"));
 		htmlString.append("</h3>");
 		htmlString.append(modelBuilder.getAsHtml(false));
+		
+		htmlString.append("<h3>");
+		htmlString.append(Messages.getInstance().getString("VGLII.SummaryChart"));
+		htmlString.append("</h3>");
+		htmlString.append(SummaryChartManager.getInstance().getAsHtml());
+		
 
 		htmlString.append("</body></html>"); //$NON-NLS-1$
 		return htmlString.toString();

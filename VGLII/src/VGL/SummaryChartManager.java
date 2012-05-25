@@ -195,4 +195,34 @@ public class SummaryChartManager {
 		}
 		return b.toString();
 	}
+	
+	public String getAsHtml() {
+		if ((summaryChartUI == null) || (!summaryChartUI.isVisible())) return "";
+		
+		StringBuffer b = new StringBuffer();
+		Object[][] data = summaryChartUI.getData();
+		b.append(Messages.getInstance().getString("VGLII.SummaryChartForCages") + " ");
+		b.append(toString() + "<br>");
+		b.append("<table border=1>");
+		
+		b.append("<tr>");
+		b.append("<th>" + Messages.getInstance().getString("VGLII.Phenotype") + "</th>");
+		b.append("<th>" + Messages.getInstance().getString("VGLII.Observed") + "</th>");
+		b.append("<th>" + Messages.getInstance().getString("VGLII.Expected") + "</th>");
+		b.append("</tr>");
+		
+		for (int i = 0; i < data.length; i++) {
+			b.append("<tr>");
+			b.append("<td>" + data[i][0].toString() + "</td>");
+			b.append("<td>" + data[i][1].toString() + "</td>");
+			b.append("<td>" + data[i][2].toString() + "</td>");
+			b.append("</tr>");			
+		}
+		
+		b.append("</table>");
+		
+		b.append(summaryChartUI.getChiSqHtml());
+		
+		return b.toString();
+	}
 }
