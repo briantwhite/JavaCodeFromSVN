@@ -50,7 +50,7 @@
 <p class="p2"><span class="s1"><a href="#How%20to%20Use%20Super%20Cross">Comment utiliser la commande Super Cross</a></span></p>
 <p class="p2"><span class="s1"><a href="#How%20to%20Print">Comment Imprimer l'Analyse en Cours</a></span></p>
 <p class="p2"><span class="s1"><a href="#How%20to%20Print">Comment Créer un Fichier Imprimable<span class="Apple-converted-space"> </span></a></span></p>
-<p class="p2"><span class="s1"><a href="#Summarize%20Cages">Comment Résumer les Résultats d'un Ensemble de Cages</a></span></p>
+<p class="p2"><span class="s1"><a href="#Summarize%20Cages">Comment synthétiser les résultats d’une série de cages  et calculer une valeur &#x03C7<sup>2</sup></a></span></p>
 <p class="p2"><span class="s1"><a href="#Close/Re-open%20Cages">Fermer/Ré-ouvrir des Cages</a></span></p>
 <p class="p2"><span class="s1"><a href="#Re-arrange%20Cages">Ré-arranger des Cages</a></span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
 <p class="p2"><span class="s1"><a href="#How%20to%20Get%20Details%20about%20each%20Phenotype">Comment Obtenir des Détails sur chaque Phénotype</a></span></p>
@@ -172,13 +172,35 @@ coûteuse; vous devez l'utiliser uniquement quand cela est nécessaire.</p>
 <p class="p6">Pour imprimer le contenu de la cage de départ (Cage 1) et toutes les cages que vous avez produites par croisement, cliquer sur le bouton "Imprimer" (à gauche) ou sélectionner "Imprimer l'Analyse" à partir du menu déroulant "Fichier". Vous aurez peut-être besoin de sélectionner une imprimante dans le menu "Fichier" puis "Mise en page".<span class="Apple-converted-space"> </span></p>
 <p class="p5"><a name="How%20to%20Print"><i>Comment Créer un Fichier Imprimable</i></p>
 <p class="p6">Vous pouvez utiliser cette fonction pour sauvegarder votre Analyse dans un format facilement imprimable; le fichier pourra être lu par les navigateurs web et de nombreuses applications texte. Pour créer le fichier, sélectionner "Créer un Fichier Imprimable" à partir du menu déroulant "Fichier" ou cliquer sur le bouton de raccourci. Une boîte de dialogue s'ouvrira et vous permettra de choisir le dossier dans lequel vous sauvegarderez le fichier en explorant l'arborescence des répertoires. Entrer le nom de votre fichier dans le champ "Nom de Fichier" puis cliquer sur "Imprimer". Ce fichier a une extension .html.</p>
-<p class="p5"><a name="Summarize%20Cages"><i>Comment Résumer les Résultats d'un Ensemble de Cages</i></p>
-<p class="p6">En sélectionnant une ou plusieurs Cages et en choisissant "Créer un Tableau Récapitulatif" à partir du menu "Outils", VGLII va compiler tous les organismes d'un même type observés dans l'ensemble des cages. Ceci permet notamment d'augmenter les effectifs de la descendance issue d'un couple ou de parents identiques génétiquement.<span class="Apple-converted-space"> </span></p>
-<p class="p6">Tout d'abord, double-cliquer sur chaque cage que vous souhaitez prendre en compte dans ce calcul; Leur contour interne devient rouge montrant qu'elles sont bien prises en compte. Vous pouvez inverser l'opération en double-cliquant. Vous pouvez dé-sélectionner toutes les cages en choisissant "Tout Désélectionner" dans le menu déroulant "Outils".</p>
-<p class="p6">Une fois vos cages sélectionnées, choisissez " Créer un Tableau Récapitulatif" à partir du menu "Outils". Ceci produira un tableau comme ci-dessous:<span class="Apple-converted-space"> </span></p>
-<p class="p6"><span class="s7"><img src="fig5.jpg"></span><span class="s8"><br>
-</span>La ligne du haut indique qu'il s'agit d'une compilation des cages 3, 4, 5, &amp; 6. Lorsque plusieurs caractères ségrègent, vous pouvez sélectionner le caractère ou les caractères pour le(s)quel(s) vous souhaitez évaluer les effectifs en cochant la case correspondante.<span class="Apple-converted-space">  </span></span>Pour tester l'hypothèse de manière plus fiable, vous pouvez choisir d'augmenter l'effectif.<span class="s8"><br>
+
+<p class="p5"><a name="Summarize%20Cages"><i>Comment synthétiser les résultats d’une série de cages  
+et calculer une valeur &#x03C7<sup>2</sup></i></p>
+<p class="p6">
+Sélectionnez une ou plusieurs cages et choisissez "Créer un Tableau Récapitulatif" dans le menu "Outils". 
+VGLII peut compter le nombre de chaque type d’organismes dans la série de cages que vous aviez sélectionnée.
+ Ceci permet notamment d'augmenter les effectifs de la descendance issue d'un couple ou de parents identiques 
+génétiquement.<span class="Apple-converted-space"> </span></p>
+<p class="p6">Premièrement, faire une double-clique sur chacune des cages  que vous voulez sélectionner pour la synthèse;
+ leur contour intérieur deviendront rouge pour indiquer qu’elles ont été sélectionnées. Vous pouvez désélectionner les 
+ cages que vous aviez choisies précédemment avec une double clique ; vous pouvez aussi désélectionner toutes les cages 
+ en choisissant l’option "Tout Désélectionner" dans le menu déroulant "Outils".</p>  
+
+<p class="p6">Une fois vos cages sélectionnées, choisissez " Créer un Tableau Récapitulatif" à partir du menu "Outils". 
+Ceci produira un tableau comme ci-dessous:<span class="Apple-converted-space"> </span></p>
+<p class="p6"><span class="s7"><img src="fig5.jpg"></span><span class="s8"><br></span>
+<p class="p6">La ligne au début de la page monter que c’était une synthèse des cages 1, 2, 3, 4 et 5
+Ceux-ci sont les résultats obtenus de l’accouplement de deux parents hétérozygotes, donc on 
+s’attendra à un ratio de 3 : 1. Vous pouvez rentrer les valeurs prévues dans les cellules de la colonne Attendus
+Ces valeurs doivent être entières et plus grandes que zéro. Quand toutes les cellules seront remplies de valeurs  
+valables, VGLII affichera la valeur de &#x03C7<sup>2</sup>  et la valeur correspondante de p. Dans ce cas, 
+le ratio observé est 103 :42, ce qui apparait très proche du ratio prévu 3 :1. Ce qui est confirmé par la 
+valeur de p plus grande que 0.05. Donc, la déviation de ces données du ratio 3 :1 n’est pas significative.</p>
+
+
+
+<p class="p6">La ligne du haut indique qu'il s'agit d'une compilation des cages 3, 4, 5, &amp; 6. Lorsque plusieurs caractères ségrègent, vous pouvez sélectionner le caractère ou les caractères pour le(s)quel(s) vous souhaitez évaluer les effectifs en cochant la case correspondante.<span class="Apple-converted-space">  </span></span>Pour tester l'hypothèse de manière plus fiable, vous pouvez choisir d'augmenter l'effectif.<span class="s8"><br>
 </span></p>
+
 <p class="p12"><a name="Close/Re-open%20Cages"><i>Fermer/ré-ouvrir des Cages</i></p>
 <p class="p6">Vous pouvez utiliser cette fonction pour fermer/ré-ouvrir n'importe laquelle des cages que vous avez produites. Sélectionner "Cages" à partir du menu déroulant "Outils". Une fenêtre s'ouvrira avec la liste des cages ouvertes lors de votre session. Celles qui sont visibles sont cochées. Cochez simplement une cage fermée pour l'ouvrir.</p>
 <p class="p5"><a name="Re-arrange%20Cages"><i>Ré-arranger des Cages</i></p>
