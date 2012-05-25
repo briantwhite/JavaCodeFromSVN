@@ -1729,3 +1729,14 @@ will also need translations for tool tip text
 VGLII.ExpectedLine1=Enter <u>whole number</u> values for 
 VGLII.ExpectedLine2=expected quantities of offspring.
 VGLII.ExpectedLine3=\u03C7<sup>2</sup> is calculated when all values entered.
+
+5/25/12
+had to fix the apache math stuff
+did EXACTLY as above and it worked
+
+got summary chart to print when you print work
+korean help html now working
+	(had him start with blank text file, save as utf-8, paste in, save and
+		e-mail me a .zip file of the html)
+added some frehcn text for chi-square
+

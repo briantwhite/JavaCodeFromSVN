@@ -28,7 +28,7 @@ To do list
 7) make summary chart & chi-squared:
 	- if visible:
 		- save when problem saved
-		- print when print & printToFile
+
 
 			
 
