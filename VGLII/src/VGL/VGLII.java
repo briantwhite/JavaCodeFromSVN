@@ -1653,20 +1653,26 @@ public class VGLII extends JFrame {
 				.getY());
 	}
 
+	
 	/*
-	 * Get number of cages for the model builder UI
-	 * - if this is an open, working problem, there will be 
-	 * 		CageUI's in the cageCollection
-	 * - if it's just being graded, there are no CageUI's
-	 * 		so return -1 as a flag
+	 * get list of current cages 
+	 *    needed to create evidenitary cage list for 
+	 *    ModelBuilder's panels
 	 */
-	public int getNumCages() {
+	public String[] getCageList() {
+		int numCages = 0;
 		if (cageCollection != null) {
-			return cageCollection.size();
-		} else {
-			return -1;
+			numCages= cageCollection.size();
+		} 
+
+		String[] list = new String[numCages + 1];
+		list[0] = "?";
+		for (int i = 1; i < numCages + 1; i++) {
+			list[i] = Messages.getInstance().getString("VGLII.Cage") + " " + i;
 		}
+		return list;
 	}
+
 
 	/**
 	 * this disables language selection after a problem has been opened

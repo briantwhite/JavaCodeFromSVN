@@ -28,7 +28,6 @@ public class ModelBuilderUI extends JPanel {
 	private JDialog parentDialog;
 	private VGLII vglII;
 
-	private GeneticModelAndCageSet result;
 	private GeneticModel geneticModel;
 	private LinkagePanel linkagePanel;
 	private ModelPane[] modelPanes;
@@ -46,15 +45,6 @@ public class ModelBuilderUI extends JPanel {
 		setupUI();
 	}
 
-
-	// for problem for grading
-	public ModelBuilderUI(VGLII vglII, GeneticModelAndCageSet result) {
-		this.parentDialog = null;
-		this.vglII = vglII;
-		this.geneticModel = result.getGeneticModel();
-		this.result = result;
-		setupUI();
-	}
 
 	private void setupUI() {
 
@@ -153,7 +143,7 @@ public class ModelBuilderUI extends JPanel {
 		for (int i = 0; i < characters.size(); i++) {
 			chars[i] = characters.get(i);
 		}
-		linkagePanel = new LinkagePanel(chars, vglII.getModelBuilder());
+		linkagePanel = new LinkagePanel(chars, vglII);
 		tabs.add(Messages.getInstance().getString("VGLII.Linkage"), linkagePanel);
 	}
 
@@ -188,10 +178,6 @@ public class ModelBuilderUI extends JPanel {
 		return vglII;
 	}
 
-	public GeneticModelAndCageSet getGenticModelAndCageSet() {
-		return result;
-	}
-
 	public boolean getDesiredVisibility() {
 		return desiredVisibility;
 	}
@@ -205,8 +191,13 @@ public class ModelBuilderUI extends JPanel {
 	}
 
 	public void updateCageChoices(int nextCageId) {
+		
 		for (int i = 0; i < modelPanes.length; i++) {
 			modelPanes[i].updateCageChoices(nextCageId);
+		}
+		
+		if (linkagePanel != null) {
+			linkagePanel.updateCageChoices(nextCageId);
 		}
 	}
 
@@ -221,6 +212,9 @@ public class ModelBuilderUI extends JPanel {
 		TreeSet<Integer> relevantCages = new TreeSet<Integer>();
 		for (int i = 0; i < modelPanes.length; i++) {
 			ArrayList<Integer> indices = modelPanes[i].getRelevantCages();
+			if (linkagePanel != null) {
+				indices.addAll(linkagePanel.getRelevantCages());
+			}
 			for (int j = 0; j < indices.size(); j++) {
 				int num = indices.get(j);
 				if (num != 0) relevantCages.add(num);

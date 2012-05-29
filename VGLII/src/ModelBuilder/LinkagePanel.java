@@ -1,6 +1,7 @@
 package ModelBuilder;
 
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,10 +12,11 @@ import javax.swing.JPanel;
 import org.jdom.Element;
 
 import VGL.Messages;
+import VGL.VGLII;
 
 public class LinkagePanel extends JPanel {
 
-	private ModelBuilderUI mbui;
+	private VGLII vglII;
 
 	private JComboBox g1g2Linked;
 	private JComboBox g2g3Linked;
@@ -26,12 +28,12 @@ public class LinkagePanel extends JPanel {
 
 	private String[] chars;
 
-	public LinkagePanel(String[] characters, ModelBuilderUI mbui) {
-		this.mbui = mbui;
+	public LinkagePanel(String[] characters, VGLII vglII) {
+		this.vglII = vglII;
 
-		g1g2LinkageRelevantCage = new JComboBox(getCageList());
-		g2g3LinkageRelevantCage = new JComboBox(getCageList());
-		g3g1LinkageRelevantCage = new JComboBox(getCageList());
+		g1g2LinkageRelevantCage = new JComboBox(vglII.getCageList());
+		g2g3LinkageRelevantCage = new JComboBox(vglII.getCageList());
+		g3g1LinkageRelevantCage = new JComboBox(vglII.getCageList());
 
 		String[] choices = new String[51];
 		this.chars = characters;
@@ -64,6 +66,8 @@ public class LinkagePanel extends JPanel {
 					+ chars[2] + " "
 					+ Messages.getInstance().getString("VGLII.Are")));
 			add(g2g3Linked);
+			add(new JLabel(Messages.getInstance().getString("VGLII.RelevantCages")));
+			add(g2g3LinkageRelevantCage);
 
 			add(new JLabel(
 					chars[0] + " "
@@ -71,6 +75,8 @@ public class LinkagePanel extends JPanel {
 					+ chars[2] + " "
 					+ Messages.getInstance().getString("VGLII.Are")));
 			add(g3g1Linked);
+			add(new JLabel(Messages.getInstance().getString("VGLII.RelevantCages")));
+			add(g3g1LinkageRelevantCage);
 
 		}
 	}
@@ -83,12 +89,24 @@ public class LinkagePanel extends JPanel {
 			if (e.getName().equals("G1G2")) {
 				g1g2Linked.setSelectedItem((String)e.getText());
 			}
+			if (e.getName().equals("G1G2Evidence")) {
+				g1g2LinkageRelevantCage.setSelectedItem((String)e.getText());
+			}
+			
 			if (e.getName().equals("G2G3")) {
 				g2g3Linked.setSelectedItem((String)e.getText());
 			}
+			if (e.getName().equals("G2G3Evidence")) {
+				g2g3LinkageRelevantCage.setSelectedItem((String)e.getText());
+			}
+
 			if (e.getName().equals("G3G1")) {
 				g3g1Linked.setSelectedItem((String)e.getText());
 			}
+			if (e.getName().equals("G3G1Evidence")) {
+				g3g1LinkageRelevantCage.setSelectedItem((String)e.getText());
+			}
+
 		}
 	}
 
@@ -97,14 +115,23 @@ public class LinkagePanel extends JPanel {
 
 		Element e = new Element("G1G2");
 		e.setText((String)g1g2Linked.getSelectedItem());
+		lpe.addContent(e);	
+		e = new Element("G1G2Evidence");
+		e.setText((String)g1g2LinkageRelevantCage.getSelectedItem());
 		lpe.addContent(e);
 
 		e = new Element("G2G3");
 		e.setText((String)g2g3Linked.getSelectedItem());
 		lpe.addContent(e);
+		e = new Element("G2G3Evidence");
+		e.setText((String)g2g3LinkageRelevantCage.getSelectedItem());
+		lpe.addContent(e);
 
 		e = new Element("G3G1");
 		e.setText((String)g3g1Linked.getSelectedItem());
+		lpe.addContent(e);
+		e = new Element("G3G1Evidence");
+		e.setText((String)g3g1LinkageRelevantCage.getSelectedItem());
 		lpe.addContent(e);
 
 		return lpe;
@@ -120,43 +147,52 @@ public class LinkagePanel extends JPanel {
 				+ chars[1] + " "
 				+ Messages.getInstance().getString("VGLII.Are") + " ");
 		b.append((String)g1g2Linked.getSelectedItem() + "</li>");
+		b.append("<ul><li>" 
+				+ Messages.getInstance().getString("VGLII.RelevantCages")
+				+ " "
+				+ g1g2LinkageRelevantCage.getSelectedItem()
+				+ "</li></ul>");
+	
 		if (chars.length == 3) {
 			b.append("<li>" + chars[1] + " "
 					+ Messages.getInstance().getString("VGLII.And") + " "
 					+ chars[2] + " "
 					+ Messages.getInstance().getString("VGLII.Are") + " ");
 			b.append((String)g2g3Linked.getSelectedItem() + "</li>");
+			b.append("<ul><li>" 
+					+ Messages.getInstance().getString("VGLII.RelevantCages")
+					+ " "
+					+ g2g3LinkageRelevantCage.getSelectedItem()
+					+ "</li></ul>");
+
 			b.append("<li>" + chars[0] + " "
 					+ Messages.getInstance().getString("VGLII.And") + " "
 					+ chars[2] + " "
 					+ Messages.getInstance().getString("VGLII.Are") + " ");
 			b.append((String)g3g1Linked.getSelectedItem() + "</li>");
+			b.append("<ul><li>" 
+					+ Messages.getInstance().getString("VGLII.RelevantCages")
+					+ " "
+					+ g3g1LinkageRelevantCage.getSelectedItem()
+					+ "</li></ul>");
 		}
 		b.append("</ul>");
 		return b.toString();
 	}
-
-	public String[] getCageList() {
-
-		// if the mbui isn't set up yet, it must be a problem starting fresh
-		//  so make no cages in list (to avoid null pointer ref - see dev_log 4/11/12)
-		int numCages = 0;
-		if (mbui != null) {
-			numCages = mbui.getVGLII().getNumCages();
-		}
-		/*
-		 * see if there are no CageUI's in the VGL
-		 * 	if so, that means this is a problem for grading
-		 * 	so need to get number of cages from cage set that was loaded in file.
-		 */
-		if (numCages == -1) numCages = mbui.getGenticModelAndCageSet().getCages().size();
-
-		String[] list = new String[numCages + 1];
-		list[0] = "?";
-		for (int i = 1; i < numCages + 1; i++) {
-			list[i] = Messages.getInstance().getString("VGLII.Cage") + " " + i;
-		}
-		return list;
+	
+	public void updateCageChoices(int nextCageId) {
+		g1g2LinkageRelevantCage.addItem(Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
+		g2g3LinkageRelevantCage.addItem(Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
+		g3g1LinkageRelevantCage.addItem(Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
+		revalidate();
+	}
+	
+	public ArrayList<Integer> getRelevantCages() {
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		result.add(g1g2LinkageRelevantCage.getSelectedIndex());
+		result.add(g2g3LinkageRelevantCage.getSelectedIndex());
+		result.add(g3g1LinkageRelevantCage.getSelectedIndex());		
+		return result;
 	}
 
 }
