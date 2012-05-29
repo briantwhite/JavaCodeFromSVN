@@ -189,6 +189,10 @@ public class ModelBuilderUI extends JPanel {
 	public int getDesiredYpos() {
 		return desiredYpos;
 	}
+	
+	public boolean hasLinkagePanel() {
+		return linkagePanel != null;
+	}
 
 	public void updateCageChoices(int nextCageId) {
 		

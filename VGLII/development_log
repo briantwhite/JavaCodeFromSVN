@@ -1744,3 +1744,4 @@ added some frehcn text for chi-square
 working on misc stuff
 - fixed cage lists in linkage panel
 - updated the saving, loading, printing, etc of linkage panel
+- for now, for evidence of linkage, just give parent genotypes

@@ -6,6 +6,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import GeneticModels.Cage;
+import GeneticModels.GeneticModel;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
 import GeneticModels.Phenotype;
@@ -26,10 +27,10 @@ import ModelBuilder.ModelBuilderUI;
  *
  */
 public class CageScorer {
-	
+
 	private ArrayList<Cage> cages;
 	private ModelBuilderUI mbui;
-	
+
 	public CageScorer(ArrayList<Cage> cages, ModelBuilderUI mbui) {
 		this.cages = cages;
 		this.mbui = mbui;
@@ -41,7 +42,7 @@ public class CageScorer {
 			mbui.getChosenRelevantCages();
 		b.append("<hr>");
 		b.append("<b>Selected Cages:</b><br>");
-		
+
 		if(selectedCages.size() == 0) {
 			b.append("<b>No cages were selected.</b>");
 		} else {
@@ -50,9 +51,9 @@ public class CageScorer {
 				int cageNum = cageNumIt.next();
 				b.append(scoreCage(cages.get(cageNum - 1)));
 			}
-			
+
 		}
-		
+
 		b.append("</ul>");
 		return b.toString();
 	}
@@ -89,7 +90,7 @@ public class CageScorer {
 					b.append(currentPheno.getTrait().getType());
 					b.append("</b></li>");
 					b.append("<ul>");
-					
+
 					/**
 					 * look for sex linkage first:
 					 * - for each child phenotype of this trait, if you find
@@ -173,96 +174,48 @@ public class CageScorer {
 				b.append("<li>Sorry, this has not been implemented "
 						+ "for Complementation or Epistasis yet.</li>");
 			}
-			
+
 			/*
-			 * now, try for linkage
-			 * only do this if more than one pheno
-			 * try each pair of phenos
+			 * now, look at linkage
+			 * only do this if more than one pheno and linkage is possible
+			 * determining if a cross shows linkage between 2 traits is hard
+			 * 		need to show one parent heterozygous for both traits
+			 * 			and all 4 traits present in offspring
+			 * 
+			 * so, for now, just give the parent's genotypes
+			 * 		and leave it up to the instructor
 			 */
-			System.out.println("analyzing linkage");
-			if (phenotypes.size() > 1) {
-				for (int i = 0; i < phenotypes.size(); i++) {
-					for (int j = i + 1; j < phenotypes.size(); j++) {
-						b.append(checkForEvidenceOfLinkageBetween(cage, phenotypes, i, j));
-					}
-				}
+			if (mbui.hasLinkagePanel()) {
+				b.append("<li><b>Linkage:</b></li>");
+				b.append("<ul><li>Parent 1 Genotype:</li><ul>");
+				Organism p0 = cage.getParents().get(0);
+				b.append(getHTMLforGenotype(p0, p0.getMaternalAutosome().toString()));
+				b.append(getHTMLforGenotype(p0, p0.getPaternalAutosome().toString()));
+				b.append(getHTMLforGenotype(p0, p0.getMaternalSexChromosome().toString()));
+				b.append(getHTMLforGenotype(p0, p0.getPaternalSexChromosome().toString()));
+				b.append("</ul></ul>");
+
+				b.append("<ul><li>Parent 2 Genotype:</li><ul>");				
+				Organism p1 = cage.getParents().get(1);
+				b.append(getHTMLforGenotype(p1, p1.getMaternalAutosome().toString()));
+				b.append(getHTMLforGenotype(p1, p1.getPaternalAutosome().toString()));
+				b.append(getHTMLforGenotype(p1, p1.getMaternalSexChromosome().toString()));
+				b.append(getHTMLforGenotype(p1, p1.getPaternalSexChromosome().toString()));
+				b.append("</ul></ul>");
 			}
 		}
 		b.append("</ul>");
 		return b.toString();
 	}
-	
-	/*
-	 * check for evidence of linkage
-	 * to be evidentiary, 
-	 * 		one parent must be heterozygous for both traits
-	 * 	and: the other must have at least one recessive allele for both traits
-	 *    (but that's a pain to tell)
-	 *    easier = find both phenos of both traits in offspring
-	 * 
-	 */
-	private String checkForEvidenceOfLinkageBetween(Cage cage, 
-			ArrayList<Phenotype> phenotypes, 
-			int pheno1, int pheno2) {
 
-		// check for heterozygosity first
-		Organism p1 = cage.getParents().get(0);
-		String p1ma = p1.getMaternalAutosome().toString();
-		String p1pa = p1.getPaternalAutosome().toString();
-		String p1ms = p1.getMaternalSexChromosome().toString();
-		String p1ps = p1.getPaternalSexChromosome().toString();
-		boolean p1heterozygous = (isHeterozygous(p1ma, p1pa, pheno1, pheno2) 
-				|| isHeterozygous(p1ms, p1ps, pheno1, pheno2));
-		if (p1heterozygous) {
-			System.out.println("p1: is heterozygous for " + phenotypes.get(pheno1) + " and " + phenotypes.get(pheno2));
-			System.out.println("\t" + p1ma);
-			System.out.println("\t" + p1pa);
-			System.out.println("\t" + p1ms);
-			System.out.println("\t" + p1ps);
+	private String getHTMLforGenotype(Organism org, String chromosome) {
+		if (chromosome.indexOf(";") == -1) {
+			return "";
+		} else {
+			return "<li>" + chromosome + "</li>";
 		}
-		
-		Organism p2 = cage.getParents().get(1);
-		String p2ma = p2.getMaternalAutosome().toString();
-		String p2pa = p2.getPaternalAutosome().toString();
-		String p2ms = p2.getMaternalSexChromosome().toString();
-		String p2ps = p2.getPaternalSexChromosome().toString();
-		boolean p2heterozygous = (isHeterozygous(p2ma, p2pa, pheno1, pheno2) 
-				|| isHeterozygous(p2ms, p2ps, pheno1, pheno2));
-		if (p2heterozygous) {
-			System.out.println("p2: is heterozygous for " + phenotypes.get(pheno1) + " and " + phenotypes.get(pheno2));
-			System.out.println("\t" + p2ma);
-			System.out.println("\t" + p2pa);
-			System.out.println("\t" + p2ms);
-			System.out.println("\t" + p2ps);
-		}
-		
-		// then for all four types of offpsring
-		
-		StringBuffer b = new StringBuffer();
-		 
-		return b.toString();
 	}
-	
-	/*
-	 * check for heterozygosity at two traits from pheno string
-	 * like: Gray-Eye;Three-Wing;Forked-Body
-	 * could also be "null sex chromosome" - then can't tell
-	 * 
-	 * if has trait, look at the two traits specified by the indices
-	 * only true if heterozygous at BOTH
-	 * 
-	 */
-	private boolean isHeterozygous(String chromo1, String chromo2, int index1, int index2) {
-		// if either is "null sex chromo" can't tell
-		if ((chromo1.indexOf(";") == -1) || (chromo2.indexOf(";") == -1)) return false;
-		
-		//break up into each pheno
-		String[] pheno1parts = chromo1.split(";");
-		String[] pheno2parts = chromo2.split(";");
-		
-		return (!pheno1parts[index1].equals(pheno2parts[index1]) 
-				&& !pheno1parts[index2].equals(pheno2parts[index2]));
-	}
+
 }
 
 

@@ -6,11 +6,7 @@ To do list
 	
 2) a problem like TwoGenes05 where the genes can be linked or unlinked
 
-3) recombination frequency in model builder
-	enter numerical value (if they enter "50", it puts "unlinked")
-		to nearest 0.1 map unit
-		- maybe make a spinner with 3 digits and max of 50
-	evidentiary crosses
+3) evidentiary crosses for linkage
 		one parent must be heterozygous for both markers in question
 		other parent must have at least one recessive allele for each gene in question
 
@@ -25,11 +21,6 @@ To do list
 6) Evidentiary crosses for epistasis and complementation are crosses involving that pheno
 	that are conspicuous (kids ­ parents)
 
-7) make summary chart & chi-squared:
-	- if visible:
-		- save when problem saved
-
-
-			
+		
 
 
