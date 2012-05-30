@@ -1745,3 +1745,8 @@ working on misc stuff
 - fixed cage lists in linkage panel
 - updated the saving, loading, printing, etc of linkage panel
 - for now, for evidence of linkage, just give parent genotypes
+
+5/30/12
+grader bug - in sex-linkage it's not counting things properly
+	it doesn't see the second line of offspring in cage 6 in simple.wr2
+
