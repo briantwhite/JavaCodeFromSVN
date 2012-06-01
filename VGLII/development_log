@@ -1762,7 +1762,11 @@ fixed both - test extensively - be sure that:
 	- be sure inc dom is also OK <OK>
 	- test in multi-gene probs <OK>
 
-also need to test the dominance stuff
-	- detected in any row of display
-	- detected all 3 types 
-	- detected in multi-gene probs
+also need to test the dominance stuff (didn't change it but just to be sure)
+	- detected in any row of display <OK>
+	- detected all 3 types <OK>
+	- detected in multi-gene probs <OK>
+
+worked on compl & epi evidence detection
+	- it should be the same as for the dominance (missing or new phenos)
+		so try just using the existing scoring
