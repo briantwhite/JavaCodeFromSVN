@@ -1750,3 +1750,19 @@ working on misc stuff
 grader bug - in sex-linkage it's not counting things properly
 	it doesn't see the second line of offspring in cage 6 in simple.wr2
 
+6/1/12
+working on grader bug
+	was looking at phenotype's trait = Eye:Color:Gray
+		but want character = Eye:Color and match both Gray and Green (for example)
+	also, if any phenotype (Eye:Color:Gray OR Eye:Color:Green) shows a sex-mismatch then sex-linked
+		had been doing it only if Eye:Color as a whole showed sex-mismatch
+fixed both - test extensively - be sure that: 
+	- sex-linkage evidence in any phenotype line is detected <OK>
+	- if absent, it's flagged OK <OK>
+	- be sure inc dom is also OK <OK>
+	- test in multi-gene probs <OK>
+
+also need to test the dominance stuff
+	- detected in any row of display
+	- detected all 3 types 
+	- detected in multi-gene probs

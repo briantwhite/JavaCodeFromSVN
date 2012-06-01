@@ -60,7 +60,7 @@ public class CageScorer {
 
 	private String scoreCage(Cage cage) {
 		StringBuffer b = new StringBuffer();
-
+//		System.out.println("cage" + (cage.getId() + 1));
 		b.append("<b>Cage ");
 		b.append(cage.getId() + 1);
 		b.append(" </b>");
@@ -81,10 +81,14 @@ public class CageScorer {
 			if (org.getGeneticModel().getPhenoTypeProcessor().getInteractionType() 
 					== PhenotypeProcessor.NO_INTERACTION) {
 
-				// iterate over the phenotypes
+				/* 
+				 * iterate over the phenotypes
+				 * 		actually, over the body part:type (eg Wing:Color) - the character
+				 * 		not the individual traits (Wing:Color:Red etc)
+				 * 	
+				 */
 				for (int i = 0; i < phenotypes.size(); i++) {
 					Phenotype currentPheno = org.getPhenotypes().get(i);
-
 					b.append("<li><b>");
 					b.append(currentPheno.getTrait().getBodyPart() + " ");
 					b.append(currentPheno.getTrait().getType());
@@ -93,7 +97,7 @@ public class CageScorer {
 
 					/**
 					 * look for sex linkage first:
-					 * - for each child phenotype of this trait, if you find
+					 * - for each child phenotype (character) of this trait, if you find
 					 * 		males but no females
 					 * 			or
 					 * 		females but no males
@@ -103,24 +107,31 @@ public class CageScorer {
 					 * note: you have to check all the olists with red eyes (eg)
 					 * 	so, red eyes & six legs but also red eyes & 4 legs
 					 */
+					String character = 
+						currentPheno.getTrait().getBodyPart() 
+						+ ":" 
+						+ currentPheno.getTrait().getType();
 					boolean showsSexLinkage = false;
 					phenoIt = children.keySet().iterator();
-					int males = 0;
-					int females = 0;
 					while (phenoIt.hasNext()) {
 						String pheno = phenoIt.next();
 						OrganismList oList = children.get(pheno);
 						Organism o = oList.get(0);
-						if (o.getPhenotypes().get(i).getTrait().toString().equals(
-								currentPheno.getTrait().toString())) {
-							males += oList.getNumberOfMales();
-							females += oList.getNumberOfFemales();
+						String testCharacter = 
+							o.getPhenotypes().get(i).getTrait().getBodyPart() 
+							+ ":" 
+							+ o.getPhenotypes().get(i).getTrait().getType();
+						if (testCharacter.equals(character)) {
+							int males = oList.getNumberOfMales();
+							int females = oList.getNumberOfFemales();
+							if (((males == 0) && (females > 0)) || 
+									((males > 0) && (females == 0))) showsSexLinkage = true;
 						}
 					}
 					b.append("<li>");
-					if (((males == 0) && (females > 0)) || ((males > 0) && (females == 0))) {
-						showsSexLinkage = true;
-						b.append("<font color=green>Shows ");
+
+					if (showsSexLinkage) {
+							b.append("<font color=green>Shows ");
 					} else {
 						b.append("<font color=black>Does not show ");
 					}
