@@ -1770,3 +1770,9 @@ also need to test the dominance stuff (didn't change it but just to be sure)
 worked on compl & epi evidence detection
 	- it should be the same as for the dominance (missing or new phenos)
 		so try just using the existing scoring
+
+6/18/12
+finished adding Korean stuff
+version 3.2.0
+made mac, pc, linux versions and posted
+
