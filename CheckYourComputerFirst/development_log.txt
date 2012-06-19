@@ -1,0 +1,6 @@
+6/19/12
+started more formal development
+need to see if it can tell if it's in a zip file
+try pwd - works on mac
+but not on pc
+need to use "echo %cd%" if windows
