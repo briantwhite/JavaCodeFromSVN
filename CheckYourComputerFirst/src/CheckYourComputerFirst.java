@@ -30,28 +30,6 @@ public class CheckYourComputerFirst {
 
 		label.setOpaque(true);
 		
-		String pwdCommand = "pwd";
-		if (System.getProperty("os.name").toLowerCase().indexOf("win") != -1) {
-			pwdCommand = "echo %cd%";
-		}
-
-		Runtime rt = Runtime.getRuntime();
-		Process p;
-		StringBuffer result = new StringBuffer();
-		try {
-			p = rt.exec(pwdCommand);
-			p.waitFor();
-			BufferedReader reader=new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line = reader.readLine();
-			while(line != null) {
-				result.append(line);
-				line = reader.readLine();
-			}
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		if ((firstDigit >= 1) && (secondDigit >= 6)) {
 			label.setBackground(Color.GREEN);
 			infoString = "You have a correct version of Java "
@@ -71,7 +49,7 @@ public class CheckYourComputerFirst {
 				+ infoString + "<br>"
 				+ "Java version " + javaVersion
 				+ "<br>"
-				+ result.toString()
+				+ System.getProperty("user.dir")
 				+ "</font></body></html>");
 
 		frame.addWindowListener(new WindowAdapter() {
