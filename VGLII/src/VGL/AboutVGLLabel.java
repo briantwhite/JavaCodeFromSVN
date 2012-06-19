@@ -33,6 +33,7 @@ public class AboutVGLLabel {
 				+ "<ul>"
 				+ "<li>Traduction Française: Sophie Javerzat (Université Bordeaux 1, FRANCE)</li>"
 				+ "<li>Traducción de Español: Juan-Carlos Hernández-Vega</li>"
+				+ "<li>Korean Translation: Se-Jin Youn</li>"
 				+ "</ul>"
 				+ "<li><b>Beta-testers:</b></li>"
 				+ "<ul>"

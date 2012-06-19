@@ -1776,3 +1776,13 @@ finished adding Korean stuff
 version 3.2.0
 made mac, pc, linux versions and posted
 
+6/19/12
+UGH - korean html looks bad in korea (but OK in us)
+may be because I edited and saved the file 
+(best to never touch it)
+luckily have a backup in the version I showed to Se-Jin
+un-jared it and replaced Help_kr/index.html
+  saved a copy in Future/
+try in Korea
+also updated version to 3.2.1
+  and the info file to thank him properly
