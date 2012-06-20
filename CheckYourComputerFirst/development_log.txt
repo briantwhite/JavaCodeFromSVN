@@ -4,3 +4,13 @@ need to see if it can tell if it's in a zip file
 try pwd - works on mac
 but not on pc
 need to use "echo %cd%" if windows
+fails
+use system.getProperty("user.dir")
+
+6/20/12
+zip file things
+- on win xp, can't open if in zip
+- on win 7, can, but the user.dir is C:\windows\system32
+	so can search for that, after .toLowerCase()
+	warning text should tell them that it is likely that it's zipped
+	  see instructions for unzipping file that this came in on web
