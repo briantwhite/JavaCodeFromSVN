@@ -40,25 +40,23 @@ public class CheckYourComputerFirst {
 				+ "The software in this folder should run correctly.<br>";
 			if (isInZip) {
 				label.setBackground(Color.YELLOW);
-				infoString += "However, it appears that you have not <br>"
-					+ "un-zipped the folder containing this software.<br>"
-					+ "The software will not run properly unless you <br>" 
-					+ "un-zip it. See the instructions where you downloaded<br>"
-					+ "these files for how to un-zip properly.";
+				infoString = "You have a correct version of Java installed on your computer.<br><br>"
+					+ "<b><u>However</b></u>, it appears that you have not un-zipped the folder<br>"
+					+ "containing this software. The software will not run properly<br>"
+					+ "unless you un-zip it. See the instructions where you <br>"
+					+ "downloaded these files for how to un-zip properly.<br>";
 			}
 		} else {
 			label.setBackground(Color.RED);
 			infoString = "It appears that you do not have a correct "
 				+ "version of Java installed on your computer.<br>"
 				+ "The software in this folder will not run correctly.<br>"
-				+ "You should install by going to http://www.java.com to download the"
-				+ " latest version of Java for free.<br>";
+				+ "You should go to http://www.java.com to download the latest version of Java for free.<br><br>";
 			if (isInZip) {
-				infoString += "Also, it appears that you have not <br>"
-					+ "un-zipped the folder containing this software.<br>"
-					+ "The software will not run properly unless you <br>" 
-					+ "un-zip it. See the instructions where you downloaded<br>"
-					+ "these files for how to un-zip properly.";
+				infoString += "<b><u>Also</b></u>, it appears that you have not un-zipped the folder<br>"
+					+ "containing this software. The software will not run properly<br>"
+					+ "unless you un-zip it. See the instructions where you <br>"
+					+ "downloaded these files for how to un-zip properly.<br>";
 			}			
 		}
 
