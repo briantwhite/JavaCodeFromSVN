@@ -1,14 +1,7 @@
-12/6/11
-- fix middle intron color to match the one in Aipotu (it is more visible)
-
-- if terminator missing, still transcribe, but go to end
-
 3/9/12
 - add to problems file:
 	- the params from the applet
 		- add param SpaceBetweenPromoterAndmRNAStart
 	- multiple starting DNAs - automatically chose randomly
-	
-- in text of problem set, change asking for a 
-	“single base change”, I’d talk about “a single base substitution”, 
-	otherwise you are tempted to delete/insert a base. (Sophie Javerzat)
+		have each Problem have a StartingDNA
+			if more than one; choose randomly from them

@@ -29,3 +29,12 @@ bug - the help does not display due to package structure issues
 moved stuff around
 now OK
 version 2.0.1
+
+6/25/12
+fixed bugs & added features
+- changed second exon color to #FF8C00 to be more visible
+- moved version label to title bar
+- if terminator missing, still transcribe, but go to end
+- in text of problem set, change asking for a 
+	“single base change”, I’d talk about “a single base substitution”, 
+	otherwise you are tempted to delete/insert a base. (Sophie Javerzat)

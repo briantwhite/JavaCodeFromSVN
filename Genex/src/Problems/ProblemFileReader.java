@@ -37,7 +37,7 @@ public class ProblemFileReader {
 			Iterator<Element> elIt = doc.getRootElement().getChildren().iterator();
 			while (elIt.hasNext()) {
 				Element e = elIt.next();
-				if (e.getName().equals("Problem")) result.add(processProblem(e));
+				if (e.getName().equals("Problem")) result.add(processProblem(e)); 
 			}
 		}
 		return result;
