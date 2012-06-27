@@ -1,7 +1,10 @@
 3/9/12
 - add to problems file:
+	- change to "configuration.xml"
+	- load at start (move ProbFileLoader up and make it COnfigFileLoader)
 	- the params from the applet
 		- add param SpaceBetweenPromoterAndmRNAStart
 	- multiple starting DNAs - automatically chose randomly
 		have each Problem have a StartingDNA
 			if more than one; choose randomly from them
+			if none, use the default from the params
