@@ -38,3 +38,10 @@ fixed bugs & added features
 - in text of problem set, change asking for a 
 	“single base change”, I’d talk about “a single base substitution”, 
 	otherwise you are tempted to delete/insert a base. (Sophie Javerzat)
+	
+6/28/12
+moved ProblemFileReader to ConfigFileReader
+set it up to read in params, if present
+
+added param PROMOTER_SPACING = number of bases between 3' end of promoter and 5' end of mRNA
+

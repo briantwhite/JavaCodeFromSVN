@@ -12,12 +12,13 @@ package GX;
 public class GenexParams {
 	String defaultDNA;
 	String promoterSequence;
+	int promoterSpacing;
 	String terminatorSequence;
 	String intronStartSequence;
 	String intronEndSequence;
 	String polyATail;
-	boolean allowPrinting;    
-
+	boolean allowPrinting; 
+	
 
 	public GenexParams() {
 		defaultDNA = new String("CAAGGCTATAACCGAGATTGATGCCTTGTGCG" 
@@ -25,6 +26,7 @@ public class GenexParams {
 	            + "TCGAGTGCGCGTGCAAAAAAAAACAAAGGCGA"
 	            + "GGACCTTAAGAAGGTGTGAGGGGGCGCTCGAT");
 		promoterSequence = "TATAA";
+		promoterSpacing = 0;
 		terminatorSequence = "GGGGG";
 		intronStartSequence = "GUGCG";
 		intronEndSequence = "CAAAG";
@@ -68,6 +70,12 @@ public class GenexParams {
 	}
 	public void setPromoterSequence(String promoterSequence) {
 		this.promoterSequence = promoterSequence;
+	}
+	public int getPromoterSpacing() {
+		return promoterSpacing;
+	}
+	public void setPromoterSpacing(int s) {
+		promoterSpacing = s;
 	}
 	public String getTerminatorSequence() {
 		return terminatorSequence;

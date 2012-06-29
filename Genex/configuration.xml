@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>      
+	<Parameters>
+		<PROMOTER_SPACING>5</PROMOTER_SPACING>
+	</Parameters>          
+        <Problem>
+        	<Number>0</Number>
+        	<Name>Shorter mRNA</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, make a single base &lt;u&gt;substitution&lt;/u&gt; so that the mature mRNA is shorter.</Description>
+           	<Requirement type="SingleMutation">
+        		<FailString>You did not make a single base &lt;u&gt;substitution&lt;/u&gt;.</FailString>
+        	</Requirement>
+        	<Requirement type="ShortermRNA">
+        		<FailString>Your change does not make the mature mRNA shorter.</FailString>
+        	</Requirement>
+        </Problem>
+        
+        <Problem>
+        	<Number>1</Number>
+        	<Name>Longer mRNA</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, make a single base &lt;u&gt;substitution&lt;/u&gt; so that the mature mRNA is longer.</Description>
+           	<Requirement type="SingleMutation">
+        		<FailString>You did not make a single base &lt;u&gt;substitution&lt;/u&gt;.</FailString>
+        	</Requirement>
+        	<Requirement type="LongermRNA">
+        		<FailString>Your change does not make the mature mRNA longer.</FailString>
+        	</Requirement>
+        </Problem>
+        
+        <Problem>
+        	<Number>2</Number>
+        	<Name>Shorter Protein</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, make a single base &lt;u&gt;substitution&lt;/u&gt; so that the protein is shorter.</Description>
+        	<Requirement type="SingleMutation">
+        		<FailString>You did not make a single base &lt;u&gt;substitution&lt;/u&gt;.</FailString>
+        	</Requirement>
+        	<Requirement type="ShorterProtein">
+        		<FailString>Your change does not make the protein shorter.</FailString>
+        	</Requirement>
+        </Problem>
+        
+         <Problem>
+        	<Number>3</Number>
+        	<Name>Longer Protein</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, make a single base &lt;u&gt;substitution&lt;/u&gt; so that the protein is longer.</Description>
+        	<Requirement type="SingleMutation">
+        		<FailString>You did not make a single base &lt;u&gt;substitution&lt;/u&gt;.</FailString>
+        	</Requirement>
+        	<Requirement type="LongerProtein">
+        		<FailString>Your change does not make the protein longer.</FailString>
+        	</Requirement>
+        </Problem>
+        
+         <Problem>
+        	<Number>4</Number>
+        	<Name>No mRNA; no Protein</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, make a single base &lt;u&gt;substitution&lt;/u&gt; so that the gene
+        		neither makes mRNA nor protein.</Description>
+        	<Requirement type="SingleMutation">
+        		<FailString>You did not make a single base &lt;u&gt;substitution&lt;/u&gt;.</FailString>
+        	</Requirement>
+        	<Requirement type="NomRNA">
+        		<FailString>Your change does not prevent mRNA from being made.</FailString>
+        	</Requirement>
+        	<Requirement type="NoProtein">
+        		<FailString>Your change does not prevent protein from being made.</FailString>
+        	</Requirement>
+        </Problem>
+        
+          <Problem>
+        	<Number>5</Number>
+        	<Name>Same Protein</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, make a single base &lt;u&gt;substitution&lt;/u&gt; in the 
+        	    &lt;font color=red&gt;coding region&lt;/font&gt; 
+        		so that the protein sequence is unchanged.</Description>
+        	<Requirement type="SingleMutation">
+        		<FailString>You did not make a single base &lt;u&gt;substitution&lt;/u&gt;.</FailString>
+        	</Requirement>
+        	<Requirement type="MutationLocation">
+        		<Locations>20,21,22,23,24,25,26,55,56,57,58,59,60,61,62,63,64,65,66,67,92,93,94,95,96,97,98,99,100,101,102,103,104</Locations>
+        		<FailString>Your change is not in the coding region.</FailString>
+        	</Requirement>
+        	<Requirement type="SameProtein">
+        		<FailString>Your change does not keep the protein sequence the same.</FailString>
+        	</Requirement>
+        </Problem>
+        
+          <Problem>
+        	<Number>6</Number>
+        	<Name>Particular Protein</Name>
+        	<Description>Start by Resetting the DNA sequence.&lt;br&gt;Then, make a single base &lt;u&gt;substitution&lt;/u&gt; in the coding region 
+        		so that the protein sequence becomes:&lt;br&gt;MetPro&lt;font color=red&gt;Trp&lt;/font&gt;SerAspValGluArgGlyPro.</Description>
+        	<Requirement type="SingleMutation">
+        		<FailString>You did not make a single base &lt;u&gt;substitution&lt;/u&gt;.</FailString>
+        	</Requirement>
+         	<Requirement type="ParticularProtein">
+         		<Protein>MetProTrpSerAspValGluArgGlyPro</Protein>
+        		<FailString>Your change does not make the protein sequence MetProTrpSerAspValGluArgGlyPro.</FailString>
+        	</Requirement>
+        </Problem>
+ 
+          <Problem>
+        	<Number>7</Number>
+        	<Name>Build a Gene</Name>
+        	<Description>Use the Enter New DNA Sequence button.&lt;br&gt;Then, type in DNA to make a gene that:&lt;br&gt;
+        	encodes a protein of 5 amino acids and has one intron.</Description>
+        	<Requirement type="ProteinLength">
+        		<Length>15</Length>
+        		<FailString>Your protein does not have 5 amino acids.</FailString>
+        	</Requirement>
+         	<Requirement type="IntronNumber">
+         		<Number>1</Number>
+        		<FailString>Your gene does not contain one intron.</FailString>
+        	</Requirement>
+        </Problem>
+        
+</root>
