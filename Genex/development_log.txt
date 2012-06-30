@@ -45,3 +45,7 @@ set it up to read in params, if present
 
 added param PROMOTER_SPACING = number of bases between 3' end of promoter and 5' end of mRNA
 
+6/30/12 
+added check to remove non-AGCT or non-AGCU chars in configuration.xml
+
+version 2.1.0 sent to Sophie for testing

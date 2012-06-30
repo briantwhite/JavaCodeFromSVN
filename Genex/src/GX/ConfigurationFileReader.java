@@ -67,16 +67,24 @@ public class ConfigurationFileReader {
 		Iterator<Element> elIt = newParams.getChildren().iterator();
 		while (elIt.hasNext()) {
 			Element e = elIt.next();
-			if (e.getName().equals("DNA_SEQUENCE")) defaultParams.setDefaultDNA(e.getTextTrim());
-			if (e.getName().equals("PROMOTER")) defaultParams.setPromoterSequence(e.getTextTrim());
+			if (e.getName().equals("DNA_SEQUENCE")) defaultParams.setDefaultDNA(onlyACGT(e.getTextTrim()));
+			if (e.getName().equals("PROMOTER")) defaultParams.setPromoterSequence(onlyACGT(e.getTextTrim()));
 			if (e.getName().equals("PROMOTER_SPACING")) defaultParams.setPromoterSpacing(Integer.parseInt(e.getTextTrim()));
-			if (e.getName().equals("TERMINATOR")) defaultParams.setTerminatorSequence(e.getTextTrim());
-			if (e.getName().equals("INTRON_START")) defaultParams.setIntronStartSequence(e.getTextTrim());
-			if (e.getName().equals("INTRON_END")) defaultParams.setIntronEndSequence(e.getTextTrim());
+			if (e.getName().equals("TERMINATOR")) defaultParams.setTerminatorSequence(onlyACGT(e.getTextTrim()));
+			if (e.getName().equals("INTRON_START")) defaultParams.setIntronStartSequence(onlyAGCU(e.getTextTrim()));
+			if (e.getName().equals("INTRON_END")) defaultParams.setIntronEndSequence(onlyAGCU(e.getTextTrim()));
 			if (e.getName().equals("POLY_A_TAIL")) defaultParams.setPolyATail(e.getTextTrim());
 			if (e.getName().equals("PRINTING")) defaultParams.setAllowPrinting(Boolean.parseBoolean(e.getTextTrim()));
 		}
 		
+	}
+	
+	private String onlyACGT(String s) {
+		return s.replaceAll("[^AGCT]","");
+	}
+	
+	private String onlyAGCU(String s) {
+		return s.replaceAll("[^AGCU]","");
 	}
 	
 	public HashSet<Problem> getProblems() {
