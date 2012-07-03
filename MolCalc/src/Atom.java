@@ -71,7 +71,7 @@ public class Atom {
 		numNeighborHs = 0;
 		numNeighborCs = 0;
 		numNeighborXs = 0;
-		hybridization = 0;
+		hybridization = 3;
 		numNeighborPi = 0;
 		numNeighborNAro = 0;
 		numNeighborAro = 0;

@@ -10,3 +10,15 @@ Run menu -> External Tools -> External Tools Configurations...
 		changed to "run in the same jre as the workspace"
 
 now compiles and runs on lion
+
+7/3/12
+problem - 7 membered rings with a single heteratom and 3 double bonds are
+	counted as "aromatic" so they're one H too few...
+
+interestingly, numNeighborHs is a better H counter 
+	except for NH3 NH4+ H2O CH4 - single atoms
+maybe in atom, initialize hybridization to sp3 so it will stay at 3 if no bonds made
+need to not count H's in reading of smile string
+need to count charge as sum of atomic charges
+
+seems to work

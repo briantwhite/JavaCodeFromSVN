@@ -40,8 +40,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 public class MolCalc extends JFrame {
-	
-	final static String versionNumber = new String("2.2");
+
+	final static String versionNumber = new String("2.3");
 	JLabel outputInfo;
 	JLabel jmeLabel ;
 	JPanel topPanel;
@@ -49,14 +49,14 @@ public class MolCalc extends JFrame {
 	JButton calculateButton;
 	JButton aboutButton;
 	JButton helpButton;
-	
+
 	JME myJME = new JME();
-	
+
 	public MolCalc() {
 		super ("Molecular Properties Calculator Version " + versionNumber);
 		outputInfo = new JLabel("Ready");
 		jmeLabel = new JLabel("<html><body><font size=-2>" +
-		                    "JME Editor courtesy of Peter Ertl, Novartis</body></html>");
+		"JME Editor courtesy of Peter Ertl, Novartis</body></html>");
 		topPanel = new JPanel();
 		bottomPanel = new JPanel();
 		calculateButton = new JButton("Calculate Formula and logP");
@@ -73,45 +73,45 @@ public class MolCalc extends JFrame {
 		topPanel.add(aboutButton);
 
 		topPanel.setPreferredSize(new Dimension(480,50));
-				
+
 		setSize(500,600);
 		getContentPane().setLayout(new BorderLayout());
 
 		getContentPane().add(topPanel, BorderLayout.NORTH);
 		getContentPane().add(myJME, BorderLayout.CENTER);
 		getContentPane().add(bottomPanel, BorderLayout.SOUTH);
-				
+
 		myJME.init();
 		myJME.start();
-		
+
 		outputInfo.setText("Ready for input");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension screenSize = this.getToolkit().getScreenSize();
 		setLocation((screenSize.width / 4), (screenSize.height / 4));
-		
+
 		aboutButton.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            JOptionPane.showMessageDialog(null,
-	                              "<html><body>"
-	                  + "<center>Molecular Calculator Version " 
-					  + versionNumber + "<br>"
-	                  + "<br>"
-	                  + "Brian White (2005)<br>"
-	                  + "brian.white@umb.edu<br>"
-					 + "JME Editor courtesy of Peter Ertl, Novartis"
-	                  + "</body></html>",
-	                              "About MolCalc",
-	                              JOptionPane.PLAIN_MESSAGE);
-	        }
-	    });
-		
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null,
+						"<html><body>"
+						+ "<center>Molecular Calculator Version " 
+						+ versionNumber + "<br>"
+						+ "<br>"
+						+ "Brian White (2005)<br>"
+						+ "brian.white@umb.edu<br>"
+						+ "JME Editor courtesy of Peter Ertl, Novartis"
+						+ "</body></html>",
+						"About MolCalc",
+						JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+
 		helpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final JEditorPane helpPane = new JEditorPane();
 				helpPane.setEditable(false);
 				helpPane.setContentType("text/html");
-				
+
 				try {
 					helpPane.setPage(MolCalc.class.getResource("index.html"));
 				} catch (Exception ex) {
@@ -120,7 +120,7 @@ public class MolCalc extends JFrame {
 							"Can't find help file.", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
 				JScrollPane helpScrollPane = new JScrollPane(helpPane);
 				JDialog helpDialog = new JDialog(getMasterFrame(), "Molecular Properties Calculator Help");
 				helpDialog.getContentPane().setLayout(new BorderLayout());
@@ -130,28 +130,28 @@ public class MolCalc extends JFrame {
 						(screenSize.width * 4 / 10), (screenSize.height * 4 / 10));
 				helpDialog.show();
 			}
-			
+
 		});
-		
-		
+
+
 		calculateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				computeAndDisplay(myJME.molFile(), myJME.smiles(), myJME.jmeFile(), outputInfo);
 			}
-			
+
 		});
 
 	}
-	
+
 	public static void main(String[] args) {
 		MolCalc myMolCalc = new MolCalc();
 		myMolCalc.setVisible(true);
 	}
-	
+
 	JFrame getMasterFrame() {
 		return this;
 	}
-	
+
 	String computeAndDisplay(String molString, String smileString,
 			String jmeString, JLabel outputInfo) {
 
@@ -159,7 +159,7 @@ public class MolCalc extends JFrame {
 			outputInfo.setText("");
 			return new String("");
 		}
-		
+
 		outputInfo.setText("");
 		outputInfo.setForeground(Color.BLACK);
 
@@ -214,7 +214,7 @@ public class MolCalc extends JFrame {
 		//read in the bond lines & fill the bondArray
 		for (int i = 1; (i < numBonds + 1); i++) {
 			String[] bondLineParts = molStringLines[i + numAtoms + 3]
-					.split("[ ]+");
+			                                        .split("[ ]+");
 			int firstAtom = Integer.parseInt(bondLineParts[1]);
 			int secondAtom = Integer.parseInt(bondLineParts[2]);
 			int bondIndex = Integer.parseInt(bondLineParts[3]);
@@ -226,7 +226,7 @@ public class MolCalc extends JFrame {
 		// round 1: get hybridization info
 		for (int i = 1; i < (numAtoms + 1); i++) {
 			Atom currentAtom = (Atom) atomList.get(i); // get the center of this
-													   // group
+			// group
 			for (int j = 1; j < (numAtoms + 1); j++) {
 				if (bondArray[i][j] != 0) {
 					currentAtom.updateHybridization(bondArray[i][j]);
@@ -250,90 +250,90 @@ public class MolCalc extends JFrame {
 					if ((bondArray[i][j] == 1
 							|| bondArray[i][j] == 2
 							|| (secondAtom.getAromatic() && bondArray[i][j] != 0) || (firstAtom
-							.getAromatic() && bondArray[i][j] != 0))
-							&& (secondAtom.getElement().equals("C") || secondAtom
-									.getElement().equals("N"))
-							&& (secondAtom.getHybridization() == 2) && (i != j)) {
+									.getAromatic() && bondArray[i][j] != 0))
+									&& (secondAtom.getElement().equals("C") || secondAtom
+											.getElement().equals("N"))
+											&& (secondAtom.getHybridization() == 2) && (i != j)) {
 						for (int k = 1; k < (numAtoms + 1); k++) {
 							Atom thirdAtom = (Atom) atomList.get(k);
 							if (((bondArray[j][k] == 1 && bondArray[i][j] == 2) //these
-																				// first
-																				// 2
-																				// look
-																				// for
-																				// alternating
+									// first
+									// 2
+									// look
+									// for
+									// alternating
 									|| (bondArray[j][k] == 2 && bondArray[i][j] == 1) //single
-																					  // &
-																					  // double
-																					  // bonds
+									// &
+									// double
+									// bonds
 									|| (thirdAtom.getAromatic() && bondArray[j][k] != 0) // or a
-																						 // bond
-																						 // to
-																						 // an
-																						 // aro
-																						 // atom
-							|| (secondAtom.getAromatic() && bondArray[j][k] != 0) // or a
-																				  // bond
-																				  // from
-																				  // an
-																				  // aro
-																				  // atom
-									)
-									&& (thirdAtom.getElement().equals("C") || thirdAtom
-											.getElement().equals("N")) //must
-																	   // be C/N
+									// bond
+									// to
+									// an
+									// aro
+									// atom
+									|| (secondAtom.getAromatic() && bondArray[j][k] != 0) // or a
+									// bond
+									// from
+									// an
+									// aro
+									// atom
+							)
+							&& (thirdAtom.getElement().equals("C") || thirdAtom
+									.getElement().equals("N")) //must
+									// be C/N
 									&& (thirdAtom.getHybridization() == 2) //must
-																		   // be
-																		   // sp2
+									// be
+									// sp2
 									&& ((k != i) && (k != j)) //must not be any
-															  // other atom so
-															  // far
+									// other atom so
+									// far
 							) { //in this chain (no backtracking)
 								for (int l = 1; l < (numAtoms + 1); l++) {
 									Atom fourthAtom = (Atom) atomList.get(l);
 									if (((bondArray[k][l] == 1 && bondArray[j][k] == 2)
 											|| (bondArray[k][l] == 2 && bondArray[j][k] == 1)
 											|| (fourthAtom.getAromatic() && bondArray[k][l] != 0) || (thirdAtom
-											.getAromatic() && bondArray[k][l] != 0))
-											&& (fourthAtom.getElement().equals(
+													.getAromatic() && bondArray[k][l] != 0))
+													&& (fourthAtom.getElement().equals(
 													"C") || fourthAtom
 													.getElement().equals("N"))
-											&& (fourthAtom.getHybridization() == 2)
-											&& ((l != i) && (l != j) && (l != k))) {
+													&& (fourthAtom.getHybridization() == 2)
+													&& ((l != i) && (l != j) && (l != k))) {
 										for (int m = 1; m < (numAtoms + 1); m++) {
 											Atom fifthAtom = (Atom) atomList
-													.get(m);
+											.get(m);
 											if (((bondArray[l][m] == 1 && bondArray[k][l] == 2)
 													|| (bondArray[l][m] == 2 && bondArray[k][l] == 1)
 													|| (fifthAtom.getAromatic() && bondArray[l][m] != 0) || (fourthAtom
-													.getAromatic() && bondArray[l][m] != 0))
-													&& (fifthAtom.getElement()
-															.equals("C") || fifthAtom
-															.getElement()
-															.equals("N"))
-													&& (fifthAtom
-															.getHybridization() == 2)
-													&& ((m != i) && (m != j)
-															&& (m != k) && (m != l))) {
+															.getAromatic() && bondArray[l][m] != 0))
+															&& (fifthAtom.getElement()
+																	.equals("C") || fifthAtom
+																	.getElement()
+																	.equals("N"))
+																	&& (fifthAtom
+																			.getHybridization() == 2)
+																			&& ((m != i) && (m != j)
+																					&& (m != k) && (m != l))) {
 												for (int n = 1; n < (numAtoms + 1); n++) {
 													Atom sixthAtom = (Atom) atomList
-															.get(n);
+													.get(n);
 													if (((bondArray[m][n] == 1 && bondArray[l][m] == 2)
 															|| (bondArray[m][n] == 2 && bondArray[l][m] == 1)
 															|| (sixthAtom
 																	.getAromatic() && bondArray[m][n] != 0) || (fifthAtom
-															.getAromatic() && bondArray[m][n] != 0))
-															&& (sixthAtom
-																	.getElement()
-																	.equals("C") || sixthAtom
-																	.getElement()
-																	.equals("N"))
-															&& (sixthAtom
-																	.getHybridization() == 2)
-															&& ((n != i)
-																	&& (n != j)
-																	&& (n != k)
-																	&& (n != l) && (n != m))) {
+																			.getAromatic() && bondArray[m][n] != 0))
+																			&& (sixthAtom
+																					.getElement()
+																					.equals("C") || sixthAtom
+																					.getElement()
+																					.equals("N"))
+																					&& (sixthAtom
+																							.getHybridization() == 2)
+																							&& ((n != i)
+																									&& (n != j)
+																									&& (n != k)
+																									&& (n != l) && (n != m))) {
 														//now we have 6 sp2 N/C
 														// connected by
 														// alternating
@@ -344,17 +344,17 @@ public class MolCalc extends JFrame {
 														if ((bondArray[n][i] == 2 && bondArray[m][n] == 1)
 																|| (bondArray[n][i] == 1 && bondArray[m][n] == 2)) {
 															firstAtom
-																	.setAromatic();
+															.setAromatic();
 															secondAtom
-																	.setAromatic();
+															.setAromatic();
 															thirdAtom
-																	.setAromatic();
+															.setAromatic();
 															fourthAtom
-																	.setAromatic();
+															.setAromatic();
 															fifthAtom
-																	.setAromatic();
+															.setAromatic();
 															sixthAtom
-																	.setAromatic();
+															.setAromatic();
 														}
 													}
 												}
@@ -372,7 +372,7 @@ public class MolCalc extends JFrame {
 		//round 3: neighbor counts
 		for (int i = 1; i < (numAtoms + 1); i++) {
 			Atom currentAtom = (Atom) atomList.get(i); // get the center of this
-													   // group
+			// group
 			for (int j = 1; j < (numAtoms + 1); j++) {
 				if (bondArray[i][j] != 0) {
 					Atom currentNeighbor = (Atom) atomList.get(j);
@@ -396,7 +396,7 @@ public class MolCalc extends JFrame {
 				if (bondArray[i][j] != 0) {
 					Atom currentNeighbor = (Atom) atomList.get(j);
 					if (currentNeighbor.getHybridization() < 3) { //sp2 or sp
-																  // neighbor
+						// neighbor
 						//go thru the neighbor's neighbors
 						for (int k = 1; k < (numAtoms + 1); k++) {
 							if ((bondArray[j][k] > 1) && (k != i)) {
@@ -409,16 +409,21 @@ public class MolCalc extends JFrame {
 
 		}
 
-		//round 5: calculate number of H neighbors for each atom
+		//round 5: calculate number of H neighbors for each atom and sum up charge
+		int h = 0;		
+		int charge = 0;
+
 		for (int i = 1; i < (numAtoms + 1); i++) {
 			Atom atom = (Atom) atomList.get(i);
 			atom.getNumNeighborHs();
+			h = h + atom.numNeighborHs;
+			charge = charge + atom.charge;
 		}
 
 		//round 6: see if an amide (N with neighbor carbonyl)
 		for (int i = 1; i < (numAtoms + 1); i++) {
 			Atom currentAtom = (Atom) atomList.get(i); // get the center of this
-													   // group
+			// group
 			for (int j = 1; j < (numAtoms + 1); j++) {
 				if (bondArray[i][j] != 0) {
 					Atom currentNeighbor = (Atom) atomList.get(j);
@@ -441,7 +446,7 @@ public class MolCalc extends JFrame {
 			if (atom.getElement().equals("N")) {
 				if (atom.getCharge() > 1)
 					illegalAtoms
-							.append("An N atom with too high + charge.<br>");
+					.append("An N atom with too high + charge.<br>");
 				if (atom.getCharge() < 0)
 					illegalAtoms.append("An N atom with - charge.<br>");
 				if ((atom.getNumNeighborHs() < 0)
@@ -449,14 +454,14 @@ public class MolCalc extends JFrame {
 								&& (atom.getNumNeighborHs() == -2)
 								&& (atom.getNumNeighborCs() == 1)
 								&& (atom.getNumNeighborXs() == 2) && (atom
-								.getCharge() == 0))) { //don't worry if nitro
+										.getCharge() == 0))) { //don't worry if nitro
 					illegalAtoms.append("An N atom making too many bonds.<br>");
 				}
 			}
 			if (atom.getElement().equals("O")) {
 				if (atom.getCharge() < -1)
 					illegalAtoms
-							.append("An O atom with too high - charge.<br>");
+					.append("An O atom with too high - charge.<br>");
 				if (atom.getCharge() > 0)
 					illegalAtoms.append("An O atom with + charge.<br>");
 			}
@@ -467,7 +472,7 @@ public class MolCalc extends JFrame {
 						&& (atom.getNumNeighborHs() != -4)
 						&& (atom.getNumNeighborHs() != -2)) {
 					illegalAtoms
-							.append("An S atom not making 2, 4, or 6 bonds.<br>");
+					.append("An S atom not making 2, 4, or 6 bonds.<br>");
 				}
 			}
 			if (atom.getElement().equals("P")) {
@@ -475,7 +480,7 @@ public class MolCalc extends JFrame {
 					illegalAtoms.append("A Charged P atom.<br>");
 				if (atom.numNeighborHs != -3) {
 					illegalAtoms
-							.append("A P atom not making 5 bonds.<br>");
+					.append("A P atom not making 5 bonds.<br>");
 				}
 			}
 			if (atom.getElement().equals("F") || atom.getElement().equals("Cl")
@@ -492,8 +497,8 @@ public class MolCalc extends JFrame {
 		errorString = "";
 		if (illegalAtoms.length() != 0) {
 			errorString = "<html><body>It is not possible to calculate logp<br>"
-					+ "for your molecule because it contains:<br>"
-					+ illegalAtoms.toString() + "</body></html>";
+				+ "for your molecule because it contains:<br>"
+				+ illegalAtoms.toString() + "</body></html>";
 		}
 
 		//print out to stdout various debugging info
@@ -534,10 +539,10 @@ public class MolCalc extends JFrame {
 			}
 			if (logp < 0) {
 				logpString = "<font color=green>logp = " + nf.format(logp)
-						+ "</font>";
+				+ "</font>";
 			} else {
 				logpString = "<font color=red>logp = " + nf.format(logp)
-						+ "</font>";
+				+ "</font>";
 			}
 		}
 
@@ -545,9 +550,7 @@ public class MolCalc extends JFrame {
 		// set the counters to zero
 		numBonds = 0;
 		int numAromaticAtoms = 0;
-		int charge = 0;
 		int c = 0;
-		int h = 0;
 		int n = 0;
 		int o = 0;
 		int s = 0;
@@ -563,9 +566,10 @@ public class MolCalc extends JFrame {
 			case 'C':
 				c++;
 				break;
-			case 'H':
-				h++;
-				break;
+				// remove H counting since using numNeighborH's works better
+				//			case 'H':  
+				//				h++;
+				//				break;
 			case 'N':
 				n++;
 				break;
@@ -600,6 +604,10 @@ public class MolCalc extends JFrame {
 				s++;
 				numAromaticAtoms++;
 				break;
+			case 'o': // aromatic o
+				o++;
+				numAromaticAtoms++;
+				break;
 			case '#': //triple bond
 				numBonds++;
 			case '=': //double bond
@@ -608,33 +616,34 @@ public class MolCalc extends JFrame {
 			}
 		}
 
+		// old code - doesn't calculate 7-membered aromatic rings with heteroatoms right!
 		// calculate the number of h's
 		//first, the max # of h's per atom
-		h = h + 4 * c + 3 * n + 2 * o + 2 * s + 5 * p + cl + br + f;
+		//		h = h + 4 * c + 3 * n + 2 * o + 2 * s + 5 * p + cl + br + f;
 
 		//then, take away h's for bonds, charge, etc.
 		//first, get the number of bonds from the jme file
-		String[] jmeFilePieces = jmeString.split(" +");
-		numBonds = numBonds + Integer.parseInt(jmeFilePieces[1]);
+		//		String[] jmeFilePieces = jmeString.split(" +");
+		//		numBonds = numBonds + Integer.parseInt(jmeFilePieces[1]);
 
 		//then, since the smile string has [NH3+], etc, need to remove the
 		//  H that was counted in the atom count above
-		Pattern chargedNPattern = Pattern.compile("[Nn]H[23]?+");
-		String[] parts = chargedNPattern.split(smileString);
-		int numChargedNWithH = parts.length - 1;
-		
-		h = h - numChargedNWithH;
+		//		Pattern chargedNPattern = Pattern.compile("[Nn]H[23]?+");
+		//		String[] parts = chargedNPattern.split(smileString);
+		//		int numChargedNWithH = parts.length - 1;
+
+		//		h = h - numChargedNWithH;
 
 		//then the charge - get by adding up lines from mol file
-		for (int i = 0; i < molStringLines.length; i++) {
-			if (molStringLines[i].indexOf("CHG") != -1) {
-				charge = charge
-						+ Integer.parseInt(molStringLines[i].substring(
-								molStringLines[i].length() - 3).trim());
-			}
-		}
+		//		for (int i = 0; i < molStringLines.length; i++) {
+		//			if (molStringLines[i].indexOf("CHG") != -1) {
+		//				charge = charge
+		//						+ Integer.parseInt(molStringLines[i].substring(
+		//								molStringLines[i].length() - 3).trim());
+		//			}
+		//		}
 
-		h = h - 2 * numBonds - numAromaticAtoms + charge;
+		//		h = h - 2 * numBonds - numAromaticAtoms + charge;		
 
 		prettyPrint("C", c, formula);
 		prettyPrint("H", h, formula);
@@ -671,7 +680,7 @@ public class MolCalc extends JFrame {
 			outputInfo.setText("<html><body>" + formulaString + "<br>"
 					+ logpString + "</body></html>");
 		}
-		
+
 		return atomDataLines.toString();
 	}
 
