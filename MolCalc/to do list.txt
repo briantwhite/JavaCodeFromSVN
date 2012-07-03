@@ -1,0 +1,5 @@
+- bug:
+	7-member ring
+		C6 with one 0
+		alternating double-bonds
+		gives C6H4 instead of C6H6O
