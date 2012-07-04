@@ -28,3 +28,5 @@ fails for H3CCH2-F -Cl -Br -I -SH -> gives one too many H's
 it's because Atom.processNeighbor() doesn't count F, Cl, Br, or S in numNeighborXs
 is that right or not?
 need to check original paper
+counted them
+seems to work OK

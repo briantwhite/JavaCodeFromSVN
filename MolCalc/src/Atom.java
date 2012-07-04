@@ -176,7 +176,13 @@ public class Atom {
 			return;
 		}
 
-		if (element.equals("N") || element.equals("O")) {
+		if (element.equals("N") || 
+				element.equals("O") || 
+				element.equals("S") ||
+				element.equals("Cl") ||
+				element.equals("F") ||
+				element.equals("Br") ||
+				element.equals("I")){
 			numNeighborXs++;
 		}
 
