@@ -22,3 +22,9 @@ need to not count H's in reading of smile string
 need to count charge as sum of atomic charges
 
 seems to work
+
+7/4/12
+fails for H3CCH2-F -Cl -Br -I -SH -> gives one too many H's
+it's because Atom.processNeighbor() doesn't count F, Cl, Br, or S in numNeighborXs
+is that right or not?
+need to check original paper
