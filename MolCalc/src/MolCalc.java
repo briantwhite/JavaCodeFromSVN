@@ -558,6 +558,7 @@ public class MolCalc extends JFrame {
 		int cl = 0;
 		int br = 0;
 		int f = 0;
+		int iodine = 0;
 
 		StringBuffer formula = new StringBuffer();
 
@@ -591,6 +592,9 @@ public class MolCalc extends JFrame {
 				break;
 			case 'F':
 				f++;
+				break;
+			case 'I':
+				iodine++;
 				break;
 			case 'c': //aromatic C
 				c++;
@@ -654,6 +658,7 @@ public class MolCalc extends JFrame {
 		prettyPrint("Cl", cl, formula);
 		prettyPrint("Br", br, formula);
 		prettyPrint("F", f, formula);
+		prettyPrint("I", iodine, formula);
 
 		if (charge != 0) {
 			formula.append("(");
