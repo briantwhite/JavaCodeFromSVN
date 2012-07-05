@@ -30,3 +30,8 @@ is that right or not?
 need to check original paper
 counted them
 seems to work OK
+
+7/5/12
+charge wasn't displaying right
+now fixed
+version 2.3

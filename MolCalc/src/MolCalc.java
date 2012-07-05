@@ -97,7 +97,7 @@ public class MolCalc extends JFrame {
 						+ "<center>Molecular Calculator Version " 
 						+ versionNumber + "<br>"
 						+ "<br>"
-						+ "Brian White (2005)<br>"
+						+ "Brian White (2012)<br>"
 						+ "brian.white@umb.edu<br>"
 						+ "JME Editor courtesy of Peter Ertl, Novartis"
 						+ "</body></html>",
@@ -128,7 +128,7 @@ public class MolCalc extends JFrame {
 				Dimension screenSize = getMasterFrame().getToolkit().getScreenSize();
 				helpDialog.setBounds((screenSize.width / 2), (screenSize.height / 2),
 						(screenSize.width * 4 / 10), (screenSize.height * 4 / 10));
-				helpDialog.show();
+				helpDialog.setVisible(true);
 			}
 
 		});
@@ -662,9 +662,9 @@ public class MolCalc extends JFrame {
 
 		if (charge != 0) {
 			formula.append("(");
-			if (charge < 0) {
+			if (charge == -1) {
 				formula.append("-");
-			} else {
+			} else if (charge > 0) {
 				formula.append("+");
 			}
 
@@ -673,7 +673,7 @@ public class MolCalc extends JFrame {
 			}
 			formula.append(")");
 		}
-
+		
 		formulaString = "Formula: " + formula.toString();
 
 		//now show it all
