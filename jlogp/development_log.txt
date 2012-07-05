@@ -1,0 +1,8 @@
+7/5/2012
+need to bring in fixes from MolCalc 2.3
+make it version 2.3
+- use atom.numNeighborHs and atom.charge to calculate H's and charge
+	just copy in computeAndDisplay from MolCalc
+		need to fix signature (no JLabel in jlogp's version)
+- also in Atom count neighbor X's with all non C, H atoms
+version 2.3
