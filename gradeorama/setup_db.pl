@@ -13,7 +13,7 @@ $sth->execute();
 $sth = $dbh->prepare("CREATE TABLE assignments 
                       (
                            number INT PRIMARY KEY,
-                           name VARCHAR(30)
+                           name VARCHAR(60)
                       )");
 $sth->execute();
 
@@ -22,12 +22,12 @@ $statement = "INSERT into assignments VALUES ";
 $number = 0;
 
 open FILE, "<assignments.txt";
-  while ($line = <FILE>) {
-    chomp $line;
-    $statement = $statement."(\"$number\", \"$line\"),";
-    $assignments[$number] = $line;
-    $number++;
-  }
+while ($line = <FILE>) {
+	chomp $line;
+	$statement = $statement."(\"$number\", \"$line\"),";
+	$assignments[$number] = $line;
+	$number++;
+}
 close FILE;
 chop $statement;
 
@@ -41,9 +41,9 @@ $sth->execute();
 
 $sth = $dbh->prepare("CREATE TABLE instructors 
                       (
-                           name VARCHAR(30) PRIMARY KEY,
+                           name VARCHAR(60) PRIMARY KEY,
                            password VARCHAR(30),
-                           class_list VARCHAR(50)
+                           class_list VARCHAR(200)
                       )");
 $sth->execute();
 
@@ -70,13 +70,14 @@ $sth->execute();
 
 $statement = "CREATE TABLE students 
               (
-                  name VARCHAR(30) PRIMARY KEY,
+                  name VARCHAR(60) PRIMARY KEY,
+                  id VARCHAR(10),
                   section VARCHAR(20),
                   TA  VARCHAR(20),
                   password VARCHAR(30),\n";
 
 for ($i = 0; $i < $number; $i++) {
-  $statement .= "grade$i VARCHAR(10),\n";
+	$statement .= "grade$i VARCHAR(10),\n";
 }
 chop $statement;
 chop $statement;
@@ -95,7 +96,7 @@ foreach $line (@lines) {
   chomp $line;
   @parts = split(/\|/, $line);
   $cryptpw = crypt($parts[3], time.$$);
-  $statement .= "(\"$parts[2]\",\"$parts[0]\",\"$parts[1]\",\"$cryptpw\",";
+  $statement .= "(\"$parts[2]\",\"$parts[3]\",\"$parts[0]\",\"$parts[1]\",\"$cryptpw\",";
   for ($i = 0; $i < $number; $i++) {
     $statement .= "\"\",";
   }

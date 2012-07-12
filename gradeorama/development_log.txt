@@ -1,2 +1,10 @@
 2/18/08
 entered into cvs
+
+7/12/12
+got epic from http://e-p-i-c.sf.net/updates
+that enables perl editing!
+
+did some fixes to allow
+- saves and displays ID#
+

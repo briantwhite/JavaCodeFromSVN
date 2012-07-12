@@ -290,6 +290,7 @@ sub add_student_to_system {
 
   $statement = "INSERT INTO students VALUES (
                         \"$data{'Student'}\",
+                        \"$data{'StudentPw'}\",
                         \"$class\",
                         \"$ins\",
                         \"$cryptpw\",
@@ -463,7 +464,7 @@ sub edit_gradebook {
   $colCount = 0;
   while (@results = $sth->fetchrow_array()) {
     if ((($colCount/10) == int($colCount/10)) && ($colCount != 0)) {
-      print "<th><font color=blue>Name</font></th>";
+      print "<th><font color=blue>Name</font></th><th><font color=blue>ID#</font></th>";
     }
     $colCount++; 
 
@@ -487,12 +488,13 @@ sub edit_gradebook {
     $base_tab++;
     $i = 0;
 
-    $id = shift @results;
+    $name = shift @results;
+    $id = shift @ results;
     $class = shift @results;
     $ins = shift @results;
     $pw = shift @results;
 
-    print "<tr><td><font color=blue>$id</font></td><td>$class</td><td>$ins</td>";
+    print "<tr><td><font color=blue>$name</font></td><td><font color=blue>id</font></td><td>$class</td><td>$ins</td>";
 
     $colCount = 0;
     foreach $grade (@results){
@@ -500,11 +502,11 @@ sub edit_gradebook {
       $taborder = ($colCount * $num_students) + $base_tab;
 
       if ((($colCount/10) == int($colCount/10)) && ($colCount != 0)) {
-        print "<td><font color=blue>$id</font></td>";
+        print "<td><font color=blue>$name</font></td>";
       }
       $colCount++; 
        
-      print "<td align=center><input type=text name=\"$id$i\" value=\"$grade\" size=3";
+      print "<td align=center><input type=text name=\"$name$i\" value=\"$grade\" size=3";
       print " tabindex=$taborder></td>\n";
       $i++;
       }
@@ -781,8 +783,9 @@ sub show_grades {
   @results = $sth->fetchrow_array();
   $sth->finish();
 
-  # drop off the name, section, TA, and password
+  # drop off the name, ID#, section, TA, and password
   $name = shift @results;
+  $id = shift @results;
   $class = shift @results;
   $ins = shift @results;
   $pw = shift @results;
@@ -940,7 +943,7 @@ sub export_grades {
  }
 
 #print it out
-  $firstline = "Name|Section|TA|";
+  $firstline = "Name|ID#|Section|TA|";
   $sth = $dbh->prepare("SELECT name FROM assignments ORDER BY number");
   $sth->execute();
   while (@results = $sth->fetchrow_array()) {
@@ -964,11 +967,12 @@ sub export_grades {
   $sth->execute();
   while (@results = $sth->fetchrow_array()) {
     $name = shift @results;
+    $id = shift @results;
     $class = shift @results;
     $ins = shift @results;
     $pw = shift @results;
     $line = join('|', @results);
-    print "$name|$class|$ins|$line\n";
+    print "$name|$id|$class|$ins|$line\n";
   }
   $sth->finish();
  

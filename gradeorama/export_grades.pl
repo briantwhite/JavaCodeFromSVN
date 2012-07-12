@@ -7,29 +7,30 @@ use GradeDB;
 
 $dbh = GradeDB::connect();
 
-  $firstline = "Name\tSection\tTA\t";
-  $sth = $dbh->prepare("SELECT name FROM assignments ORDER BY number");
-  $sth->execute();
-  while (@results = $sth->fetchrow_array()) {
-    $firstline .= "$results[0]\t";
-  }
-  $sth->finish();
-  chop $firstline;
+$firstline = "Name\tID#\tSection\tTA\t";
+$sth = $dbh->prepare("SELECT name FROM assignments ORDER BY number");
+$sth->execute();
+while (@results = $sth->fetchrow_array()) {
+	$firstline .= "$results[0]\t";
+}
+$sth->finish();
+chop $firstline;
 
- print "$firstline\n";
-   $statement = "SELECT * FROM students ORDER BY name";
+print "$firstline\n";
+$statement = "SELECT * FROM students ORDER BY name";
 
-  $sth = $dbh->prepare($statement);
-  $sth->execute();
-  while (@results = $sth->fetchrow_array()) {
-    $name = shift @results;
-    $class = shift @results;
-    $ins = shift @results;
-    $pw = shift @results;
-    $line = join("\t", @results);
-    print "$name\t$class\t$ins\t$line\n";
-  }
-  $sth->finish();
- 
- $dbh->disconnect();
- exit();
+$sth = $dbh->prepare($statement);
+$sth->execute();
+while (@results = $sth->fetchrow_array()) {
+	$name = shift @results;
+	$id = shift @results;
+	$class = shift @results;
+	$ins = shift @results;
+	$pw = shift @results;
+	$line = join("\t", @results);
+	print "$name\t$id\t$class\t$ins\t$line\n";
+}
+$sth->finish();
+
+$dbh->disconnect();
+exit();
