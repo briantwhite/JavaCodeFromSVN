@@ -494,7 +494,7 @@ sub edit_gradebook {
     $ins = shift @results;
     $pw = shift @results;
 
-    print "<tr><td><font color=blue>$name</font></td><td><font color=blue>id</font></td><td>$class</td><td>$ins</td>";
+    print "<tr><td><font color=blue>$name</font></td><td><font color=blue>$id</font></td><td>$class</td><td>$ins</td>";
 
     $colCount = 0;
     foreach $grade (@results){

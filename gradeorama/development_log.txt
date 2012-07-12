@@ -8,3 +8,6 @@ that enables perl editing!
 did some fixes to allow
 - saves and displays ID#
 
+setup works like this
+in mysql, CREATE DATABASE grades
+
