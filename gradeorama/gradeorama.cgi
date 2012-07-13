@@ -444,122 +444,126 @@ sub add_students_form {
 
 
 sub edit_gradebook {
-  if($data{'FA2'} eq "Show Class"){
+	if($data{'FA2'} eq "Show Class"){
 
-  print "$header
-	  <font color=#FF0000><b>$message</b></font><br>
-	  <b>Gradebook for $data{'Class'}</b><br>
-          You may change the grades for any student at any time.  
-	  When you are finished, click
-	  \"Update Gradebook\" to save your changes.<br><br>
-	  $admformtop <table border=1>\n";
+		print "$header
+			<font color=#FF0000><b>$message</b></font><br>
+			<b>Gradebook for $data{'Class'}</b><br>
+				You may change the grades for any student at any time.  
+			When you are finished, click
+			\"Update Gradebook\" to save your changes.<br><br>
+			$admformtop <table border=1>\n";
 
-  #do the top row of the table
-  print "<tr>\n";
-  print "<th><font color=blue>Name</font></th><th>Section</th><th>TA</th>\n";
-  $sth = $dbh->prepare("SELECT name FROM assignments
-                              ORDER BY number");
-  $num_assignments = $sth->execute();
+		#do the top row of the table
+		print "<tr>\n";
+		print "<th><font color=blue>Name</font></th><th>Section</th><th>TA</th>\n";
+		$sth = $dbh->prepare("SELECT name FROM assignments
+	                             ORDER BY number");
+		$num_assignments = $sth->execute();
     
-  $colCount = 0;
-  while (@results = $sth->fetchrow_array()) {
-    if ((($colCount/10) == int($colCount/10)) && ($colCount != 0)) {
-      print "<th><font color=blue>Name</font></th><th><font color=blue>ID#</font></th>";
-    }
-    $colCount++; 
+		$colCount = 0;
+		while (@results = $sth->fetchrow_array()) {
+			if ((($colCount/10) == int($colCount/10)) && ($colCount != 0)) {
+				print "<th><font color=blue>Name</font></th><th>ID#</th>";
+			}
+			$colCount++; 
+			print "<th>$results[0]</th>";
+		}
+		print "</tr>\n";
+		$sth->finish();
 
-    print "<th>$results[0]</th>";
-  }
-  print "</tr>\n";
-  $sth->finish();
+		if (($data{'Class'} eq "All") && ($data{'admlogin'} eq $admlogin)) {
+			$statement = "SELECT * FROM students ORDER BY name";
+		} else {
+			$statement = "SELECT * FROM students 
+				WHERE section=\"$data{'Class'}\" ORDER BY name";
+		}
+		$sth = $dbh->prepare($statement);
+		$num_students = $sth->execute();
 
-  if (($data{'Class'} eq "All") && ($data{'admlogin'} eq $admlogin)) {
-    $statement = "SELECT * FROM students ORDER BY name";
-  } else {
-    $statement = "SELECT * FROM students 
-        WHERE section=\"$data{'Class'}\" ORDER BY name";
-  }
-  $sth = $dbh->prepare($statement);
-  $num_students = $sth->execute();
+		$base_tab = 0;
 
-  $base_tab = 0;
+		while (@results = $sth->fetchrow_array()) {
+			$base_tab++;
+			$i = 0;
 
-  while (@results = $sth->fetchrow_array()) {
-    $base_tab++;
-    $i = 0;
+			$name = shift @results;
+			$id = shift @results;
+			$class = shift @results;
+			$ins = shift @results;
+			$pw = shift @results;
 
-    $name = shift @results;
-    $id = shift @ results;
-    $class = shift @results;
-    $ins = shift @results;
-    $pw = shift @results;
+			print "<tr><td><font color=blue>$name</font></td><td>$id</td><td>$class</td><td>$ins</td>";
 
-    print "<tr><td><font color=blue>$name</font></td><td><font color=blue>$id</font></td><td>$class</td><td>$ins</td>";
+			$colCount = 0;
+			foreach $grade (@results){
+				$taborder = ($colCount * $num_students) + $base_tab;
 
-    $colCount = 0;
-    foreach $grade (@results){
-
-      $taborder = ($colCount * $num_students) + $base_tab;
-
-      if ((($colCount/10) == int($colCount/10)) && ($colCount != 0)) {
-        print "<td><font color=blue>$name</font></td>";
-      }
-      $colCount++; 
+				if ((($colCount/10) == int($colCount/10)) && ($colCount != 0)) {
+					print "<td><font color=blue>$name</font></td>";
+				}
+				$colCount++; 
        
-      print "<td align=center><input type=text name=\"$name$i\" value=\"$grade\" size=3";
-      print " tabindex=$taborder></td>\n";
-      $i++;
-      }
-     print "</tr>\n";
-   }
-   $sth->finish();
-   print "</table>
-	  <input type=hidden name=Class value=\"$data{'Class'}\">
-	  <input type=hidden name=numgrades value=\"$num_assignments\">
-	  <table border=0>
-	  <tr><td><input type=submit name=FA value=\"Update Gradebook\"></td>
-	  <td><input type=submit name=FA value=\"Finished with Gradebook\"></td>
-	  </tr></table>
-	  </form>$footer";
-  $dbh->disconnect();
-  exit(); 
- }
+				print "<td align=center><input type=text name=\"$name$i\" value=\"$grade\" size=3";
+				print " tabindex=$taborder></td>\n";
+				$i++;
+			}
+			print "</tr>\n";
+		}
+		$sth->finish();
+		print "</table>
+			<input type=hidden name=Class value=\"$data{'Class'}\">
+			<input type=hidden name=numgrades value=\"$num_assignments\">
+			<table border=0>
+			<tr><td><input type=submit name=FA value=\"Update Gradebook\"></td>
+			<td><input type=submit name=FA value=\"Finished with Gradebook\"></td>
+			</tr></table>
+			</form>$footer";
+		$dbh->disconnect();
+		exit(); 
+	}
 
-  # get the classes for this instructor
-  #see if administrator - if so, see all classes
+	# get the classes for this instructor
+	#see if administrator - if so, see all classes
 
-  my @classes;
+	my @classes;
 
-  if ($data{'admlogin'} eq $admlogin) {
-    $statement = "SELECT class_list FROM instructors";
-  } else {
-    $statement = "SELECT class_list FROM instructors 
+	if ($data{'admlogin'} eq $admlogin) {
+		$statement = "SELECT class_list FROM instructors";
+	} else {
+		$statement = "SELECT class_list FROM instructors 
                    WHERE name=\"$data{'admlogin'}\"";
-  }
-  $sth = $dbh->prepare($statement);
-  $sth->execute();
-  while (@results = $sth->fetchrow_array()) {
-    push @classes, split(/\%/, $results[0]);
-  }
+	}
+	$sth = $dbh->prepare($statement);
+	$sth->execute();
+	while (@results = $sth->fetchrow_array()) {
+		push @classes, split(/\%/, $results[0]);
+	}
  
-  print "$header
-	<hr>
-	$admformtop
-	<b>Work with grades from:</b>
-	<select name=Class>";
-  foreach $class (sort(@classes)){
-    chomp($class);
-    print "<option value=\"$class\">$class</option>\n" if $class ne "";
-  }
-  if ($data{'admlogin'} eq $admlogin) {
-     print "<option value=\"All\">All Sections</option>\n";
-  }
-  print "</select>
-	  <input type=submit value=\"Go\">
-	  <input type=hidden name=FA value=\"Edit Gradebooks\">
-	  <input type=hidden name=FA2 value=\"Show Class\">
-	  </form>
-	  $footer";
+	print "$header
+		<hr>
+		$admformtop
+		<b>Work with grades from:</b>
+		<select name=Class>";
+		
+	$ListIncludesAll = 0;
+	foreach $class (sort(@classes)){
+		chomp($class);
+		if ($class eq "All") {
+			$ListIncludesAll = 1;
+		} else {
+			print "<option value=\"$class\">$class</option>\n" if $class ne "";			
+		}
+	}
+	if (($data{'admlogin'} eq $admlogin) || ($ListIncludesAll == 1)) {
+		print "<option value=\"All\">All Sections</option>\n";
+	}
+	print "</select>
+		<input type=submit value=\"Go\">
+		<input type=hidden name=FA value=\"Edit Gradebooks\">
+		<input type=hidden name=FA2 value=\"Show Class\">
+		</form>
+		$footer";
 }
 
 sub update_gradebook {

@@ -11,3 +11,9 @@ did some fixes to allow
 setup works like this
 in mysql, CREATE DATABASE grades
 
+7/13/12
+added option for instructors.txt 
+	if you include "All" in the list, you can get the whole class
+	(this is for the e-TA)
+
+
