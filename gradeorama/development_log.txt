@@ -16,4 +16,16 @@ added option for instructors.txt
 	if you include "All" in the list, you can get the whole class
 	(this is for the e-TA)
 
+fixed various things like
+	- return to main menu button (basically, FA has to be something other than "")
+
+working on backup script
+keep getting errors
+mysqldump: Got error: 1: Can't create/write to file '/tmp/backup/assignments.txt' (Errcode: 13) when executing 'SELECT INTO OUTFILE'
+mysqldump: Got error: 1: Can't create/write to file '/tmp/backup/data.txt' (Errcode: 13) when executing 'SELECT INTO OUTFILE'
+mysqldump: Got error: 1: Can't create/write to file '/tmp/backup/fish_data.txt' (Errcode: 13) when executing 'SELECT INTO OUTFILE'
+
+nuke out the mysqldump -T versions, since the plain versions that feed to *.backup
+are AOK
+
 

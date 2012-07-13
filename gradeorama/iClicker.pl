@@ -73,7 +73,7 @@ if ($rows != 1) {
 print "<br><br><br><br>\n";
 print "Thank you $name, ";
 print "your iClicker Serial Number was successfully set to $number.<br>\n";
-print "<a href=\"http://intro.bio.umb.edu/111-112/\">Return to Bio 111 and 112";
+print "<a href=\"http://intro.bio.umb.edu/\">Return to Bio 111 and 112 ";
 print "home page</a>.";
 &print_tail;
 

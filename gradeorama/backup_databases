@@ -2,18 +2,15 @@ cd /tmp
 mkdir backup
 chmod a+w backup
 cd backup
-mysqldump -u root -pmy3quel -T /tmp/backup grades
-mysqldump -u root -pmy3quel -T /tmp/backup COII
-mysqldump -u root -pmy3quel -T /tmp/backup fishies_db
 mysqldump -u root -pmy3quel grades > grades.backup
 mysqldump -u root -pmy3quel COII > COII.backup
 mysqldump -u root -pmy3quel fishies_db > fishies_db.backup
 /usr/local/gradeorama/export_grades.pl > grades_for_excel.txt
-tar -czf mysql$(date +%F).tar.gz *.txt *.sql *.backup /var/lib/mysql/*
+tar -czf mysql$(date +%F).tar.gz *.backup /var/lib/mysql/*
 mv mysql* /usr/local/grade_backups/
 cd /tmp
 rm -rf backup/
-scp /usr/local/grade_backups/mysql$(date +%F).tar.gz root@brianmac2.bio.umb.edu:/Backups/
+scp /usr/local/grade_backups/mysql$(date +%F).tar.gz root@brianmac2.whe-3.umb.edu:/Backups/
 
 
 

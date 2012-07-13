@@ -118,76 +118,76 @@ $data{'FA'} =~ s/^\s+//g;
 $data{'FA'} =~ s/\s+$//g;
 
 if($data{'FA'} eq "admin" || $data{'FA'} eq "Log Out"){
-  $data{'admlogin'} = ""; $data{'admpasswd'} = "";
-  &admin_login_screen;
+	$data{'admlogin'} = ""; $data{'admpasswd'} = "";
+	&admin_login_screen;
 } elsif($data{'FA'} eq "Student Login"){
-  &check_password_student;
-  &show_grades;
+	&check_password_student;
+	&show_grades;
 } elsif($data{'FA'} ne ""){
-  $close_browser = " onClick=\"self.close();\""; 
-  &check_password_admin;
-  $st = " style=\"width: 10em;\"";
-  if($data{'admlogin'} eq $admlogin){
-	$admextras = "<tr><td align=center bgcolor=#C0C0C0>
-	<input type=submit name=FA value=\"Edit Instructor\"$st></td>
-        </tr>
-    ";
-  }
-  $admin_footer = "$admformtop
-	<table border=1>
-	$admextras
-        <tr>
-	<td align=center bgcolor=#C0C0C0>
-	<input type=submit name=FA value=\"   Edit Gradebooks   \"$st>
-        </td>
-	<td align=center bgcolor=#C0C0C0>
-	<input type=submit name=FA value=\"Add Students\"$st></td>
-	<td align=center bgcolor=#C0C0C0>
-	<input type=submit name=FA value=\" Edit Student \"$st></td></tr>
-	<tr><td align=center colspan=3><input type=submit name=FA 
-            value=\" Export Grades to Spreadsheet or ASCII File \" 
-            style=\"width: 31em\"></td></tr>
-	<tr><td align=center colspan=3 bgcolor=#C0C0C0>
-	<input type=submit name=FA$close_browser 
-            value=\"    Log Out     \" style=\"width: 31em\"></td></tr>
-	</table>
-	</form>";
+	$close_browser = " onClick=\"self.close();\""; 
+	&check_password_admin;
+	$st = " style=\"width: 10em;\"";
+	if($data{'admlogin'} eq $admlogin){
+		$admextras = "<tr><td align=center bgcolor=#C0C0C0>
+			<input type=submit name=FA value=\"Edit Instructor\"$st></td>
+			</tr>
+			";
+	}
+	$admin_footer = "$admformtop
+		<table border=1>
+		$admextras
+			<tr>
+		<td align=center bgcolor=#C0C0C0>
+		<input type=submit name=FA value=\"   Edit Gradebooks   \"$st>
+			</td>
+		<td align=center bgcolor=#C0C0C0>
+		<input type=submit name=FA value=\"Add Students\"$st></td>
+		<td align=center bgcolor=#C0C0C0>
+		<input type=submit name=FA value=\" Edit Student \"$st></td></tr>
+		<tr><td align=center colspan=3><input type=submit name=FA 
+			value=\" Export Grades to Spreadsheet or ASCII File \" 
+			style=\"width: 31em\"></td></tr>
+		<tr><td align=center colspan=3 bgcolor=#C0C0C0>
+		<input type=submit name=FA$close_browser 
+			value=\"    Log Out     \" style=\"width: 31em\"></td></tr>
+		</table>
+		</form>";
 
-  if($data{'FA'} eq "Export Grades to Spreadsheet or ASCII File" ||
-    $data{'FA'} eq "Export Grades"){
-    &export_grades;
-  }
-  if($data{'FA'} eq "Edit Instructor"){
-    &edit_instructor;
-  } elsif($data{'FA'} eq "Edit Gradebooks" ||
-      $data{'FA'} eq "Finished Adding Students"){
-    &edit_gradebook;
-  } elsif($data{'FA'} eq "Update Gradebook"){
-    &update_gradebook;
-  } elsif($data{'FA'} eq "Add Students"){
-    &add_students_form;
-  } elsif($data{'FA'} eq "Delete Student"){
-    &delete_student;
-  } elsif($data{'FA'} eq "Edit Student"){
-    &edit_student;
-  } elsif($data{'FA'} eq "Add This Student"){
-    &add_student_to_system;
-  } else {
-   print "$header
-	 <b>Welcome $data{'admlogin'}.</b>  <br>\n";	 
-   print "<b>Please choose from one
-	 of the following options:</b><br>
-	 $admin_footer <hr>";
+	if($data{'FA'} eq "Export Grades to Spreadsheet or ASCII File" ||
+		$data{'FA'} eq "Export Grades"){
+		&export_grades;
+	}
+	if($data{'FA'} eq "Edit Instructor"){
+		&edit_instructor;
+	} elsif($data{'FA'} eq "Edit Gradebooks" ||
+		$data{'FA'} eq "Finished Adding Students"){
+		&edit_gradebook;
+	} elsif($data{'FA'} eq "Update Gradebook"){
+		&update_gradebook;
+	} elsif($data{'FA'} eq "Add Students"){
+		&add_students_form;
+	} elsif($data{'FA'} eq "Delete Student"){
+		&delete_student;
+	} elsif($data{'FA'} eq "Edit Student"){
+		&edit_student;
+	} elsif($data{'FA'} eq "Add This Student"){
+		&add_student_to_system;
+	} else {
+		print "$header
+			<b>Welcome $data{'admlogin'}.</b>  <br>\n";	 
+		print "<b>Please choose from one
+			of the following options:</b><br>
+			$admin_footer <hr>";
 	 
-      &show_class_info;
+		&show_class_info;
 
-   print "$footer";
+		print "$footer";
    
-   $dbh->disconnect();
-   exit;
-  }
+		$dbh->disconnect();
+		exit;
+	}
 } else {
-  &default_page;
+	&default_page;
 }
 
 #---- end of main loop-----#
@@ -362,9 +362,8 @@ sub edit_student {
     print "$header
 	    <b>Section for $dstu changed: 
             New Section: $dcls with $ins</b><br>
-	    <b>Note: Do not use your browser's \"Back\" button to
-	    go to the previous screen. Use the \"Edit Student\" 
-	    function instead.</b>
+	    $admformtop
+	    <input type=submit name=FA value=\"Return to Main Menu\">
 	    $footer";
     $dbh->disconnect();
     exit();
@@ -456,7 +455,7 @@ sub edit_gradebook {
 
 		#do the top row of the table
 		print "<tr>\n";
-		print "<th><font color=blue>Name</font></th><th>Section</th><th>TA</th>\n";
+		print "<th><font color=blue>Name</font></th><th>ID#</th><th>Section</th><th>TA</th>\n";
 		$sth = $dbh->prepare("SELECT name FROM assignments
 	                             ORDER BY number");
 		$num_assignments = $sth->execute();
@@ -464,7 +463,7 @@ sub edit_gradebook {
 		$colCount = 0;
 		while (@results = $sth->fetchrow_array()) {
 			if ((($colCount/10) == int($colCount/10)) && ($colCount != 0)) {
-				print "<th><font color=blue>Name</font></th><th>ID#</th>";
+				print "<th><font color=blue>Name</font></th>";
 			}
 			$colCount++; 
 			print "<th>$results[0]</th>";
@@ -472,7 +471,7 @@ sub edit_gradebook {
 		print "</tr>\n";
 		$sth->finish();
 
-		if (($data{'Class'} eq "All") && ($data{'admlogin'} eq $admlogin)) {
+		if (($data{'Class'} eq "All")) {
 			$statement = "SELECT * FROM students ORDER BY name";
 		} else {
 			$statement = "SELECT * FROM students 
@@ -660,7 +659,10 @@ sub edit_instructor {
 
   print "$header
 	  <b>Instructor $data{'Name'} successfully updated.</b>
-	  $footer";
+	  	$admformtop
+	    <input type=submit name=FA value=\"Return to Main Menu\">
+	    $footer";
+	  
 
  } else {
   #get list of instructors
