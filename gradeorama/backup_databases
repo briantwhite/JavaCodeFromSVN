@@ -6,7 +6,7 @@ mysqldump -u root -pmy3quel grades > grades.backup
 mysqldump -u root -pmy3quel COII > COII.backup
 mysqldump -u root -pmy3quel fishies_db > fishies_db.backup
 /usr/local/gradeorama/export_grades.pl > grades_for_excel.txt
-tar -czf mysql$(date +%F).tar.gz *.backup /var/lib/mysql/*
+tar -czf mysql$(date +%F).tar.gz *.txt *.backup /var/lib/mysql/*
 mv mysql* /usr/local/grade_backups/
 cd /tmp
 rm -rf backup/
