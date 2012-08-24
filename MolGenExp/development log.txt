@@ -1542,3 +1542,18 @@ fixed other misc bugs
 version 1.3.2
 made mac, pc, and linux versions
 
+8/24/12
+OS X Mountain Lion's security now warns users that Aipotu is corrupted and needs
+	to be thrown in the trash!
+- really, it needs to be signed
+- became Apple developer and got signature files
+
+Here's how to sign it (on the laptop):
+export CODESIGN_ALLOCATE="/Applications/Xcode.app/Contents/Developer/usr/bin/codesign_allocate"
+codesign -s "Developer ID Application: Brian White" -vf Aipotu-1.3.2.app/
+Aipotu-1.3.2.app/: replacing existing signature
+Aipotu-1.3.2.app/: signed bundle with Mach-O universal (i386 ppc7400 x86_64) [edu.umb.bio.Aipotu]
+
+now AOK
+
+put signed versions in office mac ReadyToRun as well as on web etc.
