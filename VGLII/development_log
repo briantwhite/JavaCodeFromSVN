@@ -1786,3 +1786,9 @@ un-jared it and replaced Help_kr/index.html
 try in Korea
 also updated version to 3.2.1
   and the info file to thank him properly
+ 
+8/24/12
+need to sign the app for mac osx mountain lion
+export CODESIGN_ALLOCATE="/Applications/Xcode.app/Contents/Developer/usr/bin/codesign_allocate"
+codesign -s "Developer ID Application: Brian White" -vf VGLII-3.2.0.app/
+
