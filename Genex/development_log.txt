@@ -49,3 +49,8 @@ added param PROMOTER_SPACING = number of bases between 3' end of promoter and 5'
 added check to remove non-AGCT or non-AGCU chars in configuration.xml
 
 version 2.1.0 sent to Sophie for testing
+
+8/24/12
+need to sign the app for mac osx mountain lion
+export CODESIGN_ALLOCATE="/Applications/Xcode.app/Contents/Developer/usr/bin/codesign_allocate"
+codesign -s "Developer ID Application: Brian White" -vf Genex-2.1.0.app/
