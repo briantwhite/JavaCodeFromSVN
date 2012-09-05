@@ -28,4 +28,5 @@ mysqldump: Got error: 1: Can't create/write to file '/tmp/backup/fish_data.txt' 
 nuke out the mysqldump -T versions, since the plain versions that feed to *.backup
 are AOK
 
-
+9/5/12
+added ability to delete students

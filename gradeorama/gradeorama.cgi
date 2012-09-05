@@ -332,6 +332,11 @@ sub edit_student {
        print ">$class</option>\n";
      }
      
+     # if admin, can delete the student
+     if ($data{'admlogin'} eq $admlogin) {
+     	print "<option value=\"Delete\">Delete</option>\n";
+     }
+     
      print "</select>
 	       <input type=hidden name=FA value=\"Edit Student\">
 	       <input type=hidden name=FA2 value=\"Confirm\">
@@ -353,18 +358,31 @@ sub edit_student {
     @result = $sth->fetchrow_array();
     $sth->finish();
     $ins = $result[0];
-
-    $statement = "UPDATE students SET section=\"$dcls\",
+    
+    if($dcls eq "Delete") {
+    	$statement = "DELETE FROM students WHERE name=\"$dstu\"";
+    } else {
+    	$statement = "UPDATE students SET section=\"$dcls\",
                         TA=\"$ins\" 
                         WHERE name=\"$dstu\"";
+    }
+    
     $rows = $dbh->do($statement);
      
-    print "$header
-	    <b>Section for $dstu changed: 
-            New Section: $dcls with $ins</b><br>
-	    $admformtop
-	    <input type=submit name=FA value=\"Return to Main Menu\">
-	    $footer";
+    if($dcls eq "Delete") {
+   	print "$header
+	 	   <b>$dstu deleted</b><br>
+	  	  	$admformtop
+	    	<input type=submit name=FA value=\"Return to Main Menu\">
+	    	$footer";
+    } else {
+    	print "$header
+	 	   <b>Section for $dstu changed: 
+      	      New Section: $dcls with $ins</b><br>
+	  	  	$admformtop
+	    	<input type=submit name=FA value=\"Return to Main Menu\">
+	    	$footer";
+    }
     $dbh->disconnect();
     exit();
   } else {
