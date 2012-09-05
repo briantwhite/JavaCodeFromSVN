@@ -30,3 +30,7 @@ are AOK
 
 9/5/12
 added ability to delete students
+
+got perltidy - script to indent and format perl stuff - from sourceforge
+ran it on gradeorama.cgi
+
