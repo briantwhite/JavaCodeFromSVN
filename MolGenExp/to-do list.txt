@@ -1,0 +1,36 @@
+9/6/12
+
+need to fix:
+	- adding notes to one of the features doesn't work
+	
+	
+Julie Noor suggests a more complex Aipotu
+
+2 genes - unlinked
+each organism gets 2 sets of 2 DNA sequences
+
+Have one or more alternative phenotypes
+	? +/- or levels?
+	fungal resistance
+	drought tolerance
+	herbivore resistance (nasty tasting protein)
+	nutrient scavenging ability
+	light gathering ability
+	seed dispersal
+	
+	- need structure-phenotype mappings
+	- need additions to icons to show these phenos
+
+Not fitness sliders in evolution, but "environment settings"
+	pollinator preference
+	herbivores, etc
+
+UI changes
+	genetics & greenhouse & evolution - modify pix to show other phenos
+	biochem & mobo - tabs "gene 1" and "gene 2"
+
+need a way to turn off or hide the second gene
+
+
+	
+	
