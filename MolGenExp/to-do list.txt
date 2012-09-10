@@ -11,6 +11,7 @@ each organism gets 2 sets of 2 DNA sequences
 
 Have one or more alternative phenotypes
 	? +/- or levels?
+		if levels, copy # can count (if both genes are fungal resistance)
 	fungal resistance
 	drought tolerance
 	herbivore resistance (nasty tasting protein)
