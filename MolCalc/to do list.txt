@@ -1,5 +1,3 @@
-- bug:
-	7-member ring
-		C6 with one 0
-		alternating double-bonds
-		gives C6H4 instead of C6H6O
+add "this molecule can make H-bonds"
+and "this molecule can make ionic bonds"
+change "logp" to "relative hydrophobicity" - since it isn't real logp
