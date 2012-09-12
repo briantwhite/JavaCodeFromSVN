@@ -56,6 +56,8 @@ $grade_window_width = 800;
 
 $grade_window_height = 600;
 
+$name_of_id_field_in_assignments_txt = "iClicker Number";
+
 $header = qq[
 <!-- START HTML HEADER -->
 <html> <head>
@@ -1021,6 +1023,14 @@ sub export_grades {
     }
     $sth->finish();
     chop $firstline;
+    
+    #get index number of iclicker ID so you can add a # in front of it
+    $statement = "SELECT number FROM assignments WHERE name=\"$name_of_id_field_in_assignments_txt\"";
+	$sth = $dbh->prepare($statement);
+	$sth->execute();
+	@result = $sth->fetchrow_array();
+	$sth->finish();
+    $iClickerIndex = $result[0];
 
     print "Content-type: text/plain\n\n";
     print "$firstline\n";
@@ -1043,6 +1053,7 @@ sub export_grades {
         $class = shift @results;
         $ins   = shift @results;
         $pw    = shift @results;
+        $results[$iClickerIndex] = "#".$results[$iClickerIndex];
         $line  = join( '|', @results );
         print "$name|$id|$class|$ins|$line\n";
     }
