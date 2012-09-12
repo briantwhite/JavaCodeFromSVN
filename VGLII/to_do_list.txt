@@ -23,6 +23,8 @@ To do list
 
 7) change label in ModelBuilder for Linkage from “RF _%” to “_ map units” or “_ centiMorgans”
 
+8) in practice mode, the baloon help for a cage is "shows evidence of ..."
+
 		
 
 
