@@ -41,7 +41,7 @@ import javax.swing.JScrollPane;
 
 public class MolCalc extends JFrame {
 
-	final static String versionNumber = new String("2.3");
+	final static String versionNumber = new String("3.0");
 	JLabel outputInfo;
 	JLabel jmeLabel ;
 	JPanel topPanel;
@@ -165,6 +165,7 @@ public class MolCalc extends JFrame {
 
 		StringBuffer atomDataLines = new StringBuffer(); //for output
 		String logpString = new String();
+		String bondString = new String();
 		String formulaString = new String();
 		String errorString = new String();
 
@@ -517,6 +518,9 @@ public class MolCalc extends JFrame {
 
 		//compute total logp = sum of individual atom contributions.
 		double logp = 0.000;
+		boolean canMakeHbonds = false;
+		boolean canMakeIonicBonds = false;
+		
 		if (illegalAtoms.length() == 0) {
 			NumberFormat nf = NumberFormat.getInstance();
 			nf.setMaximumFractionDigits(3);
@@ -524,7 +528,9 @@ public class MolCalc extends JFrame {
 			for (int i = 1; i < (numAtoms + 1); i++) {
 				Atom atom = (Atom) atomList.get(i);
 				AtomSpec currentAtomSpec = atom.getAtomSpec();
-				logp = logp + currentAtomSpec.getAtomLogp();
+				logp = logp + currentAtomSpec.getLogp();
+				canMakeHbonds = canMakeHbonds || currentAtomSpec.canMakeHbonds();
+				canMakeIonicBonds = canMakeIonicBonds || currentAtomSpec.canMakeIonicBonds();
 
 				StringBuffer neighbors = new StringBuffer();
 				for (int j = 1; j < (numAtoms + 1); j++) {
@@ -533,16 +539,28 @@ public class MolCalc extends JFrame {
 					}
 				}
 
-				atomDataLines.append(i + " " + currentAtomSpec.getAtomType()
+				atomDataLines.append(i + " " + currentAtomSpec.getType()
 						+ "; bonded to: " + neighbors.toString() + "; logp= "
-						+ nf.format(currentAtomSpec.getAtomLogp()) + "\n");
+						+ nf.format(currentAtomSpec.getLogp()) + "\n");
 			}
 			if (logp < 0) {
-				logpString = "<font color=green>logp = " + nf.format(logp)
+				logpString = "<font color=green>Hydrophobicity index = " + nf.format(logp)
 				+ "</font>";
 			} else {
-				logpString = "<font color=red>logp = " + nf.format(logp)
+				logpString = "<font color=red>Hydrophobicity index = " + nf.format(logp)
 				+ "</font>";
+			}
+			
+			if (canMakeHbonds) {
+				bondString = "<font color=green>Can Make Strong Hydrogen Bonds</font><br>";
+			} else {
+				bondString = "<font color=red>Can not Make Strong Hydrogen Bonds</font><br>";
+			}
+			
+			if (canMakeIonicBonds) {
+				bondString += "<font color=green>Can Make Ionic Bonds</font>";
+			} else {
+				bondString += "<font color=red>Can not Make Ionic Bonds</font>";
 			}
 		}
 
@@ -682,8 +700,11 @@ public class MolCalc extends JFrame {
 			outputInfo.setText(errorString);
 		} else {
 			outputInfo.setForeground(Color.BLACK);
-			outputInfo.setText("<html><body>" + formulaString + "<br>"
-					+ logpString + "</body></html>");
+			outputInfo.setText("<html><body>" 
+			+ formulaString + "<br>"
+					+ logpString + "<br>"
+					+ bondString
+					+ "</body></html>");
 		}
 
 		return atomDataLines.toString();

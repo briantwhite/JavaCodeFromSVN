@@ -40,3 +40,6 @@ version 2.3
 need to sign the app for mac osx mountain lion
 export CODESIGN_ALLOCATE="/Applications/Xcode.app/Contents/Developer/usr/bin/codesign_allocate"
 codesign -s "Developer ID Application: Brian White" -vf Molecular\ Calculator\ 2.3.app/
+
+11/21/12
+working on adding h-bond & ionic bond detection
