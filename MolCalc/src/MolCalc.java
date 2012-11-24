@@ -540,8 +540,11 @@ public class MolCalc extends JFrame {
 				}
 
 				atomDataLines.append(i + " " + currentAtomSpec.getType()
-						+ "; bonded to: " + neighbors.toString() + "; logp= "
-						+ nf.format(currentAtomSpec.getLogp()) + "\n");
+						+ "; bonded to: " + neighbors.toString() 
+						+ "; logp= " + nf.format(currentAtomSpec.getLogp()) 
+						+ "; H-bonds: " + String.valueOf(currentAtomSpec.canMakeHbonds())
+						+ "; ionic bonds: " + String.valueOf(currentAtomSpec.canMakeIonicBonds())
+						+ "\n");
 			}
 			if (logp < 0) {
 				logpString = "<font color=green>Hydrophobicity index = " + nf.format(logp)
@@ -706,7 +709,7 @@ public class MolCalc extends JFrame {
 					+ bondString
 					+ "</body></html>");
 		}
-
+		System.out.println(atomDataLines.toString());
 		return atomDataLines.toString();
 	}
 

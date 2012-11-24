@@ -43,3 +43,11 @@ codesign -s "Developer ID Application: Brian White" -vf Molecular\ Calculator\ 2
 
 11/21/12
 working on adding h-bond & ionic bond detection
+
+11/24/12
+questions:
+	- can N: on pyridine H-bond? YES (J. Am. Chem. Soc., 1968, 90 (6), pp 1509Ð1516)
+	- can NO2 groups H-bond? YES (J. Phys. Chem., 1964, 68 (11), pp 3225Ð3228)
+
+seems to be all fixed
+version 3.0

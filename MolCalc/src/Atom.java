@@ -478,7 +478,15 @@ public class Atom {
 				}
 
 			}
-			// must be a neutral N
+			/* now, process what type of N 
+			 * independent of charge
+			 *
+			 * if these are tertiary or quaternary N's (in general, when NumNeighborHs == 0)
+			 *   if uncharged (tertiary), they have a lone pair that can H-bond
+			 *   if charged (quat), they have no lone pair
+			 *   hence the H-bond potential is "!charged"
+			 */
+
 
 			if (amide) {
 				switch (numNeighborHs) {
@@ -496,15 +504,15 @@ public class Atom {
 				case 0:
 					if (numNeighborXs == 0) {
 						return new AtomSpec(0.078 + chargeOffset,
-								"N: amide; C=O C C" + chargeString, true, charged);
+								"N: amide; C=O C C" + chargeString, !charged, charged);
 					} else {
 						return new AtomSpec(-0.118 + chargeOffset,
-								"N: amide; C=O C X" + chargeString, true, charged);
+								"N: amide; C=O C X" + chargeString, !charged, charged);
 					}
 				}
 			}
 
-			// not charged or an amide
+			// not an amide
 			switch (hybridization) {
 			case 3:
 				switch (numNeighborHs) {
@@ -533,13 +541,13 @@ public class Atom {
 				case 0:
 					if (numNeighborXs != 0)
 						return new AtomSpec(-0.239 + chargeOffset,
-								"N: sp3; C C X" + chargeString, false, charged);
+								"N: sp3; C C X" + chargeString, !charged, charged);
 					if (numNeighborPi == 0) {
 						return new AtomSpec(0.159 + chargeOffset,
-								"N: sp3; C C C, no pi" + chargeString, false, charged);
+								"N: sp3; C C C, no pi" + chargeString, !charged, charged);
 					} else {
 						return new AtomSpec(0.761 + chargeOffset,
-								"N: sp3; C C C, pi" + chargeString, false, charged);
+								"N: sp3; C C C, pi" + chargeString, !charged, charged);
 					}
 				default:
 					return new AtomSpec(0.000 + chargeOffset, "N: sp3; unknown"
@@ -547,30 +555,45 @@ public class Atom {
 				}
 			case 2:
 				if (aromatic) {
-					if (charged) {
-						return new AtomSpec(-0.493 + chargeOffset, "N: aromatic"
-								+ chargeString, false, true);
-					} else {
-						return new AtomSpec(-0.493 + chargeOffset, "N: aromatic"
-								+ chargeString, true, false);
-					}
+					return new AtomSpec(-0.493 + chargeOffset, "N: aromatic"
+							+ chargeString, !charged, charged);
 				}
 				if (doubleBondedNeighbor.equals("C")) {
 					if (numNeighborXs == 0) {
 						if (numNeighborPi == 0) {
-							return new AtomSpec(0.007 + chargeOffset,
-									"N: sp2; =C ?, no pi" + chargeString, true, charged);
+							if (numNeighborHs == 0) {
+								return new AtomSpec(0.007 + chargeOffset,
+										"N: sp2; =C ? no H, no pi" + chargeString, !charged, charged);
+							}  else {
+								return new AtomSpec(0.007 + chargeOffset,
+										"N: sp2; =C ? H, no pi" + chargeString, true, charged);
+							}
 						} else {
-							return new AtomSpec(-0.275 + chargeOffset,
-									"N: sp2; =C ?, pi" + chargeString, true, charged);
+							if (numNeighborHs == 0) {
+								return new AtomSpec(-0.275 + chargeOffset,
+										"N: sp2; =C ? no H, pi" + chargeString, !charged, charged);
+							} else {
+								return new AtomSpec(-0.275 + chargeOffset,
+										"N: sp2; =C ? H, pi" + chargeString, true, charged);
+							}
 						}
 					} else {
 						if (numNeighborPi == 0) {
-							return new AtomSpec(0.366 + chargeOffset,
-									"N: sp2; =C X, no pi" + chargeString, true, charged);
+							if (numNeighborHs == 0) {
+								return new AtomSpec(0.366 + chargeOffset,
+										"N: sp2; =C X no H, no pi" + chargeString, !charged, charged);
+							} else {
+								return new AtomSpec(0.366 + chargeOffset,
+										"N: sp2; =C X H, no pi" + chargeString, true, charged);
+							}
 						} else {
-							return new AtomSpec(0.251 + chargeOffset,
-									"N: sp2; =C X, pi" + chargeString, true, charged);
+							if (numNeighborHs == 0) {
+								return new AtomSpec(0.251 + chargeOffset,
+										"N: sp2; =C X no H, pi" + chargeString, !charged, charged);
+							} else {
+								return new AtomSpec(0.251 + chargeOffset,
+										"N: sp2; =C X H, pi" + chargeString, true, charged);
+							}
 						}
 					}
 				}
@@ -578,11 +601,21 @@ public class Atom {
 					if (numNeighborXs == 1) { // not 0 because X
 						//is always at least 1
 						//due to N neighbor
-						return new AtomSpec(0.536 + chargeOffset,
-								"N: sp2; =N ?" + chargeString, true, charged);
+						if (numNeighborHs == 0) {
+							return new AtomSpec(0.536 + chargeOffset,
+									"N: sp2; =N ? no H" + chargeString, !charged, charged);
+						} else {
+							return new AtomSpec(0.536 + chargeOffset,
+									"N: sp2; =N ? H" + chargeString, true, charged);
+						}
 					} else {
-						return new AtomSpec(-0.597 + chargeOffset,
-								"N: sp2; =N X" + chargeString, true, charged);
+						if (numNeighborHs == 0) {
+							return new AtomSpec(-0.597 + chargeOffset,
+									"N: sp2; =N X no H" + chargeString, !charged, charged);
+						} else {
+							return new AtomSpec(-0.597 + chargeOffset,
+									"N: sp2; =N X H" + chargeString, true, charged);
+						}
 					}
 				}
 				if (doubleBondedNeighbor.equals("O"))
@@ -596,8 +629,13 @@ public class Atom {
 				if (doubleBondedNeighbor.equals("O2")) {
 					return new AtomSpec(1.178, "N: nitro", true, false);
 				} else {
-					return new AtomSpec(-0.566 + chargeOffset, "N: sp"
-							+ chargeString, true, charged);
+					if (numNeighborHs == 0) {
+						return new AtomSpec(-0.566 + chargeOffset, "N: sp no H"
+								+ chargeString, !charged, charged);
+					} else {
+						return new AtomSpec(-0.566 + chargeOffset, "N: sp H"
+								+ chargeString, true, charged);
+					}
 				}
 			default:
 				return new AtomSpec(0.000 + chargeOffset, "N: unknown"
