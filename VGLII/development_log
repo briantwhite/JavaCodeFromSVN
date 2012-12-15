@@ -1792,3 +1792,9 @@ need to sign the app for mac osx mountain lion
 export CODESIGN_ALLOCATE="/Applications/Xcode.app/Contents/Developer/usr/bin/codesign_allocate"
 codesign -s "Developer ID Application: Brian White" -vf VGLII-3.2.0.app/
 
+12/15/12
+working on stuff for edX and lingering items in the to-do list
+
+1) automatic scoring - comparing model builder and right answer
+
+

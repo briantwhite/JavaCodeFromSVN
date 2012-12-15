@@ -89,7 +89,7 @@ public class GeneticModel {
 
 	public static final boolean XX_XY = true;
 	public static final boolean ZZ_ZW = false;
-
+	
 	private int minOffspring;
 	private int maxOffspring;
 

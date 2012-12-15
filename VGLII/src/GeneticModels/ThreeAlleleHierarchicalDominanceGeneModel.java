@@ -241,8 +241,8 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 		return b.toString();
 	}
 
-	public String getNumAlleleText() {
-		return "3";
+	public int getNumAlleles() {
+		return 2;
 	}
 
 }

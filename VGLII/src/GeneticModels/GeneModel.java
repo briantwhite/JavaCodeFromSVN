@@ -63,7 +63,11 @@ public abstract class GeneModel {
 	
 	public abstract String toString();
 	
-	public abstract String getNumAlleleText();
+	public abstract int getNumAlleles();
+	
+	public String getNumAlleleText() {
+		return String.valueOf(getNumAlleles());
+	}
 	
 	public abstract String getDomTypeText();
 	

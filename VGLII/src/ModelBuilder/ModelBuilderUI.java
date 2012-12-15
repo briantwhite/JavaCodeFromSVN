@@ -193,6 +193,10 @@ public class ModelBuilderUI extends JPanel {
 	public boolean hasLinkagePanel() {
 		return linkagePanel != null;
 	}
+	
+	public ModelPane[] getModelPanes() {
+		return modelPanes;
+	}
 
 	public void updateCageChoices(int nextCageId) {
 		

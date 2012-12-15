@@ -81,7 +81,14 @@ public class ModelPane extends JPanel implements ItemListener {
 		masterPanel.setLayout(new BoxLayout(masterPanel, BoxLayout.Y_AXIS));
 		masterPanel.add(Box.createRigidArea(new Dimension(300,1)));
 
-		// sex linkage info
+		/*
+		 * sex linkage info
+		 * 	must always be in this order for AutoGrader to work
+		 * 	0 = unknown
+		 * 	1 = not sex-linked
+		 *  2 = xx/xy
+		 *  3 = zz/zw (if present)
+		 */
 		JPanel sexLinkagePanel = new JPanel();
 		sexLinkagePanel.setBorder(
 				BorderFactory.createTitledBorder(
@@ -451,6 +458,33 @@ public class ModelPane extends JPanel implements ItemListener {
 		if (alleleNumberChoices != null) {
 			alleleNumberChoices.addItemListener(this);	
 		}
+	}
+	
+	/*
+	 * 	0 = unknown
+	 * 	1 = not sex-linked
+	 *  2 = xx/xy
+     *  3 = zz/zw (if present)
+	 */
+	public int getSexLinkageChoice() {
+		return sexLinkageChoices.getSelectedIndex();
+	}
+	
+	/*
+	 *  0 = unknown
+	 *  1 = 2-allele
+	 *  2 = 3-allele
+	 */
+	public int getAlleleNumberChoice() {
+		return alleleNumberChoices.getSelectedIndex();
+	}
+	
+	/*
+	 * this returns the string that was selected
+	 * in the local language 
+	 */
+	public String getInteractionTypeChoice() {
+		return interactionTypeChoices.getSelectedItem().toString();
 	}
 
 	public void setStateFromFile(Element element) {

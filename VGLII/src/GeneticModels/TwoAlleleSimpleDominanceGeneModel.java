@@ -177,8 +177,8 @@ public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 		return b.toString();
 	}
 
-	public String getNumAlleleText() {
-		return "2";
+	public int getNumAlleles() {
+		return 2;
 	}
 
 }

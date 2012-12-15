@@ -261,8 +261,8 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 	}
 
 
-	public String getNumAlleleText() {
-		return "3";
+	public int getNumAlleles() {
+		return 3;
 	}
 
 
