@@ -486,6 +486,10 @@ public class ModelPane extends JPanel implements ItemListener {
 	public String getInteractionTypeChoice() {
 		return interactionTypeChoices.getSelectedItem().toString();
 	}
+	
+	public ModelDetailsPanel getModelDetailsPanel() {
+		return (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
+	}
 
 	public void setStateFromFile(Element element) {
 
