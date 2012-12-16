@@ -31,8 +31,14 @@ import VGL.Messages;
 
 public class TwoAlleleSimpleDominanceGeneModel extends GeneModel {
 
-	private Trait t1;  // recessive trait
-	private Trait t2;  // dominant trait
+	/*
+	 * Trait t1: recessive trait
+	 * Trait t2: dominant trait
+	 * Trait t3: null
+	 * Trait t4: null
+	 * Trait t5: null
+	 * Trait t6: null
+	 */
 
 	public TwoAlleleSimpleDominanceGeneModel(int index) {
 		super(index);

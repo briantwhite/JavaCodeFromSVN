@@ -30,9 +30,14 @@ import VGL.Messages;
 
 public class TwoAlleleIncompleteDominanceGeneModel extends GeneModel {
 
-	private Trait t1;  // one homozygote trait
-	private Trait t2;  // other homozygote trait
-	private Trait t3;  // heterozygote trait
+	/*
+	 * Trait t1: one homozygote trait
+	 * Trait t2: other homozygote trait
+	 * Trait t3: heterozygote trait
+	 * Trait t4: null
+	 * Trait t5: null
+	 * Trait t6: null
+	 */
 
 	public TwoAlleleIncompleteDominanceGeneModel(int index) {
 		super(index);

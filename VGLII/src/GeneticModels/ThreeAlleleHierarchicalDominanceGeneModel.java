@@ -30,9 +30,14 @@ import VGL.Messages;
 
 public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 
-	private Trait t1;  // totally recessive trait
-	private Trait t2;  // intermediate trait
-	private Trait t3;  // totally dominant trait
+	/*
+	 * Trait t1: totally recessive trait
+	 * Trait t2: intermediate trait
+	 * Trait t3: totally dominant trait
+	 * Trait t4: null
+	 * Trait t5: null
+	 * Trait t6: null
+	 */
 
 	public ThreeAlleleHierarchicalDominanceGeneModel(int index) {
 		super(index);

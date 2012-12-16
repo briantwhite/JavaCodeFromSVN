@@ -27,6 +27,14 @@ import org.jdom.Element;
 
 public abstract class GeneModel {
 	
+	// not all will be used in all 
+	public Trait t1;
+	public Trait t2;
+	public Trait t3;
+	public Trait t4;
+	public Trait t5;
+	public Trait t6;
+	
 	int index; 
 	
 	CharacterSpecificationBank charSpecBank;

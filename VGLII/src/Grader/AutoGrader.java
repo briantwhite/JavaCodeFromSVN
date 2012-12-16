@@ -6,6 +6,7 @@ import GeneticModels.GeneModel;
 import GeneticModels.GeneticModel;
 import GeneticModels.PhenotypeProcessor;
 import ModelBuilder.ModelBuilderUI;
+import ModelBuilder.ModelDetailsPanel;
 import ModelBuilder.ModelPane;
 import VGL.Messages;
 
@@ -95,12 +96,45 @@ public class AutoGrader {
 						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.IncompleteDominance"))) interactionTypeGrade = CORRECT;
 				gmEl.setAttribute("InteractionType", interactionTypeGrade);
 
-				//details
-				//				b.append("<ul>" + gm.getInteractionHTML() + "</ul>");
-
-				// end it
-				//				b.append("</ul>");
-				//				b.append("<hr>");
+				/*
+				 * these are also the raw selected strings
+				 * in the local language, so need to match with translated version
+				 */
+				String detailsGrade = CORRECT;
+				ModelDetailsPanel mdp = modelPane.getModelDetailsPanel();
+				// check each entry; if any mismatch, it's wrong
+				if ((mdp.t1Choices != null) && (geneModel.t1 != null)) {
+					if (!mdp.t1Choices.getSelectedItem().equals(
+							Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsGrade = INCORRECT;
+				}
+				
+				if ((mdp.t2Choices != null) && (geneModel.t2 != null)) {
+					if (!mdp.t2Choices.getSelectedItem().equals(
+							Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsGrade = INCORRECT;
+				}
+				
+				if ((mdp.t3Choices != null) && (geneModel.t3 != null)) {
+					if (!mdp.t3Choices.getSelectedItem().equals(
+							Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsGrade = INCORRECT;
+				}
+				
+				if ((mdp.t4Choices != null) && (geneModel.t4 != null)) {
+					if (!mdp.t4Choices.getSelectedItem().equals(
+							Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsGrade = INCORRECT;
+				}
+				
+				if ((mdp.t5Choices != null) && (geneModel.t5 != null)) {
+					if (!mdp.t5Choices.getSelectedItem().equals(
+							Messages.getInstance().getTranslatedShortTraitName(geneModel.t5.getTraitName()))) detailsGrade = INCORRECT;
+				}
+				
+				if ((mdp.t6Choices != null) && (geneModel.t6 != null)) {
+					if (!mdp.t6Choices.getSelectedItem().equals(
+							Messages.getInstance().getTranslatedShortTraitName(geneModel.t6.getTraitName()))) detailsGrade = INCORRECT;
+				}
+				
+				gmEl.setAttribute("InteractionDetails", detailsGrade);
+				
 				e.addContent(gmEl);
 			}
 

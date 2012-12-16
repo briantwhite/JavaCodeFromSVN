@@ -12,12 +12,12 @@ import VGL.Messages;
 
 public abstract class ModelDetailsPanel extends JPanel implements ItemListener {
 	String[] phenos;
-	JComboBox t1Choices;
-	JComboBox t2Choices;
-	JComboBox t3Choices;
-	JComboBox t4Choices;
-	JComboBox t5Choices;
-	JComboBox t6Choices;
+	public JComboBox t1Choices;
+	public JComboBox t2Choices;
+	public JComboBox t3Choices;
+	public JComboBox t4Choices;
+	public JComboBox t5Choices;
+	public JComboBox t6Choices;
 	ModelPane mp;
 	
 	private URL combineArrowURL = CageUI.class.getResource("UIimages/combineArrow.gif");
