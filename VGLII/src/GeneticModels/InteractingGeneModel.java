@@ -174,9 +174,8 @@ public class InteractingGeneModel extends GeneModel {
 	}
 
 	@Override
-	public String getNumAlleleText() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getNumAlleles() {
+		return -1;
 	}
 
 

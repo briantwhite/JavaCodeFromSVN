@@ -83,11 +83,6 @@ public class ModelPane extends JPanel implements ItemListener {
 
 		/*
 		 * sex linkage info
-		 * 	must always be in this order for AutoGrader to work
-		 * 	0 = unknown
-		 * 	1 = not sex-linked
-		 *  2 = xx/xy
-		 *  3 = zz/zw (if present)
 		 */
 		JPanel sexLinkagePanel = new JPanel();
 		sexLinkagePanel.setBorder(
@@ -461,22 +456,19 @@ public class ModelPane extends JPanel implements ItemListener {
 	}
 	
 	/*
-	 * 	0 = unknown
-	 * 	1 = not sex-linked
-	 *  2 = xx/xy
-     *  3 = zz/zw (if present)
+	 * 	used for AutoGrader
 	 */
-	public int getSexLinkageChoice() {
-		return sexLinkageChoices.getSelectedIndex();
+	public String getSexLinkageChoice() {
+		return (String)sexLinkageChoices.getSelectedItem();
 	}
 	
 	/*
-	 *  0 = unknown
-	 *  1 = 2-allele
-	 *  2 = 3-allele
+	 * used for AutoGrader
 	 */
 	public int getAlleleNumberChoice() {
-		return alleleNumberChoices.getSelectedIndex();
+		String choice = (String) alleleNumberChoices.getSelectedItem();
+		String[] pieces = choice.split("-");
+		return Integer.parseInt(pieces[0]);
 	}
 	
 	/*

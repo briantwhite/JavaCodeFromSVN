@@ -47,12 +47,15 @@ import javax.swing.text.html.HTMLDocument;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import GeneticModels.Cage;
 import GeneticModels.CharacterSpecificationBank;
 import GeneticModels.GeneticModel;
 import GeneticModels.GeneticModelFactory;
 import GeneticModels.Organism;
+import Grader.AutoGrader;
 import Grader.CageScorer;
 import Grader.Grader;
 import ModelBuilder.ModelBuilderUI;
@@ -82,6 +85,11 @@ import PhenotypeImages.PhenotypeImageBank;
  * @version 1.0 $Id$
  */
 public class VGLII extends JFrame {
+
+	/*
+	 * selector for builds for EdX - has save to server
+	 */
+	private boolean saveToServerEnabled = true;
 
 	/**
 	 * the version number
@@ -235,6 +243,12 @@ public class VGLII extends JFrame {
 	 * Only shown if saveForGradingEnabled = true
 	 */
 	private JMenuItem saveForGradingItem = null;
+
+	/**
+	 * only shown in edX version
+	 * if saveToServer = true
+	 */
+	private JMenuItem saveToServerItem = null;
 
 	/**
 	 * Menu item to close the current work
@@ -468,6 +482,8 @@ public class VGLII extends JFrame {
 			saveAsProblem();
 		else if (cmd.equals("SaveForGrading"))
 			saveForGrading();
+		else if (cmd.equals("SaveToServer"))
+			saveToServer();
 		else if (cmd.equals("PrintToFile")) //$NON-NLS-1$
 			printToFile();
 		else if (cmd.equals("PageSetup")) //$NON-NLS-1$
@@ -589,7 +605,7 @@ public class VGLII extends JFrame {
 		ImageIcon newImage = new ImageIcon(newImageURL);
 
 		URL saveAsImageURL = VGLII.class
-		.getResource("images/saveas16.gif"); //$NON-NLS-1$
+				.getResource("images/saveas16.gif"); //$NON-NLS-1$
 		ImageIcon saveAsImage = new ImageIcon(saveAsImageURL);
 
 		URL saveImageURL = VGLII.class.getResource("images/save16.gif"); //$NON-NLS-1$
@@ -599,26 +615,26 @@ public class VGLII extends JFrame {
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
 
 		URL printFileImageURL = 
-			VGLII.class.getResource("images/printtofile16.gif"); //$NON-NLS-1$
+				VGLII.class.getResource("images/printtofile16.gif"); //$NON-NLS-1$
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
 
 		URL balloonHelpImageURL = VGLII.class
-		.getResource("images/help16.gif"); //$NON-NLS-1$
+				.getResource("images/help16.gif"); //$NON-NLS-1$
 		ImageIcon balloonHelpImage = new ImageIcon(balloonHelpImageURL);
 
 		URL printImageURL = VGLII.class.getResource("images/print16.gif"); //$NON-NLS-1$
 		ImageIcon printImage = new ImageIcon(printImageURL);
 
 		URL pageSetupImageURL = VGLII.class
-		.getResource("images/pagesetup16.gif"); //$NON-NLS-1$
+				.getResource("images/pagesetup16.gif"); //$NON-NLS-1$
 		ImageIcon pageSetupImage = new ImageIcon(pageSetupImageURL);
 
 		URL onlineHelpImageURL = VGLII.class
-		.getResource("images/onlinehelp16.gif"); //$NON-NLS-1$
+				.getResource("images/onlinehelp16.gif"); //$NON-NLS-1$
 		ImageIcon onlineHelpImage = new ImageIcon(onlineHelpImageURL);
 
 		URL closeImageURL = VGLII.class
-		.getResource("images/closework16.gif"); //$NON-NLS-1$
+				.getResource("images/closework16.gif"); //$NON-NLS-1$
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
 		//  "File" options.
@@ -627,6 +643,7 @@ public class VGLII extends JFrame {
 		openProblemItem = menuItem(Messages.getInstance().getString("VGLII.OpenWork"), "OpenWork", openImage); //$NON-NLS-1$ //$NON-NLS-2$
 		saveProblemItem = menuItem(Messages.getInstance().getString("VGLII.SaveWork"), "SaveWork", saveImage); //$NON-NLS-1$ //$NON-NLS-2$
 		saveProblemAsItem = menuItem(Messages.getInstance().getString("VGLII.SaveWorkAs"), "SaveAs", saveAsImage); //$NON-NLS-1$ //$NON-NLS-2$
+
 		pageSetupItem = menuItem(Messages.getInstance().getString("VGLII.PageSetup"), "PageSetup", pageSetupImage); //$NON-NLS-1$ //$NON-NLS-2$
 		printItem = menuItem(Messages.getInstance().getString("VGLII.PrintWork"), "PrintWork", printImage); //$NON-NLS-1$ //$NON-NLS-2$
 		printToFileItem = menuItem(Messages.getInstance().getString("VGLII.PrintWorkToFile"), "PrintToFile", //$NON-NLS-1$ //$NON-NLS-2$
@@ -639,9 +656,13 @@ public class VGLII extends JFrame {
 		mnuFile.addSeparator();
 		mnuFile.add(saveProblemItem);
 		mnuFile.add(saveProblemAsItem);
+		if (saveToServerEnabled) {
+			saveToServerItem = menuItem("Save To Server...", "SaveToServer", null);
+			mnuFile.add(saveToServerItem);
+		}
 		if (saveForGradingEnabled) {
 			saveForGradingItem = 
-				menuItem(Messages.getInstance().getString("VGLII.SaveForGrading"), "SaveForGrading", null);
+					menuItem(Messages.getInstance().getString("VGLII.SaveForGrading"), "SaveForGrading", null);
 			mnuFile.add(saveForGradingItem);
 		}
 		mnuFile.addSeparator();
@@ -779,15 +800,15 @@ public class VGLII extends JFrame {
 		ImageIcon printImage = new ImageIcon(printImageURL);
 
 		URL printFileImageURL = VGLII.class
-		.getResource("images/printtofile.gif"); //$NON-NLS-1$
+				.getResource("images/printtofile.gif"); //$NON-NLS-1$
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
 
 		URL onlineHelpImageURL = VGLII.class
-		.getResource("images/onlinehelp.gif"); //$NON-NLS-1$
+				.getResource("images/onlinehelp.gif"); //$NON-NLS-1$
 		ImageIcon onlineHelpImage = new ImageIcon(onlineHelpImageURL);
 
 		URL closeImageURL = VGLII.class
-		.getResource("images/closework.gif"); //$NON-NLS-1$
+				.getResource("images/closework.gif"); //$NON-NLS-1$
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
 		URL crossTwoImageURL = VGLII.class.getResource("images/cross.gif"); //$NON-NLS-1$
@@ -887,7 +908,7 @@ public class VGLII extends JFrame {
 		m_FChooser = new JFileChooser(workingDir);
 		m_FChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		javax.swing.filechooser.FileFilter ft = m_FChooser
-		.getAcceptAllFileFilter();
+				.getAcceptAllFileFilter();
 		m_FChooser.removeChoosableFileFilter(ft);
 		if (dialogType != -1)
 			m_FChooser.setDialogType(dialogType);
@@ -921,7 +942,7 @@ public class VGLII extends JFrame {
 				windows[i].dispose();
 			}
 		}
-		
+
 		// if it's a save or print dialog, need to be sure no 'poison' characters in filename
 		if ((dialogType != JFileChooser.OPEN_DIALOG) && (result != null)) {
 			String originalName = result.getName();
@@ -931,27 +952,27 @@ public class VGLII extends JFrame {
 				Matcher fixer = poisonChars.matcher(originalName);
 				String newName = fixer.replaceAll("_");
 				result = new File(result.getParent() + System.getProperty("file.separator") + newName);
-				
+
 				int choice = JOptionPane.showConfirmDialog(
 						this,
 						"<html>" 
-						+ Messages.getInstance().getString("VGLII.BadFileName1")
-						+ "<br>" 
-						+ Messages.getInstance().getString("VGLII.BadFileName2")
-						+ "<br>" 
-						+ Messages.getInstance().getString("VGLII.BadFileName3")
-						+ ": " 
-						+ result.getName()
-						+ "</html>",
-						Messages.getInstance().getString("VGLII.Error"),
-						JOptionPane.YES_NO_OPTION);
-				
+								+ Messages.getInstance().getString("VGLII.BadFileName1")
+								+ "<br>" 
+								+ Messages.getInstance().getString("VGLII.BadFileName2")
+								+ "<br>" 
+								+ Messages.getInstance().getString("VGLII.BadFileName3")
+								+ ": " 
+								+ result.getName()
+								+ "</html>",
+								Messages.getInstance().getString("VGLII.Error"),
+								JOptionPane.YES_NO_OPTION);
+
 				if (choice == JOptionPane.NO_OPTION) {
 					result = null;
 				}
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -984,12 +1005,12 @@ public class VGLII extends JFrame {
 			CharacterSpecificationBank.getInstance().refreshAll();
 			PhenotypeImageBank.getInstance().resetDefaults();
 			geneticModel = 
-				GeneticModelFactory.getInstance().createRandomModel(problemFile);
+					GeneticModelFactory.getInstance().createRandomModel(problemFile);
 
 			if (geneticModel == null) return;
 
 			geneticModel.setProblemFileName(problemFile.getName());
-			
+
 			nextCageId = 0;
 			selectionVial = new SelectionVial(statusLabel);
 			cageCollection = new ArrayList<CageUI>();
@@ -1188,6 +1209,20 @@ public class VGLII extends JFrame {
 		saveProblem();
 	}
 
+	/**
+	 * save to server for automated grading by edX
+	 * only available if built with saveToServerEnabled = true;
+	 */
+	private void saveToServer() {
+		Element root = new Element("Root");
+		root.addContent(AutoGrader.grade(geneticModel, modelBuilder));
+		Document doc = new Document(root);
+		XMLOutputter outputter = 
+				new XMLOutputter(Format.getPrettyFormat());
+		String xmlString = outputter.outputString(doc);
+		System.out.println(xmlString);
+	}
+
 
 	/**
 	 * Prints the current work done by the user to a .html file
@@ -1212,9 +1247,9 @@ public class VGLII extends JFrame {
 		try {
 			printFile.createNewFile();
 			OutputStreamWriter op = 
-				new OutputStreamWriter(
-						new BufferedOutputStream(
-								new FileOutputStream(printFile)),"ISO8859_1");
+					new OutputStreamWriter(
+							new BufferedOutputStream(
+									new FileOutputStream(printFile)),"ISO8859_1");
 			op.write(GetWorkAsHTML.getWorkAsHTML(cageCollection, modelBuilder));
 			op.flush();
 			op.close();
@@ -1362,7 +1397,7 @@ public class VGLII extends JFrame {
 				numOffspring = numSelected.intValue();
 			} else {
 				numOffspring = random.nextInt(geneticModel.getMaxOffspring() - geneticModel.getMinOffspring())
-				+ geneticModel.getMinOffspring();
+						+ geneticModel.getMinOffspring();
 			}
 
 			Cage c = geneticModel.crossTwo(nextCageId, 
@@ -1480,6 +1515,7 @@ public class VGLII extends JFrame {
 		saveProblemItem.setEnabled(value);
 		saveProblemAsItem.setEnabled(value);
 		if (saveForGradingItem != null) saveForGradingItem.setEnabled(value);
+		if (saveToServerItem != null) saveToServerItem.setEnabled(value);
 		closeProblemItem.setEnabled(value);
 		closeButton.setEnabled(value);
 		crossTwoItem.setEnabled(value);
@@ -1653,7 +1689,7 @@ public class VGLII extends JFrame {
 				.getY());
 	}
 
-	
+
 	/*
 	 * get list of current cages 
 	 *    needed to create evidenitary cage list for 
