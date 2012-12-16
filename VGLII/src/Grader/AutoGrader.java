@@ -38,7 +38,9 @@ public class AutoGrader {
 		 */
 		if (gm.getPhenoTypeProcessor().getInteractionType() == PhenotypeProcessor.NO_INTERACTION) {
 			for (int i = 0; i < gm.getNumberOfGeneModels(); i++) {
-				Element gmEl = new Element("FirstGene");
+				Element gmEl = new Element("Gene");
+				
+				gmEl.setAttribute("Index", String.valueOf(i));
 
 				// get right answer and student answer
 				GeneModel geneModel = gm.getGeneModelByIndex(i);
@@ -139,7 +141,51 @@ public class AutoGrader {
 			}
 
 		} else {
+			/*
+			 * it's epistasis or complementation, so it must be treated differently
+			 * there will only be one trait but two genes
+			 * (technically, it is possible to have a third gene in these problems
+			 *   but we have not made any problem types with that option; if we did this
+			 *   the grading would break)
+			 */
+			Element gmEl = new Element("Character");
+			
+			gmEl.setAttribute("Name", gm.getPhenoTypeProcessor().getCharacter());
+			
+			String interactionTypeGrade = INCORRECT;
+			ModelPane mp = mbui.getModelPanes()[0]; // only one model pane in these problems
+			if (gm.getPhenoTypeProcessor().getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
+				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Complementation"))) interactionTypeGrade = CORRECT;
+			} else {
+				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Epistasis"))) interactionTypeGrade = CORRECT;
+			}
+			gmEl.setAttribute("InteractionType", interactionTypeGrade);
 
+			/*
+			 * these are also the raw selected strings
+			 * in the local language, so need to match with translated version
+			 */
+			String detailsGrade = CORRECT;
+			ModelDetailsPanel mdp = mp.getModelDetailsPanel();
+			// check each entry; if any mismatch, it's wrong
+			if ((mdp.t1Choices != null) && (gm.getPhenoTypeProcessor().getT1() != null)) {
+				if (!mdp.t1Choices.getSelectedItem().equals(
+						Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT1().getTraitName()))) detailsGrade = INCORRECT;
+			}
+
+			if ((mdp.t2Choices != null) && (gm.getPhenoTypeProcessor().getT2() != null)) {
+				if (!mdp.t2Choices.getSelectedItem().equals(
+						Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT2().getTraitName()))) detailsGrade = INCORRECT;
+			}
+
+			if ((mdp.t3Choices != null) && (gm.getPhenoTypeProcessor().getT3() != null)) {
+				if (!mdp.t3Choices.getSelectedItem().equals(
+						Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT3().getTraitName()))) detailsGrade = INCORRECT;
+			}
+
+			gmEl.setAttribute("InteractionDetails", detailsGrade);
+			
+			e.addContent(gmEl);
 		}
 
 
@@ -147,6 +193,7 @@ public class AutoGrader {
 		//		b.append(autosomeModel.getHTMLForGrading());
 		//		b.append(sexChromosomeModel.getHTMLForGrading());
 
+		// don't forget cage scoring
 
 		return e;
 	}
