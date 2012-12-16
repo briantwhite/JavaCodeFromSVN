@@ -80,6 +80,31 @@ public class LinkagePanel extends JPanel {
 
 		}
 	}
+	
+	/*
+	 * for these, the encoding is:
+	 * 	unknown = -1.0f
+	 *  unlinked = 0.5f
+	 *  linkage is between 0 and 0.5
+	 */
+	public float getG1G2LinkageChoice() {
+		return getSelectedRf(g1g2Linked);
+	}
+	public float getG2G3LinkageChoice() {
+		return getSelectedRf(g2g3Linked);
+	}
+	public float getG1G3LinkageChoice() {
+		return getSelectedRf(g3g1Linked);
+	}
+	
+	private float getSelectedRf(JComboBox comboBox) {
+		if (comboBox.getSelectedItem().equals(Messages.getInstance().getString("VGLII.Unknown"))) return -1.0f;
+		if (comboBox.getSelectedItem().equals(Messages.getInstance().getString("VGLII.Unlinked"))) return 0.5f;
+		String choice = (String)comboBox.getSelectedItem();
+		String[] parts = choice.split("=");
+		return Float.parseFloat(parts[1].replaceAll("%", ""));
+	}
+
 
 	public void setStateFromFile(Element element) {
 		List<Element> elements = element.getChildren();

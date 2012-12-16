@@ -219,6 +219,14 @@ public class GeneticModel {
 	public void setProblemFileName(String name) {
 		problemFileName = name;
 	}
+	
+	public ChromosomeModel getAutosomeModel() {
+		return autosomeModel;
+	}
+
+	public ChromosomeModel getSexChromosomeModel() {
+		return sexChromosomeModel;
+	}
 
 	/**
 	 * randomize the order in which traits are displayed in CageUI

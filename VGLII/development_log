@@ -1798,3 +1798,9 @@ working on stuff for edX and lingering items in the to-do list
 1) automatic scoring - comparing model builder and right answer
 
 
+12/16/12
+in AutoGrader
+	need to fix 
+		- linkage checking not right
+		- when no interaction type selected, the details are "CORRECT"!
+
