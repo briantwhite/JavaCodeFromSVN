@@ -204,16 +204,16 @@ public class AutoGrader {
 			 * 	rf = 0.5 => unlinked
 			 *  rf < 0.5 => linked with given rf
 			 */
-			float rf12 = 0.5f;
-			float rf23 = 0.5f;
-			float rf13 = 0.5f;
+			double rf12 = 0.5f;
+			double rf23 = 0.5f;
+			double rf13 = 0.5f;
 
 			// see if both on same chromosome
 			// always have 2 genes here
 			if (gm.isGeneModelSexLinkedByIndex(0) && gm.isGeneModelSexLinkedByIndex(1)) {
 				rf12 = gm.getSexChromosomeModel().getRecombinationFrequencies().get(0);
 			}
-			if (!gm.isGeneModelSexLinkedByIndex(0) && gm.isGeneModelSexLinkedByIndex(1)) {
+			if (!gm.isGeneModelSexLinkedByIndex(0) && !gm.isGeneModelSexLinkedByIndex(1)) {
 				rf12 = gm.getAutosomeModel().getRecombinationFrequencies().get(0);
 			}
 
@@ -223,7 +223,7 @@ public class AutoGrader {
 				if (gm.isGeneModelSexLinkedByIndex(1) && gm.isGeneModelSexLinkedByIndex(2)) {
 					rf23 = gm.getSexChromosomeModel().getRecombinationFrequencies().get(1);
 				}
-				if (!gm.isGeneModelSexLinkedByIndex(1) && gm.isGeneModelSexLinkedByIndex(2)) {
+				if (!gm.isGeneModelSexLinkedByIndex(1) && !gm.isGeneModelSexLinkedByIndex(2)) {
 					rf23 = gm.getAutosomeModel().getRecombinationFrequencies().get(1);
 				}
 
@@ -231,20 +231,22 @@ public class AutoGrader {
 				 * now gene 1 and 3
 				 *   this depends on if 1 and 2 are linked
 				 *     if they're not, it's the first rf in the list
-				 *     otherwise, it's the second
+				 *     otherwise, you have to calculate it using the Kosambi formula
+				 *       for adding rfs
 				 */
 				if (gm.isGeneModelSexLinkedByIndex(1) && gm.isGeneModelSexLinkedByIndex(2)) {
 					if (rf12 == 0.5f) {
-						rf13 = gm.getSexChromosomeModel().getRecombinationFrequencies().get(1);
-					} else {
 						rf13 = gm.getSexChromosomeModel().getRecombinationFrequencies().get(0);
+					} else {
+						rf13 = 0.5 * Math.tanh(2 *(rf12 + rf23));
 					}
 				}
-				if (!gm.isGeneModelSexLinkedByIndex(1) && gm.isGeneModelSexLinkedByIndex(2)) {
+				if (!gm.isGeneModelSexLinkedByIndex(1) && !gm.isGeneModelSexLinkedByIndex(2)) {
 					if (rf12 == 0.5f) {
-						rf13 = gm.getAutosomeModel().getRecombinationFrequencies().get(1);
-					} else {
 						rf13 = gm.getAutosomeModel().getRecombinationFrequencies().get(0);
+					} else {
+						rf13 = 0.5 * Math.tanh(2 *(rf12 + rf23));
+						
 					}
 				}
 
@@ -253,11 +255,14 @@ public class AutoGrader {
 			// now, see if they're right
 			String linkageGrade = CORRECT;
 			// always have 1-2
-			if (Math.abs(rf12 - mbui.getLinkagePanel().getG1G2LinkageChoice()) > ERROR_TOLERANCE) linkageGrade = INCORRECT;
+			double student_rf12 = mbui.getLinkagePanel().getG1G2LinkageChoice();
+			if (Math.abs(rf12 - student_rf12) > ERROR_TOLERANCE) linkageGrade = INCORRECT;
 			
 			if (gm.getNumberOfGeneModels() == 3) {
-				if (Math.abs(rf23 - mbui.getLinkagePanel().getG2G3LinkageChoice()) > ERROR_TOLERANCE) linkageGrade = INCORRECT;
-				if (Math.abs(rf13 - mbui.getLinkagePanel().getG1G3LinkageChoice()) > ERROR_TOLERANCE) linkageGrade = INCORRECT;				
+				double student_rf23 = mbui.getLinkagePanel().getG2G3LinkageChoice();
+				double student_rf13 = mbui.getLinkagePanel().getG1G3LinkageChoice();
+				if (Math.abs(rf23 - student_rf23) > ERROR_TOLERANCE) linkageGrade = INCORRECT;
+				if (Math.abs(rf13 - student_rf13) > ERROR_TOLERANCE) linkageGrade = INCORRECT;				
 			}
 			Element le = new Element("Linkage");
 			le.setAttribute("Linkage", linkageGrade);

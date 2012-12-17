@@ -1805,4 +1805,23 @@ in AutoGrader
 			need to calculate expected rf for gene 1 - gene 3 - how?
 		- when no interaction type selected, the details are "CORRECT"!	
 			probably, if interactionType is wrong, can't get details
-		
+
+12/17/12
+checking on linkage - if map is A B C and you know rf(AB) and rf(BC)
+	can you calculate rf(AC)?
+		yes - use map function (Kosambi) rf = 0.5 * tanh(2*(r1 + r2))
+tested with 2 problems with order ABC (filed .wr2's with edX stuff)
+	1) "3-factor 1.wr2"
+		given rf(AB) = 0.20; rf(BC) = 0.23; predict rf(AC) = 0.5 tanh(0.20 + 0.23) = 0.35
+		do a super cross with 2000 offspring and measure:
+			rf(AB) = 0.22; rf(BC) = 0.23; rf(AC) = 0.34 - all very close
+	2) "3-factor 2.wr2"
+		given rf(AB) = 0.15; rf(BC) = 0.29; predict rf(AC) = 0.5 tanh(0.20 + 0.23) = 0.34
+		do a super cross with 2000 offspring and measure:
+			rf(AB) = 0.14; rf(BC) = 0.28; rf(AC) = 0.34 - all very close
+conclusion: use the tanh to find the expected freq
+
+set up; now working
+
+test with 2-factor cross - AOK
+
