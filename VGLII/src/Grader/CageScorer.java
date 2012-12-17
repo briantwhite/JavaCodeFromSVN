@@ -49,7 +49,7 @@ public class CageScorer {
 			Iterator<Integer> cageNumIt = selectedCages.iterator();
 			while (cageNumIt.hasNext()) {
 				int cageNum = cageNumIt.next();
-				b.append(scoreCage(cages.get(cageNum - 1)));
+				b.append(scoreCage(cages.get(cageNum - 1)).html);
 			}
 
 		}
@@ -58,7 +58,10 @@ public class CageScorer {
 		return b.toString();
 	}
 
-	private String scoreCage(Cage cage) {
+	private CageScoreResult scoreCage(Cage cage) {
+		
+		CageScoreResult result = new CageScoreResult(); 	// defaults to "", all false;
+		
 		StringBuffer b = new StringBuffer();
 		b.append("<b>Cage ");
 		b.append(cage.getId() + 1);
@@ -125,6 +128,8 @@ public class CageScorer {
 					}
 				}
 				b.append("<li>");
+				
+				result.showsSexLinkage = showsSexLinkage;
 
 				if (showsSexLinkage) {
 					b.append("<font color=green>Shows ");
@@ -169,6 +174,7 @@ public class CageScorer {
 				if (case1 || case2 || case3 || showsSexLinkage) {
 					b.append("<font color = green>");
 					b.append("Shows ");
+					result.showsInteraction = true;
 				} else {
 					b.append("<font color = black>");
 					b.append("Does not show ");
@@ -215,7 +221,8 @@ public class CageScorer {
 			}
 		}
 		b.append("</ul>");
-		return b.toString();
+		result.html = b.toString();
+		return result;
 	}
 
 	private String getHTMLforGenotype(Organism org, String chromosome) {
