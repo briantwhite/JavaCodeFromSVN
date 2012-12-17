@@ -1,6 +1,6 @@
 package Grader;
 
-import javax.swing.JComboBox;
+import java.util.List;
 
 import org.jdom.Element;
 
@@ -20,9 +20,6 @@ import VGL.Messages;
  */
 public class AutoGrader {
 
-	public static final String CORRECT = "CORRECT";
-	public static final String INCORRECT = "INCORRECT";
-
 	// allowable difference between
 	private static final float ERROR_TOLERANCE = 0.2f;
 
@@ -32,8 +29,8 @@ public class AutoGrader {
 
 		// some basic info
 		Element p = new Element("Problem");
-		p.setAttribute("ProblemFileName", gm.getProblemFileName());
-		p.setAttribute("PracticeMode", String.valueOf(gm.isBeginnerMode()));
+		p.addContent((new Element("ProblemFileName")).addContent(gm.getProblemFileName()));
+		p.addContent((new Element("PracticeMode")).addContent(String.valueOf(gm.isBeginnerMode())));
 		e.addContent(p);
 
 		/*
@@ -43,18 +40,18 @@ public class AutoGrader {
 		 */
 		if (gm.getPhenoTypeProcessor().getInteractionType() == PhenotypeProcessor.NO_INTERACTION) {
 			for (int i = 0; i < gm.getNumberOfGeneModels(); i++) {
-				Element gmEl = new Element("Gene");
+				Element geneEl = new Element("Gene");
 
-				gmEl.setAttribute("Index", String.valueOf(i));
+				geneEl.addContent((new Element("Index")).addContent(String.valueOf(i)));
 
 				// get right answer and student answer
 				GeneModel geneModel = gm.getGeneModelByIndex(i);
 				ModelPane modelPane = mbui.getModelPanes()[i];
 
 				// the character
-				gmEl.setAttribute("Character", geneModel.getCharacter());
+				geneEl.addContent((new Element("Character")).addContent(geneModel.getCharacter()));
 
-				String sexLinkageGrade = INCORRECT;
+				boolean sexLinkageCorrect = false;
 				if (gm.isGeneModelSexLinkedByIndex(i)) {
 					if (gm.getSexLinkageType()) {
 						// XX/XY
@@ -62,29 +59,31 @@ public class AutoGrader {
 								"XX " 
 										+ Messages.getInstance().getString("VGLII.Female")
 										+ "/XY "
-										+ Messages.getInstance().getString("VGLII.Male"))) sexLinkageGrade = CORRECT;
+										+ Messages.getInstance().getString("VGLII.Male"))) sexLinkageCorrect = true;
 					} else {
 						// ZZ/ZW
 						if (modelPane.getSexLinkageChoice().equals(
 								"ZZ " 
 										+ Messages.getInstance().getString("VGLII.Male")
 										+ "/ZW "
-										+ Messages.getInstance().getString("VGLII.Female"))) sexLinkageGrade = CORRECT;
+										+ Messages.getInstance().getString("VGLII.Female"))) sexLinkageCorrect = true;
 					}
 				} else {
 					// not sex-linked
 					if (modelPane.getSexLinkageChoice().equals(
-							Messages.getInstance().getString("VGLII.NotSexLinked"))) sexLinkageGrade = CORRECT;
+							Messages.getInstance().getString("VGLII.NotSexLinked"))) sexLinkageCorrect = true;
 				}
-				gmEl.setAttribute("SexLinkage", sexLinkageGrade);
+				Element slEl = new Element("SexLinkage");
+				slEl.addContent((new Element("Correct")).addContent(String.valueOf(sexLinkageCorrect)));
+				geneEl.addContent(slEl);
 
 				/*
 				 * number of alleles
 				 */
 				if ((modelPane.getAlleleNumberChoice()) == geneModel.getNumAlleles()) {
-					gmEl.setAttribute("NumberOfAlleles", CORRECT);
+					geneEl.setAttribute("NumberOfAlleles", CORRECT);
 				} else {
-					gmEl.setAttribute("NumberOfAlleles", INCORRECT);
+					geneEl.setAttribute("NumberOfAlleles", INCORRECT);
 				}
 
 				/*
@@ -101,7 +100,7 @@ public class AutoGrader {
 						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.HierarchicalDominance"))) interactionTypeGrade = CORRECT;
 				if (geneModel.getDomTypeText().equals("Incomplete")
 						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.IncompleteDominance"))) interactionTypeGrade = CORRECT;
-				gmEl.setAttribute("InteractionType", interactionTypeGrade);
+				geneEl.setAttribute("InteractionType", interactionTypeGrade);
 
 				/*
 				 * these are also the raw selected strings
@@ -147,9 +146,9 @@ public class AutoGrader {
 					}
 				}
 
-				gmEl.setAttribute("InteractionDetails", detailsGrade);
+				geneEl.setAttribute("InteractionDetails", detailsGrade);
 
-				e.addContent(gmEl);
+				e.addContent(geneEl);
 			}
 
 		} else {
