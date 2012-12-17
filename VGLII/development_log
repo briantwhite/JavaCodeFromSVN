@@ -1802,5 +1802,7 @@ working on stuff for edX and lingering items in the to-do list
 in AutoGrader
 	need to fix 
 		- linkage checking not right
-		- when no interaction type selected, the details are "CORRECT"!
-
+			need to calculate expected rf for gene 1 - gene 3 - how?
+		- when no interaction type selected, the details are "CORRECT"!	
+			probably, if interactionType is wrong, can't get details
+		
