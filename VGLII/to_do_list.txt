@@ -29,6 +29,15 @@ To do list
 
 10) bug - in some linux, no title bar for the cage windows (?)
 
-		
-
+11) VGL applet
+	parameter is the problem file
+		launches with problem started
+	file menu
+		new problem
+		close problem
+		print
+	external js buttons
+		save work to server
+		save for grading
+		load from server
 

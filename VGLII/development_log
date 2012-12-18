@@ -1827,4 +1827,13 @@ test with 2-factor cross - AOK
 
 fixed the interactionType/details issue above
 
-
+12/18/12
+notes:
+	- for xml in grading, make it all <correct>true</correct>
+	- when grading linkage, just be sure one parent is heterozygous for all markers
+		and other has at least one recessive allele for each gene
+	- don't forget, if mbui is null or nothing there, it's all wrong
+	- scoring cages
+		- boolean showsSexLinkage(Cage cage, int geneIndex)
+		- boolean showsInteraction(Cage cage, int geneIndex)
+		- boolean showsLinkage(Cage cage) - checks all genes
