@@ -80,27 +80,29 @@ public class AutoGrader {
 				/*
 				 * number of alleles
 				 */
-				if ((modelPane.getAlleleNumberChoice()) == geneModel.getNumAlleles()) {
-					geneEl.setAttribute("NumberOfAlleles", CORRECT);
-				} else {
-					geneEl.setAttribute("NumberOfAlleles", INCORRECT);
-				}
-
+				Element naEl = new Element("NumberOfAlleles");
+				naEl.addContent((
+						new Element("Correct")).addContent(String.valueOf(
+								(modelPane.getAlleleNumberChoice()) == geneModel.getNumAlleles())));
+				geneEl.addContent(naEl);
+				
 				/*
 				 * these are the raw selected strings (eg "Simple dominance") 
 				 * in the LOCAL language, so you have to match with translated version
 				 */
-				String interactionTypeGrade = INCORRECT;
+				boolean interactionTypeCorrect = false;
 				String studentDomTypeText = modelPane.getInteractionTypeChoice();
 				if (geneModel.getDomTypeText().equals("Simple") 
-						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.SimpleDominance"))) interactionTypeGrade = CORRECT;
+						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.SimpleDominance"))) interactionTypeCorrect = true;
 				if (geneModel.getDomTypeText().equals("Circular")
-						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.CircularDominance"))) interactionTypeGrade = CORRECT;
+						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.CircularDominance"))) interactionTypeCorrect = true;
 				if (geneModel.getDomTypeText().equals("Hierarchical")
-						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.HierarchicalDominance"))) interactionTypeGrade = CORRECT;
+						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.HierarchicalDominance"))) interactionTypeCorrect = true;
 				if (geneModel.getDomTypeText().equals("Incomplete")
-						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.IncompleteDominance"))) interactionTypeGrade = CORRECT;
-				geneEl.setAttribute("InteractionType", interactionTypeGrade);
+						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.IncompleteDominance"))) interactionTypeCorrect = true;
+				Element itEl = new Element("InteractionType");
+				itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeCorrect)));
+				geneEl.addContent(itEl);
 
 				/*
 				 * these are also the raw selected strings
@@ -109,44 +111,45 @@ public class AutoGrader {
 				 * first, see if type is OK
 				 * 	if not, then the details can't be right
 				 */
-				String detailsGrade = CORRECT;
-				if (interactionTypeGrade.equals(INCORRECT)) {
-					detailsGrade = INCORRECT;
+				boolean detailsCorrect = true;
+				if (!interactionTypeCorrect) {
+					detailsCorrect = false;
 				} else {
 					ModelDetailsPanel mdp = modelPane.getModelDetailsPanel();
 					// check each entry; if any mismatch, it's wrong
 					if ((mdp.t1Choices != null) && (geneModel.t1 != null)) {
 						if (!mdp.t1Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsGrade = INCORRECT;
+								Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;
 					}
 
 					if ((mdp.t2Choices != null) && (geneModel.t2 != null)) {
 						if (!mdp.t2Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsGrade = INCORRECT;
+								Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
 					}
 
 					if ((mdp.t3Choices != null) && (geneModel.t3 != null)) {
 						if (!mdp.t3Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsGrade = INCORRECT;
+								Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
 					}
 
 					if ((mdp.t4Choices != null) && (geneModel.t4 != null)) {
 						if (!mdp.t4Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsGrade = INCORRECT;
+								Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsCorrect = false;
 					}
 
 					if ((mdp.t5Choices != null) && (geneModel.t5 != null)) {
 						if (!mdp.t5Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t5.getTraitName()))) detailsGrade = INCORRECT;
+								Messages.getInstance().getTranslatedShortTraitName(geneModel.t5.getTraitName()))) detailsCorrect = false;
 					}
 
 					if ((mdp.t6Choices != null) && (geneModel.t6 != null)) {
 						if (!mdp.t6Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t6.getTraitName()))) detailsGrade = INCORRECT;
+								Messages.getInstance().getTranslatedShortTraitName(geneModel.t6.getTraitName()))) detailsCorrect = false;
 					}
 				}
-
-				geneEl.setAttribute("InteractionDetails", detailsGrade);
+				Element idEl = new Element("InteractionDetails");
+				idEl.addContent((new Element("Correct")).addContent(String.valueOf(detailsCorrect)));
+				geneEl.addContent(idEl);
 
 				e.addContent(geneEl);
 			}
@@ -162,16 +165,18 @@ public class AutoGrader {
 			 */
 			Element gmEl = new Element("Character");
 
-			gmEl.setAttribute("Name", gm.getPhenoTypeProcessor().getCharacter());
+			gmEl.addContent((new Element("Name")).addContent(gm.getPhenoTypeProcessor().getCharacter()));
 
-			String interactionTypeGrade = INCORRECT;
+			boolean interactionTypeGrade = false;
 			ModelPane mp = mbui.getModelPanes()[0]; // only one model pane in these problems
 			if (gm.getPhenoTypeProcessor().getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
-				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Complementation"))) interactionTypeGrade = CORRECT;
+				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Complementation"))) interactionTypeGrade = false;
 			} else {
-				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Epistasis"))) interactionTypeGrade = CORRECT;
+				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Epistasis"))) interactionTypeGrade = false;
 			}
-			gmEl.setAttribute("InteractionType", interactionTypeGrade);
+			Element itEl = new Element("InteractionType");
+			itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeGrade)));
+			gmEl.addContent(itEl);
 
 			/*
 			 * these are also the raw selected strings
@@ -179,28 +184,30 @@ public class AutoGrader {
 			 * 
 			 * but, if the type is wrong, the details CAN'T be right
 			 */
-			String detailsGrade = CORRECT;
-			if (interactionTypeGrade.equals(INCORRECT)) {
-				detailsGrade = INCORRECT;
+			boolean detailsCorrect = true;
+			if (!interactionTypeGrade) {
+				detailsCorrect = false;
 			} else {
 				ModelDetailsPanel mdp = mp.getModelDetailsPanel();
 				// check each entry; if any mismatch, it's wrong
 				if ((mdp.t1Choices != null) && (gm.getPhenoTypeProcessor().getT1() != null)) {
 					if (!mdp.t1Choices.getSelectedItem().equals(
-							Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT1().getTraitName()))) detailsGrade = INCORRECT;
+							Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT1().getTraitName()))) detailsCorrect = false;
 				}
 
 				if ((mdp.t2Choices != null) && (gm.getPhenoTypeProcessor().getT2() != null)) {
 					if (!mdp.t2Choices.getSelectedItem().equals(
-							Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT2().getTraitName()))) detailsGrade = INCORRECT;
+							Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT2().getTraitName()))) detailsCorrect = false;
 				}
 
 				if ((mdp.t3Choices != null) && (gm.getPhenoTypeProcessor().getT3() != null)) {
 					if (!mdp.t3Choices.getSelectedItem().equals(
-							Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT3().getTraitName()))) detailsGrade = INCORRECT;
+							Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT3().getTraitName()))) detailsCorrect = false;
 				}
 			}
-			gmEl.setAttribute("InteractionDetails", detailsGrade);
+			Element dIt = new Element("InteractionDetails");
+			dIt.addContent((new Element("Correct")).addContent(String.valueOf(detailsCorrect)));
+			gmEl.addContent(dIt);
 
 			e.addContent(gmEl);
 		}
@@ -265,19 +272,19 @@ public class AutoGrader {
 			}
 
 			// now, see if they're right
-			String linkageGrade = CORRECT;
+			boolean linkageCorrect = true;
 			// always have 1-2
 			double student_rf12 = mbui.getLinkagePanel().getG1G2LinkageChoice();
-			if (Math.abs(rf12 - student_rf12) > ERROR_TOLERANCE) linkageGrade = INCORRECT;
+			if (Math.abs(rf12 - student_rf12) > ERROR_TOLERANCE) linkageCorrect = false;
 
 			if (gm.getNumberOfGeneModels() == 3) {
 				double student_rf23 = mbui.getLinkagePanel().getG2G3LinkageChoice();
 				double student_rf13 = mbui.getLinkagePanel().getG1G3LinkageChoice();
-				if (Math.abs(rf23 - student_rf23) > ERROR_TOLERANCE) linkageGrade = INCORRECT;
-				if (Math.abs(rf13 - student_rf13) > ERROR_TOLERANCE) linkageGrade = INCORRECT;				
+				if (Math.abs(rf23 - student_rf23) > ERROR_TOLERANCE) linkageCorrect = false;
+				if (Math.abs(rf13 - student_rf13) > ERROR_TOLERANCE) linkageCorrect = false;				
 			}
 			Element le = new Element("Linkage");
-			le.setAttribute("Linkage", linkageGrade);
+			le.addContent((new Element("Correct")).addContent(String.valueOf(linkageCorrect)));
 			e.addContent(le);
 		}
 
