@@ -1839,4 +1839,3 @@ notes:
 		- boolean showsLinkage(Cage cage) - checks all genes
 	- have them save .wr2 file and upload the file
 		- include the grade in the .wr2
-	- can use <gene index=1 correct=true> format
