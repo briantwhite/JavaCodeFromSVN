@@ -4,3 +4,14 @@
 		have each Problem have a StartingDNA
 			if more than one; choose randomly from them
 			if none, use the default from the params
+
+12/19/12
+setup applet for edX
+	params:
+		usual ones
+		<problem> problem xml</problem> - loads this task
+	buttons
+		reset sequence
+		load new sequence
+	public method 
+		public String checkAnswer() - returns "CORRECT" or "INCORRECT"
