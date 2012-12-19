@@ -1836,6 +1836,6 @@ notes:
 	- scoring cages
 		- boolean showsSexLinkage(Cage cage, int geneIndex)
 		- boolean showsInteraction(Cage cage, int geneIndex)
-		- boolean showsLinkage(Cage cage) - checks all genes
+		- boolean showsLinkage(Cage cage, int gene1Index, int Gene2Index) - checks for gene pair
 	- have them save .wr2 file and upload the file
 		- include the grade in the .wr2
