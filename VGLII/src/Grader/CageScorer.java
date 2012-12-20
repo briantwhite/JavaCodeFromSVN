@@ -49,7 +49,7 @@ public class CageScorer {
 			Iterator<Integer> cageNumIt = selectedCages.iterator();
 			while (cageNumIt.hasNext()) {
 				int cageNum = cageNumIt.next();
-				b.append(scoreCage(cages.get(cageNum - 1)).html);
+				b.append(scoreCage(cages.get(cageNum - 1)).getHTML());
 			}
 
 		}
@@ -57,20 +57,25 @@ public class CageScorer {
 		b.append("</ul>");
 		return b.toString();
 	}
+	
+	public CageScoreResult scoreCage(int cageNum) {
+		return scoreCage(cageNum - 1);
+	}
 
 	private CageScoreResult scoreCage(Cage cage) {
-		
-		CageScoreResult result = new CageScoreResult(); 	// defaults to "", all false;
-		
+				
 		StringBuffer b = new StringBuffer();
 		b.append("<b>Cage ");
 		b.append(cage.getId() + 1);
 		b.append(" </b>");
 		b.append("<ul>");
+		
+		CageScoreResult result = null;
 
 		// can't get data from the field pop
 		if (cage.getId() == 0) {
 			b.append("<li>You cannot get any information from the field Cage,</li>");
+			result = new CageScoreResult(0);
 		} else {
 
 			// get a token organism for reference purposes
@@ -79,6 +84,7 @@ public class CageScorer {
 			Organism org = children.get(phenoIt.next()).get(0);
 			ArrayList<Phenotype> phenotypes = org.getPhenotypes();
 
+			result = new CageScoreResult(phenotypes.size()); 
 
 			/* 
 			 * iterate over the phenotypes
@@ -88,9 +94,10 @@ public class CageScorer {
 			 */
 			for (int i = 0; i < phenotypes.size(); i++) {
 				Phenotype currentPheno = org.getPhenotypes().get(i);
+				String characterName = currentPheno.getTrait().getBodyPart() + " " + currentPheno.getTrait().getType();
+				CageScoreForCharacter csfc = new CageScoreForCharacter(characterName);
 				b.append("<li><b>");
-				b.append(currentPheno.getTrait().getBodyPart() + " ");
-				b.append(currentPheno.getTrait().getType());
+				b.append(characterName);
 				b.append("</b></li>");
 				b.append("<ul>");
 
@@ -129,14 +136,13 @@ public class CageScorer {
 				}
 				b.append("<li>");
 				
-				result.showsSexLinkage = showsSexLinkage;
-
 				if (showsSexLinkage) {
 					b.append("<font color=green>Shows ");
 				} else {
 					b.append("<font color=black>Does not show ");
 				}
 				b.append("evidence of <u>sex linkage</u></font></li> ");
+				csfc.showsInteraction = showsSexLinkage;
 
 				Phenotype p1Pheno = cage.getParents().get(0).getPhenotypes().get(i);
 				Phenotype p2Pheno = cage.getParents().get(1).getPhenotypes().get(i);
@@ -174,7 +180,7 @@ public class CageScorer {
 				if (case1 || case2 || case3 || showsSexLinkage) {
 					b.append("<font color = green>");
 					b.append("Shows ");
-					result.showsInteraction = true;
+					csfc.showsInteraction = true;
 				} else {
 					b.append("<font color = black>");
 					b.append("Does not show ");
@@ -188,6 +194,8 @@ public class CageScorer {
 					b.append("evidence of <i>dominance</i> or <i>interaction</i></font></li>");
 				}
 				b.append("</ul>");
+				
+				result.addCageScoreForCharacter(i, csfc);
 			}
 
 
@@ -221,7 +229,8 @@ public class CageScorer {
 			}
 		}
 		b.append("</ul>");
-		result.html = b.toString();
+		result.setHTML(b.toString());
+		
 		return result;
 	}
 

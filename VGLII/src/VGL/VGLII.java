@@ -1215,7 +1215,7 @@ public class VGLII extends JFrame {
 	 */
 	private void saveToServer() {
 		Element root = new Element("Root");
-		root.addContent(AutoGrader.grade(geneticModel, modelBuilder));
+		root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
 		Document doc = new Document(root);
 		XMLOutputter outputter = 
 				new XMLOutputter(Format.getPrettyFormat());

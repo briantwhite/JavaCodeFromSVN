@@ -482,6 +482,20 @@ public class ModelPane extends JPanel implements ItemListener {
 	public ModelDetailsPanel getModelDetailsPanel() {
 		return (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
 	}
+	
+	/*
+	 * since the 0th element in the choice list is "?"
+	 * the index = the displayed cage number
+	 * so need to subtract 1 to get internal cage index
+	 */
+	public int getSexLinkageCageChoice() {
+		if (sexLinkageCageChoices == null) return 0;
+		return sexLinkageCageChoices.getSelectedIndex();
+	}
+	public int getInteractionCageChoice() {
+		if (interactionCageChoices == null) return 0;
+		return interactionCageChoices.getSelectedIndex();
+	}
 
 	public void setStateFromFile(Element element) {
 

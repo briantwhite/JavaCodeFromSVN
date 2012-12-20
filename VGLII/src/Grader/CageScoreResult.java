@@ -2,16 +2,30 @@ package Grader;
 
 public class CageScoreResult {
 	
-	public String html;
-	public boolean showsSexLinkage;
-	public boolean showsInteraction;
-	public boolean showsLinkage;
+	private String html;
+	private CageScoreForCharacter[] individualCharacterResults;
 	
-	public CageScoreResult() {
+	public CageScoreResult(int numCharacters) {
 		html = "";
-		showsSexLinkage = false;
-		showsInteraction = false;
-		showsLinkage = false;
+		individualCharacterResults = new CageScoreForCharacter[numCharacters];
+	}
+	
+	public String getHTML() {
+		return html;
+	}
+	
+	public void setHTML(String html) {
+		this.html = html;
+	}
+	
+	public void addCageScoreForCharacter(int index, CageScoreForCharacter csfc) {
+		if (index < individualCharacterResults.length) {
+			individualCharacterResults[index] = csfc;
+		}
+	}
+	
+	public CageScoreForCharacter getCageScoreForCharacter(int index) {
+		return individualCharacterResults[index];
 	}
 
 }

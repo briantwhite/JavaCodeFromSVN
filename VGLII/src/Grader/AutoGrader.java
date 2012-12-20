@@ -1,15 +1,18 @@
 package Grader;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.jdom.Element;
 
+import GeneticModels.Cage;
 import GeneticModels.GeneModel;
 import GeneticModels.GeneticModel;
 import GeneticModels.PhenotypeProcessor;
 import ModelBuilder.ModelBuilderUI;
 import ModelBuilder.ModelDetailsPanel;
 import ModelBuilder.ModelPane;
+import VGL.CageUI;
 import VGL.Messages;
 
 /*
@@ -23,7 +26,18 @@ public class AutoGrader {
 	// allowable difference between
 	private static final float ERROR_TOLERANCE = 0.2f;
 
-	public static Element grade(GeneticModel gm, ModelBuilderUI mbui) {
+	public static Element grade(ArrayList<CageUI> cageCollection, GeneticModel gm, ModelBuilderUI mbui) {
+		
+		// set up to score cages
+		Iterator<CageUI> it = cageCollection.iterator();
+		ArrayList<Cage> cages = new ArrayList<Cage>();
+		while (it.hasNext()) {
+			CageUI cui = it.next();
+			Cage c = cui.getCage();
+			cages.add(c);
+		}
+		CageScorer cageScorer = new CageScorer(cages, mbui);
+		
 
 		Element e = new Element("Grade");  // root element
 
@@ -41,7 +55,7 @@ public class AutoGrader {
 		if (gm.getPhenoTypeProcessor().getInteractionType() == PhenotypeProcessor.NO_INTERACTION) {
 			for (int i = 0; i < gm.getNumberOfGeneModels(); i++) {
 				Element geneEl = new Element("Gene");
-
+				
 				geneEl.addContent((new Element("Index")).addContent(String.valueOf(i)));
 
 				// get right answer and student answer
@@ -75,6 +89,11 @@ public class AutoGrader {
 				}
 				Element slEl = new Element("SexLinkage");
 				slEl.addContent((new Element("Correct")).addContent(String.valueOf(sexLinkageCorrect)));
+				
+				CageScoreResult slCsr = cageScorer.scoreCage(modelPane.getSexLinkageCageChoice());
+				slEl.addContent((
+						new Element("Justified")).addContent(
+								String.valueOf(slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
 				geneEl.addContent(slEl);
 
 				/*
@@ -149,6 +168,9 @@ public class AutoGrader {
 				}
 				Element idEl = new Element("InteractionDetails");
 				idEl.addContent((new Element("Correct")).addContent(String.valueOf(detailsCorrect)));
+				idEl.addContent((
+						new Element("Justified")).addContent(
+								String.valueOf(slCsr.getCageScoreForCharacter(i).showsInteraction)));
 				geneEl.addContent(idEl);
 
 				e.addContent(geneEl);
@@ -289,6 +311,7 @@ public class AutoGrader {
 		}
 
 		// don't forget cage scoring
+		
 
 		return e;
 	}
