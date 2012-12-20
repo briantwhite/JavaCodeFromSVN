@@ -6,11 +6,12 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import GeneticModels.Cage;
-import GeneticModels.GeneticModel;
+import GeneticModels.GeneModel;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
 import GeneticModels.Phenotype;
 import GeneticModels.PhenotypeProcessor;
+import GeneticModels.Trait;
 import ModelBuilder.ModelBuilderUI;
 
 /**
@@ -201,8 +202,12 @@ public class CageScorer {
 				 * 	capableOfShowingLinkage if:
 				 * 		- one parent is heterozygous for the gene
 				 * 		- the other has at least one recessive allele
+				 * 
 				 */
 				boolean capableOfShowingLinkage = true;
+				// start by figuring out what the recessive allele is
+				Trait recessiveTrait = org.getGeneticModel().getGeneModelByIndex(i).getRecessiveTrait();
+				
 				
 				
 				result.addCageScoreForCharacter(i, csfc);

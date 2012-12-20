@@ -67,6 +67,8 @@ public abstract class GeneModel {
 	
 	public abstract Trait[] getTraits();
 	
+	public abstract Trait getRecessiveTrait();
+	
 	public abstract String[] getTraitStrings();
 	
 	public abstract String toString();
