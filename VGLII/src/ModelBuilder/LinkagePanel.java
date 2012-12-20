@@ -97,6 +97,10 @@ public class LinkagePanel extends JPanel {
 		return getSelectedRf(g3g1Linked);
 	}
 	
+	public int getG1G1LinkageRelevantCage() {
+		
+	}
+	
 	private double getSelectedRf(JComboBox comboBox) {
 		if (comboBox.getSelectedItem().equals(Messages.getInstance().getString("VGLII.Unknown"))) return -1.0f;
 		if (comboBox.getSelectedItem().equals(Messages.getInstance().getString("VGLII.Unlinked"))) return 0.5f;

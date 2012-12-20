@@ -1839,3 +1839,5 @@ notes:
 		- boolean capableOfShowingLinkage(int gene1Index) - then check by gene pair
 	- have them save .wr2 file and upload the file
 		- include the grade in the .wr2
+
+BE SURE TO TEST WITH EPI & COMP

@@ -168,9 +168,10 @@ public class AutoGrader {
 				}
 				Element idEl = new Element("InteractionDetails");
 				idEl.addContent((new Element("Correct")).addContent(String.valueOf(detailsCorrect)));
+				CageScoreResult inCsr = cageScorer.scoreCage(modelPane.getInteractionCageChoice());
 				idEl.addContent((
 						new Element("Justified")).addContent(
-								String.valueOf(slCsr.getCageScoreForCharacter(i).showsInteraction)));
+								String.valueOf(inCsr.getCageScoreForCharacter(i).showsInteraction)));
 				geneEl.addContent(idEl);
 
 				e.addContent(geneEl);
@@ -198,6 +199,10 @@ public class AutoGrader {
 			}
 			Element itEl = new Element("InteractionType");
 			itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeGrade)));
+			CageScoreResult inCsr = cageScorer.scoreCage(mp.getInteractionCageChoice());
+			itEl.addContent((
+					new Element("Justified")).addContent(
+							String.valueOf(inCsr.getCageScoreForCharacter(0).showsInteraction)));
 			gmEl.addContent(itEl);
 
 			/*
@@ -307,6 +312,12 @@ public class AutoGrader {
 			}
 			Element le = new Element("Linkage");
 			le.addContent((new Element("Correct")).addContent(String.valueOf(linkageCorrect)));
+			
+			// see if justified by right cages
+			boolean linkageJustified = true;
+			// always do 1-2
+			CageScoreResult = cageScorer.scoreCage(mbui.getLinkagePanel())
+			if ()
 			e.addContent(le);
 		}
 

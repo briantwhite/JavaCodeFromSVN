@@ -12,6 +12,7 @@ import GeneticModels.OrganismList;
 import GeneticModels.Phenotype;
 import GeneticModels.PhenotypeProcessor;
 import GeneticModels.Trait;
+import GeneticModels.TwoAlleleSimpleDominanceGeneModel;
 import ModelBuilder.ModelBuilderUI;
 
 /**
@@ -203,12 +204,33 @@ public class CageScorer {
 				 * 		- one parent is heterozygous for the gene
 				 * 		- the other has at least one recessive allele
 				 * 
+				 * can only do this for simple dominance 
+				 * 	otherwise, it's very hard to tell the recessive allele
+				 * 
 				 */
-				boolean capableOfShowingLinkage = true;
-				// start by figuring out what the recessive allele is
-				Trait recessiveTrait = org.getGeneticModel().getGeneModelByIndex(i).getRecessiveTrait();
-				
-				
+				boolean capableOfShowingLinkage = false;
+				GeneModel geneModel = org.getGeneticModel().getGeneModelByIndex(i);
+				if (geneModel instanceof TwoAlleleSimpleDominanceGeneModel) {
+					
+					Organism p1 = cage.getParents().get(0);
+					Organism p2 = cage.getParents().get(1);
+					
+					/*
+					 * start by figuring out what the recessive allele is
+					 *   in 2 allele simple dominance, it's t1
+					 */
+					Trait recessiveTrait = geneModel.t1;
+					boolean p1HasRecAllele = ((p1.getGenotypeForGene(i)[0].getTrait().equals(recessiveTrait)) || 
+							(p1.getGenotypeForGene(i)[1].getTrait().equals(recessiveTrait)));
+					boolean p2HasRecAllele = ((p2.getGenotypeForGene(i)[0].getTrait().equals(recessiveTrait)) || 
+							(p2.getGenotypeForGene(i)[1].getTrait().equals(recessiveTrait)));
+					
+					boolean p1Homozygous = (p1.getGenotypeForGene(i)[0].equals(p1.getGenotypeForGene(i)[1]));
+					boolean p2Homozygous = (p2.getGenotypeForGene(i)[0].equals(p2.getGenotypeForGene(i)[1]));
+					
+					if ((!p1Homozygous && p2HasRecAllele) || (!p2Homozygous && p1HasRecAllele)) capableOfShowingLinkage = true;
+				} 
+				csfc.capableOfShowingLinkage = capableOfShowingLinkage;
 				
 				result.addCageScoreForCharacter(i, csfc);
 			}
