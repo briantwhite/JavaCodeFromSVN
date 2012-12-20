@@ -1834,8 +1834,8 @@ notes:
 		and other has at least one recessive allele for each gene
 	- don't forget, if mbui is null or nothing there, it's all wrong
 	- scoring cages
-		- boolean showsSexLinkage(Cage cage, int geneIndex)
-		- boolean showsInteraction(Cage cage, int geneIndex)
-		- boolean showsLinkage(Cage cage, int gene1Index, int Gene2Index) - checks for gene pair
+		- boolean showsSexLinkage(int geneIndex)
+		- boolean showsInteraction(int geneIndex)
+		- boolean capableOfShowingLinkage(int gene1Index) - then check by gene pair
 	- have them save .wr2 file and upload the file
 		- include the grade in the .wr2

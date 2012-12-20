@@ -127,6 +127,48 @@ public class Organism {
 		return geneticModel;
 	}
 
+	/*
+	 * used for AutoGrader
+	 * gets genotype at a particular locus (gene index)
+	 */
+	public Allele[] getGenotypeForGene(int index) {
+		
+		// Find out what chromosome the gene is on
+		Chromosome matChromo = null;
+		Chromosome patChromo = null;
+		if (geneticModel.isGeneModelSexLinkedByIndex(index)) {
+			matChromo = maternalSexChromosome;
+			patChromo = paternalSexChromosome;
+		} else {
+			matChromo = maternalAutosome;
+			patChromo = paternalAutosome;
+		}
+		
+		// find the name of the character so you can find it
+		Phenotype p = phenotypes.get(index);
+		String characterName = p.getTrait().getTraitName() + "-" + p.getTrait().getBodyPart();
+		
+		// find it in the alleles on the chromosome
+		ArrayList<Allele> matAlleles = matChromo.getAllAlleles();
+		ArrayList<Allele> patAlleles = patChromo.getAllAlleles();
+		Allele matAllele = null;
+		Allele patAllele = null;
+		for (int i = 0; i < matAlleles.size(); i++) {
+			matAllele = matAlleles.get(i);
+			String maString = matAllele.getTrait().getTraitName() + "-" + matAllele.getTrait().getBodyPart();
+			patAllele = patAlleles.get(i);
+			if (characterName.equals(maString)) {
+				break;
+			}
+		}
+		
+		Allele[] result = new Allele[2];
+		result[0] = matAllele;
+		result[1] = patAllele;
+		return result;
+		
+	}
+	
 
 	//returns untranslated phenotype for internal purposes
 	//  eg counting etc

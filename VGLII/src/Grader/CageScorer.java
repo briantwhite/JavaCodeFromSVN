@@ -195,18 +195,23 @@ public class CageScorer {
 				}
 				b.append("</ul>");
 				
+				/*
+				 * do linkage possibility
+				 * do character by character
+				 * 	capableOfShowingLinkage if:
+				 * 		- one parent is heterozygous for the gene
+				 * 		- the other has at least one recessive allele
+				 */
+				boolean capableOfShowingLinkage = true;
+				
+				
 				result.addCageScoreForCharacter(i, csfc);
 			}
 
 
 			/*
-			 * now, look at linkage
-			 * only do this if more than one pheno and linkage is possible
-			 * determining if a cross shows linkage between 2 traits is hard
-			 * 		need to show one parent heterozygous for both traits
-			 * 			and all 4 traits present in offspring
-			 * 
-			 * so, for now, just give the parent's genotypes
+			 * look at linkage for html human grading
+			 *  for now, just give the parent's genotypes
 			 * 		and leave it up to the instructor
 			 */
 			if (mbui.hasLinkagePanel()) {
