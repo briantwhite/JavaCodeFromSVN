@@ -65,69 +65,84 @@ public class AutoGrader {
 				// the character
 				geneEl.addContent((new Element("Character")).addContent(geneModel.getCharacter()));
 
-				boolean sexLinkageCorrect = false;
-				if (gm.isGeneModelSexLinkedByIndex(i)) {
-					if (gm.getSexLinkageType()) {
-						// XX/XY
-						if (modelPane.getSexLinkageChoice().equals(
-								"XX " 
-										+ Messages.getInstance().getString("VGLII.Female")
-										+ "/XY "
-										+ Messages.getInstance().getString("VGLII.Male"))) sexLinkageCorrect = true;
+				/*
+				 * if this is null, it means that there was no choice with this
+				 * menu - that is, it was certain to be sex-linked or autosomal
+				 * so it's not appropriate to give a grade here
+				 */
+				if (modelPane.getSexLinkageChoice() != null) {
+					boolean sexLinkageCorrect = false;
+					if (gm.isGeneModelSexLinkedByIndex(i)) {
+						if (gm.getSexLinkageType()) {
+							// XX/XY
+							if (modelPane.getSexLinkageChoice().equals(
+									"XX " 
+											+ Messages.getInstance().getString("VGLII.Female")
+											+ "/XY "
+											+ Messages.getInstance().getString("VGLII.Male"))) sexLinkageCorrect = true;
+						} else {
+							// ZZ/ZW
+							if (modelPane.getSexLinkageChoice().equals(
+									"ZZ " 
+											+ Messages.getInstance().getString("VGLII.Male")
+											+ "/ZW "
+											+ Messages.getInstance().getString("VGLII.Female"))) sexLinkageCorrect = true;
+						}
 					} else {
-						// ZZ/ZW
+						// not sex-linked
 						if (modelPane.getSexLinkageChoice().equals(
-								"ZZ " 
-										+ Messages.getInstance().getString("VGLII.Male")
-										+ "/ZW "
-										+ Messages.getInstance().getString("VGLII.Female"))) sexLinkageCorrect = true;
+								Messages.getInstance().getString("VGLII.NotSexLinked"))) sexLinkageCorrect = true;
 					}
-				} else {
-					// not sex-linked
-					if (modelPane.getSexLinkageChoice().equals(
-							Messages.getInstance().getString("VGLII.NotSexLinked"))) sexLinkageCorrect = true;
-				}
-				Element slEl = new Element("SexLinkage");
-				slEl.addContent((new Element("Correct")).addContent(String.valueOf(sexLinkageCorrect)));
+					Element slEl = new Element("SexLinkage");
+					slEl.addContent((new Element("Correct")).addContent(String.valueOf(sexLinkageCorrect)));
 
-				CageScoreResult slCsr = cageScorer.scoreCage(modelPane.getSexLinkageCageChoice());
-				if (slCsr == null) {
-					slEl.addContent((
-							new Element("Justified")).addContent(
-									String.valueOf(false)));
-				} else {
-					slEl.addContent((
-							new Element("Justified")).addContent(
-									String.valueOf(slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
+					CageScoreResult slCsr = cageScorer.scoreCage(modelPane.getSexLinkageCageChoice());
+					if (slCsr == null) {
+						slEl.addContent((
+								new Element("Justified")).addContent(
+										String.valueOf(false)));
+					} else {
+						slEl.addContent((
+								new Element("Justified")).addContent(
+										String.valueOf(slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
+					}
+					geneEl.addContent(slEl);
 				}
-				geneEl.addContent(slEl);
 
 				/*
 				 * number of alleles
+				 * 
+				 * first see if there was really a choice for the student here
 				 */
-				Element naEl = new Element("NumberOfAlleles");
-				naEl.addContent((
-						new Element("Correct")).addContent(String.valueOf(
-								(modelPane.getAlleleNumberChoice()) == geneModel.getNumAlleles())));
-				geneEl.addContent(naEl);
+				if (modelPane.getAlleleNumberChoice() != 0) {
+					Element naEl = new Element("NumberOfAlleles");
+					naEl.addContent((
+							new Element("Correct")).addContent(String.valueOf(
+									(modelPane.getAlleleNumberChoice()) == geneModel.getNumAlleles())));
+					geneEl.addContent(naEl);
+				}
 
 				/*
 				 * these are the raw selected strings (eg "Simple dominance") 
 				 * in the LOCAL language, so you have to match with translated version
 				 */
 				boolean interactionTypeCorrect = false;
-				String studentDomTypeText = modelPane.getInteractionTypeChoice();
-				if (geneModel.getDomTypeText().equals("Simple") 
-						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.SimpleDominance"))) interactionTypeCorrect = true;
-				if (geneModel.getDomTypeText().equals("Circular")
-						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.CircularDominance"))) interactionTypeCorrect = true;
-				if (geneModel.getDomTypeText().equals("Hierarchical")
-						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.HierarchicalDominance"))) interactionTypeCorrect = true;
-				if (geneModel.getDomTypeText().equals("Incomplete")
-						&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.IncompleteDominance"))) interactionTypeCorrect = true;
-				Element itEl = new Element("InteractionType");
-				itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeCorrect)));
-				geneEl.addContent(itEl);
+				if (modelPane.getInteractionTypeChoice() != null) {
+					String studentDomTypeText = modelPane.getInteractionTypeChoice();
+					if (geneModel.getDomTypeText().equals("Simple") 
+							&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.SimpleDominance"))) interactionTypeCorrect = true;
+					if (geneModel.getDomTypeText().equals("Circular")
+							&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.CircularDominance"))) interactionTypeCorrect = true;
+					if (geneModel.getDomTypeText().equals("Hierarchical")
+							&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.HierarchicalDominance"))) interactionTypeCorrect = true;
+					if (geneModel.getDomTypeText().equals("Incomplete")
+							&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.IncompleteDominance"))) interactionTypeCorrect = true;
+					Element itEl = new Element("InteractionType");
+					itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeCorrect)));
+					geneEl.addContent(itEl);
+				} else {
+					interactionTypeCorrect = true;	// if they didn't have to enter it, it's OK 
+				}
 
 				/*
 				 * these are also the raw selected strings

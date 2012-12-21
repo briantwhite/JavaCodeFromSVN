@@ -457,25 +457,40 @@ public class ModelPane extends JPanel implements ItemListener {
 	
 	/*
 	 * 	used for AutoGrader
+	 * returns null if the student didn't have a choice
+	 * that is, if it's not relevant to grade
+	 * - this is the case if the JComboBox has only one entry
 	 */
 	public String getSexLinkageChoice() {
+		if (sexLinkageChoices.getItemCount() == 1) return null;
 		return (String)sexLinkageChoices.getSelectedItem();
 	}
 	
 	/*
 	 * used for AutoGrader
+	 * returns 0 if the student didn't have a choice
+	 * that is, if it's not relevant to grade
+	 * - this is the case if the JComboBox has only one entry
 	 */
 	public int getAlleleNumberChoice() {
+		if (alleleNumberChoices.getItemCount() == 1) return 0;
 		String choice = (String) alleleNumberChoices.getSelectedItem();
 		String[] pieces = choice.split("-");
 		return Integer.parseInt(pieces[0]);
 	}
 	
 	/*
+	 * used for AutoGrader
 	 * this returns the string that was selected
 	 * in the local language 
+	 * 
+	 * returns null if the student didn't have a choice
+	 * that is, if it's not relevant to grade
+	 * - this is the case if the JComboBox has only one entry
+
 	 */
 	public String getInteractionTypeChoice() {
+		if (interactionTypeChoices.getItemCount() == 1) return null;
 		return interactionTypeChoices.getSelectedItem().toString();
 	}
 	
