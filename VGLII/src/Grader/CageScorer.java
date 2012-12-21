@@ -60,8 +60,18 @@ public class CageScorer {
 		return b.toString();
 	}
 	
+	/*
+	 * used by Auto Grader
+	 * 
+	 * note that the cage number (the number the users see) starts with 1
+	 * the cage index starts with 0, so need to subtract 1 to get index
+	 * 
+	 * note that the methods that give a cage number give -1 as a flag for null result
+	 * also you can't get any info from the field pop (cage number 1)
+	 */
 	public CageScoreResult scoreCage(int cageNum) {
-		return scoreCage(cageNum - 1);
+		if (cageNum <= 1) return null;
+		return scoreCage(cages.get(cageNum - 1));
 	}
 
 	private CageScoreResult scoreCage(Cage cage) {
@@ -225,10 +235,18 @@ public class CageScorer {
 					boolean p2HasRecAllele = ((p2.getGenotypeForGene(i)[0].getTrait().equals(recessiveTrait)) || 
 							(p2.getGenotypeForGene(i)[1].getTrait().equals(recessiveTrait)));
 					
-					boolean p1Homozygous = (p1.getGenotypeForGene(i)[0].equals(p1.getGenotypeForGene(i)[1]));
-					boolean p2Homozygous = (p2.getGenotypeForGene(i)[0].equals(p2.getGenotypeForGene(i)[1]));
+					boolean p1Homozygous = (p1.getGenotypeForGene(i)[0].getTrait().equals(p1.getGenotypeForGene(i)[1].getTrait()));
+					boolean p2Homozygous = (p2.getGenotypeForGene(i)[0].getTrait().equals(p2.getGenotypeForGene(i)[1].getTrait()));
+					
+//					System.out.println("Cage id:" + cage.getId());
+//					System.out.println("\tChar:" + characterName);
+//					System.out.println("\tp1Homo:" + String.valueOf(p1Homozygous));
+//					System.out.println("\tp2Homo:" + String.valueOf(p2Homozygous));
+//					System.out.println("\tp1HRA:" + String.valueOf(p1HasRecAllele));
+//					System.out.println("\tp2HRA:" + String.valueOf(p2HasRecAllele));
 					
 					if ((!p1Homozygous && p2HasRecAllele) || (!p2Homozygous && p1HasRecAllele)) capableOfShowingLinkage = true;
+//					System.out.println("\t\tcapable:" + String.valueOf(capableOfShowingLinkage));
 				} 
 				csfc.capableOfShowingLinkage = capableOfShowingLinkage;
 				

@@ -97,8 +97,31 @@ public class LinkagePanel extends JPanel {
 		return getSelectedRf(g3g1Linked);
 	}
 	
-	public int getG1G1LinkageRelevantCage() {
-		
+	/*
+	 * Note for cage numbers vs IDs
+	 * 	cages have Ids that start with 0 (field pop)
+	 *     but these are hidden from the user
+	 *  cages have NUMBERS that the users see that start with 1
+	 *  
+	 *  so, to get the index, you have to subtract 1 from the number
+	 */
+	public int getG1G2LinkageRelevantCage() {
+		if (g1g2LinkageRelevantCage == null) return -1;
+		String[] parts = ((String)g1g2LinkageRelevantCage.getSelectedItem()).split("Cage");
+		if (parts.length != 2) return -1;
+		return Integer.parseInt(parts[1].trim());
+	}
+	public int getG2G3LinkageRelevantCage() {
+		if (g2g3LinkageRelevantCage == null) return -1;
+		String[] parts = ((String)g2g3LinkageRelevantCage.getSelectedItem()).split("Cage");
+		if (parts.length != 2) return -1;
+		return Integer.parseInt(parts[1].trim());
+	}
+	public int getG1G3LinkageRelevantCage() {
+		if (g3g1LinkageRelevantCage == null) return -1;
+		String[] parts = ((String)g3g1LinkageRelevantCage.getSelectedItem()).split("Cage");
+		if (parts.length != 2) return -1;
+		return Integer.parseInt(parts[1].trim());
 	}
 	
 	private double getSelectedRf(JComboBox comboBox) {

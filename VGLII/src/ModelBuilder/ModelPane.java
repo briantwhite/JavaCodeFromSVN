@@ -484,17 +484,24 @@ public class ModelPane extends JPanel implements ItemListener {
 	}
 	
 	/*
-	 * since the 0th element in the choice list is "?"
-	 * the index = the displayed cage number
-	 * so need to subtract 1 to get internal cage index
+	 * Note for cage numbers vs IDs
+	 * 	cages have Ids that start with 0 (field pop)
+	 *     but these are hidden from the user
+	 *  cages have NUMBERS that the users see that start with 1
+	 *  
+	 *  so, to get the index, you have to subtract 1 from the number
 	 */
 	public int getSexLinkageCageChoice() {
-		if (sexLinkageCageChoices == null) return 0;
-		return sexLinkageCageChoices.getSelectedIndex();
+		if (sexLinkageCageChoices == null) return -1;
+		String[] parts = ((String)sexLinkageCageChoices.getSelectedItem()).split("Cage");
+		if (parts.length != 2) return -1;
+		return Integer.parseInt(parts[1].trim());
 	}
 	public int getInteractionCageChoice() {
-		if (interactionCageChoices == null) return 0;
-		return interactionCageChoices.getSelectedIndex();
+		if (interactionCageChoices == null) return -1;
+		String[] parts = ((String)interactionCageChoices.getSelectedItem()).split("Cage");
+		if (parts.length != 2) return -1;
+		return Integer.parseInt(parts[1].trim());
 	}
 
 	public void setStateFromFile(Element element) {

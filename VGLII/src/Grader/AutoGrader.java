@@ -24,10 +24,10 @@ import VGL.Messages;
 public class AutoGrader {
 
 	// allowable difference between
-	private static final float ERROR_TOLERANCE = 0.2f;
+	private static final float ERROR_TOLERANCE = 0.1f;
 
 	public static Element grade(ArrayList<CageUI> cageCollection, GeneticModel gm, ModelBuilderUI mbui) {
-		
+
 		// set up to score cages
 		Iterator<CageUI> it = cageCollection.iterator();
 		ArrayList<Cage> cages = new ArrayList<Cage>();
@@ -37,7 +37,7 @@ public class AutoGrader {
 			cages.add(c);
 		}
 		CageScorer cageScorer = new CageScorer(cages, mbui);
-		
+
 
 		Element e = new Element("Grade");  // root element
 
@@ -55,7 +55,7 @@ public class AutoGrader {
 		if (gm.getPhenoTypeProcessor().getInteractionType() == PhenotypeProcessor.NO_INTERACTION) {
 			for (int i = 0; i < gm.getNumberOfGeneModels(); i++) {
 				Element geneEl = new Element("Gene");
-				
+
 				geneEl.addContent((new Element("Index")).addContent(String.valueOf(i)));
 
 				// get right answer and student answer
@@ -89,11 +89,17 @@ public class AutoGrader {
 				}
 				Element slEl = new Element("SexLinkage");
 				slEl.addContent((new Element("Correct")).addContent(String.valueOf(sexLinkageCorrect)));
-				
+
 				CageScoreResult slCsr = cageScorer.scoreCage(modelPane.getSexLinkageCageChoice());
-				slEl.addContent((
-						new Element("Justified")).addContent(
-								String.valueOf(slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
+				if (slCsr == null) {
+					slEl.addContent((
+							new Element("Justified")).addContent(
+									String.valueOf(false)));
+				} else {
+					slEl.addContent((
+							new Element("Justified")).addContent(
+									String.valueOf(slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
+				}
 				geneEl.addContent(slEl);
 
 				/*
@@ -104,7 +110,7 @@ public class AutoGrader {
 						new Element("Correct")).addContent(String.valueOf(
 								(modelPane.getAlleleNumberChoice()) == geneModel.getNumAlleles())));
 				geneEl.addContent(naEl);
-				
+
 				/*
 				 * these are the raw selected strings (eg "Simple dominance") 
 				 * in the LOCAL language, so you have to match with translated version
@@ -168,10 +174,17 @@ public class AutoGrader {
 				}
 				Element idEl = new Element("InteractionDetails");
 				idEl.addContent((new Element("Correct")).addContent(String.valueOf(detailsCorrect)));
-				CageScoreResult inCsr = cageScorer.scoreCage(modelPane.getInteractionCageChoice());
-				idEl.addContent((
-						new Element("Justified")).addContent(
-								String.valueOf(inCsr.getCageScoreForCharacter(i).showsInteraction)));
+				int interactionCageChoice = modelPane.getInteractionCageChoice();
+				CageScoreResult inCsr = cageScorer.scoreCage(interactionCageChoice);
+				if (inCsr == null) {
+					idEl.addContent((
+							new Element("Justified")).addContent(
+									String.valueOf(false)));
+				} else {
+					idEl.addContent((
+							new Element("Justified")).addContent(
+									String.valueOf(inCsr.getCageScoreForCharacter(i).showsInteraction)));
+				}
 				geneEl.addContent(idEl);
 
 				e.addContent(geneEl);
@@ -200,9 +213,15 @@ public class AutoGrader {
 			Element itEl = new Element("InteractionType");
 			itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeGrade)));
 			CageScoreResult inCsr = cageScorer.scoreCage(mp.getInteractionCageChoice());
-			itEl.addContent((
-					new Element("Justified")).addContent(
-							String.valueOf(inCsr.getCageScoreForCharacter(0).showsInteraction)));
+			if (inCsr == null) {
+				itEl.addContent((
+						new Element("Justified")).addContent(
+								String.valueOf(false)));
+			} else {
+				itEl.addContent((
+						new Element("Justified")).addContent(
+								String.valueOf(inCsr.getCageScoreForCharacter(0).showsInteraction)));
+			}
 			gmEl.addContent(itEl);
 
 			/*
@@ -300,31 +319,82 @@ public class AutoGrader {
 
 			// now, see if they're right
 			boolean linkageCorrect = true;
+			double totalError = 0.0f;
+			double maxError = Double.MIN_VALUE;
 			// always have 1-2
 			double student_rf12 = mbui.getLinkagePanel().getG1G2LinkageChoice();
-			if (Math.abs(rf12 - student_rf12) > ERROR_TOLERANCE) linkageCorrect = false;
+			if (student_rf12 != -1.0f) {
+				double error12 = Math.abs(rf12 - student_rf12);
+				totalError = totalError + error12;
+				if (error12 > maxError) maxError = error12;
+				if (error12 > ERROR_TOLERANCE) linkageCorrect = false;
+			} else {
+				linkageCorrect = false;
+			}
 
 			if (gm.getNumberOfGeneModels() == 3) {
 				double student_rf23 = mbui.getLinkagePanel().getG2G3LinkageChoice();
+				if (student_rf23 != -1.0f) {
+					double error23 = Math.abs(rf23 - student_rf23);
+					totalError = totalError + error23;
+					if (error23 > maxError) maxError = error23;
+					if (error23 > ERROR_TOLERANCE) linkageCorrect = false;
+				} else {
+					linkageCorrect = false;
+				}
+
 				double student_rf13 = mbui.getLinkagePanel().getG1G3LinkageChoice();
-				if (Math.abs(rf23 - student_rf23) > ERROR_TOLERANCE) linkageCorrect = false;
-				if (Math.abs(rf13 - student_rf13) > ERROR_TOLERANCE) linkageCorrect = false;				
+				if (student_rf13 != -1.0f) {
+					double error13 = Math.abs(rf13 - student_rf13);
+					totalError = totalError + error13;
+					if (error13 > maxError) maxError = error13;
+					if (error13 > ERROR_TOLERANCE) linkageCorrect = false;				
+				} else {
+					linkageCorrect = false;
+				}
 			}
 			Element le = new Element("Linkage");
 			le.addContent((new Element("Correct")).addContent(String.valueOf(linkageCorrect)));
-			
+			double averageError = totalError/gm.getNumberOfGeneModels();
+			le.addContent((new Element("AverageError")).addContent(String.format("%4.3f", averageError)));
+			le.addContent((new Element("MaxError")).addContent(String.format("%4.3f", maxError)));
+
 			// see if justified by right cages
 			boolean linkageJustified = true;
-			// always do 1-2
-			CageScoreResult = cageScorer.scoreCage(mbui.getLinkagePanel())
-			if ()
+			/*
+			 * always do 1-2
+			 *   use a negative test - if any fail, then fail overall
+			 */
+			CageScoreResult g1g2LinkageCageChoiceResult = cageScorer.scoreCage(mbui.getLinkagePanel().getG1G2LinkageRelevantCage());
+			if (g1g2LinkageCageChoiceResult == null) {
+				linkageJustified = false;  // they selected "?"
+			} else {
+				if (!g1g2LinkageCageChoiceResult.getCageScoreForCharacter(0).capableOfShowingLinkage || 
+						!g1g2LinkageCageChoiceResult.getCageScoreForCharacter(1).capableOfShowingLinkage) linkageJustified = false;
+			}
+
+			// if needed, then do 2-3 and 1-3
+			if (gm.getNumberOfGeneModels() == 3) {
+				CageScoreResult g2g3LinkageCageChoiceResult = cageScorer.scoreCage(mbui.getLinkagePanel().getG2G3LinkageRelevantCage());
+				if (g2g3LinkageCageChoiceResult == null) {
+					linkageJustified = false;  // they selected "?"
+				} else {
+					if (!g2g3LinkageCageChoiceResult.getCageScoreForCharacter(1).capableOfShowingLinkage || 
+							!g2g3LinkageCageChoiceResult.getCageScoreForCharacter(2).capableOfShowingLinkage) linkageJustified = false;
+				}
+
+				CageScoreResult g1g3LinkageCageChoiceResult = cageScorer.scoreCage(mbui.getLinkagePanel().getG1G3LinkageRelevantCage());
+				if (g1g3LinkageCageChoiceResult == null) {
+					linkageJustified = false;  // they selected "?"
+				} else {
+					if (!g1g3LinkageCageChoiceResult.getCageScoreForCharacter(0).capableOfShowingLinkage || 
+							!g1g3LinkageCageChoiceResult.getCageScoreForCharacter(2).capableOfShowingLinkage) linkageJustified = false;
+				}
+			}	
+
+			le.addContent((new Element("Justified")).addContent(String.valueOf(linkageJustified)));
 			e.addContent(le);
 		}
-
-		// don't forget cage scoring
-		
-
 		return e;
 	}
-
 }
