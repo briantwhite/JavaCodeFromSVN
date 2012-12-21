@@ -154,7 +154,7 @@ public class CageScorer {
 					b.append("<font color=black>Does not show ");
 				}
 				b.append("evidence of <u>sex linkage</u></font></li> ");
-				csfc.showsInteraction = showsSexLinkage;
+				csfc.showsSexLinkage = showsSexLinkage;
 
 				Phenotype p1Pheno = cage.getParents().get(0).getPhenotypes().get(i);
 				Phenotype p2Pheno = cage.getParents().get(1).getPhenotypes().get(i);
@@ -238,15 +238,8 @@ public class CageScorer {
 					boolean p1Homozygous = (p1.getGenotypeForGene(i)[0].getTrait().equals(p1.getGenotypeForGene(i)[1].getTrait()));
 					boolean p2Homozygous = (p2.getGenotypeForGene(i)[0].getTrait().equals(p2.getGenotypeForGene(i)[1].getTrait()));
 					
-//					System.out.println("Cage id:" + cage.getId());
-//					System.out.println("\tChar:" + characterName);
-//					System.out.println("\tp1Homo:" + String.valueOf(p1Homozygous));
-//					System.out.println("\tp2Homo:" + String.valueOf(p2Homozygous));
-//					System.out.println("\tp1HRA:" + String.valueOf(p1HasRecAllele));
-//					System.out.println("\tp2HRA:" + String.valueOf(p2HasRecAllele));
-					
 					if ((!p1Homozygous && p2HasRecAllele) || (!p2Homozygous && p1HasRecAllele)) capableOfShowingLinkage = true;
-//					System.out.println("\t\tcapable:" + String.valueOf(capableOfShowingLinkage));
+
 				} 
 				csfc.capableOfShowingLinkage = capableOfShowingLinkage;
 				
