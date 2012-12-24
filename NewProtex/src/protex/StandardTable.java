@@ -32,7 +32,6 @@ import javax.swing.JOptionPane;
 public class StandardTable extends AminoAcidTable  {
 	private Map table;
 	private Map abNameTable; //added by TJ -- to save search time
-	private boolean isApplet;
 
 	private double maxEnergy;
 
@@ -40,14 +39,14 @@ public class StandardTable extends AminoAcidTable  {
 
 	private static StandardTable instance;
 
-	public static StandardTable getInstance(boolean isApplet) {
+	public static StandardTable getInstance() {
 		if (instance == null) {
-			instance = new StandardTable(isApplet);
+			instance = new StandardTable();
 		}
 		return instance;
 	}
 
-	private StandardTable(boolean isApplet) {
+	private StandardTable() {
 		table = new TreeMap();
 		abNameTable = new TreeMap();
 		try {
@@ -77,7 +76,7 @@ public class StandardTable extends AminoAcidTable  {
 			e.printStackTrace();
 		}
 		normalize();
-		if (!isApplet) {
+		if (!Protex.isApplet) {
 			readInContactEnergies();
 		}
 		//		showContactEnergies();  for debugging only

@@ -62,7 +62,7 @@ public class Protex extends JFrame {
 	public static final Color SS_BONDS_ON_BACKGROUND = new Color((float) 0.7,
 			(float) 1.0, (float) 1.0);
 	
-	public boolean isApplet;
+	public static boolean isApplet;
 
 	JPanel topMenuPanel;
 	JMenuBar menuBar;
@@ -108,7 +108,7 @@ public class Protex extends JFrame {
 
 	public Protex(boolean isApplet) {
 		super("Protein Investigator " + version);
-		this.isApplet = isApplet;
+		Protex.isApplet = isApplet;
 		addWindowListener(new ApplicationCloser());
 		if (!isApplet) {
 			printer = new ProteinPrinter();
@@ -133,7 +133,7 @@ public class Protex extends JFrame {
 
 	private void setupUI() {
 
-		StandardTable table = StandardTable.getInstance(isApplet);
+		StandardTable table = StandardTable.getInstance();
 
 		topMenuPanel = new JPanel();
 		topMenuPanel.setLayout(new BoxLayout(topMenuPanel, BoxLayout.X_AXIS));
