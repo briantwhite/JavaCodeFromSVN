@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 public class StandardTable extends AminoAcidTable  {
 	private Map table;
 	private Map abNameTable; //added by TJ -- to save search time
+	private boolean isApplet;
 
 	private double maxEnergy;
 
@@ -39,14 +40,14 @@ public class StandardTable extends AminoAcidTable  {
 
 	private static StandardTable instance;
 
-	public static StandardTable getInstance() {
+	public static StandardTable getInstance(boolean isApplet) {
 		if (instance == null) {
-			instance = new StandardTable();
+			instance = new StandardTable(isApplet);
 		}
 		return instance;
 	}
 
-	private StandardTable() {
+	private StandardTable(boolean isApplet) {
 		table = new TreeMap();
 		abNameTable = new TreeMap();
 		try {
@@ -76,8 +77,10 @@ public class StandardTable extends AminoAcidTable  {
 			e.printStackTrace();
 		}
 		normalize();
-		readInContactEnergies();
-//		showContactEnergies();  for debugging only
+		if (!isApplet) {
+			readInContactEnergies();
+		}
+		//		showContactEnergies();  for debugging only
 	}
 
 	public Iterator getIterator() throws FoldingException {
@@ -109,7 +112,7 @@ public class StandardTable extends AminoAcidTable  {
 	 */
 	public void add(AminoAcid a) throws FoldingException {
 		throw new FoldingException(
-		"can't add to standard table without probability");
+				"can't add to standard table without probability");
 	}
 
 	/**
@@ -279,7 +282,7 @@ public class StandardTable extends AminoAcidTable  {
 						int[] energies = new int[20];
 						for (int i = 1; i < parts.length; i++) {
 							energies[i - 1] = 
-								Math.round(100 * Float.parseFloat(parts[i]));
+									Math.round(100 * Float.parseFloat(parts[i]));
 						}
 						a.setContactEnergies(energies);
 					}
@@ -312,8 +315,8 @@ public class StandardTable extends AminoAcidTable  {
 
 		public String toString() {
 			return a.toString() + '\t' + a.getHydrophobicIndex() + '\t'
-			+ a.getNormalizedHydrophobicIndex() + "\t\t" + probability
-			+ '\n';
+					+ a.getNormalizedHydrophobicIndex() + "\t\t" + probability
+					+ '\n';
 		}
 	}
 

@@ -50,92 +50,97 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 
 public class Protex extends JFrame {
-	
+
 	public final static String targetShapeFileName = "target_shapes.txt";
 	public final static String contactEnergyListFileName = "ContactEnergies.txt";
-	
+
 	private final static String version = "3.0.2";
-	
+
 	public static final Color SS_BONDS_OFF_BACKGROUND = new Color((float) 0.7,
 			(float) 0.7, (float) 1.0);
-	
+
 	public static final Color SS_BONDS_ON_BACKGROUND = new Color((float) 0.7,
 			(float) 1.0, (float) 1.0);
 	
+	public boolean isApplet;
+
 	JPanel topMenuPanel;
 	JMenuBar menuBar;
 	JMenu fileMenu;
 	JMenu energies;
 	JRadioButtonMenuItem standard;
 	JRadioButtonMenuItem custom;
-	
+
 	JMenuItem print;
 	JMenuItem quit;
-	
+
 	JMenu histListMenu;
 	JMenuItem save;
 	JMenuItem saveAs;
 	JMenuItem load;
 	JMenuItem clearAll;
 	JMenuItem saveToHTML;
-	
+
 	JMenu gameMenu;
 	JCheckBoxMenuItem strictModeItem;
 	JMenuItem chooseATargetShape;
 	JMenuItem saveUpperAsTarget;
 	JMenuItem saveLowerAsTarget;
-	
+
 	JMenu infoMenu;
 	JMenuItem help;
 	JMenuItem about;
-	
+
 	FoldingWindow upperFoldingWindow;
 	FoldingWindow lowerFoldingWindow;
 	HistoryList historyList;
 	JScrollPane histListScrollPane;
-	
+
 	private boolean strictMatchingMode;
-	
+
 	ProteinPrinter printer;
-	
+
 	File outFile;
-	
+
 	private TargetShapeSelectionDialog targetShapeSelectionDialog;
 	private TargetShapeDisplayDialog targetShapeDisplayDialog;
 	private TargetShape currentTargetShape;
-	
-	public Protex() {
+
+	public Protex(boolean isApplet) {
 		super("Protein Investigator " + version);
+		this.isApplet = isApplet;
 		addWindowListener(new ApplicationCloser());
-		printer = new ProteinPrinter();
+		if (!isApplet) {
+			printer = new ProteinPrinter();
+		}
 		outFile = null;
 		currentTargetShape = null;
 		strictMatchingMode = false;
 		setupUI();
 	}
-	
+
 	public static void main(String[] args) {
-		Protex protex = new Protex();
+		Protex protex = new Protex(false);
 		protex.pack();
 		protex.setVisible(true);
 	}
-	
+
 	class ApplicationCloser extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			System.exit(0);
 		}
 	}
-	
+
 	private void setupUI() {
-		
-		StandardTable table = StandardTable.getInstance();
-		
+
+		StandardTable table = StandardTable.getInstance(isApplet);
+
 		topMenuPanel = new JPanel();
 		topMenuPanel.setLayout(new BoxLayout(topMenuPanel, BoxLayout.X_AXIS));
-		
+
 		menuBar = new JMenuBar();
 		menuBar.setBorder(new BevelBorder(BevelBorder.RAISED));
-		
+
 		fileMenu = new JMenu("File");
 		print = new JMenuItem("Print");
 		fileMenu.add(print);
@@ -154,7 +159,7 @@ public class Protex extends JFrame {
 		quit = new JMenuItem("Quit");
 		fileMenu.add(quit);
 		menuBar.add(fileMenu);
-		
+
 		histListMenu = new JMenu("History List");
 		save = new JMenuItem("Save");
 		histListMenu.add(save);
@@ -169,7 +174,7 @@ public class Protex extends JFrame {
 		saveToHTML = new JMenuItem("Save as Web Page...");
 		histListMenu.add(saveToHTML);
 		menuBar.add(histListMenu);
-		
+
 		gameMenu = new JMenu("Game");
 		strictModeItem = new JCheckBoxMenuItem("Strict Matching Mode");
 		gameMenu.add(strictModeItem);
@@ -181,18 +186,18 @@ public class Protex extends JFrame {
 		saveLowerAsTarget = new JMenuItem("Save Lower Protein as Target...");
 		gameMenu.add(saveLowerAsTarget);
 		menuBar.add(gameMenu);
-		
+
 		menuBar.add(Box.createHorizontalGlue());
-		
+
 		infoMenu = new JMenu("Information");
 		help = new JMenuItem("Help");
 		infoMenu.add(help);
 		about = new JMenuItem("About");
 		infoMenu.add(about);
 		menuBar.add(infoMenu);
-		
+
 		topMenuPanel.add(menuBar);
-		
+
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(Box.createRigidArea(new Dimension(225,1)));
@@ -204,50 +209,50 @@ public class Protex extends JFrame {
 		aapPanel.setMaximumSize(new Dimension(250, 200));
 		aapPanel.add(aaPalette);
 		aapPanel.add(Box.createRigidArea(new Dimension(1,180)));
-		
+
 		historyList = new HistoryList(new DefaultListModel(), this);
 		histListScrollPane = new JScrollPane(historyList);
 		histListScrollPane.setBorder(
 				BorderFactory.createTitledBorder("History List"));
 		histListScrollPane.setMaximumSize(new Dimension(250,1000));
-		
+
 		leftPanel.add(aapPanel);
 		leftPanel.add(histListScrollPane);
-		
+
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new GridLayout(2,1));
 		upperFoldingWindow = new FoldingWindow("Upper Folding Window", this);
 		lowerFoldingWindow = new FoldingWindow("Lower Folding Window", this);
 		rightPanel.add(upperFoldingWindow);
 		rightPanel.add(lowerFoldingWindow);
-		
+
 		JPanel mainPanel = new JPanel();
-		
+
 		mainPanel.setLayout(
 				new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		mainPanel.add(leftPanel);
 		mainPanel.add(rightPanel);
-		
+
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 		getContentPane().add(topMenuPanel, BorderLayout.NORTH);	
-		
+
 		targetShapeSelectionDialog = new TargetShapeSelectionDialog(this);
 		targetShapeDisplayDialog = new TargetShapeDisplayDialog(this);
-		
+
 		about.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane.showMessageDialog(null, 
 						"<html><body><center>Protein Investigator<br>"
-						+ "Version " + version 
-						+ "<br>Copyright 2007<br>"
-						+ "Brian White and MGX Team<br>"
-						+ "brian.white@umb.edu"+ "</center</body></html>",
-						"About ProtInv",
-						JOptionPane.INFORMATION_MESSAGE);
+								+ "Version " + version 
+								+ "<br>Copyright 2007<br>"
+								+ "Brian White and MGX Team<br>"
+								+ "brian.white@umb.edu"+ "</center</body></html>",
+								"About ProtInv",
+								JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
-		
+
 		load.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Object[] all = null;
@@ -257,7 +262,7 @@ public class Protex extends JFrame {
 				int returnVal = infileChooser.showOpenDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					inFile = infileChooser.getSelectedFile();
-					
+
 					try {
 						FileInputStream in = new FileInputStream(inFile);
 						ObjectInputStream s = new ObjectInputStream(in);
@@ -278,9 +283,9 @@ public class Protex extends JFrame {
 					}
 				}
 			}
-			
+
 		});
-		
+
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//save hist list to avoid serialization bug that wipes it clean 
@@ -290,7 +295,7 @@ public class Protex extends JFrame {
 							"Blank History List", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				
+
 				//save it
 				if (outFile != null) {
 					saveToFile(outFile, all);
@@ -299,7 +304,7 @@ public class Protex extends JFrame {
 				}
 			}
 		});
-		
+
 		saveAs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Object[] all = historyList.getAll();
@@ -311,7 +316,7 @@ public class Protex extends JFrame {
 				saveToChosenFile(all)	;
 			}
 		});
-		
+
 		clearAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (JOptionPane.showConfirmDialog(null, "<html>Are you sure you "
@@ -323,7 +328,7 @@ public class Protex extends JFrame {
 				}
 			}	
 		});
-		
+
 		saveToHTML.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				File htmlDirectory = null;
@@ -356,7 +361,7 @@ public class Protex extends JFrame {
 						htmlOutputStream.write("<body>\n");
 						htmlOutputStream.write("<h3>History List</h3>\n");
 						htmlOutputStream.write("<table border=1>\n");
-						
+
 						for (int i = 0; i < all.length; i++) {
 							FoldedPolypeptide fp = (FoldedPolypeptide)all[i];
 							htmlOutputStream.write("<tr><td>");
@@ -365,7 +370,7 @@ public class Protex extends JFrame {
 							htmlOutputStream.write("<b>Protein Structure:</b><br>\n");
 							htmlOutputStream.write("<img src=" + i + ".jpg>\n");
 							htmlOutputStream.write("</td></tr>\n");
-							
+
 							ImageIcon pic = fp.getFullSizePic();
 							Image picImage = pic.getImage();
 							BufferedImage image = new BufferedImage(pic.getIconWidth(),
@@ -373,21 +378,21 @@ public class Protex extends JFrame {
 							Graphics g = image.getGraphics();
 							g.drawImage(picImage, 0, 0, null);
 							g.dispose();
-							
+
 							String jpegFileName = htmlDirectory.toString() 
-							+ System.getProperty("file.separator")
-							+ i + ".jpg";
+									+ System.getProperty("file.separator")
+									+ i + ".jpg";
 							BufferedOutputStream out = 
-								new BufferedOutputStream(new FileOutputStream(jpegFileName));
+									new BufferedOutputStream(new FileOutputStream(jpegFileName));
 							JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
 							JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(image);
 							param.setQuality((float) 1, false);
 							encoder.setJPEGEncodeParam(param);
 							encoder.encode(image);
 							out.close();
-							
+
 						}
-						
+
 						htmlOutputStream.write("</table></body>\n</html>\n");
 					} catch (IOException e) {
 						JOptionPane.showMessageDialog(null, "<html><body>Cannot Create Directory "
@@ -396,7 +401,7 @@ public class Protex extends JFrame {
 								+ "</body></html>",
 								"Problem Saving Files", JOptionPane.WARNING_MESSAGE);
 					}
-					
+
 					finally {
 						try {
 							if (htmlOutputStream != null) {
@@ -407,48 +412,48 @@ public class Protex extends JFrame {
 							e.printStackTrace();
 						}
 					}
-					
+
 				}
 			}
 		});
-		
+
 		strictModeItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				strictMatchingMode = strictModeItem.getState();
 				targetShapeDisplayDialog.setVisible(false);
 			}
 		});
-		
+
 		chooseATargetShape.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				targetShapeSelectionDialog.showTargetShapeSelectionDialog();
 			}
 		});
-		
+
 		saveUpperAsTarget.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				saveAsTargetShape(upperFoldingWindow);
 			}
 		});
-		
+
 		saveLowerAsTarget.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				saveAsTargetShape(lowerFoldingWindow);
 			}
 		});
-		
+
 		help.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				onlineHelp();
 			}
 		});
-		
+
 		print.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				printer.printProteins(upperFoldingWindow, lowerFoldingWindow);
 			}
 		});
-		
+
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?",
@@ -458,15 +463,15 @@ public class Protex extends JFrame {
 				}
 			}	
 		});
-		
+
 	}
-	
+
 	public void saveAsTargetShape(FoldingWindow fw) {
-		
+
 		if (fw.getOutputPalette().getDrawingPane().getGrid() == null) {
 			return;
 		}
-		
+
 		String targetName = (String)JOptionPane.showInputDialog(
 				this,
 				"Enter a name for this Target Shape",
@@ -475,14 +480,14 @@ public class Protex extends JFrame {
 				null,
 				null,
 				null);
-		
+
 		if (targetName.equals("")) {
 			return;
 		}
-		
+
 		String foldingString = 
-			fw.getOutputPalette().getDrawingPane().getGrid().getPP().getDirectionSequence();
-		
+				fw.getOutputPalette().getDrawingPane().getGrid().getPP().getDirectionSequence();
+
 		File targetShapeFile = new File(targetShapeFileName);
 		BufferedWriter targetShapeFileStream = null;
 		try {
@@ -502,56 +507,56 @@ public class Protex extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	public void setSelectedTargetShape(TargetShape ts) {
 		currentTargetShape = ts;
 		targetShapeSelectionDialog.goAway();
 		targetShapeDisplayDialog.showTargetShapeDisplayDialog();
 	}
-	
+
 	public TargetShape getCurrentTargetShape() {
 		return currentTargetShape;
 	}
-	
+
 	public void checkUpperAgainstTarget() {
 		checkAgainstTarget(upperFoldingWindow);
 	}
-	
+
 	public void checkLowerAgainstTarget() {
 		checkAgainstTarget(lowerFoldingWindow);
 	}
-	
+
 	private void checkAgainstTarget(FoldingWindow fw) {
-		
+
 		ShapeMatcher shapeMatcher = 
-			new ShapeMatcher(currentTargetShape.getShapeString(), strictMatchingMode);
-		
+				new ShapeMatcher(currentTargetShape.getShapeString(), strictMatchingMode);
+
 		if (fw.getOutputPalette().getBackground().equals(Color.PINK)) {
 			JOptionPane.showMessageDialog(this,
 					"<html><body>"
-					+ "Sorry, the protein sequence you entered<br>"
-					+ "has not been folded yet.<br>"
-					+ "Please click"
-					+ " the FOLD button.</body></html>", 
-					"New Protein Not Folded Yet", 
-					JOptionPane.WARNING_MESSAGE);
+							+ "Sorry, the protein sequence you entered<br>"
+							+ "has not been folded yet.<br>"
+							+ "Please click"
+							+ " the FOLD button.</body></html>", 
+							"New Protein Not Folded Yet", 
+							JOptionPane.WARNING_MESSAGE);
 			return;			
 		}
 
 		if (fw.getOutputPalette().getDrawingPane().getGrid() == null) {
 			JOptionPane.showMessageDialog(this,
 					"<html><body>"
-					+ "Sorry, there is no folded protein to match.<br>"
-					+ "Please enter an amino acid sequence and click"
-					+ " the FOLD button.</body></html>", 
-					"No Folded Protein", 
-					JOptionPane.WARNING_MESSAGE);
+							+ "Sorry, there is no folded protein to match.<br>"
+							+ "Please enter an amino acid sequence and click"
+							+ " the FOLD button.</body></html>", 
+							"No Folded Protein", 
+							JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		
-		
+
+
 		if (shapeMatcher.matchesTarget(
 				fw.getOutputPalette().getDrawingPane().getGrid().getPP().getDirectionSequence())) {
 			JOptionPane.showMessageDialog(this, 
@@ -564,23 +569,23 @@ public class Protex extends JFrame {
 					"Shape Mismatch", 
 					JOptionPane.WARNING_MESSAGE);
 		}	
-		
+
 	}
-	
+
 	public boolean getStrictMatchingMode() {
 		return strictMatchingMode;
 	}
-	
+
 	private void onlineHelp() {
 		final JEditorPane helpPane = new JEditorPane();
 		helpPane.setEditable(false);
 		helpPane.setContentType("text/html");
-		
+
 		try {
 			helpPane.setPage(Protex.class.getResource("help/index1.html"));
 		} catch (Exception e) {
 		}
-		
+
 		JScrollPane helpScrollPane = new JScrollPane(helpPane);
 		JDialog helpDialog = new JDialog(this, "Protein Investigator Help");
 		helpDialog.getContentPane().setLayout(new BorderLayout());
@@ -589,7 +594,7 @@ public class Protex extends JFrame {
 		helpDialog.setBounds((screenSize.width / 8), (screenSize.height / 8),
 				(screenSize.width * 6 / 10), (screenSize.height * 6 / 10));
 		helpDialog.setVisible(true);
-		
+
 		helpPane.addHyperlinkListener(new HyperlinkListener() {
 			public void hyperlinkUpdate(HyperlinkEvent e) {
 				if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -600,25 +605,25 @@ public class Protex extends JFrame {
 					}
 				}
 			}
-			
+
 		});
 	}
-	
-	
+
+
 	public void addFoldedToHistList(FoldedPolypeptide fp) {
 		historyList.add(fp);
 		histListScrollPane.revalidate();
 		histListScrollPane.repaint();
 	}
-	
+
 	public void sendToUpperPanel(FoldedPolypeptide fp) {
 		upperFoldingWindow.setFoldedPolypeptide(fp);
 	}
-	
+
 	public void sendToLowerPanel(FoldedPolypeptide fp) {
 		lowerFoldingWindow.setFoldedPolypeptide(fp);
 	}
-	
+
 	public void saveToChosenFile(Object[] all) {
 		JFileChooser outfileChooser = new JFileChooser();
 		outfileChooser.setFileFilter(new HistListFileFilter());
@@ -633,7 +638,7 @@ public class Protex extends JFrame {
 			saveToFile(outFile, all);
 		}
 	}
-	
+
 	public void saveToFile(File outFile, Object[] all) {
 		try {
 			FileOutputStream f = new FileOutputStream(outFile);
@@ -646,7 +651,7 @@ public class Protex extends JFrame {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		//restore history list
 		historyList.clearList();
 		for (int i = 0; i < all.length; i++) {
@@ -654,11 +659,11 @@ public class Protex extends JFrame {
 		}
 		histListScrollPane.revalidate();
 		histListScrollPane.repaint();
-		
+
 	}
-	
+
 	public FoldingWindow getUpperFoldingWindow() {
 		return upperFoldingWindow;
 	}
-	
+
 }
