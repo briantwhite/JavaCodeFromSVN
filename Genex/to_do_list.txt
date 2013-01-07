@@ -15,3 +15,7 @@ setup applet for edX
 		load new sequence
 	public method 
 		public String checkAnswer() - returns "CORRECT" or "INCORRECT"
+		
+also - can automatically find coding region
+	must be in exon and index > start codon and < stop codon
+	
