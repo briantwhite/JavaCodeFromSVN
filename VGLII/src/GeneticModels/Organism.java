@@ -130,9 +130,10 @@ public class Organism {
 	/*
 	 * used for AutoGrader
 	 * gets genotype at a particular locus (gene index)
+	 * returns null if you try to get an allele off of a null sex-chromo (Y or W)
 	 */
 	public Allele[] getGenotypeForGene(int index) {
-		
+
 		// Find out what chromosome the gene is on
 		Chromosome matChromo = null;
 		Chromosome patChromo = null;
@@ -143,32 +144,54 @@ public class Organism {
 			matChromo = maternalAutosome;
 			patChromo = paternalAutosome;
 		}
-		
+
 		// find the name of the character so you can find it
 		Phenotype p = phenotypes.get(index);
 		String characterName = p.getTrait().getTraitName() + "-" + p.getTrait().getBodyPart();
-		
+
 		// find it in the alleles on the chromosome
 		ArrayList<Allele> matAlleles = matChromo.getAllAlleles();
 		ArrayList<Allele> patAlleles = patChromo.getAllAlleles();
 		Allele matAllele = null;
 		Allele patAllele = null;
-		for (int i = 0; i < matAlleles.size(); i++) {
-			matAllele = matAlleles.get(i);
-			String maString = matAllele.getTrait().getTraitName() + "-" + matAllele.getTrait().getBodyPart();
-			patAllele = patAlleles.get(i);
-			if (characterName.equals(maString)) {
-				break;
+		/*
+		 * if one chromo is a null sex chromo, it has no alleles
+		 * so you should search the other one for the allele names, etc.
+		 */
+		if (matAlleles.size() == 0) {
+			for (int i = 0; i < patAlleles.size(); i++) {
+				patAllele = patAlleles.get(i);
+				String paString = patAllele.getTrait().getTraitName() + "-" + patAllele.getTrait().getBodyPart();
+				if (characterName.equals(paString)) {
+					break;
+				}
+			}
+		} else if (patAlleles.size() == 0) {
+			for (int i = 0; i < matAlleles.size(); i++) {
+				matAllele = matAlleles.get(i);
+				String maString = matAllele.getTrait().getTraitName() + "-" + matAllele.getTrait().getBodyPart();
+				if (characterName.equals(maString)) {
+					break;
+				}
+			}
+		} else {
+			for (int i = 0; i < matAlleles.size(); i++) {
+				matAllele = matAlleles.get(i);
+				String maString = matAllele.getTrait().getTraitName() + "-" + matAllele.getTrait().getBodyPart();
+				patAllele = patAlleles.get(i);
+				if (characterName.equals(maString)) {
+					break;
+				}
 			}
 		}
-		
+
 		Allele[] result = new Allele[2];
 		result[0] = matAllele;
 		result[1] = patAllele;
 		return result;
-		
+
 	}
-	
+
 
 	//returns untranslated phenotype for internal purposes
 	//  eg counting etc

@@ -102,9 +102,18 @@ public class AutoGrader {
 								new Element("Justified")).addContent(
 										String.valueOf(false)));
 					} else {
-						slEl.addContent((
-								new Element("Justified")).addContent(
-										String.valueOf(slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
+						// sex-linkage choice must match correct type
+						if(gm.isGeneModelSexLinkedByIndex(i)) {
+							// sex-linked, so cage must show sex-linkage
+							slEl.addContent((
+									new Element("Justified")).addContent(
+											String.valueOf(slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
+						} else {
+							// not sex-linked, so cage must not show sex-linkage
+							slEl.addContent((
+									new Element("Justified")).addContent(
+											String.valueOf(!slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
+						}
 					}
 					geneEl.addContent(slEl);
 				}
@@ -221,9 +230,9 @@ public class AutoGrader {
 			boolean interactionTypeGrade = false;
 			ModelPane mp = mbui.getModelPanes()[0]; // only one model pane in these problems
 			if (gm.getPhenoTypeProcessor().getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
-				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Complementation"))) interactionTypeGrade = false;
+				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Complementation"))) interactionTypeGrade = true;
 			} else {
-				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Epistasis"))) interactionTypeGrade = false;
+				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Epistasis"))) interactionTypeGrade = true;
 			}
 			Element itEl = new Element("InteractionType");
 			itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeGrade)));

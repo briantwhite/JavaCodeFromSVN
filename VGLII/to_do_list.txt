@@ -41,11 +41,3 @@ To do list
 		save for grading
 		load from server
 
-12) scoring linkage
-	- if traits aren't 2-allele simple dom, don't score linkage
-	- test epi and comp
-	- test several models
-	- don't forget, if mbui is null or nothing there, it's all wrong
-	- have them save .wr2 file and upload the file
-		- include the grade in the .wr2
-	

@@ -41,7 +41,7 @@ public class CageScorer {
 	public String getCageScores() {
 		StringBuffer b = new StringBuffer();
 		TreeSet<Integer> selectedCages = 
-			mbui.getChosenRelevantCages();
+				mbui.getChosenRelevantCages();
 		b.append("<hr>");
 		b.append("<b>Selected Cages:</b><br>");
 
@@ -59,7 +59,7 @@ public class CageScorer {
 		b.append("</ul>");
 		return b.toString();
 	}
-	
+
 	/*
 	 * used by Auto Grader
 	 * 
@@ -75,13 +75,13 @@ public class CageScorer {
 	}
 
 	private CageScoreResult scoreCage(Cage cage) {
-				
+
 		StringBuffer b = new StringBuffer();
 		b.append("<b>Cage ");
 		b.append(cage.getId() + 1);
 		b.append(" </b>");
 		b.append("<ul>");
-		
+
 		CageScoreResult result = null;
 
 		// can't get data from the field pop
@@ -126,9 +126,9 @@ public class CageScorer {
 				 * 	so, red eyes & six legs but also red eyes & 4 legs
 				 */
 				String character = 
-					currentPheno.getTrait().getBodyPart() 
-					+ ":" 
-					+ currentPheno.getTrait().getType();
+						currentPheno.getTrait().getBodyPart() 
+						+ ":" 
+						+ currentPheno.getTrait().getType();
 				boolean showsSexLinkage = false;
 				phenoIt = children.keySet().iterator();
 				while (phenoIt.hasNext()) {
@@ -136,9 +136,9 @@ public class CageScorer {
 					OrganismList oList = children.get(pheno);
 					Organism o = oList.get(0);
 					String testCharacter = 
-						o.getPhenotypes().get(i).getTrait().getBodyPart() 
-						+ ":" 
-						+ o.getPhenotypes().get(i).getTrait().getType();
+							o.getPhenotypes().get(i).getTrait().getBodyPart() 
+							+ ":" 
+							+ o.getPhenotypes().get(i).getTrait().getType();
 					if (testCharacter.equals(character)) {
 						int males = oList.getNumberOfMales();
 						int females = oList.getNumberOfFemales();
@@ -147,7 +147,7 @@ public class CageScorer {
 					}
 				}
 				b.append("<li>");
-				
+
 				if (showsSexLinkage) {
 					b.append("<font color=green>Shows ");
 				} else {
@@ -175,7 +175,7 @@ public class CageScorer {
 				phenoIt = children.keySet().iterator();
 				while (phenoIt.hasNext()) {
 					Phenotype kidPheno = 
-						children.get(phenoIt.next()).get(0).getPhenotypes().get(i);
+							children.get(phenoIt.next()).get(0).getPhenotypes().get(i);
 
 					// if you ever find p1 in any type of kid, it can't be Case1
 					if (kidPheno.toString().equals(p1Pheno.toString())) case1 = false;
@@ -197,7 +197,7 @@ public class CageScorer {
 					b.append("<font color = black>");
 					b.append("Does not show ");
 				}
-				
+
 				if (org.getGeneticModel().getPhenoTypeProcessor().getInteractionType() 
 						== PhenotypeProcessor.NO_INTERACTION) {
 					b.append("evidence of <i>dominance</i></font></li>");
@@ -206,7 +206,7 @@ public class CageScorer {
 					b.append("evidence of <i>dominance</i> or <i>interaction</i></font></li>");
 				}
 				b.append("</ul>");
-				
+
 				/*
 				 * do linkage possibility
 				 * do character by character
@@ -221,28 +221,64 @@ public class CageScorer {
 				boolean capableOfShowingLinkage = false;
 				GeneModel geneModel = org.getGeneticModel().getGeneModelByIndex(i);
 				if (geneModel instanceof TwoAlleleSimpleDominanceGeneModel) {
-					
+
 					Organism p1 = cage.getParents().get(0);
 					Organism p2 = cage.getParents().get(1);
-					
+
 					/*
 					 * start by figuring out what the recessive allele is
 					 *   in 2 allele simple dominance, it's t1
+					 *   
+					 *   if sex-linked, then the null sex chromosome (which gives null allele here)
+					 *    is equivalent to the recessive allele
+					 *  
+					 *  these tests are complex to avoid null pointer exceptions
+					 *    when testing all possibilities
 					 */
 					Trait recessiveTrait = geneModel.t1;
-					boolean p1HasRecAllele = ((p1.getGenotypeForGene(i)[0].getTrait().equals(recessiveTrait)) || 
-							(p1.getGenotypeForGene(i)[1].getTrait().equals(recessiveTrait)));
-					boolean p2HasRecAllele = ((p2.getGenotypeForGene(i)[0].getTrait().equals(recessiveTrait)) || 
-							(p2.getGenotypeForGene(i)[1].getTrait().equals(recessiveTrait)));
+					boolean p1HasRecAllele = (
+							(p1.getGenotypeForGene(i)[0] == null) ||
+							(p1.getGenotypeForGene(i)[1] == null) ||
+							(p1.getGenotypeForGene(i)[0].getTrait().equals(recessiveTrait)) || 
+							(p1.getGenotypeForGene(i)[1].getTrait().equals(recessiveTrait))
+							);
 					
-					boolean p1Homozygous = (p1.getGenotypeForGene(i)[0].getTrait().equals(p1.getGenotypeForGene(i)[1].getTrait()));
-					boolean p2Homozygous = (p2.getGenotypeForGene(i)[0].getTrait().equals(p2.getGenotypeForGene(i)[1].getTrait()));
+					boolean p2HasRecAllele = (
+							(p2.getGenotypeForGene(i)[0] == null) ||
+							(p2.getGenotypeForGene(i)[1] == null) ||
+							(p2.getGenotypeForGene(i)[0].getTrait().equals(recessiveTrait)) || 
+							(p2.getGenotypeForGene(i)[1].getTrait().equals(recessiveTrait))
+							);
+
+					boolean p1Homozygous;
+					if (p1.getGenotypeForGene(i)[0] == null) {
+						// first allele is null, homozygous if 2nd is recessive
+						p1Homozygous = p1.getGenotypeForGene(i)[1].getTrait().equals(recessiveTrait);
+					} else if (p1.getGenotypeForGene(i)[1] == null) {
+						// second allele is null, homozygous if 1st is recessive
+						p1Homozygous = p1.getGenotypeForGene(i)[0].getTrait().equals(recessiveTrait);
+					} else {
+						// neither is null, only homozygous if both alleles the same
+						p1Homozygous = p1.getGenotypeForGene(i)[0].getTrait().equals(p1.getGenotypeForGene(i)[1].getTrait());
+					}
+					
+					boolean p2Homozygous;
+					if (p2.getGenotypeForGene(i)[0] == null) {
+						// first allele is null, homozygous if 2nd is recessive
+						p2Homozygous = p2.getGenotypeForGene(i)[1].getTrait().equals(recessiveTrait);
+					} else if (p2.getGenotypeForGene(i)[1] == null) {
+						// second allele is null, homozygous if 1st is recessive
+						p2Homozygous = p2.getGenotypeForGene(i)[0].getTrait().equals(recessiveTrait);
+					} else {
+						// neither is null, only homozygous if both alleles the same
+						p2Homozygous = p2.getGenotypeForGene(i)[0].getTrait().equals(p2.getGenotypeForGene(i)[1].getTrait());
+					}
 					
 					if ((!p1Homozygous && p2HasRecAllele) || (!p2Homozygous && p1HasRecAllele)) capableOfShowingLinkage = true;
 
 				} 
 				csfc.capableOfShowingLinkage = capableOfShowingLinkage;
-				
+
 				result.addCageScoreForCharacter(i, csfc);
 			}
 
@@ -273,7 +309,7 @@ public class CageScorer {
 		}
 		b.append("</ul>");
 		result.setHTML(b.toString());
-		
+
 		return result;
 	}
 

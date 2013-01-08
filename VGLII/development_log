@@ -1828,20 +1828,28 @@ test with 2-factor cross - AOK
 fixed the interactionType/details issue above
 
 12/18/12
-notes:
-	- for xml in grading, make it all <correct>true</correct>
-	- when grading linkage, just be sure one parent is heterozygous for all markers
-		and other has at least one recessive allele for each gene
-	- don't forget, if mbui is null or nothing there, it's all wrong
-	- scoring cages
-		- boolean showsSexLinkage(int geneIndex)
-		- boolean showsInteraction(int geneIndex)
-		- boolean capableOfShowingLinkage(int gene1Index) - then check by gene pair
-	- have them save .wr2 file and upload the file
-		- include the grade in the .wr2
 
-BE SURE TO TEST WITH EPI & COMP
+BE SURE TO TEST WITH EPI & COMP (did this on 1/8/13)
 
 1/8/13
 setting up to save to edX server
 got sample-post.py from Victor Schnayder to show how to save to server
+
+- tested for EPI and comp - OK
+- tested if no model entered, it's all wrong
+- tested linkage evidence cage OK
+- test a weird model
+	a non-sex-linked model with proper jusstification OK
+	a sex-liked one - makes error!
+		"sex-linked causes error.wr2"
+		in checking if cage can show linkage, it looks for recessive allele
+			but, if sex-linked and you look for an allele on a null sex-chromo
+				you get null
+			what to do?
+			in Organism - getGenotypeForGene(int i) 
+				need to deal properly with null sex chromosomes
+			in AutoGrader - ditto
+		still a problem - in this prob, if you check cage 3 there's an error
+	will need to check sex-linkage evidence carefully
+	- seems OK
+	
