@@ -1841,3 +1841,7 @@ notes:
 		- include the grade in the .wr2
 
 BE SURE TO TEST WITH EPI & COMP
+
+1/8/13
+setting up to save to edX server
+got sample-post.py from Victor Schnayder to show how to save to server
