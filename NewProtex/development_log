@@ -245,3 +245,6 @@ for edX make applet
 	single folding window
 	takes param <target shape></targetshape>
 	has public String checkAnswer() - returns "CORRECT" or "INCORRECT"
+
+1/8/13
+applet version works AOK

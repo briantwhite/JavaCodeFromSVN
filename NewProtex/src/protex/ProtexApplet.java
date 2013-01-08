@@ -1,5 +1,6 @@
 package protex;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
@@ -14,6 +15,7 @@ public class ProtexApplet extends JApplet {
 
 	private FoldingWindow foldingWindow;
 	private Protex protex;
+	private String targetShapeString;
 
 	public void init() {
 		
@@ -34,7 +36,7 @@ public class ProtexApplet extends JApplet {
 		aapPanel.add(Box.createRigidArea(new Dimension(1,180)));
 		leftPanel.add(aapPanel);
 		
-	    String targetShapeString = getParameter("TARGET_SHAPE");
+	    targetShapeString = getParameter("TARGET_SHAPE");
 	    if (targetShapeString != null) {
 	    	ProteinImageSet pis = ProteinImageFactory.buildProtein(targetShapeString, false);
 	    	JPanel targetPanel = new JPanel();
@@ -47,6 +49,30 @@ public class ProtexApplet extends JApplet {
 		mainPanel.add(foldingWindow);
 
 		getContentPane().add(mainPanel);
+	}
+	
+	public String checkAnswer() {
+		// check for errors
+		if ((targetShapeString == null) || (targetShapeString.equals(""))) {
+			return "ERROR: No target shape specified.";
+		}
+		if (foldingWindow.getOutputPalette().getBackground().equals(Color.PINK)) {
+			return "ERROR: The protein sequence you typed in has not been folded. Click the FOLD button and re-submit.";
+		}
+		if (foldingWindow.getOutputPalette().getDrawingPane().getGrid() == null) {
+			return "ERROR: There is no folded protein to check.";
+		}
+		
+		// ok to score
+		ShapeMatcher shapeMatcher = 
+				new ShapeMatcher(targetShapeString, false);
+		if (shapeMatcher.matchesTarget(
+				foldingWindow.getOutputPalette().getDrawingPane().getGrid().getPP().getDirectionSequence())) {
+			return "CORRECT";
+		} else {
+			return "INCORRECT";
+		}
+		
 	}
 
 }

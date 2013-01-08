@@ -1,12 +1,21 @@
 <html>
 <head>
 <title>Protein Folding Test Page</title>
+
+<script type="text/javascript">
+	function scoreSubmission() {
+		document.getElementById("result").value = document.getElementById("protex").checkAnswer();
+	}
+</script>
+
 </head>
 <body>
 Type a protein sequence into the Amino Acid Sequence box using the single-letter code and click "FOLD".</p>
-<applet code="protex.ProtexApplet.class" archive="Protex.jar" width=900 height=500>
+<applet id="protex" code="protex.ProtexApplet.class" archive="Protex.jar" width=900 height=500>
 <PARAM NAME="TARGET_SHAPE" VALUE="E;NE;NW; W;SW; E;none">
 </applet>
-
+<br>
+<button type="button" onClick="scoreSubmission()">Check Answer</button><br>
+<textarea id="result" cols=50 rows=2></textarea>
 </body>
 </html>
