@@ -74,5 +74,6 @@ public class ProtexApplet extends JApplet {
 		}
 		
 	}
+	
 
 }

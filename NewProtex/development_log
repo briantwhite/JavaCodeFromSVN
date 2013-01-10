@@ -248,3 +248,8 @@ for edX make applet
 
 1/8/13
 applet version works AOK
+
+1/10/13 need to do for edX
+- getter and setter methods for the protein sequence
+	(remember that it's displayed in 3-letter code)
+
