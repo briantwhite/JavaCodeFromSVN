@@ -123,11 +123,10 @@ public class AutoGrader {
 				 * 
 				 * first see if there was really a choice for the student here
 				 */
-				boolean numAllelesCorrect = false;
+				boolean numAllelesCorrect = true;
 				// see if they really had a choice or not
 				if (modelPane.getAlleleNumberChoice() != 0) {
 					numAllelesCorrect = (modelPane.getAlleleNumberChoice() == geneModel.getNumAlleles());
-					System.out.println("chose=" + modelPane.getAlleleNumberChoice() + " correct=" + geneModel.getNumAlleles() + " " + numAllelesCorrect);
 					Element naEl = new Element("NumberOfAlleles");
 					naEl.addContent((
 							new Element("Correct")).addContent(String.valueOf(numAllelesCorrect)));
@@ -142,21 +141,23 @@ public class AutoGrader {
 				 * also, can't get type right if number of alleles is wrong
 				 */
 				boolean interactionTypeCorrect = false;
-				if (numAllelesCorrect && (modelPane.getInteractionTypeChoice() != null)) {
-					String studentDomTypeText = modelPane.getInteractionTypeChoice();
-					if (geneModel.getDomTypeText().equals("Simple") 
-							&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.SimpleDominance"))) interactionTypeCorrect = true;
-					if (geneModel.getDomTypeText().equals("Circular")
-							&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.CircularDominance"))) interactionTypeCorrect = true;
-					if (geneModel.getDomTypeText().equals("Hierarchical")
-							&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.HierarchicalDominance"))) interactionTypeCorrect = true;
-					if (geneModel.getDomTypeText().equals("Incomplete")
-							&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.IncompleteDominance"))) interactionTypeCorrect = true;
-					Element itEl = new Element("InteractionType");
-					itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeCorrect)));
-					geneEl.addContent(itEl);
-				} else {
-					interactionTypeCorrect = true;	// if they didn't have to enter it, it's OK 
+				if (numAllelesCorrect) {
+					if (modelPane.getInteractionTypeChoice() != null) {
+						String studentDomTypeText = modelPane.getInteractionTypeChoice();
+						if (geneModel.getDomTypeText().equals("Simple") 
+								&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.SimpleDominance"))) interactionTypeCorrect = true;
+						if (geneModel.getDomTypeText().equals("Circular")
+								&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.CircularDominance"))) interactionTypeCorrect = true;
+						if (geneModel.getDomTypeText().equals("Hierarchical")
+								&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.HierarchicalDominance"))) interactionTypeCorrect = true;
+						if (geneModel.getDomTypeText().equals("Incomplete")
+								&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.IncompleteDominance"))) interactionTypeCorrect = true;
+						Element itEl = new Element("InteractionType");
+						itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeCorrect)));
+						geneEl.addContent(itEl);
+					} else {
+						interactionTypeCorrect = true;	// if they didn't have to enter it, it's OK 
+					}
 				}
 
 				/*
