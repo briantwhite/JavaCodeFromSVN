@@ -1839,7 +1839,7 @@ got sample-post.py from Victor Schnayder to show how to save to server
 - tested if no model entered, it's all wrong
 - tested linkage evidence cage OK
 - test a weird model
-	a non-sex-linked model with proper jusstification OK
+	a non-sex-linked model with proper justification OK
 	a sex-liked one - makes error!
 		"sex-linked causes error.wr2"
 		in checking if cage can show linkage, it looks for recessive allele
@@ -1852,4 +1852,22 @@ got sample-post.py from Victor Schnayder to show how to save to server
 		still a problem - in this prob, if you check cage 3 there's an error
 	will need to check sex-linkage evidence carefully
 	- seems OK
-	
+
+1/19/13
+problem with auto grader and inc dom
+	it says it's wrong if they get the order of the homozygotes wrong
+		and this should be OK
+	that is, for inc dom:
+		2-allele:
+			t1 and t2 can be exchanged
+		3-allele: 
+			t1 and t2 can be exchanged
+			t2 and t3 can be exchanged
+			t1 and t3 can be exchanged
+			
+	also, the circular permutations of circular dominance <sigh>
+		normal slot		alternatives
+		  	1			1	3	2
+		  	2			2	1	3
+		  	3			3	2	1
+need to code all of these...

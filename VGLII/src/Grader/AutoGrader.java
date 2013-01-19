@@ -77,16 +77,16 @@ public class AutoGrader {
 							// XX/XY
 							if (modelPane.getSexLinkageChoice().equals(
 									"XX " 
-											+ Messages.getInstance().getString("VGLII.Female")
-											+ "/XY "
-											+ Messages.getInstance().getString("VGLII.Male"))) sexLinkageCorrect = true;
+									+ Messages.getInstance().getString("VGLII.Female")
+									+ "/XY "
+									+ Messages.getInstance().getString("VGLII.Male"))) sexLinkageCorrect = true;
 						} else {
 							// ZZ/ZW
 							if (modelPane.getSexLinkageChoice().equals(
 									"ZZ " 
-											+ Messages.getInstance().getString("VGLII.Male")
-											+ "/ZW "
-											+ Messages.getInstance().getString("VGLII.Female"))) sexLinkageCorrect = true;
+									+ Messages.getInstance().getString("VGLII.Male")
+									+ "/ZW "
+									+ Messages.getInstance().getString("VGLII.Female"))) sexLinkageCorrect = true;
 						}
 					} else {
 						// not sex-linked
@@ -165,35 +165,76 @@ public class AutoGrader {
 					detailsCorrect = false;
 				} else {
 					ModelDetailsPanel mdp = modelPane.getModelDetailsPanel();
-					// check each entry; if any mismatch, it's wrong
-					if ((mdp.t1Choices != null) && (geneModel.t1 != null)) {
-						if (!mdp.t1Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;
-					}
+					/*
+					 * first, deal with special cases
+					 * 	in inc dom, the homozygote traits are exchangable
+					 * 		(they don't have to match exactly, as long as the pair is right)
+					 * 		2-allele: t1 and t3 can be swapped as long as both are right
+					 * 		3-allele: this goes for pairs t1/t2 t2/t3 and t1/t3
+					 * in circ dom, the circular permutations are all ok
+					 */
+					if ((geneModel.getNumAlleles() == 2) && (geneModel.getDomTypeText().equals("Incomplete"))) {
+						detailsCorrect = false;
+						// check het pheno first - if it's wrong, give up
+						if (mdp.t3Choices.getSelectedItem().equals(
+								Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) {
 
-					if ((mdp.t2Choices != null) && (geneModel.t2 != null)) {
-						if (!mdp.t2Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
-					}
+							// try either permutation of the homozygotes
+							// direct match
+							if (
+									(mdp.t1Choices.getSelectedItem().equals(
+											Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) &&
+											(mdp.t2Choices.getSelectedItem().equals(
+													Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) 
+							){
+								detailsCorrect = true;
+							}
+							// swapped
+							if (
+									(mdp.t1Choices.getSelectedItem().equals(
+											Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) &&
+											(mdp.t2Choices.getSelectedItem().equals(
+													Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) 
+							){
+								detailsCorrect = true;
+							}
+						} 
 
-					if ((mdp.t3Choices != null) && (geneModel.t3 != null)) {
-						if (!mdp.t3Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
-					}
+					} else if ((geneModel.getNumAlleles() == 3) && (geneModel.getDomTypeText().equals("Incomplete"))) {
 
-					if ((mdp.t4Choices != null) && (geneModel.t4 != null)) {
-						if (!mdp.t4Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsCorrect = false;
-					}
+					} else if ((geneModel.getNumAlleles() == 3) && (geneModel.getDomTypeText().equals("Circular"))) {
 
-					if ((mdp.t5Choices != null) && (geneModel.t5 != null)) {
-						if (!mdp.t5Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t5.getTraitName()))) detailsCorrect = false;
-					}
+					} else {
+						// check each entry; if any mismatch, it's wrong
+						if ((mdp.t1Choices != null) && (geneModel.t1 != null)) {
+							if (!mdp.t1Choices.getSelectedItem().equals(
+									Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;
+						}
 
-					if ((mdp.t6Choices != null) && (geneModel.t6 != null)) {
-						if (!mdp.t6Choices.getSelectedItem().equals(
-								Messages.getInstance().getTranslatedShortTraitName(geneModel.t6.getTraitName()))) detailsCorrect = false;
+						if ((mdp.t2Choices != null) && (geneModel.t2 != null)) {
+							if (!mdp.t2Choices.getSelectedItem().equals(
+									Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
+						}
+
+						if ((mdp.t3Choices != null) && (geneModel.t3 != null)) {
+							if (!mdp.t3Choices.getSelectedItem().equals(
+									Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
+						}
+
+						if ((mdp.t4Choices != null) && (geneModel.t4 != null)) {
+							if (!mdp.t4Choices.getSelectedItem().equals(
+									Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsCorrect = false;
+						}
+
+						if ((mdp.t5Choices != null) && (geneModel.t5 != null)) {
+							if (!mdp.t5Choices.getSelectedItem().equals(
+									Messages.getInstance().getTranslatedShortTraitName(geneModel.t5.getTraitName()))) detailsCorrect = false;
+						}
+
+						if ((mdp.t6Choices != null) && (geneModel.t6 != null)) {
+							if (!mdp.t6Choices.getSelectedItem().equals(
+									Messages.getInstance().getTranslatedShortTraitName(geneModel.t6.getTraitName()))) detailsCorrect = false;
+						}
 					}
 				}
 				Element idEl = new Element("InteractionDetails");
