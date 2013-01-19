@@ -471,11 +471,14 @@ public class ModelPane extends JPanel implements ItemListener {
 	 * returns 0 if the student didn't have a choice
 	 * that is, if it's not relevant to grade
 	 * - this is the case if the JComboBox has only one entry
+	 * 
+	 * returns -1 if they didn't choose anything
 	 */
 	public int getAlleleNumberChoice() {
 		if (alleleNumberChoices.getItemCount() == 1) return 0;
 		String choice = (String) alleleNumberChoices.getSelectedItem();
 		String[] pieces = choice.split("-");
+		if (pieces.length < 2) return -1; 
 		return Integer.parseInt(pieces[0]);
 	}
 	
@@ -487,9 +490,12 @@ public class ModelPane extends JPanel implements ItemListener {
 	 * returns null if the student didn't have a choice
 	 * that is, if it's not relevant to grade
 	 * - this is the case if the JComboBox has only one entry
-
+	 *
+	 * also returns null if this choice doesn't exist yet
+	 * 	if they haven't chosen the number of alleles, for example
 	 */
 	public String getInteractionTypeChoice() {
+		if (interactionTypeChoices == null)	 return null;
 		if (interactionTypeChoices.getItemCount() == 1) return null;
 		return interactionTypeChoices.getSelectedItem().toString();
 	}
