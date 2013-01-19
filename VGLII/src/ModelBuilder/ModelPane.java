@@ -472,13 +472,13 @@ public class ModelPane extends JPanel implements ItemListener {
 	 * that is, if it's not relevant to grade
 	 * - this is the case if the JComboBox has only one entry
 	 * 
-	 * returns -1 if they didn't choose anything
+	 * returns -1 if they selected "Unknown"
 	 */
 	public int getAlleleNumberChoice() {
 		if (alleleNumberChoices.getItemCount() == 1) return 0;
 		String choice = (String) alleleNumberChoices.getSelectedItem();
-		String[] pieces = choice.split("-");
-		if (pieces.length < 2) return -1; 
+		if (choice.equals(Messages.getInstance().getString("VGLII.Unknown"))) return -1;
+		String[] pieces = choice.split("-"); 
 		return Integer.parseInt(pieces[0]);
 	}
 	

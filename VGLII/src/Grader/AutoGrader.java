@@ -124,23 +124,16 @@ public class AutoGrader {
 				 * first see if there was really a choice for the student here
 				 */
 				boolean numAllelesCorrect = false;
-				if (modelPane.getAlleleNumberChoice() == -1) {
-					// they didn't pick a number
+				// see if they really had a choice or not
+				if (modelPane.getAlleleNumberChoice() != 0) {
+					numAllelesCorrect = (modelPane.getAlleleNumberChoice() == geneModel.getNumAlleles());
+					System.out.println("chose=" + modelPane.getAlleleNumberChoice() + " correct=" + geneModel.getNumAlleles() + " " + numAllelesCorrect);
 					Element naEl = new Element("NumberOfAlleles");
 					naEl.addContent((
-							new Element("Correct")).addContent(String.valueOf(false)));
+							new Element("Correct")).addContent(String.valueOf(numAllelesCorrect)));
 					geneEl.addContent(naEl);
-				} else {
-					// they picked a number -see if they really had a choice or not
-					if (modelPane.getAlleleNumberChoice() != 0) {
-						Element naEl = new Element("NumberOfAlleles");
-						naEl.addContent((
-								new Element("Correct")).addContent(String.valueOf(
-										(modelPane.getAlleleNumberChoice()) == geneModel.getNumAlleles())));
-						geneEl.addContent(naEl);
-						numAllelesCorrect = (modelPane.getAlleleNumberChoice() == geneModel.getNumAlleles());
-					}
 				}
+
 
 				/*
 				 * these are the raw selected strings (eg "Simple dominance") 
@@ -185,7 +178,7 @@ public class AutoGrader {
 					 * 	in inc dom, the homozygote traits are exchangable
 					 * 		(they don't have to match exactly, as long as the pair is right)
 					 * 		2-allele: t1 and t3 can be swapped as long as both are right
-					 * 		3-allele: this goes for pairs t1/t2 t2/t3 and t1/t3
+					 * 		3-allele: 3 circular permutations are all OK
 					 * in circ dom, the circular permutations are all ok
 					 * 
 					 */				
@@ -233,6 +226,7 @@ public class AutoGrader {
 						 */
 						// check to be sure they've instantiated the choices
 						if (mdp.t1Choices != null) {
+							// then, see which permutation it is
 							if (mdp.t1Choices.getSelectedItem().equals(
 									Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) {
 								// first alternative; provisionally right unless a mismatch
@@ -281,12 +275,52 @@ public class AutoGrader {
 							// none of the alternatives, so details aren't correct
 						}
 					} else if ((geneModel.getNumAlleles() == 3) && (geneModel.getDomTypeText().equals("Circular"))) {
+						detailsCorrect = false;
+						/*
+						 * 		normal slot		alternatives
+						 *			1			1	3	2
+						 *			2			2	1	3
+						 *			3			3	2	1
+						 */
 						// check to be sure they've instantiated the choices
 						if (mdp.t1Choices != null) {
-							
+							// then, see which permutation it is
+							if (mdp.t1Choices.getSelectedItem().equals(
+									Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) {
+								// first alternative; provisionally right unless a mismatch
+								detailsCorrect = true;
+								if (!mdp.t2Choices.getSelectedItem().equals(
+										Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t3Choices.getSelectedItem().equals(
+										Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
+
+							} else if (mdp.t1Choices.getSelectedItem().equals(
+									Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))){
+								// second alternative; provisionally right unless a mismatch
+								detailsCorrect = true;
+								if (!mdp.t2Choices.getSelectedItem().equals(
+										Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t3Choices.getSelectedItem().equals(
+										Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
+
+							} else if (mdp.t1Choices.getSelectedItem().equals(
+									Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) {
+								// third alternative; provisionally right unless a mismatch
+								detailsCorrect = true;
+								if (!mdp.t2Choices.getSelectedItem().equals(
+										Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t3Choices.getSelectedItem().equals(
+										Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;
+
+							}
+							// none of the alternatives, so details aren't correct
 						}
 					} else {
-						// check each entry; if any mismatch, it's wrong
+						/*
+						 * it's not one of the exceptions with multiple possibilities
+						 * there's only one right answer here, so:
+						 * check each entry; if any mismatch, it's wrong
+						 */
 						if ((mdp.t1Choices != null) && (geneModel.t1 != null)) {
 							if (!mdp.t1Choices.getSelectedItem().equals(
 									Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;

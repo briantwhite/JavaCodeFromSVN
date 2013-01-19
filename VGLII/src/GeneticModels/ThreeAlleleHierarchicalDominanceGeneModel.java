@@ -247,7 +247,7 @@ public class ThreeAlleleHierarchicalDominanceGeneModel extends GeneModel {
 	}
 
 	public int getNumAlleles() {
-		return 2;
+		return 3;
 	}
 
 }
