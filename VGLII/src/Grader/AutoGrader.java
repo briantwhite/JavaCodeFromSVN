@@ -252,13 +252,13 @@ public class AutoGrader {
 									Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))){
 								// second alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t1Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t2Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
 								if (!mdp.t6Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsCorrect = false;
+										Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t1Choices.getSelectedItem().equals(
+										Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
 								if (!mdp.t4Choices.getSelectedItem().equals(
+										Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t2Choices.getSelectedItem().equals(
 										Messages.getInstance().getTranslatedShortTraitName(geneModel.t5.getTraitName()))) detailsCorrect = false;
 								if (!mdp.t5Choices.getSelectedItem().equals(
 										Messages.getInstance().getTranslatedShortTraitName(geneModel.t6.getTraitName()))) detailsCorrect = false;
