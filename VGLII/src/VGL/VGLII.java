@@ -605,7 +605,7 @@ public class VGLII extends JFrame {
 		ImageIcon newImage = new ImageIcon(newImageURL);
 
 		URL saveAsImageURL = VGLII.class
-				.getResource("images/saveas16.gif"); //$NON-NLS-1$
+		.getResource("images/saveas16.gif"); //$NON-NLS-1$
 		ImageIcon saveAsImage = new ImageIcon(saveAsImageURL);
 
 		URL saveImageURL = VGLII.class.getResource("images/save16.gif"); //$NON-NLS-1$
@@ -615,26 +615,26 @@ public class VGLII extends JFrame {
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
 
 		URL printFileImageURL = 
-				VGLII.class.getResource("images/printtofile16.gif"); //$NON-NLS-1$
+			VGLII.class.getResource("images/printtofile16.gif"); //$NON-NLS-1$
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
 
 		URL balloonHelpImageURL = VGLII.class
-				.getResource("images/help16.gif"); //$NON-NLS-1$
+		.getResource("images/help16.gif"); //$NON-NLS-1$
 		ImageIcon balloonHelpImage = new ImageIcon(balloonHelpImageURL);
 
 		URL printImageURL = VGLII.class.getResource("images/print16.gif"); //$NON-NLS-1$
 		ImageIcon printImage = new ImageIcon(printImageURL);
 
 		URL pageSetupImageURL = VGLII.class
-				.getResource("images/pagesetup16.gif"); //$NON-NLS-1$
+		.getResource("images/pagesetup16.gif"); //$NON-NLS-1$
 		ImageIcon pageSetupImage = new ImageIcon(pageSetupImageURL);
 
 		URL onlineHelpImageURL = VGLII.class
-				.getResource("images/onlinehelp16.gif"); //$NON-NLS-1$
+		.getResource("images/onlinehelp16.gif"); //$NON-NLS-1$
 		ImageIcon onlineHelpImage = new ImageIcon(onlineHelpImageURL);
 
 		URL closeImageURL = VGLII.class
-				.getResource("images/closework16.gif"); //$NON-NLS-1$
+		.getResource("images/closework16.gif"); //$NON-NLS-1$
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
 		//  "File" options.
@@ -662,7 +662,7 @@ public class VGLII extends JFrame {
 		}
 		if (saveForGradingEnabled) {
 			saveForGradingItem = 
-					menuItem(Messages.getInstance().getString("VGLII.SaveForGrading"), "SaveForGrading", null);
+				menuItem(Messages.getInstance().getString("VGLII.SaveForGrading"), "SaveForGrading", null);
 			mnuFile.add(saveForGradingItem);
 		}
 		mnuFile.addSeparator();
@@ -800,15 +800,15 @@ public class VGLII extends JFrame {
 		ImageIcon printImage = new ImageIcon(printImageURL);
 
 		URL printFileImageURL = VGLII.class
-				.getResource("images/printtofile.gif"); //$NON-NLS-1$
+		.getResource("images/printtofile.gif"); //$NON-NLS-1$
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
 
 		URL onlineHelpImageURL = VGLII.class
-				.getResource("images/onlinehelp.gif"); //$NON-NLS-1$
+		.getResource("images/onlinehelp.gif"); //$NON-NLS-1$
 		ImageIcon onlineHelpImage = new ImageIcon(onlineHelpImageURL);
 
 		URL closeImageURL = VGLII.class
-				.getResource("images/closework.gif"); //$NON-NLS-1$
+		.getResource("images/closework.gif"); //$NON-NLS-1$
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
 		URL crossTwoImageURL = VGLII.class.getResource("images/cross.gif"); //$NON-NLS-1$
@@ -908,7 +908,7 @@ public class VGLII extends JFrame {
 		m_FChooser = new JFileChooser(workingDir);
 		m_FChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		javax.swing.filechooser.FileFilter ft = m_FChooser
-				.getAcceptAllFileFilter();
+		.getAcceptAllFileFilter();
 		m_FChooser.removeChoosableFileFilter(ft);
 		if (dialogType != -1)
 			m_FChooser.setDialogType(dialogType);
@@ -956,16 +956,16 @@ public class VGLII extends JFrame {
 				int choice = JOptionPane.showConfirmDialog(
 						this,
 						"<html>" 
-								+ Messages.getInstance().getString("VGLII.BadFileName1")
-								+ "<br>" 
-								+ Messages.getInstance().getString("VGLII.BadFileName2")
-								+ "<br>" 
-								+ Messages.getInstance().getString("VGLII.BadFileName3")
-								+ ": " 
-								+ result.getName()
-								+ "</html>",
-								Messages.getInstance().getString("VGLII.Error"),
-								JOptionPane.YES_NO_OPTION);
+						+ Messages.getInstance().getString("VGLII.BadFileName1")
+						+ "<br>" 
+						+ Messages.getInstance().getString("VGLII.BadFileName2")
+						+ "<br>" 
+						+ Messages.getInstance().getString("VGLII.BadFileName3")
+						+ ": " 
+						+ result.getName()
+						+ "</html>",
+						Messages.getInstance().getString("VGLII.Error"),
+						JOptionPane.YES_NO_OPTION);
 
 				if (choice == JOptionPane.NO_OPTION) {
 					result = null;
@@ -1005,7 +1005,7 @@ public class VGLII extends JFrame {
 			CharacterSpecificationBank.getInstance().refreshAll();
 			PhenotypeImageBank.getInstance().resetDefaults();
 			geneticModel = 
-					GeneticModelFactory.getInstance().createRandomModel(problemFile);
+				GeneticModelFactory.getInstance().createRandomModel(problemFile);
 
 			if (geneticModel == null) return;
 
@@ -1214,13 +1214,28 @@ public class VGLII extends JFrame {
 	 * only available if built with saveToServerEnabled = true;
 	 */
 	private void saveToServer() {
-		Element root = new Element("Root");
-		root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
-		Document doc = new Document(root);
-		XMLOutputter outputter = 
+		Iterator<CageUI> it = cageCollection.iterator();
+		ArrayList<Cage> cages = new ArrayList<Cage>();
+		while (it.hasNext()) {
+			CageUI cui = it.next();
+			Cage c = cui.getCage();
+			cages.add(c);
+		}
+		Document doc = null;
+		try {
+			doc = getXMLDoc(cages);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (doc != null) {
+			Element root = doc.getRootElement();
+			root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
+			XMLOutputter outputter = 
 				new XMLOutputter(Format.getPrettyFormat());
-		String xmlString = outputter.outputString(doc);
-		System.out.println(xmlString);
+			String xmlString = outputter.outputString(doc);
+			System.out.println(xmlString);
+		}
 	}
 
 
@@ -1247,9 +1262,9 @@ public class VGLII extends JFrame {
 		try {
 			printFile.createNewFile();
 			OutputStreamWriter op = 
-					new OutputStreamWriter(
-							new BufferedOutputStream(
-									new FileOutputStream(printFile)),"ISO8859_1");
+				new OutputStreamWriter(
+						new BufferedOutputStream(
+								new FileOutputStream(printFile)),"ISO8859_1");
 			op.write(GetWorkAsHTML.getWorkAsHTML(cageCollection, modelBuilder));
 			op.flush();
 			op.close();
@@ -1397,7 +1412,7 @@ public class VGLII extends JFrame {
 				numOffspring = numSelected.intValue();
 			} else {
 				numOffspring = random.nextInt(geneticModel.getMaxOffspring() - geneticModel.getMinOffspring())
-						+ geneticModel.getMinOffspring();
+				+ geneticModel.getMinOffspring();
 			}
 
 			Cage c = geneticModel.crossTwo(nextCageId, 
