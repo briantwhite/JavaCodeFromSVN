@@ -16,12 +16,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1234,7 +1238,41 @@ public class VGLII extends JFrame {
 			XMLOutputter outputter = 
 				new XMLOutputter(Format.getPrettyFormat());
 			String xmlString = outputter.outputString(doc);
-			System.out.println(xmlString);
+			//			System.out.println(xmlString);
+
+			// server communication
+			URL url = null;
+			try {
+				url = new URL("https://www.edx.org");
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+			if (url != null) {
+				try {
+					URLConnection connection = url.openConnection();
+					Map<String, List<String>> headerFields = connection.getHeaderFields();
+					Iterator<String> fieldIt = headerFields.keySet().iterator();
+					while (fieldIt.hasNext()) {
+						String fieldName = fieldIt.next();
+						System.out.println(fieldName);
+						List<String> result = headerFields.get(fieldName);
+						Iterator<String> sIt = result.iterator();
+						while(sIt.hasNext()) {
+							System.out.println("\t" + sIt.next());
+						}
+					}
+//					BufferedReader in = new BufferedReader(
+//							new InputStreamReader(connection.getInputStream()));
+//					String inputLine;
+//
+//					while ((inputLine = in.readLine()) != null) 
+//						System.out.println(inputLine);
+//					in.close();
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
