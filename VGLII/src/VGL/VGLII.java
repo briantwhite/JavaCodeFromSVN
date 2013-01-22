@@ -16,9 +16,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -1250,8 +1250,8 @@ public class VGLII extends JFrame {
 			if (url != null) {
 				try {
 					// you need to contact once to get the header to get the csrftoken "cookie"
-					URLConnection connection = url.openConnection();
-					Map<String, List<String>> headerFields = connection.getHeaderFields();
+					HttpURLConnection firstConnection = (HttpURLConnection)url.openConnection();
+					Map<String, List<String>> headerFields = firstConnection.getHeaderFields();
 					List<String> cookies = headerFields.get("Set-Cookie");
 					String csrftoken = null;
 					if (cookies != null) {
@@ -1265,6 +1265,7 @@ public class VGLII extends JFrame {
 							}
 						}
 					}
+					firstConnection.disconnect();
 					
 					if (csrftoken != null) {
 						JOptionPane.showMessageDialog(this, "Could not access server");
@@ -1272,9 +1273,9 @@ public class VGLII extends JFrame {
 					}
 					
 					// now post to the server
-					connection.setDoOutput(true); // make it a POST
-					connection.setRequestProperty("X-CSRFToken", csrftoken);
-					connection.setRequestProperty("Referer", "https://www.edx.org");
+					firstConnection.setDoOutput(true); // make it a POST
+					firstConnection.setRequestProperty("X-CSRFToken", csrftoken);
+					firstConnection.setRequestProperty("Referer", "https://www.edx.org");
 					
 					
 //					BufferedReader in = new BufferedReader(
