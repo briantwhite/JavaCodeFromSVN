@@ -1249,18 +1249,34 @@ public class VGLII extends JFrame {
 			}
 			if (url != null) {
 				try {
+					// you need to contact once to get the header to get the csrftoken "cookie"
 					URLConnection connection = url.openConnection();
 					Map<String, List<String>> headerFields = connection.getHeaderFields();
-					Iterator<String> fieldIt = headerFields.keySet().iterator();
-					while (fieldIt.hasNext()) {
-						String fieldName = fieldIt.next();
-						System.out.println(fieldName);
-						List<String> result = headerFields.get(fieldName);
-						Iterator<String> sIt = result.iterator();
-						while(sIt.hasNext()) {
-							System.out.println("\t" + sIt.next());
+					List<String> cookies = headerFields.get("Set-Cookie");
+					String csrftoken = null;
+					if (cookies != null) {
+						Iterator <String> sIt = cookies.iterator();
+						while (sIt.hasNext()) {
+							String s = sIt.next();
+							if (s.startsWith("csrftoken")) {
+								String part = s.split(";")[0];
+								csrftoken = part.split("=")[1];
+//								System.out.println(csrftoken);
+							}
 						}
 					}
+					
+					if (csrftoken != null) {
+						JOptionPane.showMessageDialog(this, "Could not access server");
+						return;
+					}
+					
+					// now post to the server
+					connection.setDoOutput(true); // make it a POST
+					connection.setRequestProperty("X-CSRFToken", csrftoken);
+					connection.setRequestProperty("Referer", "https://www.edx.org");
+					
+					
 //					BufferedReader in = new BufferedReader(
 //							new InputStreamReader(connection.getInputStream()));
 //					String inputLine;
@@ -1269,6 +1285,7 @@ public class VGLII extends JFrame {
 //						System.out.println(inputLine);
 //					in.close();
 
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
