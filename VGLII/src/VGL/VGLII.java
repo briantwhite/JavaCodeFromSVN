@@ -12,11 +12,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -1323,7 +1325,9 @@ public class VGLII extends JFrame {
 							output.close();
 							
 							String response = null;
-							DataInputStream input = new DataInputStream(secondConnection.getInputStream());
+							BufferedReader input = new BufferedReader(
+									new InputStreamReader(
+											new DataInputStream(secondConnection.getInputStream())));
 							while (null != ((response = input.readLine()))) {
 								System.out.println(response);
 							}

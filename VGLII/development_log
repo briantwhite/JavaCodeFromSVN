@@ -1880,3 +1880,9 @@ need to code all of these...
 did 'em and tested 'em
 
 all seems to be working for the edX problems!
+
+1/23/13
+working on server connection
+need both the CookieManager and the "X-CSRFToken" things to get a proper connection
+if login works, you get this single line back from the server
+{"success": true}
