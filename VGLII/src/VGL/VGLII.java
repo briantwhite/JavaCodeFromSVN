@@ -12,13 +12,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -1241,6 +1247,8 @@ public class VGLII extends JFrame {
 			//			System.out.println(xmlString);
 
 			// server communication
+			CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+			String csrftoken = null;
 			URL url = null;
 			try {
 				url = new URL("https://www.edx.org");
@@ -1253,7 +1261,6 @@ public class VGLII extends JFrame {
 					HttpURLConnection firstConnection = (HttpURLConnection)url.openConnection();
 					Map<String, List<String>> headerFields = firstConnection.getHeaderFields();
 					List<String> cookies = headerFields.get("Set-Cookie");
-					String csrftoken = null;
 					if (cookies != null) {
 						Iterator <String> sIt = cookies.iterator();
 						while (sIt.hasNext()) {
@@ -1261,34 +1268,71 @@ public class VGLII extends JFrame {
 							if (s.startsWith("csrftoken")) {
 								String part = s.split(";")[0];
 								csrftoken = part.split("=")[1];
-//								System.out.println(csrftoken);
+								//								System.out.println(csrftoken);
 							}
 						}
 					}
 					firstConnection.disconnect();
-					
-					if (csrftoken != null) {
+
+					if (csrftoken == null) {
 						JOptionPane.showMessageDialog(this, "Could not access server");
 						return;
 					}
-					
-					// now post to the server
-					firstConnection.setDoOutput(true); // make it a POST
-					firstConnection.setRequestProperty("X-CSRFToken", csrftoken);
-					firstConnection.setRequestProperty("Referer", "https://www.edx.org");
-					
-					
-//					BufferedReader in = new BufferedReader(
-//							new InputStreamReader(connection.getInputStream()));
-//					String inputLine;
-//
-//					while ((inputLine = in.readLine()) != null) 
-//						System.out.println(inputLine);
-//					in.close();
 
-					
+
+
+					//					BufferedReader in = new BufferedReader(
+					//							new InputStreamReader(connection.getInputStream()));
+					//					String inputLine;
+					//
+					//					while ((inputLine = in.readLine()) != null) 
+					//						System.out.println(inputLine);
+					//					in.close();
+
+
 				} catch (IOException e) {
 					e.printStackTrace();
+				}
+
+				// now login 
+				if (csrftoken != null) {
+					try {
+						url = new URL("https://www.edx.org/login");
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					}
+					if (url != null) {
+						HttpURLConnection secondConnection;
+						try {
+							secondConnection = (HttpURLConnection)url.openConnection();
+							secondConnection.setDoInput(true);
+							secondConnection.setDoOutput(true); // make it a POST
+							secondConnection.setUseCaches(false);
+							secondConnection.setRequestProperty("X-CSRFToken", csrftoken);
+							secondConnection.setRequestProperty("Referer", "https://www.edx.org");
+							
+							DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
+							
+							String content = 
+								"email=" + URLEncoder.encode("victor@edx.org", "UTF-8") 
+							+ "&password=" + URLEncoder.encode("Learn*Me!", "UTF-8")
+							+ "&remember=" + URLEncoder.encode("false", "UTF-8");
+							
+							output.writeBytes(content);
+							output.flush();
+							output.close();
+							
+							String response = null;
+							DataInputStream input = new DataInputStream(secondConnection.getInputStream());
+							while (null != ((response = input.readLine()))) {
+								System.out.println(response);
+							}
+							input.close();
+							
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
 				}
 			}
 		}
