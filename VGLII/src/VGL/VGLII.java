@@ -1280,23 +1280,12 @@ public class VGLII extends JFrame {
 						JOptionPane.showMessageDialog(this, "Could not access server");
 						return;
 					}
-
-
-
-					//					BufferedReader in = new BufferedReader(
-					//							new InputStreamReader(connection.getInputStream()));
-					//					String inputLine;
-					//
-					//					while ((inputLine = in.readLine()) != null) 
-					//						System.out.println(inputLine);
-					//					in.close();
-
-
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
 				// now login 
+				boolean loginSuccess = false;
 				if (csrftoken != null) {
 					try {
 						url = new URL("https://www.edx.org/login");
@@ -1316,8 +1305,8 @@ public class VGLII extends JFrame {
 							DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
 							
 							String content = 
-								"email=" + URLEncoder.encode("victor@edx.org", "UTF-8") 
-							+ "&password=" + URLEncoder.encode("Learn*Me!", "UTF-8")
+								"email=" + URLEncoder.encode("brian.white@umb.edu", "UTF-8") 
+							+ "&password=" + URLEncoder.encode("top33dog", "UTF-8")
 							+ "&remember=" + URLEncoder.encode("false", "UTF-8");
 							
 							output.writeBytes(content);
@@ -1329,17 +1318,70 @@ public class VGLII extends JFrame {
 									new InputStreamReader(
 											new DataInputStream(secondConnection.getInputStream())));
 							while (null != ((response = input.readLine()))) {
-								System.out.println(response);
+								if (response.contains("{\"success\": true}")) {
+									loginSuccess = true;
+									break;
+								}
 							}
 							input.close();
-							
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
 				}
+				if (!loginSuccess) {
+					JOptionPane.showMessageDialog(this, "Login Failed");
+					return;					
+				}
+				
+				System.out.println("VGL 1337: Login succeeded");
+				
+				// now, submit it
+				try {
+					url = new URL("https://www.edx.org/courses/MITx/6.002x/2012_Fall/modx/i4x://MITx/6.002x/problem/Sample_Numeric_Problem/problem_check");
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+				if (url != null) {
+					HttpURLConnection secondConnection;
+					try {
+						secondConnection = (HttpURLConnection)url.openConnection();
+						secondConnection.setDoInput(true);
+						secondConnection.setDoOutput(true); // make it a POST
+						secondConnection.setUseCaches(false);
+						secondConnection.setRequestProperty("X-CSRFToken", csrftoken);
+						secondConnection.setRequestProperty("Referer", "https://www.edx.org");
+						
+						DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
+						
+						String content = 
+								"input_"
+								 + clean("i4x://MITx/6.002x/problem/Sample_Numeric_Problem") + "_2_1="
+								+ xmlString;
+						
+						output.writeBytes(content);
+						output.flush();
+						output.close();
+						
+						String response = null;
+						BufferedReader input = new BufferedReader(
+								new InputStreamReader(
+										new DataInputStream(secondConnection.getInputStream())));
+						while (null != ((response = input.readLine()))) {
+							System.out.println(response);
+						}
+						input.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+
 			}
 		}
+	}
+	
+	private String clean(String s) {
+		return s.replace("/","-").replace(":","").replace("--","-").replace(".", "_");
 	}
 
 
