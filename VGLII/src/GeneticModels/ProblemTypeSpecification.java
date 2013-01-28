@@ -1,6 +1,9 @@
 package GeneticModels;
 
+import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 /**
  * Brian White Summer 2008
@@ -306,108 +309,121 @@ public class ProblemTypeSpecification {
 	public Element save() throws Exception {
 		Element ptse = new Element("ProblemTypeSpecification");
 		Element e = null;
-		
+
 		e = new Element("FieldPopTrueBreeding");
 		e.setText(String.valueOf(fieldPopTrueBreeding));
 		ptse.addContent(e);
-		
+
 		e = new Element("BeginnerMode");
 		e.setText(String.valueOf(beginnerMode));
 		ptse.addContent(e);
-		
+
 		e = new Element("MinOffspring");
 		e.setText(String.valueOf(minOffspring));
 		ptse.addContent(e);
-		
+
 		e = new Element("MaxOffspring");
 		e.setText(String.valueOf(maxOffspring));
 		ptse.addContent(e);
-		
+
 		e = new Element("ZZ_ZW");
 		e.setText(String.valueOf(chZZ_ZW));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene1_SexLinked");
 		e.setText(String.valueOf(gene1_chSexLinked));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene1_3Alleles");
 		e.setText(String.valueOf(gene1_ch3Alleles));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene1_IncDom");
 		e.setText(String.valueOf(gene1_chIncDom));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene1_CircDom");
 		e.setText(String.valueOf(gene1_chCircDom));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene2_Present");
 		e.setText(String.valueOf(gene2_chPresent));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene2_SameChrAsGene1");
 		e.setText(String.valueOf(gene2_chSameChrAsGene1));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene2_MinRfToGene1");
 		e.setText(String.valueOf(gene2_minRfToGene1));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene2_MaxRfToGene1");
 		e.setText(String.valueOf(gene2_maxRfToGene1));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene2_3Alleles");
 		e.setText(String.valueOf(gene2_ch3Alleles));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene2_IncDom");
 		e.setText(String.valueOf(gene2_chIncDom));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene2_CircDom");
 		e.setText(String.valueOf(gene2_chCircDom));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene3_Present");
 		e.setText(String.valueOf(gene3_chPresent));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene3_SameChrAsGene1");
 		e.setText(String.valueOf(gene3_chSameChrAsGene1));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene3_MinRfToPrevGene");
 		e.setText(String.valueOf(gene3_minRfToPrevGene));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene3_MaxRfToPrevGene");
 		e.setText(String.valueOf(gene3_maxRfToPrevGene));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene3_3Alleles");
 		e.setText(String.valueOf(gene3_ch3Alleles));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene3_IncDom");
 		e.setText(String.valueOf(gene3_chIncDom));
 		ptse.addContent(e);
-		
+
 		e = new Element("Gene3_CircDom");
 		e.setText(String.valueOf(gene3_chCircDom));
 		ptse.addContent(e);
-		
+
 		e = new Element("PhenotypeInteraction");
 		e.setText(String.valueOf(phenotypeInteraction));
 		ptse.addContent(e);
-		
+
 		e = new Element("Epistasis");
 		e.setText(String.valueOf(epistasis));
 		ptse.addContent(e);
-		
+
 		return ptse;
+	}
+
+	public String toString() {
+		Element root = new Element("ProblemSpec");
+		try {
+			root.addContent(save());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Document doc = new Document(root);
+		XMLOutputter outputter = 
+				new XMLOutputter(Format.getPrettyFormat());
+		return outputter.outputString(doc);
 	}
 
 }

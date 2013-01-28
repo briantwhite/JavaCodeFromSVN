@@ -125,96 +125,103 @@ public class GeneticModelFactory {
 		Iterator<Element> it = elements.iterator();
 		while(it.hasNext()) {
 			Element current = it.next();
-			String name = current.getName();
-
-			if (name.equals("FieldPopTrueBreeding"))
-				problemSpec.setFieldPopTrueBreeding(
-						Boolean.parseBoolean(current.getTextTrim()));
-
-			if (name.equals("BeginnerMode"))
-				problemSpec.setBeginnerMode(
-						Boolean.parseBoolean(current.getTextTrim()));
-
-			if (name.equals("MinOffspring"))
-				problemSpec.setMinOffspring(
-						Integer.parseInt(current.getTextTrim()));
-			if (name.equals("MaxOffspring"))
-				problemSpec.setMaxOffspring(
-						Integer.parseInt(current.getTextTrim()));
-
-			if (name.equals("ZZ_ZW")) 
-				problemSpec.setChZZ_ZW(
-						Float.parseFloat(current.getTextTrim()));
-
-			if (name.equals("Gene1_SexLinked"))
-				problemSpec.setGene1_chSexLinked(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene1_3Alleles"))
-				problemSpec.setGene1_ch3Alleles(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene1_IncDom"))
-				problemSpec.setGene1_chIncDom(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene1_CircDom"))
-				problemSpec.setGene1_chCircDom(
-						Float.parseFloat(current.getTextTrim()));
-
-			if (name.equals("Gene2_Present"))
-				problemSpec.setGene2_chPresent(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2_SameChrAsGene1"))
-				problemSpec.setGene2_chSameChrAsGene1(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2_MinRfToGene1"))
-				problemSpec.setGene2_minRfToGene1(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2_MaxRfToGene1"))
-				problemSpec.setGene2_maxRfToGene1(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2_3Alleles"))
-				problemSpec.setGene2_ch3Alleles(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2_IncDom"))
-				problemSpec.setGene2_chIncDom(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene2_CircDom"))
-				problemSpec.setGene2_chCircDom(
-						Float.parseFloat(current.getTextTrim()));
-
-			if (name.equals("Gene3_Present"))
-				problemSpec.setGene3_chPresent(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3_SameChrAsGene1"))
-				problemSpec.setGene3_chSameChrAsGene1(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3_MinRfToPrevGene"))
-				problemSpec.setGene3_minRfToPrevGene(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3_MaxRfToPrevGene"))
-				problemSpec.setGene3_maxRfToPrevGene(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3_3Alleles"))
-				problemSpec.setGene3_ch3Alleles(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3_IncDom"))
-				problemSpec.setGene3_chIncDom(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Gene3_CircDom"))
-				problemSpec.setGene3_chCircDom(
-						Float.parseFloat(current.getTextTrim()));
-
-			// params for epistasis & complementation
-			if (name.equals("PhenotypeInteraction"))
-				problemSpec.setPhenotypeInteraction(
-						Float.parseFloat(current.getTextTrim()));
-			if (name.equals("Epistasis"))
-				problemSpec.setEpistasis(
-						Float.parseFloat(current.getTextTrim()));
-
+			problemSpec = updateProblemSpec(problemSpec, current.getName(), current.getTextTrim());
 		}
+		System.out.println("GenModFact 130: \n" + problemSpec.toString());
 		return problemSpec;
 	}
 
+	private ProblemTypeSpecification updateProblemSpec(
+			ProblemTypeSpecification origPS, 
+			String paramName, 
+			String paramValue) {
+		
+		if (paramName.equals("FieldPopTrueBreeding"))
+			origPS.setFieldPopTrueBreeding(
+					Boolean.parseBoolean(paramValue));
+
+		if (paramName.equals("BeginnerMode"))
+			origPS.setBeginnerMode(
+					Boolean.parseBoolean(paramValue));
+
+		if (paramName.equals("MinOffspring"))
+			origPS.setMinOffspring(
+					Integer.parseInt(paramValue));
+		if (paramName.equals("MaxOffspring"))
+			origPS.setMaxOffspring(
+					Integer.parseInt(paramValue));
+
+		if (paramName.equals("ZZ_ZW")) 
+			origPS.setChZZ_ZW(
+					Float.parseFloat(paramValue));
+
+		if (paramName.equals("Gene1_SexLinked"))
+			origPS.setGene1_chSexLinked(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene1_3Alleles"))
+			origPS.setGene1_ch3Alleles(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene1_IncDom"))
+			origPS.setGene1_chIncDom(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene1_CircDom"))
+			origPS.setGene1_chCircDom(
+					Float.parseFloat(paramValue));
+
+		if (paramName.equals("Gene2_Present"))
+			origPS.setGene2_chPresent(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene2_SameChrAsGene1"))
+			origPS.setGene2_chSameChrAsGene1(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene2_MinRfToGene1"))
+			origPS.setGene2_minRfToGene1(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene2_MaxRfToGene1"))
+			origPS.setGene2_maxRfToGene1(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene2_3Alleles"))
+			origPS.setGene2_ch3Alleles(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene2_IncDom"))
+			origPS.setGene2_chIncDom(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene2_CircDom"))
+			origPS.setGene2_chCircDom(
+					Float.parseFloat(paramValue));
+
+		if (paramName.equals("Gene3_Present"))
+			origPS.setGene3_chPresent(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene3_SameChrAsGene1"))
+			origPS.setGene3_chSameChrAsGene1(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene3_MinRfToPrevGene"))
+			origPS.setGene3_minRfToPrevGene(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene3_MaxRfToPrevGene"))
+			origPS.setGene3_maxRfToPrevGene(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene3_3Alleles"))
+			origPS.setGene3_ch3Alleles(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene3_IncDom"))
+			origPS.setGene3_chIncDom(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene3_CircDom"))
+			origPS.setGene3_chCircDom(
+					Float.parseFloat(paramValue));
+
+		// params for epistasis & complementation
+		if (paramName.equals("PhenotypeInteraction"))
+			origPS.setPhenotypeInteraction(
+					Float.parseFloat(paramValue));
+		if (paramName.equals("Epistasis"))
+			origPS.setEpistasis(
+					Float.parseFloat(paramValue));
+		
+		return origPS;
+	}
 
 
 	private GeneticModel createRandomModel(ProblemTypeSpecification specs) {
