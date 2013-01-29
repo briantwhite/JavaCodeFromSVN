@@ -5,6 +5,8 @@ import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
+import VGL.EdXServerStrings;
+
 /**
  * Brian White Summer 2008
  * 
@@ -62,6 +64,14 @@ public class ProblemTypeSpecification {
 	private float phenotypeInteraction;
 	private float epistasis;
 
+	// for edX
+	private String edXCookieURL;
+	private String edXLoginURL;
+	private String edXSubmissionURL;
+	private String edXLocation;
+	private EdXServerStrings edXServerStrings;
+
+
 	public ProblemTypeSpecification() {
 		beginnerMode = false;
 
@@ -95,6 +105,13 @@ public class ProblemTypeSpecification {
 
 		phenotypeInteraction = 0.0f;
 		epistasis = 0.0f;
+
+		// for edX server
+		edXCookieURL = null;
+		edXLoginURL = null;
+		edXSubmissionURL = null;
+		edXLocation = null;	
+		edXServerStrings = null;
 
 	}
 
@@ -306,6 +323,28 @@ public class ProblemTypeSpecification {
 		this.epistasis = epistasis;
 	}
 
+	public void setEdXCookieURL(String edXCookieURL) {
+		this.edXCookieURL = edXCookieURL;
+	}
+	
+	public void setEdXLoginURL(String edXLoginURL) {
+		this.edXLoginURL = edXLoginURL;
+	}
+	
+	public void setEdXSubmissionURL(String edXSubmissionURL) {
+		this.edXSubmissionURL = edXSubmissionURL;
+	}
+	
+	public void setEdXLocation(String edXLocation) {
+		this.edXLocation = edXLocation;
+	}
+	
+	public EdXServerStrings getEdXServerStrings() {
+		// only return if all parts present
+		if ((edXCookieURL == null) || (edXLoginURL == null) || (edXSubmissionURL == null) || (edXLocation == null)) return null;
+		return edXServerStrings;
+	}
+
 	public Element save() throws Exception {
 		Element ptse = new Element("ProblemTypeSpecification");
 		Element e = null;
@@ -408,6 +447,22 @@ public class ProblemTypeSpecification {
 
 		e = new Element("Epistasis");
 		e.setText(String.valueOf(epistasis));
+		ptse.addContent(e);
+		
+		e = new Element("edXCookieURL");
+		e.setText(edXCookieURL);
+		ptse.addContent(e);
+		
+		e = new Element("edXLoginURL");
+		e.setText(edXLoginURL);
+		ptse.addContent(e);
+		
+		e = new Element("edXSubmissionURL");
+		e.setText(edXSubmissionURL);
+		ptse.addContent(e);
+		
+		e = new Element("edXLocation");
+		e.setText(edXLocation);
 		ptse.addContent(e);
 
 		return ptse;

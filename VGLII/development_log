@@ -1886,3 +1886,28 @@ working on server connection
 need both the CookieManager and the "X-CSRFToken" things to get a proper connection
 if login works, you get this single line back from the server
 {"success": true}
+
+1/28/13
+settting up command line interface
+GOALS:
+	- pass as command-line params
+		- edX server stuff
+			(if not complete, make object null and error then no save to server)
+		- all params found in .pr2 file
+			(use config file processor if you can)
+		- for test, make config print itself to debug
+
+re-factored GeneticModelFactory's xml parser and tested OK.
+command line params will be in this format:
+-BeginnerMode=false
+	that is:
+		separated by whitespace
+		start with "-"
+		name and value separated by "="
+build into genetic model factory
+
+need to be sure save to server disabled unless
+	- not practice mode (don't even show it)
+	- all edX params AOK
+		do this by updating params
+			when you try to get the edXparams object, it checks for completeness or returns null

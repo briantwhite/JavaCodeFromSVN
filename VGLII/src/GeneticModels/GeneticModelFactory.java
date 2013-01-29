@@ -58,6 +58,7 @@ public class GeneticModelFactory {
 		return instance;
 	}
 
+	// use problem spec file
 	public GeneticModel createRandomModel(File modelSpecFile) {
 		GeneticModel model = null;
 		try {
@@ -68,17 +69,27 @@ public class GeneticModelFactory {
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(input);
 			ProblemTypeSpecification specs = 
-				processModelSpecElements(doc.getRootElement().getChildren());
+					processModelSpecElements(doc.getRootElement().getChildren());
 			model = createRandomModel(specs);
 			model.scrambleTraitOrder();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
 					Messages.getInstance().getString("VGLII.ErrorOpeningFileLine1") + "\n"
-					+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine2") + "\n"
-					+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine3"), 
-					Messages.getInstance().getString("VGLII.ErrorOpeningFileHeadline"),
-					JOptionPane.ERROR_MESSAGE);
+							+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine2") + "\n"
+							+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine3"), 
+							Messages.getInstance().getString("VGLII.ErrorOpeningFileHeadline"),
+							JOptionPane.ERROR_MESSAGE);
 		}
+		return model;
+	}
+
+	// use command line args
+	public GeneticModel createRandomModel(String[] args) {
+		GeneticModel model = null;
+		ProblemTypeSpecification specs = 
+				processModelSpecArgs(args);
+		model = createRandomModel(specs);
+		model.scrambleTraitOrder();
 		return model;
 	}
 
@@ -99,12 +110,12 @@ public class GeneticModelFactory {
 	private GeneticModelAndCageSet readModelFromXML(Document doc) {
 		GeneticModelAndCageSet result = null;
 		WorkFileProcessor processor = 
-			new WorkFileProcessor(doc.getRootElement().getChildren());
+				new WorkFileProcessor(doc.getRootElement().getChildren());
 		result = 
-			new GeneticModelAndCageSet(
-					processor.getGeneticModel(), 
-					processor.getCages(),
-					processor.getModelBuilderState());
+				new GeneticModelAndCageSet(
+						processor.getGeneticModel(), 
+						processor.getCages(),
+						processor.getModelBuilderState());
 		return result;
 	}
 
@@ -127,7 +138,19 @@ public class GeneticModelFactory {
 			Element current = it.next();
 			problemSpec = updateProblemSpec(problemSpec, current.getName(), current.getTextTrim());
 		}
-		System.out.println("GenModFact 130: \n" + problemSpec.toString());
+		return problemSpec;
+	}
+
+	public ProblemTypeSpecification processModelSpecArgs(String[] args) {
+		ProblemTypeSpecification problemSpec = new ProblemTypeSpecification();
+		for (int i = 0; i < args.length; i++) {
+			String arg = args[i];
+			if (arg.startsWith("-")) {
+				String trimmedArg = arg.substring(1); // remove "-"
+				String[] parts = trimmedArg.split("=");
+				problemSpec = updateProblemSpec(problemSpec, parts[0], parts[1]);
+			}
+		}
 		return problemSpec;
 	}
 
@@ -220,6 +243,12 @@ public class GeneticModelFactory {
 			origPS.setEpistasis(
 					Float.parseFloat(paramValue));
 		
+		// params for edX
+		if (paramName.equals("edXCookieURL")) origPS.setEdXCookieURL(paramValue);
+		if (paramName.equals("edXLoginURL")) origPS.setEdXLoginURL(paramValue);
+		if (paramName.equals("edXSubmissionURL")) origPS.setEdXSubmissionURL(paramValue);
+		if (paramName.equals("edXLocation")) origPS.setEdXLocation(paramValue);
+
 		return origPS;
 	}
 

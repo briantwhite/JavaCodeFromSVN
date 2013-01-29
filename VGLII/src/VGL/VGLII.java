@@ -459,13 +459,28 @@ public class VGLII extends JFrame {
 	public static void main(String[] args) {
 		VGLII vgl2 = new VGLII();
 		vgl2.setVisible(true);
-		if (args.length > 0) {
+		/*
+		 * if no args, just start with blank screen
+		 * 
+		 * if one arg, it's a file name to start the program with
+		 * 	either 
+		 * 		a work file  - open it
+		 * 		or a problem file - generate random problem using it
+		 * 
+		 * if many args, it's being run as java web start
+		 * 	it will be passed all the params to make a new problem
+		 * 		without a problem file
+		 * 
+		 */
+		if (args.length == 1) {
 			String fileName = args[0];
 			if (fileName.endsWith(".pr2")) { //$NON-NLS-1$
-				vgl2.newProblem(fileName);
+				vgl2.newProblemFromFile(fileName);
 			} else if (fileName.endsWith(".wr2")) { //$NON-NLS-1$
 				vgl2.openProblem(fileName);
 			}
+		} else if (args.length > 0) {
+			vgl2.newProblemFromArgs(args);
 		}
 	}
 
@@ -485,7 +500,7 @@ public class VGLII extends JFrame {
 		String cmd = evt.getActionCommand();
 		update(getGraphics());
 		if (cmd.equals("NewProblem")) //$NON-NLS-1$
-			newProblem(null);
+			newProblemFromFile(null);
 		else if (cmd.equals("OpenWork")) //$NON-NLS-1$
 			openProblem(null);
 		else if (cmd.equals("SaveWork")) //$NON-NLS-1$
@@ -617,7 +632,7 @@ public class VGLII extends JFrame {
 		ImageIcon newImage = new ImageIcon(newImageURL);
 
 		URL saveAsImageURL = VGLII.class
-		.getResource("images/saveas16.gif"); //$NON-NLS-1$
+				.getResource("images/saveas16.gif"); //$NON-NLS-1$
 		ImageIcon saveAsImage = new ImageIcon(saveAsImageURL);
 
 		URL saveImageURL = VGLII.class.getResource("images/save16.gif"); //$NON-NLS-1$
@@ -627,26 +642,26 @@ public class VGLII extends JFrame {
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
 
 		URL printFileImageURL = 
-			VGLII.class.getResource("images/printtofile16.gif"); //$NON-NLS-1$
+				VGLII.class.getResource("images/printtofile16.gif"); //$NON-NLS-1$
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
 
 		URL balloonHelpImageURL = VGLII.class
-		.getResource("images/help16.gif"); //$NON-NLS-1$
+				.getResource("images/help16.gif"); //$NON-NLS-1$
 		ImageIcon balloonHelpImage = new ImageIcon(balloonHelpImageURL);
 
 		URL printImageURL = VGLII.class.getResource("images/print16.gif"); //$NON-NLS-1$
 		ImageIcon printImage = new ImageIcon(printImageURL);
 
 		URL pageSetupImageURL = VGLII.class
-		.getResource("images/pagesetup16.gif"); //$NON-NLS-1$
+				.getResource("images/pagesetup16.gif"); //$NON-NLS-1$
 		ImageIcon pageSetupImage = new ImageIcon(pageSetupImageURL);
 
 		URL onlineHelpImageURL = VGLII.class
-		.getResource("images/onlinehelp16.gif"); //$NON-NLS-1$
+				.getResource("images/onlinehelp16.gif"); //$NON-NLS-1$
 		ImageIcon onlineHelpImage = new ImageIcon(onlineHelpImageURL);
 
 		URL closeImageURL = VGLII.class
-		.getResource("images/closework16.gif"); //$NON-NLS-1$
+				.getResource("images/closework16.gif"); //$NON-NLS-1$
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
 		//  "File" options.
@@ -674,7 +689,7 @@ public class VGLII extends JFrame {
 		}
 		if (saveForGradingEnabled) {
 			saveForGradingItem = 
-				menuItem(Messages.getInstance().getString("VGLII.SaveForGrading"), "SaveForGrading", null);
+					menuItem(Messages.getInstance().getString("VGLII.SaveForGrading"), "SaveForGrading", null);
 			mnuFile.add(saveForGradingItem);
 		}
 		mnuFile.addSeparator();
@@ -812,15 +827,15 @@ public class VGLII extends JFrame {
 		ImageIcon printImage = new ImageIcon(printImageURL);
 
 		URL printFileImageURL = VGLII.class
-		.getResource("images/printtofile.gif"); //$NON-NLS-1$
+				.getResource("images/printtofile.gif"); //$NON-NLS-1$
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
 
 		URL onlineHelpImageURL = VGLII.class
-		.getResource("images/onlinehelp.gif"); //$NON-NLS-1$
+				.getResource("images/onlinehelp.gif"); //$NON-NLS-1$
 		ImageIcon onlineHelpImage = new ImageIcon(onlineHelpImageURL);
 
 		URL closeImageURL = VGLII.class
-		.getResource("images/closework.gif"); //$NON-NLS-1$
+				.getResource("images/closework.gif"); //$NON-NLS-1$
 		ImageIcon closeImage = new ImageIcon(closeImageURL);
 
 		URL crossTwoImageURL = VGLII.class.getResource("images/cross.gif"); //$NON-NLS-1$
@@ -920,7 +935,7 @@ public class VGLII extends JFrame {
 		m_FChooser = new JFileChooser(workingDir);
 		m_FChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		javax.swing.filechooser.FileFilter ft = m_FChooser
-		.getAcceptAllFileFilter();
+				.getAcceptAllFileFilter();
 		m_FChooser.removeChoosableFileFilter(ft);
 		if (dialogType != -1)
 			m_FChooser.setDialogType(dialogType);
@@ -968,16 +983,16 @@ public class VGLII extends JFrame {
 				int choice = JOptionPane.showConfirmDialog(
 						this,
 						"<html>" 
-						+ Messages.getInstance().getString("VGLII.BadFileName1")
-						+ "<br>" 
-						+ Messages.getInstance().getString("VGLII.BadFileName2")
-						+ "<br>" 
-						+ Messages.getInstance().getString("VGLII.BadFileName3")
-						+ ": " 
-						+ result.getName()
-						+ "</html>",
-						Messages.getInstance().getString("VGLII.Error"),
-						JOptionPane.YES_NO_OPTION);
+								+ Messages.getInstance().getString("VGLII.BadFileName1")
+								+ "<br>" 
+								+ Messages.getInstance().getString("VGLII.BadFileName2")
+								+ "<br>" 
+								+ Messages.getInstance().getString("VGLII.BadFileName3")
+								+ ": " 
+								+ result.getName()
+								+ "</html>",
+								Messages.getInstance().getString("VGLII.Error"),
+								JOptionPane.YES_NO_OPTION);
 
 				if (choice == JOptionPane.NO_OPTION) {
 					result = null;
@@ -990,8 +1005,9 @@ public class VGLII extends JFrame {
 
 	/**
 	 * Method to set up a new problem for the user
+	 * based on a file
 	 */
-	private void newProblem(String problemFileName) {
+	private void newProblemFromFile(String problemFileName) {
 		problemFile = null;
 
 		if (cageCollection == null) {
@@ -1017,29 +1033,50 @@ public class VGLII extends JFrame {
 			CharacterSpecificationBank.getInstance().refreshAll();
 			PhenotypeImageBank.getInstance().resetDefaults();
 			geneticModel = 
-				GeneticModelFactory.getInstance().createRandomModel(problemFile);
-
+					GeneticModelFactory.getInstance().createRandomModel(problemFile);
 			if (geneticModel == null) return;
-
-			geneticModel.setProblemFileName(problemFile.getName());
-
-			nextCageId = 0;
-			selectionVial = new SelectionVial(statusLabel);
-			cageCollection = new ArrayList<CageUI>();
-
-			Cage fieldPop = geneticModel.generateFieldPopulation();
-			createCageUI(fieldPop, false);
-			enableAll(true);
-			disableLanguageMenu();
-			modelBuilderDialog = new JDialog(this);
-			modelBuilder = new ModelBuilderUI(modelBuilderDialog, this, geneticModel);
-			modelBuilderDialog.setTitle(Messages.getInstance().getString("VGLII.ModelBuilder"));
-			modelBuilderDialog.add(modelBuilder);
-			modelBuilderDialog.pack();
-			modelBuilderDialog.setLocation(300, 300);
-
-			changeSinceLastSave = true;
+			geneticModel.setProblemFileName(problemFile.getName());			
+			startNewProblem();
 		}
+	}
+
+	/*
+	 * set up new problem based on command line params
+	 */
+	private void newProblemFromArgs(String[] args) {
+		//refresh possible characters and traits & image defaults
+		CharacterSpecificationBank.getInstance().refreshAll();
+		PhenotypeImageBank.getInstance().resetDefaults();
+		geneticModel = 
+				GeneticModelFactory.getInstance().createRandomModel(args);
+		if (geneticModel == null) return;
+		startNewProblem();
+	}
+
+	private void startNewProblem() {
+		if (geneticModel == null) return;
+
+		if ((geneticModel.getProblemTypeSpecification().getEdXServerStrings() == null) ||
+				geneticModel.getProblemTypeSpecification().isBeginnerMode()) {
+			saveToServerItem.setEnabled(false);
+		}
+		
+		nextCageId = 0;
+		selectionVial = new SelectionVial(statusLabel);
+		cageCollection = new ArrayList<CageUI>();
+
+		Cage fieldPop = geneticModel.generateFieldPopulation();
+		createCageUI(fieldPop, false);
+		enableAll(true);
+		disableLanguageMenu();
+		modelBuilderDialog = new JDialog(this);
+		modelBuilder = new ModelBuilderUI(modelBuilderDialog, this, geneticModel);
+		modelBuilderDialog.setTitle(Messages.getInstance().getString("VGLII.ModelBuilder"));
+		modelBuilderDialog.add(modelBuilder);
+		modelBuilderDialog.pack();
+		modelBuilderDialog.setLocation(300, 300);
+
+		changeSinceLastSave = true;
 	}
 
 	/**
@@ -1100,6 +1137,12 @@ public class VGLII extends JFrame {
 		}
 		currentSavedFile = workFile; // save now to file you just loaded
 		changeSinceLastSave = false;
+		
+		if ((geneticModel.getProblemTypeSpecification().getEdXServerStrings() == null) ||
+				geneticModel.getProblemTypeSpecification().isBeginnerMode()) {
+			saveToServerItem.setEnabled(false);
+		}
+
 	}
 
 	/**
@@ -1194,7 +1237,11 @@ public class VGLII extends JFrame {
 		Element root = new Element("VglII"); //$NON-NLS-1$
 
 		Element pfn = new Element("ProbFileName");
-		pfn.addContent(problemFile.getName());
+		if (problemFile == null) { 	// if it was started from command line args
+			pfn.addContent("Command Line Argument Problem");
+		} else {
+			pfn.addContent(problemFile.getName());
+		}
 		root.addContent(pfn);
 
 		root.addContent(geneticModel.save());
@@ -1244,7 +1291,7 @@ public class VGLII extends JFrame {
 			Element root = doc.getRootElement();
 			root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
 			XMLOutputter outputter = 
-				new XMLOutputter(Format.getPrettyFormat());
+					new XMLOutputter(Format.getPrettyFormat());
 			String xmlString = outputter.outputString(doc);
 			//			System.out.println(xmlString);
 
@@ -1301,18 +1348,18 @@ public class VGLII extends JFrame {
 							secondConnection.setUseCaches(false);
 							secondConnection.setRequestProperty("X-CSRFToken", csrftoken);
 							secondConnection.setRequestProperty("Referer", "https://www.edx.org");
-							
+
 							DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
-							
+
 							String content = 
-								"email=" + URLEncoder.encode("brian.white@umb.edu", "UTF-8") 
-							+ "&password=" + URLEncoder.encode("top33dog", "UTF-8")
-							+ "&remember=" + URLEncoder.encode("false", "UTF-8");
-							
+									"email=" + URLEncoder.encode("brian.white@umb.edu", "UTF-8") 
+									+ "&password=" + URLEncoder.encode("top33dog", "UTF-8")
+									+ "&remember=" + URLEncoder.encode("false", "UTF-8");
+
 							output.writeBytes(content);
 							output.flush();
 							output.close();
-							
+
 							String response = null;
 							BufferedReader input = new BufferedReader(
 									new InputStreamReader(
@@ -1333,9 +1380,9 @@ public class VGLII extends JFrame {
 					JOptionPane.showMessageDialog(this, "Login Failed");
 					return;					
 				}
-				
+
 				System.out.println("VGL 1337: Login succeeded");
-				
+
 				// now, submit it
 				try {
 					url = new URL("https://www.edx.org/courses/MITx/6.002x/2012_Fall/modx/i4x://MITx/6.002x/problem/Sample_Numeric_Problem/problem_check");
@@ -1351,18 +1398,18 @@ public class VGLII extends JFrame {
 						secondConnection.setUseCaches(false);
 						secondConnection.setRequestProperty("X-CSRFToken", csrftoken);
 						secondConnection.setRequestProperty("Referer", "https://www.edx.org");
-						
+
 						DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
-						
+
 						String content = 
 								"input_"
-								 + clean("i4x://MITx/6.002x/problem/Sample_Numeric_Problem") + "_2_1="
-								+ xmlString;
-						
+										+ clean("i4x://MITx/6.002x/problem/Sample_Numeric_Problem") + "_2_1="
+										+ xmlString;
+
 						output.writeBytes(content);
 						output.flush();
 						output.close();
-						
+
 						String response = null;
 						BufferedReader input = new BufferedReader(
 								new InputStreamReader(
@@ -1379,7 +1426,7 @@ public class VGLII extends JFrame {
 			}
 		}
 	}
-	
+
 	private String clean(String s) {
 		return s.replace("/","-").replace(":","").replace("--","-").replace(".", "_");
 	}
@@ -1408,9 +1455,9 @@ public class VGLII extends JFrame {
 		try {
 			printFile.createNewFile();
 			OutputStreamWriter op = 
-				new OutputStreamWriter(
-						new BufferedOutputStream(
-								new FileOutputStream(printFile)),"ISO8859_1");
+					new OutputStreamWriter(
+							new BufferedOutputStream(
+									new FileOutputStream(printFile)),"ISO8859_1");
 			op.write(GetWorkAsHTML.getWorkAsHTML(cageCollection, modelBuilder));
 			op.flush();
 			op.close();
@@ -1558,7 +1605,7 @@ public class VGLII extends JFrame {
 				numOffspring = numSelected.intValue();
 			} else {
 				numOffspring = random.nextInt(geneticModel.getMaxOffspring() - geneticModel.getMinOffspring())
-				+ geneticModel.getMinOffspring();
+						+ geneticModel.getMinOffspring();
 			}
 
 			Cage c = geneticModel.crossTwo(nextCageId, 
