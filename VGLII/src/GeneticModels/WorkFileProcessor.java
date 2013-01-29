@@ -7,6 +7,7 @@ import java.util.List;
 import org.jdom.DataConversionException;
 import org.jdom.Element;
 
+import VGL.EdXServerStrings;
 import VGL.GeneticModelAndCageSet;
 /**
  * Brian White Summer 2008
@@ -41,9 +42,11 @@ public class WorkFileProcessor {
 	private GeneticModel geneticModel;
 	private ArrayList<Cage> cages;
 	private Element modelBuilderState;
+	private EdXServerStrings edXServerStrings;
 
 	public WorkFileProcessor(List<Element> elements) {
 		problemFileName = "";
+		edXServerStrings = null; // not always present
 		Iterator<Element> it = elements.iterator();
 		while (it.hasNext()) {
 			Element current = it.next();
@@ -53,6 +56,7 @@ public class WorkFileProcessor {
 				if (name.equals("GeneticModel")) geneticModel = processSavedModelInfo(current);
 				if (name.equals("Organisms")) cages = processSavedCages(current);
 				if (name.equals("ModelBuilderState")) modelBuilderState = current;
+				if (name.equals("edXServerStrings")) edXServerStrings = processEdXServerStrings(current);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -273,6 +277,15 @@ public class WorkFileProcessor {
 			e1.printStackTrace();
 			return null;
 		}
+	}
+	
+	private EdXServerStrings processEdXServerStrings(Element e) {
+		EdXServerStrings result = new EdXServerStrings();
+		result.setEdXCookieURL(e.getAttributeValue("edXCookieURL"));
+		result.setEdXLoginURL(e.getAttributeValue("edXLoginURL"));
+		result.setEdXSubmissionURL(e.getAttributeValue("edXSubmissionURL"));
+		result.setEdXLocation(e.getAttributeValue("edXLocation"));
+		return result;
 	}
 
 }

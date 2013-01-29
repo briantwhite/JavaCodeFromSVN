@@ -89,7 +89,7 @@ public class GeneticModel {
 
 	public static final boolean XX_XY = true;
 	public static final boolean ZZ_ZW = false;
-	
+
 	private int minOffspring;
 	private int maxOffspring;
 
@@ -219,7 +219,7 @@ public class GeneticModel {
 	public void setProblemFileName(String name) {
 		problemFileName = name;
 	}
-	
+
 	public ChromosomeModel getAutosomeModel() {
 		return autosomeModel;
 	}
@@ -319,7 +319,7 @@ public class GeneticModel {
 	public Cage generateFieldPopulation() {
 		Cage cage = new Cage(0);
 		int numOffspring = 
-			random.nextInt(maxOffspring - minOffspring) + minOffspring;
+				random.nextInt(maxOffspring - minOffspring) + minOffspring;
 		for (int i = 0; i < numOffspring; i++) {
 			cage.addNew(getRandomOrganism(fieldPopTrueBreeding));
 		}
@@ -350,17 +350,17 @@ public class GeneticModel {
 		Chromosome paternalAutosomeContribution = null;
 		Chromosome paternalSexChromosomeContribution = null;
 		maternalAutosomeContribution = 
-			autosomeModel.getGamete(
-					mom.getMaternalAutosome(), mom.getPaternalAutosome());
+				autosomeModel.getGamete(
+						mom.getMaternalAutosome(), mom.getPaternalAutosome());
 		maternalSexChromosomeContribution = 
-			sexChromosomeModel.getGamete(
-					mom.getMaternalSexChromosome(), mom.getPaternalSexChromosome());
+				sexChromosomeModel.getGamete(
+						mom.getMaternalSexChromosome(), mom.getPaternalSexChromosome());
 		paternalAutosomeContribution = 
-			autosomeModel.getGamete(
-					dad.getMaternalAutosome(), dad.getPaternalAutosome());
+				autosomeModel.getGamete(
+						dad.getMaternalAutosome(), dad.getPaternalAutosome());
 		paternalSexChromosomeContribution = 
-			sexChromosomeModel.getGamete(
-					dad.getMaternalSexChromosome(), dad.getPaternalSexChromosome());
+				sexChromosomeModel.getGamete(
+						dad.getMaternalSexChromosome(), dad.getPaternalSexChromosome());
 
 		ArrayList<Phenotype> phenotypes = new ArrayList<Phenotype>();
 		phenotypes.addAll(
@@ -481,6 +481,9 @@ public class GeneticModel {
 		e.addContent(phenotypeProcessor.save());
 		e.addContent(autosomeModel.save());
 		e.addContent(sexChromosomeModel.save());
+		if (problemTypeSpecification.getEdXServerStrings() != null) {
+			e.addContent(problemTypeSpecification.getEdXServerStrings().save());
+		}
 		return e;
 	}
 
@@ -579,7 +582,7 @@ public class GeneticModel {
 			}
 			b.append(autosomeModel.getHTMLForGrading());
 			b.append(sexChromosomeModel.getHTMLForGrading());
-			
+
 		} else {
 			// since its epistasis or complementation, need to deal with it differently
 			b.append("<b>" + phenotypeProcessor.getCharacter() + "</b><br>");

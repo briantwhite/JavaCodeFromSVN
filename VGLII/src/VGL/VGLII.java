@@ -98,11 +98,6 @@ import PhenotypeImages.PhenotypeImageBank;
  */
 public class VGLII extends JFrame {
 
-	/*
-	 * selector for builds for EdX - has save to server
-	 */
-	private boolean saveToServerEnabled = true;
-
 	/**
 	 * the version number
 	 */
@@ -134,6 +129,14 @@ public class VGLII extends JFrame {
 	 */
 	private boolean saveForGradingEnabled;
 	private PublicKey saveForGradingKey;
+
+	/**
+	 * this is enabled if we're in edX mode
+	 * it shows the "Save to EdX" menu item
+	 * and removes "New Problem" - since edX problems are
+	 * hard coded in the command line
+	 */
+	private boolean saveToEdXServerEnabled;
 
 	/**
 	 * the dimensions of the Phenotype image
@@ -425,9 +428,11 @@ public class VGLII extends JFrame {
 	 * The constructor
 	 * 
 	 */
-	public VGLII() {
+	public VGLII(boolean edXMode) {
 		super(Messages.getInstance().getString("VGLII.Name") + version); //$NON-NLS-1$
 		addWindowListener(new ApplicationCloser());
+
+		saveToEdXServerEnabled = edXMode;
 
 		random = new Random();
 
@@ -440,13 +445,17 @@ public class VGLII extends JFrame {
 
 		// see if grading is enabled
 		graderEnabled = false;
-		gradingKey = KeyFileChecker.checkGradingKeys(this);
-		if (gradingKey != null) graderEnabled = true;
+		if (!edXMode) {
+			gradingKey = KeyFileChecker.checkGradingKeys(this);
+			if (gradingKey != null) graderEnabled = true;
+		}
 
 		// see if SaveForGrading is enabled
 		saveForGradingEnabled = false;
-		saveForGradingKey = KeyFileChecker.checkSaveForGradingKey();
-		if (saveForGradingKey != null) saveForGradingEnabled = true;
+		if (!edXMode) {
+			saveForGradingKey = KeyFileChecker.checkSaveForGradingKey();
+			if (saveForGradingKey != null) saveForGradingEnabled = true;
+		}
 
 		setupUI(); 
 		changeSinceLastSave = false;
@@ -454,25 +463,44 @@ public class VGLII extends JFrame {
 
 
 	/**
-	 * main method
+	 * main method; 4 modes
+	 * 1) Standard = start with blank screen and open from there (the way it's always been)
+	 * 		- launch with no params
+	 * 		- "Save to edX" - absent
+	 * 		- "new problem" - present
+	 * 
+	 * 2) Launch with work or problem file = opens with that problem started
+	 * 		- launch with 1 param = filename.pr2 or .wr2
+	 * 		- "save to edX" - absent
+	 * 		- "new problem" - grayed out
+	 * 
+	 * 3) Launch from edX with no file (so they can look at saved work)
+	 * 		- launch with 1 param = -edXMode
+	 * 		- "save to edX" - present
+	 * 		- "new problem" - absent (and disable key command)
+	 * 
+	 * 4) Launch from edX with lots of params to open with new problem file specified by params
+	 * 		- launch with > 1 param 
+	 * 		- "save to edX" - present
+	 * 		- "new problem" - absent (and disable key command)
+	 * 
 	 */
 	public static void main(String[] args) {
-		VGLII vgl2 = new VGLII();
-		vgl2.setVisible(true);
 		/*
-		 * if no args, just start with blank screen
-		 * 
-		 * if one arg, it's a file name to start the program with
-		 * 	either 
-		 * 		a work file  - open it
-		 * 		or a problem file - generate random problem using it
-		 * 
-		 * if many args, it's being run as java web start
-		 * 	it will be passed all the params to make a new problem
-		 * 		without a problem file
-		 * 
+		 * find out if edX before constructing
+		 * 	so you can determine which menus to show
 		 */
-		if (args.length == 1) {
+		boolean edXMode = false;
+		if ((args.length == 1) && (args[0].equals("-edXMode"))) {		
+			edXMode = true;
+		} else if (args.length > 1) {
+			edXMode = true;
+		} 
+
+		VGLII vgl2 = new VGLII(edXMode);
+		vgl2.setVisible(true);
+
+		if ((args.length == 1) && (!args[0].equals("-edXMode"))) {
 			String fileName = args[0];
 			if (fileName.endsWith(".pr2")) { //$NON-NLS-1$
 				vgl2.newProblemFromFile(fileName);
@@ -666,7 +694,10 @@ public class VGLII extends JFrame {
 
 		//  "File" options.
 		JMenu mnuFile = new JMenu(Messages.getInstance().getString("VGLII.File"));		 //$NON-NLS-1$
-		newProblemItem = menuItem(Messages.getInstance().getString("VGLII.NewProblem"), "NewProblem", newImage); //$NON-NLS-1$ //$NON-NLS-2$
+
+		if (!saveToEdXServerEnabled) {
+			newProblemItem = menuItem(Messages.getInstance().getString("VGLII.NewProblem"), "NewProblem", newImage); 
+		}
 		openProblemItem = menuItem(Messages.getInstance().getString("VGLII.OpenWork"), "OpenWork", openImage); //$NON-NLS-1$ //$NON-NLS-2$
 		saveProblemItem = menuItem(Messages.getInstance().getString("VGLII.SaveWork"), "SaveWork", saveImage); //$NON-NLS-1$ //$NON-NLS-2$
 		saveProblemAsItem = menuItem(Messages.getInstance().getString("VGLII.SaveWorkAs"), "SaveAs", saveAsImage); //$NON-NLS-1$ //$NON-NLS-2$
@@ -678,13 +709,15 @@ public class VGLII extends JFrame {
 		closeProblemItem = menuItem(Messages.getInstance().getString("VGLII.CloseWork"), "CloseWork", closeImage); //$NON-NLS-1$ //$NON-NLS-2$
 		exitItem = menuItem(Messages.getInstance().getString("VGLII.Exit"), "Exit", null); //$NON-NLS-1$ //$NON-NLS-2$
 
-		mnuFile.add(newProblemItem);
+		if (newProblemItem != null) {
+			mnuFile.add(newProblemItem);
+		}
 		mnuFile.add(openProblemItem);
 		mnuFile.addSeparator();
 		mnuFile.add(saveProblemItem);
 		mnuFile.add(saveProblemAsItem);
-		if (saveToServerEnabled) {
-			saveToServerItem = menuItem("Save To Server...", "SaveToServer", null);
+		if (saveToEdXServerEnabled) {
+			saveToServerItem = menuItem("Save To edX Server...", "SaveToServer", null);
 			mnuFile.add(saveToServerItem);
 		}
 		if (saveForGradingEnabled) {
@@ -1060,7 +1093,7 @@ public class VGLII extends JFrame {
 				geneticModel.getProblemTypeSpecification().isBeginnerMode()) {
 			saveToServerItem.setEnabled(false);
 		}
-		
+
 		nextCageId = 0;
 		selectionVial = new SelectionVial(statusLabel);
 		cageCollection = new ArrayList<CageUI>();
@@ -1087,7 +1120,7 @@ public class VGLII extends JFrame {
 		File workFile = null;
 
 		selectionVial = new SelectionVial(statusLabel);
-		GeneticModelAndCageSet result = null;
+		SavedWorkFileData result = null;
 
 		if (workFileName == null) {
 			workFile = selectFile(desktopDirectory, Messages.getInstance().getString("VGLII.OpenWork"), //$NON-NLS-1$
@@ -1137,12 +1170,13 @@ public class VGLII extends JFrame {
 		}
 		currentSavedFile = workFile; // save now to file you just loaded
 		changeSinceLastSave = false;
-		
+
 		if ((geneticModel.getProblemTypeSpecification().getEdXServerStrings() == null) ||
 				geneticModel.getProblemTypeSpecification().isBeginnerMode()) {
-			saveToServerItem.setEnabled(false);
+			if (saveToServerItem != null) {
+				saveToServerItem.setEnabled(false);
+			}
 		}
-
 	}
 
 	/**
@@ -1708,7 +1742,7 @@ public class VGLII extends JFrame {
 	private void enableAll(boolean value) {
 		newButton.setEnabled(!value);
 		openButton.setEnabled(!value);
-		newProblemItem.setEnabled(!value);
+		if (newProblemItem != null) newProblemItem.setEnabled(!value);
 		openProblemItem.setEnabled(!value);
 		printItem.setEnabled(value);
 		printButton.setEnabled(value);

@@ -1,5 +1,7 @@
 package VGL;
 
+import org.jdom.Element;
+
 public class EdXServerStrings {
 	
 	public String edXCookieURL;
@@ -28,6 +30,15 @@ public class EdXServerStrings {
 
 	public void setEdXLocation(String edXLocation) {
 		this.edXLocation = edXLocation;
+	}
+	
+	public Element save() {
+		Element e = new Element("EdXServerStrings");
+		e.setAttribute("edXCookieURL", edXCookieURL);
+		e.setAttribute("edXLoginURL", edXLoginURL);
+		e.setAttribute("edXSubmissionURL", edXSubmissionURL);
+		e.setAttribute("edXLocation", edXLocation);
+		return e;
 	}
 
 }

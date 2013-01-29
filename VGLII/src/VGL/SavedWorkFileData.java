@@ -33,18 +33,21 @@ import GeneticModels.GeneticModel;
  * @author brian
  *
  */
-public class GeneticModelAndCageSet {
+public class SavedWorkFileData {
 	
 	private GeneticModel geneticModel;
 	private ArrayList<Cage> cages;
 	private Element modelBuilderState;
+	private EdXServerStrings edXServerStrings;
 	
-	public GeneticModelAndCageSet(GeneticModel geneticModel, 
+	public SavedWorkFileData(GeneticModel geneticModel, 
 			ArrayList<Cage> cages,
-			Element modelBuilderState) {
+			Element modelBuilderState,
+			EdXServerStrings edXServerStrings) {
 		this.geneticModel = geneticModel;
 		this.cages = cages;
 		this.modelBuilderState = modelBuilderState;
+		this.edXServerStrings = edXServerStrings;
 	}
 
 	public GeneticModel getGeneticModel() {
@@ -57,6 +60,10 @@ public class GeneticModelAndCageSet {
 	
 	public Element getModelBuilderState() {
 		return modelBuilderState;
+	}
+	
+	public EdXServerStrings getEdXServerStrings() {
+		return edXServerStrings;
 	}
 
 }

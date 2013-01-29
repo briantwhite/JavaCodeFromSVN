@@ -38,8 +38,8 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 import VGL.EncryptionTools;
-import VGL.GeneticModelAndCageSet;
 import VGL.Messages;
+import VGL.SavedWorkFileData;
 
 public class GeneticModelFactory {
 
@@ -93,12 +93,12 @@ public class GeneticModelFactory {
 		return model;
 	}
 
-	public GeneticModelAndCageSet readModelFromXORFile(File workFile) {
+	public SavedWorkFileData readModelFromXORFile(File workFile) {
 		Document doc = EncryptionTools.getInstance().readXOREncrypted(workFile);
 		return readModelFromXML(doc);
 	}
 
-	public GeneticModelAndCageSet readModelFromRSAFile(File workFile, PrivateKey gradingKey) {
+	public SavedWorkFileData readModelFromRSAFile(File workFile, PrivateKey gradingKey) {
 		Document doc = EncryptionTools.getInstance().readRSAEncrypted(workFile, gradingKey);
 		if (doc == null) {
 			return null;
@@ -107,12 +107,12 @@ public class GeneticModelFactory {
 		}
 	}
 
-	private GeneticModelAndCageSet readModelFromXML(Document doc) {
-		GeneticModelAndCageSet result = null;
+	private SavedWorkFileData readModelFromXML(Document doc) {
+		SavedWorkFileData result = null;
 		WorkFileProcessor processor = 
 				new WorkFileProcessor(doc.getRootElement().getChildren());
 		result = 
-				new GeneticModelAndCageSet(
+				new SavedWorkFileData(
 						processor.getGeneticModel(), 
 						processor.getCages(),
 						processor.getModelBuilderState());

@@ -1911,3 +1911,30 @@ need to be sure save to server disabled unless
 	- all edX params AOK
 		do this by updating params
 			when you try to get the edXparams object, it checks for completeness or returns null
+
+1/29/13
+command line is working; need to consider various modes
+
+1) Standard = start with blank screen and open from there (the way it's always been)
+	- launch with no params
+	- "Save to edX" - absent
+	- "new problem" - present
+
+2) Launch with work or problem file = opens with that problem started
+	- launch with 1 param = filename.pr2 or .wr2
+	- "save to edX" - absent
+	- "new problem" - grayed out
+
+3) Launch from edX with no file (so they can look at saved work)
+	- launch with 1 param = -edXMode
+	- "save to edX" - present
+	- "new problem" - absent (and disable key command)
+
+4) Launch from edX with lots of params to open with new problem file specified by params
+	- launch with > 1 param 
+	- "save to edX" - present
+	- "new problem" - absent (and disable key command)
+
+BE SURE:
+- when you save an edX started problem, you save the edX params so you can save to edX after re-opening
+
