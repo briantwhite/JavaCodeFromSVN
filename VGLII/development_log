@@ -1991,3 +1991,6 @@ put testing.keys into project
 
 need to clear temp files each time you send up a new version
 
+needed to fix layout of pswd dialog
+got SpringUtilities.java from http://docs.oracle.com/javase/tutorial/uiswing/examples/layout/SpringGridProject/src/layout/SpringUtilities.java
+

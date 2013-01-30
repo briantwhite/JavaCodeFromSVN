@@ -3,7 +3,6 @@ package VGL;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -57,6 +56,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
+import javax.swing.SpringLayout;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.text.html.HTMLDocument;
 
@@ -1409,32 +1409,12 @@ public class VGLII extends JFrame {
 
 							DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
 
-							JPanel pswdDialogPanel = new JPanel();
-							JLabel emailLabel = new JLabel("E-mail address:");
-							JTextField emailField = new JTextField(30);
-							JLabel pswdLabel = new JLabel("Password:");
-							JPasswordField pswdField = new JPasswordField(30);
-							pswdDialogPanel.setLayout(new GridLayout(2,2));
-							pswdDialogPanel.add(emailLabel);
-							pswdDialogPanel.add(emailField);
-							pswdDialogPanel.add(pswdLabel);
-							pswdDialogPanel.add(pswdField);
-							String[] options = new String[]{"OK", "Cancel"};
-							int r = JOptionPane.showOptionDialog(
-									null,
-									pswdDialogPanel,
-									"Login to EdX Server",
-									JOptionPane.NO_OPTION,
-									JOptionPane.PLAIN_MESSAGE,
-									null,
-									options,
-									options[1]);
-							
-							if (r != 0) return;
+							String[] emailAndPswd = PasswordDialog.getEmailAndPassword(this);
+							if (emailAndPswd[0] == null) return;
 							
 							String content = 
-									"email=" + URLEncoder.encode(emailField.getText(), "UTF-8") 
-									+ "&password=" + URLEncoder.encode(new String(pswdField.getPassword()), "UTF-8")
+									"email=" + URLEncoder.encode(emailAndPswd[0], "UTF-8") 
+									+ "&password=" + URLEncoder.encode(emailAndPswd[1], "UTF-8")
 									+ "&remember=" + URLEncoder.encode("false", "UTF-8");
 
 							output.writeBytes(content);
