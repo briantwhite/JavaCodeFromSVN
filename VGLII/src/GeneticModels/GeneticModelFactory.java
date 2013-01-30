@@ -115,7 +115,8 @@ public class GeneticModelFactory {
 				new SavedWorkFileData(
 						processor.getGeneticModel(), 
 						processor.getCages(),
-						processor.getModelBuilderState());
+						processor.getModelBuilderState(),
+						processor.getEdXServerStrings());
 		return result;
 	}
 

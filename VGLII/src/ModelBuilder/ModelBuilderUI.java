@@ -18,7 +18,6 @@ import GeneticModels.GeneModel;
 import GeneticModels.GeneticModel;
 import GeneticModels.PhenotypeProcessor;
 import GeneticModels.ProblemTypeSpecification;
-import VGL.GeneticModelAndCageSet;
 import VGL.Messages;
 import VGL.VGLII;
 

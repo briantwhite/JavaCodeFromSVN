@@ -113,30 +113,8 @@ public class VGLII extends JFrame {
 		new LanguageSpecifierMenuItem("\uD55C\uAD6D\uC5B4", "ko", "KR")
 	};
 
-	/**
-	 * boolean for whether grading will work
-	 * requires all of these:
-	 * 	1) non-expired grader.key in same directory as VGL
-	 *  2) entry of correct password from grader.key
-	 *  3) instructor.key in same directory as VGL
-	 */
-	private boolean graderEnabled;
 	private PrivateKey gradingKey;
-	/**
-	 * whether Save for Grading is enabled
-	 * requires presence of student.key in 
-	 * same directory as VGL
-	 */
-	private boolean saveForGradingEnabled;
 	private PublicKey saveForGradingKey;
-
-	/**
-	 * this is enabled if we're in edX mode
-	 * it shows the "Save to EdX" menu item
-	 * and removes "New Problem" - since edX problems are
-	 * hard coded in the command line
-	 */
-	private boolean saveToEdXServerEnabled;
 
 	/**
 	 * the dimensions of the Phenotype image
@@ -432,7 +410,13 @@ public class VGLII extends JFrame {
 		super(Messages.getInstance().getString("VGLII.Name") + version); //$NON-NLS-1$
 		addWindowListener(new ApplicationCloser());
 
-		saveToEdXServerEnabled = edXMode;
+		/**
+		 * this is enabled if we're in edX mode
+		 * it shows the "Save to EdX" menu item
+		 * and removes "New Problem" - since edX problems are
+		 * hard coded in the command line
+		 */
+		boolean saveToEdXServerEnabled = edXMode;
 
 		random = new Random();
 
@@ -443,21 +427,31 @@ public class VGLII extends JFrame {
 			desktopDirectory = defaultProblemDirectory;
 		}
 
-		// see if grading is enabled
-		graderEnabled = false;
+		/**
+		 * boolean for whether grading will work
+		 * requires all of these:
+		 * 	1) non-expired grader.key in same directory as VGL
+		 *  2) entry of correct password from grader.key
+		 *  3) instructor.key in same directory as VGL
+		 */
+		boolean graderEnabled = false;
 		if (!edXMode) {
 			gradingKey = KeyFileChecker.checkGradingKeys(this);
 			if (gradingKey != null) graderEnabled = true;
 		}
 
-		// see if SaveForGrading is enabled
-		saveForGradingEnabled = false;
+		/**
+		 * whether Save for Grading is enabled
+		 * requires presence of student.key in 
+		 * same directory as VGL
+		 */
+		boolean saveForGradingEnabled = false;
 		if (!edXMode) {
 			saveForGradingKey = KeyFileChecker.checkSaveForGradingKey();
 			if (saveForGradingKey != null) saveForGradingEnabled = true;
 		}
 
-		setupUI(); 
+		setupUI(saveToEdXServerEnabled, graderEnabled, saveForGradingEnabled); 
 		changeSinceLastSave = false;
 	}
 
@@ -651,7 +645,10 @@ public class VGLII extends JFrame {
 	/**
 	 * Create and load menu bar.
 	 */
-	private void menuBar() {
+	private void menuBar(
+			boolean saveToEdXServerEnabled, 
+			boolean graderEnabled, 
+			boolean saveForGradingEnabled) {
 
 		URL openImageURL = VGLII.class.getResource("images/open16.gif"); //$NON-NLS-1$
 		ImageIcon openImage = new ImageIcon(openImageURL);
@@ -801,7 +798,7 @@ public class VGLII extends JFrame {
 		mnuLanguage = new JMenu(Messages.getInstance().getString("VGLII.Language"));
 		for (int i = 0; i < supportedLanguageMenuItems.length; i++) {
 			mnuLanguage.add(supportedLanguageMenuItems[i]);
-			supportedLanguageMenuItems[i].addActionListener(new LanguageMenuItemListener());
+			supportedLanguageMenuItems[i].addActionListener(new LanguageMenuItemListener(saveToEdXServerEnabled, graderEnabled, saveForGradingEnabled));
 		}
 		mnuBar.add(Box.createHorizontalGlue());
 		mnuBar.add(mnuLanguage);
@@ -810,14 +807,27 @@ public class VGLII extends JFrame {
 	}
 
 	private class LanguageMenuItemListener implements ActionListener {
+		private boolean saveToEdXServerEnabled; 
+		private boolean graderEnabled;
+		private boolean saveForGradingEnabled; 
+
+		public LanguageMenuItemListener(
+				boolean saveToEdXServerEnabled, 
+				boolean graderEnabled, 
+				boolean saveForGradingEnabled) {
+			this.saveToEdXServerEnabled = saveToEdXServerEnabled;
+			this.graderEnabled = graderEnabled;
+			this.saveForGradingEnabled = saveForGradingEnabled;
+		}
+
 		public void actionPerformed(ActionEvent e) {
 			LanguageSpecifierMenuItem item = (LanguageSpecifierMenuItem)e.getSource();
 			Locale.setDefault(new Locale(item.getLanguage(), item.getCountry()));
 			Messages.getInstance().updateResourceBundle();
 			mnuBar.removeAll();
-			menuBar();
+			menuBar(saveToEdXServerEnabled, graderEnabled, saveForGradingEnabled);
 			toolBar.removeAll();
-			toolBar();
+			toolBar(saveToEdXServerEnabled, graderEnabled, saveForGradingEnabled);
 			cleanUp();
 		}
 	}
@@ -840,7 +850,10 @@ public class VGLII extends JFrame {
 	/**
 	 * Create and load toolbar
 	 */
-	private void toolBar() {
+	private void toolBar(
+			boolean saveToEdXServerEnabled, 
+			boolean graderEnabled, 
+			boolean saveForGradingEnabled) {
 		URL openImageURL = VGLII.class.getResource("images/open.gif"); //$NON-NLS-1$
 		ImageIcon openImage = new ImageIcon(openImageURL);
 
@@ -877,8 +890,10 @@ public class VGLII extends JFrame {
 		URL exitImageURL = VGLII.class.getResource("images/exit.gif"); //$NON-NLS-1$
 		ImageIcon exitImage = new ImageIcon(exitImageURL);
 
-		newButton = JButtonImageItem(newImage, "NewProblem", //$NON-NLS-1$
-				Messages.getInstance().getString("VGLII.NewProblem"), KeyEvent.VK_N); //$NON-NLS-1$
+		if (!saveToEdXServerEnabled) {
+			newButton = JButtonImageItem(newImage, "NewProblem", 
+					Messages.getInstance().getString("VGLII.NewProblem"), KeyEvent.VK_N); 
+		}
 		openButton = JButtonImageItem(openImage, "OpenWork", Messages.getInstance().getString("VGLII.OpenWork"), //$NON-NLS-1$ //$NON-NLS-2$
 				KeyEvent.VK_O);
 		closeButton = JButtonImageItem(closeImage, "CloseWork", //$NON-NLS-1$
@@ -902,8 +917,8 @@ public class VGLII extends JFrame {
 		onlineHelpButton = JButtonImageItem(onlineHelpImage, "OnlineHelp", //$NON-NLS-1$
 				Messages.getInstance().getString("VGLII.HelpPage"), KeyEvent.VK_H); //$NON-NLS-1$
 
-		toolBar.add(newButton);
-		toolBar.add(openButton);
+		if (newButton != null) toolBar.add(newButton);
+		if (openButton != null) toolBar.add(openButton);
 		toolBar.add(closeButton);
 		toolBar.add(exitButton);
 		toolBar.add(saveButton);
@@ -917,12 +932,15 @@ public class VGLII extends JFrame {
 	/**
 	 * Create and load all GUI components
 	 */
-	private void setupUI() {
+	private void setupUI(
+			boolean saveToEdXServerEnabled, 
+			boolean graderEnabled, 
+			boolean saveForGradingEnabled) {
 		mnuBar = new JMenuBar();
-		menuBar();
+		menuBar(saveToEdXServerEnabled, graderEnabled, saveForGradingEnabled);
 		statusPanel();
 		toolBar = new JToolBar();
-		toolBar();
+		toolBar(saveToEdXServerEnabled, graderEnabled, saveForGradingEnabled);
 		JPanel panePanel = new JPanel();
 		panePanel.setLayout(new BorderLayout());
 		panePanel.add(toolBar, BorderLayout.NORTH);
@@ -1091,7 +1109,7 @@ public class VGLII extends JFrame {
 
 		if ((geneticModel.getProblemTypeSpecification().getEdXServerStrings() == null) ||
 				geneticModel.getProblemTypeSpecification().isBeginnerMode()) {
-			saveToServerItem.setEnabled(false);
+			if (saveToServerItem != null) saveToServerItem.setEnabled(false);
 		}
 
 		nextCageId = 0;
@@ -1740,7 +1758,7 @@ public class VGLII extends JFrame {
 	 * @param value
 	 */
 	private void enableAll(boolean value) {
-		newButton.setEnabled(!value);
+		if (newButton != null) newButton.setEnabled(!value);
 		openButton.setEnabled(!value);
 		if (newProblemItem != null) newProblemItem.setEnabled(!value);
 		openProblemItem.setEnabled(!value);

@@ -8,7 +8,6 @@ import org.jdom.DataConversionException;
 import org.jdom.Element;
 
 import VGL.EdXServerStrings;
-import VGL.GeneticModelAndCageSet;
 /**
  * Brian White Summer 2008
  * 
@@ -73,6 +72,10 @@ public class WorkFileProcessor {
 
 	public ArrayList<Cage> getCages() {
 		return cages;
+	}
+	
+	public EdXServerStrings getEdXServerStrings() {
+		return edXServerStrings;
 	}
 
 	private GeneticModel processSavedModelInfo(Element e) throws Exception {
