@@ -1938,3 +1938,46 @@ command line is working; need to consider various modes
 BE SURE:
 - when you save an edX started problem, you save the edX params so you can save to edX after re-opening
 
+1/30/13
+trying java web start
+get error:
+	access denied ("java.util.PropertyPermission" "user.home" "read")
+need to be able to access the user's home dir if the save their work
+
+try signing the jar
+no error message, but the file's mod time was not changed and that didn't help
+
+works if you comment out the stuff at the start where it finds the user's home dir
+	(but you need that to save work)
+try following this http://weblogs.java.net/blog/kirillcool/archive/2005/05/signing_jars_fo.html
+in my home dir on home mac:
+	keytool -genkey -keystore testing.keys -alias VGLKey -validity 365
+		Enter keystore password:  
+		Re-enter new password: 
+		What is your first and last name?
+		  [Unknown]:  Brian White
+		What is the name of your organizational unit?
+		  [Unknown]:  UMB Biology
+		What is the name of your organization?
+		  [Unknown]:  UMB
+		What is the name of your City or Locality?
+		  [Unknown]:  Boston
+		What is the name of your State or Province?
+		  [Unknown]:  MA
+		What is the two-letter country code for this unit?
+		  [Unknown]:  US
+		Is CN=Brian White, OU=UMB Biology, O=UMB, L=Boston, ST=MA, C=US correct?
+		  [no]:  yes
+
+		Enter key password for <VGLKey>
+			(RETURN if same as keystore password):  
+(used usual pswd)
+jarsigner -keystore testing.keys -storepass top33dog Documents/workspace/VGLII/VGLII.jar VGLKey
+
+added to jnlp
+  <offline-allowed/>
+   <security>
+      <all-permissions/>
+   </security>
+error: Found unsigned entry in resource http://www.securebio.umb.edu/edX/VGLII.jar
+
