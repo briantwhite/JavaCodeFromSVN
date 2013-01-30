@@ -501,7 +501,7 @@ public class VGLII extends JFrame {
 			} else if (fileName.endsWith(".wr2")) { //$NON-NLS-1$
 				vgl2.openProblem(fileName);
 			}
-		} else if (args.length > 0) {
+		} else if (args.length > 1) {
 			vgl2.newProblemFromArgs(args);
 		}
 	}

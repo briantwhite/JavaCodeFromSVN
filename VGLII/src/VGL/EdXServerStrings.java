@@ -1,6 +1,9 @@
 package VGL;
 
+import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 public class EdXServerStrings {
 	
@@ -39,6 +42,19 @@ public class EdXServerStrings {
 		e.setAttribute("edXSubmissionURL", edXSubmissionURL);
 		e.setAttribute("edXLocation", edXLocation);
 		return e;
+	}
+	
+	public String toString() {
+		Element root = new Element("ProblemSpec");
+		try {
+			root.addContent(save());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Document doc = new Document(root);
+		XMLOutputter outputter = 
+				new XMLOutputter(Format.getPrettyFormat());
+		return outputter.outputString(doc);
 	}
 
 }

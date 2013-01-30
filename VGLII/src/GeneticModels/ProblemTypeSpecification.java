@@ -65,10 +65,6 @@ public class ProblemTypeSpecification {
 	private float epistasis;
 
 	// for edX
-	private String edXCookieURL;
-	private String edXLoginURL;
-	private String edXSubmissionURL;
-	private String edXLocation;
 	private EdXServerStrings edXServerStrings;
 
 
@@ -107,12 +103,7 @@ public class ProblemTypeSpecification {
 		epistasis = 0.0f;
 
 		// for edX server
-		edXCookieURL = null;
-		edXLoginURL = null;
-		edXSubmissionURL = null;
-		edXLocation = null;	
-		edXServerStrings = null;
-
+		edXServerStrings = new EdXServerStrings();
 	}
 
 	public boolean isFieldPopTrueBreeding() {
@@ -324,24 +315,30 @@ public class ProblemTypeSpecification {
 	}
 
 	public void setEdXCookieURL(String edXCookieURL) {
-		this.edXCookieURL = edXCookieURL;
+		this.edXServerStrings.setEdXCookieURL(edXCookieURL);
 	}
 	
 	public void setEdXLoginURL(String edXLoginURL) {
-		this.edXLoginURL = edXLoginURL;
+		this.edXServerStrings.setEdXLoginURL(edXLoginURL);
 	}
 	
 	public void setEdXSubmissionURL(String edXSubmissionURL) {
-		this.edXSubmissionURL = edXSubmissionURL;
+		this.edXServerStrings.setEdXSubmissionURL(edXSubmissionURL);
 	}
 	
 	public void setEdXLocation(String edXLocation) {
-		this.edXLocation = edXLocation;
+		this.edXServerStrings.setEdXLocation(edXLocation);
 	}
 	
 	public EdXServerStrings getEdXServerStrings() {
 		// only return if all parts present
-		if ((edXCookieURL == null) || (edXLoginURL == null) || (edXSubmissionURL == null) || (edXLocation == null)) return null;
+		if (
+				(edXServerStrings.edXCookieURL == null) || 
+				(edXServerStrings.edXLoginURL == null) || 
+				(edXServerStrings.edXSubmissionURL == null) || 
+				(edXServerStrings.edXLocation == null)
+				) return null;
+		
 		return edXServerStrings;
 	}
 
@@ -450,19 +447,19 @@ public class ProblemTypeSpecification {
 		ptse.addContent(e);
 		
 		e = new Element("edXCookieURL");
-		e.setText(edXCookieURL);
+		e.setText(edXServerStrings.edXCookieURL);
 		ptse.addContent(e);
 		
 		e = new Element("edXLoginURL");
-		e.setText(edXLoginURL);
+		e.setText(edXServerStrings.edXLoginURL);
 		ptse.addContent(e);
 		
 		e = new Element("edXSubmissionURL");
-		e.setText(edXSubmissionURL);
+		e.setText(edXServerStrings.edXSubmissionURL);
 		ptse.addContent(e);
 		
 		e = new Element("edXLocation");
-		e.setText(edXLocation);
+		e.setText(edXServerStrings.edXLocation);
 		ptse.addContent(e);
 
 		return ptse;
