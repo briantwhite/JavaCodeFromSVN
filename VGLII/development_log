@@ -1980,4 +1980,13 @@ added to jnlp
       <all-permissions/>
    </security>
 error: Found unsigned entry in resource http://www.securebio.umb.edu/edX/VGLII.jar
+but 
+jarsigner -verify Documents/workspace/VGLII/VGLII.jar 
+jar verified.
+
+found on web: http://www.coderanch.com/t/200684/JNLP-Web-Start/java/jdk-unsigned-entry-resource
+go into system prefs -> java prefs -> clear all temporary internet files
+AOK!!
+put testing.keys into project
+
 
