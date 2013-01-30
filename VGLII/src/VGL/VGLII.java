@@ -3,6 +3,7 @@ package VGL;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -51,7 +52,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.border.SoftBevelBorder;
@@ -1340,19 +1343,13 @@ public class VGLII extends JFrame {
 			e.printStackTrace();
 		}
 		if (doc != null) {
-			
-			JOptionPane.showMessageDialog(this, "trying to save");
-			
+						
 			Element root = doc.getRootElement();
 			root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
 			XMLOutputter outputter = 
 					new XMLOutputter(Format.getPrettyFormat());
 			String xmlString = outputter.outputString(doc);
-			
-			JOptionPane.showMessageDialog(this, xmlString);
-			
-			//			System.out.println(xmlString);
-
+						
 			// server communication
 			CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
 			String csrftoken = null;
@@ -1362,8 +1359,6 @@ public class VGLII extends JFrame {
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
-			
-			JOptionPane.showMessageDialog(this, "cookie url=" + url.toString());
 			
 			if (url != null) {
 				try {
@@ -1392,8 +1387,6 @@ public class VGLII extends JFrame {
 					e.printStackTrace();
 				}
 
-				JOptionPane.showMessageDialog(this, "Got cookie:" + csrftoken);
-				
 				// now login 
 				boolean loginSuccess = false;
 				if (csrftoken != null) {
@@ -1415,9 +1408,32 @@ public class VGLII extends JFrame {
 
 							DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
 
+							JPanel pswdDialogPanel = new JPanel();
+							JLabel emailLabel = new JLabel("E-mail address:");
+							JTextField emailField = new JTextField();
+							JLabel pswdLabel = new JLabel("Password:");
+							JPasswordField pswdField = new JPasswordField();
+							pswdDialogPanel.setLayout(new GridLayout(2,2));
+							pswdDialogPanel.add(emailLabel);
+							pswdDialogPanel.add(emailField);
+							pswdDialogPanel.add(pswdLabel);
+							pswdDialogPanel.add(pswdField);
+							String[] options = new String[]{"OK", "Cancel"};
+							int r = JOptionPane.showOptionDialog(
+									null,
+									pswdDialogPanel,
+									"Login to EdX Server",
+									JOptionPane.NO_OPTION,
+									JOptionPane.PLAIN_MESSAGE,
+									null,
+									options,
+									options[1]);
+							
+							if (r != 0) return;
+							
 							String content = 
-									"email=" + URLEncoder.encode("brian.white@umb.edu", "UTF-8") 
-									+ "&password=" + URLEncoder.encode("top33dog", "UTF-8")
+									"email=" + URLEncoder.encode(emailField.getText(), "UTF-8") 
+									+ "&password=" + URLEncoder.encode(new String(pswdField.getPassword()), "UTF-8")
 									+ "&remember=" + URLEncoder.encode("false", "UTF-8");
 
 							output.writeBytes(content);
@@ -1445,14 +1461,14 @@ public class VGLII extends JFrame {
 					return;					
 				}
 				
-				JOptionPane.showMessageDialog(this, "Logged in AOK");
-
 				// now, submit it
 				try {
 					url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXSubmissionURL);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
+				
+				StringBuffer b = new StringBuffer();
 				if (url != null) {
 					HttpURLConnection secondConnection;
 					try {
@@ -1473,22 +1489,18 @@ public class VGLII extends JFrame {
 						output.close();
 
 						String response = null;
-						StringBuffer b = new StringBuffer();
-						b.append("<html>");
 						BufferedReader input = new BufferedReader(
 								new InputStreamReader(
 										new DataInputStream(secondConnection.getInputStream())));
 						while (null != ((response = input.readLine()))) {
-							b.append(response + "<br>\n");
+							b.append(response + "\n");
 						}
 						input.close();
-						b.append("</html>");
-						JOptionPane.showMessageDialog(this, b.toString());
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-
+				JOptionPane.showMessageDialog(this, "Submission Received by EdX Server\n" + b.toString());
 			}
 		}
 	}
