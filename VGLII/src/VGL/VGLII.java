@@ -1340,11 +1340,17 @@ public class VGLII extends JFrame {
 			e.printStackTrace();
 		}
 		if (doc != null) {
+			
+			JOptionPane.showMessageDialog(this, "trying to save");
+			
 			Element root = doc.getRootElement();
 			root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
 			XMLOutputter outputter = 
 					new XMLOutputter(Format.getPrettyFormat());
 			String xmlString = outputter.outputString(doc);
+			
+			JOptionPane.showMessageDialog(this, xmlString);
+			
 			//			System.out.println(xmlString);
 
 			// server communication
@@ -1352,10 +1358,13 @@ public class VGLII extends JFrame {
 			String csrftoken = null;
 			URL url = null;
 			try {
-				url = new URL("https://www.edx.org");
+				url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXCookieURL);
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
+			
+			JOptionPane.showMessageDialog(this, "cookie url=" + url.toString());
+			
 			if (url != null) {
 				try {
 					// you need to contact once to get the header to get the csrftoken "cookie"
@@ -1383,11 +1392,13 @@ public class VGLII extends JFrame {
 					e.printStackTrace();
 				}
 
+				JOptionPane.showMessageDialog(this, "Got cookie:" + csrftoken);
+				
 				// now login 
 				boolean loginSuccess = false;
 				if (csrftoken != null) {
 					try {
-						url = new URL("https://www.edx.org/login");
+						url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXLoginURL);
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					}
@@ -1399,7 +1410,8 @@ public class VGLII extends JFrame {
 							secondConnection.setDoOutput(true); // make it a POST
 							secondConnection.setUseCaches(false);
 							secondConnection.setRequestProperty("X-CSRFToken", csrftoken);
-							secondConnection.setRequestProperty("Referer", "https://www.edx.org");
+							secondConnection.setRequestProperty("Referer", 
+									geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXCookieURL);
 
 							DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
 
@@ -1432,12 +1444,12 @@ public class VGLII extends JFrame {
 					JOptionPane.showMessageDialog(this, "Login Failed");
 					return;					
 				}
-
-				System.out.println("VGL 1337: Login succeeded");
+				
+				JOptionPane.showMessageDialog(this, "Logged in AOK");
 
 				// now, submit it
 				try {
-					url = new URL("https://www.edx.org/courses/MITx/6.002x/2012_Fall/modx/i4x://MITx/6.002x/problem/Sample_Numeric_Problem/problem_check");
+					url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXSubmissionURL);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
@@ -1449,27 +1461,29 @@ public class VGLII extends JFrame {
 						secondConnection.setDoOutput(true); // make it a POST
 						secondConnection.setUseCaches(false);
 						secondConnection.setRequestProperty("X-CSRFToken", csrftoken);
-						secondConnection.setRequestProperty("Referer", "https://www.edx.org");
+						secondConnection.setRequestProperty("Referer",  
+								geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXCookieURL);
 
 						DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
 
-						String content = 
-								"input_"
-										+ clean("i4x://MITx/6.002x/problem/Sample_Numeric_Problem") + "_2_1="
-										+ xmlString;
+						String content = clean(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXLocation) + "=" + xmlString;
 
 						output.writeBytes(content);
 						output.flush();
 						output.close();
 
 						String response = null;
+						StringBuffer b = new StringBuffer();
+						b.append("<html>");
 						BufferedReader input = new BufferedReader(
 								new InputStreamReader(
 										new DataInputStream(secondConnection.getInputStream())));
 						while (null != ((response = input.readLine()))) {
-							System.out.println(response);
+							b.append(response + "<br>\n");
 						}
 						input.close();
+						b.append("</html>");
+						JOptionPane.showMessageDialog(this, b.toString());
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

@@ -1989,4 +1989,5 @@ go into system prefs -> java prefs -> clear all temporary internet files
 AOK!!
 put testing.keys into project
 
+need to clear temp files each time you send up a new version
 
