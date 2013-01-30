@@ -1110,11 +1110,6 @@ public class VGLII extends JFrame {
 	private void startNewProblem() {
 		if (geneticModel == null) return;
 
-		if ((geneticModel.getProblemTypeSpecification().getEdXServerStrings() == null) ||
-				geneticModel.getProblemTypeSpecification().isBeginnerMode()) {
-			if (saveToServerItem != null) saveToServerItem.setEnabled(false);
-		}
-
 		nextCageId = 0;
 		selectionVial = new SelectionVial(statusLabel);
 		cageCollection = new ArrayList<CageUI>();
@@ -1123,6 +1118,12 @@ public class VGLII extends JFrame {
 		createCageUI(fieldPop, false);
 		enableAll(true);
 		disableLanguageMenu();
+
+		if ((geneticModel.getProblemTypeSpecification().getEdXServerStrings() == null) ||
+				geneticModel.getProblemTypeSpecification().isBeginnerMode()) {
+			if (saveToServerItem != null) saveToServerItem.setEnabled(false);
+		}
+
 		modelBuilderDialog = new JDialog(this);
 		modelBuilder = new ModelBuilderUI(modelBuilderDialog, this, geneticModel);
 		modelBuilderDialog.setTitle(Messages.getInstance().getString("VGLII.ModelBuilder"));
@@ -1410,9 +1411,9 @@ public class VGLII extends JFrame {
 
 							JPanel pswdDialogPanel = new JPanel();
 							JLabel emailLabel = new JLabel("E-mail address:");
-							JTextField emailField = new JTextField();
+							JTextField emailField = new JTextField(30);
 							JLabel pswdLabel = new JLabel("Password:");
-							JPasswordField pswdField = new JPasswordField();
+							JPasswordField pswdField = new JPasswordField(30);
 							pswdDialogPanel.setLayout(new GridLayout(2,2));
 							pswdDialogPanel.add(emailLabel);
 							pswdDialogPanel.add(emailField);
