@@ -41,16 +41,32 @@ To do list
 		save for grading
 		load from server
 
-12) java web start
-	- application (not applet because of javapoclypse)
-	- pass as command-line params
-		- edX server stuff
-			(if not complete, make object null and error then no save to server)
-		- all params found in .pr2 file
-			(use config file processor if you can)
-		- for test, make config print itself to debug
-	- based on this, show or don't "save to server" - leave out, not gray
-	- starts with field pop
-	- no "new problem"
-	- keep "save" and "print"
-	
+12) From Julie Noor
+I just ran into a student with a VGLII issue I hadn't seen before (and most I've seen MANY times now -- 
+you don't have "save for grading" as an option?  move the VGLII program file back into its original folder
+ -- etc).  The student submitted a .gr2 file, but when I opened it, all the answers were in gibberish 
+ symbols -- I've attached it, along with our .key files in case you want to see what I mean.  
+ Our password is 503E95CE  The student had his computer language set to Korean, so that when 
+ VGLII ran, all the text was in Korean.  So we think it saved his model builder responses in Korean, 
+ but now our computers can't interpret the characters or translate the responses into English.  I don't 
+ mean to imply that this is something that you need to fix, I just wanted to give you a heads up in case 
+ someone contacts you with a similar problem.
+ 
+ = probably because the korean translation uses character codes not characters
+ 	so there's no match
+ 	
+
+13) also from Julie Noor
+I do have one VGLII wish list item.  It would be wonderful if the model builder for the three gene problems 
+asked which of the three loci was in  the middle of the chain.  It could be a third tab where  it started by 
+asking whether all 3 loci were on the same chromosome, if choose "no" then that's the end (although all the 3 
+gene problems are set up so that they are all on one chromosome, perhaps it isn't desirable for the students 
+to know this), if choose "yes" then have to choose which of the three is in the middle -- kind of how the 
+allele interaction pops up differently for simple dominance vs incomplete dominance.  The genetic model the 
+program is using clearly knows which one is in the middle, because only the two middle-to-end RFs are given 
+in the graders' answers.
+
+
+
+
+
