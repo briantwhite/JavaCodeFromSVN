@@ -253,3 +253,8 @@ applet version works AOK
 - getter and setter methods for the protein sequence
 	(remember that it's displayed in 3-letter code)
 
+2/3/13
+making java web start version protex.MiniProtex
+need to sign jarsigner -keystore ../VGLII/testing.keys -storepass top33dog Protex.jar VGLKey
+almost working from jnlp
+
