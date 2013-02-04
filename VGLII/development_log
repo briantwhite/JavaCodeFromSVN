@@ -1997,4 +1997,5 @@ got SpringUtilities.java from http://docs.oracle.com/javase/tutorial/uiswing/exa
 2/4/13
 there's a problem with Korean - the grading fails (probably because they use those strange character strings)
 need to completely delete Korean - so, in Korea, it won't give an error
-	- move 
+	- remove Future/messages_k-_KR.properties (it's an old version)
+	- move VGL/messages_k-_KR.properties to Future/
