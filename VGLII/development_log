@@ -1994,3 +1994,7 @@ need to clear temp files each time you send up a new version
 needed to fix layout of pswd dialog
 got SpringUtilities.java from http://docs.oracle.com/javase/tutorial/uiswing/examples/layout/SpringGridProject/src/layout/SpringUtilities.java
 
+2/4/13
+there's a problem with Korean - the grading fails (probably because they use those strange character strings)
+need to completely delete Korean - so, in Korea, it won't give an error
+	- move 
