@@ -113,7 +113,7 @@ public class VGLII extends JFrame {
 		new LanguageSpecifierMenuItem("English", "en", "US"),
 		new LanguageSpecifierMenuItem("Español", "es", "ES"),
 		new LanguageSpecifierMenuItem("Français", "fr", "FR"),
-		new LanguageSpecifierMenuItem("\uD55C\uAD6D\uC5B4", "ko", "KR")
+//		new LanguageSpecifierMenuItem("\uD55C\uAD6D\uC5B4", "ko", "KR")
 	};
 
 	private PrivateKey gradingKey;
