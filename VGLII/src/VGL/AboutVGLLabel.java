@@ -46,6 +46,9 @@ public class AboutVGLLabel {
 				+ "<li><i>Model Builder and Grader:</i> Patty Szczys and her students at"
 				+ "Eastern Connecticut State University</li>"
 				+ "</ul>"
+				+ "<li>EdX logo image, by Eric Lander, was created by Runaway Technology Inc. using<br>" 
+				+ " PhotoMosaic by Robert Silvers from original artwork by Darryl Leja<br>"
+				+ "(courtesy of the Whitehead Institute for Biomedical Research)</li>"
 				+"</ul>" 
 				+ "All Rights Reserved\n" + "GNU General Public License\n" 
 				+ "http://www.gnu.org/copyleft/gpl.html</body></html>"); 

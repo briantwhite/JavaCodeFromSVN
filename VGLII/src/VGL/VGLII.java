@@ -336,6 +336,11 @@ public class VGLII extends JFrame {
 	private JButton newButton = null;
 
 	/**
+	 * Button to save to edX server
+	 */
+	private JButton saveToServerButton = null;
+
+	/**
 	 * Button to close the current work
 	 */
 	private JButton closeButton = null;
@@ -668,6 +673,10 @@ public class VGLII extends JFrame {
 
 		URL saveImageURL = VGLII.class.getResource("images/save16.gif"); //$NON-NLS-1$
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
+		
+		URL saveToServerImageURL = VGLII.class
+				.getResource("images/edX16.gif");
+		ImageIcon saveToServerImage = new ImageIcon(saveToServerImageURL);
 
 		URL aboutImageURL = VGLII.class.getResource("images/about16.gif"); //$NON-NLS-1$
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
@@ -675,10 +684,6 @@ public class VGLII extends JFrame {
 		URL printFileImageURL = 
 				VGLII.class.getResource("images/printtofile16.gif"); //$NON-NLS-1$
 		ImageIcon printFileImage = new ImageIcon(printFileImageURL);
-
-		URL balloonHelpImageURL = VGLII.class
-				.getResource("images/help16.gif"); //$NON-NLS-1$
-		ImageIcon balloonHelpImage = new ImageIcon(balloonHelpImageURL);
 
 		URL printImageURL = VGLII.class.getResource("images/print16.gif"); //$NON-NLS-1$
 		ImageIcon printImage = new ImageIcon(printImageURL);
@@ -720,7 +725,7 @@ public class VGLII extends JFrame {
 		mnuFile.add(saveProblemItem);
 		mnuFile.add(saveProblemAsItem);
 		if (saveToEdXServerEnabled) {
-			saveToServerItem = menuItem("Save To edX Server...", "SaveToServer", null);
+			saveToServerItem = menuItem("Save To edX Server...", "SaveToServer", saveToServerImage);
 			mnuFile.add(saveToServerItem);
 		}
 		if (saveForGradingEnabled) {
@@ -872,6 +877,9 @@ public class VGLII extends JFrame {
 		URL saveImageURL = VGLII.class.getResource("images/save.gif"); //$NON-NLS-1$
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
 
+		URL saveToServerImageURL = VGLII.class.getResource("images/edX.gif");
+		ImageIcon saveToServerImage = new ImageIcon(saveToServerImageURL);
+		
 		URL aboutImageURL = VGLII.class.getResource("images/about.gif"); //$NON-NLS-1$
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
 
@@ -899,6 +907,8 @@ public class VGLII extends JFrame {
 		if (!saveToEdXServerEnabled) {
 			newButton = JButtonImageItem(newImage, "NewProblem", 
 					Messages.getInstance().getString("VGLII.NewProblem"), KeyEvent.VK_N); 
+		} else {
+			saveToServerButton = JButtonImageItem(saveToServerImage, "Save To Server", "Save To Server", KeyEvent.VK_E);
 		}
 		openButton = JButtonImageItem(openImage, "OpenWork", Messages.getInstance().getString("VGLII.OpenWork"), //$NON-NLS-1$ //$NON-NLS-2$
 				KeyEvent.VK_O);
@@ -924,6 +934,7 @@ public class VGLII extends JFrame {
 				Messages.getInstance().getString("VGLII.HelpPage"), KeyEvent.VK_H); //$NON-NLS-1$
 
 		if (newButton != null) toolBar.add(newButton);
+		if (saveToServerButton != null)	toolBar.add(saveToServerButton);
 		if (openButton != null) toolBar.add(openButton);
 		toolBar.add(closeButton);
 		toolBar.add(exitButton);

@@ -2005,3 +2005,9 @@ need to completely delete Korean - so, in Korea, it won't give an error
 for edX - set it to remember passwords once entered
 
 also added button and icon to tool bar
+
+for UI testing, use this command
+java -jar VGLII.jar -edXCookieURL=x -edXLoginURL=y -edXSubmissionURL=z -edXLocation=a
+
+for saving to server, use this one
+
