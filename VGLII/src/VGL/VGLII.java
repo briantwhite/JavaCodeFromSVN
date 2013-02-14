@@ -480,7 +480,8 @@ public class VGLII extends JFrame {
 	 * 		- "new problem" - grayed out
 	 * 
 	 * 3) Launch from edX with no file (so they can look at saved work)
-	 * 		- launch with 1 param = -edXMode
+	 * 		- launch with 1st param = -edXMode=T
+	 * 		- include server params
 	 * 		- "save to edX" - present
 	 * 		- "new problem" - absent (and disable key command)
 	 * 
@@ -496,16 +497,14 @@ public class VGLII extends JFrame {
 		 * 	so you can determine which menus to show
 		 */
 		boolean edXMode = false;
-		if ((args.length == 1) && (args[0].equals("-edXMode"))) {		
-			edXMode = true;
-		} else if (args.length > 1) {
+		if ((args.length > 0) && args[0].equals("-edXMode=T")) {		
 			edXMode = true;
 		} 
 
 		VGLII vgl2 = new VGLII(edXMode);
 		vgl2.setVisible(true);
 
-		if ((args.length == 1) && (!args[0].equals("-edXMode"))) {
+		if ((args.length == 1) && !edXMode) {
 			String fileName = args[0];
 			if (fileName.endsWith(".pr2")) { //$NON-NLS-1$
 				vgl2.newProblemFromFile(fileName);
@@ -1343,6 +1342,9 @@ public class VGLII extends JFrame {
 	 * only available if built with saveToServerEnabled = true;
 	 */
 	private void saveToServer() {
+		
+		System.out.println("edX strings:\n" + geneticModel.getProblemTypeSpecification().getEdXServerStrings().toString() + "\n********");
+		
 		Iterator<CageUI> it = cageCollection.iterator();
 		ArrayList<Cage> cages = new ArrayList<Cage>();
 		while (it.hasNext()) {
@@ -1499,6 +1501,9 @@ public class VGLII extends JFrame {
 					}
 				}
 				String response = b.toString();
+				
+				System.out.println("server response:\n" + response + "\n*******");
+				
 				if (response.contains("progress_changed")) {
 					JOptionPane.showMessageDialog(this, "Submission Received by EdX Server\n");
 				} else {
