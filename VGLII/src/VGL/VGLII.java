@@ -1388,7 +1388,7 @@ public class VGLII extends JFrame {
 							if (s.startsWith("csrftoken")) {
 								String part = s.split(";")[0];
 								csrftoken = part.split("=")[1];
-//								System.out.println("first csrf token:" + csrftoken);
+								//								System.out.println("first csrf token:" + csrftoken);
 							}
 						}
 					}
@@ -1498,7 +1498,12 @@ public class VGLII extends JFrame {
 						e.printStackTrace();
 					}
 				}
-				JOptionPane.showMessageDialog(this, "Submission Received by EdX Server\n" + b.toString());
+				String response = b.toString();
+				if (response.contains("progress_changed")) {
+					JOptionPane.showMessageDialog(this, "Submission Received by EdX Server\n");
+				} else {
+					JOptionPane.showMessageDialog(this, "Sorry, but there was an error in submission. \nPlease try again.\n");
+				}
 			}
 		}
 	}
