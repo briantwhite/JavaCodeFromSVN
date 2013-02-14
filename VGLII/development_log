@@ -2010,4 +2010,9 @@ for UI testing, use this command
 java -jar VGLII.jar -edXCookieURL=x -edXLoginURL=y -edXSubmissionURL=z -edXLocation=a
 
 for saving to server, use this one
+java -jar VGLII.jar -edXCookieURL=https://www.edx.org -edXLoginURL=https://www.edx.org/login -edXSubmissionURL=https://www.edx.org/courses/MITx/6.002x/2012_Fall/modx/i4x://MITx/6.002x/problem/Sample_Numeric_Problem/problem_check -edXLocation=input_i4x://MITx/6.002x/problem/Sample_Numeric_Problem_2_1 -BeginnerMode=False -ZZ_ZW=0.0 -Gene1_SexLinked=0.0 
+
+have it saving password - it re-logs in each time
+
+version 3.3.0
 

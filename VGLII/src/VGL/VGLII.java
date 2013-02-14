@@ -104,7 +104,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.2.1"; //$NON-NLS-1$
+	public final static String version = "3.3.0 - 2013-02-15 14:35"; //$NON-NLS-1$
 
 	/**
 	 * the list of supported languages
@@ -673,7 +673,7 @@ public class VGLII extends JFrame {
 
 		URL saveImageURL = VGLII.class.getResource("images/save16.gif"); //$NON-NLS-1$
 		ImageIcon saveImage = new ImageIcon(saveImageURL);
-		
+
 		URL saveToServerImageURL = VGLII.class
 				.getResource("images/edX16.gif");
 		ImageIcon saveToServerImage = new ImageIcon(saveToServerImageURL);
@@ -879,7 +879,7 @@ public class VGLII extends JFrame {
 
 		URL saveToServerImageURL = VGLII.class.getResource("images/edX.gif");
 		ImageIcon saveToServerImage = new ImageIcon(saveToServerImageURL);
-		
+
 		URL aboutImageURL = VGLII.class.getResource("images/about.gif"); //$NON-NLS-1$
 		ImageIcon aboutImage = new ImageIcon(aboutImageURL);
 
@@ -908,7 +908,7 @@ public class VGLII extends JFrame {
 			newButton = JButtonImageItem(newImage, "NewProblem", 
 					Messages.getInstance().getString("VGLII.NewProblem"), KeyEvent.VK_N); 
 		} else {
-			saveToServerButton = JButtonImageItem(saveToServerImage, "Save To Server", "Save To Server", KeyEvent.VK_E);
+			saveToServerButton = JButtonImageItem(saveToServerImage, "SaveToServer", "Save To EdX Server...", KeyEvent.VK_E);
 		}
 		openButton = JButtonImageItem(openImage, "OpenWork", Messages.getInstance().getString("VGLII.OpenWork"), //$NON-NLS-1$ //$NON-NLS-2$
 				KeyEvent.VK_O);
@@ -934,13 +934,13 @@ public class VGLII extends JFrame {
 				Messages.getInstance().getString("VGLII.HelpPage"), KeyEvent.VK_H); //$NON-NLS-1$
 
 		if (newButton != null) toolBar.add(newButton);
-		if (saveToServerButton != null)	toolBar.add(saveToServerButton);
 		if (openButton != null) toolBar.add(openButton);
 		toolBar.add(closeButton);
 		toolBar.add(exitButton);
 		toolBar.add(saveButton);
 		toolBar.add(saveAsButton);
 		toolBar.add(printButton);
+		if (saveToServerButton != null)	toolBar.add(saveToServerButton);
 		toolBar.add(crossTwoButton);
 		toolBar.add(onlineHelpButton);
 		toolBar.add(aboutButton);
@@ -1388,7 +1388,7 @@ public class VGLII extends JFrame {
 							if (s.startsWith("csrftoken")) {
 								String part = s.split(";")[0];
 								csrftoken = part.split("=")[1];
-								//								System.out.println(csrftoken);
+//								System.out.println("first csrf token:" + csrftoken);
 							}
 						}
 					}
@@ -1425,7 +1425,7 @@ public class VGLII extends JFrame {
 
 							if (eMailAndPassword == null) {
 								eMailAndPassword = PasswordDialog.getEmailAndPassword(this);
-								if ((eMailAndPassword.eMail == null) || (eMailAndPassword.password == null)) return;
+								if (eMailAndPassword == null) return;
 							} 
 
 							String content = 
@@ -1455,6 +1455,7 @@ public class VGLII extends JFrame {
 				}
 				if (!loginSuccess) {
 					JOptionPane.showMessageDialog(this, "Login Failed");
+					eMailAndPassword = null;
 					return;					
 				}
 
