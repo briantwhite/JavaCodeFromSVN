@@ -104,7 +104,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.3.0 - 2013-02-15 14:35"; //$NON-NLS-1$
+	public final static String version = "3.3.0 2012-02-15 15:12"; //$NON-NLS-1$
 
 	/**
 	 * the list of supported languages
