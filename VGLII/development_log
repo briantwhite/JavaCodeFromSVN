@@ -2000,3 +2000,8 @@ need to completely delete Korean - so, in Korea, it won't give an error
 	- remove Future/messages_k-_KR.properties (it's an old version)
 	- move VGL/messages_k-_KR.properties to Future/
 	- edit VGLII.java to remove Korean menus
+
+2/14/13
+for edX - set it to remember passwords once entered
+
+also added button and icon to tool bar

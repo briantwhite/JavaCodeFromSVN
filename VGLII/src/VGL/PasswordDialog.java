@@ -13,11 +13,9 @@ public class PasswordDialog {
 	 * [0] = email
 	 * [1] = password
 	 */
-	public static String[] getEmailAndPassword(VGLII vglII) {
+	public static EmailAndPassword getEmailAndPassword(VGLII vglII) {
 		
-		String[] result = new String[2];
-		result[0] = null;
-		result[1] = null;
+		EmailAndPassword result = new EmailAndPassword();
 		
 		JPanel pswdDialogPanel = new JPanel(new SpringLayout());
 		
@@ -48,8 +46,8 @@ public class PasswordDialog {
 				options[1]);
 		
 		if (r == 0) {
-			result[0] = emailField.getText();
-			result[1] = new String(pswdField.getPassword());
+			result.eMail = emailField.getText();
+			result.password = new String(pswdField.getPassword());
 		}
 		return result;
 	}

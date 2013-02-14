@@ -113,11 +113,14 @@ public class VGLII extends JFrame {
 		new LanguageSpecifierMenuItem("English", "en", "US"),
 		new LanguageSpecifierMenuItem("Español", "es", "ES"),
 		new LanguageSpecifierMenuItem("Français", "fr", "FR"),
-//		new LanguageSpecifierMenuItem("\uD55C\uAD6D\uC5B4", "ko", "KR")
+		//		new LanguageSpecifierMenuItem("\uD55C\uAD6D\uC5B4", "ko", "KR")
 	};
 
 	private PrivateKey gradingKey;
 	private PublicKey saveForGradingKey;
+
+	// used for edX server login
+	private EmailAndPassword eMailAndPassword;
 
 	/**
 	 * the dimensions of the Phenotype image
@@ -1344,13 +1347,13 @@ public class VGLII extends JFrame {
 			e.printStackTrace();
 		}
 		if (doc != null) {
-						
+
 			Element root = doc.getRootElement();
 			root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
 			XMLOutputter outputter = 
 					new XMLOutputter(Format.getPrettyFormat());
 			String xmlString = outputter.outputString(doc);
-						
+
 			// server communication
 			CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
 			String csrftoken = null;
@@ -1360,7 +1363,7 @@ public class VGLII extends JFrame {
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
-			
+
 			if (url != null) {
 				try {
 					// you need to contact once to get the header to get the csrftoken "cookie"
@@ -1409,12 +1412,14 @@ public class VGLII extends JFrame {
 
 							DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
 
-							String[] emailAndPswd = PasswordDialog.getEmailAndPassword(this);
-							if (emailAndPswd[0] == null) return;
-							
+							if (eMailAndPassword == null) {
+								eMailAndPassword = PasswordDialog.getEmailAndPassword(this);
+								if ((eMailAndPassword.eMail == null) || (eMailAndPassword.password == null)) return;
+							} 
+
 							String content = 
-									"email=" + URLEncoder.encode(emailAndPswd[0], "UTF-8") 
-									+ "&password=" + URLEncoder.encode(emailAndPswd[1], "UTF-8")
+									"email=" + URLEncoder.encode(eMailAndPassword.eMail, "UTF-8") 
+									+ "&password=" + URLEncoder.encode(eMailAndPassword.password, "UTF-8")
 									+ "&remember=" + URLEncoder.encode("false", "UTF-8");
 
 							output.writeBytes(content);
@@ -1441,14 +1446,14 @@ public class VGLII extends JFrame {
 					JOptionPane.showMessageDialog(this, "Login Failed");
 					return;					
 				}
-				
+
 				// now, submit it
 				try {
 					url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXSubmissionURL);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
-				
+
 				StringBuffer b = new StringBuffer();
 				if (url != null) {
 					HttpURLConnection secondConnection;
