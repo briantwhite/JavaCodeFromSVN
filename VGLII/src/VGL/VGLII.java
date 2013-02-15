@@ -104,7 +104,12 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.3.0 2012-02-15 15:12"; //$NON-NLS-1$
+	public final static String version = "3.3.0 2012-02-15 20:45"; //$NON-NLS-1$
+
+	/*
+	 * param name for determining edXMode - see under main()
+	 */
+	private final static String ED_X_MODE_NAME = "-edXMode";
 
 	/**
 	 * the list of supported languages
@@ -480,8 +485,8 @@ public class VGLII extends JFrame {
 	 * 		- "new problem" - grayed out
 	 * 
 	 * 3) Launch from edX with no file (so they can look at saved work)
-	 * 		- launch with 1st param = -edXMode=T
-	 * 		- include server params
+	 * 		- launch with 1 param = -edXMode
+	 * 		- it will get server params from saved .wr2 file
 	 * 		- "save to edX" - present
 	 * 		- "new problem" - absent (and disable key command)
 	 * 
@@ -497,14 +502,16 @@ public class VGLII extends JFrame {
 		 * 	so you can determine which menus to show
 		 */
 		boolean edXMode = false;
-		if ((args.length > 0) && args[0].equals("-edXMode=T")) {		
-			edXMode = true;
-		} 
+		if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
+			edXMode = true;					// mode 3
+		} else if (args.length > 1) {
+			edXMode = true;					// mode 4
+		}
 
 		VGLII vgl2 = new VGLII(edXMode);
 		vgl2.setVisible(true);
 
-		if ((args.length == 1) && !edXMode) {
+		if ((args.length == 1) && (!args[0].equals(ED_X_MODE_NAME))) {
 			String fileName = args[0];
 			if (fileName.endsWith(".pr2")) { //$NON-NLS-1$
 				vgl2.newProblemFromFile(fileName);
@@ -1342,76 +1349,137 @@ public class VGLII extends JFrame {
 	 * only available if built with saveToServerEnabled = true;
 	 */
 	private void saveToServer() {
-		
-		System.out.println("edX strings:\n" + geneticModel.getProblemTypeSpecification().getEdXServerStrings().toString() + "\n********");
-		
-		Iterator<CageUI> it = cageCollection.iterator();
-		ArrayList<Cage> cages = new ArrayList<Cage>();
-		while (it.hasNext()) {
-			CageUI cui = it.next();
-			Cage c = cui.getCage();
-			cages.add(c);
-		}
-		Document doc = null;
-		try {
-			doc = getXMLDoc(cages);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (doc != null) {
 
-			Element root = doc.getRootElement();
-			root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
-			XMLOutputter outputter = 
-					new XMLOutputter(Format.getPrettyFormat());
-			String xmlString = outputter.outputString(doc);
+		if (cageCollection == null) {
+			JOptionPane.showMessageDialog(this, "Nothing to save to server.");
+			return;
+		} else {
+			System.out.println("edX strings:\n" + geneticModel.getProblemTypeSpecification().getEdXServerStrings().toString() + "\n********");
 
-			// server communication
-			CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
-			String csrftoken = null;
-			URL url = null;
+			Iterator<CageUI> it = cageCollection.iterator();
+			ArrayList<Cage> cages = new ArrayList<Cage>();
+			while (it.hasNext()) {
+				CageUI cui = it.next();
+				Cage c = cui.getCage();
+				cages.add(c);
+			}
+			Document doc = null;
 			try {
-				url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXCookieURL);
-			} catch (MalformedURLException e) {
+				doc = getXMLDoc(cages);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			if (doc != null) {
 
-			if (url != null) {
+				Element root = doc.getRootElement();
+				root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
+				XMLOutputter outputter = 
+						new XMLOutputter(Format.getPrettyFormat());
+				String xmlString = outputter.outputString(doc);
+
+				// server communication
+				CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+				String csrftoken = null;
+				URL url = null;
 				try {
-					// you need to contact once to get the header to get the csrftoken "cookie"
-					HttpURLConnection firstConnection = (HttpURLConnection)url.openConnection();
-					Map<String, List<String>> headerFields = firstConnection.getHeaderFields();
-					List<String> cookies = headerFields.get("Set-Cookie");
-					if (cookies != null) {
-						Iterator <String> sIt = cookies.iterator();
-						while (sIt.hasNext()) {
-							String s = sIt.next();
-							if (s.startsWith("csrftoken")) {
-								String part = s.split(";")[0];
-								csrftoken = part.split("=")[1];
-								//								System.out.println("first csrf token:" + csrftoken);
-							}
-						}
-					}
-					firstConnection.disconnect();
-
-					if (csrftoken == null) {
-						JOptionPane.showMessageDialog(this, "Could not access server");
-						return;
-					}
-				} catch (IOException e) {
+					url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXCookieURL);
+				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
 
-				// now login 
-				boolean loginSuccess = false;
-				if (csrftoken != null) {
+				if (url != null) {
 					try {
-						url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXLoginURL);
+						// you need to contact once to get the header to get the csrftoken "cookie"
+						HttpURLConnection firstConnection = (HttpURLConnection)url.openConnection();
+						Map<String, List<String>> headerFields = firstConnection.getHeaderFields();
+						List<String> cookies = headerFields.get("Set-Cookie");
+						if (cookies != null) {
+							Iterator <String> sIt = cookies.iterator();
+							while (sIt.hasNext()) {
+								String s = sIt.next();
+								if (s.startsWith("csrftoken")) {
+									String part = s.split(";")[0];
+									csrftoken = part.split("=")[1];
+									//								System.out.println("first csrf token:" + csrftoken);
+								}
+							}
+						}
+						firstConnection.disconnect();
+
+						if (csrftoken == null) {
+							JOptionPane.showMessageDialog(this, "Could not access server");
+							return;
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+					// now login 
+					boolean loginSuccess = false;
+					if (csrftoken != null) {
+						try {
+							url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXLoginURL);
+						} catch (MalformedURLException e) {
+							e.printStackTrace();
+						}
+						if (url != null) {
+							HttpURLConnection secondConnection;
+							try {
+								secondConnection = (HttpURLConnection)url.openConnection();
+								secondConnection.setDoInput(true);
+								secondConnection.setDoOutput(true); // make it a POST
+								secondConnection.setUseCaches(false);
+								secondConnection.setRequestProperty("X-CSRFToken", csrftoken);
+								secondConnection.setRequestProperty("Referer", 
+										geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXCookieURL);
+
+								DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
+
+								if (eMailAndPassword == null) {
+									eMailAndPassword = PasswordDialog.getEmailAndPassword(this);
+									if (eMailAndPassword == null) return;
+								} 
+
+								String content = 
+										"email=" + URLEncoder.encode(eMailAndPassword.eMail, "UTF-8") 
+										+ "&password=" + URLEncoder.encode(eMailAndPassword.password, "UTF-8")
+										+ "&remember=" + URLEncoder.encode("false", "UTF-8");
+
+								output.writeBytes(content);
+								output.flush();
+								output.close();
+
+								String response = null;
+								BufferedReader input = new BufferedReader(
+										new InputStreamReader(
+												new DataInputStream(secondConnection.getInputStream())));
+								while (null != ((response = input.readLine()))) {
+									if (response.contains("{\"success\": true}")) {
+										loginSuccess = true;
+										break;
+									}
+								}
+								input.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+					if (!loginSuccess) {
+						JOptionPane.showMessageDialog(this, "Login Failed");
+						eMailAndPassword = null;
+						return;					
+					}
+
+					// now, submit it
+					try {
+						url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXSubmissionURL);
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					}
+
+					StringBuffer b = new StringBuffer();
 					if (url != null) {
 						HttpURLConnection secondConnection;
 						try {
@@ -1420,20 +1488,12 @@ public class VGLII extends JFrame {
 							secondConnection.setDoOutput(true); // make it a POST
 							secondConnection.setUseCaches(false);
 							secondConnection.setRequestProperty("X-CSRFToken", csrftoken);
-							secondConnection.setRequestProperty("Referer", 
+							secondConnection.setRequestProperty("Referer",  
 									geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXCookieURL);
 
 							DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
 
-							if (eMailAndPassword == null) {
-								eMailAndPassword = PasswordDialog.getEmailAndPassword(this);
-								if (eMailAndPassword == null) return;
-							} 
-
-							String content = 
-									"email=" + URLEncoder.encode(eMailAndPassword.eMail, "UTF-8") 
-									+ "&password=" + URLEncoder.encode(eMailAndPassword.password, "UTF-8")
-									+ "&remember=" + URLEncoder.encode("false", "UTF-8");
+							String content = clean(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXLocation) + "=" + xmlString;
 
 							output.writeBytes(content);
 							output.flush();
@@ -1444,70 +1504,22 @@ public class VGLII extends JFrame {
 									new InputStreamReader(
 											new DataInputStream(secondConnection.getInputStream())));
 							while (null != ((response = input.readLine()))) {
-								if (response.contains("{\"success\": true}")) {
-									loginSuccess = true;
-									break;
-								}
+								b.append(response + "\n");
 							}
 							input.close();
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
-				}
-				if (!loginSuccess) {
-					JOptionPane.showMessageDialog(this, "Login Failed");
-					eMailAndPassword = null;
-					return;					
-				}
+					String response = b.toString();
 
-				// now, submit it
-				try {
-					url = new URL(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXSubmissionURL);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
+					System.out.println("server response:\n" + response + "\n*******");
 
-				StringBuffer b = new StringBuffer();
-				if (url != null) {
-					HttpURLConnection secondConnection;
-					try {
-						secondConnection = (HttpURLConnection)url.openConnection();
-						secondConnection.setDoInput(true);
-						secondConnection.setDoOutput(true); // make it a POST
-						secondConnection.setUseCaches(false);
-						secondConnection.setRequestProperty("X-CSRFToken", csrftoken);
-						secondConnection.setRequestProperty("Referer",  
-								geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXCookieURL);
-
-						DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
-
-						String content = clean(geneticModel.getProblemTypeSpecification().getEdXServerStrings().edXLocation) + "=" + xmlString;
-
-						output.writeBytes(content);
-						output.flush();
-						output.close();
-
-						String response = null;
-						BufferedReader input = new BufferedReader(
-								new InputStreamReader(
-										new DataInputStream(secondConnection.getInputStream())));
-						while (null != ((response = input.readLine()))) {
-							b.append(response + "\n");
-						}
-						input.close();
-					} catch (IOException e) {
-						e.printStackTrace();
+					if (response.contains("progress_changed")) {
+						JOptionPane.showMessageDialog(this, "Submission Received by EdX Server\nPlease re-load the edX page to see your score on this part.");
+					} else {
+						JOptionPane.showMessageDialog(this, "Sorry, but there was an error in submission. \nPlease try again.\n");
 					}
-				}
-				String response = b.toString();
-				
-				System.out.println("server response:\n" + response + "\n*******");
-				
-				if (response.contains("progress_changed")) {
-					JOptionPane.showMessageDialog(this, "Submission Received by EdX Server\n");
-				} else {
-					JOptionPane.showMessageDialog(this, "Sorry, but there was an error in submission. \nPlease try again.\n");
 				}
 			}
 		}
