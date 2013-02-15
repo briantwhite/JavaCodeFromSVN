@@ -104,7 +104,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.3.0 2012-02-15 20:45"; //$NON-NLS-1$
+	public final static String version = "3.3.0 2012-02-15 21:20"; //$NON-NLS-1$
 
 	/*
 	 * param name for determining edXMode - see under main()
@@ -1217,6 +1217,9 @@ public class VGLII extends JFrame {
 				geneticModel.getProblemTypeSpecification().isBeginnerMode()) {
 			if (saveToServerItem != null) {
 				saveToServerItem.setEnabled(false);
+			}
+			if (saveToServerButton != null) {
+				saveToServerButton.setEnabled(false);
 			}
 		}
 	}
