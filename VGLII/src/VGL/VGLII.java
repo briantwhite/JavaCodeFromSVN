@@ -1371,7 +1371,6 @@ public class VGLII extends JFrame {
 			try {
 				doc = getXMLDoc(cages);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (doc != null) {

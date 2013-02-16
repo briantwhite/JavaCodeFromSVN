@@ -2016,3 +2016,12 @@ have it saving password - it re-logs in each time
 
 version 3.3.0
 
+2/16/13
+many changes for edX
+- need not to say "dominant allele" but "dominant phenotype"; many places to fix this:
+	(don't bother with translation - just leave it unchanged in other languages)
+	- help
+	- modelBuilder
+- if login fails, but not because of cancel, give them another chance
+
+
