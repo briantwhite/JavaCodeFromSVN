@@ -2023,5 +2023,6 @@ many changes for edX
 	- help
 	- modelBuilder
 - if login fails, but not because of cancel, give them another chance
-
+	(did this by refactoring the edX server communication out of VGLII and into EdXServerUtils first)
+	
 

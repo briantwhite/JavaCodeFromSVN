@@ -1,5 +1,6 @@
 package VGL;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -13,9 +14,15 @@ public class PasswordDialog {
 	 * [0] = email
 	 * [1] = password
 	 */
-	public static EmailAndPassword getEmailAndPassword(VGLII vglII) {
+	public static EmailAndPassword getEmailAndPassword(VGLII vglII, boolean isRetry) {
 
 		EmailAndPassword result = new EmailAndPassword();
+		
+		JPanel outerPanel = new JPanel();
+		outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
+		if (isRetry) {
+			outerPanel.add(new JLabel("Incorrect e-mail and/or password."));
+		}
 
 		JPanel pswdDialogPanel = new JPanel(new SpringLayout());
 
@@ -33,11 +40,13 @@ public class PasswordDialog {
 		pswdDialogPanel.add(pswdField);
 
 		SpringUtilities.makeCompactGrid(pswdDialogPanel, 2, 2, 6, 6, 6, 6);
+		
+		outerPanel.add(pswdDialogPanel);
 
 		String[] options = new String[]{"OK", "Cancel"};
 		int r = JOptionPane.showOptionDialog(
 				vglII,
-				pswdDialogPanel,
+				outerPanel,
 				"Login to EdX Server",
 				JOptionPane.NO_OPTION,
 				JOptionPane.PLAIN_MESSAGE,
