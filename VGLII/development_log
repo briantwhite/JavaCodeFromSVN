@@ -2039,7 +2039,7 @@ need to test these cases:
 - save a practice mode file - be sure it opens in practice mode
 	need to fix this - now fixed
 - start a problem under A, save it, open under B, submit - be sure it submits to A
-	need to check this when it's on the web
+	need to check this when it's on the web - OK
 
 put up a version "3.3.0 2012-02-18 13:20"
 
