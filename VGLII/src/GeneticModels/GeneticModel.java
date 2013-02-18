@@ -184,7 +184,7 @@ public class GeneticModel {
 		return beginnerMode;
 	}
 
-	protected void setBeginnerMode(boolean beginnerMode) {
+	public void setBeginnerMode(boolean beginnerMode) {
 		this.beginnerMode = beginnerMode;
 	}
 

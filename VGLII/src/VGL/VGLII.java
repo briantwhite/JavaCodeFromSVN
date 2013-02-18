@@ -1078,7 +1078,7 @@ public class VGLII extends JFrame {
 
 		return result;
 	}
-	
+
 
 	/**
 	 * Method to set up a new problem for the user
@@ -1127,16 +1127,24 @@ public class VGLII extends JFrame {
 		geneticModel = 
 				GeneticModelFactory.getInstance().createRandomModel(args);
 		if (geneticModel == null) return;
-		
+
 		int choice = CustomDialogs.getPracticeModeChoice(this);
 		switch (choice) {
+
 		case CustomDialogs.PMODE_PRACTICE:
-		
+			geneticModel.setBeginnerMode(true);
+			break;
+
 		case CustomDialogs.PMODE_REGULAR:
+			geneticModel.setBeginnerMode(false);
+			break;
+
 		case CustomDialogs.PMODE_CANCEL:
-			default: return;
-			
+			return;
+
+		default: return;
 		}
+		
 		startNewProblem();
 	}
 
@@ -1153,9 +1161,12 @@ public class VGLII extends JFrame {
 		disableLanguageMenu();
 
 		if ((geneticModel.getProblemTypeSpecification().getEdXServerStrings() == null) ||
-				geneticModel.getProblemTypeSpecification().isBeginnerMode()) {
+				geneticModel.isBeginnerMode()) {
 			if (saveToServerItem != null) saveToServerItem.setEnabled(false);
 			if (saveToServerButton != null) saveToServerButton.setEnabled(false);
+		} else {
+			if (saveToServerItem != null) saveToServerItem.setEnabled(true);
+			if (saveToServerButton != null) saveToServerButton.setEnabled(true);
 		}
 
 		modelBuilderDialog = new JDialog(this);
