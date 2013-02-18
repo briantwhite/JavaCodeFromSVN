@@ -104,7 +104,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.3.0 2012-02-15 21:22"; //$NON-NLS-1$
+	public final static String version = "3.3.0 2012-02-18 13:20"; //$NON-NLS-1$
 
 	/*
 	 * param name for determining edXMode - see under main()
