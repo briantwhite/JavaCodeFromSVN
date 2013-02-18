@@ -89,7 +89,7 @@ public class EdXServerUtils {
 							DataOutputStream output = new DataOutputStream(secondConnection.getOutputStream());
 
 							if (eMailAndPassword == null) {
-								eMailAndPassword = PasswordDialog.getEmailAndPassword(vglII,false);
+								eMailAndPassword = CustomDialogs.getEmailAndPassword(vglII,false);
 								if (eMailAndPassword == null) return;
 							} 
 
@@ -120,7 +120,7 @@ public class EdXServerUtils {
 				}
 				if (!loginSuccess) {
 					isRetry = true;
-					eMailAndPassword = PasswordDialog.getEmailAndPassword(vglII, isRetry);
+					eMailAndPassword = CustomDialogs.getEmailAndPassword(vglII, isRetry);
 					if (eMailAndPassword == null) return;					
 				}
 			}

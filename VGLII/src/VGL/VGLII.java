@@ -121,6 +121,9 @@ public class VGLII extends JFrame {
 		//		new LanguageSpecifierMenuItem("\uD55C\uAD6D\uC5B4", "ko", "KR")
 	};
 
+	// used for java web start (edX) runs
+	private String[] args;
+
 	private PrivateKey gradingKey;
 	private PublicKey saveForGradingKey;
 
@@ -422,17 +425,21 @@ public class VGLII extends JFrame {
 	 * The constructor
 	 * 
 	 */
-	public VGLII(boolean edXMode) {
+	public VGLII(String[] args) {
 		super(Messages.getInstance().getString("VGLII.Name") + version); //$NON-NLS-1$
 		addWindowListener(new ApplicationCloser());
-
-		/**
-		 * this is enabled if we're in edX mode
-		 * it shows the "Save to EdX" menu item
-		 * and removes "New Problem" - since edX problems are
-		 * hard coded in the command line
+		this.args = args;
+		/*
+		 * find out if edX before constructing
+		 * 	so you can determine which menus to show
+		 *  - includes Save to Edx menu and button
 		 */
-		boolean saveToEdXServerEnabled = edXMode;
+		boolean saveToEdXServerEnabled = false;
+		if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
+			saveToEdXServerEnabled = true;					// mode 3
+		} else if (args.length > 1) {
+			saveToEdXServerEnabled = true;					// mode 4
+		}
 
 		random = new Random();
 
@@ -451,7 +458,7 @@ public class VGLII extends JFrame {
 		 *  3) instructor.key in same directory as VGL
 		 */
 		boolean graderEnabled = false;
-		if (!edXMode) {
+		if (!saveToEdXServerEnabled) {
 			gradingKey = KeyFileChecker.checkGradingKeys(this);
 			if (gradingKey != null) graderEnabled = true;
 		}
@@ -462,7 +469,7 @@ public class VGLII extends JFrame {
 		 * same directory as VGL
 		 */
 		boolean saveForGradingEnabled = false;
-		if (!edXMode) {
+		if (!saveToEdXServerEnabled) {
 			saveForGradingKey = KeyFileChecker.checkSaveForGradingKey();
 			if (saveForGradingKey != null) saveForGradingEnabled = true;
 		}
@@ -497,18 +504,8 @@ public class VGLII extends JFrame {
 	 * 
 	 */
 	public static void main(String[] args) {
-		/*
-		 * find out if edX before constructing
-		 * 	so you can determine which menus to show
-		 */
-		boolean edXMode = false;
-		if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
-			edXMode = true;					// mode 3
-		} else if (args.length > 1) {
-			edXMode = true;					// mode 4
-		}
 
-		VGLII vgl2 = new VGLII(edXMode);
+		VGLII vgl2 = new VGLII(args);
 		vgl2.setVisible(true);
 
 		if ((args.length == 1) && (!args[0].equals(ED_X_MODE_NAME))) {
@@ -518,9 +515,7 @@ public class VGLII extends JFrame {
 			} else if (fileName.endsWith(".wr2")) { //$NON-NLS-1$
 				vgl2.openProblem(fileName);
 			}
-		} else if (args.length > 1) {
-			vgl2.newProblemFromArgs(args);
-		}
+		} 
 	}
 
 	class ApplicationCloser extends WindowAdapter {
@@ -534,12 +529,15 @@ public class VGLII extends JFrame {
 	 * 
 	 * @param evt
 	 *            the action to be taken
+	 *             
 	 */
 	private void eventHandler(ActionEvent evt) {
 		String cmd = evt.getActionCommand();
 		update(getGraphics());
-		if (cmd.equals("NewProblem")) //$NON-NLS-1$
+		if (cmd.equals("NewProblemFromFile")) //$NON-NLS-1$
 			newProblemFromFile(null);
+		else if (cmd.equals("NewProblemFromArgs"))
+			newProblemFromArgs();
 		else if (cmd.equals("OpenWork")) //$NON-NLS-1$
 			openProblem(null);
 		else if (cmd.equals("SaveWork")) //$NON-NLS-1$
@@ -709,8 +707,10 @@ public class VGLII extends JFrame {
 		//  "File" options.
 		JMenu mnuFile = new JMenu(Messages.getInstance().getString("VGLII.File"));		 //$NON-NLS-1$
 
-		if (!saveToEdXServerEnabled) {
-			newProblemItem = menuItem(Messages.getInstance().getString("VGLII.NewProblem"), "NewProblem", newImage); 
+		if (saveToEdXServerEnabled) {
+			newProblemItem = menuItem(Messages.getInstance().getString("VGLII.NewProblem"), "NewProblemFromArgs", newImage); 			
+		} else {
+			newProblemItem = menuItem(Messages.getInstance().getString("VGLII.NewProblem"), "NewProblemFromFile", newImage); 			
 		}
 		openProblemItem = menuItem(Messages.getInstance().getString("VGLII.OpenWork"), "OpenWork", openImage); //$NON-NLS-1$ //$NON-NLS-2$
 		saveProblemItem = menuItem(Messages.getInstance().getString("VGLII.SaveWork"), "SaveWork", saveImage); //$NON-NLS-1$ //$NON-NLS-2$
@@ -723,9 +723,7 @@ public class VGLII extends JFrame {
 		closeProblemItem = menuItem(Messages.getInstance().getString("VGLII.CloseWork"), "CloseWork", closeImage); //$NON-NLS-1$ //$NON-NLS-2$
 		exitItem = menuItem(Messages.getInstance().getString("VGLII.Exit"), "Exit", null); //$NON-NLS-1$ //$NON-NLS-2$
 
-		if (newProblemItem != null) {
-			mnuFile.add(newProblemItem);
-		}
+		mnuFile.add(newProblemItem);
 		mnuFile.add(openProblemItem);
 		mnuFile.addSeparator();
 		mnuFile.add(saveProblemItem);
@@ -910,10 +908,14 @@ public class VGLII extends JFrame {
 		URL exitImageURL = VGLII.class.getResource("images/exit.gif"); //$NON-NLS-1$
 		ImageIcon exitImage = new ImageIcon(exitImageURL);
 
-		if (!saveToEdXServerEnabled) {
-			newButton = JButtonImageItem(newImage, "NewProblem", 
+		if (saveToEdXServerEnabled) {
+			newButton = JButtonImageItem(newImage, "NewProblemFromArgs", 
 					Messages.getInstance().getString("VGLII.NewProblem"), KeyEvent.VK_N); 
 		} else {
+			newButton = JButtonImageItem(newImage, "NewProblemFromFile", 
+					Messages.getInstance().getString("VGLII.NewProblem"), KeyEvent.VK_N); 
+		}
+		if (saveToEdXServerEnabled) {
 			saveToServerButton = JButtonImageItem(saveToServerImage, "SaveToServer", "Save To EdX Server...", KeyEvent.VK_E);
 		}
 		openButton = JButtonImageItem(openImage, "OpenWork", Messages.getInstance().getString("VGLII.OpenWork"), //$NON-NLS-1$ //$NON-NLS-2$
@@ -939,8 +941,8 @@ public class VGLII extends JFrame {
 		onlineHelpButton = JButtonImageItem(onlineHelpImage, "OnlineHelp", //$NON-NLS-1$
 				Messages.getInstance().getString("VGLII.HelpPage"), KeyEvent.VK_H); //$NON-NLS-1$
 
-		if (newButton != null) toolBar.add(newButton);
-		if (openButton != null) toolBar.add(openButton);
+		toolBar.add(newButton);
+		toolBar.add(openButton);
 		toolBar.add(closeButton);
 		toolBar.add(exitButton);
 		toolBar.add(saveButton);
@@ -1076,6 +1078,7 @@ public class VGLII extends JFrame {
 
 		return result;
 	}
+	
 
 	/**
 	 * Method to set up a new problem for the user
@@ -1117,13 +1120,23 @@ public class VGLII extends JFrame {
 	/*
 	 * set up new problem based on command line params
 	 */
-	private void newProblemFromArgs(String[] args) {
+	private void newProblemFromArgs() {
 		//refresh possible characters and traits & image defaults
 		CharacterSpecificationBank.getInstance().refreshAll();
 		PhenotypeImageBank.getInstance().resetDefaults();
 		geneticModel = 
 				GeneticModelFactory.getInstance().createRandomModel(args);
 		if (geneticModel == null) return;
+		
+		int choice = CustomDialogs.getPracticeModeChoice(this);
+		switch (choice) {
+		case CustomDialogs.PMODE_PRACTICE:
+		
+		case CustomDialogs.PMODE_REGULAR:
+		case CustomDialogs.PMODE_CANCEL:
+			default: return;
+			
+		}
 		startNewProblem();
 	}
 

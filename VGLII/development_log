@@ -2025,4 +2025,12 @@ many changes for edX
 - if login fails, but not because of cancel, give them another chance
 	(did this by refactoring the edX server communication out of VGLII and into EdXServerUtils first)
 	
+2/17/13
+make "swiss army knife" edX version
+if started with params & server OK
+	- start BLANK
+	- new prob enabled
+		pops up dialo to choose practice/not mode
+	- open work enabled
+do in eventHandler - differnent new problem events (NewProbFromFile, NewProbFromArgs)
 

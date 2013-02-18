@@ -1,19 +1,17 @@
 package VGL;
 
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
-public class PasswordDialog {
+public class CustomDialogs {
 
-	/*
-	 * [0] = email
-	 * [1] = password
-	 */
 	public static EmailAndPassword getEmailAndPassword(VGLII vglII, boolean isRetry) {
 
 		EmailAndPassword result = new EmailAndPassword();
@@ -61,6 +59,46 @@ public class PasswordDialog {
 			return result;
 		} else {
 			return null;
+		}
+	}
+	
+	public static final int PMODE_CANCEL = 0;
+	public static final int PMODE_REGULAR = 1;
+	public static final int PMODE_PRACTICE = 2;
+	
+	public static int getPracticeModeChoice(VGLII vglII) {
+		
+		JPanel choicePanel = new JPanel();
+		choicePanel.setLayout(new BoxLayout(choicePanel, BoxLayout.Y_AXIS));
+		choicePanel.add(new JLabel("Choose the mode for this problem:"));
+		JRadioButton pModeButton = new JRadioButton("Practice Mode");
+		choicePanel.add(pModeButton);
+		JRadioButton rModeButton = new JRadioButton("For Credit Mode");
+		choicePanel.add(rModeButton);
+		ButtonGroup group = new ButtonGroup();
+		group.add(pModeButton);
+		group.add(rModeButton);
+		
+		String[] options = new String[]{"OK", "Cancel"};
+		int r = JOptionPane.showOptionDialog(
+				vglII,
+				choicePanel,
+				"Mode Selection",
+				JOptionPane.NO_OPTION,
+				JOptionPane.PLAIN_MESSAGE,
+				null,
+				options,
+				options[0]);
+		if (r == 0) {
+			if (pModeButton.isSelected()) {
+				return PMODE_PRACTICE;
+			} else if (rModeButton.isSelected()) {
+				return PMODE_REGULAR;
+			} else {
+				return PMODE_CANCEL;
+			}
+		} else {
+			return PMODE_CANCEL;
 		}
 	}
 }
