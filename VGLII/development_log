@@ -2030,7 +2030,12 @@ make "swiss army knife" edX version
 if started with params & server OK
 	- start BLANK
 	- new prob enabled
-		pops up dialo to choose practice/not mode
+		pops up dialog to choose practice/not mode
 	- open work enabled
 do in eventHandler - differnent new problem events (NewProbFromFile, NewProbFromArgs)
 
+2/18/13
+need to test these cases:
+- save a practice mode file - be sure it opens in practice mode
+	need to fix this - now fixed
+- start a problem under A, save it, open under B, submit - be sure it submits to A

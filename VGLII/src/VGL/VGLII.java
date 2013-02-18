@@ -1239,13 +1239,12 @@ public class VGLII extends JFrame {
 		changeSinceLastSave = false;
 
 		if ((geneticModel.getProblemTypeSpecification().getEdXServerStrings() == null) ||
-				geneticModel.getProblemTypeSpecification().isBeginnerMode()) {
-			if (saveToServerItem != null) {
-				saveToServerItem.setEnabled(false);
-			}
-			if (saveToServerButton != null) {
-				saveToServerButton.setEnabled(false);
-			}
+				geneticModel.isBeginnerMode()) {
+			if (saveToServerItem != null) saveToServerItem.setEnabled(false);
+			if (saveToServerButton != null) saveToServerButton.setEnabled(false);
+		} else {
+			if (saveToServerItem != null) saveToServerItem.setEnabled(true);
+			if (saveToServerButton != null) saveToServerButton.setEnabled(true);
 		}
 	}
 
