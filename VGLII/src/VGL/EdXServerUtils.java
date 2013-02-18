@@ -26,7 +26,7 @@ import GeneticModels.GeneticModel;
 
 public class EdXServerUtils {
 
-	public static void saveToEdXServer(VGLII vglII, GeneticModel geneticModel, EmailAndPassword eMailAndPassword, String xmlString) {
+	public static EmailAndPassword saveToEdXServer(VGLII vglII, GeneticModel geneticModel, EmailAndPassword eMailAndPassword, String xmlString) {
 
 		CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
 		String csrftoken = null;
@@ -58,7 +58,7 @@ public class EdXServerUtils {
 
 				if (csrftoken == null) {
 					JOptionPane.showMessageDialog(vglII, "Could not access server");
-					return;
+					return eMailAndPassword;
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -90,7 +90,7 @@ public class EdXServerUtils {
 
 							if (eMailAndPassword == null) {
 								eMailAndPassword = CustomDialogs.getEmailAndPassword(vglII,false);
-								if (eMailAndPassword == null) return;
+								if (eMailAndPassword == null) return null;
 							} 
 
 							String content = 
@@ -121,7 +121,7 @@ public class EdXServerUtils {
 				if (!loginSuccess) {
 					isRetry = true;
 					eMailAndPassword = CustomDialogs.getEmailAndPassword(vglII, isRetry);
-					if (eMailAndPassword == null) return;					
+					if (eMailAndPassword == null) return null;					
 				}
 			}
 
@@ -174,6 +174,7 @@ public class EdXServerUtils {
 				JOptionPane.showMessageDialog(vglII, "Sorry, but there was an error in submission. \nPlease try again.\n");
 			}
 		}
+		return eMailAndPassword;
 	}
 
 	private static String clean(String s) {

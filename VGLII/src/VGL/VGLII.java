@@ -104,7 +104,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.3.0 2012-02-18 13:20"; //$NON-NLS-1$
+	public final static String version = "3.3.0 2012-02-18 16:30"; //$NON-NLS-1$
 
 	/*
 	 * param name for determining edXMode - see under main()
@@ -1403,7 +1403,7 @@ public class VGLII extends JFrame {
 				XMLOutputter outputter = 
 						new XMLOutputter(Format.getPrettyFormat());
 				String xmlString = outputter.outputString(doc);
-				EdXServerUtils.saveToEdXServer(this, geneticModel, eMailAndPassword, xmlString);
+				eMailAndPassword = EdXServerUtils.saveToEdXServer(this, geneticModel, eMailAndPassword, xmlString);
 			}
 		}
 	}
