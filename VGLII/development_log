@@ -943,7 +943,7 @@ can't find help file on pc version!
 made version 2.0.1
 
 11/17/09
-Got spanish translations from Juan-Carlos Hern‡ndez-Vega
+Got spanish translations from Juan-Carlos Hernï¿½ndez-Vega
 
 11/21/09
 working on spanish translation
@@ -2051,3 +2051,6 @@ sent to edX
 problems with edx communication
 need to make version that reports error text.
 version "3.3.0 2012-02-24 15:00"
+
+tested pull request - added this text from text editor
+	see if it appears in eclipse
