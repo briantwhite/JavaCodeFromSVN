@@ -104,7 +104,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.3.0 2012-02-18 16:30"; //$NON-NLS-1$
+	public final static String version = "3.3.0 2012-02-24 15:00"; //$NON-NLS-1$
 
 	/*
 	 * param name for determining edXMode - see under main()
@@ -1930,6 +1930,10 @@ public class VGLII extends JFrame {
 
 	public void setChangeSinceLastSave() {
 		changeSinceLastSave = true;
+	}
+	
+	public GeneticModel getGeneticModel() {
+		return geneticModel;
 	}
 
 }

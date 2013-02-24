@@ -16,7 +16,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import GeneticModels.GeneticModel;
 
@@ -67,7 +72,7 @@ public class EdXServerUtils {
 			// now login 
 			boolean loginSuccess = false;
 			boolean isRetry = false;
-			
+
 			while (!loginSuccess) {
 				if (csrftoken != null) {
 					try {
@@ -162,6 +167,14 @@ public class EdXServerUtils {
 					input.close();
 				} catch (IOException e) {
 					e.printStackTrace();
+					b.append(e.toString());
+					StackTraceElement[] els = e.getStackTrace();
+					for (int i = 0; i < els.length; i++) {
+						b.append("\n" + els[i].toString());
+					}
+					b.append("\n");
+					b.append("*****edx server params*****\n");
+					b.append(vglII.getGeneticModel().getProblemTypeSpecification().getEdXServerStrings().toString());
 				}
 			}
 			String response = b.toString();
@@ -171,7 +184,8 @@ public class EdXServerUtils {
 			if (response.contains("progress_changed")) {
 				JOptionPane.showMessageDialog(vglII, "Submission Received by EdX Server\nPlease re-load the edX page to see your score on this part.");
 			} else {
-				JOptionPane.showMessageDialog(vglII, "Sorry, but there was an error in submission. \nPlease try again.\n");
+				//				JOptionPane.showMessageDialog(vglII, "Sorry, but there was an error in submission. \nPlease try again.\n");
+				showErrorMessageDialog(vglII, b.toString());
 			}
 		}
 		return eMailAndPassword;
@@ -179,6 +193,20 @@ public class EdXServerUtils {
 
 	private static String clean(String s) {
 		return s.replace("/","-").replace(":","").replace("--","-").replace(".", "_");
+	}
+
+	private static void showErrorMessageDialog(VGLII vglII, String errorMsg) {
+		JPanel viewPanel = new JPanel();
+		JTextArea errorText = new JTextArea(10,30);
+		errorText.setText(errorMsg);
+		JScrollPane scroller = new JScrollPane(errorText);
+		viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
+		viewPanel.add(new JLabel("<html>Sorry, there was an error in submission.<br>"
+				+ "Please try again.<br>"
+				+ "You can also copy the text below and e-mail it to <br>"
+				+ "the course staff for debugging purposes.</html>"));
+		viewPanel.add(scroller);
+		JOptionPane.showMessageDialog(vglII, viewPanel);
 	}
 
 
