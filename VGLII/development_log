@@ -2047,3 +2047,6 @@ had broken the remember password on successful login thing <sigh>
 new version "3.3.0 2012-02-18 16:30"
 sent to edX
 
+2/24/13
+problems with edx communication
+need to make version that reports error text.
