@@ -2054,3 +2054,9 @@ version "3.3.0 2012-02-24 15:00"
 
 tested pull request - added this text from text editor
 	see if it appears in eclipse - NG so far
+	
+2/25/13
+eclipse working with github
+submitted xml was too long for edx
+simplified to just grade info
+version "3.3.1 2012-02-25 22:00"
