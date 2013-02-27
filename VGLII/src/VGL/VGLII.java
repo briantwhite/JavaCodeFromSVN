@@ -104,7 +104,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.3.0 2012-02-24 15:00"; //$NON-NLS-1$
+	public final static String version = "3.3.1 2012-02-25 22:00"; //$NON-NLS-1$
 
 	/*
 	 * param name for determining edXMode - see under main()
@@ -1383,28 +1383,39 @@ public class VGLII extends JFrame {
 		} else {
 			System.out.println("edX strings:\n" + geneticModel.getProblemTypeSpecification().getEdXServerStrings().toString() + "\n********");
 
-			Iterator<CageUI> it = cageCollection.iterator();
-			ArrayList<Cage> cages = new ArrayList<Cage>();
-			while (it.hasNext()) {
-				CageUI cui = it.next();
-				Cage c = cui.getCage();
-				cages.add(c);
-			}
-			Document doc = null;
-			try {
-				doc = getXMLDoc(cages);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if (doc != null) {
-
-				Element root = doc.getRootElement();
-				root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
-				XMLOutputter outputter = 
-						new XMLOutputter(Format.getPrettyFormat());
-				String xmlString = outputter.outputString(doc);
-				eMailAndPassword = EdXServerUtils.saveToEdXServer(this, geneticModel, eMailAndPassword, xmlString);
-			}
+//		nuked because xml is too long for edx server
+//			Iterator<CageUI> it = cageCollection.iterator();
+//			ArrayList<Cage> cages = new ArrayList<Cage>();
+//			while (it.hasNext()) {
+//				CageUI cui = it.next();
+//				Cage c = cui.getCage();
+//				cages.add(c);
+//			}
+//			Document doc = null;
+//			try {
+//				doc = getXMLDoc(cages);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			if (doc != null) {
+//
+//				Element root = doc.getRootElement();
+//				root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
+//				XMLOutputter outputter = 
+//						new XMLOutputter(Format.getPrettyFormat());
+//				String xmlString = outputter.outputString(doc);
+//				eMailAndPassword = EdXServerUtils.saveToEdXServer(this, geneticModel, eMailAndPassword, xmlString);
+//			}
+			
+			// just the grading info for now
+			Element root = new Element("VglII");
+			Document doc = new Document(root);
+			root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
+			XMLOutputter outputter = 
+					new XMLOutputter(Format.getPrettyFormat());
+			String xmlString = outputter.outputString(doc);
+//			System.out.println(xmlString);
+			eMailAndPassword = EdXServerUtils.saveToEdXServer(this, geneticModel, eMailAndPassword, xmlString);		
 		}
 	}
 
