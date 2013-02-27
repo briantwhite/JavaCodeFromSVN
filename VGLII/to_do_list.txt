@@ -66,7 +66,12 @@ allele interaction pops up differently for simple dominance vs incomplete domina
 program is using clearly knows which one is in the middle, because only the two middle-to-end RFs are given 
 in the graders' answers.
 
+14) Change grading html to save the automatic grader output => easier to summarize
 
+15) Include in <Grade>
+	- total number of crosses
+	- number of crosses after sufficient info
+	- for linkage, # of offspring in evidentiary cage
 
 
 
