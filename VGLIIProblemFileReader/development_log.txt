@@ -1,0 +1,86 @@
+6/13/10
+strange bug
+when you load the second work file, it hangs and needs the ForceQuit to quit
+
+- tried
+1) removing  singleton TraitFactory and including in GeneticModel
+2) being sure to close all zip files and associated opened things
+
+neither worked
+it gets to the constructor for one of the gene models and then goes into lala land
+
+the same thing happens to VGL
+
+yikes
+
+ran from console
+Brian-Whites-MacBook-Air:VGLIIProblemFileReader brian$ java -jar VGLIIProblemFileReader.jar &
+[1] 736
+
+let it hang
+Brian-Whites-MacBook-Air:VGLIIProblemFileReader brian$ kill -3 736
+
+could also have used jstack or jps (other tools built into java)
+
+"AWT-EventQueue-0" prio=6 tid=1028d4000 nid=0x12a84c000 runnable [12a84a000]
+   java.lang.Thread.State: RUNNABLE
+	at java.util.Random.next(Random.java:139)
+	at java.util.Random.nextInt(Random.java:257)
+	at GeneticModels.CharacterSpecificationBank.getRandomTraitSet(CharacterSpecificationBank.java:53)
+	at GeneticModels.GeneModel.<init>(GeneModel.java:40)
+	at GeneticModels.TwoAlleleSimpleDominanceGeneModel.<init>(TwoAlleleSimpleDominanceGeneModel.java:42)
+	at GeneticModels.WorkFileProcessor.buildGeneModel(WorkFileProcessor.java:144)
+	at GeneticModels.WorkFileProcessor.processChromosomeModelInfo(WorkFileProcessor.java:120)
+	at GeneticModels.WorkFileProcessor.processSavedModelInfo(WorkFileProcessor.java:99)
+	at GeneticModels.WorkFileProcessor.<init>(WorkFileProcessor.java:49)
+	at GeneticModels.GeneticModelFactory.readModelFromFile(GeneticModelFactory.java:114)
+	at ProblemFileReader.VGLIIProblemFileReader.readModelFromFile(VGLIIProblemFileReader.java:231)
+
+try again to see if it's dead at the same place.
+"AWT-EventQueue-0" prio=6 tid=101947800 nid=0x12a94c000 runnable [12a94a000]
+   java.lang.Thread.State: RUNNABLE
+	at GeneticModels.CharacterSpecificationBank.getRandomTraitSet(CharacterSpecificationBank.java:52)
+	at GeneticModels.GeneModel.<init>(GeneModel.java:40)
+	at GeneticModels.TwoAlleleSimpleDominanceGeneModel.<init>(TwoAlleleSimpleDominanceGeneModel.java:42)
+	at GeneticModels.WorkFileProcessor.buildGeneModel(WorkFileProcessor.java:144)
+	at GeneticModels.WorkFileProcessor.processChromosomeModelInfo(WorkFileProcessor.java:120)
+	at GeneticModels.WorkFileProcessor.processSavedModelInfo(WorkFileProcessor.java:99)
+	at GeneticModels.WorkFileProcessor.<init>(WorkFileProcessor.java:49)
+	at GeneticModels.GeneticModelFactory.readModelFromFile(GeneticModelFactory.java:114)
+	at ProblemFileReader.VGLIIProblemFileReader.readModelFromFile(VGLIIProblemFileReader.java:231)
+
+similar
+try again
+"AWT-EventQueue-0" prio=6 tid=101b63000 nid=0x12a840000 runnable [12a83e000]
+   java.lang.Thread.State: RUNNABLE
+	at java.util.Random.next(Random.java:139)
+	at java.util.Random.nextInt(Random.java:257)
+	at GeneticModels.CharacterSpecificationBank.getRandomTraitSet(CharacterSpecificationBank.java:53)
+	at GeneticModels.GeneModel.<init>(GeneModel.java:40)
+	at GeneticModels.TwoAlleleSimpleDominanceGeneModel.<init>(TwoAlleleSimpleDominanceGeneModel.java:42)
+	at GeneticModels.WorkFileProcessor.buildGeneModel(WorkFileProcessor.java:144)
+	at GeneticModels.WorkFileProcessor.processChromosomeModelInfo(WorkFileProcessor.java:120)
+	at GeneticModels.WorkFileProcessor.processSavedModelInfo(WorkFileProcessor.java:99)
+	at GeneticModels.WorkFileProcessor.<init>(WorkFileProcessor.java:49)
+	at GeneticModels.GeneticModelFactory.readModelFromFile(GeneticModelFactory.java:114)
+	at ProblemFileReader.VGLIIProblemFileReader.readModelFromFile(VGLIIProblemFileReader.java:231)
+
+same place
+
+CharacterSpecificationBank is the likely culprit. It is a singleton that does not automatically reset itself
+when we make a new GeneticModel.
+
+Add line 81 to WorkFileProcessor: CharacterSpecificationBank.getInstance().refreshAll();
+
+now seems to work, but does not always update the display...
+maybe have it read them all in first?
+
+it's not that; it's something strange with the list selection
+it seems to do the last one you clicked on?
+
+using the wrong selection - do it from the JList
+
+6/16/10
+some changes 
+- open dialog reminds you that it's a directory that you need to pick
+- display and printing show if BeginnerMode was enabled or not

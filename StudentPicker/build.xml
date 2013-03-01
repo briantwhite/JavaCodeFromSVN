@@ -1,0 +1,21 @@
+<project name="StudentPicker" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/StudentPicker.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="StudentPicker"/>
+	        </manifest>
+    	    <fileset dir="bin/"/>
+	    </jar>
+        <move file="bin/StudentPicker.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run StudentPicker">
+		<java jar="StudentPicker.jar" fork="true"/>
+	</target>
+
+</project>

@@ -1,0 +1,27 @@
+This is a folder of sample trees for unit testing
+
+all used.tree - all dragged of home placement; no links
+all connected.tree - all connected
+correct.tree - correct tree used in making scoring
+testtree.tree - a random tree
+
+they score like this: 
+
+Name,UsedAllOrgs,ConnectedAllOrgs,AllEndsOfBranches,NoLoops,Error
+all connected,Y,Y,N,-,-
+all used,Y,N,-,-,-
+correct,Y,Y,Y,Y,0
+tes,Y,N,-,-,-
+
+added another
+DeguenonJosianeHomeworkB.tree - scoring says it has loops
+	it doesn't but it has a lot of unused nodes...
+
+083EboigbeHarrisontreetreetree.tree
+	this one uses NO organisms
+		caused an error on "all connected"
+		because vertices.size() = 0
+		but it shouldn't get there - none of the orgs are used
+		weird (update score [uses numUnusedOrgs != 0] gives "not all used" but
+			scores.csv [uses numUnusedOrgs ? > 0] gives all orgs used...
+			

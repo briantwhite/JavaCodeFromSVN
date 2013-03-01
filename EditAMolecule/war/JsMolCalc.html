@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="JsMolCalc.css">
+    <title>Edit A Molecule</title>   
+    <script type="text/javascript" language="javascript" src="jsmolcalc/jsmolcalc.nocache.js"></script>
+  </head>
+
+  <body>
+      
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+    
+
+ <h1>Edit A Molecule</h1>
+ The molecule Dopamine is shown below. Dopamine is a neurotransmitter.<br>
+ Choose a task from the list below; edit the molecule to complete the task; then, submit your answer.<br>
+ <applet code="JME.class" archive="JME.jar" id="JME" width=500 height=400>
+            You have to enable Java and JavaScript on your machine !</applet> 
+
+<br>
+<table border=1>
+	<tr>
+		<td>Choose a task from the list below:<br>	
+			Edit the molecule so that it:<br>
+			<div id="taskChooser"></div>
+		<td id="submitAnswerButton"></td>
+	<tr>
+		<th>Molecule's Properties</th>
+		<th>Answer Evaluation</th>
+	</tr>
+	<tr>
+		<td id="currentProperties"></td>
+		<td id="answerEvaluation"></td>
+	</tr>
+</table>
+<br>
+<br>
+<br>
+<hr>
+<h2>Information for edX</h2>
+The GWT project can be found <a href="EditAMolecule.tar.gz">here</a>.<p>
+<ul>
+	<li><b>Raw Material</b> provided by Biologists:</li>
+		<ul>
+			<li>.mol file for each of a set of molecules.</li>
+			<li>Brief text descriptions of each molecule.</li>
+		</ul>
+	<li><b>Transforming Raw Material into a Problem</b> done by edX:</li>
+		<ol>
+			<li>Randomly choose a .mol file from the set. Currently there's only one in the same directory
+				as this file. You will probably need to arrange this differently.</li>
+			<li>Load the description of the molecule into the page where it now reads "The molecule Dopamine is shown below.
+				Dopamine is a neurotransmitter".</li>
+			<li>Load the .mol file into JsMolCalc. Currently, the java code reads a file called "dopamine.mol".
+				This is done in edu.umb.bio.jsMolCalc.client.JsMolCalc.java lines 71-87. You will need to make
+				this something that fits with your randomization code.</li>
+			<li>JsMolCalc then will automatically display the molecule, calculate it's properties (the correct answers),
+				and set up a set of appropriate tasks</li>
+			<li>As the student completes various tasks, the entries in the "taskChooser" get "COMPLETED" appended to their names;
+				you can score on the basis of this.</li>
+		</ol>
+</ul>
+
+
+</body>
+</html>

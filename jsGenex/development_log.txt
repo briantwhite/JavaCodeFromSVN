@@ -1,0 +1,14 @@
+12/15/12
+set up google -> new web application project
+nuked useless stuff:
+-src/edu.umb.bio.genex/client
+	GreetingService & GreetingServiceAsnych
+package edu.umb.bio.genex.server
+package edu.umb.bio.genex.shared
+
+set up sub packages of packages from genex project
+
+fixed some imports
+for xml elements, used com.google.gwt.user.client.Element
+when doing Requirements - do Requirement first to get right imports before doing others
+

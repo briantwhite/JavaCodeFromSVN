@@ -1,0 +1,22 @@
+<project name="PedigreeExplorer" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/PedigreeExplorer.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="PE.PedigreeExplorer"/>
+	        </manifest>
+    	    <fileset dir="bin/"/>
+    	    <zipfileset src="jdom.jar"/>
+ 	    </jar>
+        <move file="bin/PedigreeExplorer.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run Pedigree Explorer">
+		<java jar="PedigreeExplorer.jar" fork="true"/>
+	</target>
+
+</project>

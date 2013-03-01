@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PedEx>
+  <Person Id="1" Name="" Sex="2" Affection="1" Father="0" Mother="0" ARgeno="? ?" ADgeno="? ?" SLRgeno="? ?" SLDgeno="? ?" />
+  <Person Id="2" Name="" Sex="1" Affection="1" Father="0" Mother="0" ARgeno="? ?" ADgeno="? ?" SLRgeno="? ?" SLDgeno="? ?" />
+  <Person Id="3" Name="" Sex="2" Affection="1" Father="2" Mother="1" ARgeno="? ?" ADgeno="? ?" SLRgeno="? ?" SLDgeno="? ?" />
+  <Person Id="4" Name="" Sex="2" Affection="2" Father="2" Mother="1" ARgeno="? ?" ADgeno="? ?" SLRgeno="? ?" SLDgeno="? ?" />
+  <Person Id="5" Name="" Sex="1" Affection="1" Father="0" Mother="0" ARgeno="? ?" ADgeno="? ?" SLRgeno="? ?" SLDgeno="? ?" />
+  <Person Id="6" Name="" Sex="1" Affection="1" Father="5" Mother="4" ARgeno="? ?" ADgeno="? ?" SLRgeno="? ?" SLDgeno="? ?" />
+  <Person Id="7" Name="" Sex="1" Affection="1" Father="5" Mother="4" ARgeno="? ?" ADgeno="? ?" SLRgeno="? ?" SLDgeno="? ?" />
+</PedEx>
+

@@ -1,0 +1,59 @@
+2/20/11
+loaded code from Freeland's thesis appendix I.doc
+try to get it into svn
+
+some changes from his thesis
+
+1) in thesis, the file is set_up.c; in main.c, it is setup.c
+	edited main.c to read "set_up.c"
+2) in thesis, the file is codon.h; in main.c it is codons.c
+	edited main.c to read "codon.c"
+3) in thesis, there is no optimize.c
+	but the file on pages xlvi and xlvii labeled with duplicate "n_samples.c"
+	has the functions listed on page xvii as being in optimize.c
+	so made optimize.c = the contents of pages xlvi & xlvii
+	
+2/21/11
+more fixes
+mut_calc.c line 110 is missing the function name and first few chars
+using info on page xvi, add "void Build_Mutant_Array(SETTINGS_TYPE*"
+
+try building by going into directory and
+gcc main.c -o gen_code
+
+some warnings, but no errors
+
+tried to run it
+need auxiliary files
+made:
+	a_acid_f.txt (based on fig 1i)
+	PAM74100.txt (used OCR www.free-ocr.com on fig 1i)
+	matrix_f.cod (using p xxvii and xxvii, it looks like UUU PHE)
+		try this anyway..
+
+seems to work aok!
+
+2/25/11
+added to 1_sample.c to print code specification and MS(0) to stdout
+works
+need to rearrange order to match the excel layout
+
+3/1/11
+1_sample.c now saves codes to codes.csv
+	this can be read by r
+
+add variance calc to 1_sample.c
+
+now prints both
+
+1/17/12
+discrepancy between MS0 values calculated by excel and by this
+(see Square Evolution Log 03.docx pages 28-33)
+fixed by initializing num_stored_ptr to = 0 (not -1) in mut_calc.c's Build_Mutant_Array
+line 113
+
+now seems to log all mutations properly and give correct values
+
+1/18/12
+fixed code in mut_calc.c so that it is unambiguous (see Square Evolution Log 03 page 33)
+tested AOK

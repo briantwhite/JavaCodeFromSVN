@@ -1,0 +1,50 @@
+to do list
+
+1) use filename as student's name in welcome screen    							-DONE
+	- filter to be sure it contains only alphanumeric & spaces					-DONE
+
+2) hierarchy of error messages (only show first one at a time)					-DONE
+	- included all
+	- connected all
+	- no cycles
+	- score
+
+3) could score by existing scores												-DONT BOTHER
+	- maximize vert-invert diff, etc
+	- minimize mam-mam diff, etc
+
+4) if directory in command line, open in adminmode and open all .tree files
+	- create scores.csv in that directory
+		Name, error, comments
+
+5) remove "you've received 15 points" if it's an application					-DONE
+	in instructions.properties
+
+6) robinson-foulds																-DONE
+	break a link
+	take organism 0
+	mark all those that are connected to it
+		if all in one group => a cycle (warn)
+	all others aren't
+	use large int for partition
+		2^(creature index) = 1 if in a group
+	see which of these are present/absent
+
+7) Fix the null pointer issue on launch											-DONE
+
+8) when loading multiple .tree files											- DONE
+	if you hit an error (can't read it)
+	then put the name of the file and "can't open" in the first score column
+
+9) Why does DeguenonJosianeHomeworkB.tree get scored as having loops when it doesn't?
+	it may be when they have unconnected branch nodes
+	or terminal branch nodes
+		(breaking the link to these still has all orgs connected so it looks like a loop)
+	- probably detect these and warn before getting to loops etc
+		(right after all orgs terminal)
+	- her tree also has connectors going to empty space(?)
+		need to warn about these
+		
+10) add to score report file
+	unconnected branch nodes
+	terminal branch nodes

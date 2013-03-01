@@ -1,0 +1,103 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="JsMolCalc.css">
+    <title>Read A Molecule</title>   
+    <script type="text/javascript" language="javascript" src="jsmolcalc/jsmolcalc.nocache.js"></script>
+  </head>
+
+  <body>
+      
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+    
+
+ <h1>Read A Molecule</h1>
+ The molecule Dopamine is shown below. Dopamine is a neurotransmitter.<br>
+ <applet code="JME.class" archive="JME.jar" id="JME" width=300 height=200>
+ <param name="options" value="depict">
+            You have to enable Java and JavaScript on your machine !</applet> 
+
+<br>
+Enter the formula for dopamine here (in standard format: C# H# N# O# P# S#; leave out # if only one such atom; omit letter if none of that atom): 
+	<div id="formulaField"></div>
+	<div id="formulaButton"></div>
+	<div id="formulaResult"></div>
+	<br>
+
+Can Dopamine form strong<font color=blue>hydrogen bonds</font> with a suitable partner molecule?<br> 
+	<div id="hBonds"></div>
+	<div id="hBondButton"></div>
+	<div id="hBondResult"></div>
+<br>
+
+Can Dopamine form <font color=blue>ionic bonds</font> with a suitable partner molecule? 
+	<div id="iBonds"></div>
+	<div id="iBondButton"></div>
+	<div id="iBondResult"></div>
+<br>
+
+Can Dopamine form <font color=blue>van der Waals bonds</font> with a suitable partner molecule? 
+	<div id="vdwBonds"></div>
+	<div id="vdwBondButton"></div>
+	<div id="vdwBondResult"></div>
+<br>
+		
+As a whole, is the dopamine molecule: 
+	<div id="phobic"></div>
+	<div id="phobicButton"></div>
+	<div id="phobicResult"></div>
+<br>
+<br>
+<br>
+<hr>
+<h2>Information for edX</h2>
+The GWT project can be found <a href="ReadAMolecule.tar.gz">here</a>.<p>
+<ul>
+	<li><b>Raw Material</b> provided by Biologists:</li>
+		<ul>
+			<li>.mol file for each of a set of molecules.</li>
+			<li>Brief text descriptions of each molecule.</li>
+		</ul>
+	<li><b>Transforming Raw Material into a Problem</b> done by edX:</li>
+		<ol>
+			<li>Randomly choose a .mol file from the set. Currently there's only one in the same directory
+				as this file. You will probably need to arrange this differently.</li>
+			<li>Load the description of the molecule into the page where it now reads "The molecule Dopamine is shown below.
+				Dopamine is a neurotransmitter".</li>
+			<li>Load the .mol file into JsMolCalc. Currently, the java code reads a file called "dopamine.mol".
+				This is done in edu.umb.bio.jsMolCalc.client.JsMolCalc.java lines 89-124. You will need to make
+				this something that fits with your randomization code.</li>
+			<li>JsMolCalc then will automatically displays the molecule, calculates it's properties (the correct answers),
+				and sets up the answer evaluation code.</li>
+			<li>As the student enters answers, they are evaluated as correct or incorrect. Once they are correct, the question
+				is disabled and the corresponding "result" field now contains "CORRECT" - you can use this for scoring.</li>
+		</ol>
+</ul>
+<table border=1>
+	<tr>
+		<th>Paste mol file text here</th>
+		<th>Correct answers appear here after you click "compute"</th>
+	</tr>	
+	<tr>
+		<td><div id="molInput"></div><br><div id="computeButton"></div></td>
+		<td>
+			<ul>
+				<li>Phobicity: <div id="phobicityAnswer"></div></li>
+				<li>Make H Bonds? <div id="hBondAnswer"></div></li>
+				<li>Make Ionic Bonds? <div id="iBondAnswer"></div></li>
+			</ul>
+		
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>

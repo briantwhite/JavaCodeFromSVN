@@ -1,0 +1,115 @@
+6/15/10
+started up
+got jdom.jar from http://www.jdom.org/dist/binary/ 
+version 1.1.1
+- got .tar.zg
+- unzipped
+- in jdom/build, there's jdom.jar
+- put it in lib/ in the project workspace
+- tar -xvf jdom.jar
+- delete all files not in org/
+- build path - add class folder lib/
+
+cleaned up stuff
+- moved all needed VGLII stuff into VGLII package
+- stripped VGL and VGLII main classes down to essential methods
+	removed GUI stuff
+
+6/30/10
+to make it work with VGLII need to make converters to change a VGLII Cage to a VGL cage
+(and, of course, the organisms inside it)
+got it going.
+
+worked on getting it to notice conspicuous crosses
+working on tallying the results to find out when they have all the info they need
+need to implement the getRequiredResultSet method for each genetic model in VGL and VGLII
+
+7/14/10
+got tallying of required info working
+need to check one problem of each type
+(and get it going for VGLII)
+
+7/19/10
+problem:
+in hierarc/circ dom if you get R X B -> R + G (eg 111 F07 gbr180.wrk cage 5)
+	you get a LINKED result
+		it tells you, for sure that R > B
+		but G is recessive to EITHER R or B but not both
+			once you find one, you get the other
+therefore, need to deal with this linkage
+	but it's different than in inc dom - in that case, it does not give linked info
+		with inc dom A X B -> C gives all the info you need
+	so, the RequiredResultSet will deal with DominanceResults with three phenos
+		differently depending on the model involved
+or, better, make a distinction between A X B -> only C and A X B -> C + (A or B)
+	A X B -> only C (inc dom) fires 3 results
+			Dominance(A B), Dominance(B C), & Dominance(A C)
+	A X B -> C + others fires LinkedResult
+also, need to process a cage as a unit, not by phenotype
+	that is, collect the phenos you've found and process that into the GeneticResult
+
+7/20/10
+problem with HashMaps not finding elements
+- can find them if iterate thru KeySet and look for equals() on keys
+- but not using the regular contains() and get() methods
+- did not implement hashCode()
+try this.
+works!!!
+
+now, need to add sex-linkage twist - for autosomal, need to show that it is autosomal
+
+7/26/10
+got it working!
+now conspicuous results are coded like this:
+- BLACK = shows sex linkage
+- WHITE = shows dominance
+- GRAY = shows both
+** but beware: partial no sex-linked results (like 1/2 of a reciprocal cross) count as showing sex-linkage
+
+NOW - need to get it running with VGLII.
+
+7/28/10
+added debug option to turn on/off printing of diagnostic stuff
+compile-time option in the VGLLogAnalyzer
+
+getting a 
+     [java] Exception in thread "Thread-2" java.util.ConcurrentModificationException
+     [java] 	at java.util.HashMap$HashIterator.nextEntry(HashMap.java:793)
+     [java] 	at java.util.HashMap$KeyIterator.next(HashMap.java:828)
+     [java] 	at LogAnalyzer.RequiredResultSet.processResult(RequiredResultSet.java:145)
+ looking on the web:
+ "Note that this exception does not always indicate that an object has been concurrently 
+ modified by a different thread. If a single thread issues a sequence of method invocations 
+ that violates the contract of an object, the object may throw this exception. For example, 
+ if a thread modifies a collection directly while it is iterating over the collection with 
+ a fail-fast iterator, the iterator will throw this exception."
+ 
+ this method modifies the collection linkedResults while iterating over it.
+ need to fix
+ fixed it
+ 
+ also, for logging purposes, have it output the filenames of each deleted table row
+
+need to check files with models not yet tested:
+1, 3, 4, 5, 6, 10
+
+8/2/10
+a criss-cross result (male A X female B -> male B + female A)
+	gives a LINKED result (had had it as pure dominance result)
+		if you know mode of sex-linkage, you know dominance & vice-versa
+need to make linked results with sex-linkage
+
+8/4/10
+but there's another result that can come with sex-linked hierarchical models:
+	A X B -> A (both) + male B + male C
+	you should get 2 linked results:
+		linked (sex-linked, dom(A,B))
+		linked (dom(A,C), dom(B,C))
+
+11/22/10
+some tuning on the "shows sex linkage" and "shows dominance"
+make sure they are checked off whenever needed
+and tallied for display and export
+all set
+
+ 
