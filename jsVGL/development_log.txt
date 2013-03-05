@@ -1,0 +1,18 @@
+3/5/13
+GOALS:
+- javascript vgl
+- run from params (no .pr2 files)
+	(like the version for edx)
+- save state to server
+- grade on server
+
+started off
+in eclipse
+- new google -> web application project
+- team -> share project via git
+- repo is /Users/briantwhite/git/JavaCodeFromSVN/
+- team -> add to index
+- team -> commit (initial commit)
+- team -> push to upstream
+
+worked.
