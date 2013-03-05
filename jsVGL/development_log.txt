@@ -22,3 +22,11 @@ nuked useless stuff:
 	GreetingService & GreetingServiceAsnych
 package edu.umb.jsVGL.server
 package edu.umb.jsVGL.shared
+
+moved in packages
+- make new package eg edu.umb.jsVGL.client.GeneticModels
+- go into VGLII/GeneticModels
+- select all; copy
+- click new package; paste
+
+
