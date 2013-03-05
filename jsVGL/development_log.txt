@@ -16,3 +16,9 @@ in eclipse
 - team -> push to upstream
 
 worked.
+
+nuked useless stuff:
+-src/edu.umb.jsVGL/client
+	GreetingService & GreetingServiceAsnych
+package edu.umb.jsVGL.server
+package edu.umb.jsVGL.shared
