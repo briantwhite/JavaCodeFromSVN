@@ -1,6 +1,9 @@
 package edu.umb.jsVGL.client.GeneticModels;
 
-import org.jdom.Element;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
+
 
 /**
  * Brian White Summer 2008
@@ -46,7 +49,8 @@ public class Allele {
 	}
 	
 	public Element save(int index) throws Exception {
-		Element e = new Element("Allele");
+		Document d = XMLParser.createDocument();
+		Element e = d.createElement("Allele");
 		e.setAttribute("GeneIndex", String.valueOf(index));
 		e.setAttribute("TraitNumber", String.valueOf(intVal));
 		return e;

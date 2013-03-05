@@ -6,11 +6,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import org.jdom.Element;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 
-import VGL.CageUI;
-import VGL.GeneticsException;
-import VGL.Messages;
+import edu.umb.jsVGL.client.VGL.CageUI;
 
 /**
  * Brian White Summer 2008
@@ -248,7 +248,8 @@ public class Cage {
 	 * @return this cage in JDom Element format
 	 */
 	public Element save() throws Exception {
-		Element ec = new Element("Cage");
+		Document d = XMLParser.createDocument();
+		Element ec = d.createElement("Cage");
 		ec.setAttribute("Created", creationDate.toString());
 		ec.setAttribute("Xpos", String.valueOf(cageUI.getLocation().x));
 		ec.setAttribute("Ypos", String.valueOf(cageUI.getLocation().y));

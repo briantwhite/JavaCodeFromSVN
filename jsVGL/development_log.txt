@@ -34,3 +34,23 @@ http://mangstacular.blogspot.com/2012/01/gwt-image-bundles.html
 http://code.google.com/p/google-web-toolkit-doc-1-5/wiki/DevGuideDefiningAndUsingImageBundle
 
 
+
+moved to home mac
+needed to adjust build path to add App Engine SDK 1.7.4 
+	this eliminates the red exclamation point
+
+start resolving errors:
+xml stuff 
+	- should be: com.google.gwt.xml.client.Document etc.
+	- can't make an Element directly
+		need to http://stackoverflow.com/questions/6895322/create-xml-document-on-gwt-client-side
+			make a doc and have it make element from a document
+		but it can't find the type com.google.gwt.xml.Element even though it's being imported
+		need to add the jar
+			tried from http://mvnrepository.com/artifact/com.google.gwt/gwt-user/1.6.4
+			got http://repo1.maven.org/maven2/com/google/gwt/gwt-user/1.6.4/gwt-user-1.6.4.jar
+			made folder jsVGL/library (it's in git/)
+				put the jar in there
+				Project -> java build path
+					added jar - gwt-user-1.6.4.jar
+				Build project - now OK
