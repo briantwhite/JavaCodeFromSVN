@@ -355,9 +355,9 @@ public class PhenotypeProcessor {
 		Element e = d.createElement("PhenotypeProcessor");
 		e.setAttribute("InteractionType", String.valueOf(interactionType));
 		if (interactionType != NO_INTERACTION) {
-			e.addContent(t1.save(1));
-			e.addContent(t2.save(2));
-			e.addContent(t3.save(3));	
+			e.appendChild(t1.save(1));
+			e.appendChild(t2.save(2));
+			e.appendChild(t3.save(3));	
 		}
 		return e;
 	}

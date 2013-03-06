@@ -198,12 +198,12 @@ public class ThreeAlleleIncompleteDominanceGeneModel extends GeneModel {
 		e.setAttribute("Index", String.valueOf(index));
 		e.setAttribute("Type", "ThreeAlleleIncompleteDominance");
 		e.setAttribute("RfToPrevious", String.valueOf(rf));
-		e.addContent(t1.save(1));
-		e.addContent(t2.save(2));
-		e.addContent(t3.save(3));
-		e.addContent(t4.save(4));
-		e.addContent(t5.save(5));
-		e.addContent(t6.save(6));
+		e.appendChild(t1.save(1));
+		e.appendChild(t2.save(2));
+		e.appendChild(t3.save(3));
+		e.appendChild(t4.save(4));
+		e.appendChild(t5.save(5));
+		e.appendChild(t6.save(6));
 		return e;
 	}
 

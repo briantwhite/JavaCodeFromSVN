@@ -165,7 +165,7 @@ public abstract class ChromosomeModel {
 		float rf = -1.0f;
 		for (int i = 0; i < geneModels.size(); i++) {
 			GeneModel gm = geneModels.get(i);
-			e.addContent(gm.save(i, rf));
+			e.appendChild(gm.save(i, rf));
 			if (rfIt.hasNext()) {
 				rf = rfIt.next();
 			}

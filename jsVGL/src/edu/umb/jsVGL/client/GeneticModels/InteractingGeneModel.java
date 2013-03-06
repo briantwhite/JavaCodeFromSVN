@@ -135,8 +135,8 @@ public class InteractingGeneModel extends GeneModel {
 		e.setAttribute("Index", String.valueOf(index));
 		e.setAttribute("Type", "Interacting");
 		e.setAttribute("RfToPrevious", String.valueOf(rf));
-		e.addContent(t1.save(1));
-		e.addContent(t2.save(2));
+		e.appendChild(t1.save(1));
+		e.appendChild(t2.save(2));
 		return e;
 	}
 	
