@@ -3,9 +3,9 @@ package edu.umb.jsVGL.client.GeneticModels;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.jdom.Element;
-
-import VGL.Messages;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 
 /**
  * Brian White Summer 2008
@@ -220,9 +220,9 @@ public class Organism {
 
 	public String getSexString() {
 		if (male) {
-			return Messages.getInstance().getString("VGLII.Male");
+			return "Male";
 		} else {
-			return Messages.getInstance().getString("VGLII.Female");
+			return "Female";
 		}
 	}
 
@@ -232,7 +232,8 @@ public class Organism {
 	 * @return this organism in JDom Element format
 	 */
 	public Element save() throws Exception {
-		Element orga = new Element("Organism");
+		Document d = XMLParser.createDocument();
+		Element orga = d.createElement("Organism");
 		orga.setAttribute("Id", String.valueOf(id));
 		orga.setAttribute("CageId", String.valueOf(cageId));
 
@@ -243,7 +244,7 @@ public class Organism {
 		orga.addContent(maternalSexChromosome.save("MaternalSexChromosome"));
 		orga.addContent(paternalSexChromosome.save("PaternalSexChromosome"));
 
-		return orga;
+		return d.getDocumentElement();
 	}
 
 

@@ -54,3 +54,14 @@ xml stuff
 				Project -> java build path
 					added jar - gwt-user-1.6.4.jar
 				Build project - now OK
+it might be better to (from: https://developers.google.com/web-toolkit/doc/latest/DevGuideCodingBasicsXML)
+	To get to the DOM nodes from the Document object, we can use one of three methods. 
+	The getDocumentElement() method retrieves the document element (the top element at the root of the DOM tree) 
+	as an Element. We can then use the navigation methods of the Node class from which Element derives 
+	(e.g., getChildNodes(), getNextSibling(), getParentNode(), etc.) to drill down and retrieve the data we need.
+
+maybe use getDocumentELement()?
+
+also, don't addContent(), instead appendChild()
+
+also nuke out all i18n

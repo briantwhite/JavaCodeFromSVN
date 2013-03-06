@@ -260,16 +260,18 @@ public class Cage {
 
 		// parents
 		if ((parent1 != null) || (parent2 != null)) {
-			Element ep = new Element("Parents");
+			Document dp = XMLParser.createDocument();
+			Element ep = dp.createElement("Parents");
 			if (parent1 != null)
-				ep.addContent(parent1.save());
+				ep.appendChild(parent1.save());
 			if (parent2 != null)
-				ep.addContent(parent2.save());
-			ec.addContent(ep);
+				ep.appendChild(parent2.save());
+			ec.appendChild(dp.getDocumentElement());
 		}
 
 		// children
-		Element echildren = new Element("Children");
+		Document dc = XMLParser.createDocument();
+		Element echildren = dc.createElement("Children");
 		Iterator<String> i = children.keySet().iterator();
 		while (i.hasNext()) {
 			String phenotype = i.next();
@@ -277,10 +279,10 @@ public class Cage {
 			OrganismList l = children.get(phenotype);
 			for (int j = 0; j < l.getTotalNumber(); j++) {
 				Organism o = l.get(j);
-				echildren.addContent(o.save());
+				echildren.appendChild(o.save());
 			}
 		}
-		ec.addContent(echildren);
+		ec.appendChild(echildren);
 		
 		return ec;
 	}
@@ -293,40 +295,32 @@ public class Cage {
 	 */
 	public String print() {
 		StringBuffer s = new StringBuffer();
-		s.append("\t\t\t").append(
-				Messages.getInstance().getString("VGLII.Cage")).append(" ").append(id + 1).append("\n");
+		s.append("\t\t\t").append("Cage ").append(id + 1).append("\n");
 
-		s.append(Messages.getInstance().getString("VGLII.Parents")).append("\n");
+		s.append("Parents\n");
 		if (parent1 != null) {
 			s.append("\t").append(parent1.getSexString());
 			s.append(" ").append(parent1.getPhenotypeString());
-			s.append(" ").append(
-					Messages.getInstance().getString("VGLII.FromCage")).append(" ").append(parent1.getCageId() + 1);
+			s.append(" from Cage ").append(parent1.getCageId() + 1);
 			s.append("\n");
 		}
 		if (parent2 != null) {
 			s.append("\t").append(parent2.getSexString());
 			s.append(" ").append(parent2.getPhenotypeString());
-			s.append(" ").append(
-					Messages.getInstance().getString("VGLII.FromCage")).append(" ").append(parent2.getCageId() + 1);
+			s.append(" from Cage ").append(parent2.getCageId() + 1);
 			s.append("\n");
 		}
 
-		s.append(Messages.getInstance().getString("VGLII.Offspring")).append("\n");
-		s.append("\t").append(
-				Messages.getInstance().getString("VGLII.Phenotype")).append("\t").append(
-						Messages.getInstance().getString("VGLII.Sex")).append("\t\t").append(
-								Messages.getInstance().getString("VGLII.Count")).append("(#)\n");
+		s.append("Offspring\n");
+		s.append("\t").append("Phenotype\tSex\t\tCount(#)\n");
 		Iterator<String> i = children.keySet().iterator();
 		while (i.hasNext()) {
 			String phenotype = i.next();
 			OrganismList l = children.get(phenotype);
 			s.append("\t").append(phenotype);
-			s.append("\t\t").append(
-					Messages.getInstance().getString("VGLII.Male")).append("\t\t").append(l.getNumberOfMales());
+			s.append("\t\t").append("Male\t\t").append(l.getNumberOfMales());
 			s.append("\n\t").append(phenotype);
-			s.append("\t\t").append(
-					Messages.getInstance().getString("VGLII.Female")).append("\t").append(l.getNumberOfFemales());
+			s.append("\t\t").append("Female\t").append(l.getNumberOfFemales());
 			s.append("\n");
 		}
 		s.append("\n\n");

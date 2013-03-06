@@ -3,9 +3,10 @@ package edu.umb.jsVGL.client.GeneticModels;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.jdom.Element;
-
-import VGL.Messages;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
 
 /**
  * Brian White Summer 2008
@@ -48,13 +49,13 @@ public class Chromosome {
 	 */
 	public Chromosome(Element e, int chromoNum) {
 		alleles = new ArrayList<Allele>();
-		Iterator<Element> alleleIt = e.getChildren().iterator();
-		while (alleleIt.hasNext()) {
-			Element alleleE = alleleIt.next();
+		NodeList alleleNodes = e.getChildNodes();
+		for (int i = 0; i < alleleNodes.getLength(); i++) {
+			Element alleleE = (Element) alleleNodes.item(i);
 			int geneIndex = 
-				Integer.parseInt(alleleE.getAttributeValue("GeneIndex"));
+				Integer.parseInt(alleleE.getAttribute("GeneIndex"));
 			int traitNum = 
-				Integer.parseInt(alleleE.getAttributeValue("TraitNumber"));
+				Integer.parseInt(alleleE.getAttribute("TraitNumber"));
 			Allele allele = new Allele(
 					TraitFactory.getInstance().getTrait(
 							chromoNum, geneIndex, traitNum), 
@@ -73,7 +74,8 @@ public class Chromosome {
 	}
 
 	public Element save(String id) throws Exception {
-		Element e = new Element("Chromosome");
+		Document d = XMLParser.createDocument();
+		Element e = d.createElement("Chromosome");
 
 		e.setAttribute("Id", id);
 
@@ -84,9 +86,9 @@ public class Chromosome {
 		}
 
 		for (int i = 0; i < alleles.size(); i++) {
-			e.addContent(alleles.get(i).save(i));
+			e.appendChild(alleles.get(i).save(i));
 		}
-		return e;
+		return d.getDocumentElement();
 	}
 
 	// returns untranslated genotype info for internal use (counting, etc)
