@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import org.jdom.Element;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 
-import VGL.Messages;
+import edu.umb.jsVGL.client.VGL.EdXServerStrings;
 
 /**
  * Brian White Summer 2008
@@ -460,7 +462,8 @@ public class GeneticModel {
 	}
 
 	public Element save() throws Exception {
-		Element e = new Element("GeneticModel");
+		Document d = XMLParser.createDocument();
+		Element e = d.createElement("GeneticModel");
 		e.setAttribute("XX_XYSexDetermination", String.valueOf(XX_XYsexLinkage));
 		e.setAttribute("BeginnerMode", String.valueOf(beginnerMode));
 		e.setAttribute("NumberOfGeneModels", String.valueOf(getNumberOfGeneModels()));
@@ -468,19 +471,21 @@ public class GeneticModel {
 		e.setAttribute("MinOffspring", String.valueOf(minOffspring));
 		e.setAttribute("MaxOffspring", String.valueOf(maxOffspring));
 
-		Element scrambler = new Element("CharacterOrderScrambler");
+		Document ds = XMLParser.createDocument();
+		Element scrambler = ds.createElement("CharacterOrderScrambler");
 		for (int i = 0; i < getNumberOfCharacters(); i++) {
-			Element temp = new Element("Character");
+			Document dt = XMLParser.createDocument();
+			Element temp = dt.createElement("Character");
 			temp.setAttribute("Index", String.valueOf(i));
-			temp.addContent(String.valueOf(scrambledCharacterOrder[i]));
-			scrambler.addContent(temp);
+			temp.setAttribute("Character", String.valueOf(scrambledCharacterOrder[i]));
+			scrambler.appendChild(temp);
 		}
-		e.addContent(scrambler);
+		e.appendChild(scrambler);
 
-		e.addContent(problemTypeSpecification.save());
-		e.addContent(phenotypeProcessor.save());
-		e.addContent(autosomeModel.save());
-		e.addContent(sexChromosomeModel.save());
+		e.appendChild(problemTypeSpecification.save());
+		e.appendChild(phenotypeProcessor.save());
+		e.appendChild(autosomeModel.save());
+		e.appendChild(sexChromosomeModel.save());
 		if (problemTypeSpecification.getEdXServerStrings() != null) {
 			e.addContent(problemTypeSpecification.getEdXServerStrings().save());
 		}
@@ -491,47 +496,31 @@ public class GeneticModel {
 		StringBuffer b = new StringBuffer();
 		b.append("<html><body>");
 		if (XX_XYsexLinkage) {
-			b.append("XX/XY " + Messages.getInstance().getString("VGLII.SexDetermination"));
+			b.append("XX/XY sex determination");
 		} else {
-			b.append("ZZ/ZW " + Messages.getInstance().getString("VGLII.SexDetermination"));
+			b.append("ZZ/ZW sex determination");
 		}
 		b.append("<br>");
 		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
-			b.append(Messages.getInstance().getString("VGLII.Complementation") + ": ");
-			b.append(Messages.getInstance().getTranslatedCharacterName(phenotypeProcessor.getT1()));
-			b.append("<br>"
-					+ Messages.getInstance().getTranslatedAlleleName(
-							new Allele(phenotypeProcessor.getT1(), 0))
-							+ " ---(" 
-							+ Messages.getInstance().getString("VGLII.Gene")
-							+ " A)--->"
-							+ Messages.getInstance().getTranslatedAlleleName(
-									new Allele(phenotypeProcessor.getT1(), 0))
-									+ "<br> ---("
-									+ Messages.getInstance().getString("VGLII.Gene")
-									+ " B)--->"
-									+ Messages.getInstance().getTranslatedAlleleName(
-											new Allele(phenotypeProcessor.getT2(), 0))
-											+ "<br>");
+			b.append("Complementation: ");
+			b.append(phenotypeProcessor.getT1().getCharacterName());
+			b.append("<br>" + (new Allele(phenotypeProcessor.getT1(), 0).getName())
+					+ " ---(Gene A)--->"
+					+ (new Allele(phenotypeProcessor.getT1(), 0).getName())
+					+ "<br> ---(Gene B)--->"
+					+ (new Allele(phenotypeProcessor.getT2(), 0).getName())
+					+ "<br>");
 			b.append("<br>");
 		}
 		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.EPISTASIS) {
-			b.append(Messages.getInstance().getString("VGLII.Epistasis") + ": ");
-			b.append(Messages.getInstance().getTranslatedCharacterName(phenotypeProcessor.getT1()));
-			b.append("<br>"
-					+ Messages.getInstance().getTranslatedAlleleName(
-							new Allele(phenotypeProcessor.getT1(), 0))
-							+ " ---(" 
-							+ Messages.getInstance().getString("VGLII.Gene")
-							+ " A)--->"
-							+ Messages.getInstance().getTranslatedAlleleName(
-									new Allele(phenotypeProcessor.getT2(), 0))
-									+ "<br> ---("
-									+ Messages.getInstance().getString("VGLII.Gene")
-									+ " B)--->"
-									+ Messages.getInstance().getTranslatedAlleleName(
-											new Allele(phenotypeProcessor.getT3(), 0))
-											+ "<br>");
+			b.append("Epistasis: ");
+			b.append(phenotypeProcessor.getT1().getCharacterName());
+			b.append("<br>" + (new Allele(phenotypeProcessor.getT1(), 0).getName())
+					+ " ---(Gene A)--->"
+					+ (new Allele(phenotypeProcessor.getT2(), 0).getName())
+					+ "<br> ---(Gene B)--->"
+					+ (new Allele(phenotypeProcessor.getT3(), 0).getName())
+					+ "<br>");
 			b.append("<br>");
 		}
 
@@ -540,133 +529,4 @@ public class GeneticModel {
 		b.append("</body></html>");
 		return b.toString();
 	}
-
-	public String getHTMLForGrader() {
-		StringBuffer b = new StringBuffer();
-
-
-		if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.NO_INTERACTION) {
-			for (int i = 0; i < getNumberOfGeneModels(); i++) {
-				// the character
-				GeneModel gm = getGeneModelByIndex(i);
-				b.append("<b>" + gm.getCharacter() + "</b><br>");
-
-				// the info
-				b.append("<ul>");
-
-				// sex linked or not
-				b.append("<li>");
-				if (isGeneModelSexLinkedByIndex(i)) {
-					if (XX_XYsexLinkage) {
-						b.append("XX/XY Sex-linked");
-					} else {
-						b.append("ZZ/ZW Sex-linked");
-					}
-				} else {
-					b.append("Not sex-linked");
-				}
-				b.append("</li>");
-
-				// number of alleles
-				b.append("<li>" + gm.getNumAlleleText() + "-allele</li>");
-
-				// interaction type
-				b.append("<li>" + gm.getDomTypeText() + " Dominance</li>");
-
-				//details
-				b.append("<ul>" + gm.getInteractionHTML() + "</ul>");
-
-				// end it
-				b.append("</ul>");
-				b.append("<hr>");
-			}
-			b.append(autosomeModel.getHTMLForGrading());
-			b.append(sexChromosomeModel.getHTMLForGrading());
-
-		} else {
-			// since its epistasis or complementation, need to deal with it differently
-			b.append("<b>" + phenotypeProcessor.getCharacter() + "</b><br>");
-			b.append("<ul>");
-			b.append("<li>");
-			if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
-				b.append("Complementation");
-			} else {
-				b.append("Epistasis:");
-			}
-			b.append("</li><ul>");
-
-			b.append("<li>Gene A is ");
-			if (isGeneModelSexLinkedByIndex(0)) {
-				if (XX_XYsexLinkage) {
-					b.append("XX/XY");
-				} else {
-					b.append("ZZ/ZW");
-				}
-				b.append(" sex-linked.");
-			} else {
-				b.append(" autosomal.");
-			}
-			b.append("</li>");
-
-			b.append("<li>Gene B is ");
-			if (isGeneModelSexLinkedByIndex(1)) {
-				if (XX_XYsexLinkage) {
-					b.append("XX/XY");
-				} else {
-					b.append("ZZ/ZW");
-				}
-				b.append(" sex-linked.");
-			} else {
-				b.append(" autosomal.");
-			}
-			b.append("</li>");
-
-			// see if both on same chromo for linkage info
-			if ((isGeneModelSexLinkedByIndex(0) && isGeneModelSexLinkedByIndex(1)) 
-					|| (!isGeneModelSexLinkedByIndex(0) && !isGeneModelSexLinkedByIndex(1))) {
-				float rf = 0.5f;
-				if (isGeneModelSexLinkedByIndex(0)) {
-					if (sexChromosomeModel.getRecombinationFrequencies().size() > 0) {
-						rf = sexChromosomeModel.getRecombinationFrequencies().get(0);
-					}
-				} else {
-					if (autosomeModel.getRecombinationFrequencies().size() > 0) {
-						rf = autosomeModel.getRecombinationFrequencies().get(0);
-					}
-				}
-				b.append("<li> Gene A and Gene B are ");
-				if (rf != 0.5f) {
-					b.append(String.format("linked with RF=%3.2f", rf));
-				} else {
-					b.append("unlinked");
-				}
-				b.append("</li>");
-			}
-
-			b.append("<li>");
-			b.append(phenotypeProcessor.getT1().getTraitName());
-			b.append(" ---(Gene A)---> ");
-			if (phenotypeProcessor.getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
-				b.append(phenotypeProcessor.getT1().getTraitName());
-				b.append(" ---(Gene B)---> ");
-				b.append(phenotypeProcessor.getT2().getTraitName());
-			} else {
-				b.append(phenotypeProcessor.getT2().getTraitName());
-				b.append(" ---(Gene B)---> ");
-				b.append(phenotypeProcessor.getT3().getTraitName());
-			}
-			b.append("</li>");
-
-			b.append("</ul>");
-			b.append("</ul>");
-		}
-
-		b.append("<font color=red>");
-		b.append("Problem File was: ");
-		b.append(problemFileName);
-		b.append("</font>");
-
-		return b.toString();
-	}
-
 }

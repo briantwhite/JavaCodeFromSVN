@@ -91,7 +91,6 @@ public class Chromosome {
 		return d.getDocumentElement();
 	}
 
-	// returns untranslated genotype info for internal use (counting, etc)
 	public String toString() {
 		StringBuffer b = new StringBuffer();
 		for(Allele a: alleles) {
@@ -104,18 +103,6 @@ public class Chromosome {
 			b.deleteCharAt(b.length() - 1);
 		}
 		return b.toString();
-	}
-
-	//returns genotype in local language for external use (display, printing)
-	public String toTranslatedString() {
-		StringBuffer b = new StringBuffer();
-		for(Allele a: alleles) {
-			b.append(Messages.getInstance().getTranslatedAlleleName(a) + ";");
-		}
-		if (b.length() > 0) {
-			b.deleteCharAt(b.length() - 1);
-		}
-		return b.toString();		
 	}
 
 }

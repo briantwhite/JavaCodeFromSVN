@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import org.jdom.Element;
-
-import VGL.Messages;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 
 /**
  * Brian White Summer 2008
@@ -157,7 +157,8 @@ public abstract class ChromosomeModel {
 	}
 
 	public Element save() throws Exception {
-		Element e = new Element("ChromosomeModel");
+		Document d = XMLParser.createDocument();
+		Element e = d.createElement("ChromosomeModel");
 		e.setAttribute("SexChromosome", String.valueOf(sexChromosome));
 		e.setAttribute("NumGenes", String.valueOf(getNumberOfGeneModels()));
 		Iterator<Float> rfIt = recombinationFrequencies.iterator();
@@ -176,25 +177,22 @@ public abstract class ChromosomeModel {
 		StringBuffer b = new StringBuffer();
 		if (geneModels.size() != 0) {
 			if(sexChromosome) {
-				b.append(Messages.getInstance().getString("VGLII.GeneOnSexChromosome") + ":<br>\n");
+				b.append("Gene(s) on X or Z Sex Chromosome:<br>\n");
 			} else {
-				b.append(Messages.getInstance().getString("VGLII.GeneOnAutosome") + ":<br>\n");
+				b.append("Gene(s) on Autosome(s):<br>\n");
 			}
 
 			Iterator<Float> rfIt = recombinationFrequencies.iterator();
 			for (int i = 0; i < geneModels.size(); i++) {
 				GeneModel gm = geneModels.get(i);
-				b.append("-" + Messages.getInstance().getString("VGLII.Gene") + " " + i + ":");
+				b.append("-Gene " + i + ":");
 				b.append(gm.toString() + "<br>\n");
 				if (rfIt.hasNext()) {
 					float rf = rfIt.next();
 					if (rf == 0.5f) {
-						b.append("*" + 
-								Messages.getInstance().getString("VGLII.UnlinkedTo") + ":<br>\n");
+						b.append("*Unlinked to:<br>\n");
 					} else {
-						b.append("*" + 
-								Messages.getInstance().getString("VGLII.RecombinationFreq") 
-								+ " = " + rf + " to:<br>\n");
+						b.append("*Recombination Frequency = " + rf + " to:<br>\n");
 					}
 				}
 			}
@@ -202,39 +200,4 @@ public abstract class ChromosomeModel {
 		return b.toString();
 	}
 
-	public String getHTMLForGrading() {
-		StringBuffer b = new StringBuffer();
-		if (recombinationFrequencies.size() != 0) {
-			b.append("<b>");
-			b.append("Linkage on ");
-			if (sexChromosome) {
-				b.append("sex-chromosome");
-			} else {
-				b.append("autosome");
-			}
-			b.append(":</b><br><ul>");
-			Iterator<Float> rfIt = recombinationFrequencies.iterator();
-			for (int i = 0; i < geneModels.size(); i++) {
-				GeneModel gm = geneModels.get(i);
-				b.append("<li>");
-				b.append(gm.getCharacter());
-				if (rfIt.hasNext()) {
-					float rf = rfIt.next();
-					if (rf == 0.5f) {
-						b.append(" is not linked to ");
-					} else {
-						b.append(String.format(" is linked with RF=%3.2f to ", rf));
-					}
-				} else {
-					if (recombinationFrequencies.size() == 2) b.append(" is linked to ");
-				}
-				int next = i + 1;
-				if (next > (geneModels.size() - 1)) next = 0;
-				b.append(geneModels.get(next).getCharacter());
-				b.append("</li>");
-			}
-			b.append("</ul>");
-		}
-		return b.toString();
-	}
 }

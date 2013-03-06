@@ -1,11 +1,10 @@
 package edu.umb.jsVGL.client.GeneticModels;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 
-import VGL.EdXServerStrings;
+import edu.umb.jsVGL.client.VGL.EdXServerStrings;
 
 /**
  * Brian White Summer 2008
@@ -343,139 +342,138 @@ public class ProblemTypeSpecification {
 	}
 
 	public Element save() throws Exception {
-		Element ptse = new Element("ProblemTypeSpecification");
+		Document d = XMLParser.createDocument();
+		Element ptse = d.createElement("ProblemTypeSpecification");
 		Element e = null;
 
-		e = new Element("FieldPopTrueBreeding");
-		e.setText(String.valueOf(fieldPopTrueBreeding));
-		ptse.addContent(e);
+		e = d.createElement("FieldPopTrueBreeding");
+		e.appendChild(d.createTextNode(String.valueOf(fieldPopTrueBreeding)));
+		ptse.appendChild(e);
 
-		e = new Element("BeginnerMode");
-		e.setText(String.valueOf(beginnerMode));
-		ptse.addContent(e);
+		e = d.createElement("BeginnerMode");
+		e.appendChild(d.createTextNode(String.valueOf(beginnerMode)));
+		ptse.appendChild(e);
 
-		e = new Element("MinOffspring");
-		e.setText(String.valueOf(minOffspring));
-		ptse.addContent(e);
+		e = d.createElement("MinOffspring");
+		e.appendChild(d.createTextNode(String.valueOf(minOffspring)));
+		ptse.appendChild(e);
 
-		e = new Element("MaxOffspring");
-		e.setText(String.valueOf(maxOffspring));
-		ptse.addContent(e);
+		e = d.createElement("MaxOffspring");
+		e.appendChild(d.createTextNode(String.valueOf(maxOffspring)));
+		ptse.appendChild(e);
 
-		e = new Element("ZZ_ZW");
-		e.setText(String.valueOf(chZZ_ZW));
-		ptse.addContent(e);
+		e = d.createElement("ZZ_ZW");
+		e.appendChild(d.createTextNode(String.valueOf(chZZ_ZW)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene1_SexLinked");
-		e.setText(String.valueOf(gene1_chSexLinked));
-		ptse.addContent(e);
+		e = d.createElement("Gene1_SexLinked");
+		e.appendChild(d.createTextNode(String.valueOf(gene1_chSexLinked)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene1_3Alleles");
-		e.setText(String.valueOf(gene1_ch3Alleles));
-		ptse.addContent(e);
+		e = d.createElement("Gene1_3Alleles");
+		e.appendChild(d.createTextNode(String.valueOf(gene1_ch3Alleles)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene1_IncDom");
-		e.setText(String.valueOf(gene1_chIncDom));
-		ptse.addContent(e);
+		e = d.createElement("Gene1_IncDom");
+		e.appendChild(d.createTextNode(String.valueOf(gene1_chIncDom)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene1_CircDom");
-		e.setText(String.valueOf(gene1_chCircDom));
-		ptse.addContent(e);
+		e = d.createElement("Gene1_CircDom");
+		e.appendChild(d.createTextNode(String.valueOf(gene1_chCircDom)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene2_Present");
-		e.setText(String.valueOf(gene2_chPresent));
-		ptse.addContent(e);
+		e = d.createElement("Gene2_Present");
+		e.appendChild(d.createTextNode(String.valueOf(gene2_chPresent)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene2_SameChrAsGene1");
-		e.setText(String.valueOf(gene2_chSameChrAsGene1));
-		ptse.addContent(e);
+		e = d.createElement("Gene2_SameChrAsGene1");
+		e.appendChild(d.createTextNode(String.valueOf(gene2_chSameChrAsGene1)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene2_MinRfToGene1");
-		e.setText(String.valueOf(gene2_minRfToGene1));
-		ptse.addContent(e);
+		e = d.createElement("Gene2_MinRfToGene1");
+		e.appendChild(d.createTextNode(String.valueOf(gene2_minRfToGene1)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene2_MaxRfToGene1");
-		e.setText(String.valueOf(gene2_maxRfToGene1));
-		ptse.addContent(e);
+		e = d.createElement("Gene2_MaxRfToGene1");
+		e.appendChild(d.createTextNode(String.valueOf(gene2_maxRfToGene1)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene2_3Alleles");
-		e.setText(String.valueOf(gene2_ch3Alleles));
-		ptse.addContent(e);
+		e = d.createElement("Gene2_3Alleles");
+		e.appendChild(d.createTextNode(String.valueOf(gene2_ch3Alleles)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene2_IncDom");
-		e.setText(String.valueOf(gene2_chIncDom));
-		ptse.addContent(e);
+		e = d.createElement("Gene2_IncDom");
+		e.appendChild(d.createTextNode(String.valueOf(gene2_chIncDom)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene2_CircDom");
-		e.setText(String.valueOf(gene2_chCircDom));
-		ptse.addContent(e);
+		e = d.createElement("Gene2_CircDom");
+		e.appendChild(d.createTextNode(String.valueOf(gene2_chCircDom)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene3_Present");
-		e.setText(String.valueOf(gene3_chPresent));
-		ptse.addContent(e);
+		e = d.createElement("Gene3_Present");
+		e.appendChild(d.createTextNode(String.valueOf(gene3_chPresent)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene3_SameChrAsGene1");
-		e.setText(String.valueOf(gene3_chSameChrAsGene1));
-		ptse.addContent(e);
+		e = d.createElement("Gene3_SameChrAsGene1");
+		e.appendChild(d.createTextNode(String.valueOf(gene3_chSameChrAsGene1)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene3_MinRfToPrevGene");
-		e.setText(String.valueOf(gene3_minRfToPrevGene));
-		ptse.addContent(e);
+		e = d.createElement("Gene3_MinRfToPrevGene");
+		e.appendChild(d.createTextNode(String.valueOf(gene3_minRfToPrevGene)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene3_MaxRfToPrevGene");
-		e.setText(String.valueOf(gene3_maxRfToPrevGene));
-		ptse.addContent(e);
+		e = d.createElement("Gene3_MaxRfToPrevGene");
+		e.appendChild(d.createTextNode(String.valueOf(gene3_maxRfToPrevGene)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene3_3Alleles");
-		e.setText(String.valueOf(gene3_ch3Alleles));
-		ptse.addContent(e);
+		e = d.createElement("Gene3_3Alleles");
+		e.appendChild(d.createTextNode(String.valueOf(gene3_ch3Alleles)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene3_IncDom");
-		e.setText(String.valueOf(gene3_chIncDom));
-		ptse.addContent(e);
+		e = d.createElement("Gene3_IncDom");
+		e.appendChild(d.createTextNode(String.valueOf(gene3_chIncDom)));
+		ptse.appendChild(e);
 
-		e = new Element("Gene3_CircDom");
-		e.setText(String.valueOf(gene3_chCircDom));
-		ptse.addContent(e);
+		e = d.createElement("Gene3_CircDom");
+		e.appendChild(d.createTextNode(String.valueOf(gene3_chCircDom)));
+		ptse.appendChild(e);
 
-		e = new Element("PhenotypeInteraction");
-		e.setText(String.valueOf(phenotypeInteraction));
-		ptse.addContent(e);
+		e = d.createElement("PhenotypeInteraction");
+		e.appendChild(d.createTextNode(String.valueOf(phenotypeInteraction)));
+		ptse.appendChild(e);
 
-		e = new Element("Epistasis");
-		e.setText(String.valueOf(epistasis));
-		ptse.addContent(e);
+		e = d.createElement("Epistasis");
+		e.appendChild(d.createTextNode(String.valueOf(epistasis)));
+		ptse.appendChild(e);
 		
-		e = new Element("edXCookieURL");
-		e.setText(edXServerStrings.edXCookieURL);
-		ptse.addContent(e);
+		e = d.createElement("edXCookieURL");
+		e.appendChild(d.createTextNode(edXServerStrings.edXCookieURL));
+		ptse.appendChild(e);
 		
-		e = new Element("edXLoginURL");
-		e.setText(edXServerStrings.edXLoginURL);
-		ptse.addContent(e);
+		e = d.createElement("edXLoginURL");
+		e.appendChild(d.createTextNode(edXServerStrings.edXLoginURL));
+		ptse.appendChild(e);
 		
-		e = new Element("edXSubmissionURL");
-		e.setText(edXServerStrings.edXSubmissionURL);
-		ptse.addContent(e);
+		e = d.createElement("edXSubmissionURL");
+		e.appendChild(d.createTextNode(edXServerStrings.edXSubmissionURL));
+		ptse.appendChild(e);
 		
-		e = new Element("edXLocation");
-		e.setText(edXServerStrings.edXLocation);
-		ptse.addContent(e);
+		e = d.createElement("edXLocation");
+		e.appendChild(d.createTextNode(edXServerStrings.edXLocation));
+		ptse.appendChild(e);
 
 		return ptse;
 	}
 
 	public String toString() {
-		Element root = new Element("ProblemSpec");
+		Document d = XMLParser.createDocument();
+		Element root = d.createElement("ProblemSpec");
 		try {
-			root.addContent(save());
+			root.appendChild(save());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Document doc = new Document(root);
-		XMLOutputter outputter = 
-				new XMLOutputter(Format.getPrettyFormat());
-		return outputter.outputString(doc);
+		return d.toString();
 	}
 
 }

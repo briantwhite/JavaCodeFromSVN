@@ -1,6 +1,8 @@
 package edu.umb.jsVGL.client.GeneticModels;
 
-import org.jdom.Element;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 
 /**
  * Brian White Summer 2008
@@ -54,8 +56,13 @@ public abstract class Trait {
 		traitName = s;
 	}
 	
+	public String getCharacterName() {
+		return  getBodyPart().toString() + " " + getType().toString();
+	}
+	
 	public Element save(int index) throws Exception {
-		Element e = new Element("Trait");
+		Document d = XMLParser.createDocument();
+		Element e = d.createElement("Trait");
 		e.setAttribute("Index", String.valueOf(index));
 		e.setAttribute("TraitName", traitName);
 		e.setAttribute("Type", type);

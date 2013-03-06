@@ -2,7 +2,9 @@ package edu.umb.jsVGL.client.GeneticModels;
 
 import java.util.Iterator;
 
-import org.jdom.Element;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
+
 /**
  * Brian White Summer 2008
  * 
@@ -32,15 +34,15 @@ public class OrganismFactory {
 		Chromosome maternalSexChromosome = null;
 		Chromosome paternalSexChromosome = null;
 
-		boolean male = Boolean.parseBoolean(e.getAttributeValue("Male"));
-		int id = Integer.parseInt(e.getAttributeValue("Id"));
-		Iterator<Element> chromoIt = e.getChildren().iterator();
-		while (chromoIt.hasNext()) {
-			Element chromoE = chromoIt.next();
-			String type = chromoE.getAttributeValue("Id");
+		boolean male = Boolean.parseBoolean(e.getAttribute("Male"));
+		int id = Integer.parseInt(e.getAttribute("Id"));
+		NodeList chromoNodes = e.getChildNodes();
+		for (int i = 0; i < chromoNodes.getLength(); i++) {
+			Element chromoE = (Element) chromoNodes.item(i);
+			String type = chromoE.getAttribute("Id");
 
 			boolean isNullSexChromosome = false;
-			if (Integer.parseInt(chromoE.getAttributeValue("Size")) == -1) {
+			if (Integer.parseInt(chromoE.getAttribute("Size")) == -1) {
 				isNullSexChromosome = true;
 			}
 

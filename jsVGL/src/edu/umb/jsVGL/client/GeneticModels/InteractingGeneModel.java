@@ -2,9 +2,9 @@ package edu.umb.jsVGL.client.GeneticModels;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jdom.Element;
-
-import VGL.Messages;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 
 public class InteractingGeneModel extends GeneModel {
 
@@ -107,33 +107,31 @@ public class InteractingGeneModel extends GeneModel {
 			r = "b";
 		}
 		StringBuffer b = new StringBuffer();
-		b.append(Messages.getInstance().getString("VGLII.Gene") + " " + d + "<br>");
-		b.append(Messages.getInstance().getString("VGLII.TwoAlleleSimpleDominance") + "<br>");
+		b.append("Gene " + d + "<br>");
+		b.append("Two Allele Simple Dominance<br>");
 		b.append("<ul>");
-		b.append("<li>" + d + " "
-				+ Messages.getInstance().getString("VGLII.IsDominant") + "</li>");
-		b.append("<li>" + r + " " 
-				+ Messages.getInstance().getString("VGLII.IsRecessive") + "</li>");
+		b.append("<li>" + d + " is dominant</li>");
+		b.append("<li>" + r + " is recessive</li>");
 		b.append("</ul>");
 
 		b.append("<table border=1>");
-		b.append("<tr><th>" + Messages.getInstance().getString("VGLII.Genotype") + "</th><th>"
-				+ Messages.getInstance().getString("VGLII.Phenotype") + "</th></tr>");
+		b.append("<tr><th>Genotype</th><th>Phenotype</th></tr>");
 		b.append("<tr><td>" + r + r + "</td>");
-		b.append("<td>" + Messages.getInstance().getString("VGLII.Non-Functional") +"</td></tr>");
+		b.append("<td>Non-Functional</td></tr>");
 
 		b.append("<tr><td>" + d + r + "</td>");
-		b.append("<td>" + Messages.getInstance().getString("VGLII.Functional") +"</td></tr>");
+		b.append("<td>Functional</td></tr>");
 
 		b.append("<tr><td>" + d + d + "</td>");
-		b.append("<td>" + Messages.getInstance().getString("VGLII.Functional") +"</td></tr>");
+		b.append("<td>Functional</td></tr>");
 
 		b.append("</table>");
 		return b.toString();
 	}
 	
 	public Element save(int index, float rf) throws Exception {
-		Element e = new Element("GeneModel");
+		Document d = XMLParser.createDocument();
+		Element e = d.createElement("GeneModel");
 		e.setAttribute("Index", String.valueOf(index));
 		e.setAttribute("Type", "Interacting");
 		e.setAttribute("RfToPrevious", String.valueOf(rf));
@@ -156,8 +154,8 @@ public class InteractingGeneModel extends GeneModel {
 	public String[] getTraitStrings() {
 		String[] t = new String[3];
 		t[0] = "?";
-		t[1] = Messages.getInstance().getTranslatedShortTraitName(t1.getTraitName());
-		t[2] = Messages.getInstance().getTranslatedShortTraitName(t2.getTraitName());
+		t[1] = t1.getTraitName();
+		t[2] = t2.getTraitName();
 		return t;
 	}
 

@@ -3,8 +3,7 @@ package edu.umb.jsVGL.client.GeneticModels;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import VGL.GeneticsException;
-import VGL.MFTotCounts;
+import edu.umb.jsVGL.client.VGL.MFTotCounts;
 
 /**
  * Brian White Summer 2008

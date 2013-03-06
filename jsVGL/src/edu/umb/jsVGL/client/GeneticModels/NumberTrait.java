@@ -1,7 +1,5 @@
 package edu.umb.jsVGL.client.GeneticModels;
 
-import VGL.Messages;
-
 /**
  * Brian White Summer 2008
  * 

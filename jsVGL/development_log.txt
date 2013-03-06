@@ -65,3 +65,7 @@ maybe use getDocumentELement()?
 also, don't addContent(), instead appendChild()
 
 also nuke out all i18n
+
+3/6/12
+also nuke out all HTML for grading stuff
+

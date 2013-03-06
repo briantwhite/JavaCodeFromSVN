@@ -239,10 +239,10 @@ public class Organism {
 
 		orga.setAttribute("Male", String.valueOf(male));
 
-		orga.addContent(maternalAutosome.save("MaternalAutosome"));
-		orga.addContent(paternalAutosome.save("PaternalAutosome"));
-		orga.addContent(maternalSexChromosome.save("MaternalSexChromosome"));
-		orga.addContent(paternalSexChromosome.save("PaternalSexChromosome"));
+		orga.appendChild(maternalAutosome.save("MaternalAutosome"));
+		orga.appendChild(paternalAutosome.save("PaternalAutosome"));
+		orga.appendChild(maternalSexChromosome.save("MaternalSexChromosome"));
+		orga.appendChild(paternalSexChromosome.save("PaternalSexChromosome"));
 
 		return d.getDocumentElement();
 	}

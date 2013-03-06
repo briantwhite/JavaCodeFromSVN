@@ -2,7 +2,6 @@ package edu.umb.jsVGL.client.GeneticModels;
 
 import java.util.ArrayList;
 
-import VGL.Messages;
 
 /**
  * Brian White Summer 2008

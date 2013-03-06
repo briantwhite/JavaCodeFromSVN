@@ -1,6 +1,7 @@
 package edu.umb.jsVGL.client.GeneticModels;
 
-import org.jdom.Element;
+import com.google.gwt.xml.client.Element;
+
 /**
  * Brian White Summer 2008
  * 
@@ -63,9 +64,9 @@ public class TraitFactory {
 	}
 	
 	public Trait buildTrait(Element e, int chromo, int gene, int traitNum, boolean addToTraitBank) {
-		String traitName = e.getAttributeValue("TraitName");
-		String type = e.getAttributeValue("Type");
-		String bodyPart = e.getAttributeValue("BodyPart");
+		String traitName = e.getAttribute("TraitName");
+		String type = e.getAttribute("Type");
+		String bodyPart = e.getAttribute("BodyPart");
 
 		Trait t = null;
 		if (type.equals("Color")) {

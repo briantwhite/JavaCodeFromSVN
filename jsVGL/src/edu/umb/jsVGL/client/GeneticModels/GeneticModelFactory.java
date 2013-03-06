@@ -21,25 +21,15 @@ package edu.umb.jsVGL.client.GeneticModels;
  * @version 1.0 $Id$
  */
 
-import java.io.File;
-import java.io.InputStream;
-import java.security.PrivateKey;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
-import javax.swing.JOptionPane;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
-
-import VGL.EncryptionTools;
-import VGL.Messages;
-import VGL.SavedWorkFileData;
+import edu.umb.jsVGL.client.VGL.EncryptionTools;
+import edu.umb.jsVGL.client.VGL.SavedWorkFileData;
 
 public class GeneticModelFactory {
 
@@ -58,30 +48,6 @@ public class GeneticModelFactory {
 		return instance;
 	}
 
-	// use problem spec file
-	public GeneticModel createRandomModel(File modelSpecFile) {
-		GeneticModel model = null;
-		try {
-			ZipFile workZip = new ZipFile(modelSpecFile);
-			Enumeration zipFileEntries = workZip.entries();
-			ZipEntry zipEntry = (ZipEntry)zipFileEntries.nextElement();
-			InputStream input = workZip.getInputStream(zipEntry);
-			SAXBuilder builder = new SAXBuilder();
-			Document doc = builder.build(input);
-			ProblemTypeSpecification specs = 
-					processModelSpecElements(doc.getRootElement().getChildren());
-			model = createRandomModel(specs);
-			model.scrambleTraitOrder();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
-					Messages.getInstance().getString("VGLII.ErrorOpeningFileLine1") + "\n"
-							+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine2") + "\n"
-							+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine3"), 
-							Messages.getInstance().getString("VGLII.ErrorOpeningFileHeadline"),
-							JOptionPane.ERROR_MESSAGE);
-		}
-		return model;
-	}
 
 	// use command line args
 	public GeneticModel createRandomModel(String[] args) {
@@ -92,25 +58,16 @@ public class GeneticModelFactory {
 		model.scrambleTraitOrder();
 		return model;
 	}
-
-	public SavedWorkFileData readModelFromXORFile(File workFile) {
-		Document doc = EncryptionTools.getInstance().readXOREncrypted(workFile);
+	
+	public SavedWorkFileData setupModelAndStateFromBase64Zip(String input) {
+		Document doc = EncryptionTools.getInstance().readBase64Zip(input);
 		return readModelFromXML(doc);
-	}
-
-	public SavedWorkFileData readModelFromRSAFile(File workFile, PrivateKey gradingKey) {
-		Document doc = EncryptionTools.getInstance().readRSAEncrypted(workFile, gradingKey);
-		if (doc == null) {
-			return null;
-		} else {
-			return readModelFromXML(doc);
-		}
 	}
 
 	private SavedWorkFileData readModelFromXML(Document doc) {
 		SavedWorkFileData result = null;
 		WorkFileProcessor processor = 
-				new WorkFileProcessor(doc.getRootElement().getChildren());
+				new WorkFileProcessor(doc.getDocumentElement().getChildNodes());
 		result = 
 				new SavedWorkFileData(
 						processor.getGeneticModel(), 
@@ -137,7 +94,7 @@ public class GeneticModelFactory {
 		Iterator<Element> it = elements.iterator();
 		while(it.hasNext()) {
 			Element current = it.next();
-			problemSpec = updateProblemSpec(problemSpec, current.getName(), current.getTextTrim());
+			problemSpec = updateProblemSpec(problemSpec, current.getTagName(), current.getFirstChild().getNodeValue());
 		}
 		return problemSpec;
 	}

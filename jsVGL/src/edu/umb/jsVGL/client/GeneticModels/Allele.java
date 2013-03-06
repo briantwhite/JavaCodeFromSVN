@@ -48,6 +48,10 @@ public class Allele {
 		return "#" + intVal + " " + trait.toString();
 	}
 	
+	public String getName() {
+		return getTrait().getTraitName().toString() + "-" + getTrait().getBodyPart().toString();
+	}
+	
 	public Element save(int index) throws Exception {
 		Document d = XMLParser.createDocument();
 		Element e = d.createElement("Allele");

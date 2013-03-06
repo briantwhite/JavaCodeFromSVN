@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.TreeSet;
 
-import org.jdom.Element;
-
-import VGL.Messages;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
 
 /*
  * this class deals with phenotypic interactions like
@@ -65,13 +66,12 @@ public class PhenotypeProcessor {
 
 	// for setting up from a saved work file
 	public void load(Element e) throws Exception {
-		interactionType = e.getAttribute("InteractionType").getIntValue();
+		interactionType = Integer.parseInt(e.getAttribute("InteractionType"));
 		if (interactionType != NO_INTERACTION) {
-			List<Element> traitList = e.getChildren();
-			Iterator<Element> eIt = traitList.iterator();
-			t1 = TraitFactory.getInstance().buildTrait(eIt.next(), 0, 0, 0, false);
-			t2 = TraitFactory.getInstance().buildTrait(eIt.next(), 0, 0, 0, false);
-			t3 = TraitFactory.getInstance().buildTrait(eIt.next(), 0, 0, 0, false);
+			NodeList traitList = e.getChildNodes();
+			t1 = TraitFactory.getInstance().buildTrait((Element)traitList.item(0), 0, 0, 0, false);
+			t2 = TraitFactory.getInstance().buildTrait((Element)traitList.item(1), 0, 0, 0, false);
+			t3 = TraitFactory.getInstance().buildTrait((Element)traitList.item(2), 0, 0, 0, false);
 		}
 	}
 
@@ -351,7 +351,8 @@ public class PhenotypeProcessor {
 	}
 
 	public Element save() throws Exception {
-		Element e = new Element("PhenotypeProcessor");
+		Document d = XMLParser.createDocument();
+		Element e = d.createElement("PhenotypeProcessor");
 		e.setAttribute("InteractionType", String.valueOf(interactionType));
 		if (interactionType != NO_INTERACTION) {
 			e.addContent(t1.save(1));
@@ -370,9 +371,9 @@ public class PhenotypeProcessor {
 		StringBuffer b = new StringBuffer();
 		if (maternalAutosome.getAllAlleles().size() > 0) {
 			b.append("A:{");
-			b.append(maternalAutosome.toTranslatedString());
+			b.append(maternalAutosome.toString());
 			b.append("}/{");
-			b.append(paternalAutosome.toTranslatedString());
+			b.append(paternalAutosome.toString());
 			b.append("} ");
 		}
 
@@ -391,13 +392,13 @@ public class PhenotypeProcessor {
 
 			if (maternalSexChromosome != NullSexChromosome.getInstance()) {
 				b.append("[");
-				b.append(maternalSexChromosome.toTranslatedString());
+				b.append(maternalSexChromosome.toString());
 				b.append("]/");
 			}
 
 			if (paternalSexChromosome != NullSexChromosome.getInstance()) {	
 				b.append("[");
-				b.append(paternalSexChromosome.toTranslatedString());
+				b.append(paternalSexChromosome.toString());
 				b.append("]/");
 			} 
 
@@ -439,22 +440,18 @@ public class PhenotypeProcessor {
 		}
 
 		if (interactionType != NO_INTERACTION) {
-			String g1DomPheno = Messages.getInstance().getTranslatedAlleleName(
-					new Allele(
+			String g1DomPheno = (new Allele(
 							((InteractingGeneModel)geneticModel.getGeneModelByIndex(0))
-							.getDominantTrait(), 1));
-			String g1RecPheno = Messages.getInstance().getTranslatedAlleleName(
-					new Allele(
+							.getDominantTrait(), 1).getName());
+			String g1RecPheno = (new Allele(
 							((InteractingGeneModel)geneticModel.getGeneModelByIndex(0))
-							.getRecessiveTrait(), 1));
-			String g2DomPheno = Messages.getInstance().getTranslatedAlleleName(
-					new Allele(
+							.getRecessiveTrait(), 1).getName());
+			String g2DomPheno = (new Allele(
 							((InteractingGeneModel)geneticModel.getGeneModelByIndex(1))
-							.getDominantTrait(), 1));
-			String g2RecPheno = Messages.getInstance().getTranslatedAlleleName(
-					new Allele(
+							.getDominantTrait(), 1).getName());
+			String g2RecPheno = (new Allele(
 							((InteractingGeneModel)geneticModel.getGeneModelByIndex(1))
-							.getRecessiveTrait(), 1));
+							.getRecessiveTrait(), 1).getName());
 
 			String s = b.toString();
 			s = s.replaceAll(g1DomPheno, "A");
