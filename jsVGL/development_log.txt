@@ -69,3 +69,5 @@ also nuke out all i18n
 3/6/12
 also nuke out all HTML for grading stuff
 
+for the jDialog()'s (all the cages, etc) => use DialogBox
+

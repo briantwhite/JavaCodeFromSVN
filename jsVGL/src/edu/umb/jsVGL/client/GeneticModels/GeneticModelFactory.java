@@ -27,6 +27,7 @@ import java.util.Random;
 
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
 
 import edu.umb.jsVGL.client.VGL.EncryptionTools;
 import edu.umb.jsVGL.client.VGL.SavedWorkFileData;
@@ -88,12 +89,11 @@ public class GeneticModelFactory {
 		return model;
 	}
 
-	public ProblemTypeSpecification processModelSpecElements(List<Element> elements) {
+	public ProblemTypeSpecification processModelSpecElements(NodeList elements) {
 		ProblemTypeSpecification problemSpec = new ProblemTypeSpecification();
 
-		Iterator<Element> it = elements.iterator();
-		while(it.hasNext()) {
-			Element current = it.next();
+		for (int i = 0; i < elements.getLength(); i++) {
+			Element current = (Element)elements.item(i);
 			problemSpec = updateProblemSpec(problemSpec, current.getTagName(), current.getFirstChild().getNodeValue());
 		}
 		return problemSpec;

@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jdom.DataConversionException;
-import org.jdom.Element;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
 
-import VGL.EdXServerStrings;
+import edu.umb.jsVGL.client.VGL.EdXServerStrings;
 /**
  * Brian White Summer 2008
  * 
@@ -43,15 +44,14 @@ public class WorkFileProcessor {
 	private Element modelBuilderState;
 	private EdXServerStrings edXServerStrings;
 
-	public WorkFileProcessor(List<Element> elements) {
+	public WorkFileProcessor(NodeList elements) {
 		problemFileName = "";
 		edXServerStrings = null; // not always present
-		Iterator<Element> it = elements.iterator();
-		while (it.hasNext()) {
-			Element current = it.next();
-			String name = current.getName();
+		for (int i = 0; i < elements.getLength(); i++) {
+			Element current = (Element)elements.item(i);
+			String name = current.getTagName();
 			try {
-				if (name.equals("ProbFileName")) problemFileName = current.getText();
+				if (name.equals("ProbFileName")) problemFileName = current.getFirstChild().getNodeValue();
 				if (name.equals("GeneticModel")) geneticModel = processSavedModelInfo(current);
 				if (name.equals("Organisms")) cages = processSavedCages(current);
 				if (name.equals("ModelBuilderState")) modelBuilderState = current;
@@ -81,59 +81,49 @@ public class WorkFileProcessor {
 	private GeneticModel processSavedModelInfo(Element e) throws Exception {
 
 		GeneticModel model = 
-			new GeneticModel(e.getAttribute("XX_XYSexDetermination").getBooleanValue());
+			new GeneticModel(Boolean.parseBoolean(e.getAttribute("XX_XYSexDetermination")));
 		
 		model.setProblemFileName(problemFileName);
 
-		model.setMinOffspring(e.getAttribute("MinOffspring").getIntValue());
-		model.setMaxOffspring(e.getAttribute("MaxOffspring").getIntValue());
+		model.setMinOffspring(Integer.parseInt(e.getAttribute("MinOffspring")));
+		model.setMaxOffspring(Integer.parseInt(e.getAttribute("MaxOffspring")));
 
-		Iterator<Element> it = e.getChildren().iterator();
 		//get the tags inside the "Model" tag
 		if (e.getAttribute("BeginnerMode") != null) {
-			model.setBeginnerMode(e.getAttribute("BeginnerMode").getBooleanValue());
+			model.setBeginnerMode(Boolean.parseBoolean(e.getAttribute("BeginnerMode")));
 		} 
-		int numberOfCharacters = e.getAttribute("NumberOfCharacters").getIntValue();
+		int numberOfCharacters = Integer.parseInt(e.getAttribute("NumberOfCharacters"));
 
-		/*
-		 * see if this is an older work file - saved before addition of
-		 * epistasis & complementation
-		 * 	in this case, there is no difference between #GeneModels & #Chars
-		 */
-		int numberOfGeneModels = 0;
-		if (e.getAttribute("NumberOfGeneModels") == null) { 	
-			numberOfGeneModels = numberOfCharacters;
-		} else {
-			numberOfGeneModels = e.getAttribute("NumberOfGeneModels").getIntValue();
-		}
+		int numberOfGeneModels = Integer.parseInt(e.getAttribute("NumberOfGeneModels"));
+		
 
 		TraitFactory.getInstance().initializeTraitBank(2, numberOfGeneModels, 6);
 		CharacterSpecificationBank.getInstance().refreshAll();
 
 		// now the rest
-		while(it.hasNext()) {
-			Element current = it.next();
-			String name = current.getName();
+		NodeList parts = e.getChildNodes();
+		for (int i = 0; i < parts.getLength(); i++) {
+			Element current = (Element)parts.item(i);
+			String name = current.getTagName();
 
 			if (name.equals("ProblemTypeSpecification")) {
 				model.setProblemTypeSPecification(
 						GeneticModelFactory.getInstance().processModelSpecElements(
-								current.getChildren()));
+								current.getChildNodes()));
 			}
 			
 			if (name.equals("CharacterOrderScrambler")) {
 				int[] scrambler = new int[numberOfCharacters];
-				Iterator<Element> scIt = current.getChildren().iterator();
-				while (scIt.hasNext()) {
-					Element te = scIt.next();
-					scrambler[Integer.parseInt(te.getAttributeValue("Index"))] = 
-						Integer.parseInt(te.getValue());
+				NodeList csItems = current.getChildNodes();
+				for (int j = 0; j < csItems.getLength(); j++) {
+					Element te = (Element)csItems.item(j);
+					scrambler[Integer.parseInt(te.getAttribute("Index"))] = 
+						Integer.parseInt(te.getFirstChild().getNodeValue());
 				}
 				model.setScrambledCharacterOrder(scrambler);
 
 			} else if (name.equals("ChromosomeModel")) {
-				boolean sexChromosome = 
-					current.getAttribute("SexChromosome").getBooleanValue();
+				boolean sexChromosome = Boolean.parseBoolean(current.getAttribute("SexChromosome"));
 				processChromosomeModelInfo(model, sexChromosome, current);
 			} else if (name.equals("PhenotypeProcessor")) 
 				model.getPhenoTypeProcessor().load(current);
