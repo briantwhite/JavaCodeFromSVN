@@ -38,11 +38,11 @@ import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import GeneticModels.Cage;
-import GeneticModels.Organism;
-import GeneticModels.OrganismList;
-import GeneticModels.Phenotype;
-import PhenotypeImages.PhenotypeImageBank;
+import edu.umb.jsVGL.client.GeneticModels.Cage;
+import edu.umb.jsVGL.client.GeneticModels.Organism;
+import edu.umb.jsVGL.client.GeneticModels.OrganismList;
+import edu.umb.jsVGL.client.GeneticModels.Phenotype;
+import edu.umb.jsVGL.client.PhenotypeImages.PhenotypeImageBank;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:

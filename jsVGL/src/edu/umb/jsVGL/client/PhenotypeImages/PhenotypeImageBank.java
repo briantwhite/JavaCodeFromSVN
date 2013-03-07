@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-import GeneticModels.Phenotype;
+import edu.umb.jsVGL.client.GeneticModels.Phenotype;
 
 public class PhenotypeImageBank {
 	

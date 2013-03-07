@@ -1,6 +1,5 @@
 package edu.umb.jsVGL.client.VGL;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 /**
  * Brian White Summer 2008

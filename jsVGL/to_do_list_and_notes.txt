@@ -1,0 +1,3 @@
+use DialogBox for JDialogs (cages etc)
+
+will need to make js page that translates back & forth between base64zip and plain text

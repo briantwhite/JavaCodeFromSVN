@@ -3,8 +3,6 @@ package edu.umb.jsVGL.client.ModelBuilder;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import VGL.Messages;
-
 public class ThreeAllelePanel extends JPanel {
 	
 	private JComboBox interactionTypeChoices;

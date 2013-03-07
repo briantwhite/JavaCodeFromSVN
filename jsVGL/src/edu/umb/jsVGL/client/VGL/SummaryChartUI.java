@@ -21,9 +21,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
 
-import org.apache.commons.math3.stat.inference.ChiSquareTest;
-
-import GeneticModels.Trait;
+import edu.umb.jsVGL.client.GeneticModels.Trait;
 /**
  * Brian White Summer 2008
  * 

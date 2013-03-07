@@ -5,15 +5,15 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import GeneticModels.Cage;
-import GeneticModels.GeneModel;
-import GeneticModels.Organism;
-import GeneticModels.OrganismList;
-import GeneticModels.Phenotype;
-import GeneticModels.PhenotypeProcessor;
-import GeneticModels.Trait;
-import GeneticModels.TwoAlleleSimpleDominanceGeneModel;
-import ModelBuilder.ModelBuilderUI;
+import edu.umb.jsVGL.client.GeneticModels.Cage;
+import edu.umb.jsVGL.client.GeneticModels.GeneModel;
+import edu.umb.jsVGL.client.GeneticModels.Organism;
+import edu.umb.jsVGL.client.GeneticModels.OrganismList;
+import edu.umb.jsVGL.client.GeneticModels.Phenotype;
+import edu.umb.jsVGL.client.GeneticModels.PhenotypeProcessor;
+import edu.umb.jsVGL.client.GeneticModels.Trait;
+import edu.umb.jsVGL.client.GeneticModels.TwoAlleleSimpleDominanceGeneModel;
+import edu.umb.jsVGL.client.ModelBuilder.ModelBuilderUI;
 
 /**
  * takes a set of Cages and determines if each shows:

@@ -7,11 +7,8 @@ import java.util.TreeMap;
 
 import javax.swing.DefaultListModel;
 
-import org.jdom.Document;
-import org.jdom.Element;
-
-import VGL.EncryptionTools;
-import VGL.VGLII;
+import edu.umb.jsVGL.client.VGL.EncryptionTools;
+import edu.umb.jsVGL.client.VGL.VGLII;
 
 public class WorkFileLoader implements Runnable {
 

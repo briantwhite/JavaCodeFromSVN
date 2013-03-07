@@ -10,8 +10,6 @@ import java.awt.event.ItemListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-import VGL.Messages;
-
 public class EpistasisPanel extends ModelDetailsPanel implements ItemListener {
 	JLabel gALabel;
 	JLabel gBLabel;

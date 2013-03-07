@@ -2,10 +2,8 @@ package edu.umb.jsVGL.client.VGL;
 
 import java.util.ArrayList;
 
-import org.jdom.Element;
-
-import GeneticModels.Cage;
-import GeneticModels.GeneticModel;
+import edu.umb.jsVGL.client.GeneticModels.Cage;
+import edu.umb.jsVGL.client.GeneticModels.GeneticModel;
 /**
  * Brian White Summer 2008
  * 

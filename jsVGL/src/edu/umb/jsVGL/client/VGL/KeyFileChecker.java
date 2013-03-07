@@ -19,9 +19,6 @@ import javax.swing.JPasswordField;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import org.jdom.Document;
-import org.jdom.Element;
-
 public class KeyFileChecker {
 
 	public static PrivateKey checkGradingKeys(VGLII vglII) {

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import GeneticModels.Phenotype;
+import edu.umb.jsVGL.client.GeneticModels.Phenotype;
 
 public class ShowPhenotypeButton extends JButton {
 

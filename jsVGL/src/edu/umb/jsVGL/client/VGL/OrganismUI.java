@@ -9,7 +9,7 @@ import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import GeneticModels.Organism;
+import edu.umb.jsVGL.client.GeneticModels.Organism;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:

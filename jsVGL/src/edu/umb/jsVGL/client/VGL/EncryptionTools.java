@@ -30,11 +30,6 @@ import java.util.zip.ZipOutputStream;
 import javax.crypto.Cipher;
 import javax.swing.JOptionPane;
 
-import org.jdom.Document;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
-
 public class EncryptionTools {
 
 	/*

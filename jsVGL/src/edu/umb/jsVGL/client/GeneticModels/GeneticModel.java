@@ -8,8 +8,6 @@ import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
 
-import edu.umb.jsVGL.client.VGL.EdXServerStrings;
-
 /**
  * Brian White Summer 2008
  * 

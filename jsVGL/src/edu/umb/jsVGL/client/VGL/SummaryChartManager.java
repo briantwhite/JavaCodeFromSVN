@@ -7,10 +7,10 @@ import java.util.TreeSet;
 
 import javax.swing.JOptionPane;
 
-import GeneticModels.Organism;
-import GeneticModels.OrganismList;
-import GeneticModels.Phenotype;
-import GeneticModels.Trait;
+import edu.umb.jsVGL.client.GeneticModels.Organism;
+import edu.umb.jsVGL.client.GeneticModels.OrganismList;
+import edu.umb.jsVGL.client.GeneticModels.Phenotype;
+import edu.umb.jsVGL.client.GeneticModels.Trait;
 /**
  * Brian White Summer 2008
  * 

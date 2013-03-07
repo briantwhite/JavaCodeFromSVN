@@ -11,8 +11,6 @@ import java.awt.event.ItemListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-import VGL.Messages;
-
 public class ThreeCircPanel extends ModelDetailsPanel implements ItemListener {
 
 	JLabel l;

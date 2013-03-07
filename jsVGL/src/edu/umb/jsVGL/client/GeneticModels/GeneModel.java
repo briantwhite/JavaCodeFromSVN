@@ -2,9 +2,7 @@ package edu.umb.jsVGL.client.GeneticModels;
 
 import java.util.Random;
 
-import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.XMLParser;
 
 /**
  * Brian White Summer 2008

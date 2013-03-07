@@ -4,8 +4,8 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import GeneticModels.Allele;
-import GeneticModels.Trait;
+import edu.umb.jsVGL.client.GeneticModels.Allele;
+import edu.umb.jsVGL.client.GeneticModels.Trait;
 
 public class Messages {
 	public final String BUNDLE_NAME = "VGL.messages"; //$NON-NLS-1$

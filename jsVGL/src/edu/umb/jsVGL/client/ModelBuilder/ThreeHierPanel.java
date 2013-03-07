@@ -7,8 +7,6 @@ import java.awt.event.ItemListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-import VGL.Messages;
-
 public class ThreeHierPanel extends ModelDetailsPanel implements ItemListener {
 
 	public ThreeHierPanel(String[] phenos,

@@ -21,8 +21,6 @@ package edu.umb.jsVGL.client.GeneticModels;
  * @version 1.0 $Id$
  */
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import com.google.gwt.xml.client.Document;

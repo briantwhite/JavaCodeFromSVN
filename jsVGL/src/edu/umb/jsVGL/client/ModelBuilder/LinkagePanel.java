@@ -9,10 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.jdom.Element;
-
-import VGL.Messages;
-import VGL.VGLII;
+import edu.umb.jsVGL.client.VGL.VGLII;
 
 public class LinkagePanel extends JPanel {
 

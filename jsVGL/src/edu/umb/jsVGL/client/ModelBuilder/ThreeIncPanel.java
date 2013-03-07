@@ -12,8 +12,6 @@ import java.awt.event.ItemListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-import VGL.Messages;
-
 public class ThreeIncPanel extends ModelDetailsPanel implements ItemListener {
 
 	private JLabel t5;	// marker for arrow

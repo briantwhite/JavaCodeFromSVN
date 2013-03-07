@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import GeneticModels.Cage;
-import GeneticModels.Organism;
-import GeneticModels.OrganismList;
-import ModelBuilder.ModelBuilderUI;
+import edu.umb.jsVGL.client.GeneticModels.Cage;
+import edu.umb.jsVGL.client.GeneticModels.Organism;
+import edu.umb.jsVGL.client.GeneticModels.OrganismList;
+import edu.umb.jsVGL.client.ModelBuilder.ModelBuilderUI;
 
 public class GetWorkAsHTML {
 	

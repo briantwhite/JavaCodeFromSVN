@@ -3,17 +3,19 @@ package edu.umb.jsVGL.client.Grader;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.jdom.Element;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 
-import GeneticModels.Cage;
-import GeneticModels.GeneModel;
-import GeneticModels.GeneticModel;
-import GeneticModels.PhenotypeProcessor;
-import ModelBuilder.ModelBuilderUI;
-import ModelBuilder.ModelDetailsPanel;
-import ModelBuilder.ModelPane;
-import VGL.CageUI;
-import VGL.Messages;
+import edu.umb.jsVGL.client.GeneticModels.Cage;
+import edu.umb.jsVGL.client.GeneticModels.GeneModel;
+import edu.umb.jsVGL.client.GeneticModels.GeneticModel;
+import edu.umb.jsVGL.client.GeneticModels.PhenotypeProcessor;
+import edu.umb.jsVGL.client.ModelBuilder.ModelBuilderUI;
+import edu.umb.jsVGL.client.ModelBuilder.ModelDetailsPanel;
+import edu.umb.jsVGL.client.ModelBuilder.ModelPane;
+import edu.umb.jsVGL.client.VGL.CageUI;
+import edu.umb.jsVGL.client.VGL.Messages;
 
 /*
  * Compares correct answer (GeneticModel) with student answer (ModelBuilderUI)
@@ -38,14 +40,14 @@ public class AutoGrader {
 		}
 		CageScorer cageScorer = new CageScorer(cages, mbui);
 
-
-		Element e = new Element("Grade");  // root element
+		Document doc = XMLParser.createDocument();
+		Element e = doc.createElement("Grade");  // root element
 
 		// some basic info
-		Element p = new Element("Problem");
-		p.addContent((new Element("ProblemFileName")).addContent(gm.getProblemFileName()));
-		p.addContent((new Element("PracticeMode")).addContent(String.valueOf(gm.isBeginnerMode())));
-		e.addContent(p);
+		Element p = doc.createElement("Problem");
+		p.appendChild((doc.createElement("ProblemFileName")).appendChild(doc.createTextNode(gm.getProblemFileName())));
+		p.appendChild((doc.createElement("PracticeMode")).appendChild(doc.createTextNode(String.valueOf(gm.isBeginnerMode()))));
+		e.appendChild(p);
 
 		/*
 		 * Then, see if there's epistasis or complementation
@@ -54,9 +56,9 @@ public class AutoGrader {
 		 */
 		if (gm.getPhenoTypeProcessor().getInteractionType() == PhenotypeProcessor.NO_INTERACTION) {
 			for (int i = 0; i < gm.getNumberOfGeneModels(); i++) {
-				Element geneEl = new Element("Gene");
+				Element geneEl = doc.createElement("Gene");
 
-				geneEl.addContent((new Element("Index")).addContent(String.valueOf(i)));
+				geneEl.appendChild((doc.createElement("Index")).appendChild(doc.createTextNode(String.valueOf(i))));
 
 				// get right answer and student answer
 				GeneModel geneModel = gm.getGeneModelByIndex(i);

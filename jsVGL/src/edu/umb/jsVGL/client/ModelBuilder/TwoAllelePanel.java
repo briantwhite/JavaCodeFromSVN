@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import VGL.Messages;
-
 public class TwoAllelePanel extends JPanel {
 
 	private JComboBox interactionTypeChoices;

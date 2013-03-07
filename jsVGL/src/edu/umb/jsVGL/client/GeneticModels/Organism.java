@@ -1,7 +1,6 @@
 package edu.umb.jsVGL.client.GeneticModels;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;

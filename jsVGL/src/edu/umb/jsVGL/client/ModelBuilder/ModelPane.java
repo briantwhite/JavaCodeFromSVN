@@ -15,10 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.jdom.Element;
-
-import GeneticModels.ProblemTypeSpecification;
-import VGL.Messages;
+import edu.umb.jsVGL.client.GeneticModels.ProblemTypeSpecification;
 
 public class ModelPane extends JPanel implements ItemListener {
 

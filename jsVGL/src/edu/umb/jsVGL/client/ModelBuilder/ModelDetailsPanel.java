@@ -7,8 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import VGL.CageUI;
-import VGL.Messages;
+import edu.umb.jsVGL.client.VGL.CageUI;
 
 public abstract class ModelDetailsPanel extends JPanel implements ItemListener {
 	String[] phenos;

@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import GeneticModels.GeneticModel;
+import edu.umb.jsVGL.client.GeneticModels.GeneticModel;
 
 /*
  * utility class to handle communication with edX server

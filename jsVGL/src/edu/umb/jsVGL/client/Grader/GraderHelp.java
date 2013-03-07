@@ -1,7 +1,5 @@
 package edu.umb.jsVGL.client.Grader;
 
-import java.awt.Dimension;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;

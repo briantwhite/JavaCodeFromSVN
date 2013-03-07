@@ -30,8 +30,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.Timer;
 import javax.swing.text.Caret;
 
-import VGL.EncryptionTools;
-import VGL.VGLII;
+import edu.umb.jsVGL.client.VGL.EncryptionTools;
+import edu.umb.jsVGL.client.VGL.VGLII;
 
 public class Grader extends JFrame {
 

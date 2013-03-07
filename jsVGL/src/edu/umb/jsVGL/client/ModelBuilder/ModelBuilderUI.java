@@ -12,14 +12,11 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.jdom.Element;
-
-import GeneticModels.GeneModel;
-import GeneticModels.GeneticModel;
-import GeneticModels.PhenotypeProcessor;
-import GeneticModels.ProblemTypeSpecification;
-import VGL.Messages;
-import VGL.VGLII;
+import edu.umb.jsVGL.client.GeneticModels.GeneModel;
+import edu.umb.jsVGL.client.GeneticModels.GeneticModel;
+import edu.umb.jsVGL.client.GeneticModels.PhenotypeProcessor;
+import edu.umb.jsVGL.client.GeneticModels.ProblemTypeSpecification;
+import edu.umb.jsVGL.client.VGL.VGLII;
 
 
 public class ModelBuilderUI extends JPanel {

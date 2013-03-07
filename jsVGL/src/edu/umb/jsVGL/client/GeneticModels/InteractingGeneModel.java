@@ -1,9 +1,7 @@
 package edu.umb.jsVGL.client.GeneticModels;
-import java.util.Iterator;
-import java.util.List;
-
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
 public class InteractingGeneModel extends GeneModel {
@@ -17,11 +15,11 @@ public class InteractingGeneModel extends GeneModel {
 
 	//build from saved work file
 	public InteractingGeneModel(
-			List<Element> traitList, int chromo, int gene) {
+			NodeList traitList, int chromo, int gene) {
 		super(gene);
-		Iterator<Element> elIt = traitList.iterator();
-		t1 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 1, true);
-		t2 = TraitFactory.getInstance().buildTrait(elIt.next(), chromo, gene, 2, true);
+
+		t1 = TraitFactory.getInstance().buildTrait((Element)traitList.item(0), chromo, gene, 1, true);
+		t2 = TraitFactory.getInstance().buildTrait((Element)traitList.item(1), chromo, gene, 2, true);
 		setupGenoPhenoTable();
 	}
 

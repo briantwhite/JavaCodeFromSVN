@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import GeneticModels.Phenotype;
-import GeneticModels.Trait;
-import VGL.VGLII;
+import edu.umb.jsVGL.client.GeneticModels.Phenotype;
+import edu.umb.jsVGL.client.GeneticModels.Trait;
+import edu.umb.jsVGL.client.VGL.VGLII;
 
 public class PhenotypeImageMaker {
 
