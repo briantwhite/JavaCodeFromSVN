@@ -58,14 +58,16 @@ public class AutoGrader {
 			for (int i = 0; i < gm.getNumberOfGeneModels(); i++) {
 				Element geneEl = doc.createElement("Gene");
 
-				geneEl.appendChild((doc.createElement("Index")).appendChild(doc.createTextNode(String.valueOf(i))));
+				geneEl.appendChild((doc.createElement("Index")).appendChild(
+						doc.createTextNode(String.valueOf(i))));
 
 				// get right answer and student answer
 				GeneModel geneModel = gm.getGeneModelByIndex(i);
 				ModelPane modelPane = mbui.getModelPanes()[i];
 
 				// the character
-				geneEl.addContent((new Element("Character")).addContent(geneModel.getCharacter()));
+				geneEl.appendChild((doc.createElement("Character")).appendChild(
+						doc.createTextNode(geneModel.getCharacter())));
 
 				/*
 				 * if this is null, it means that there was no choice with this
@@ -95,29 +97,32 @@ public class AutoGrader {
 						if (modelPane.getSexLinkageChoice().equals(
 								Messages.getInstance().getString("VGLII.NotSexLinked"))) sexLinkageCorrect = true;
 					}
-					Element slEl = new Element("SexLinkage");
-					slEl.addContent((new Element("Correct")).addContent(String.valueOf(sexLinkageCorrect)));
+					Element slEl = doc.createElement("SexLinkage");
+					slEl.appendChild((doc.createElement("Correct")).appendChild(
+							doc.createTextNode(String.valueOf(sexLinkageCorrect))));
 
 					CageScoreResult slCsr = cageScorer.scoreCage(modelPane.getSexLinkageCageChoice());
 					if (slCsr == null) {
-						slEl.addContent((
-								new Element("Justified")).addContent(
-										String.valueOf(false)));
+						slEl.appendChild((
+								doc.createElement("Justified")).appendChild(
+										doc.createTextNode(String.valueOf(false))));
 					} else {
 						// sex-linkage choice must match correct type
 						if(gm.isGeneModelSexLinkedByIndex(i)) {
 							// sex-linked, so cage must show sex-linkage
-							slEl.addContent((
-									new Element("Justified")).addContent(
-											String.valueOf(slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
+							slEl.appendChild((
+									doc.createElement("Justified")).appendChild(
+											doc.createTextNode(
+													String.valueOf(slCsr.getCageScoreForCharacter(i).showsSexLinkage))));
 						} else {
 							// not sex-linked, so cage must not show sex-linkage
-							slEl.addContent((
-									new Element("Justified")).addContent(
-											String.valueOf(!slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
+							slEl.appendChild((
+									doc.createElement("Justified")).appendChild(
+											doc.createTextNode(
+													String.valueOf(!slCsr.getCageScoreForCharacter(i).showsSexLinkage))));
 						}
 					}
-					geneEl.addContent(slEl);
+					geneEl.appendChild(slEl);
 				}
 
 				/*
@@ -129,10 +134,11 @@ public class AutoGrader {
 				// see if they really had a choice or not
 				if (modelPane.getAlleleNumberChoice() != 0) {
 					numAllelesCorrect = (modelPane.getAlleleNumberChoice() == geneModel.getNumAlleles());
-					Element naEl = new Element("NumberOfAlleles");
-					naEl.addContent((
-							new Element("Correct")).addContent(String.valueOf(numAllelesCorrect)));
-					geneEl.addContent(naEl);
+					Element naEl = doc.createElement("NumberOfAlleles");
+					naEl.appendChild((
+							doc.createElement("Correct")).appendChild(
+									doc.createTextNode(String.valueOf(numAllelesCorrect))));
+					geneEl.appendChild(naEl);
 				}
 
 
@@ -147,16 +153,17 @@ public class AutoGrader {
 					if (modelPane.getInteractionTypeChoice() != null) {
 						String studentDomTypeText = modelPane.getInteractionTypeChoice();
 						if (geneModel.getDomTypeText().equals("Simple") 
-								&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.SimpleDominance"))) interactionTypeCorrect = true;
+								&& studentDomTypeText.equals("Simple Dominance")) interactionTypeCorrect = true;
 						if (geneModel.getDomTypeText().equals("Circular")
-								&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.CircularDominance"))) interactionTypeCorrect = true;
+								&& studentDomTypeText.equals("Circular Dominance")) interactionTypeCorrect = true;
 						if (geneModel.getDomTypeText().equals("Hierarchical")
-								&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.HierarchicalDominance"))) interactionTypeCorrect = true;
+								&& studentDomTypeText.equals("Hierarchical Dominance")) interactionTypeCorrect = true;
 						if (geneModel.getDomTypeText().equals("Incomplete")
-								&& studentDomTypeText.equals(Messages.getInstance().getString("VGLII.IncompleteDominance"))) interactionTypeCorrect = true;
-						Element itEl = new Element("InteractionType");
-						itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeCorrect)));
-						geneEl.addContent(itEl);
+								&& studentDomTypeText.equals("Incomplete Dominance")) interactionTypeCorrect = true;
+						Element itEl = doc.createElement("InteractionType");
+						itEl.appendChild((doc.createElement("Correct")).appendChild(
+								doc.createTextNode(String.valueOf(interactionTypeCorrect))));
+						geneEl.appendChild(itEl);
 					} else {
 						interactionTypeCorrect = true;	// if they didn't have to enter it, it's OK 
 					}
@@ -355,22 +362,21 @@ public class AutoGrader {
 						}
 					}
 				}
-				Element idEl = new Element("InteractionDetails");
-				idEl.addContent((new Element("Correct")).addContent(String.valueOf(detailsCorrect)));
+				Element idEl = doc.createElement("InteractionDetails");
+				idEl.appendChild((doc.createElement("Correct")).appendChild(doc.createTextNode(String.valueOf(detailsCorrect))));
 				int interactionCageChoice = modelPane.getInteractionCageChoice();
 				CageScoreResult inCsr = cageScorer.scoreCage(interactionCageChoice);
 				if (inCsr == null) {
-					idEl.addContent((
-							new Element("Justified")).addContent(
-									String.valueOf(false)));
+					idEl.appendChild((
+							doc.createElement("Justified")).appendChild(doc.createTextNode(String.valueOf(false))));
 				} else {
-					idEl.addContent((
-							new Element("Justified")).addContent(
-									String.valueOf(inCsr.getCageScoreForCharacter(i).showsInteraction)));
+					idEl.appendChild((
+							doc.createElement("Justified")).appendChild(doc.createTextNode(
+									String.valueOf(inCsr.getCageScoreForCharacter(i).showsInteraction))));
 				}
-				geneEl.addContent(idEl);
+				geneEl.appendChild(idEl);
 
-				e.addContent(geneEl);
+				e.appendChild(geneEl);
 			}
 
 		} else {
@@ -382,9 +388,9 @@ public class AutoGrader {
 			 *   the grading would break)
 			 *   
 			 */
-			Element gmEl = new Element("Character");
+			Element gmEl = doc.createElement("Character");
 
-			gmEl.addContent((new Element("Name")).addContent(gm.getPhenoTypeProcessor().getCharacter()));
+			gmEl.appendChild((doc.createElement("Name")).appendChild(doc.createTextNode(gm.getPhenoTypeProcessor().getCharacter())));
 
 			boolean interactionTypeGrade = false;
 			ModelPane mp = mbui.getModelPanes()[0]; // only one model pane in these problems
@@ -393,19 +399,18 @@ public class AutoGrader {
 			} else {
 				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Epistasis"))) interactionTypeGrade = true;
 			}
-			Element itEl = new Element("InteractionType");
-			itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeGrade)));
+			Element itEl = doc.createElement("InteractionType");
+			itEl.appendChild((doc.createElement("Correct")).appendChild(doc.createTextNode(String.valueOf(interactionTypeGrade))));
 			CageScoreResult inCsr = cageScorer.scoreCage(mp.getInteractionCageChoice());
 			if (inCsr == null) {
-				itEl.addContent((
-						new Element("Justified")).addContent(
-								String.valueOf(false)));
+				itEl.appendChild((
+						doc.createElement("Justified")).appendChild(doc.createTextNode(String.valueOf(false))));
 			} else {
-				itEl.addContent((
-						new Element("Justified")).addContent(
-								String.valueOf(inCsr.getCageScoreForCharacter(0).showsInteraction)));
+				itEl.appendChild((
+						doc.createElement("Justified")).appendChild(doc.createTextNode(
+								String.valueOf(inCsr.getCageScoreForCharacter(0).showsInteraction))));
 			}
-			gmEl.addContent(itEl);
+			gmEl.appendChild(itEl);
 
 			/*
 			 * these are also the raw selected strings
@@ -434,11 +439,11 @@ public class AutoGrader {
 							Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT3().getTraitName()))) detailsCorrect = false;
 				}
 			}
-			Element dIt = new Element("InteractionDetails");
-			dIt.addContent((new Element("Correct")).addContent(String.valueOf(detailsCorrect)));
-			gmEl.addContent(dIt);
+			Element dIt = doc.createElement("InteractionDetails");
+			dIt.appendChild((doc.createElement("Correct")).appendChild(doc.createTextNode(String.valueOf(detailsCorrect))));
+			gmEl.appendChild(dIt);
 
-			e.addContent(gmEl);
+			e.appendChild(gmEl);
 		}
 
 		/*
@@ -536,11 +541,11 @@ public class AutoGrader {
 					linkageCorrect = false;
 				}
 			}
-			Element le = new Element("Linkage");
-			le.addContent((new Element("Correct")).addContent(String.valueOf(linkageCorrect)));
+			Element le = doc.createElement("Linkage");
+			le.appendChild((doc.createElement("Correct")).appendChild(doc.createTextNode(String.valueOf(linkageCorrect))));
 			double averageError = totalError/gm.getNumberOfGeneModels();
-			le.addContent((new Element("AverageError")).addContent(String.format("%4.3f", averageError)));
-			le.addContent((new Element("MaxError")).addContent(String.format("%4.3f", maxError)));
+			le.appendChild((doc.createElement("AverageError")).appendChild(doc.createTextNode(String.format("%4.3f", averageError))));
+			le.appendChild((doc.createElement("MaxError")).appendChild(doc.createTextNode(String.format("%4.3f", maxError))));
 
 			// see if justified by right cages
 			boolean linkageJustified = true;
@@ -575,8 +580,8 @@ public class AutoGrader {
 				}
 			}	
 
-			le.addContent((new Element("Justified")).addContent(String.valueOf(linkageJustified)));
-			e.addContent(le);
+			le.appendChild((doc.createElement("Justified")).appendChild(doc.createTextNode(String.valueOf(linkageJustified))));
+			e.appendChild(le);
 		}
 		return e;
 	}
