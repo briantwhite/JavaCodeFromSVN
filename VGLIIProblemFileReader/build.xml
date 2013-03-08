@@ -1,0 +1,22 @@
+<project name="VGLIIProblemFileReader" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/VGLIIProblemFileReader.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="ProblemFileReader.VGLIIProblemFileReader"/>
+	        </manifest>
+    	    <fileset dir="bin/"/>
+    	    <fileset dir="lib/"/>
+ 	    </jar>
+        <move file="bin/VGLIIProblemFileReader.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run VGLIIProblemFileReader">
+		<java jar="VGLIIProblemFileReader.jar" fork="true"/>
+	</target>
+
+</project>
