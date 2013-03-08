@@ -1,0 +1,22 @@
+<project name="KeyMaker" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/KeyMaker.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="KeyMaker.KeyMaker"/>
+	        </manifest>
+    	    <fileset dir="bin/"/>
+	    	<zipfileset src="jdom.jar"/>
+ 	    </jar>
+        <move file="bin/KeyMaker.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run KeyMaker">
+		<java jar="KeyMaker.jar" fork="true"/>
+	</target>
+
+</project>
