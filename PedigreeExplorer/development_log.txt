@@ -301,3 +301,5 @@ fixed history - it was losing the last person
 increased resolution of png files by scaling like the last suggestion in
 http://stackoverflow.com/questions/4216123/how-to-scale-a-bufferedimage
 
+3/8/13
+testing adding from git
