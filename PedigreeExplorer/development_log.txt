@@ -1,0 +1,303 @@
+10/19/12
+started off
+got Pelican pedigree drawing code from
+http://www.mrc-bsu.cam.ac.uk/personal/frank/software/pelican/
+they say to cite:
+Dudbridge F, Carver T, Williams GW. Pelican: Pedigree Editor for Linkage Computer Analysis. Bioinformatics 20:2327-8
+
+e-mailed Dudbridge frank.dudbridge@mrc-bsu.cam.ac.uk
+to ask how to credit them
+it's all GPL, so I don't need permission to use
+
+10/20/12
+working on bug where resizing window makes pelican into little square panel...
+not a problem when main class is Pelican.Pelican
+but if you put it in PE, it has this problem
+
+problem - you can't use the size of the whole PE JFrame for Pelican's size if you have an
+	additional panel on the side
+
+the shrinkage happens in super.paintComponent(g) in Pelican.paint()
+	not in the application's code
+
+10/21/12
+fixed layout issue - don't put Pelican in a JPanel
+	just have it as it's own JPanel
+
+started working on pedigree analysis
+	changed PelicanPerson - needs to be born with a ref to the "mother ship" (Pelican)
+		need that so you can get all children of a person
+	set up way to get children
+	set up Person.toString()
+	
+heard from Frank Dudbridge
+Dear Brian,
+I'm delighted that you find Pelican useful.  I have stopped working on it for some time now so I'd be happy 
+if you found a new use for it.  We released it under GPL license which means that if you include its code in 
+PE, then PE also be GPL, which it appears to be.  Regarding credit, I'd be happy to be listed as one of the 
+authors of the code, as well as having the Pelican paper cited.  (The other authors of that paper didn't 
+work on the code).  You can link to my webpage if you like, but I don't mind if you don't - 
+https://sites.google.com/site/fdudbridge/
+
+Thanks again for letting me know of your interest in Pelican and for your excellent suite of software!
+
+best wishes
+Frank
+
+AOK TO USE!!!
+
+10/24/12
+started cleaning up menus
+	popup menu
+		change menu
+			affection menu
+				nuked Unknown and carrier
+			nuked availability menu
+			sex menu
+				nuked unknown
+			nuked life menu
+			nuked proband menu
+			nuked id...
+			changed "genotypes" to "genotype"
+
+	main menu
+		file menu
+			nuked show linkage
+		options menu
+			nuked slink format
+			nuked show marker numbers (needed to edit pelican lines)
+also parametrized various things
+	private Vector<Vector<PelicanPerson>> history;
+	private HashSet<String> matingList;
+		
+10/25/12
+more menu cleanup
+	Edit menu
+		nuked add and delete genotypes
+			need to be careful to leave them always enabled
+
+note: PelicanPerson.genotype is a Vector of Vectors of alleles
+	each element of genotype is the genotype (vector of 2 alleles) for a particular gene
+	really only need one Vector of two alleles
+	
+	- recoded PelicanPerson to have genotype = Vector<String>
+	- therefore, can nuke out ngeno calcs (counts number of genes - number of vectors in genotype)
+	- made deault genotype be ?/?
+	
+	cleaned up PelicanPerson
+		removed dna, proband and alive/dead
+		cleaned up constructors
+		cleaned up paint
+	had to do a lot to Pelican to deal with these changes
+		nuke countGenotypes()
+		have to fix Vector displayGeno 
+			it's a Vector of the subset of total genotypes that you're displaying
+			just replace it with boolean displayGenotypes
+	PelicanPerson gets getGenotypeAsString()
+	nuked add, delete, and select genotypes (these deal with multiple genes)
+
+10/26/12
+made genotype be a String[2] for simplicity
+set up workingGenotypes as String[4][2] [model#][allele#]
+
+10/28/12
+setting up to save and load pedigrees
+use xml
+try the jdom like you did with KeyMaker
+option-drag jdom.jar from KeyMaker to PedigreeExplorer
+refresh and commit
+add jar to project 
+	Properties -> Java Build Path -> add Jar (not external)
+commit
+add to build.xml "<zipfileset src="jdom.jar"/>"
+delete from workspace and reload -looks OK
+
+try saving some stuff
+works
+
+10/29/10
+changed PelicanPerson.id to int throughout so no confusion
+	no need for a string Id since you have name
+- changed in PelicanPerson
+	comment out string-id-based constructors and then fix
+nuke out changeId
+
+10/30/12
+working on scoring
+using "Affected duaghter.ped" - normal parents, two daughters only #4 affected:
+     [java] ID:1	Name:	Sex:2
+     [java] 	Affected:1
+     [java] 	Mother: null	Father: null	Children:3,4
+     [java] ID:2	Name:	Sex:1
+     [java] 	Affected:1
+     [java] 	Mother: null	Father: null	Children:3,4
+     [java] ID:3	Name:	Sex:2
+     [java] 	Affected:1
+     [java] 	Mother:1	Father:2	Children:none
+     [java] ID:4	Name:	Sex:2
+     [java] 	Affected:2
+     [java] 	Mother:1	Father:2	Children:none
+     [java] Father:2 Mother:1 Children:3,4
+     [java] Trying: mom(1)=A A; dad(2)=A A
+     [java] 	 testing kid(3)=A A
+     [java] 	 testing kid(4)=a a
+     [java] 		not possible
+     [java] Trying: mom(1)=A a; dad(2)=A A
+     [java] 	 testing kid(3)=A A
+     [java] 	 testing kid(4)=a a
+     [java] 		not possible
+     [java] Trying: mom(1)=A A; dad(2)=A a
+     [java] 	 testing kid(3)=A A
+     [java] 	 testing kid(4)=a a
+     [java] 		not possible
+     [java] Trying: mom(1)=A a; dad(2)=A a
+     [java] 	 testing kid(3)=A A
+     [java] 	 testing kid(4)=a a
+     [java] 1:A a;2:A a;3:A A;4:a a
+     [java] Trying: mom(1)=b b; dad(2)=b b
+     [java] 	 testing kid(3)=b b
+     [java] 	 testing kid(4)=B B
+     [java] 		not possible
+     [java] 	 testing kid(4)=B b
+     [java] 		not possible
+     [java] Trying: mom(1)=XD XD; dad(2)=XD Y
+     [java] 	 testing kid(3)=XD XD
+     [java] 	 testing kid(4)=Xd Xd
+     [java] 		not possible
+     [java] Trying: mom(1)=XD Xd; dad(2)=XD Y
+     [java] 	 testing kid(3)=XD XD
+     [java] 	 testing kid(4)=Xd Xd
+     [java] 		not possible
+     [java] Trying: mom(1)=Xe Xe; dad(2)=Xe Y
+     [java] 	 testing kid(3)=Xe Xe
+     [java] 	 testing kid(4)=XE XE
+     [java] 		not possible
+     [java] 	 testing kid(4)=XE Xe
+     [java] 		not possible
+
+works - BUT - 
+	in AR, trying Aa x Aa should also give Aa as possible geno for #3
+
+comment out the break; here
+				}
+				/*
+				 * if success so far, you've got a good set of genotype assignments
+				 * need to move on to next kid
+				 */
+				success = true;
+//				break;
+			}
+			// you've tried all possible kid genos for this kid
+
+now get this:
+     [java] Trying: mom(1)=A A; dad(2)=A A
+     [java] 	 testing kid(3)=A A
+     [java] 	 testing kid(3)=A a
+     [java] 		not possible
+     [java] 	 testing kid(4)=a a
+     [java] 		not possible
+     [java] Trying: mom(1)=A a; dad(2)=A A
+     [java] 	 testing kid(3)=A A
+     [java] 	 testing kid(3)=A a
+     [java] 	 testing kid(4)=a a
+     [java] 		not possible
+     [java] Trying: mom(1)=A A; dad(2)=A a
+     [java] 	 testing kid(3)=A A
+     [java] 	 testing kid(3)=A a
+     [java] 	 testing kid(4)=a a
+     [java] 		not possible
+     [java] Trying: mom(1)=A a; dad(2)=A a
+     [java] 	 testing kid(3)=A A
+     [java] 	 testing kid(3)=A a
+     [java] 	 testing kid(4)=a a
+     [java] 1:A a;2:A a;3:A a;4:a a
+     [java] Trying: mom(1)=b b; dad(2)=b b
+     [java] 	 testing kid(3)=b b
+     [java] 	 testing kid(4)=B B
+     [java] 		not possible
+     [java] 	 testing kid(4)=B b
+     [java] 		not possible
+     [java] Trying: mom(1)=XD XD; dad(2)=XD Y
+     [java] 	 testing kid(3)=XD XD
+     [java] 	 testing kid(3)=XD Xd
+     [java] 		not possible
+     [java] 	 testing kid(4)=Xd Xd
+     [java] 		not possible
+     [java] Trying: mom(1)=XD Xd; dad(2)=XD Y
+     [java] 	 testing kid(3)=XD XD
+     [java] 	 testing kid(3)=XD Xd
+     [java] 	 testing kid(4)=Xd Xd
+     [java] 		not possible
+     [java] Trying: mom(1)=Xe Xe; dad(2)=Xe Y
+     [java] 	 testing kid(3)=Xe Xe
+     [java] 	 testing kid(4)=XE XE
+     [java] 		not possible
+     [java] 	 testing kid(4)=XE Xe
+     [java] 		not possible
+
+it's trying the other possiblity, but not following through on it
+need to recurse(?)
+should give two successes.
+
+that's STILL not right
+maybe need to recurse thru setting kids genos?
+
+anyway, put in a 2-generation pedigree
+but in the list of families, the root parents weren't first
+so put in a way to sort them by lowest index #
+
+10/31/12
+recurse differently - the pedigree is not a tree, but a list
+as long as you always get to parents before kids, it should be OK
+
+make folder oldCode & put copies of possibly useful classes there
+so you can edit without losing them.
+
+set up new recursion
+set that isPossible always returns true, so it shows all combos tried
+for "affected daughter.ped" (normal mom, dad, sister and one affected sister #4)
+1:A A;2:A A;3:A A;4:a a
+1:A A;2:A A;3:A a;4:a a
+1:A A;2:A a;3:A A;4:a a
+1:A A;2:A a;3:A a;4:a a
+1:A a;2:A A;3:A A;4:a a
+1:A a;2:A A;3:A a;4:a a
+1:A a;2:A a;3:A A;4:a a
+1:A a;2:A a;3:A a;4:a a
+ - all possible combos
+
+1:b b;2:b b;3:b b;4:B B
+1:b b;2:b b;3:b b;4:B b
+- all possible combos
+
+1:XD XD;2:XD Y;3:XD XD;4:Xd Xd
+1:XD XD;2:XD Y;3:XD Xd;4:Xd Xd
+1:XD Xd;2:XD Y;3:XD XD;4:Xd Xd
+1:XD Xd;2:XD Y;3:XD Xd;4:Xd Xd
+- all possible combos
+
+1:Xe Xe;2:Xe Y;3:Xe Xe;4:XE XE
+1:Xe Xe;2:Xe Y;3:Xe Xe;4:XE Xe
+- all possible combos
+
+so far, so good - need to make the test for possibility work
+
+11/3/12
+started working on help
+made folder src/PE/Help
+got pelican.jar from original page
+un-jared and put pelicanhelp.html, loop1 loop2 loop3 into it
+
+fixed help
+
+fixed about
+
+fixed history - it was losing the last person
+	(this was because, in the old Pelican, the last element in a history list entry
+		was a vector of genotypes. I had removed this from savePedigree
+		but loadPedigree was still running index from 0 to length - 1)
+
+1/31/13
+increased resolution of png files by scaling like the last suggestion in
+http://stackoverflow.com/questions/4216123/how-to-scale-a-bufferedimage
+

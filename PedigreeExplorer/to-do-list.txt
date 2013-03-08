@@ -1,0 +1,5 @@
+- start with one female on screen
+	menu or button: "Generate Random Pedigree"
+	otherwise, they draw and then can solve it
+
+- maybe do y-linked inheritance
