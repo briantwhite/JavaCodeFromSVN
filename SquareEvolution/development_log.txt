@@ -1,0 +1,1541 @@
+11/23/10
+setting up
+major pain - can't get jdom to work
+the only way is to have jdom.jar in the same directory as the SquareEvolution.jar
+
+11/24/10
+punt and use org.w3c.dom
+this ships with java
+
+11/26/10
+got genetic code, translation, & reverse translation working
+can run independently of SquareEvolution as tools on command line
+
+java -classpath SquareEvolution.jar RevTrans StandardCode.xml MSDFNKNP
+
+11/27/10
+got display working
+
+java -classpath SquareEvolution.jar DisplayStructure CDEFFKKHCIERMFMCYW URDRURDDDDLUULLDR AKGKEGDH RRDDDLD 1 4 -2
+gives:
+D-E K-K  
+| | | |  
+C F-F H  
+      |  
+C-M-F C  
+|   | |  
+Y-W M I a
+    | | |
+h-d R-E k
+  |     |
+  g-e-k-g
+(ligand in lower case)
+
+java -classpath SquareEvolution.jar DisplayStructure CDEFFKKHCIERMFMCYW URDRURDDDDLUULLDR
+gives:
+D-E K-K
+| | | |
+C F-F H
+      |
+C-M-F C
+|   | |
+Y-W M I
+    | |
+    R-E
+
+also set defaults to use StandardCode.xml for Trans & RevTrans
+so can do java -classpath SquareEvolution.jar Trans ATGCCCTTT
+
+
+12/3/10
+testing the mutator to be sure it runs OK
+run 10,000,000 mutations of AGCTAGCTAGCTAGCTAGCTAGCT (24-mer)
+with pointFreq = 0.0001
+java -classpath SquareEvolution.jar Mutator
+
+Mutator test:
+	10,000,000 runs; set mutation rate = 1.0E-4
+	measured rate (per base) = 1.0034167E-4
+	Mut	count
+	T->C	2044
+	C->A	1975
+	T->A	2059
+	G->T	2027
+	A->T	2015
+	A->C	2107
+	G->C	1987
+	C->G	1928
+	T->G	2004
+	G->A	1995
+	C->T	1957
+	A->G	1984
+Frequencies of multiple mutations
+	Num	count
+	0	9975939
+	1	24040
+	2	21
+	3	0
+	4	0
+	5	0
+	6	0
+	7	0
+	8	0
+	9	0
+
+CONCLUSION:
+	- freq is right
+	- per base looks about equal
+	- poission distribution?
+		0 mutants = (1 - 0.0001)^24 * 10^7 = 9,976,027 => OK
+		1 mutant = (1 - 0.0001)^23 * (0.0001) * 24 * 10^7 = 23,944 => OK
+		2 mutants = (1 - 0.0001)^22 * (0.0001)^2 * 276 * 10^7 = 28 => OK
+		
+	276? it's N choose K = N!/(k! * (n-k)!)
+		= 24!/(2! * 22!) = (24 * 23)/2 = 276
+
+so mutator is working AOK
+
+12/10/10
+added ability to set number of unbound states in dGbinding calc'n to config file
+
+12/19/10
+several additions
+- version # added to log file (this one is 1.0.0)
+- PrettyTrans that translates aligned with DNA for printing purposes
+- added best DNA and it's pretty trans to the big log entries
+- also logs elapsed time, proteins folded, and folding errors
+
+12/21/10
+a bug with the error log; now fixed
+
+12/22/10
+version 1.0.1
+better display of elapsed time
+
+12/27/10
+version 1.0.2
+elapsed time for each run
+have option to log all folded protein data into proteins.txt
+	if ProteinFoldingFileName is undefined, there's no log
+	
+1/7/11
+version 1.0.3
+fixed details to allow it to do self-binding (aka polymerization)
+	need to set ligand seq and conf to "*"
+	need to specify a preferred ligand rotamer
+		0 = unrotated => polymer
+
+1/11/11
+working on speed improvements
+added timing stuff to SquareEvolution (currently commented out)
+
+1/19/11
+working on new selection algorithm
+  make array of fitnesses to choose from
+  new class NaturalSelection
+
+tested with 100,000,000 picks
+	Fit = fitness of that "organism"
+	CumFit = cumulative fitness in array
+	Hits = number of times that one was picked
+			target = totalFitness * random.nextDouble();
+				(totalFitness = 10.714)
+	Ratio is ratio of hits[i]/(total hits) to fitness[i]/(total fitness)
+		it should = 1.0 if hits are proportional to fitness
+		
+result
+i	Fit		CumFit	Hits	ratio
+0	0.303	0.303	2827900	1.000
+1	0.834	1.136	7779254	1.000
+2	0.863	2.000	8058265	1.000
+3	0.190	2.190	1775882	1.000
+4	0.706	2.896	6594077	1.000
+5	0.068	2.965	638700	0.999
+6	0.629	3.594	5869368	1.000
+7	0.428	4.022	4000464	1.000
+8	0.295	4.317	2750285	1.000
+9	0.473	4.790	4416038	1.000
+10	0.759	5.549	7081983	1.000
+11	0.431	5.980	4025444	1.000
+12	0.348	6.328	3243693	0.999
+13	0.734	7.063	6850763	1.000
+14	0.644	7.707	6010667	1.000
+15	0.334	8.040	3115082	1.000
+16	0.473	8.513	4412091	1.000
+17	0.997	9.510	9304477	1.000
+18	0.219	9.729	2052377	1.002
+19	0.985	10.714	9193190	1.000
+Total counts = 100000000
+
+conclusion => this works great!
+
+set the whole thing up
+  nuked the gene pool
+try it with a recently-used test.xml
+version 2.0.0
+
+1/21/11
+it died
+
+Monster error! Sent 3 seqs to fold; got back 1
+Exception in thread "main" java.lang.NullPointerException
+	at SquareEvolution.calculateFitnesses(Unknown Source)
+	at SquareEvolution.run(Unknown Source)
+	at SquareEvolution.main(Unknown Source)
+	
+probably in/out buffer trouble
+
+the stream to CUDAFolder uses PrintStream set to autoflush
+(from oracle's site on PrintStream):
+A PrintStream adds functionality to another output stream, namely the ability to print 
+representations of various data values conveniently. Two other features are provided as 
+well. Unlike other output streams, a PrintStream never throws an IOException; instead, 
+exceptional situations merely set an internal flag that can be tested via the checkError 
+method. Optionally, a PrintStream can be created so as to flush automatically; this means 
+that the flush method is automatically invoked after a byte array is written, one of the 
+println methods is invoked, or a newline character or byte ('\n') is written.
+
+but I'm using out.print()
+
+try out.println()
+
+- no good. Now it dies:
+Exception in thread "main" java.lang.NullPointerException
+	at SquareEvolution.foldProteins(Unknown Source)
+	at SquareEvolution.run(Unknown Source)
+	at SquareEvolution.main(Unknown Source)
+
+work with client.java for simpler test
+
+maybe out.flush() will help?
+
+it works!
+runs fine as 2.0.0
+
+1/22/11
+changed the copy newWorld to world one org at a time to just
+  world = null
+  world = newWorld
+see if it runs faster
+version 2.0.1
+
+2/4/11
+set up to measure lowest nonzero fitness of a protein during a run
+- so I can set nonzero values for no-protein and no-structure
+version 2.0.2
+
+2/28/11
+set up fixed non-zero values for fitness of defective genes:
+see "Square Evolution Log 01.doc" page 38
+defined constants in SquareEvolution:
+	NO_PROTEIN_FITNESS = 1e-15  (used in SquareEvolution.java)
+	NO_STRUCTURE_FITNESS = 1e-14 (used in ProteinDatabaseEntry.java)
+version 2.0.3
+
+3/3/11
+tried A(90) - just AAAA in DNA (no protein or structure)
+it died:
+Exception in thread "main" java.lang.StringIndexOutOfBoundsException: String index out of 
+range: 1
+	at java.lang.String.substring(String.java:1946)
+	at DisplayStructure.getStructure(Unknown Source)
+	at SquareEvolution.run(Unknown Source)
+	at SquareEvolution.main(Unknown Source)
+
+fixed to return "No structure" if no protein or structure = None
+version 2.0.4
+
+3/20/11
+it had died
+[brian@CUDA CUDAFolder]$ more nohup.out 
+Exception in thread "main" java.lang.NumberFormatException: For input string: "inf"
+	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1242)
+	at java.lang.Double.parseDouble(Double.java:527)
+	at SquareEvolution.foldProteins(Unknown Source)
+	at SquareEvolution.run(Unknown Source)
+	at SquareEvolution.main(Unknown Source)
+probably, the partition sum was way too high
+some strange config & protein combo
+log it and make conformation = None
+added traps in SquareEvolution.java foldProteins
+version 2.0.5
+
+4/3/11
+died again
+Exception in thread "main" java.lang.NumberFormatException: For input string: "n
+an"
+	at sun.misc.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:12
+42)
+	at java.lang.Double.parseDouble(Double.java:527)
+	at SquareEvolution.foldProteins(Unknown Source)
+	at SquareEvolution.run(Unknown Source)
+	at SquareEvolution.main(Unknown Source)
+
+add code to trap this as well
+also to save to "badProteins.txt"
+	version 2.0.6
+
+4/12/11
+working on a pretty protein printer ProteinPicture
+can run as class
+
+5/10/11
+because changing the frequency of logging can strongly influence the runtime,
+moved the file IO for logging to a separate thread.
+version 2.0.7
+
+5/18/11
+no faster...
+also extra blank lines in logfiles
+
+- speed fixes:
+	- construct strings by "bla" + x, not the String.format
+		(http://java.sun.com/developer/technicalArticles/Programming/PerfTuning/)
+	- buffer the writing to the file
+		was
+					outputLog = new PrintWriter(
+					new FileWriter(config.getLogFileName()));
+		now
+					outputLog = new PrintWriter(new BufferedWriter(
+					new FileWriter(config.getLogFileName())));
+		add flush before close at end
+try again
+
+no faster
+
+also, in Configuration, the Mutator was made before the config file was being read!
+	- fixed
+
+working on speed...
+
+try having the files get written at the end of the run
+version 2.0.9
+
+it turns out that logging is not the issue...
+	see "Square Evolution Log 01.doc" pages 58-58
+leave in "write it all out at the end"
+version 2.0.10
+
+5/19/11
+revised as per page 58 of "Square Evolution Log 01.doc"
+no protein fitness = 1E-19
+no struct fitness = 1E-18
+version 2.0.11
+
+5/20/11
+try speeding it by farming out the mutator stuff to individual threads on the cpu
+use gnome-system-monitor to see what's up
+benchmark =
+<PopulationSize>1000</PopulationSize>
+<PointMutRate>0.0001</PointMutRate>
+<NumberOfRuns>10</NumberOfRuns>
+<NumGenerationsPerRun>10000</NumGenerationsPerRun>
+<MiniReportInterval>1000</MiniReportInterval>
+<BigReportInterval>9999</BigReportInterval>
+<FitnessReportInterval>100</FitnessReportInterval>
+
+when non-threaded, the 10 runs take about 60-90 secs each
+
+NUM_MUTATOR_THREADS = 10
+
+had threads share the arrays for old and new world
+this made it SLOWER!
+	2500 seconds for all 10!
+	
+try using a Future
+
+if you put 			
+		ExecutorService pool = Executors.newFixedThreadPool(NUM_MUTATOR_THREADS);
+in the innermost loop, the server goes into a coma "-bash: fork: Resource temporarily unavailable"
+move WAY out of loop and use shutdown()
+
+also, when in coma, do 
+	kill -9 -1
+
+cpu now runs 200-250% (it used to do 1/2 that)
+took 735 seconds - much faster!
+
+try others:
+	NumTHreads	Time (sec)
+	(original*)	761
+	1			1985
+	5			796
+	10			735
+	15			(dies because 1000 is not even multiple of 15)
+	20			871
+* original is the first 10 runs of SA from the 5/8/2011 run
+
+so, set it to 10
+
+try replacing the String DNA in GeneticCode.translate() with StringBuffer
+737 secs - no effect
+
+5/21/11
+punt and roll back to 2.0.11
+need to do some profiling
+
+set test.txt to do 1 run of above
+nohup java -Xrunhprof:cpu=samples,file=log.txt,depth=6 -jar SquareEvolution.jar test.xml &
+(this single run took 84 secs - not much longer than expected)
+
+top 9
+CPU SAMPLES BEGIN (total = 7472) Sat May 21 12:42:41 2011
+rank   self  accum   count trace method
+   1 38.02% 38.02%    2841 300325 SE.Mutator.mutate
+   2 14.56% 52.58%    1088 300326 SE.GeneticCode.translate
+   3  5.81% 58.39%     434 300342 SE.GeneticCode.translate
+   4  5.10% 63.49%     381 300347 SE.GeneticCode.translate
+   5  3.88% 67.37%     290 300333 java.net.SocketInputStream.socketRead0
+   6  3.51% 70.88%     262 300322 java.util.HashMap.get
+   7  3.47% 74.34%     259 300340 java.util.HashMap.getEntry
+   8  2.90% 77.25%     217 300349 SE.GeneticCode.translate
+   9  2.60% 79.84%     194 300348 SE.GeneticCode.translate
+
+TRACE 300325:
+	SE.Mutator.mutate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 300326:
+	SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 300342:
+	SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 300347:
+	SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 300333:
+	java.net.SocketInputStream.socketRead0(SocketInputStream.java:Unknown line)
+	java.net.SocketInputStream.read(SocketInputStream.java:146)
+	sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:282)
+	sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:324)
+	sun.nio.cs.StreamDecoder.read(StreamDecoder.java:176)
+	java.io.InputStreamReader.read(InputStreamReader.java:184)
+TRACE 300322:
+	java.util.HashMap.get(HashMap.java:317)
+	SE.ProteinDatabase.getEntry(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.calculateFitnesses(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 300340:
+	java.util.HashMap.getEntry(HashMap.java:364)
+	java.util.HashMap.containsKey(HashMap.java:352)
+	java.util.HashSet.contains(HashSet.java:201)
+	SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 300349:
+	SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+	
+they're mostly Mutator.mutate() and GeneticCode.translate()
+- so why didn't threading Mutator help?
+	maybe the overhead of building the threded mutators for each run
+		maybe try not making them each time
+			just feed them data and start them
+			
+try with cpu=times 
+this should run slower, but show TIME SPENT not CPU USAGE(?)
+
+from: java.sun.com/developer/technicalArticles/Programming/HPROF.html
+
+cpu=sites:
+The HPROF agent periodically samples the stack of all running 
+threads to record the most frequently active stack traces. 
+The count field above indicates how many times a particular 
+stack trace was found to be active (not how many times a method 
+was called). These stack traces correspond to the CPU usage hot 
+spots in the application. 
+
+cpu=times:
+HPROF can collect CPU usage information by injecting code into 
+every method entry and exit, keeping track of exact method call 
+counts and the time spent in each method. Here the count represents 
+the true count of the times this method was entered, and the 
+percentages represent a measure of thread time spent in those method.
+
+conclusion: times may be more accurate, but slower.
+try it
+nohup java -Xrunhprof:cpu=times,file=log.txt,depth=6 -jar SquareEvolution.jar test.xml &
+
+it took 22 hours!
+
+results:
+CPU TIME (ms) BEGIN (total = 82262009) Sun May 22 15:05:40 2011
+rank   self  accum   count trace method
+   1 18.29% 18.29% 1800000000 309966 java.util.Random.next
+   2  9.33% 27.62% 900000000 309967 java.util.Random.nextDouble
+   3  9.14% 36.75% 651727913 309777 java.util.HashMap.getEntry
+   4  8.81% 45.56% 10000000 309784 SE.GeneticCode.translate
+   5  6.92% 52.48% 10000000 309975 SE.Mutator.mutate
+   6  5.05% 57.53% 1800000000 309965 java.util.concurrent.atomic.AtomicLong.compareAndSet
+   7  5.02% 62.55% 1800000000 309964 java.util.concurrent.atomic.AtomicLong.get
+   8  4.79% 67.34% 721191002 309773 java.lang.String.substring
+   9  4.36% 71.70% 651727913 309779 java.util.HashSet.contains
+  10  4.21% 75.91% 651727913 309778 java.util.HashMap.containsKey
+
+TRACE 309966:
+	java.util.Random.next(Random.java:Unknown line)
+	java.util.Random.nextDouble(Random.java:Unknown line)
+	SE.Mutator.mutate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 309967:
+	java.util.Random.nextDouble(Random.java:Unknown line)
+	SE.Mutator.mutate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 309777:
+	java.util.HashMap.getEntry(HashMap.java:Unknown line)
+	java.util.HashMap.containsKey(HashMap.java:Unknown line)
+	java.util.HashSet.contains(HashSet.java:Unknown line)
+	SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 309784:
+	SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 309975:
+	SE.Mutator.mutate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 309965:
+	java.util.concurrent.atomic.AtomicLong.compareAndSet(AtomicLong.java:Unknown line)
+	java.util.Random.next(Random.java:Unknown line)
+	java.util.Random.nextDouble(Random.java:Unknown line)
+	SE.Mutator.mutate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 309964:
+	java.util.concurrent.atomic.AtomicLong.get(AtomicLong.java:Unknown line)
+	java.util.Random.next(Random.java:Unknown line)
+	java.util.Random.nextDouble(Random.java:Unknown line)
+	SE.Mutator.mutate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 309773:
+	java.lang.String.substring(String.java:Unknown line)
+	SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 309779:
+	java.util.HashSet.contains(HashSet.java:Unknown line)
+	SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+TRACE 309778:
+	java.util.HashMap.containsKey(HashMap.java:Unknown line)
+	java.util.HashSet.contains(HashSet.java:Unknown line)
+	SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.run(<Unknown Source>:Unknown line)
+	SE.SquareEvolution.main(<Unknown Source>:Unknown line)
+
+most are in Mutate and Translate
+	Mutate - it's the random number generation
+	Translate - look up in the hashes
+
+therefore need to recode these
+
+Mutate:
+Current algorithm pseudocode (for each generation)
+for each (DNA sequence) {
+	for each (base in a sequence) {
+		if random.nextFloat < 1E-4 {
+			mutate that base to random choice of other 3 alternatives
+		}
+	}
+}
+
+so, this takes about 100,000 times through the inner loop
+most of which are a waste of time since there are only about 10 mutations (on average)
+- that was the realization that led to the new algorithm:
+
+New Algorithm pseudocode
+{on startup}
+calculate poisson distribution for 100,000 x 1E-4
+
+actually, it's the binomial distribution
+calculate it out until the probablilty of N mutations gets low
+how low?
+so that in #runs x #generations, you'd expect < 0.01 mutations
+that is, if 1000 runs of 10000 generations = 1e8
+so stop when probability < 1e-10
+(since probability increases then falls, don't start looking for minimum
+until you've hit the peak when expected = (pop size) * (mut rate)
+
+{for each generation}
+consider the DNA sequences as a char[][] with
+	char[sequence # (0-999)][base within sequence (0-99)
+
+choose a random value for the number of mutations from the poisson distribution
+	based on their probability  (I know how to do this)
+
+for (number of mutations) {
+	mutate base at [random sequence number][random base within that sequence]
+	= mutate base at [randomInt(1000)][randomInt(100)]
+}
+
+this should be WAY faster, but will it give the same behavior as the original algorithm?
+What do I mean by "the same behavior"? I mean:
+	same 'mutational spectrum':
+		- # of A->T, G->C, etc mutations
+		- # of single, double, and triple mutations in an individual sequence
+		- distribution of mutations along the length of the sequence
+
+Translate:
+use indexed arrays of amino acids and start codons
+Char[] aminoAcids[int - codon index]
+boolean[] isStartCodon[int - codon index]
+read these in from file and translate by looking these up
+
+need getCodonIndex(String codon)
+first, getBytes(codon)
+then make into index using ascii values:
+
+char	hex		bin
+A		41		0100 0001
+C		43		0100 0011
+G		47		0100 0111
+T		54		0101 0100
+	                  **
+
+the * bits are different for each
+A 00
+C 01
+G 11
+T 10
+
+codon index  = (bytes[0] && 0000 0110) shift 1 ->
+			 + (bytes[1] && 0000 0110) shift 1 <-
+			 + (bytes[2] && 0000 0110) shift 3 <-
+
+this should be much faster!
+
+5/24/11
+set up to redo Translation
+first, benchmark original algorithm
+(do on laptop 2.13GHz Intel Core 2 Duo; 2GB 1067MHz DDR3 ram; OS 10.6.7)
+
+translating: a 100-mer
+AAAATGCCCCCTTACGGGGGAGCTAACAGACTACTACTACTACTACTACTACTATGGTGGTGGTGGTACAACAAAAGAAATTGGTGGTGGTGGTAATTTT
+    M  P  P  Y  G  G  A  N  R  L  L  L  L  L  L  L  L  W  W  W  W  Y  N  K  R  N  W  W  W  W
+ # times	ms total
+ 100,000	371
+ 200,000	646
+ 400,000	1197
+ 1,000,000	2863
+ 10,000,000	31505
+ 
+made codonToIndex and checked with all 64 codons - ok
+
+ran benchmarks
+Translating a 100-mer 100,000 times: It took 878 mSec - MUCH SLOWER!
+why?
+
+try using a StringBuffer instead of a String for the DNA sequence in translate()
+worse: 1131ms for 100,000
+
+CPU TIME (ms) BEGIN (total = 19887) Tue May 24 19:54:28 2011
+rank   self  accum   count trace method
+   1 12.80% 12.80%   35066 308252 sun.nio.cs.SingleByteEncoder.encodeArrayLoop
+   2  7.75% 20.56%   35066 308260 java.lang.StringCoding$StringEncoder.encode
+   3  2.93% 23.49%   35066 308254 java.nio.charset.CharsetEncoder.encode
+   
+TRACE 308252:
+        sun.nio.cs.SingleByteEncoder.encodeArrayLoop(SingleByteEncoder.java:Unknown line)
+        sun.nio.cs.SingleByteEncoder.encodeLoop(SingleByteEncoder.java:Unknown line)
+        java.nio.charset.CharsetEncoder.encode(CharsetEncoder.java:Unknown line)
+        java.lang.StringCoding$StringEncoder.encode(StringCoding.java:Unknown line)
+TRACE 308260:
+        java.lang.StringCoding$StringEncoder.encode(StringCoding.java:Unknown line)
+        java.lang.StringCoding.encode(StringCoding.java:Unknown line)
+        java.lang.StringCoding.encode(StringCoding.java:Unknown line)
+        java.lang.String.getBytes(String.java:Unknown line)
+TRACE 308254:
+        java.nio.charset.CharsetEncoder.encode(CharsetEncoder.java:Unknown line)
+        java.lang.StringCoding$StringEncoder.encode(StringCoding.java:Unknown line)
+        java.lang.StringCoding.encode(StringCoding.java:Unknown line)
+        java.lang.StringCoding.encode(StringCoding.java:Unknown line)
+   
+where are these?
+probably the String.getBytes
+so do it all at start of translate()
+
+ # times	ms total
+ 100,000	325
+ 200,000	495
+ 400,000	808
+ 1,000,000	1797
+ 10,000,000	19630
+ 
+ a little faster
+
+try making the stop codons a boolean array 
+	so you don't have to compare the string with "STOP"
+10,000,000 times took 17,718 ms (a little faster, but not much)
+
+cpu=times is pretty flat
+CPU TIME (ms) BEGIN (total = 1839) Tue May 24 20:40:34 2011
+rank   self  accum   count trace method
+   1  3.86%  3.86%     394 304755 java.math.BigInteger.montReduce
+   2  2.94%  6.80%     166 308253 sun.nio.cs.SingleByteEncoder.encodeArrayLoop
+   3  2.83%  9.62%     316 304751 java.math.BigInteger.squareToLen
+   4  1.90% 11.53%   12608 304752 java.math.BigInteger.mulAdd
+   5  1.85% 13.38%   10266 308251 java.lang.String.charAt
+these may be the startup stuff...
+have to use very few runs b/c it's so slow..
+
+use cpu=samples with 10,000,000 runs
+CPU SAMPLES BEGIN (total = 1746) Tue May 24 20:44:24 2011
+rank   self  accum   count trace method
+   1 48.57% 48.57%     848 300322 java.lang.String.<init>
+   2 46.33% 94.90%     809 300321 sun.nio.cs.SingleByteEncoder.encodeArrayLoop
+   3  0.57% 95.48%      10 300340 java.util.Arrays.copyOf
+TRACE 300322:
+        java.lang.String.<init>(String.java:215)
+        java.lang.StringBuffer.toString(StringBuffer.java:585)
+        SE.GeneticCode.translate(<Unknown Source>:Unknown line)
+        SE.GeneticCode.main(<Unknown Source>:Unknown line)
+TRACE 300321:
+        sun.nio.cs.SingleByteEncoder.encodeArrayLoop(SingleByteEncoder.java:91)
+        sun.nio.cs.SingleByteEncoder.encodeLoop(SingleByteEncoder.java:130)
+        java.nio.charset.CharsetEncoder.encode(CharsetEncoder.java:544)
+        java.lang.StringCoding$StringEncoder.encode(StringCoding.java:240)
+TRACE 300340:
+        java.util.Arrays.copyOf(Arrays.java:2882)
+        java.lang.AbstractStringBuilder.expandCapacity(AbstractStringBuilder.java:100)
+        java.lang.AbstractStringBuilder.append(AbstractStringBuilder.java:390)
+        java.lang.StringBuffer.append(StringBuffer.java:224)
+
+looks like it's the string buffer building and string to byte[]
+* probably no way to speed them
+
+so, went from 31505 to 17718 (1.8x faster)
+(but, remember there's some variation in the numbers...)
+- so, a little improvement
+(but there's variation - the 17718 varies to as high as 19769)
+so only a slight improvement
+
+5/27/11
+try out new translate on CUDA
+10,000,000 runs took 17126 17110 17086 mS
+	so, more consistent and about the same as on the mac
+- roughly, assuming a similar scale factor, it probably took about 32 secs for the old
+	translator to do 1e7 sequences. Since 1e7 is as many as a standard run 
+	(10000 gens x 1000 individuals), this makes sense - translating took about 1/2 the 
+	time of a run.
+
+benchmark with test.txt as above (10 runs x 10,000 gens x 1000 individuals; 1e-4 mut rate)
+587 secs - (shorter than 761!) so, faster
+good - but not much faster.
+
+now for mutation
+first benchmark on the mac
+
+Mutating 10,000,000 100-mers
+Mutating 10,000,000 100-mers took 72754 mSec
+Mutator test:
+	10,000,000 runs; set mutation rate = 1.0E-4
+	measured rate (per base) = 1.00335E-4
+	Mut	count
+	C->A	8214
+	T->C	8350
+	T->A	8356
+	A->C	8472
+	A->T	8365
+	G->T	8331
+	G->C	8316
+	C->G	8239
+	C->T	8394
+	T->G	8448
+	A->G	8297
+	G->A	8553
+Frequencies of multiple mutations
+	Num	count
+	0	9900161
+	1	99345
+	2	492
+	3	2
+	4	0
+	5	0
+	6	0
+	7	0
+	8	0
+	9	0
+
+Mutation freqs for each site
+	Site	count
+	0	999
+	1	975
+	2	994
+	3	974
+	4	996
+	5	1030
+	6	992
+	7	952
+	8	978
+	9	1029
+	10	1018
+	11	1050
+	12	1021
+	13	1020
+	14	996
+	15	999
+	16	1008
+	17	1003
+	18	1004
+	19	962
+	20	998
+	21	1000
+	22	955
+	23	998
+	24	1021
+	25	1031
+	26	993
+	27	997
+	28	990
+	29	998
+	30	991
+	31	1027
+	32	953
+	33	1001
+	34	960
+	35	1018
+	36	1000
+	37	1019
+	38	960
+	39	1000
+	40	1012
+	41	1037
+	42	996
+	43	1010
+	44	1036
+	45	1061
+	46	967
+	47	1005
+	48	1042
+	49	1002
+	50	997
+	51	1031
+	52	1017
+	53	981
+	54	1005
+	55	1000
+	56	1004
+	57	1006
+	58	998
+	59	1032
+	60	984
+	61	1007
+	62	986
+	63	1034
+	64	1030
+	65	1030
+	66	986
+	67	1003
+	68	1052
+	69	1050
+	70	996
+	71	1021
+	72	1021
+	73	966
+	74	1024
+	75	1011
+	76	960
+	77	953
+	78	1002
+	79	1013
+	80	982
+	81	952
+	82	1012
+	83	972
+	84	990
+	85	1025
+	86	1034
+	87	1031
+	88	1022
+	89	951
+	90	978
+	91	1012
+	92	1000
+	93	1047
+	94	974
+	95	1020
+	96	1018
+	97	1026
+	98	1029
+	99	982
+
+Conclusions:
+	- equal freq of diff types
+	- proper distrib of multiple muts?
+	- poission distribution?
+		it's N choose K = N!/(K! * (N-K)!) 
+			N = 100; K = 0, 1, 2, 3, etc
+		0 mutants = (1 - 0.0001)^100 * 10^7 = 9900493 => OK
+		1 mutant = (1 - 0.0001)^99 * (0.0001) * 100 * 10^7 = 99014 => OK
+		2 mutants = (1 - 0.0001)^98 * (0.0001)^2 * 4950 * 10^7 = 490 => OK
+		3 mutants = (1 - 0.0001)^97 * (0.0001)^3 * 161700 * 10^7 = 1.6 => OK
+	- equal freq by site	
+ 
+ on cuda.wpi.edu
+ Mutating 10,000,000 100-mers took 40029 mSec
+Mutator test:
+	10,000,000 runs; set mutation rate = 1.0E-4
+	measured rate (per base) = 9.9718E-5
+	Mut	count
+	T->C	8288
+	C->A	8349
+	T->A	8354
+	A->T	8226
+	A->C	8394
+	G->T	8262
+	G->C	8323
+	C->G	8312
+	G->A	8382
+	A->G	8273
+	C->T	8304
+	T->G	8251
+Frequencies of multiple mutations
+	Num	count
+	0	9900783
+	1	98718
+	2	497
+	3	2
+	4	0
+	5	0
+	6	0
+	7	0
+	8	0
+	9	0
+
+Mutation freqs for each site
+	Site	count
+	0	984
+	1	1033
+	2	977
+	3	991
+	4	922
+	5	994
+	6	1025
+	7	981
+	8	1040
+	9	1066
+	10	1022
+	11	992
+	12	966
+	13	975
+	14	986
+	15	1036
+	16	999
+	17	1053
+	18	993
+	19	998
+	20	1010
+	21	1036
+	22	986
+	23	1008
+	24	1008
+	25	1037
+	26	957
+	27	951
+	28	970
+	29	922
+	30	972
+	31	1008
+	32	1017
+	33	1034
+	34	997
+	35	1014
+	36	1010
+	37	1007
+	38	1016
+	39	955
+	40	1018
+	41	997
+	42	959
+	43	1009
+	44	959
+	45	1028
+	46	1030
+	47	952
+	48	951
+	49	970
+	50	969
+	51	945
+	52	1013
+	53	963
+	54	990
+	55	969
+	56	1019
+	57	953
+	58	1045
+	59	995
+	60	986
+	61	1010
+	62	1008
+	63	974
+	64	1026
+	65	991
+	66	955
+	67	995
+	68	966
+	69	988
+	70	975
+	71	1039
+	72	992
+	73	1023
+	74	994
+	75	1015
+	76	992
+	77	987
+	78	1018
+	79	989
+	80	1000
+	81	1025
+	82	988
+	83	1025
+	84	999
+	85	973
+	86	1055
+	87	1068
+	88	1018
+	89	959
+	90	1032
+	91	1002
+	92	1023
+	93	991
+	94	1036
+	95	978
+	96	1005
+	97	952
+	98	980
+	99	1004
+ 
+ - faster: 40 instead of 72 secs
+ - same distribs; so OK
+ 
+ now try recoding as above using binomial distrib
+ this will be hard to do directly; see document "Square Evolution Log 02.doc" first few pages
+ 
+5/28/11
+ added StatUtils from http://home.online.no/~pjacklam/notes/invnorm/impl/karimov/StatUtil.java
+ this provides inverse cumulative normal distribution
+ - tested, OK on making normal distrib of values
+ 
+ actually, need inverse cumulative distribution function of Binomial distrib
+ got it from numerics4j
+ http://doodleproject.sourceforge.net/numerics/numerics4j/index.html
+ got numerics4j-1.3.jar
+ put in working directory
+ added <zipfileset src="numerics4j-1.3.jar"/> inside the jar part of build.xml
+ added it as a jar file to the build path
+ tested distribution - AOK
+ 
+5/31/11
+working on GeneticCode - add a cache of translated sequences to make it faster
+
+try running standard run with test.txt (on 5/27/11, it took 587 secs)
+here, it took: 562 seconds (not much faster)
+try clearing the cache of translated proteins at each run
+it took: 592 seconds
+so, put it back the way it was - get a new cache at start of set of runs
+	(when you load the command.xml file)
+
+6/1/11
+now do mutation with the binomial distribution
+ran test on mac laptop
+Mutating 10,000,000 100-mers in sets of 1000 (method 2)
+Mutating 10,000,000 100-mers took 498 mSec
+Mutator test:
+	10,000,000 runs; set mutation rate = 0.0
+	measured rate (per base) = 8.9964E-5
+	Mut	count
+	T->C	7463
+	C->A	7539
+	T->A	7438
+	G->T	7562
+	A->T	7413
+	A->C	7384
+	G->C	7535
+	G->A	7468
+	C->G	7514
+	A->G	7537
+	C->T	7510
+	T->G	7601
+Frequencies of multiple mutations
+	Num	count
+	0	9910487
+	1	89064
+	2	447
+	3	2
+	4	0
+	5	0
+	6	0
+	7	0
+	8	0
+	9	0
+
+Mutation freqs for each site
+	Site	count
+	0	901
+	1	874
+	2	845
+	3	901
+	4	881
+	5	915
+	6	930
+	7	902
+	8	912
+	9	939
+	10	929
+	11	891
+	12	850
+	13	837
+	14	899
+	15	923
+	16	885
+	17	853
+	18	918
+	19	888
+	20	908
+	21	957
+	22	843
+	23	952
+	24	859
+	25	931
+	26	922
+	27	850
+	28	922
+	29	927
+	30	890
+	31	927
+	32	921
+	33	933
+	34	931
+	35	935
+	36	889
+	37	892
+	38	881
+	39	892
+	40	926
+	41	925
+	42	866
+	43	921
+	44	852
+	45	932
+	46	940
+	47	895
+	48	940
+	49	905
+	50	933
+	51	875
+	52	898
+	53	879
+	54	917
+	55	927
+	56	924
+	57	943
+	58	926
+	59	903
+	60	903
+	61	901
+	62	879
+	63	883
+	64	876
+	65	854
+	66	898
+	67	872
+	68	899
+	69	904
+	70	922
+	71	948
+	72	899
+	73	934
+	74	972
+	75	891
+	76	852
+	77	946
+	78	911
+	79	943
+	80	899
+	81	909
+	82	889
+	83	862
+	84	892
+	85	870
+	86	839
+	87	887
+	88	856
+	89	834
+	90	900
+	91	867
+	92	882
+	93	898
+	94	875
+	95	859
+	96	908
+	97	873
+	98	908
+	99	908
+
+Conclusions:
+1) WAY FASTER!
+	498 vs 72754 ms (150x faster!)
+2) but overall rate is a little lower:
+	several runs gave 8.9916E-5, 8.9964E-5, 8.9477E-5)
+	(runs with one-by-one: 1.00335E-4, 9.9718E-5, 1.00413E-4)
+3) mutant by type (A->T, etc) no trend by type => OK
+4) multiple mutations => OK
+5) by site; no trend => OK
+
+Overall - way faster and OK distributions
+but a little low frequency
+average is: 8.9786E-5
+(avg with one-by-one 1.00155E-4)
+try increasing mut rate by ratio (1.115) to 0.000115
+gives 1.05116E-4 - a little high
+try making mut rate 0.000105 => 9.4879E-5
+try 0.00011 => 9.9996E-5
+use 0.00011
+
+built into SquareEvolution 2.1.0
+
+try as above with 10 runs:
+	- before optimization: 761 secs (5/20/11)
+	- with translate() optimizations: 587 (5/27/11)
+	- now with mutate() optimization: 152 seconds!
+it is now 5x faster!
+that was worth it!
+
+tried a long run - a standard 1000 runs x 10000 generations x 1000 individuals
+it took more than 24 hrs and never finsihed (also, wasn't running CUDAFolder
+at the end - an infinite loop?)
+
+try taking out the translatedSequenceCache
+
+do a test with 10 runs (like the one that took 152 secs optimized)
+*NOTE: using top, CUDAFolder runs the whole time - in prev runs it would run
+	on and off. Therefore, this is pretty close to optimal.
+took 218 seconds (not too bad) 3.5x faster
+
+try translate with cache but clearing cache every run
+159 secs - not bad
+repeat for variation measurement: 146 secs
+
+version 2.1.1
+try long run (1000 runs x 10000 generations x 1000 individuals)
+it took 16,063 seconds (4.5hrs)
+	when this same file was used on 3/22/11, it took 82,099 seconds (22.8 hrs)
+	this is a 5.1x speed boost!
+
+6/11/11
+added calculation of Shannon Diversity (H) to fitness report
+"species" = different DNA sequences
+also for protein
+version 2.1.2
+
+6/30/11
+MAJOR BUG since translatedSequenceCache added (since 5/31/11)
+it was restarting translation at any other internal ATG and appending the protein sequence
+fixed it in GeneticCode translateWithCache
+
+test cases:
+1) No ATG
+- should give no protein
+ java -classpath SquareEvolution.jar SE.PrettyTrans AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+(no result)
+
+2) ATG and stop
+- should give protein
+ java -classpath SquareEvolution.jar SE.PrettyTrans AAAAAAAAAAAAAATGTTGACTGCATTACGATGAAAAAAAA
+AAAAAAAAAAAAAATGTTGACTGCATTACGATGAAAAAAAA
+              M  L  T  A  L  R  
+
+3) ATG no stop
+- should read to end
+ java -classpath SquareEvolution.jar SE.PrettyTrans AAAAAAAAAAAAAATGTTGACTGCATTACGAAAAAAAA
+AAAAAAAAAAAAAATGTTGACTGCATTACGAAAAAAAA
+              M  L  T  A  L  R  K  K  
+
+4) ATG stop and an internal ATG
+- should give first protein only
+ java -classpath SquareEvolution.jar SE.PrettyTrans AAAAAAAAAAAAAATGTTGAATGCATTACGAAAAAAAA
+AAAAAAAAAAAAAATGTTGAATGCATTACGAAAAAAAA
+              M  L  N  A  L  R  K  K  
+
+5) ATG stop and another trailing ORF
+- should give first protein only
+ java -classpath SquareEvolution.jar SE.PrettyTrans AAAAAAAAAAAAAATGTTGACTGCATTACGATGAAAAAAAAATGCCCTGTTAAGG
+AAAAAAAAAAAAAATGTTGACTGCATTACGATGAAAAAAAAATGCCCTGTTAAGG
+              M  L  T  A  L  R  
+
+6) internal ATG out of frame
+- should not re-start
+ java -classpath SquareEvolution.jar SE.PrettyTrans AAAAATGCCCGTATGGTTGAGGGGTAACTAAGGGG
+AAAAATGCCCGTATGGTTGAGGGGTAACTAAGGGG
+     M  P  V  W  L  R  G  N  
+
+7) internal ATG in frame
+- should not re-start
+ java -classpath SquareEvolution.jar SE.PrettyTrans AAAAATGCCCGTTATGGTTGAGGGGTAACTAAGGGG
+AAAAATGCCCGTTATGGTTGAGGGGTAACTAAGGGG
+     M  P  V  M  V  E  G  
+
+seems OK now
+
+version 2.1.3
+
+7/13/11
+started adding stuff to do 'neutrality' 
+see "Square Evolution Log 02.docx" pages 14, 17, 25, 26
+new parameter = Neutrality (between 0 and 1)
+fixed in ProteinDatabaseEntry
+version 2.2.0
+
+7/14/11
+goofed up formula 
+forgot to adjust fitness if structure=none
+also need to fix in SquareEvolution (the default enrty for no protein)
+fixed
+version 2.2.1
+
+7/31/11
+added ability to start with random n-mers of DNA instead of defined DNA seq
+made RandomDNASequenceGenerator
+tests with 10,000 100-mers
+result:
+java -classpath SquareEvolution.jar SE.RandomDNASequenceGenerator
+Base	A	G	C	T
+0	2416	2561	2488	2535
+1	2481	2519	2491	2509
+2	2578	2460	2462	2500
+3	2528	2469	2478	2525
+4	2560	2438	2511	2491
+5	2418	2576	2526	2480
+6	2550	2510	2463	2477
+7	2510	2488	2499	2503
+8	2482	2504	2504	2510
+9	2522	2474	2504	2500
+10	2556	2478	2428	2538
+11	2572	2482	2448	2498
+12	2416	2608	2453	2523
+13	2588	2364	2591	2457
+14	2454	2535	2554	2457
+15	2500	2429	2563	2508
+16	2525	2454	2557	2464
+17	2531	2490	2441	2538
+18	2499	2462	2514	2525
+19	2509	2504	2537	2450
+20	2461	2511	2528	2500
+21	2490	2537	2450	2523
+22	2469	2493	2560	2478
+23	2481	2455	2529	2535
+24	2541	2530	2447	2482
+25	2448	2554	2490	2508
+26	2484	2527	2496	2493
+27	2500	2549	2490	2461
+28	2563	2511	2530	2396
+29	2518	2511	2485	2486
+30	2556	2469	2511	2464
+31	2486	2459	2523	2532
+32	2462	2447	2514	2577
+33	2443	2544	2541	2472
+34	2423	2541	2499	2537
+35	2522	2435	2519	2524
+36	2533	2484	2418	2565
+37	2508	2479	2485	2528
+38	2558	2513	2507	2422
+39	2527	2518	2486	2469
+40	2427	2510	2563	2500
+41	2499	2503	2463	2535
+42	2515	2512	2454	2519
+43	2549	2339	2573	2539
+44	2498	2455	2538	2509
+45	2445	2497	2559	2499
+46	2556	2481	2533	2430
+47	2518	2454	2493	2535
+48	2469	2536	2484	2511
+49	2467	2404	2581	2548
+50	2559	2414	2504	2523
+51	2542	2508	2485	2465
+52	2458	2515	2445	2582
+53	2521	2482	2500	2497
+54	2513	2482	2487	2518
+55	2457	2498	2483	2562
+56	2500	2476	2545	2479
+57	2550	2481	2489	2480
+58	2498	2500	2548	2454
+59	2548	2510	2460	2482
+60	2593	2429	2529	2449
+61	2437	2494	2568	2501
+62	2445	2527	2459	2569
+63	2585	2482	2496	2437
+64	2470	2536	2506	2488
+65	2473	2459	2537	2531
+66	2500	2538	2481	2481
+67	2533	2489	2470	2508
+68	2505	2517	2474	2504
+69	2455	2535	2488	2522
+70	2489	2522	2510	2479
+71	2478	2491	2540	2491
+72	2540	2483	2507	2470
+73	2590	2469	2472	2469
+74	2468	2540	2516	2476
+75	2486	2510	2528	2476
+76	2473	2459	2528	2540
+77	2493	2471	2496	2540
+78	2567	2539	2497	2397
+79	2579	2537	2427	2457
+80	2514	2513	2459	2514
+81	2519	2569	2471	2441
+82	2518	2483	2465	2534
+83	2433	2536	2521	2510
+84	2486	2557	2462	2495
+85	2504	2480	2549	2467
+86	2518	2448	2516	2518
+87	2413	2491	2611	2485
+88	2500	2522	2509	2469
+89	2395	2493	2547	2565
+90	2463	2522	2491	2524
+91	2459	2554	2540	2447
+92	2517	2458	2560	2465
+93	2473	2481	2498	2548
+94	2497	2523	2439	2541
+95	2506	2576	2417	2501
+96	2531	2481	2469	2519
+97	2585	2454	2472	2489
+98	2507	2519	2528	2446
+99	2463	2459	2540	2538
+- looks AOK
+
+if you set StartingDNA to a number, then it makes n-mers
+version 2.3.0
+
+8/1/11
+made new version to have random non-coding N-mer
+(tosses out any that encode a protein)
+generic version takes 118ms for 10,000 N-mers on laptop
+this takes 1634ms to make 10,000 non-coding N-mers
+so it is probably working
+
+version 2.3.1
+
+12/20/11
+make more informative error messages when reading in a genetic code
+- bad xml file
+- not enough codons
+- duplicate codons
+- no start codons
+- non-3-letter codons
+- only AGCT used
+ verstion 2.3.2
+tested all cases - OK
+
+added java -jar SquareEvolution.jar -v option that prints functions you can run
+
+12/30/11
+(see Square Evolution Log 03 p13 for details)
+added param: MinAcceptableProteinSequenceLength
+	= -1 => no restriction (really 5 or more since that's in CUDAFolder)
+version 2.3.2
+
+1/19/12
+add to GeneticCode that it tests to be sure there's at least one codon per amino acid
+and that only legal amino acid abbreviations are used
+version 2.3.3
+
+3/16/12
+working on adding MS(0) & var(0) calculations to TestCode
+
+3/19/12
+added number of missense mutations calculation in TestCode
+
+3/24/12
+added option to output a dump of each generation
+	all organisms DNA, protein, and fitness
+to files in the Generations/ directory
+<OutputWorldEachGeneration> 
+	1 => do it
+	anything else (default) NO
+
+6/1/12
+added option to just fill next generation with popSize of the single fittest org
+	from prev generation (then mutate)
+this is for test purposes
+<PickSingleBestOrganism>
+	1 => pick single best
+	anything else (default) pick in proportion to fitness (regular way)
+version 2.3.8
+
+8/29/12
+tried a run with mut rate = 10 e-2
+it died after a day or so 
+more CUDAFolder/nohup.out 
+Processing L13_p.xml as L13_p
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at SE.SquareEvolution.run(SquareEvolution.java:297)
+	at SE.SquareEvolution.main(SquareEvolution.java:67)
+	
+line 297 is
+	Organism[] selectedOrganisms = new Organism[popSize];
+this is unproblematic usually; probably it's the folded protein cache (?)
+
+reset folded protein cache (and add entry for no protein) at each run
+version 2.3.9
+
+9/14/12
+bug:
+sometimes get NaN for average fitness (especially with dimers)
+see Square Evolution Log 06 pages 10+
+version 2.3.10
+
+10/2/12
+UGH
+the fix broke something - now all proteins are "Bad"
+see Square Evolution Log 06 page 21
+	only log a "z < 0 bad protein" if it has a structure
+version 2.3.11
+
+10/10/12
+UGH
+the No protein fitness thingy is broken...
+see Square Evolution Log 06 page 24
+version 2.3.12
+
+also added in multi.pl
+	made it move used xml files to completed_xml
+	that way, can restart run without re-running completed files
+
+10/11/12
+fixed the NO_PROTEIN etc fitness thing
+see Square Evolution Log 06 page 25
+version 2.3.13
+
+10/20/12
+added <BadProteinFileName> config tag 
+version 2.3.14
+
+11/16/12
+need to protect against bad submitted StartingDNA
+	- check for any non ACGT chars 
+		- warn in log
+		- warn in stdout (with filename)
+		- change all non-AGCT to blanks
+	- check for length == 100
+		- warn in log
+		- warn to stdout (with filename)
+		- abort
+
+11/27/12
+need a way to do "nearest neighbor anlaysis" - find the fitness of all one-bp mutations from a given seq
+make a parameter <DNAforNNAFileName>
+
+11/29/12 making random protein generator
+SE.RandomProteinFitness <length> <number> <config file>
+version 2.4.0

@@ -1,0 +1,23 @@
+<project name="SquareEvolution" default="jarfile">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/SquareEvolution.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="SE.SquareEvolution"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    	<zipfileset src="numerics4j-1.3.jar"/>
+	    </jar>
+        <move file="bin/SquareEvolution.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run SE">
+		<java jar="SquareEvolution.jar" fork="true"/>
+	</target>
+
+
+</project>
