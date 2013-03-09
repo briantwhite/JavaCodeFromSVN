@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
-
-import edu.umb.jsVGL.client.VGL.EdXServerStrings;
 /**
  * Brian White Summer 2008
  * 
@@ -39,11 +37,9 @@ public class WorkFileProcessor {
 	private GeneticModel geneticModel;
 	private ArrayList<Cage> cages;
 	private Element modelBuilderState;
-	private EdXServerStrings edXServerStrings;
 
 	public WorkFileProcessor(NodeList elements) {
 		problemFileName = "";
-		edXServerStrings = null; // not always present
 		for (int i = 0; i < elements.getLength(); i++) {
 			Element current = (Element)elements.item(i);
 			String name = current.getTagName();
@@ -52,7 +48,6 @@ public class WorkFileProcessor {
 				if (name.equals("GeneticModel")) geneticModel = processSavedModelInfo(current);
 				if (name.equals("Organisms")) cages = processSavedCages(current);
 				if (name.equals("ModelBuilderState")) modelBuilderState = current;
-				if (name.equals("edXServerStrings")) edXServerStrings = processEdXServerStrings(current);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -69,10 +64,6 @@ public class WorkFileProcessor {
 
 	public ArrayList<Cage> getCages() {
 		return cages;
-	}
-
-	public EdXServerStrings getEdXServerStrings() {
-		return edXServerStrings;
 	}
 
 	private GeneticModel processSavedModelInfo(Element e) throws Exception {
@@ -263,15 +254,6 @@ public class WorkFileProcessor {
 			}
 		}
 		return cage;
-	}
-
-	private EdXServerStrings processEdXServerStrings(Element e) {
-		EdXServerStrings result = new EdXServerStrings();
-		result.setEdXCookieURL(e.getAttribute("edXCookieURL"));
-		result.setEdXLoginURL(e.getAttribute("edXLoginURL"));
-		result.setEdXSubmissionURL(e.getAttribute("edXSubmissionURL"));
-		result.setEdXLocation(e.getAttribute("edXLocation"));
-		return result;
 	}
 
 }

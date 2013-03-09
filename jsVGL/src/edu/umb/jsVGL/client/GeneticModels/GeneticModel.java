@@ -484,9 +484,6 @@ public class GeneticModel {
 		e.appendChild(phenotypeProcessor.save());
 		e.appendChild(autosomeModel.save());
 		e.appendChild(sexChromosomeModel.save());
-		if (problemTypeSpecification.getEdXServerStrings() != null) {
-			e.addContent(problemTypeSpecification.getEdXServerStrings().save());
-		}
 		return e;
 	}
 

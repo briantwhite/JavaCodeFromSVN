@@ -38,26 +38,11 @@ public class SelectionVial {
 	private OrganismUI m_FemaleParent;
 
 	/**
-	 * Reference to the status-panel's display label to display the current
-	 * selections
-	 */
-	private JLabel m_DisplayLabel;
-
-	/**
 	 * The constructor
 	 */
 	public SelectionVial() {
 	}
 
-	/**
-	 * The constructor
-	 * 
-	 * @param displayLabel
-	 *            the label to which the current selections should printed
-	 */
-	public SelectionVial(JLabel displayLabel) {
-		m_DisplayLabel = displayLabel;
-	}
 
 	/**
 	 * Sets the male parent
@@ -69,7 +54,6 @@ public class SelectionVial {
 		if (m_MaleParent != null)
 			m_MaleParent.setSelected(false);
 		m_MaleParent = maleParent;
-		updateDisplayLabel();
 	}
 
 	/**
@@ -82,7 +66,6 @@ public class SelectionVial {
 		if (m_FemaleParent != null)
 			m_FemaleParent.setSelected(false);
 		m_FemaleParent = femaleParent;
-		updateDisplayLabel();
 	}
 
 	/**
@@ -109,31 +92,4 @@ public class SelectionVial {
 			return null;
 	}
 
-	/**
-	 * Refreshes the display label to display the current male-female organism
-	 * selections
-	 */
-	private void updateDisplayLabel() {
-		if (m_DisplayLabel != null) {
-			String maleInfo = "";
-			String femaleInfo = "";
-			if (m_MaleParent != null) {
-				Organism o1 = m_MaleParent.getOrganism();
-				maleInfo = "[ " + Messages.getInstance().getString("VGLII.Male") + " (" 
-				+ Messages.getInstance().getString("VGLII.Cage") + "# " + (o1.getCageId() + 1) + ") "
-						+ o1.getPhenotypeString() + "]";
-			}
-
-			if (m_FemaleParent != null) {
-				Organism o2 = m_FemaleParent.getOrganism();
-				femaleInfo = "[ " + Messages.getInstance().getString("VGLII.Female") 
-				+ " (" + Messages.getInstance().getString("VGLII.Cage") + "# " + (o2.getCageId() + 1) + ") "
-						+ o2.getPhenotypeString() + "]";
-			}
-			m_DisplayLabel.setText(" ");
-			m_DisplayLabel.repaint();
-			m_DisplayLabel.setText(femaleInfo + "  " + maleInfo);
-			m_DisplayLabel.repaint();
-		}
-	}
 }

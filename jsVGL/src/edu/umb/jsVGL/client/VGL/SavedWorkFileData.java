@@ -2,6 +2,8 @@ package edu.umb.jsVGL.client.VGL;
 
 import java.util.ArrayList;
 
+import com.google.gwt.xml.client.Element;
+
 import edu.umb.jsVGL.client.GeneticModels.Cage;
 import edu.umb.jsVGL.client.GeneticModels.GeneticModel;
 /**
@@ -36,16 +38,13 @@ public class SavedWorkFileData {
 	private GeneticModel geneticModel;
 	private ArrayList<Cage> cages;
 	private Element modelBuilderState;
-	private EdXServerStrings edXServerStrings;
 	
 	public SavedWorkFileData(GeneticModel geneticModel, 
 			ArrayList<Cage> cages,
-			Element modelBuilderState,
-			EdXServerStrings edXServerStrings) {
+			Element modelBuilderState) {
 		this.geneticModel = geneticModel;
 		this.cages = cages;
 		this.modelBuilderState = modelBuilderState;
-		this.edXServerStrings = edXServerStrings;
 	}
 
 	public GeneticModel getGeneticModel() {
@@ -60,8 +59,5 @@ public class SavedWorkFileData {
 		return modelBuilderState;
 	}
 	
-	public EdXServerStrings getEdXServerStrings() {
-		return edXServerStrings;
-	}
 
 }

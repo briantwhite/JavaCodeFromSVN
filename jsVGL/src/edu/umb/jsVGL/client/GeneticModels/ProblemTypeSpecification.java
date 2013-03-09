@@ -4,8 +4,6 @@ import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
 
-import edu.umb.jsVGL.client.VGL.EdXServerStrings;
-
 /**
  * Brian White Summer 2008
  * 
@@ -63,10 +61,6 @@ public class ProblemTypeSpecification {
 	private float phenotypeInteraction;
 	private float epistasis;
 
-	// for edX
-	private EdXServerStrings edXServerStrings;
-
-
 	public ProblemTypeSpecification() {
 		beginnerMode = false;
 
@@ -100,9 +94,6 @@ public class ProblemTypeSpecification {
 
 		phenotypeInteraction = 0.0f;
 		epistasis = 0.0f;
-
-		// for edX server
-		edXServerStrings = new EdXServerStrings();
 	}
 
 	public boolean isFieldPopTrueBreeding() {
@@ -313,33 +304,6 @@ public class ProblemTypeSpecification {
 		this.epistasis = epistasis;
 	}
 
-	public void setEdXCookieURL(String edXCookieURL) {
-		this.edXServerStrings.setEdXCookieURL(edXCookieURL);
-	}
-	
-	public void setEdXLoginURL(String edXLoginURL) {
-		this.edXServerStrings.setEdXLoginURL(edXLoginURL);
-	}
-	
-	public void setEdXSubmissionURL(String edXSubmissionURL) {
-		this.edXServerStrings.setEdXSubmissionURL(edXSubmissionURL);
-	}
-	
-	public void setEdXLocation(String edXLocation) {
-		this.edXServerStrings.setEdXLocation(edXLocation);
-	}
-	
-	public EdXServerStrings getEdXServerStrings() {
-		// only return if all parts present
-		if (
-				(edXServerStrings.edXCookieURL == null) || 
-				(edXServerStrings.edXLoginURL == null) || 
-				(edXServerStrings.edXSubmissionURL == null) || 
-				(edXServerStrings.edXLocation == null)
-				) return null;
-		
-		return edXServerStrings;
-	}
 
 	public Element save() throws Exception {
 		Document d = XMLParser.createDocument();
@@ -446,22 +410,6 @@ public class ProblemTypeSpecification {
 		e.appendChild(d.createTextNode(String.valueOf(epistasis)));
 		ptse.appendChild(e);
 		
-		e = d.createElement("edXCookieURL");
-		e.appendChild(d.createTextNode(edXServerStrings.edXCookieURL));
-		ptse.appendChild(e);
-		
-		e = d.createElement("edXLoginURL");
-		e.appendChild(d.createTextNode(edXServerStrings.edXLoginURL));
-		ptse.appendChild(e);
-		
-		e = d.createElement("edXSubmissionURL");
-		e.appendChild(d.createTextNode(edXServerStrings.edXSubmissionURL));
-		ptse.appendChild(e);
-		
-		e = d.createElement("edXLocation");
-		e.appendChild(d.createTextNode(edXServerStrings.edXLocation));
-		ptse.appendChild(e);
-
 		return ptse;
 	}
 

@@ -21,13 +21,16 @@ package edu.umb.jsVGL.client.GeneticModels;
  * @version 1.0 $Id$
  */
 
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
+import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 
-import edu.umb.jsVGL.client.VGL.EncryptionTools;
+import edu.umb.jsVGL.client.VGL.Base64Coder;
 import edu.umb.jsVGL.client.VGL.SavedWorkFileData;
 
 public class GeneticModelFactory {
@@ -48,18 +51,18 @@ public class GeneticModelFactory {
 	}
 
 
-	// use command line args
-	public GeneticModel createRandomModel(String[] args) {
+	// use params from web page
+	public GeneticModel createRandomModel(Dictionary params) {
 		GeneticModel model = null;
 		ProblemTypeSpecification specs = 
-				processModelSpecArgs(args);
+				processModelSpecParams(params);
 		model = createRandomModel(specs);
 		model.scrambleTraitOrder();
 		return model;
 	}
 	
 	public SavedWorkFileData setupModelAndStateFromBase64Zip(String input) {
-		Document doc = EncryptionTools.getInstance().readBase64Zip(input);
+		Document doc = Base64Coder.readBase64Zip(input);
 		return readModelFromXML(doc);
 	}
 
@@ -71,8 +74,7 @@ public class GeneticModelFactory {
 				new SavedWorkFileData(
 						processor.getGeneticModel(), 
 						processor.getCages(),
-						processor.getModelBuilderState(),
-						processor.getEdXServerStrings());
+						processor.getModelBuilderState());
 		return result;
 	}
 
@@ -97,15 +99,14 @@ public class GeneticModelFactory {
 		return problemSpec;
 	}
 
-	public ProblemTypeSpecification processModelSpecArgs(String[] args) {
+	public ProblemTypeSpecification processModelSpecParams(Dictionary params) {
 		ProblemTypeSpecification problemSpec = new ProblemTypeSpecification();
-		for (int i = 0; i < args.length; i++) {
-			String arg = args[i];
-			if (arg.startsWith("-")) {
-				String trimmedArg = arg.substring(1); // remove "-"
-				String[] parts = trimmedArg.split("=");
-				problemSpec = updateProblemSpec(problemSpec, parts[0], parts[1]);
-			}
+		Set<String> paramNames = params.keySet();
+		Iterator<String> paramNameIt = paramNames.iterator();
+		while (paramNameIt.hasNext()) {
+			String name = paramNameIt.next();
+			String value = params.get(name);
+			problemSpec = updateProblemSpec(problemSpec, name, value);
 		}
 		return problemSpec;
 	}

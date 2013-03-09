@@ -9,3 +9,5 @@ for images, use imageresource
 - how to use? https://developers.google.com/web-toolkit/doc/latest/DevGuideClientBundle
 
 also good gui stuff here http://examples.roughian.com/index.htm
+
+for passing params: http://google-web-toolkit.googlecode.com/svn/javadoc/1.5/com/google/gwt/i18n/client/Dictionary.html
