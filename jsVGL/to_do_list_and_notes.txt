@@ -3,3 +3,7 @@ look here for ui info https://developers.google.com/web-toolkit/doc/latest/DevGu
 button info http://stackoverflow.com/questions/1456889/image-in-gwt-button
 	probably use setHTML() method of Button
 will need to make js page that translates back & forth between base64zip and plain text
+
+for images, use imageresource
+- where to put images: http://stackoverflow.com/questions/3447311/how-to-clientbundle-in-gwt
+- how to use? https://developers.google.com/web-toolkit/doc/latest/DevGuideClientBundle
