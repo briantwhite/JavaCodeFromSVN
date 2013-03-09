@@ -1,15 +1,20 @@
 package edu.umb.jsVGL.client.VGL;
 
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Image;
 
 import edu.umb.jsVGL.client.GeneticModels.Organism;
+import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -34,7 +39,7 @@ import edu.umb.jsVGL.client.GeneticModels.Organism;
  * @author Nikunj Koolar & Brian White
  * @version 1.0 $Id$
  */
-public class OrganismUI extends JLabel implements MouseListener {
+public class OrganismUI extends Button implements ClickHandler {
 	/**
 	 * The reference to the organism object
 	 */
@@ -47,14 +52,14 @@ public class OrganismUI extends JLabel implements MouseListener {
 	private boolean m_IsOrganismSelected = false;
 
 	/**
-	 * The image to be shown when the organism is selected
+	 * The URL of the image to be shown when the organism is selected
 	 */
-	private ImageIcon m_ImageSelected;
+	private String m_ImageSelectedURL;
 
 	/**
-	 * The image to be shown when the organism is deselected
+	 * The URL of the image to be shown when the organism is deselected
 	 */
-	private ImageIcon m_ImageDeselected;
+	private String m_ImageDeselectedURL;
 
 	/**
 	 * A reference to the selection vial object. This reference is used by the
@@ -108,38 +113,29 @@ public class OrganismUI extends JLabel implements MouseListener {
 	public OrganismUI(Object organism, boolean isParent,
 			boolean isbeginnersmode, SelectionVial sv) {
 		super();
+		
+		UIImageResource uiImageResource = GWT.create(UIImageResource.class);
+		
 		m_Organism = (Organism) organism;
 		m_IsParent = isParent;
 		m_IsBeginnersMode = isbeginnersmode;
 		m_Vial = sv;
 		if (m_Organism.isMale()) {
 			if (m_IsParent) {
-				URL m_ImageSelectedURL = OrganismUI.class
-						.getResource("UIimages/malegreen.gif");
-				m_ImageSelected = new ImageIcon(m_ImageSelectedURL);
+				m_ImageSelectedURL = (new Image(uiImageResource.maleGreen())).getUrl();
 			} else {
-				URL m_ImageSelectedURL = OrganismUI.class
-						.getResource("UIimages/male.gif");
-				m_ImageSelected = new ImageIcon(m_ImageSelectedURL);
+				m_ImageSelectedURL = (new Image(uiImageResource.male())).getUrl();
 			}
-			URL m_ImageDeselectedURL = OrganismUI.class
-					.getResource("UIimages/maleblack.gif");
-			m_ImageDeselected = new ImageIcon(m_ImageDeselectedURL);
-			setIcon(m_ImageDeselected);
+			m_ImageDeselectedURL = (new Image(uiImageResource.maleBlack())).getUrl();
+			setHTML("<img src=\"" + m_ImageDeselectedURL + "\">");
 		} else {
 			if (m_IsParent) {
-				URL m_ImageSelectedURL = OrganismUI.class
-						.getResource("UIimages/femalegreen.gif");
-				m_ImageSelected = new ImageIcon(m_ImageSelectedURL);
+				m_ImageSelectedURL = (new Image(uiImageResource.femaleGreen())).getUrl();
 			} else {
-				URL m_ImageSelectedURL = OrganismUI.class
-						.getResource("UIimages/female.gif");
-				m_ImageSelected = new ImageIcon(m_ImageSelectedURL);
+				m_ImageSelectedURL = (new Image(uiImageResource.female())).getUrl();
 			}
-			URL m_ImageDeselectedURL = OrganismUI.class
-					.getResource("UIimages/femaleblack.gif");
-			m_ImageDeselected = new ImageIcon(m_ImageDeselectedURL);
-			setIcon(m_ImageDeselected);
+			m_ImageDeselectedURL = (new Image(uiImageResource.femaleBlack())).getUrl();
+			setHTML("<img src=\"" + m_ImageDeselectedURL + "\">");
 		}
 
 		if (!m_IsParent) {
@@ -148,13 +144,12 @@ public class OrganismUI extends JLabel implements MouseListener {
 		}
 		
 		if (m_IsBeginnersMode) {
-			setToolTipText(Messages.getInstance().getString("VGLII.Genotype") 
-					+ ": " + m_Organism.getToolTipTextString());
+			setTitle(m_Organism.getToolTipTextString());
 		} else {
-			setToolTipText("");
+			setTitle("");
 		}
 		
-		addMouseListener(this);
+		addClickHandler(this);
 	}
 
 	/**
@@ -166,10 +161,10 @@ public class OrganismUI extends JLabel implements MouseListener {
 	 */
 	public void setSelected(boolean selected) {
 		if (selected) {
-			setIcon(m_ImageSelected);
+			setHTML("<img src=\"" + m_ImageSelectedURL + "\">");
 			m_IsOrganismSelected = true;
 		} else {
-			setIcon(m_ImageDeselected);
+			setHTML("<img src=\"" + m_ImageDeselectedURL + "\">");
 			m_IsOrganismSelected = false;
 		}
 		if (!m_IsParent)
@@ -183,52 +178,6 @@ public class OrganismUI extends JLabel implements MouseListener {
 	 */
 	public Organism getOrganism() {
 		return m_Organism;
-	}
-
-	/**
-	 * Implementation for mouse listener, sets the organismUI as
-	 * selected/deselected depending on the previous state of the organismUI
-	 * 
-	 * @param e
-	 *            the mouse event
-	 */
-	public void mousePressed(MouseEvent e) {
-		if (m_IsOrganismSelected)
-			refreshOrganism(false, null);
-		else
-			refreshOrganism(true, this);
-	}
-
-	/**
-	 * Implementation for mouse listener, does nothing
-	 * 
-	 * @param e
-	 */
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	/**
-	 * Implementation for mouse listener, does nothing
-	 * 
-	 * @param e
-	 */
-	public void mouseClicked(MouseEvent e) {
-	}
-
-	/**
-	 * Implementation for mouse listener, does nothing
-	 * 
-	 * @param e
-	 */
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	/**
-	 * Implementation for mouse listener, does nothing
-	 * 
-	 * @param e
-	 */
-	public void mouseExited(MouseEvent e) {
 	}
 
 	/**
@@ -305,5 +254,12 @@ public class OrganismUI extends JLabel implements MouseListener {
 	 */
 	public void setCentralOrganismUI(OrganismUI organismUI) {
 		m_CentralOrganismUI = organismUI;
+	}
+
+	public void onClick(ClickEvent event) {
+		if (m_IsOrganismSelected)
+			refreshOrganism(false, null);
+		else
+			refreshOrganism(true, this);
 	}
 }

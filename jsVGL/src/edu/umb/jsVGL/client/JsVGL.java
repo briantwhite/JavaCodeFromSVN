@@ -1,12 +1,19 @@
 package edu.umb.jsVGL.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
+
+import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -25,13 +32,27 @@ public class JsVGL implements EntryPoint {
 	private Button saveWorkButton = null;
 	private Button crossButton = null;
 	private Button superCrossButton = null;
+	
+	private UIImageResource uiImageResource;
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		uiImageResource = GWT.create(UIImageResource.class);
+		buildMainPanelUI();
+		
+
+	}
+	
+	private void buildMainPanelUI() {
 		newProblemButton = new Button("New Problem");
 		RootPanel.get("newProblemButtonContainer").add(newProblemButton);
+		newProblemButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				newProblem();
+			}			
+		});
 		
 		openWorkButton = new Button("Open Work");
 		RootPanel.get("openWorkButtonContainer").add(openWorkButton);
@@ -68,7 +89,13 @@ public class JsVGL implements EntryPoint {
 		mainPanel.setSize("500px", "250px");
 		mainPanel.addStyleName("table-center");
 		RootPanel.get("mainPanelContainer").add(mainPanel);
-		
-
+	}
+	
+	public void newProblem() {
+		DialogBox test = new DialogBox(false);
+		Image male = new Image(uiImageResource.male());
+		String picU = male.getUrl();
+		test.setHTML("<img src=\"" + picU + "\">");
+		test.center();
 	}
 }
