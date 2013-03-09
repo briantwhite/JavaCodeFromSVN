@@ -4,6 +4,7 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
 public interface UIImageResource extends ClientBundle {
+	@Source("closeButton.png") ImageResource closeButton();
 	@Source("combineArrow.gif") ImageResource combineArrow();
 	@Source("combineArrow2.gif") ImageResource combineArrow2();
 	@Source("female.gif") ImageResource female();

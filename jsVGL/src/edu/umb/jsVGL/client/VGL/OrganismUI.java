@@ -1,11 +1,7 @@
 package edu.umb.jsVGL.client.VGL;
 
-import java.awt.event.MouseEvent;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.swing.ImageIcon;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

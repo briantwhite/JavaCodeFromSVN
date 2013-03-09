@@ -4,6 +4,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -12,6 +13,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
 
@@ -92,10 +94,27 @@ public class JsVGL implements EntryPoint {
 	}
 	
 	public void newProblem() {
-		DialogBox test = new DialogBox(false);
+		final DialogBox test = new DialogBox();
+		test.setHTML("&nbsp;&nbsp;Cage 2");
+		
+		VerticalPanel panel = new VerticalPanel();
+		panel.setSize("100px", "100px");
+		Image closeButtonImage = new Image(uiImageResource.closeButton());
+		Anchor closeButton = new Anchor("");
+		closeButton.getElement().appendChild(closeButtonImage.getElement());
+		closeButton.setTitle("Close Cage");
+		panel.add(closeButton);
+		closeButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				test.hide();
+			}			
+		});
+		closeButton.setStyleName("TopRight");
+
 		Image male = new Image(uiImageResource.male());
-		String picU = male.getUrl();
-		test.setHTML("<img src=\"" + picU + "\">");
+		panel.add(male);
+		
+		test.add(panel);
 		test.center();
 	}
 }
