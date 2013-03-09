@@ -91,7 +91,8 @@ public class VGLII {
 	 * Stores the value of the next position on the screen where a cage should
 	 * be displayed
 	 */
-	private Point nextCageScreenPosition;
+	private int nextCageScreenPositionX;
+	private int nextCageScreenPositionY;
 
 	private boolean changeSinceLastSave;
 
@@ -234,22 +235,22 @@ public class VGLII {
 		geneticModel = null;
 		selectionVial = null;
 		nextCageId = 1;
-		nextCageScreenPosition = new Point(this.getX() + 200,
-				this.getY() + 100);
+		nextCageScreenPositionX = 0;
+		nextCageScreenPositionY = 0;
 		SummaryChartManager.getInstance().clearSelectedSet();
 		SummaryChartManager.getInstance().hideSummaryChart();
 		if (modelBuilder != null) {
 			modelBuilder.setVisible(false);
 		}
 		if (modelBuilderPanel != null) {
-			modelBuilderPanel.dispose();
+			modelBuilderPanel.clear();
 		}
 	}
 
 	/**
 	 * Method that actually sets up the cross between two organisms
 	 */
-	private void crossTwo(boolean isSuperCross) {
+	public void crossTwo(boolean isSuperCross) {
 		OrganismUI organismUI1 = selectionVial.getMaleParent();
 		OrganismUI organismUI2 = selectionVial.getFemaleParent();
 		if (organismUI1 != null && organismUI2 != null) {
