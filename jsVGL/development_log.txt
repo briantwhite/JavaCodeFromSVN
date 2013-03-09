@@ -91,3 +91,8 @@ in project -> properties -> build path
 still ng
 maybe it was just that I didn't need the line in the JsVGL.gwt.xml file that read
 	<!--    <inherits name='com.google.gwt.xml.client.'/> -->
+
+
+3/9/13
+nuked phenotype images
+

@@ -7,3 +7,5 @@ will need to make js page that translates back & forth between base64zip and pla
 for images, use imageresource
 - where to put images: http://stackoverflow.com/questions/3447311/how-to-clientbundle-in-gwt
 - how to use? https://developers.google.com/web-toolkit/doc/latest/DevGuideClientBundle
+
+also good gui stuff here http://examples.roughian.com/index.htm
