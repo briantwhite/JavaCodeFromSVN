@@ -78,3 +78,16 @@ for the moment, leave out:
 	- phenotype images
 	- cage manager
 comment the out in VGL for now
+
+3/8/13
+tried to build
+it couldn't find Unable to find 'com/google/gwt/xml/client.gwt.xml'
+maybe they're in the classes in gwt-user.jar?
+don't download the jar
+in project -> properties -> build path
+	add it as external jar
+		Mac HD/Applications/eclipse/plugins/com.google...../gwt-2.5.0/gwt-user.jar
+			(found using spotlinght)
+still ng
+maybe it was just that I didn't need the line in the JsVGL.gwt.xml file that read
+	<!--    <inherits name='com.google.gwt.xml.client.'/> -->
