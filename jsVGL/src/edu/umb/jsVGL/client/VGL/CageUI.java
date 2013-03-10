@@ -82,12 +82,6 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private static int absoluteMaxOrgsPerRow = 20;
 
 	/**
-	 * the background color when the Cage is selected
-	 * for membership in the summary chart
-	 */
-	private static String selectedColor = "#FF0000"; 
-
-	/**
 	 * boolean to indicate membership in selected set for
 	 * summary chart
 	 */
@@ -198,11 +192,6 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	 * holding this cage
 	 */
 	private Image image;
-
-	/** 
-	 * keeps track of the default color of unselected cages
-	 */
-	private Color unselectedColor;
 
 	/**
 	 * This variable stores a reference to the hashmap of children associated
@@ -344,28 +333,29 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 		
 		//initialize parent
 		super(false);
-		addWindowListener(this);
-		addMouseListener(this);
+
 		this.isBeginner = isbeginnersmode;
 		this.isSuperCross = isSuperCross;
 		this.cage = cage;
 		vial = sv;
-		image = importFrame.getIconImage();
+
 		id = cage.getId() + 1;
 		children = cage.getChildren();
 		parents = cage.getParents();
+
 		this.scrambledTraitOrder = scrambledTraitOrder;
+
 		if (id == 1)
 			if (details != null)
 				this.details = details;
-		this.numberOfTraits = numberOfTraits;
-		setTitle(Messages.getInstance().getString("VGLII.Cage") + " " + (new Integer(id)).toString());
-		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-		setupSubComponents();
-		setupDialogBox(importFrame, numPhenosPresent);
-		setResizable(false);
 
-		unselectedColor = getBackground();
+		this.numberOfTraits = numberOfTraits;
+
+		setTitle("Cage " + id);
+
+		setupSubComponents();
+		setupDialogBox(numPhenosPresent);
+		
 		isSelected = false;
 		summaryChartManager = SummaryChartManager.getInstance();
 
@@ -374,8 +364,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		//setup the GUI of its internal components
 		components();
-		pack();
-		setVisible(true);
+		show();
 	}
 
 	/**
@@ -390,54 +379,6 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		String[] phenotypeNames = new String[numPhenosPresent];
 		childrenSortedByPhenotype = new OrganismList[numPhenosPresent];
-		showPhenotypeButtons = new ShowPhenotypeButton[numPhenosPresent];
-
-		int i = 0;
-		while (it1.hasNext()) {
-			phenotypeNames[i] = new String(it1.next());
-			childrenSortedByPhenotype[i] = children.get(phenotypeNames[i]);
-			showPhenotypeButtons[i] = 
-				new ShowPhenotypeButton(
-						childrenSortedByPhenotype[i].getPhenotypes(),
-						phenotypeNames[i]);
-			showPhenotypeButtons[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					JFrame frame = new JFrame();
-					frame.setIconImage(null);
-					JDialog imageDlg = new JDialog(frame, 
-							Messages.getInstance().getString("VGLII.PhenotypeDetails"),
-							true);
-					imageDlg.setSize(VGLII.PHENO_IMAGE_WIDTH, VGLII.PHENO_IMAGE_HEIGHT);
-					imageDlg.setLocation(512 - VGLII.PHENO_IMAGE_WIDTH/2, 384 - VGLII.PHENO_IMAGE_HEIGHT/2);
-					imageDlg.setResizable(false);
-					JPanel details = new JPanel();
-					details.setLayout(new BorderLayout());
-					details.setBorder(BorderFactory.createEtchedBorder());
-					ShowPhenotypeButton button = (ShowPhenotypeButton)evt.getSource();
-
-					// fix the pheno string to more than one line
-					String phenoString = Messages.getInstance().translateLongPhenotypeName(button.getPhenotypeString());
-					phenoString = phenoString.replaceAll("/", "<br>");
-					phenoString = "<html>" + phenoString + "</html>";
-					JLabel phenotypeLabel = 
-						new JLabel(phenoString);
-					phenotypeLabel.setHorizontalTextPosition(javax.swing.JLabel.CENTER);
-					phenotypeLabel.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-					details.add(phenotypeLabel, BorderLayout.NORTH);
-					ImageIcon pic = 
-						PhenotypeImageBank.getInstance().getImageForPhenotype(
-								button.getPhenotypes(), button.getPhenotypeString());
-					details.add(new JLabel(pic), BorderLayout.CENTER);
-					imageDlg.getContentPane().add(details);
-					imageDlg.setVisible(true);
-				}
-			});
-			showPhenotypeButtons[i].setPreferredSize(new Dimension(38, 38));
-			showPhenotypeButtons[i].setFocusPainted(false);
-			showPhenotypeButtons[i].setToolTipText(
-					Messages.getInstance().getString("VGLII.ClickToSeeImageOfThisPhenotype"));
-			i++;
-		}
 	}
 
 	/**
@@ -453,7 +394,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	/**
 	 * This method sets up the extents and position for the Cage
 	 */
-	private void setupDialogBox(Frame importFrame, int panelCount) {
+	private void setupDialogBox(int panelCount) {
 		int dtHeight = (int) (getGraphicsConfiguration().getDevice()
 				.getDefaultConfiguration().getBounds().getHeight());
 		int dtWidth = (int) (getGraphicsConfiguration().getDevice()
@@ -864,96 +805,13 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 		}
 	}
 
-	public void setIsSelected(boolean b) {
-		isSelected = b;
-		if (isSelected) {
-			superPanel.setBorder(BorderFactory.createLineBorder(selectedColor, 2));
-		} else {
-			superPanel.setBorder(BorderFactory.createLineBorder(unselectedColor, 2));
-		}
-		superPanel.repaint();
-	}
 
 	public int getId() {
 		return id;
 	}
-
+	
 	public boolean isSuperCross() {
 		return isSuperCross;
-	}
-
-	/**
-	 * Default implementation for the windowlistener class method
-	 * 
-	 * @param e
-	 *            windowevent
-	 */
-	public void windowActivated(WindowEvent e) {
-	}
-
-	/**
-	 * Default implementation for the windowlistener class method
-	 * 
-	 * @param e
-	 *            windowevent
-	 */
-	public void windowClosed(WindowEvent e) {
-	}
-
-	/**
-	 * Implementation for the windowlistener class method. This method handles
-	 * the window closing of the dialog.
-	 * 
-	 * @param e
-	 *            windowevent
-	 */
-	public void windowClosing(WindowEvent e) {
-		int ans = JOptionPane.showConfirmDialog(this,
-				Messages.getInstance().getString("VGLII.ClosingConfirmLine1") + "\n" 
-				+ Messages.getInstance().getString("VGLII.ClosingConfirmLine2") + " #" + id + "?\n"
-				+ "(" + Messages.getInstance().getString("VGLII.ClosingConfirmLine3") + "\n"
-				+ Messages.getInstance().getString("VGLII.ClosingConfirmLine4") + ")", 
-				Messages.getInstance().getString("VGLII.ClosingCage"),
-				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-
-		if (ans == JOptionPane.YES_OPTION)
-			this.setVisible(false);
-	}
-
-	/**
-	 * Default implementation for the windowlistener class method
-	 * 
-	 * @param e
-	 *            windowevent
-	 */
-	public void windowDeactivated(WindowEvent e) {
-	}
-
-	/**
-	 * Default implementation for the windowlistener class method
-	 * 
-	 * @param e
-	 *            windowevent
-	 */
-	public void windowDeiconified(WindowEvent e) {
-	}
-
-	/**
-	 * Default implementation for the windowlistener class method
-	 * 
-	 * @param e
-	 *            windowevent
-	 */
-	public void windowIconified(WindowEvent e) {
-	}
-
-	/**
-	 * Default implementation for the windowlistener class method
-	 * 
-	 * @param e
-	 *            windowevent
-	 */
-	public void windowOpened(WindowEvent e) {
 	}
 
 	/**
@@ -1005,29 +863,6 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 		}
 		return null;
 	}
-
-	public void mouseClicked(MouseEvent e) {
-		if (e.getClickCount() == 2) {
-			if (isSelected) {
-				superPanel.setBorder(BorderFactory.createLineBorder(unselectedColor, 2));
-				isSelected = false;
-				summaryChartManager.removeFromSelected(this);
-			} else {
-				superPanel.setBorder(BorderFactory.createLineBorder(selectedColor, 2));
-				isSelected = true;
-				summaryChartManager.addToSelected(this);
-			}
-			superPanel.repaint();
-		}
-	}
-
-	public void mouseEntered(MouseEvent e) {}
-
-	public void mouseExited(MouseEvent e) {}
-
-	public void mousePressed(MouseEvent e) {}
-
-	public void mouseReleased(MouseEvent e) {}
 
 	public int compareTo(CageUI o) {
 		return id - o.getId();
