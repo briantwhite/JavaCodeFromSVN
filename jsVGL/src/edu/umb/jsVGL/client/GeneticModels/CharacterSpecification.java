@@ -61,8 +61,8 @@ public class CharacterSpecification {
 	 */
 	public void purgeTraitSetsMatching(String className) {
 		for (int i = 0; i < possibleTraitSets.size(); i++) {
-			if (possibleTraitSets.get(i).
-					getClass().getSimpleName().equals(className)) {
+			TraitSet ts = possibleTraitSets.get(i);
+			if (ts.getClass().getName().substring(ts.getClass().getName().lastIndexOf(".") + 1).equals(className)) {
 				possibleTraitSets.remove(i);
 			}
 		}

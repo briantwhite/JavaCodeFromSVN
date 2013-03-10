@@ -73,7 +73,7 @@ public class SummaryChartManager {
 
 	public void hideSummaryChart() {
 		if (summaryChartUI != null) {
-			summaryChartUI.setVisible(false);
+//			summaryChartUI.setVisible(false);
 		}
 	}
 
@@ -181,7 +181,7 @@ public class SummaryChartManager {
 //					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		summaryChartUI = new SummaryChartUI(master);
+//		summaryChartUI = new SummaryChartUI(master);
 	}
 
 	public String toString() {

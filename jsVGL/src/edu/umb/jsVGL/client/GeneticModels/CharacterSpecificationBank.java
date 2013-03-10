@@ -54,7 +54,7 @@ public class CharacterSpecificationBank {
 		}
 		// then remove all similar traits from the set
 		//  that way, you'll never have color twice in the same problem
-		String className = ts.getClass().getSimpleName();
+		String className = ts.getClass().getName().substring(ts.getClass().getName().lastIndexOf(".") + 1);
 		for (int j = 0; j < allCharSpecs.size(); j++) {
 			CharacterSpecification cs = allCharSpecs.get(j);
 			cs.purgeTraitSetsMatching(className);

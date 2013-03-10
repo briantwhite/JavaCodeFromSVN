@@ -108,6 +108,7 @@ public class VGLII {
 		this.params = params;
 		this.jsVGL = jsVGL;
 		random = new Random();
+		geneticModel = GeneticModelFactory.getInstance().createRandomModel(params);
 		changeSinceLastSave = false;
 	}
 

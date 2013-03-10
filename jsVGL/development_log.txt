@@ -97,3 +97,12 @@ maybe it was just that I didn't need the line in the JsVGL.gwt.xml file that rea
 nuked phenotype images
 
 testing git fuckups
+
+3/10/13
+still trouble with xml code
+googled: eclipse "no source code is available for type com.google.gwt.xml"
+https://groups.google.com/forum/?fromgroups=#!topic/google-web-toolkit/tnlRUoaE6ME
+added this to JsVGL.gwt.xml
+finally OK
+ <inherits name ="com.google.gwt.xml.XML"/> 
+
