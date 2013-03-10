@@ -56,7 +56,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private static String FIELD_POP_COLOR = "#2E8B57";
 	private static String PARENT_COLOR = "#8E2323";
 	private static String OFFSPRING_COLOR = "#0x007FFF";
-	
+
 	/**
 	 * sets an upper bound so the cages (esp the Super Cross)
 	 *  don't get too big
@@ -236,9 +236,10 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		//initialize parent
 		super(false);
-
-		uiImageResource = GWT.create(UIImageResource.class);
+		setModal(false);
 		
+		uiImageResource = GWT.create(UIImageResource.class);
+
 		this.isBeginner = isbeginnersmode;
 		this.isSuperCross = isSuperCross;
 		this.cage = cage;
@@ -283,7 +284,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		String[] phenotypeNames = new String[numPhenosPresent];
 		childrenSortedByPhenotype = new OrganismList[numPhenosPresent];
-		
+
 		int i = 0;
 		while (it1.hasNext()) {
 			phenotypeNames[i] = new String(it1.next());
@@ -315,7 +316,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			captionedDetailsPanel = new CaptionPanel("Offspring");
 			captionedDetailsPanel.add(detailsPanel);
 		} else {
-			captionedDetailsPanel = new CaptionPanel("Field Population");
+			captionedDetailsPanel = new CaptionPanel("Organisms Collected From the Wild");
 			captionedDetailsPanel.add(detailsPanel);
 		}
 		HorizontalPanel individualPanel = new HorizontalPanel();
@@ -372,7 +373,14 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 		individualPanel.add(captionedCountsPanel);
 
 		detailsPanel.add(individualPanel, DockPanel.NORTH);
-		superPanel.add(detailsPanel, DockPanel.SOUTH);
+
+		if (id > 1) {
+			superPanel.add(captionedDetailsPanel, DockPanel.SOUTH);
+		} else {
+			if (isBeginner) {
+				superPanel.add(captionedDetailsPanel, DockPanel.NORTH);
+			}
+		}
 	}
 
 	/**
@@ -522,8 +530,8 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	 * displays the details about the underlying genetics model
 	 */
 	private void setupParentInfoPanel() {
-		CaptionPanel captionedParentInfoPanel = new CaptionPanel("Parents");
 		if (id > 1) {
+			CaptionPanel captionedParentInfoPanel = new CaptionPanel("Parents");
 			FlowPanel parentInfoPanel = new FlowPanel();
 			parentOrganismUIs = new OrganismUI[2];
 			Organism o1 = parents.get(0);
@@ -539,10 +547,12 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			parentOrganismUIs[1] = new OrganismUI(o2, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[1]);
 			parentInfoPanel.add(new Label("(Cage " + cageId + ") " + phenoName2));
+			superPanel.add(captionedParentInfoPanel, DockPanel.NORTH);
 		} else {
 			if (isBeginner) {
 				if (details != null) {
-					HTML textDetails = new HTML(details);
+					SimplePanel bottomPanel = new SimplePanel();
+					textDetails = new HTML("");
 					final ToggleButton showHideDetails = new ToggleButton("Show Genetic Model", "Hide Genetic Model");
 					ScrollPanel detailsScrollPanel = new ScrollPanel(textDetails);
 					showHideDetails.addClickHandler(new ClickHandler() {
@@ -556,11 +566,12 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 					});
 					DockPanel showHidePanel = new DockPanel();
 					showHidePanel.add(showHideDetails, DockPanel.NORTH);
-					captionedParentInfoPanel.add(showHidePanel);
+					showHidePanel.add(detailsScrollPanel, DockPanel.CENTER);
+					bottomPanel.add(showHidePanel);
+					superPanel.add(bottomPanel, DockPanel.SOUTH);
 				}
 			}
 		}
-		superPanel.add(captionedParentInfoPanel, DockPanel.NORTH);
 	}
 
 	/**
@@ -586,11 +597,11 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	public boolean isSuperCross() {
 		return isSuperCross;
 	}
-	
+
 	public void setIsSelected(boolean selected) {
 		isSelected = selected;
 	}
-	
+
 	public boolean getIsSelected() {
 		return isSelected;
 	}

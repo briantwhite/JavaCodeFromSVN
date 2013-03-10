@@ -116,27 +116,27 @@ public class VGLII {
 	 * set up new problem based on parameters submitted in page
 	 */
 	public void newPracticeProblem() {
-		geneticModel.setBeginnerMode(true);
-		newProblem();
+		newProblem(true);
 	}
 	public void newGradedProblem() {
-		geneticModel.setBeginnerMode(false);
-		newProblem();
+		newProblem(false);
 	}
 
-	private void newProblem() {
+	private void newProblem(boolean practiceMode) {
 		CharacterSpecificationBank.getInstance().refreshAll();
 
-		geneticModel = 
-				GeneticModelFactory.getInstance().createRandomModel(params);
 		if (geneticModel == null) return;
 
+		geneticModel.setBeginnerMode(practiceMode);
+		
 		nextCageId = 0;
 		selectionVial = new SelectionVial();
 		cageCollection = new ArrayList<CageUI>();
 
 		Cage fieldPop = geneticModel.generateFieldPopulation();
 		createCageUI(fieldPop, false);
+		
+		jsVGL.crossButtonSetEnabled(true);
 
 		changeSinceLastSave = true;
 	}

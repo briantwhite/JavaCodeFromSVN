@@ -75,7 +75,7 @@ public class JsVGL implements EntryPoint {
 		newGradedProblemButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				saveWorkButton.setEnabled(true);
-				newPracticeProblem();
+				vglII.newGradedProblem();
 			}			
 		});
 
@@ -88,6 +88,12 @@ public class JsVGL implements EntryPoint {
 
 		crossButton = new Button("Cross Two");
 		RootPanel.get("crossButtonContainer").add(crossButton);
+		crossButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				saveWorkButton.setEnabled(true);
+				vglII.crossTwo(false);
+			}			
+		});
 		crossButton.setEnabled(false);
 
 		final TabPanel mainPanel = new TabPanel();
@@ -132,6 +138,10 @@ public class JsVGL implements EntryPoint {
 		RootPanel.get("mainPanelContainer").add(mainPanel);	
 	}
 
+	public void crossButtonSetEnabled(boolean b) {
+		crossButton.setEnabled(b);
+	}
+	
 	public Panel getModelBuilderPanel() {
 		return modelBuilderPanel;
 	}
