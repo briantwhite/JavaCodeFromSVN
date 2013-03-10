@@ -87,7 +87,7 @@ public class Chromosome {
 		for (int i = 0; i < alleles.size(); i++) {
 			e.appendChild(alleles.get(i).save(i));
 		}
-		return d.getDocumentElement();
+		return e;
 	}
 
 	public String toString() {

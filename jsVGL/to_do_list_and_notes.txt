@@ -12,4 +12,7 @@ also good gui stuff here http://examples.roughian.com/index.htm
 
 for passing params: 
 
-for positioning the dialogboxes DialogBox.PopupPosition() 
+for positioning the dialogboxes DialogBox.PopupPosition()
+
+for pretty-printing the xml, use http://www.freeformatter.com/xml-formatter.html
+ 

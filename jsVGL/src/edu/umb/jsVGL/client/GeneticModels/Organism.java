@@ -237,13 +237,12 @@ public class Organism {
 		orga.setAttribute("CageId", String.valueOf(cageId));
 
 		orga.setAttribute("Male", String.valueOf(male));
-
 		orga.appendChild(maternalAutosome.save("MaternalAutosome"));
 		orga.appendChild(paternalAutosome.save("PaternalAutosome"));
 		orga.appendChild(maternalSexChromosome.save("MaternalSexChromosome"));
 		orga.appendChild(paternalSexChromosome.save("PaternalSexChromosome"));
 
-		return d.getDocumentElement();
+		return orga;
 	}
 
 

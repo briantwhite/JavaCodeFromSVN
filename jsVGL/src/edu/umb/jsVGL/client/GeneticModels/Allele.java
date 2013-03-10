@@ -57,6 +57,6 @@ public class Allele {
 		Element e = d.createElement("Allele");
 		e.setAttribute("GeneIndex", String.valueOf(index));
 		e.setAttribute("TraitNumber", String.valueOf(intVal));
-		return d.getDocumentElement();
+		return e;
 	}
 }

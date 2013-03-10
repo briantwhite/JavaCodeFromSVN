@@ -136,7 +136,7 @@ public class VGLII {
 		Cage fieldPop = geneticModel.generateFieldPopulation();
 		createCageUI(fieldPop, false);
 		
-		jsVGL.crossButtonSetEnabled(true);
+		jsVGL.setButtonState(true);
 
 		changeSinceLastSave = true;
 	}
@@ -168,7 +168,7 @@ public class VGLII {
 	/**
 	 * Saves the current work done by the user to the edx server.
 	 */
-	private String saveProblem() {
+	public String saveProblem() {
 		if (cageCollection != null) {
 
 			try {
@@ -180,6 +180,7 @@ public class VGLII {
 					al.add(c);
 				}
 				Element xmlDoc = getXMLDoc(al);
+				System.out.println(xmlDoc.toString());
 				changeSinceLastSave = false;
 
 
@@ -195,10 +196,10 @@ public class VGLII {
 	private Element getXMLDoc(ArrayList<Cage> cages) throws Exception {
 		Document d = XMLParser.createDocument();
 		// creating the whole tree
-		Element root = d.createElement("VglII"); //$NON-NLS-1$
+		Element root = d.createElement("VglII"); 
 
 		root.appendChild(geneticModel.save());
-		Element organisms = d.createElement("Organisms"); //$NON-NLS-1$
+		Element organisms = d.createElement("Organisms"); 
 		for (int i = 0; i < cages.size(); i++) {
 			Cage c = cages.get(i);
 			organisms.appendChild(c.save());

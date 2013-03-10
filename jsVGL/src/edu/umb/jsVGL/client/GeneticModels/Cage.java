@@ -266,7 +266,7 @@ public class Cage {
 				ep.appendChild(parent1.save());
 			if (parent2 != null)
 				ep.appendChild(parent2.save());
-			ec.appendChild(dp.getDocumentElement());
+			ec.appendChild(ep);
 		}
 
 		// children

@@ -65,7 +65,6 @@ public class JsVGL implements EntryPoint {
 		RootPanel.get("newPracticeProblemButtonContainer").add(newPracticeProblemButton);
 		newPracticeProblemButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				saveWorkButton.setEnabled(false);
 				vglII.newPracticeProblem();
 			}			
 		});
@@ -74,7 +73,6 @@ public class JsVGL implements EntryPoint {
 		RootPanel.get("newGradedProblemButtonContainer").add(newGradedProblemButton);
 		newGradedProblemButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				saveWorkButton.setEnabled(true);
 				vglII.newGradedProblem();
 			}			
 		});
@@ -84,7 +82,12 @@ public class JsVGL implements EntryPoint {
 
 		saveWorkButton = new Button("Save Work");
 		RootPanel.get("saveWorkButtonConatiner").add(saveWorkButton);
-		saveWorkButton.setEnabled(false);
+		saveWorkButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				vglII.saveProblem();
+			}			
+		});
+		
 
 		crossButton = new Button("Cross Two");
 		RootPanel.get("crossButtonContainer").add(crossButton);
@@ -94,7 +97,8 @@ public class JsVGL implements EntryPoint {
 				vglII.crossTwo(false);
 			}			
 		});
-		crossButton.setEnabled(false);
+		
+		setButtonState(false);
 
 		final TabPanel mainPanel = new TabPanel();
 
@@ -138,10 +142,28 @@ public class JsVGL implements EntryPoint {
 		RootPanel.get("mainPanelContainer").add(mainPanel);	
 	}
 
-	public void crossButtonSetEnabled(boolean b) {
-		crossButton.setEnabled(b);
+	/*
+	 * two states
+	 * 	FALSE startup (no problem):
+	 * 		new Prob enabled
+	 * 		open work enabled
+	 * 		cross disabled
+	 * 		save disabled
+	 * 
+	 * TRUE have problem to work on
+	 * 		new prob disabled
+	 * 		open work disabled
+	 * 		cross enabled
+	 * 		save enabled
+	 */
+	public void setButtonState(boolean state) {
+		newPracticeProblemButton.setEnabled(!state);
+		newGradedProblemButton.setEnabled(!state);
+		openWorkButton.setEnabled(!state);
+		crossButton.setEnabled(state);
+		saveWorkButton.setEnabled(state);
 	}
-	
+		
 	public Panel getModelBuilderPanel() {
 		return modelBuilderPanel;
 	}
