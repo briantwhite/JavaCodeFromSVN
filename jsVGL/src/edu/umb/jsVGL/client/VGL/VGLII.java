@@ -10,11 +10,13 @@ import javax.swing.JOptionPane;
 
 import com.google.gwt.dev.shell.Messages;
 import com.google.gwt.i18n.client.Dictionary;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
 
+import edu.umb.jsVGL.client.JsVGL;
 import edu.umb.jsVGL.client.GeneticModels.Cage;
 import edu.umb.jsVGL.client.GeneticModels.CharacterSpecificationBank;
 import edu.umb.jsVGL.client.GeneticModels.GeneticModel;
@@ -60,16 +62,9 @@ public class VGLII {
 	private GeneticModel geneticModel;
 
 	/**
-	 * the model builder for the current problem
+	 * reference back to enclosing jsVGL
 	 */
-	private ModelBuilderUI modelBuilder;
-	private FlowPanel modelBuilderPanel;
-
-	/**
-	 * the summary chart
-	 */
-	private FlowPanel summaryChartPanel;
-
+	private JsVGL jsVGL;
 
 	/**
 	 * The collection of Cage UIs associated with the current problem
@@ -106,10 +101,9 @@ public class VGLII {
 	 * The constructor
 	 * 
 	 */
-	public VGLII(Dictionary params, FlowPanel modelBuilderPanel, FlowPanel summaryChartPanel) {
+	public VGLII(Dictionary params, JsVGL jsVGL) {
 		this.params = params;
-		this.modelBuilderPanel = modelBuilderPanel;
-		this.summaryChartPanel = summaryChartPanel;
+		this.jsVGL = jsVGL;
 		random = new Random();
 		changeSinceLastSave = false;
 	}
@@ -139,9 +133,6 @@ public class VGLII {
 
 		Cage fieldPop = geneticModel.generateFieldPopulation();
 		createCageUI(fieldPop, false);
-
-		modelBuilderPanel = new FlowPanel();
-//		modelBuilder = new ModelBuilderUI(modelBuilderPanel, this, geneticModel);
 
 		changeSinceLastSave = true;
 	}
@@ -259,21 +250,8 @@ public class VGLII {
 
 			int numOffspring = 0;
 			if (isSuperCross) {
-				Integer numSelected = (Integer)JOptionPane.showInputDialog(null, 
-						Messages.getInstance().getString("VGLII.SuperCrossMessage"),
-						Messages.getInstance().getString("VGLII.SuperCross"),
-						JOptionPane.PLAIN_MESSAGE,
-						null,
-						new Object[] {
-					new Integer(100),
-					new Integer(200),
-					new Integer(500),
-					new Integer(1000),
-					new Integer(2000)
-				},
-				new Integer(100));
-				if (numSelected == null) return;
-				numOffspring = numSelected.intValue();
+				if (jsVGL.getSuperCrossChoice() == 0) return;
+				numOffspring = jsVGL.getSuperCrossChoice();
 			} else {
 				numOffspring = random.nextInt(geneticModel.getMaxOffspring() - geneticModel.getMinOffspring())
 						+ geneticModel.getMinOffspring();
@@ -337,8 +315,7 @@ public class VGLII {
 		CageUI dlg = null;
 		String details = null;
 		details = geneticModel.toString();
-		dlg = new CageUI(this, 
-				geneticModel.isBeginnerMode(), 
+		dlg = new CageUI(geneticModel.isBeginnerMode(), 
 				isSuperCross,
 				c, 
 				selectionVial,
@@ -349,7 +326,7 @@ public class VGLII {
 		if (dlg != null) {
 			cageCollection.add(dlg);
 			calculateCagePosition(dlg);
-			dlg.setVisible(true);
+			dlg.show();
 		}
 		c.setCageUI(dlg);
 		return dlg;
@@ -450,55 +427,18 @@ public class VGLII {
 	 *            the cage whose position needs to be calculated
 	 */
 	private void calculateCagePosition(CageUI cageUI) {
-		Dimension cageSize = cageUI.getSize();
-		Dimension screenSize = this.getSize();
-		int positionX = (int) nextCageScreenPosition.getX();
-		int positionY = (int) nextCageScreenPosition.getY();
-		if ((positionX + cageSize.getWidth() > screenSize.getWidth())
-				|| (positionY + cageSize.getHeight() > screenSize.getHeight())) {
-			nextCageScreenPosition = new Point(this.getX() + 200,
-					this.getY() + 100);
-			positionX = (int) nextCageScreenPosition.getX();
-			positionY = (int) nextCageScreenPosition.getY();
-		}
-		nextCageScreenPosition = new Point(positionX + 30, positionY + 30);
-		cageUI.setLocation(positionX, positionY);
-	}
+        int browserWidth = Window.getClientWidth();
+        int browserHeight = Window.getClientHeight();
 
-	/**
-	 * This method rearranges the current list of cages in a proper fashion
-	 */
-	private void reArrangeCages() {
-		Dimension screenSize = this.getSize();
-		Iterator<CageUI> it = cageCollection.iterator();
-		nextCageScreenPosition = new Point(this.getX() + 200,
-				this.getY() + 100);
-		double positionX;
-		double positionY;
-		Dimension cageSize;
-		while (it.hasNext()) {
-			CageUI cageUI = it.next();
-			positionX = nextCageScreenPosition.getX();
-			positionY = nextCageScreenPosition.getY();
-			cageSize = cageUI.getSize();
-			if ((positionX + cageSize.getWidth() > screenSize.getWidth())
-					|| (positionY + cageSize.getHeight() > screenSize
-							.getHeight())) {
-				nextCageScreenPosition = new Point(this.getX() + 200, this
-						.getY() + 100);
-			} else
-				nextCageScreenPosition = new Point((int) positionX + 30,
-						(int) positionY + 30);
-			cageUI.setLocation((int) positionX, (int) positionY);
-			if (cageUI.isVisible())
-				cageUI.setVisible(true);
+		if ((nextCageScreenPositionX  > browserWidth)
+				|| (nextCageScreenPositionY > browserHeight)) {
+			nextCageScreenPositionX = 20;
+			nextCageScreenPositionY = 40;
 		}
-		CageUI lastCageUI = (CageUI) cageCollection.get(cageCollection
-				.size() - 1);
-		nextCageScreenPosition = new Point(lastCageUI.getX(), lastCageUI
-				.getY());
+		cageUI.setPopupPosition(nextCageScreenPositionX, nextCageScreenPositionY);
+		nextCageScreenPositionX += 30;
+		nextCageScreenPositionY += 30;
 	}
-
 
 	/*
 	 * get list of current cages 
@@ -514,7 +454,7 @@ public class VGLII {
 		String[] list = new String[numCages + 1];
 		list[0] = "?";
 		for (int i = 1; i < numCages + 1; i++) {
-			list[i] = Messages.getInstance().getString("VGLII.Cage") + " " + i;
+			list[i] = "Cage " + i;
 		}
 		return list;
 	}

@@ -200,12 +200,6 @@ public class GeneticModelFactory {
 			origPS.setEpistasis(
 					Float.parseFloat(paramValue));
 		
-		// params for edX
-		if (paramName.equals("edXCookieURL")) origPS.setEdXCookieURL(paramValue);
-		if (paramName.equals("edXLoginURL")) origPS.setEdXLoginURL(paramValue);
-		if (paramName.equals("edXSubmissionURL")) origPS.setEdXSubmissionURL(paramValue);
-		if (paramName.equals("edXLocation")) origPS.setEdXLocation(paramValue);
-
 		return origPS;
 	}
 

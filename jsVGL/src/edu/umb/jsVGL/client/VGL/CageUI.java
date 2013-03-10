@@ -38,6 +38,8 @@ import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import com.google.gwt.user.client.ui.DialogBox;
+
 import edu.umb.jsVGL.client.GeneticModels.Cage;
 import edu.umb.jsVGL.client.GeneticModels.Organism;
 import edu.umb.jsVGL.client.GeneticModels.OrganismList;
@@ -67,12 +69,11 @@ import edu.umb.jsVGL.client.PhenotypeImages.PhenotypeImageBank;
  * @author Nikunj Koolar & Brian White
  * @version 1.0 $Id$
  */
-public class CageUI extends JDialog 
-implements WindowListener, MouseListener, Comparable<CageUI> {
+public class CageUI extends DialogBox implements Comparable<CageUI> {
 
-	private static Color FIELD_POP_COLOR = new Color(0x2E8B57);
-	private static Color PARENT_COLOR = new Color(0x8E2323);
-	private static Color OFFSPRING_COLOR = new Color(0x007FFF);
+	private static String FIELD_POP_COLOR = "#2E8B57";
+	private static String PARENT_COLOR = "#8E2323";
+	private static String OFFSPRING_COLOR = "#0x007FFF";
 
 	/**
 	 * sets an upper bound so the cages (esp the Super Cross)
@@ -84,7 +85,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * the background color when the Cage is selected
 	 * for membership in the summary chart
 	 */
-	private static Color selectedColor = new Color(255,0,0); 
+	private static String selectedColor = "#FF0000"; 
 
 	/**
 	 * boolean to indicate membership in selected set for
@@ -224,12 +225,6 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	private ArrayList<Organism> parents;
 
 	/**
-	 * Holds the array of buttons associated with each of the phenotypes 
-	 * click these to see the images
-	 */
-	private JButton[] showPhenotypeButtons;
-
-	/**
 	 * holds array mapping real trait # to display order number
 	 * that way, the traits aren't displayed in chromosomal order
 	 */
@@ -339,16 +334,16 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 *            string containing information about the underlying genetics
 	 *            model
 	 */
-	public CageUI(Frame importFrame, 
-			boolean isbeginnersmode, 
+	public CageUI(boolean isbeginnersmode, 
 			boolean isSuperCross,
 			Cage cage,
 			SelectionVial sv, 
 			String details, 
 			int numberOfTraits,
 			int[] scrambledTraitOrder) {
+		
 		//initialize parent
-		super(importFrame, false);
+		super(false);
 		addWindowListener(this);
 		addMouseListener(this);
 		this.isBeginner = isbeginnersmode;
