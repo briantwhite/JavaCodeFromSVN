@@ -56,7 +56,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private static String FIELD_POP_COLOR = "#2E8B57";
 	private static String PARENT_COLOR = "#8E2323";
 	private static String OFFSPRING_COLOR = "#0x007FFF";
-
+	
 	/**
 	 * sets an upper bound so the cages (esp the Super Cross)
 	 *  don't get too big
@@ -238,7 +238,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 		super(false);
 
 		uiImageResource = GWT.create(UIImageResource.class);
-
+		
 		this.isBeginner = isbeginnersmode;
 		this.isSuperCross = isSuperCross;
 		this.cage = cage;
@@ -256,10 +256,9 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		this.numberOfTraits = numberOfTraits;
 
-		setTitle("Cage " + id);
+		setHTML("Cage " + id);
 
 		setupSubComponents();
-		setupDialogBox(numPhenosPresent);
 
 		isSelected = false;
 		summaryChartManager = SummaryChartManager.getInstance();
@@ -300,24 +299,9 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private void components() {
 		setupOrganismPanel();
 		setupParentInfoPanel();
-		add(superPanel);
+		setWidget(superPanel);
 	}
 
-	/**
-	 * This method sets up the extents and position for the Cage
-	 */
-	private void setupDialogBox(int panelCount) {
-		int dtHeight = (int) (Window.getClientHeight());
-		int dtWidth = (int) (Window.getClientWidth());
-		int ht = (int) (768 / 5.6);
-		dialogHeight = ht + (int) ((panelCount - 1) * ht)/3;
-		dialogWidth = 550;
-		dialogLocationX = (int) (dtWidth / 2) - dialogWidth / 2;
-		dialogLocationY = (int) (dtHeight / 2) - dialogHeight / 2;
-		setWidth(dialogWidth + "px");
-		setHeight(dialogHeight + "px");
-		setPopupPosition(dialogLocationX, dialogLocationY);
-	}
 
 	/**
 	 * This method sets up the panels for the Cage
@@ -338,12 +322,10 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		CaptionPanel captionedOrganismPanel = new CaptionPanel("Organisms");
 		VerticalPanel organismsPanel = new VerticalPanel();
-		organismsPanel.setWidth("100px");
 		captionedOrganismPanel.add(organismsPanel);
 
 		CaptionPanel captionedCountsPanel = new CaptionPanel("Counts");
 		VerticalPanel countsPanel = new VerticalPanel();
-		countsPanel.setWidth("50px");
 		captionedCountsPanel.add(countsPanel);
 
 		// headers for the different traits
@@ -356,7 +338,6 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 				childrenSortedByPhenotype[0].get(0).getPhenotypes();
 		for (int i = 0; i < numberOfTraits; i++) {
 			traitPanels[i] = new VerticalPanel();
-			traitPanels[i].setWidth("70px");
 			captionedTraitPanels[i] = new CaptionPanel(phenotypes.get(scrambledTraitOrder[i]).getTrait().getBodyPart());
 			captionedTraitPanels[i].add(traitPanels[i]);
 		}
@@ -372,8 +353,8 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 		// countspanel, phenotype panels
 		//and the picturespanel
 		for (int i = 0; i < numPhenosPresent; i++) {
-			IndividualPanelSet panelSet = setupIndividualPanel(i);
-			organismsPanel.add(panelSet.getOrganismPanel());
+			IndividualPanelSet panelSet = setupIndividualPanel(i);	
+			organismsPanel.add(panelSet.getOrganismPanel());	
 			countsPanel.add(panelSet.getCountsPanel());
 			HorizontalPanel[] phenoPanels = panelSet.getPhenotypePanels();
 			for (int j = 0; j < numberOfTraits; j++) {
@@ -475,10 +456,12 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			}
 		}
 		VerticalPanel organismPanel = new VerticalPanel();
+		organismPanel.setStyleName("OrganismRowPanel");
 		organismPanel.add(topRowOfOrganismsPanel);
 		organismPanel.add(bottomRowOfOrganismsPanel);
 
 		VerticalPanel countPanel = new VerticalPanel();
+		countPanel.setStyleName("CountRowPanel");
 
 		SimplePanel maleLabel = new SimplePanel();
 		maleLabel.add(new HTML("<img src=\"" + (new Image(uiImageResource.maleBlack())).getUrl() + "\">"));
@@ -523,6 +506,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 				childrenSortedByPhenotype[number].get(0).getPhenotypes();
 		for (int k = 0; k < numberOfTraits; k++) {
 			phenotypePanels[k] = new HorizontalPanel();
+			phenotypePanels[k].setStyleName("PhenotypeRowPanel");
 			phenotypePanels[k].add(new Label(phenoList.get(k).getTrait().getTraitName()));
 			phenotypePanels[k].setHeight("34px");
 		}
