@@ -66,7 +66,7 @@ public class JsVGL implements EntryPoint {
 		newPracticeProblemButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				saveWorkButton.setEnabled(false);
-//				vglII.newPracticeProblem();
+				vglII.newPracticeProblem();
 			}			
 		});
 

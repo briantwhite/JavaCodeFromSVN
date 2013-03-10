@@ -15,7 +15,6 @@ import edu.umb.jsVGL.client.ModelBuilder.ModelBuilderUI;
 import edu.umb.jsVGL.client.ModelBuilder.ModelDetailsPanel;
 import edu.umb.jsVGL.client.ModelBuilder.ModelPane;
 import edu.umb.jsVGL.client.VGL.CageUI;
-import edu.umb.jsVGL.client.VGL.Messages;
 
 /*
  * Compares correct answer (GeneticModel) with student answer (ModelBuilderUI)
@@ -79,23 +78,14 @@ public class AutoGrader {
 					if (gm.isGeneModelSexLinkedByIndex(i)) {
 						if (gm.getSexLinkageType()) {
 							// XX/XY
-							if (modelPane.getSexLinkageChoice().equals(
-									"XX " 
-									+ Messages.getInstance().getString("VGLII.Female")
-									+ "/XY "
-									+ Messages.getInstance().getString("VGLII.Male"))) sexLinkageCorrect = true;
+							if (modelPane.getSexLinkageChoice().equals("XX Female /XY Male")) sexLinkageCorrect = true;
 						} else {
 							// ZZ/ZW
-							if (modelPane.getSexLinkageChoice().equals(
-									"ZZ " 
-									+ Messages.getInstance().getString("VGLII.Male")
-									+ "/ZW "
-									+ Messages.getInstance().getString("VGLII.Female"))) sexLinkageCorrect = true;
+							if (modelPane.getSexLinkageChoice().equals("ZZ Male/ZW Female")) sexLinkageCorrect = true;
 						}
 					} else {
 						// not sex-linked
-						if (modelPane.getSexLinkageChoice().equals(
-								Messages.getInstance().getString("VGLII.NotSexLinked"))) sexLinkageCorrect = true;
+						if (modelPane.getSexLinkageChoice().equals("Not Sex-Linked")) sexLinkageCorrect = true;
 					}
 					Element slEl = doc.createElement("SexLinkage");
 					slEl.appendChild((doc.createElement("Correct")).appendChild(
@@ -197,26 +187,21 @@ public class AutoGrader {
 						// check to be sure they've instantiated the choices
 						if (mdp.t1Choices != null) {
 							// check het pheno first - if it's wrong, give up
-							if (mdp.t3Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) {
+							if (mdp.t3Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) {
 
 								// try either permutation of the homozygotes
 								// direct match
 								if (
-										(mdp.t1Choices.getSelectedItem().equals(
-												Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) &&
-												(mdp.t2Choices.getSelectedItem().equals(
-														Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) 
-								){
+										(mdp.t1Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) &&
+										(mdp.t2Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) 
+										){
 									detailsCorrect = true;
 								}
 								// swapped
 								if (
-										(mdp.t1Choices.getSelectedItem().equals(
-												Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) &&
-												(mdp.t2Choices.getSelectedItem().equals(
-														Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) 
-								){
+										(mdp.t1Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) &&
+										(mdp.t2Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) 
+										){
 									detailsCorrect = true;
 								}
 							} 
@@ -237,50 +222,32 @@ public class AutoGrader {
 						// check to be sure they've instantiated the choices
 						if (mdp.t1Choices != null) {
 							// then, see which permutation it is
-							if (mdp.t1Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) {
+							if (mdp.t1Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) {
 								// first alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t4Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t5Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t5.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t6Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t6.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) detailsCorrect = false;
+								if (!mdp.t4Choices.getSelectedItem().equals(geneModel.t4.getTraitName())) detailsCorrect = false;
+								if (!mdp.t5Choices.getSelectedItem().equals(geneModel.t5.getTraitName())) detailsCorrect = false;
+								if (!mdp.t6Choices.getSelectedItem().equals(geneModel.t6.getTraitName())) detailsCorrect = false;
 
-							} else if (mdp.t1Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))){
+							} else if (mdp.t1Choices.getSelectedItem().equals(geneModel.t3.getTraitName())){
 								// second alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t4Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t6.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t5Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t6Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t5.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) detailsCorrect = false;
+								if (!mdp.t4Choices.getSelectedItem().equals(geneModel.t6.getTraitName())) detailsCorrect = false;
+								if (!mdp.t5Choices.getSelectedItem().equals(geneModel.t4.getTraitName())) detailsCorrect = false;
+								if (!mdp.t6Choices.getSelectedItem().equals(geneModel.t5.getTraitName())) detailsCorrect = false;
 
-							} else if (mdp.t1Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) {
+							} else if (mdp.t1Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) {
 								// third alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t4Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t5.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t5Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t6.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t6Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) detailsCorrect = false;
+								if (!mdp.t4Choices.getSelectedItem().equals(geneModel.t5.getTraitName())) detailsCorrect = false;
+								if (!mdp.t5Choices.getSelectedItem().equals(geneModel.t6.getTraitName())) detailsCorrect = false;
+								if (!mdp.t6Choices.getSelectedItem().equals(geneModel.t4.getTraitName())) detailsCorrect = false;
 							}
 							// none of the alternatives, so details aren't correct
 						}
@@ -295,32 +262,23 @@ public class AutoGrader {
 						// check to be sure they've instantiated the choices
 						if (mdp.t1Choices != null) {
 							// then, see which permutation it is
-							if (mdp.t1Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) {
+							if (mdp.t1Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) {
 								// first alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) detailsCorrect = false;
 
-							} else if (mdp.t1Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))){
+							} else if (mdp.t1Choices.getSelectedItem().equals(geneModel.t3.getTraitName())){
 								// second alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) detailsCorrect = false;
 
-							} else if (mdp.t1Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) {
+							} else if (mdp.t1Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) {
 								// third alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(
-										Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;
+								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) detailsCorrect = false;
 
 							}
 							// none of the alternatives, so details aren't correct
@@ -332,33 +290,27 @@ public class AutoGrader {
 						 * check each entry; if any mismatch, it's wrong
 						 */
 						if ((mdp.t1Choices != null) && (geneModel.t1 != null)) {
-							if (!mdp.t1Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t1.getTraitName()))) detailsCorrect = false;
+							if (!mdp.t1Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) detailsCorrect = false;
 						}
 
 						if ((mdp.t2Choices != null) && (geneModel.t2 != null)) {
-							if (!mdp.t2Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t2.getTraitName()))) detailsCorrect = false;
+							if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) detailsCorrect = false;
 						}
 
 						if ((mdp.t3Choices != null) && (geneModel.t3 != null)) {
-							if (!mdp.t3Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t3.getTraitName()))) detailsCorrect = false;
+							if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) detailsCorrect = false;
 						}
 
 						if ((mdp.t4Choices != null) && (geneModel.t4 != null)) {
-							if (!mdp.t4Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t4.getTraitName()))) detailsCorrect = false;
+							if (!mdp.t4Choices.getSelectedItem().equals(geneModel.t4.getTraitName())) detailsCorrect = false;
 						}
 
 						if ((mdp.t5Choices != null) && (geneModel.t5 != null)) {
-							if (!mdp.t5Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t5.getTraitName()))) detailsCorrect = false;
+							if (!mdp.t5Choices.getSelectedItem().equals(geneModel.t5.getTraitName())) detailsCorrect = false;
 						}
 
 						if ((mdp.t6Choices != null) && (geneModel.t6 != null)) {
-							if (!mdp.t6Choices.getSelectedItem().equals(
-									Messages.getInstance().getTranslatedShortTraitName(geneModel.t6.getTraitName()))) detailsCorrect = false;
+							if (!mdp.t6Choices.getSelectedItem().equals(geneModel.t6.getTraitName())) detailsCorrect = false;
 						}
 					}
 				}
@@ -395,9 +347,9 @@ public class AutoGrader {
 			boolean interactionTypeGrade = false;
 			ModelPane mp = mbui.getModelPanes()[0]; // only one model pane in these problems
 			if (gm.getPhenoTypeProcessor().getInteractionType() == PhenotypeProcessor.COMPLEMENTATION) {
-				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Complementation"))) interactionTypeGrade = true;
+				if (mp.getInteractionTypeChoice().equals("Complementation")) interactionTypeGrade = true;
 			} else {
-				if (mp.getInteractionTypeChoice().equals(Messages.getInstance().getString("VGLII.Epistasis"))) interactionTypeGrade = true;
+				if (mp.getInteractionTypeChoice().equals("Epistasis")) interactionTypeGrade = true;
 			}
 			Element itEl = doc.createElement("InteractionType");
 			itEl.appendChild((doc.createElement("Correct")).appendChild(doc.createTextNode(String.valueOf(interactionTypeGrade))));
@@ -425,18 +377,15 @@ public class AutoGrader {
 				ModelDetailsPanel mdp = mp.getModelDetailsPanel();
 				// check each entry; if any mismatch, it's wrong
 				if ((mdp.t1Choices != null) && (gm.getPhenoTypeProcessor().getT1() != null)) {
-					if (!mdp.t1Choices.getSelectedItem().equals(
-							Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT1().getTraitName()))) detailsCorrect = false;
+					if (!mdp.t1Choices.getSelectedItem().equals(gm.getPhenoTypeProcessor().getT1().getTraitName())) detailsCorrect = false;
 				}
 
 				if ((mdp.t2Choices != null) && (gm.getPhenoTypeProcessor().getT2() != null)) {
-					if (!mdp.t2Choices.getSelectedItem().equals(
-							Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT2().getTraitName()))) detailsCorrect = false;
+					if (!mdp.t2Choices.getSelectedItem().equals(gm.getPhenoTypeProcessor().getT2().getTraitName())) detailsCorrect = false;
 				}
 
 				if ((mdp.t3Choices != null) && (gm.getPhenoTypeProcessor().getT3() != null)) {
-					if (!mdp.t3Choices.getSelectedItem().equals(
-							Messages.getInstance().getTranslatedShortTraitName(gm.getPhenoTypeProcessor().getT3().getTraitName()))) detailsCorrect = false;
+					if (!mdp.t3Choices.getSelectedItem().equals(gm.getPhenoTypeProcessor().getT3().getTraitName())) detailsCorrect = false;
 				}
 			}
 			Element dIt = doc.createElement("InteractionDetails");

@@ -65,6 +65,9 @@ public class VGLII {
 	 * reference back to enclosing jsVGL
 	 */
 	private JsVGL jsVGL;
+	
+//	private ModelBuilderUI modelBuilder;
+	
 
 	/**
 	 * The collection of Cage UIs associated with the current problem
@@ -201,7 +204,7 @@ public class VGLII {
 		}
 		root.appendChild(organisms);
 
-		root.appendChild(modelBuilder.save());
+//		root.appendChild(modelBuilder.save());
 
 		return root;
 	}
@@ -228,14 +231,14 @@ public class VGLII {
 		nextCageId = 1;
 		nextCageScreenPositionX = 0;
 		nextCageScreenPositionY = 0;
-		SummaryChartManager.getInstance().clearSelectedSet();
-		SummaryChartManager.getInstance().hideSummaryChart();
-		if (modelBuilder != null) {
-			modelBuilder.setVisible(false);
-		}
-		if (modelBuilderPanel != null) {
-			modelBuilderPanel.clear();
-		}
+//		SummaryChartManager.getInstance().clearSelectedSet();
+//		SummaryChartManager.getInstance().hideSummaryChart();
+//		if (modelBuilder != null) {
+//			modelBuilder.setVisible(false);
+//		}
+//		if (modelBuilderPanel != null) {
+//			modelBuilderPanel.clear();
+//		}
 	}
 
 	/**
@@ -276,15 +279,13 @@ public class VGLII {
 				parentUIs[1].setCentralOrganismUI(organismUI1);
 				parentUIs[0].setCentralOrganismUI(organismUI2);
 			}
-			modelBuilder.updateCageChoices(nextCageId);
+//			modelBuilder.updateCageChoices(nextCageId);
 			changeSinceLastSave = true;
 		} else {
-			JOptionPane.showMessageDialog(this, Messages.getInstance().getString("VGLII.VGLII") //$NON-NLS-1$
-					+ "\n"
-					+ Messages.getInstance().getString("VGLII.CrossWarningLine1") //$NON-NLS-1$
-					+ "\n"
-					+ Messages.getInstance().getString("VGLII.CrossWarningLine2"), //$NON-NLS-1$
-					Messages.getInstance().getString("VGLII.CrossTwo"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+//			JOptionPane.showMessageDialog(this, "Virtual Genetics Lab\n"
+//					+ "Cross Two cannot be carried out without two organisms\n"
+//					+ "Please select two organisms and try again",
+//					"Cross Two", JOptionPane.ERROR_MESSAGE); 
 		}
 	}
 
@@ -355,24 +356,18 @@ public class VGLII {
 			if (c.getXpos() == -1) {
 				calculateCagePosition(cageUI);
 			} else {
-				cageUI.setLocation(c.getXpos(), c.getYpos());
+				cageUI.setPopupPosition(c.getXpos(), c.getYpos());
 			}
 			cageUI.setVisible(c.isVisible());
 
 			if (c.getId() > 0) {
 				OrganismUI[] parentUIs = cageUI.getParentUIs();
 				if (parentUIs == null)
-					System.out.println(Messages.getInstance().getString("VGLII.NoParentsWarning") //$NON-NLS-1$
-							+ " #:"
-							+ c.getId());
+					System.out.println("No parents found for Cage #:" + c.getId());
 				if (parentUIs[0] == null)
-					System.out.println(Messages.getInstance().getString("VGLII.NoParent0Warning") //$NON-NLS-1$
-							+ " #:"
-							+ c.getId());
+					System.out.println("No parent0 found for Cage #:" + c.getId());
 				if (parentUIs[1] == null)
-					System.out.println(Messages.getInstance().getString("VGLII.NoParent1Warning") //$NON-NLS-1$
-							+ " #:"
-							+ c.getId());
+					System.out.println("No parent1 found for Cage #:" + c.getId());
 				Organism o1 = parentUIs[0].getOrganism();
 				Organism o2 = parentUIs[1].getOrganism();
 				int o1_Id = o1.getId();
@@ -397,24 +392,17 @@ public class VGLII {
 						}
 					} else {
 						System.out
-						.println(Messages.getInstance().getString("VGLII.ForOrgs") //$NON-NLS-1$
-								+ "#:"
-								+ c.getId());
+						.println("For Original Organisms of Parents of Cage #:" + c.getId());
 						if (originalOUI1 == null)
-							System.out.println(Messages.getInstance().getString("VGLII.OrgFor") + ": " + o1.getId() //$NON-NLS-1$
-									+ " " + o1.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+							System.out.println("Organism for: " + o1.getId() + " " + o1.getCageId() + " not found!"); 
 						if (originalOUI2 == null)
-							System.out.println(Messages.getInstance().getString("VGLII.OrgFor") + ": " + o2.getId() //$NON-NLS-1$
-									+ " " + o2.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+							System.out.println("Orgnaism for: " + o2.getId() + " " + o2.getCageId() + " not found!"); 
 					}
 				} else {
-					System.out.println(Messages.getInstance().getString("VGLII.ForParentsOfCage") + "#: " + c.getId()); //$NON-NLS-1$
+					System.out.println("For parents of Cage #: " + c.getId()); 
 					if (cage1 == null)
-						System.out.println(Messages.getInstance().getString("VGLII.CageForOrg") + o1.getId() //$NON-NLS-1$
-								+ " " + o1.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
-					if (cage2 == null)
-						System.out.println(Messages.getInstance().getString("VGLII.CageForOrg") + o2.getId() //$NON-NLS-1$
-								+ " " + o2.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+						System.out.println("Cage for organism " + o1.getId() + " " + o1.getCageId() + " not found!");
+						System.out.println("Cage for organism " + o2.getId() + " " + o2.getCageId() + " not found!"); 
 				}
 			}
 		}
@@ -460,9 +448,9 @@ public class VGLII {
 	}
 
 
-	public ModelBuilderUI getModelBuilder() {
-		return modelBuilder;
-	}
+//	public ModelBuilderUI getModelBuilder() {
+//		return modelBuilder;
+//	}
 
 	public void setChangeSinceLastSave() {
 		changeSinceLastSave = true;

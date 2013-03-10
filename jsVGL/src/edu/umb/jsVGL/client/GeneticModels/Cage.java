@@ -251,8 +251,8 @@ public class Cage {
 		Document d = XMLParser.createDocument();
 		Element ec = d.createElement("Cage");
 		ec.setAttribute("Created", creationDate.toString());
-		ec.setAttribute("Xpos", String.valueOf(cageUI.getLocation().x));
-		ec.setAttribute("Ypos", String.valueOf(cageUI.getLocation().y));
+		ec.setAttribute("Xpos", String.valueOf(cageUI.getOffsetWidth()));
+		ec.setAttribute("Ypos", String.valueOf(cageUI.getOffsetHeight()));
 		ec.setAttribute("Visible", String.valueOf(cageUI.isVisible()));
 		ec.setAttribute("SuperCross", String.valueOf(cageUI.isSuperCross()));
 		ec.setAttribute("Id", String.valueOf(id));

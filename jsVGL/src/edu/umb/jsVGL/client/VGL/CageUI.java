@@ -1,13 +1,9 @@
 package edu.umb.jsVGL.client.VGL;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
-
-import javax.swing.JPanel;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -74,7 +70,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private boolean isSelected;
 
 	/**
-	 * boolean to indicarte if this is a superCross
+	 * boolean to indicate if this is a superCross
 	 *  (and thus requires special layout
 	 */
 	private boolean isSuperCross;
@@ -123,36 +119,9 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private int dialogLocationY;
 
 	/**
-	 * This panel holds the entire list of Organism UIs for the Cage
-	 */
-	private VerticalPanel organismsPanel;
-
-	/**
-	 * This panel holds the numeric count of each sex type thats currently
-	 * present in the cage
-	 */
-	private VerticalPanel countsPanel;
-
-	/**
-	 * this is an array of panels, one for each trait
-	 */
-	private VerticalPanel[] traitPanels;
-
-	/**
-	 * This panel holds the set of Organisms,their Counts and their pictures for
-	 * each phenotype.
-	 */
-	private FlowPanel individualPanel;
-
-	/**
 	 * The panel that contains all the subpanels.
 	 */
 	private DockPanel superPanel;
-
-	/**
-	 * This panel holds the Individual Panel
-	 */
-	private DockPanel detailsPanel;
 
 	/**
 	 * This variable stores the count of the number of different phenotypes
@@ -164,6 +133,11 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	 * image resource
 	 */
 	private UIImageResource uiImageResource;
+
+	/**
+	 * container for the details of the genetic model, if shown
+	 */
+	private HTML textDetails;
 
 	/**
 	 * This variable stores a reference to the hashmap of children associated
@@ -344,7 +318,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private void setupOrganismPanel() {
 
 		superPanel = new DockPanel();
-		detailsPanel = new DockPanel();
+		DockPanel detailsPanel = new DockPanel();
 		CaptionPanel captionedDetailsPanel = null;
 		if (id > 1) {
 			captionedDetailsPanel = new CaptionPanel("Offspring");
@@ -353,21 +327,21 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			captionedDetailsPanel = new CaptionPanel("Field Population");
 			captionedDetailsPanel.add(detailsPanel);
 		}
-		individualPanel = new FlowPanel();
+		FlowPanel individualPanel = new FlowPanel();
 
 		CaptionPanel captionedOrganismPanel = new CaptionPanel("Organisms");
-		organismsPanel = new VerticalPanel();
+		VerticalPanel organismsPanel = new VerticalPanel();
 		organismsPanel.setWidth("100px");
 		captionedOrganismPanel.add(organismsPanel);
 
 		CaptionPanel captionedCountsPanel = new CaptionPanel("Counts");
-		countsPanel = new VerticalPanel();
+		VerticalPanel countsPanel = new VerticalPanel();
 		countsPanel.setWidth("50px");
 		captionedCountsPanel.add(countsPanel);
 
 		// headers for the different traits
 		CaptionPanel[] captionedTraitPanels = new CaptionPanel[numberOfTraits];
-		traitPanels = new VerticalPanel[numberOfTraits];
+		VerticalPanel[] traitPanels = new VerticalPanel[numberOfTraits];
 
 		// need to get the type of each trait
 		//  get one organism's pheno (it doesn't matter which one)
@@ -601,35 +575,14 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	 * toggle button is pressed
 	 */
 	private void showDetails() {
-		showHideDetails.setText(hideDetails);
-		showHideDetails.setIcon(downIcon);
-		JPanel panel = (JPanel) showHideDetails.getParent();
-		if (panel.getComponentCount() == 1) {
-			dialogHeight += 200;
-			int dialogWidth = this.getWidth();
-			setSize(dialogWidth, dialogHeight);
-			detailsScrollPane.setPreferredSize(new Dimension(320,200));
-			panel.add(detailsScrollPane, BorderLayout.CENTER);
-			pack();
-			repaint();
-		}
+		textDetails.setHTML(details);
 	}
 
 	/**
 	 * This method hides the panel thats has the genetics information
 	 */
 	private void hideDetails() {
-		showHideDetails.setText(showDetails);
-		showHideDetails.setIcon(closeIcon);
-		JPanel panel = (JPanel) showHideDetails.getParent();
-		if (panel.getComponentCount() == 2) {
-			panel.remove(detailsScrollPane);
-			int dialogWidth = this.getWidth();
-			dialogHeight -= 200;
-			setSize(dialogWidth, dialogHeight);
-			pack();
-			repaint();
-		}
+		textDetails.setHTML("");
 	}
 
 
@@ -639,6 +592,14 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 	public boolean isSuperCross() {
 		return isSuperCross;
+	}
+	
+	public void setIsSelected(boolean selected) {
+		isSelected = selected;
+	}
+	
+	public boolean getIsSelected() {
+		return isSelected;
 	}
 
 	/**

@@ -62,19 +62,19 @@ public class GeneticModelFactory {
 	}
 	
 	public SavedWorkFileData setupModelAndStateFromBase64Zip(String input) {
-		Document doc = Base64Coder.readBase64Zip(input);
-		return readModelFromXML(doc);
+		String xmlString = Base64Coder.readBase64Zip(input);
+		return readModelFromXML(xmlString);
 	}
 
-	private SavedWorkFileData readModelFromXML(Document doc) {
+	public SavedWorkFileData readModelFromXML(String xmlString) {
 		SavedWorkFileData result = null;
-		WorkFileProcessor processor = 
-				new WorkFileProcessor(doc.getDocumentElement().getChildNodes());
-		result = 
-				new SavedWorkFileData(
-						processor.getGeneticModel(), 
-						processor.getCages(),
-						processor.getModelBuilderState());
+//		WorkFileProcessor processor = 
+//				new WorkFileProcessor(doc.getDocumentElement().getChildNodes());
+//		result = 
+//				new SavedWorkFileData(
+//						processor.getGeneticModel(), 
+//						processor.getCages(),
+//						processor.getModelBuilderState());
 		return result;
 	}
 
