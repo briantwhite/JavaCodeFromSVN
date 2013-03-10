@@ -284,6 +284,13 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		String[] phenotypeNames = new String[numPhenosPresent];
 		childrenSortedByPhenotype = new OrganismList[numPhenosPresent];
+		
+		int i = 0;
+		while (it1.hasNext()) {
+			phenotypeNames[i] = new String(it1.next());
+			childrenSortedByPhenotype[i] = children.get(phenotypeNames[i]);
+			i++;
+		}
 	}
 
 	/**
