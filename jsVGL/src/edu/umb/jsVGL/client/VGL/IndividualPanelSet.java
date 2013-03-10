@@ -1,6 +1,7 @@
 package edu.umb.jsVGL.client.VGL;
 
-import javax.swing.JPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Brian White Summer 2008
  * 
@@ -24,35 +25,28 @@ import javax.swing.JPanel;
 
 public class IndividualPanelSet {
 	
-	private JPanel organismPanel;
-	private JPanel countsPanel;
-	private JPanel[] phenotypePanels;
-	private JPanel picturePanel;
+	private VerticalPanel organismPanel;
+	private VerticalPanel countsPanel;
+	private HorizontalPanel[] phenotypePanels;
 	
-	public IndividualPanelSet(JPanel organismPanel,
-			JPanel countsPanel,
-			JPanel[] phenotypePanels,
-			JPanel picturePanel) {
+	public IndividualPanelSet(VerticalPanel organismPanel,
+			VerticalPanel countsPanel,
+			HorizontalPanel[] phenotypePanels) {
 		this.organismPanel = organismPanel;
 		this.countsPanel = countsPanel;
 		this.phenotypePanels = phenotypePanels;
-		this.picturePanel = picturePanel;
 	}
 
-	public JPanel getOrganismPanel() {
+	public VerticalPanel getOrganismPanel() {
 		return organismPanel;
 	}
 
-	public JPanel getCountsPanel() {
+	public VerticalPanel getCountsPanel() {
 		return countsPanel;
 	}
 
-	public JPanel[] getPhenotypePanels() {
+	public HorizontalPanel[] getPhenotypePanels() {
 		return phenotypePanels;
-	}
-
-	public JPanel getPicturePanel() {
-		return picturePanel;
 	}
 
 }

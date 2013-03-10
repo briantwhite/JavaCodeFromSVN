@@ -1,50 +1,36 @@
 package edu.umb.jsVGL.client.VGL;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JToggleButton;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsVGL.client.GeneticModels.Cage;
 import edu.umb.jsVGL.client.GeneticModels.Organism;
 import edu.umb.jsVGL.client.GeneticModels.OrganismList;
 import edu.umb.jsVGL.client.GeneticModels.Phenotype;
-import edu.umb.jsVGL.client.PhenotypeImages.PhenotypeImageBank;
+import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
 
 /**
  * Nikunj Koolar cs681-3 Fall 2002 - Spring 2003 Project VGL File:
@@ -139,47 +125,34 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	/**
 	 * This panel holds the entire list of Organism UIs for the Cage
 	 */
-	private JPanel organismsPanel;
+	private VerticalPanel organismsPanel;
 
 	/**
 	 * This panel holds the numeric count of each sex type thats currently
 	 * present in the cage
 	 */
-	private JPanel countsPanel;
+	private VerticalPanel countsPanel;
 
 	/**
 	 * this is an array of panels, one for each trait
 	 */
-	private JPanel[] traitPanels;
-
-	/**
-	 * This panel holds the Image for each phenotype associated with the
-	 * organisms in the cage
-	 */
-	private JPanel picturesPanel;
+	private VerticalPanel[] traitPanels;
 
 	/**
 	 * This panel holds the set of Organisms,their Counts and their pictures for
 	 * each phenotype.
 	 */
-	private JPanel individualPanel;
+	private FlowPanel individualPanel;
 
 	/**
 	 * The panel that contains all the subpanels.
 	 */
-	private JPanel superPanel;
+	private DockPanel superPanel;
 
 	/**
 	 * This panel holds the Individual Panel
 	 */
-	private JPanel detailsPanel;
-
-	/**
-	 * This panel contains the info about the parents of the organisms of this
-	 * cage, or if the cage is the initial population cage then it holds the
-	 * information about the Genetic Model currently in use
-	 */
-	private JPanel parentInfoPanel;
+	private DockPanel detailsPanel;
 
 	/**
 	 * This variable stores the count of the number of different phenotypes
@@ -188,10 +161,9 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private int numPhenosPresent;
 
 	/**
-	 * This variable keeps track of the Icon Image associated with the frame
-	 * holding this cage
+	 * image resource
 	 */
-	private Image image;
+	private UIImageResource uiImageResource;
 
 	/**
 	 * This variable stores a reference to the hashmap of children associated
@@ -235,49 +207,6 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	 * used.
 	 */
 	private String details = null;
-
-	/**
-	 * This widget displays the informations stored in the details variable.
-	 */
-	private JEditorPane textDetails;
-
-	/**
-	 * this is the scrollpane for the details
-	 */
-	private JScrollPane detailsScrollPane;
-
-	/**
-	 * This is the button used to show/hide the Genetics information.
-	 */
-	private JToggleButton showHideDetails;
-
-	/**
-	 * This string holds the heading to be displayed on the toggle button when
-	 * the Genetics Details are being shown
-	 */
-	private String hideDetails = Messages.getInstance().getString("VGLII.HideGeneticModel");
-
-	/**
-	 * This string holds the heading to be displayed on the toggle button when
-	 * the Genetics Details are not being shown
-	 */
-	private String showDetails = Messages.getInstance().getString("VGLII.ShowGeneticModel");
-
-	/**
-	 * This icon is displayed in the toggle button when the Genetics Details are
-	 * not being shown
-	 */
-	private URL closeURL = CageUI.class.getResource("images/close.gif");
-
-	private ImageIcon closeIcon = new ImageIcon(closeURL);
-
-	/**
-	 * This icon is displayed in the toggle button when the Genetics Details are
-	 * being shown.
-	 */
-	private URL downURL = CageUI.class.getResource("images/down.gif");
-
-	private ImageIcon downIcon = new ImageIcon(downURL);
 
 	/**
 	 * This variable is used to decide the following: a. Whether to display the
@@ -330,9 +259,11 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			String details, 
 			int numberOfTraits,
 			int[] scrambledTraitOrder) {
-		
+
 		//initialize parent
 		super(false);
+
+		uiImageResource = GWT.create(UIImageResource.class);
 
 		this.isBeginner = isbeginnersmode;
 		this.isSuperCross = isSuperCross;
@@ -355,7 +286,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		setupSubComponents();
 		setupDialogBox(numPhenosPresent);
-		
+
 		isSelected = false;
 		summaryChartManager = SummaryChartManager.getInstance();
 
@@ -388,24 +319,23 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private void components() {
 		setupOrganismPanel();
 		setupParentInfoPanel();
-		setContentPane(superPanel);
+		add(superPanel);
 	}
 
 	/**
 	 * This method sets up the extents and position for the Cage
 	 */
 	private void setupDialogBox(int panelCount) {
-		int dtHeight = (int) (getGraphicsConfiguration().getDevice()
-				.getDefaultConfiguration().getBounds().getHeight());
-		int dtWidth = (int) (getGraphicsConfiguration().getDevice()
-				.getDefaultConfiguration().getBounds().getWidth());
+		int dtHeight = (int) (Window.getClientHeight());
+		int dtWidth = (int) (Window.getClientWidth());
 		int ht = (int) (768 / 5.6);
 		dialogHeight = ht + (int) ((panelCount - 1) * ht)/3;
 		dialogWidth = 550;
 		dialogLocationX = (int) (dtWidth / 2) - dialogWidth / 2;
 		dialogLocationY = (int) (dtHeight / 2) - dialogHeight / 2;
-		setSize(new Dimension(dialogWidth, dialogHeight));
-		setLocation(new Point(dialogLocationX, dialogLocationY));
+		setWidth(dialogWidth + "px");
+		setHeight(dialogHeight + "px");
+		setPopupPosition(dialogLocationX, dialogLocationY);
 	}
 
 	/**
@@ -413,86 +343,42 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	 */
 	private void setupOrganismPanel() {
 
-		Border emptyBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
-		BorderLayout bSelectionLayout = new BorderLayout();
-		superPanel = new JPanel();
-		superPanel.setLayout(bSelectionLayout);
-		superPanel.setBorder(BorderFactory.createLineBorder(unselectedColor, 2));
-		detailsPanel = new JPanel();
-		detailsPanel.setLayout(new BorderLayout());
+		superPanel = new DockPanel();
+		detailsPanel = new DockPanel();
+		CaptionPanel captionedDetailsPanel = null;
 		if (id > 1) {
-			TitledBorder border = BorderFactory.createTitledBorder(
-					Messages.getInstance().getString("VGLII.Offspring"));
-			border.setTitleColor(OFFSPRING_COLOR);
-			border.setBorder(BorderFactory.createLineBorder(OFFSPRING_COLOR));
-			detailsPanel.setBorder(border);
+			captionedDetailsPanel = new CaptionPanel("Offspring");
+			captionedDetailsPanel.add(detailsPanel);
 		} else {
-			TitledBorder border = BorderFactory.createTitledBorder(
-					Messages.getInstance().getString("VGLII.FieldPop"));
-			border.setTitleColor(FIELD_POP_COLOR);
-			border.setBorder(BorderFactory.createLineBorder(FIELD_POP_COLOR));
-			detailsPanel.setBorder(border);
+			captionedDetailsPanel = new CaptionPanel("Field Population");
+			captionedDetailsPanel.add(detailsPanel);
 		}
-		individualPanel = new JPanel();
-		FlowLayout fl = new FlowLayout();
-		fl.setHgap(1);
-		fl.setVgap(1);
-		individualPanel.setLayout(fl);
+		individualPanel = new FlowPanel();
 
-		JPanel organismsPanelWrapper = new JPanel();
-		organismsPanelWrapper.setLayout(
-				new BoxLayout(organismsPanelWrapper, BoxLayout.Y_AXIS));
-		organismsPanelWrapper.add(Box.createRigidArea(new Dimension(100,1)));
-		organismsPanel = new JPanel();
-		organismsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
-		organismsPanel.setBorder(BorderFactory.createTitledBorder(
-				emptyBorder, Messages.getInstance().getString("VGLII.Organisms"),
-				javax.swing.border.TitledBorder.CENTER,
-				javax.swing.border.TitledBorder.ABOVE_TOP));
+		CaptionPanel captionedOrganismPanel = new CaptionPanel("Organisms");
+		organismsPanel = new VerticalPanel();
+		organismsPanel.setWidth("100px");
+		captionedOrganismPanel.add(organismsPanel);
 
-		JPanel countsPanelWrapper = new JPanel();
-		countsPanelWrapper.setLayout(
-				new BoxLayout(countsPanelWrapper, BoxLayout.Y_AXIS));
-		countsPanel = new JPanel();
-		countsPanel.setLayout(new GridLayout(numPhenosPresent, 1));
-		countsPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
-				Messages.getInstance().getString("VGLII.Count"), 
-				javax.swing.border.TitledBorder.CENTER,
-				javax.swing.border.TitledBorder.ABOVE_TOP));
-		countsPanelWrapper.add(Box.createRigidArea(new Dimension(
-				countsPanel.getFontMetrics(
-						countsPanel.getFont()).stringWidth(
-								Messages.getInstance().getString("VGLII.Count")) + 5 ,1)));
+		CaptionPanel captionedCountsPanel = new CaptionPanel("Counts");
+		countsPanel = new VerticalPanel();
+		countsPanel.setWidth("50px");
+		captionedCountsPanel.add(countsPanel);
 
 		// headers for the different traits
-		traitPanels = new JPanel[numberOfTraits];
-		JPanel[] traitPanelWrappers = new JPanel[numberOfTraits];
+		CaptionPanel[] captionedTraitPanels = new CaptionPanel[numberOfTraits];
+		traitPanels = new VerticalPanel[numberOfTraits];
 
 		// need to get the type of each trait
 		//  get one organism's pheno (it doesn't matter which one)
 		ArrayList<Phenotype> phenotypes = 
-			childrenSortedByPhenotype[0].get(0).getPhenotypes();
+				childrenSortedByPhenotype[0].get(0).getPhenotypes();
 		for (int i = 0; i < numberOfTraits; i++) {
-			traitPanels[i] = new JPanel();
-			traitPanels[i].setLayout(new GridLayout(numPhenosPresent, 1));
-			traitPanels[i].setBorder(BorderFactory.createTitledBorder(
-					emptyBorder,
-					Messages.getInstance().getString("VGLII." +
-							phenotypes.get(scrambledTraitOrder[i]).getTrait().getBodyPart()), 
-							javax.swing.border.TitledBorder.CENTER,
-							javax.swing.border.TitledBorder.ABOVE_TOP));
-			traitPanelWrappers[i] = new JPanel();
-			traitPanelWrappers[i].setLayout(
-					new BoxLayout(traitPanelWrappers[i], BoxLayout.Y_AXIS));
-			traitPanelWrappers[i].add(Box.createHorizontalStrut(70));
-			traitPanelWrappers[i].add(traitPanels[i]);
+			traitPanels[i] = new VerticalPanel();
+			traitPanels[i].setWidth("70px");
+			captionedTraitPanels[i] = new CaptionPanel(phenotypes.get(scrambledTraitOrder[i]).getTrait().getBodyPart());
+			captionedTraitPanels[i].add(traitPanels[i]);
 		}
-
-		picturesPanel = new JPanel();
-		picturesPanel.setLayout(new GridLayout(numPhenosPresent, 1));
-		picturesPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder,
-				Messages.getInstance().getString("VGLII.Images"), javax.swing.border.TitledBorder.CENTER,
-				javax.swing.border.TitledBorder.ABOVE_TOP));
 
 		if (isSuperCross) {
 			childrenOrganismUIs = new OrganismUI[2 * numPhenosPresent][absoluteMaxOrgsPerRow];
@@ -508,27 +394,23 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			IndividualPanelSet panelSet = setupIndividualPanel(i);
 			organismsPanel.add(panelSet.getOrganismPanel());
 			countsPanel.add(panelSet.getCountsPanel());
-			JPanel[] phenoPanels = panelSet.getPhenotypePanels();
+			HorizontalPanel[] phenoPanels = panelSet.getPhenotypePanels();
 			for (int j = 0; j < numberOfTraits; j++) {
 				traitPanels[j].add(
 						phenoPanels[scrambledTraitOrder[j]]);
 			}
-			picturesPanel.add(showPhenotypeButtons[i]);
 		}
 
 		for (int i = 0; i < numberOfTraits; i++) {
-			individualPanel.add(traitPanelWrappers[i]);
+			individualPanel.add(captionedTraitPanels[i]);
 		}
 
-		organismsPanelWrapper.add(organismsPanel);
-		individualPanel.add(organismsPanelWrapper);
+		individualPanel.add(captionedOrganismPanel);
 
-		countsPanelWrapper.add(countsPanel);
-		individualPanel.add(countsPanelWrapper);
+		individualPanel.add(captionedCountsPanel);
 
-		individualPanel.add(picturesPanel);
-		detailsPanel.add(individualPanel, BorderLayout.NORTH);
-		superPanel.add(detailsPanel, BorderLayout.SOUTH);
+		detailsPanel.add(individualPanel, DockPanel.NORTH);
+		superPanel.add(detailsPanel, DockPanel.SOUTH);
 	}
 
 	/**
@@ -541,21 +423,8 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	 */
 	private IndividualPanelSet setupIndividualPanel(int number) {
 
-		Border etched = BorderFactory.createEtchedBorder();
-
-		JPanel topRowOfOrganismsPanel = new JPanel();
-		JPanel bottomRowOfOrganismsPanel = new JPanel();
-
-		GridLayout gridlt = null;
-		if (isSuperCross) {
-			gridlt = new GridLayout(1, absoluteMaxOrgsPerRow);
-		} else {
-			gridlt = new GridLayout(1, maxOrgsInOneRow);
-		}
-		gridlt.setHgap(1);
-		gridlt.setVgap(2);
-		topRowOfOrganismsPanel.setLayout(gridlt);
-		bottomRowOfOrganismsPanel.setLayout(gridlt);
+		HorizontalPanel topRowOfOrganismsPanel = new HorizontalPanel();
+		HorizontalPanel bottomRowOfOrganismsPanel = new HorizontalPanel();
 
 		OrganismUI[] topRowOfOrganismUIs = childrenOrganismUIs[2 * number];
 		OrganismUI[] bottomRowOFOrganismUIs = childrenOrganismUIs[2 * number + 1];
@@ -580,11 +449,10 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 					if ((childrenSortedByPhenotype[number].getNumberOfFemales() > 0) 
 							&& (it.hasNext())) {
 						// run thru the remaining males
-						while (((Organism)it.next()).getSexString().equals(
-								Messages.getInstance().getString("VGLII.Male"))) {}
+						while (((Organism)it.next()).getSexString().equals("Male")) {}
 					} 
 					bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow] = 
-						new OrganismUI(o, false, isBeginner, vial);
+							new OrganismUI(o, false, isBeginner, vial);
 					bottomRowOfOrganismsPanel.add(
 							bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow]);
 					i++;
@@ -609,64 +477,57 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 					j++;
 				}
 			}
+			SimplePanel filler = new SimplePanel();
+			filler.setWidth("15px");
+			filler.setHeight("15px");
 			if (i < maxOrgsInOneRow) {
 				while (i < maxOrgsInOneRow) {
-					topRowOfOrganismsPanel.add(Box.createRigidArea(new Dimension(15, 15)));
+					topRowOfOrganismsPanel.add(filler);
 					i++;
 				}
 			}
 			if (j < maxOrgsInOneRow) {
 				while (j < maxOrgsInOneRow) {
-					bottomRowOfOrganismsPanel.add(Box.createRigidArea(new Dimension(15, 15)));
+					bottomRowOfOrganismsPanel.add(filler);
 					j++;
 				}
 			}
 		}
-		JPanel organismPanel = new JPanel();
-		GridLayout gl = new GridLayout(2, 0);
-		gl.setVgap(4);
-		organismPanel.setLayout(gl);
-		organismPanel.setBorder(etched);
+		VerticalPanel organismPanel = new VerticalPanel();
 		organismPanel.add(topRowOfOrganismsPanel);
 		organismPanel.add(bottomRowOfOrganismsPanel);
 
-		JPanel countPanel = new JPanel();
-		GridLayout gl1 = new GridLayout(2, 0);
-		gl1.setVgap(0);
-		countPanel.setLayout(gl1);
-		countPanel.setBorder(etched);
-		URL maleLabelURL = CageUI.class.getResource("UIimages/maleblack.gif");
-		JLabel maleLabel = new JLabel(new ImageIcon(maleLabelURL));
-		URL femaleLabelURL = CageUI.class
-		.getResource("UIimages/femaleblack.gif");
-		JLabel femaleLabel = new JLabel(new ImageIcon(femaleLabelURL));
+		VerticalPanel countPanel = new VerticalPanel();
+
+		SimplePanel maleLabel = new SimplePanel();
+		maleLabel.add(new HTML("<img src=\"" + (new Image(uiImageResource.maleBlack())).getUrl() + "\">"));
+		SimplePanel femaleLabel = new SimplePanel();
+		femaleLabel.add(new HTML("<img src=\"" + (new Image(uiImageResource.femaleBlack())).getUrl() + "\">"));
+
 		String mCount = (new Integer(childrenSortedByPhenotype[number].getNumberOfMales())).toString();
 		if (childrenSortedByPhenotype[number].getNumberOfMales() < 10)
 			mCount = "0" + mCount;
-		JLabel maleCountLabel = new JLabel(mCount);
-		String fCount = (new Integer(childrenSortedByPhenotype[number].getNumberOfFemales()))
-		.toString();
+		Label maleCountLabel = new Label(mCount);
+
+		String fCount = (new Integer(childrenSortedByPhenotype[number].getNumberOfFemales())).toString();
 		if (childrenSortedByPhenotype[number].getNumberOfFemales() < 10)
 			fCount = "0" + fCount;
-		JLabel femaleCountLabel = new JLabel(fCount);
+		Label femaleCountLabel = new Label(fCount);
+
 		if (isSuperCross) {
-			maleCountLabel.setPreferredSize(new Dimension(35, 15));
-			femaleCountLabel.setPreferredSize(new Dimension(35, 15));
+			maleCountLabel.setWidth("35px");
+			maleCountLabel.setHeight("15px");
+			femaleCountLabel.setWidth("35px");
+			femaleCountLabel.setHeight("15px");
 		} else {
-			maleCountLabel.setPreferredSize(new Dimension(25, 15));
-			femaleCountLabel.setPreferredSize(new Dimension(25, 15));
+			maleCountLabel.setWidth("25px");
+			maleCountLabel.setHeight("15px");
+			femaleCountLabel.setWidth("25px");
+			femaleCountLabel.setHeight("15px");
 		}
-		maleCountLabel.setHorizontalTextPosition(javax.swing.JLabel.RIGHT);
-		maleCountLabel.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
-		femaleCountLabel.setHorizontalTextPosition(javax.swing.JLabel.RIGHT);
-		femaleCountLabel.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
-		JPanel malePanel = new JPanel();
-		JPanel femalePanel = new JPanel();
-		FlowLayout fl1 = new FlowLayout();
-		fl1.setHgap(1);
-		fl1.setVgap(1);
-		malePanel.setLayout(fl1);
-		femalePanel.setLayout(fl1);
+
+		FlowPanel malePanel = new FlowPanel();
+		FlowPanel femalePanel = new FlowPanel();
 		malePanel.add(maleCountLabel);
 		malePanel.add(maleLabel);
 		femalePanel.add(femaleCountLabel);
@@ -674,31 +535,18 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 		countPanel.add(malePanel);
 		countPanel.add(femalePanel);
 
-		JPanel picturePanel = new JPanel();
-		picturePanel.setLayout(new BorderLayout());
-		picturePanel.setPreferredSize(new Dimension(145, 38));
-		picturePanel.setBorder(etched);
-		picturePanel.add(showPhenotypeButtons[number], BorderLayout.EAST);
-
-		JPanel[] phenotypePanels = new JPanel[numberOfTraits];
+		HorizontalPanel[] phenotypePanels = new HorizontalPanel[numberOfTraits];
 		ArrayList<Phenotype> phenoList = 
-			childrenSortedByPhenotype[number].get(0).getPhenotypes();
+				childrenSortedByPhenotype[number].get(0).getPhenotypes();
 		for (int k = 0; k < numberOfTraits; k++) {
-			phenotypePanels[k] = new JPanel();
-			phenotypePanels[k].setLayout(
-					new BoxLayout(phenotypePanels[k], BoxLayout.X_AXIS));
-			phenotypePanels[k].setBorder(etched);
-			phenotypePanels[k].add(
-					new JLabel(
-							Messages.getInstance().getString("VGLII." +
-									phenoList.get(k).getTrait().getTraitName())));
-			phenotypePanels[k].add(Box.createRigidArea(new Dimension(1, 34)));
+			phenotypePanels[k] = new HorizontalPanel();
+			phenotypePanels[k].add(new Label(phenoList.get(k).getTrait().getTraitName()));
+			phenotypePanels[k].setHeight("34px");
 		}
 
 		return new IndividualPanelSet(organismPanel,
 				countPanel,
-				phenotypePanels,
-				picturePanel);
+				phenotypePanels);
 	}
 
 	/**
@@ -707,13 +555,9 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	 * displays the details about the underlying genetics model
 	 */
 	private void setupParentInfoPanel() {
-		parentInfoPanel = new JPanel();
+		CaptionPanel captionedParentInfoPanel = new CaptionPanel("Parents");
 		if (id > 1) {
-			TitledBorder border = BorderFactory.createTitledBorder(
-					Messages.getInstance().getString("VGLII.Parents"));
-			border.setTitleColor(PARENT_COLOR);
-			border.setBorder(BorderFactory.createLineBorder(PARENT_COLOR));
-			parentInfoPanel.setBorder(border);
+			FlowPanel parentInfoPanel = new FlowPanel();
 			parentOrganismUIs = new OrganismUI[2];
 			Organism o1 = parents.get(0);
 			Organism o2 = parents.get(1);
@@ -721,52 +565,35 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			String phenoName1 = o1.getPhenotypeString();
 			parentOrganismUIs[0] = new OrganismUI(o1, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[0]);
-			parentInfoPanel.add(new JLabel("("
-					+ Messages.getInstance().getString("VGLII.Cage")
-					+ " "
-					+ cageId + ")" 
-					+ " " + Messages.getInstance().translateLongPhenotypeName(phenoName1)));
-			parentInfoPanel.add(new JLabel(" X "));
+			parentInfoPanel.add(new Label("(Cage " + cageId + ") " + phenoName1));
+			parentInfoPanel.add(new Label(" X "));
 			cageId = o2.getCageId() + 1;
 			String phenoName2 = o2.getPhenotypeString();
 			parentOrganismUIs[1] = new OrganismUI(o2, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[1]);
-			parentInfoPanel.add(new JLabel("(" 
-					+ Messages.getInstance().getString("VGLII.Cage")
-					+ " "
-					+ cageId + ")"
-					+ " " + Messages.getInstance().translateLongPhenotypeName(phenoName2)));
+			parentInfoPanel.add(new Label("(Cage " + cageId + ") " + phenoName2));
 		} else {
 			if (isBeginner) {
 				if (details != null) {
-					textDetails = new JEditorPane();
-					textDetails.setContentType("text/html");
-					textDetails.setEditable(false);
-					textDetails.setBackground(parentInfoPanel
-							.getBackground());
-					textDetails.setBorder(BorderFactory.createEtchedBorder());
-					textDetails.setText(details);
-					showHideDetails = new JToggleButton();
-					textDetails.setFont(showHideDetails.getFont());
-					detailsScrollPane = new JScrollPane(textDetails);
-					showHideDetails.addItemListener(new ItemListener() {
-						public void itemStateChanged(ItemEvent e) {
-							if (e.getStateChange() == ItemEvent.DESELECTED) {
+					HTML textDetails = new HTML(details);
+					final ToggleButton showHideDetails = new ToggleButton("Show Genetic Model", "Hide Genetic Model");
+					ScrollPanel detailsScrollPanel = new ScrollPanel(textDetails);
+					showHideDetails.addClickHandler(new ClickHandler() {
+						public void onClick(ClickEvent event) {
+							if (showHideDetails.isDown()) {
 								showDetails();
-							} else if (e.getStateChange() == ItemEvent.SELECTED) {
+							} else {
 								hideDetails();
 							}
 						}
 					});
-					JPanel showHidePanel = new JPanel();
-					showHidePanel.setLayout(new BorderLayout());
-					showHidePanel.add(showHideDetails, BorderLayout.NORTH);
-					parentInfoPanel.add(showHidePanel);
-					showHideDetails.setSelected(true);
+					DockPanel showHidePanel = new DockPanel();
+					showHidePanel.add(showHideDetails, DockPanel.NORTH);
+					captionedParentInfoPanel.add(showHidePanel);
 				}
 			}
 		}
-		superPanel.add(parentInfoPanel, BorderLayout.NORTH);
+		superPanel.add(captionedParentInfoPanel, DockPanel.NORTH);
 	}
 
 	/**
@@ -809,7 +636,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	public int getId() {
 		return id;
 	}
-	
+
 	public boolean isSuperCross() {
 		return isSuperCross;
 	}
@@ -847,7 +674,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	 * @return the OrganismUI of the organism
 	 */
 	public OrganismUI getOrganismUIFor(int id) {
-		
+
 		int orgsPerRow = maxOrgsInOneRow;
 		if (isSuperCross) orgsPerRow = absoluteMaxOrgsPerRow;
 
