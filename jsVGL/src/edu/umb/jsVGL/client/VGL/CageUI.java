@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -21,6 +22,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 
 import edu.umb.jsVGL.client.GeneticModels.Cage;
 import edu.umb.jsVGL.client.GeneticModels.Organism;
@@ -237,6 +239,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 		//initialize parent
 		super(false);
 		setModal(false);
+		setStyleName("CageUI");
 		
 		uiImageResource = GWT.create(UIImageResource.class);
 
@@ -532,7 +535,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private void setupParentInfoPanel() {
 		if (id > 1) {
 			CaptionPanel captionedParentInfoPanel = new CaptionPanel("Parents");
-			FlowPanel parentInfoPanel = new FlowPanel();
+			HorizontalPanel parentInfoPanel = new HorizontalPanel();
 			parentOrganismUIs = new OrganismUI[2];
 			Organism o1 = parents.get(0);
 			Organism o2 = parents.get(1);
@@ -541,12 +544,15 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			parentOrganismUIs[0] = new OrganismUI(o1, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[0]);
 			parentInfoPanel.add(new Label("(Cage " + cageId + ") " + phenoName1));
-			parentInfoPanel.add(new Label(" X "));
+			Label crossLabel = new Label("X");
+			parentInfoPanel.add(crossLabel);
+			crossLabel.setStyleName("CrossLabel");
 			cageId = o2.getCageId() + 1;
 			String phenoName2 = o2.getPhenotypeString();
 			parentOrganismUIs[1] = new OrganismUI(o2, true, isBeginner, vial);
 			parentInfoPanel.add(parentOrganismUIs[1]);
 			parentInfoPanel.add(new Label("(Cage " + cageId + ") " + phenoName2));
+			captionedParentInfoPanel.add(parentInfoPanel);
 			superPanel.add(captionedParentInfoPanel, DockPanel.NORTH);
 		} else {
 			if (isBeginner) {
@@ -554,6 +560,10 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 					SimplePanel bottomPanel = new SimplePanel();
 					textDetails = new HTML("");
 					final ToggleButton showHideDetails = new ToggleButton("Show Genetic Model", "Hide Genetic Model");
+					showHideDetails.setStyleName("ShowGeneticModelButton");
+					HorizontalPanel buttonPanel = new HorizontalPanel();
+					buttonPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+					buttonPanel.add(showHideDetails);
 					ScrollPanel detailsScrollPanel = new ScrollPanel(textDetails);
 					showHideDetails.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
@@ -565,7 +575,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 						}
 					});
 					DockPanel showHidePanel = new DockPanel();
-					showHidePanel.add(showHideDetails, DockPanel.NORTH);
+					showHidePanel.add(buttonPanel, DockPanel.NORTH);
 					showHidePanel.add(detailsScrollPanel, DockPanel.CENTER);
 					bottomPanel.add(showHidePanel);
 					superPanel.add(bottomPanel, DockPanel.SOUTH);

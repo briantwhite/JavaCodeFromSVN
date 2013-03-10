@@ -14,6 +14,12 @@
 	height: 17px;
 }
 
+.CageUI {
+	border-style: solid;
+	border-width: 2px;
+	background: white;
+}
+
 .CountLabel {
 	border: none;
 	width: 17px;
@@ -33,5 +39,17 @@
 .CountRowPanel {
 	border: none;
 	padding-bottom: 5px;
+}
+
+.CrossLabel {
+	width: 30px;
+	text-align: center;
+}
+
+.ShowGeneticModelButton {
+	color: black;
+	background: #FFFF80;
+	font-size: 10px;
+	
 }
 
