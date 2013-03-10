@@ -6,7 +6,7 @@ import java.util.Iterator;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 
 import edu.umb.jsVGL.client.GeneticModels.Organism;
@@ -35,7 +35,7 @@ import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
  * @author Nikunj Koolar & Brian White
  * @version 1.0 $Id$
  */
-public class OrganismUI extends Button implements ClickHandler {
+public class OrganismUI extends HTML implements ClickHandler {
 	/**
 	 * The reference to the organism object
 	 */
@@ -109,6 +109,8 @@ public class OrganismUI extends Button implements ClickHandler {
 	public OrganismUI(Object organism, boolean isParent,
 			boolean isbeginnersmode, SelectionVial sv) {
 		super();
+		
+		setStyleName("OrganismUI");
 		
 		UIImageResource uiImageResource = GWT.create(UIImageResource.class);
 		

@@ -7,3 +7,15 @@
 	height: 16px;
 	display: block;
 }
+
+.OrganismUI {
+	border: none;
+	width: 17px;
+	height: 17px;
+}
+
+.CountLabel {
+	border: none;
+	width: 17px;
+	height: 17px;
+}

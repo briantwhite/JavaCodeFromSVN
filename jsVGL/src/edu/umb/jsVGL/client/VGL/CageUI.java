@@ -334,7 +334,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			captionedDetailsPanel = new CaptionPanel("Field Population");
 			captionedDetailsPanel.add(detailsPanel);
 		}
-		FlowPanel individualPanel = new FlowPanel();
+		HorizontalPanel individualPanel = new HorizontalPanel();
 
 		CaptionPanel captionedOrganismPanel = new CaptionPanel("Organisms");
 		VerticalPanel organismsPanel = new VerticalPanel();
@@ -482,8 +482,10 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		SimplePanel maleLabel = new SimplePanel();
 		maleLabel.add(new HTML("<img src=\"" + (new Image(uiImageResource.maleBlack())).getUrl() + "\">"));
+		maleLabel.setStyleName("CountLabel");
 		SimplePanel femaleLabel = new SimplePanel();
 		femaleLabel.add(new HTML("<img src=\"" + (new Image(uiImageResource.femaleBlack())).getUrl() + "\">"));
+		femaleLabel.setStyleName("CountLabel");
 
 		String mCount = (new Integer(childrenSortedByPhenotype[number].getNumberOfMales())).toString();
 		if (childrenSortedByPhenotype[number].getNumberOfMales() < 10)
@@ -507,8 +509,8 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			femaleCountLabel.setHeight("15px");
 		}
 
-		FlowPanel malePanel = new FlowPanel();
-		FlowPanel femalePanel = new FlowPanel();
+		HorizontalPanel malePanel = new HorizontalPanel();
+		HorizontalPanel femalePanel = new HorizontalPanel();
 		malePanel.add(maleCountLabel);
 		malePanel.add(maleLabel);
 		femalePanel.add(femaleCountLabel);
