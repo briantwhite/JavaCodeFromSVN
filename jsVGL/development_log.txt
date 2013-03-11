@@ -106,3 +106,17 @@ added this to JsVGL.gwt.xml
 finally OK
  <inherits name ="com.google.gwt.xml.XML"/> 
 
+ - got the UI basically working
+ 
+3/11/13
+need to put on hold
+things to do:
+1) punt summary chart for now
+2) have "close work without saving" button to get to new problem
+3) need "load work" button
+4) disable save in practice mode
+5) check inter-cage crosses
+6) need to make edx-interaction
+
+
+3
