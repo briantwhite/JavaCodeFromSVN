@@ -1539,3 +1539,6 @@ make a parameter <DNAforNNAFileName>
 11/29/12 making random protein generator
 SE.RandomProteinFitness <length> <number> <config file>
 version 2.4.0
+
+3/15/13
+testing to be sure git works
