@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data>
+<Codon>
+	<Triplet>TTT</Triplet>
+	<AA>N</AA>
+</Codon>
+<Codon>
+	<Triplet>TTC</Triplet>
+	<AA>N</AA>
+</Codon>
+<Codon>
+	<Triplet>TTA</Triplet>
+	<AA>M</AA>
+</Codon>
+<Codon>
+	<Triplet>TTG</Triplet>
+	<AA>M</AA>
+</Codon>
+<Codon>
+	<Triplet>CTT</Triplet>
+	<AA>M</AA>
+</Codon>
+<Codon>
+	<Triplet>CTC</Triplet>
+	<AA>M</AA>
+</Codon>
+<Codon>
+	<Triplet>CTA</Triplet>
+	<AA>M</AA>
+</Codon>
+<Codon>
+	<Triplet>CTG</Triplet>
+	<AA>M</AA>
+</Codon>
+<Codon>
+	<Triplet>ATT</Triplet>
+	<AA>G</AA>
+</Codon>
+<Codon>
+	<Triplet>ATC</Triplet>
+	<AA>G</AA>
+</Codon>
+<Codon>
+	<Triplet>ATA</Triplet>
+	<AA>G</AA>
+</Codon>
+<Codon>
+	<Triplet>ATG</Triplet>
+	<AA>Q</AA>
+</Codon>
+<Codon>
+	<Triplet>GTT</Triplet>
+	<AA>W</AA>
+</Codon>
+<Codon>
+	<Triplet>GTC</Triplet>
+	<AA>W</AA>
+</Codon>
+<Codon>
+	<Triplet>GTA</Triplet>
+	<AA>W</AA>
+</Codon>
+<Codon>
+	<Triplet>GTG</Triplet>
+	<AA>W</AA>
+</Codon>
+<Codon>
+	<Triplet>TCT</Triplet>
+	<AA>E</AA>
+</Codon>
+<Codon>
+	<Triplet>TCC</Triplet>
+	<AA>E</AA>
+</Codon>
+<Codon>
+	<Triplet>TCA</Triplet>
+	<AA>E</AA>
+</Codon>
+<Codon>
+	<Triplet>TCG</Triplet>
+	<AA>E</AA>
+</Codon>
+<Codon>
+	<Triplet>CCT</Triplet>
+	<AA>F</AA>
+</Codon>
+<Codon>
+	<Triplet>CCC</Triplet>
+	<AA>F</AA>
+</Codon>
+<Codon>
+	<Triplet>CCA</Triplet>
+	<AA>F</AA>
+</Codon>
+<Codon>
+	<Triplet>CCG</Triplet>
+	<AA>F</AA>
+</Codon>
+<Codon>
+	<Triplet>ACT</Triplet>
+	<AA>L</AA>
+</Codon>
+<Codon>
+	<Triplet>ACC</Triplet>
+	<AA>L</AA>
+</Codon>
+<Codon>
+	<Triplet>ACA</Triplet>
+	<AA>L</AA>
+</Codon>
+<Codon>
+	<Triplet>ACG</Triplet>
+	<AA>L</AA>
+</Codon>
+<Codon>
+	<Triplet>GCT</Triplet>
+	<AA>V</AA>
+</Codon>
+<Codon>
+	<Triplet>GCC</Triplet>
+	<AA>V</AA>
+</Codon>
+<Codon>
+	<Triplet>GCA</Triplet>
+	<AA>V</AA>
+</Codon>
+<Codon>
+	<Triplet>GCG</Triplet>
+	<AA>V</AA>
+</Codon>
+<Codon>
+	<Triplet>TAT</Triplet>
+	<AA>H</AA>
+</Codon>
+<Codon>
+	<Triplet>TAC</Triplet>
+	<AA>H</AA>
+</Codon>
+<Codon>
+	<Triplet>TAA</Triplet>
+	<AA>STOP</AA>
+</Codon>
+<Codon>
+	<Triplet>TAG</Triplet>
+	<AA>STOP</AA>
+</Codon>
+<Codon>
+	<Triplet>CAT</Triplet>
+	<AA>S</AA>
+</Codon>
+<Codon>
+	<Triplet>CAC</Triplet>
+	<AA>S</AA>
+</Codon>
+<Codon>
+	<Triplet>CAA</Triplet>
+	<AA>T</AA>
+</Codon>
+<Codon>
+	<Triplet>CAG</Triplet>
+	<AA>T</AA>
+</Codon>
+<Codon>
+	<Triplet>AAT</Triplet>
+	<AA>R</AA>
+</Codon>
+<Codon>
+	<Triplet>AAC</Triplet>
+	<AA>R</AA>
+</Codon>
+<Codon>
+	<Triplet>AAA</Triplet>
+	<AA>I</AA>
+</Codon>
+<Codon>
+	<Triplet>AAG</Triplet>
+	<AA>I</AA>
+</Codon>
+<Codon>
+	<Triplet>GAT</Triplet>
+	<AA>A</AA>
+</Codon>
+<Codon>
+	<Triplet>GAC</Triplet>
+	<AA>A</AA>
+</Codon>
+<Codon>
+	<Triplet>GAA</Triplet>
+	<AA>K</AA>
+</Codon>
+<Codon>
+	<Triplet>GAG</Triplet>
+	<AA>K</AA>
+</Codon>
+<Codon>
+	<Triplet>TGT</Triplet>
+	<AA>P</AA>
+</Codon>
+<Codon>
+	<Triplet>TGC</Triplet>
+	<AA>P</AA>
+</Codon>
+<Codon>
+	<Triplet>TGA</Triplet>
+	<AA>STOP</AA>
+</Codon>
+<Codon>
+	<Triplet>TGG</Triplet>
+	<AA>Y</AA>
+</Codon>
+<Codon>
+	<Triplet>CGT</Triplet>
+	<AA>D</AA>
+</Codon>
+<Codon>
+	<Triplet>CGC</Triplet>
+	<AA>D</AA>
+</Codon>
+<Codon>
+	<Triplet>CGA</Triplet>
+	<AA>D</AA>
+</Codon>
+<Codon>
+	<Triplet>CGG</Triplet>
+	<AA>D</AA>
+</Codon>
+<Codon>
+	<Triplet>AGT</Triplet>
+	<AA>E</AA>
+</Codon>
+<Codon>
+	<Triplet>AGC</Triplet>
+	<AA>E</AA>
+</Codon>
+<Codon>
+	<Triplet>AGA</Triplet>
+	<AA>D</AA>
+</Codon>
+<Codon>
+	<Triplet>AGG</Triplet>
+	<AA>D</AA>
+</Codon>
+<Codon>
+	<Triplet>GGT</Triplet>
+	<AA>C</AA>
+</Codon>
+<Codon>
+	<Triplet>GGC</Triplet>
+	<AA>C</AA>
+</Codon>
+<Codon>
+	<Triplet>GGA</Triplet>
+	<AA>C</AA>
+</Codon>
+<Codon>
+	<Triplet>GGG</Triplet>
+	<AA>C</AA>
+</Codon>
+
+<StartCodon>CTG</StartCodon>
+
+</Data>
