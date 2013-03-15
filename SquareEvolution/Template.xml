@@ -1,0 +1,11 @@
+<NumUnboundStates>1E6</NumUnboundStates>
+<MinAcceptableProteinLength>10</MinAcceptableProteinLength>
+<PopulationSize>10000</PopulationSize>
+<PointMutRate>0.00011</PointMutRate>
+<Neutrality>0</Neutrality>
+<NumberOfRuns>100</NumberOfRuns>
+<NumGenerationsPerRun>1001</NumGenerationsPerRun>
+<MiniReportInterval>100</MiniReportInterval>
+<BigReportInterval>199</BigReportInterval>
+<FitnessReportInterval>1</FitnessReportInterval>
+</Data>
