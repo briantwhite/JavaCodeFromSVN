@@ -101,10 +101,10 @@ public class GeneticCode {
 							if (!all20.contains(aa)) {
 								System.err.println(
 										"Your genetic code includes an illegal amino acid abbreviation:" 
-										+ aa 
-										+ " for codon "
-										+ triplet
-										+ " ; it won't work properly");
+												+ aa 
+												+ " for codon "
+												+ triplet
+												+ " ; it won't work properly");
 								codeTable[index] = null;				
 							} else {
 								// be sure it's empty first (no duplicates)
@@ -112,7 +112,7 @@ public class GeneticCode {
 									codeTable[index] = aa;
 								} else {
 									System.err.println(
-									"Your genetic code includes duplicate entries for one codon; it won't work properly");
+											"Your genetic code includes duplicate entries for one codon; it won't work properly");
 									codeTable[index] = null;
 								}
 							}
@@ -166,8 +166,8 @@ public class GeneticCode {
 			if (missingAnAA) {
 				System.err.println(
 						"Your code is missing codons for these amino acids " 
-						+ missingAABuffer.toString()
-						+ "; it won't work properly!");
+								+ missingAABuffer.toString()
+								+ "; it won't work properly!");
 			}
 
 		}
@@ -180,7 +180,7 @@ public class GeneticCode {
 	/*
 	 * converts codon strings to 0-63 index to codon table
 	 * uses ascii values for AGCT to make index:
-	 * char		hex		bin
+	 * char		hex		bin   **
 	 *	A		41		0100 0001
 	 *	C		43		0100 0011
 	 *	G		47		0100 0111
@@ -206,6 +206,22 @@ public class GeneticCode {
 		}
 		byte[] bytes = codon.getBytes();
 		return codonToIndex(bytes[0], bytes[1], bytes[2]);
+	}
+
+	public String indexToCodon(int index) {
+		byte b = (byte)index;
+		byte b1 = (byte) (b & 0x03);
+		byte b2 = (byte) ((b & 0xC0) >>> 2);
+		byte b3 = (byte) ((b & 0x30) >>> 4);
+		return byteToLetter(b1) + byteToLetter(b2) + byteToLetter(b3);
+	}
+
+	public String byteToLetter(byte b) {
+		if (b == 0x00) return "A";
+		if (b == 0x01) return "C";
+		if (b == 0x02) return "T";
+		if (b == 0x03) return "G";
+		return "";
 	}
 
 
@@ -299,7 +315,7 @@ public class GeneticCode {
 		StringBuffer b = new StringBuffer();
 		// be sure first aa is encoded by a start codon
 		ArrayList<String> codonsForFirstAA = 
-			reverseTranslationTable.get(protein.substring(0,1));
+				reverseTranslationTable.get(protein.substring(0,1));
 
 		// make a list of the start codons that could encode first aa
 		ArrayList<String> possibleStartCodons = new ArrayList<String>();
@@ -316,7 +332,7 @@ public class GeneticCode {
 		//now, the rest
 		for (int i = 1; i < protein.length(); i++) {
 			ArrayList<String> codonsForThisAA =
-				reverseTranslationTable.get(protein.substring(i, i + 1));
+					reverseTranslationTable.get(protein.substring(i, i + 1));
 			b.append(codonsForThisAA.get(r.nextInt(codonsForThisAA.size())));
 		}
 		return b.toString();
@@ -338,4 +354,13 @@ public class GeneticCode {
 		System.out.println("It took " + elapsedTime + " mSec");
 	}
 
+	public String getRandomStopCodon() {
+		boolean foundStopCodon = false;
+		int index = -1;
+		while (!foundStopCodon) {
+			index = r.nextInt(64);
+			foundStopCodon = isStopCodon[index];
+		}
+		return indexToCodon(index);
+	}
 }
