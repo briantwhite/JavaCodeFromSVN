@@ -101,12 +101,13 @@ foreach $codeFileName (@codeFileNames) {
 	$ligandDNAs{$codeName} = $l;
 }
 
+
 # make the polymer -> ligand binder & -> dimer files
 print "Making p -> lb and p ->d files\n";
 foreach $codeFileName (@codeFileNames) {
 		$codeName = $codeFileName;
 		$codeName =~ s/\.xml//g;
-		print "\t$codeName\n";
+
 		if ($codeName =~ m/H/) {
 			$toLBxmlFileName = "xml0/".$codeFileName."_p_lb.xml";
 			$toDxmlFileName = "xml0/".$codeFileName."_p_d.xml";
@@ -118,25 +119,93 @@ foreach $codeFileName (@codeFileNames) {
 		}
 		
 		open(TO_L_FILE, ">$toLBxmlFileName");
-		print TO_L_FILE $xmlHeader;
-		print TO_L_FILE "<StartingDNA>";
-		print TO_L_FILE $polymerDNAs{$codeName};
-		print TO_L_FILE "</StartingDNA>\n";
+		print TO_L_FILE $xmlHeader;	
+		print TO_L_FILE "$polymerDNAs{$codeName}";		
+		print TO_L_FILE "<GeneticCodeFileName>Codes/$codeFileName</GeneticCodeFileName>\n";		
 		print TO_L_FILE $ligandTags;
 		print TO_L_FILE $tailXML;
 		print TO_L_FILE $templateXML;
-		close TO_L_FILE;
+		close TO_L_FILE;	
 		
-		open(TO_D_FILE, ">$toLBxmlFileName");
-		print TO_D_FILE $xmlHeader;
-		print TO_D_FILE "<StartingDNA>";
-		print TO_D_FILE $polymerDNAs{$codeName};
-		print TO_D_FILE "</StartingDNA>\n";
+		open(TO_D_FILE, ">$toDxmlFileName");
+		print TO_D_FILE $xmlHeader;	
+		print TO_D_FILE "$polymerDNAs{$codeName}";
+		print TO_D_FILE "<GeneticCodeFileName>Codes/$codeFileName</GeneticCodeFileName>\n";		
 		print TO_D_FILE $dimerTags;
 		print TO_D_FILE $tailXML;
 		print TO_D_FILE $templateXML;
 		close TO_D_FILE;
 }
 
+# make the dimer -> ligand binder & -> polymer files
+print "Making d -> lb and d -> p files\n";
+foreach $codeFileName (@codeFileNames) {
+		$codeName = $codeFileName;
+		$codeName =~ s/\.xml//g;
+
+		if ($codeName =~ m/H/) {
+			$toLBxmlFileName = "xml0/".$codeFileName."_d_lb.xml";
+			$toPxmlFileName = "xml0/".$codeFileName."_d_p.xml";
+			$tailXML = $port0 . $log0 . $fit0 . $badP0;
+		} else {
+			$toLBxmlFileName = "xml1/".$codeFileName."_d_lb.xml";
+			$toPxmlFileName = "xml1/".$codeFileName."_d_p.xml";
+			$tailXML = $port1 . $log1 . $fit1 . $badP1;
+		}
+		
+		open(TO_L_FILE, ">$toLBxmlFileName");
+		print TO_L_FILE $xmlHeader;		
+		print TO_L_FILE "$dimerDNAs{$codeName}";		
+		print TO_L_FILE "<GeneticCodeFileName>Codes/$codeFileName</GeneticCodeFileName>\n";		
+		print TO_L_FILE $ligandTags;
+		print TO_L_FILE $tailXML;
+		print TO_L_FILE $templateXML;
+		close TO_L_FILE;
+				
+		open(TO_P_FILE, ">$toPxmlFileName");
+		print TO_P_FILE $xmlHeader;		
+		print TO_P_FILE "$dimerDNAs{$codeName}";
+		print TO_P_FILE "<GeneticCodeFileName>Codes/$codeFileName</GeneticCodeFileName>\n";		
+		print TO_P_FILE $polymerTags;
+		print TO_P_FILE $tailXML;
+		print TO_P_FILE $templateXML;
+		close TO_P_FILE;
+}
+
+# make the ligand binder -> polymer & -> dimer files
+print "Making lb -> p and lb -> d files\n";
+foreach $codeFileName (@codeFileNames) {
+		$codeName = $codeFileName;
+		$codeName =~ s/\.xml//g;
+
+		if ($codeName =~ m/H/) {
+			$toPxmlFileName = "xml0/".$codeFileName."_lb_p.xml";
+			$toDxmlFileName = "xml0/".$codeFileName."_lb_d.xml";
+			$tailXML = $port0 . $log0 . $fit0 . $badP0;
+		} else {
+			$toPxmlFileName = "xml1/".$codeFileName."_lb_p.xml";
+			$toDxmlFileName = "xml1/".$codeFileName."_lb_d.xml";
+			$tailXML = $port1 . $log1 . $fit1 . $badP1;
+		}
+		
+		open(TO_P_FILE, ">$toPxmlFileName");
+		print TO_P_FILE $xmlHeader;
+		print TO_P_FILE "$ligandDNAs{$codeName}";		
+		print TO_P_FILE "<GeneticCodeFileName>Codes/$codeFileName</GeneticCodeFileName>\n";		
+		print TO_P_FILE $polymerTags;
+		print TO_P_FILE $tailXML;
+		print TO_P_FILE $templateXML;
+		close TO_P_FILE;
+				
+		open(TO_D_FILE, ">$toDxmlFileName");
+		print TO_D_FILE $xmlHeader;		
+		print TO_D_FILE "$ligandDNAs{$codeName}";
+		print TO_D_FILE "<GeneticCodeFileName>Codes/$codeFileName</GeneticCodeFileName>\n";		
+		print TO_D_FILE $dimerTags;
+		print TO_D_FILE $tailXML;
+		print TO_D_FILE $templateXML;
+		close TO_D_FILE;
+}
+print "done\n";
 
 
