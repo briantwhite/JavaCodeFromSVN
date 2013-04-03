@@ -16,3 +16,6 @@ for positioning the dialogboxes DialogBox.PopupPosition()
 
 for pretty-printing the xml, use http://www.freeformatter.com/xml-formatter.html
  
+when the red exclamation point shows up in eclipse, 
+	project -> properties -> java build path 
+		edit AppEngine to point to specific one - choose the only one in the list
