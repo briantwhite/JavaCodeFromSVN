@@ -8,16 +8,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
+
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.Widget;
 
 import edu.umb.jsVGL.client.GeneticModels.ProblemTypeSpecification;
 
-public class ModelPane extends JPanel implements ItemListener {
+public class ModelPane extends AbsolutePanel implements ChangeHandler {
 
 	/*
 	 *  color for list items where the student didn't have 
@@ -31,25 +36,25 @@ public class ModelPane extends JPanel implements ItemListener {
 	private ProblemTypeSpecification specs;
 	private ModelBuilderUI modelBuilderUI;
 
-	private JComboBox sexLinkageChoices;
-	private JComboBox sexLinkageCageChoices;
-	private JComboBox alleleNumberChoices;
-	private JComboBox interactionTypeChoices;
-	private JComboBox interactionCageChoices;
-	private JComboBox t1Choices;
-	private JComboBox t2Choices;
-	private JComboBox t3Choices;
-	private JComboBox t4Choices;
-	private JComboBox t5Choices;
-	private JComboBox t6Choices;
+	private ListBox sexLinkageChoices;
+	private ListBox sexLinkageCageChoices;
+	private ListBox alleleNumberChoices;
+	private ListBox interactionTypeChoices;
+	private ListBox interactionCageChoices;
+	private ListBox t1Choices;
+	private ListBox t2Choices;
+	private ListBox t3Choices;
+	private ListBox t4Choices;
+	private ListBox t5Choices;
+	private ListBox t6Choices;
 
 	private boolean circularPossible;
 	private boolean incDomPossible;
 	private boolean complementationPossible;
 	private boolean epistasisPossible;
 
-	private JPanel interactionTypePanel;
-	private JPanel interactionDetailsPanel;
+	private CaptionPanel interactionTypePanel;
+	private AbsolutePanel interactionDetailsPanel;
 
 	// values updated by the model details panels
 	private int t1Value;
@@ -74,70 +79,46 @@ public class ModelPane extends JPanel implements ItemListener {
 	}
 
 	private void setupUI() {
-		JPanel masterPanel = new JPanel();
-		masterPanel.setLayout(new BoxLayout(masterPanel, BoxLayout.Y_AXIS));
-		masterPanel.add(Box.createRigidArea(new Dimension(300,1)));
 
 		/*
 		 * sex linkage info
 		 */
-		JPanel sexLinkagePanel = new JPanel();
-		sexLinkagePanel.setBorder(
-				BorderFactory.createTitledBorder(
-						Messages.getInstance().getString("VGLII.SexLinkage")));
-		ArrayList<String>sexLinkageChoiceStrings = new ArrayList<String>();
+		CaptionPanel sexLinkagePanel = new CaptionPanel("Sex Linkage");
+		sexLinkageChoices = new ListBox();
 		if (specs.getGene1_chSexLinked() > 0.0) {
-			sexLinkageChoiceStrings.add(
-					Messages.getInstance().getString(
-					"VGLII.Unknown"));
-			sexLinkageChoiceStrings.add(Messages.getInstance().getString("VGLII.NotSexLinked"));
-			sexLinkageChoiceStrings.add("XX " 
-					+ Messages.getInstance().getString("VGLII.Female")
-					+ "/XY "
-					+ Messages.getInstance().getString("VGLII.Male"));
+			sexLinkageChoices.addItem("Unknown");
+			sexLinkageChoices.addItem("NotSexLinked");
+			sexLinkageChoices.addItem("XX Female/XY Male");
 			if (specs.getChZZ_ZW() > 0.0) {
-				sexLinkageChoiceStrings.add("ZZ " 
-						+ Messages.getInstance().getString("VGLII.Male")
-						+ "/ZW "
-						+ Messages.getInstance().getString("VGLII.Female"));
+				sexLinkageChoices.addItem("ZZ Male/ZW Female");
 			}
 		} else {
-			sexLinkageChoiceStrings.add(Messages.getInstance().getString("VGLII.NotSexLinked"));
+			sexLinkageChoices.addItem("Not Sex Linked");
 		}
-		String[] slcs = new String[sexLinkageChoiceStrings.size()];
-		for (int i = 0; i < slcs.length; i++) {
-			slcs[i] = sexLinkageChoiceStrings.get(i);
-		}
-		sexLinkageChoices = new JComboBox(slcs);
-		sexLinkageChoices.addItemListener(this);
+		sexLinkageChoices.addChangeHandler(this);
 		sexLinkagePanel.add(sexLinkageChoices);
 
-		masterPanel.add(sexLinkagePanel);
+		add(sexLinkagePanel);
 
 
 		// number of alleles
-		JPanel alleleNumberChoicePanel = new JPanel();
-		alleleNumberChoicePanel.setBorder(
-				BorderFactory.createTitledBorder(
-						Messages.getInstance().getString("VGLII.NumberOfAlleles")));
+		CaptionPanel alleleNumberChoicePanel = new CaptionPanel("Number of Alleles");
 		String[] alleleNumberStrings;
 		boolean isOnly2Alleles;
+		alleleNumberChoices = new ListBox();
 		if ((specs.getGene1_ch3Alleles() > 0.0) ||
 				(specs.getGene2_ch3Alleles() > 0.0) ||
 				(specs.getGene3_ch3Alleles() > 0.0)) {
 			isOnly2Alleles = false;
-			alleleNumberStrings = new String[3];
-			alleleNumberStrings[0] = Messages.getInstance().getString("VGLII.Unknown");
-			alleleNumberStrings[1] = "2-" + Messages.getInstance().getString("VGLII.Allele");
-			alleleNumberStrings[2] = "3-" + Messages.getInstance().getString("VGLII.Allele");
+			alleleNumberChoices.addItem("Unknown");
+			alleleNumberChoices.addItem("2-Allele");
+			alleleNumberChoices.addItem("3-Allele");
 		} else {
 			isOnly2Alleles = true;
-			alleleNumberStrings = new String[1];
-			alleleNumberStrings[0] = "2-" + Messages.getInstance().getString("VGLII.Allele");
+			alleleNumberChoices.addItem("2-Allele");
 		}
-		alleleNumberChoices = new JComboBox(alleleNumberStrings);
 		alleleNumberChoicePanel.add(alleleNumberChoices);
-		masterPanel.add(alleleNumberChoicePanel);
+		add(alleleNumberChoicePanel);
 
 		// allele interaction type
 		circularPossible = false;
@@ -158,29 +139,21 @@ public class ModelPane extends JPanel implements ItemListener {
 		if ((specs.getPhenotypeInteraction() > 0.0)
 				&& (specs.getEpistasis() != 0.0)) epistasisPossible = true;
 
-		interactionTypePanel = new JPanel();
-		interactionTypePanel.setBorder(
-				BorderFactory.createTitledBorder(
-						Messages.getInstance().getString("VGLII.GeneralAllelicInteractions")));
+		interactionTypePanel = new CaptionPanel("Interactions among alleles");
 		if (isOnly2Alleles) {
-			interactionTypePanel.removeAll();
 			TwoAllelePanel twap = new TwoAllelePanel(
 					incDomPossible, complementationPossible, epistasisPossible);
 			interactionTypeChoices = twap.getInteractionTypeChoices();
-			interactionTypeChoices.addItemListener(this);
+			interactionTypeChoices.addChangeHandler(this);
 			interactionTypePanel.add(twap);
-			interactionTypePanel.revalidate();				
 		} else {
 			interactionTypePanel.add(new UnknownInteractionPanel());
 		}
 
-		masterPanel.add(interactionTypePanel);
+		add(interactionTypePanel);
 
 		// allele interaction details
-		interactionDetailsPanel = new JPanel();
-		interactionDetailsPanel.setBorder(
-				BorderFactory.createTitledBorder(
-						Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
+		interactionDetailsPanel = new CaptionPanel("Specific Interactions Between Phenotypes:");
 		interactionDetailsPanel.add(new UnknownSpecificsPanel());
 		masterPanel.add(interactionDetailsPanel);
 
@@ -585,58 +558,59 @@ public class ModelPane extends JPanel implements ItemListener {
 	}
 
 	public Element save() {
-		Element mpe = new Element("Character");
+		Document d = XMLParser.createDocument();
+
+		Element mpe = d.createElement("Character");
 		mpe.setAttribute("Name", character);
 		mpe.setAttribute("Index", String.valueOf(index));
 
-		Element e = null;
-		e = new Element("SexLinkage");
-		e.setText(String.valueOf(sexLinkageChoices.getSelectedIndex()));
-		mpe.addContent(e);
+		Element e = d.createElement("SexLinkage");
+		e.appendChild(d.createTextNode(String.valueOf(sexLinkageChoices.getSelectedIndex())));
+		mpe.appendChild(e);
 
-		e = new Element("AlleleNumber");
-		e.setText(String.valueOf(alleleNumberChoices.getSelectedIndex()));
-		mpe.addContent(e);
+		e = d.createElement("AlleleNumber");
+		e.appendChild(d.createTextNode(String.valueOf(alleleNumberChoices.getSelectedIndex())));
+		mpe.appendChild(e);
 
 		if (interactionTypeChoices != null) {
-			e = new Element("InteractionType");
-			e.setText(String.valueOf(interactionTypeChoices.getSelectedIndex()));
-			mpe.addContent(e);
+			e = d.createElement("InteractionType");
+			e.appendChild(d.createTextNode(String.valueOf(interactionTypeChoices.getSelectedIndex())));
+			mpe.appendChild(e);
 		}
 
-		e = new Element("T1");
-		e.addContent(String.valueOf(t1Value));
-		mpe.addContent(e);
+		e = d.createElement("T1");
+		e.appendChild(d.createTextNode(String.valueOf(t1Value)));
+		mpe.appendChild(e);
 
-		e = new Element("T2");
-		e.addContent(String.valueOf(t2Value));
-		mpe.addContent(e);
+		e = d.createElement("T2");
+		e.appendChild(d.createTextNode(String.valueOf(t2Value)));
+		mpe.appendChild(e);
 
 		e = new Element("T3");
-		e.addContent(String.valueOf(t3Value));
-		mpe.addContent(e);
+		e.appendChild(d.createTextNode(String.valueOf(t3Value)));
+		mpe.appendChild(e);
 
 		e = new Element("T4");
-		e.addContent(String.valueOf(t4Value));
-		mpe.addContent(e);
+		e.appendChild(d.createTextNode(String.valueOf(t4Value)));
+		mpe.appendChild(e);
 
 		e = new Element("T5");
-		e.addContent(String.valueOf(t5Value));
-		mpe.addContent(e);
+		e.appendChild(d.createTextNode(String.valueOf(t5Value)));
+		mpe.appendChild(e);
 
 		e = new Element("T6");
-		e.addContent(String.valueOf(t6Value));
-		mpe.addContent(e);
+		e.appendChild(d.createTextNode(String.valueOf(t6Value)));
+		mpe.appendChild(e);
 
 		if (sexLinkageCageChoices != null) {
 			e = new Element("SexLinkageCage");
-			e.addContent(String.valueOf(sexLinkageCageChoices.getSelectedIndex()));
-			mpe.addContent(e);
+			e.appendChild(d.createTextNode(String.valueOf(sexLinkageCageChoices.getSelectedIndex())));
+			mpe.appendChild(e);
 		}
 
 		e = new Element("DetailsCage");
-		e.addContent(String.valueOf(interactionCageChoices.getSelectedIndex()));
-		mpe.addContent(e);
+		e.appendChild(d.createTextNode(String.valueOf(interactionCageChoices.getSelectedIndex())));
+		mpe.appendChild(e);
 
 		return mpe;
 	}
@@ -709,5 +683,18 @@ public class ModelPane extends JPanel implements ItemListener {
 		b.append("</ul>");
 		b.append("</ul><br>");
 		return b.toString();
+	}
+
+	@Override
+	@Deprecated
+	void onChange(Widget sender) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onChange(ChangeEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 }

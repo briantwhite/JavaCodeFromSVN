@@ -215,8 +215,6 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	/**
 	 * The constructor
 	 * 
-	 * @param importFrame
-	 *            the reference frame for the dialog
 	 * @param isbeginnersmode
 	 *            true if user is allowed to view underlying genetics details,
 	 *            false otherwise

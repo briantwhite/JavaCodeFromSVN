@@ -124,4 +124,5 @@ testing git nonsense
 now from eclipse
 
 4/3/13
-working on 
+working on model builder ui
+left off in model pane fixing all errors

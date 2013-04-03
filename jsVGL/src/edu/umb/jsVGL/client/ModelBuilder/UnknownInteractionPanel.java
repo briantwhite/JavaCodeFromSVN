@@ -1,12 +1,12 @@
 package edu.umb.jsVGL.client.ModelBuilder;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 
-public class UnknownInteractionPanel extends JPanel{
+public class UnknownInteractionPanel extends SimplePanel{
 	
 	public UnknownInteractionPanel() {
-		this.add(new JLabel(Messages.getInstance().getString("VGLII.MustSelectNumAlleles")));
+		this.add(new Label("Please choose the number of alleles."));
 	}
 
 }

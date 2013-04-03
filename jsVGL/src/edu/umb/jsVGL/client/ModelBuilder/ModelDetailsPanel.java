@@ -1,22 +1,23 @@
 package edu.umb.jsVGL.client.ModelBuilder;
 
-import java.awt.event.ItemListener;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
+
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.ListBox;
 
 import edu.umb.jsVGL.client.VGL.CageUI;
 
-public abstract class ModelDetailsPanel extends JPanel implements ItemListener {
+public abstract class ModelDetailsPanel extends AbsolutePanel implements ChangeHandler {
 	String[] phenos;
-	public JComboBox t1Choices;
-	public JComboBox t2Choices;
-	public JComboBox t3Choices;
-	public JComboBox t4Choices;
-	public JComboBox t5Choices;
-	public JComboBox t6Choices;
+	public ListBox t1Choices;
+	public ListBox t2Choices;
+	public ListBox t3Choices;
+	public ListBox t4Choices;
+	public ListBox t5Choices;
+	public ListBox t6Choices;
 	ModelPane mp;
 	
 	private URL combineArrowURL = CageUI.class.getResource("UIimages/combineArrow.gif");
@@ -33,5 +34,4 @@ public abstract class ModelDetailsPanel extends JPanel implements ItemListener {
 	public void updateT5Choices(int x) {}
 	public void updateT6Choices(int x) {}
 		
-	public abstract String getAsHtml(boolean isForGrader);
 }

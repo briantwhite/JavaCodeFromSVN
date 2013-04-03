@@ -26,7 +26,6 @@ import java.util.Random;
 import java.util.Set;
 
 import com.google.gwt.i18n.client.Dictionary;
-import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 

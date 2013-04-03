@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.AbsolutePanel;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.umb.jsVGL.client.VGL.VGLII;
 
-public class LinkagePanel extends JPanel {
+public class LinkagePanel extends AbsolutePanel {
 
 	private VGLII vglII;
 

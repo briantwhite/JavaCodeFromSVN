@@ -1,38 +1,31 @@
 package edu.umb.jsVGL.client.ModelBuilder;
 
-import java.util.ArrayList;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
+public class TwoAllelePanel extends SimplePanel {
 
-public class TwoAllelePanel extends JPanel {
-
-	private JComboBox interactionTypeChoices;
+	private ListBox interactionTypeChoices;
 
 	public TwoAllelePanel(boolean incDomPossible, 
 			boolean complementationPossible, 
 			boolean epistasisPossible) {
-		ArrayList<String> choiceStrings = new ArrayList<String>();
-		choiceStrings.add(Messages.getInstance().getString("VGLII.Unknown"));
-		choiceStrings.add(Messages.getInstance().getString("VGLII.SimpleDominance"));
+		interactionTypeChoices = new ListBox();
+		interactionTypeChoices.addItem("Unknown");
+		interactionTypeChoices.addItem("Simple Dominance");
 		if (incDomPossible || epistasisPossible) {
-			choiceStrings.add(Messages.getInstance().getString("VGLII.IncompleteDominance"));
+			interactionTypeChoices.addItem("Incomplete Dominance");
 		}
 		if (complementationPossible) {
-			choiceStrings.add(Messages.getInstance().getString("VGLII.Complementation"));
+			interactionTypeChoices.addItem("Complementation");
 		}
 		if (epistasisPossible) {
-			choiceStrings.add(Messages.getInstance().getString("VGLII.Epistasis"));
+			interactionTypeChoices.addItem("Epistasis");
 		}
-		String[] choices = new String[choiceStrings.size()];
-		for (int i = 0; i < choices.length; i++) {
-			choices[i] = choiceStrings.get(i);
-		}
-		interactionTypeChoices = new JComboBox(choices);
-		this.add(interactionTypeChoices);
+		add(interactionTypeChoices);
 	}
 
-	public JComboBox getInteractionTypeChoices() {
+	public ListBox getInteractionTypeChoices() {
 		return interactionTypeChoices;
 	}
 
