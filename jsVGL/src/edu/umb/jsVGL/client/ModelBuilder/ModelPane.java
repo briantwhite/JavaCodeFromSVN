@@ -13,12 +13,14 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.Label;
 
 import edu.umb.jsVGL.client.GeneticModels.ProblemTypeSpecification;
 
@@ -54,7 +56,7 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 	private boolean epistasisPossible;
 
 	private CaptionPanel interactionTypePanel;
-	private AbsolutePanel interactionDetailsPanel;
+	private CaptionPanel interactionDetailsPanel;
 
 	// values updated by the model details panels
 	private int t1Value;
@@ -155,36 +157,34 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 		// allele interaction details
 		interactionDetailsPanel = new CaptionPanel("Specific Interactions Between Phenotypes:");
 		interactionDetailsPanel.add(new UnknownSpecificsPanel());
-		masterPanel.add(interactionDetailsPanel);
+		add(interactionDetailsPanel);
 
 		// relevant crosses
-		JPanel relevantCrossPanel = new JPanel();
-		relevantCrossPanel.setLayout(new GridLayout(2,0));
-		relevantCrossPanel.setBorder(
-				BorderFactory.createTitledBorder(
-						Messages.getInstance().getString("VGLII.RelevantCages")));
+		CaptionPanel relevantCrossPanel = new CaptionPanel("Relevant Cages:");
 		// if sex-linkage, need a relevant cage selector
 		if (specs.getGene1_chSexLinked() > 0.0) {
-			JPanel upperPanel = new JPanel();
-			upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.X_AXIS));
-			sexLinkageCageChoices = new JComboBox(modelBuilderUI.getVGLII().getCageList());
-			sexLinkageCageChoices.addItemListener(this);
-			upperPanel.add(
-					new JLabel(Messages.getInstance().getString("VGLII.ForSexLinkage")));
+			HorizontalPanel upperPanel = new HorizontalPanel();
+			String[] cageList = modelBuilderUI.getVGLII().getCageList();
+			sexLinkageCageChoices = new ListBox();
+			for (int i = 0; i < cageList.length; i++) {
+				sexLinkageCageChoices.addItem(cageList[i]);
+			}
+			sexLinkageCageChoices.addChangeHandler(this);
+			upperPanel.add(new Label("For/against Sex-linkage:"));
 			upperPanel.add(sexLinkageCageChoices);
 			relevantCrossPanel.add(upperPanel);
 		}
-		JPanel lowerPanel = new JPanel();
-		lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.X_AXIS));
-		interactionCageChoices = new JComboBox(modelBuilderUI.getVGLII().getCageList());
-		interactionCageChoices.addItemListener(this);
-		lowerPanel.add(
-				new JLabel(Messages.getInstance().getString("VGLII.ForDetails")));
+		HorizontalPanel lowerPanel = new HorizontalPanel();
+		String[] cageList = modelBuilderUI.getVGLII().getCageList();
+		interactionCageChoices = new ListBox();
+		for (int i = 0; i < cageList.length; i++) {
+			interactionCageChoices.addItem(cageList[i]);
+		}
+		interactionCageChoices.addChangeHandler(this);
+		lowerPanel.add(new Label("For mode of inheritance:"));
 		lowerPanel.add(interactionCageChoices);
 		relevantCrossPanel.add(lowerPanel);
-		masterPanel.add(relevantCrossPanel);
-
-		this.add(masterPanel);
+		add(relevantCrossPanel);
 	}
 
 	public void setT1Value(int t1Value) {
@@ -229,63 +229,48 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 
 	public void updateCageChoices(int nextCageId) {
 		if (sexLinkageCageChoices != null) {
-			sexLinkageCageChoices.addItem(
-					Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
+			sexLinkageCageChoices.addItem("Cage " + nextCageId);
 		}
-		interactionCageChoices.addItem(
-				Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
-		revalidate();
+		interactionCageChoices.addItem("Cage " + nextCageId);
 	}
 
-	public void itemStateChanged(ItemEvent e) {
+	public void itemStateChanged(ChangeEvent e) {
 
 		modelBuilderUI.getVGLII().setChangeSinceLastSave();
 
 		if (e.getSource().equals(alleleNumberChoices)) {
-			if (e.getItem().toString().equals(
-					Messages.getInstance().getString("VGLII.Unknown"))) {
-				interactionTypePanel.removeAll();
+			String selectedItem = ((ListBox)e.getSource()).getItemText(((ListBox)e.getSource()).getSelectedIndex());
+			if (selectedItem.equals("Unknown")) {
+				interactionTypePanel.remove(interactionTypePanel.getContentWidget());
 				interactionTypePanel.add(new UnknownInteractionPanel());
-				interactionTypePanel.revalidate();
 
-				interactionDetailsPanel.removeAll();
+				interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
-				interactionDetailsPanel.revalidate();
-				modelBuilderUI.updateUI();
 				clearValues();
 			}
-			if (e.getItem().toString().equals(
-					"2-" + Messages.getInstance().getString("VGLII.Allele"))) {
-				interactionTypePanel.removeAll();
+			if (selectedItem.equals("2-Allele")) {
+				interactionTypePanel.remove(interactionTypePanel.getContentWidget());
 				TwoAllelePanel twap = new TwoAllelePanel(incDomPossible,
 						complementationPossible, epistasisPossible);
 				interactionTypeChoices = twap.getInteractionTypeChoices();
-				interactionTypeChoices.addItemListener(this);
+				interactionTypeChoices.addChangeHandler(this);
 				interactionTypePanel.add(twap);
-				interactionTypePanel.revalidate();				
 
-				interactionDetailsPanel.removeAll();
+				interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
-				interactionDetailsPanel.revalidate();
-				modelBuilderUI.updateUI();
 				clearValues();
 			}
-			if (e.getItem().toString().equals(
-					"3-" + Messages.getInstance().getString("VGLII.Allele"))) {
-				interactionTypePanel.removeAll();
+			if (selectedItem.equals("3-Allele")) {
+				interactionTypePanel.remove(interactionTypePanel.getContentWidget());
 				ThreeAllelePanel thap = new ThreeAllelePanel(circularPossible);
 				interactionTypeChoices = thap.getInteractionTypeChoices();
-				interactionTypeChoices.addItemListener(this);
+				interactionTypeChoices.addChangeHandler(this);
 				interactionTypePanel.add(thap);
-				interactionTypePanel.revalidate();				
 
-				interactionDetailsPanel.removeAll();
+				interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
-				interactionDetailsPanel.revalidate();
-				modelBuilderUI.updateUI();
 				clearValues();
 			}
-
 		}
 
 		if (e.getSource().equals(interactionTypeChoices)) {

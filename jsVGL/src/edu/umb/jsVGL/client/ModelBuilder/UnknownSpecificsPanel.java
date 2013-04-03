@@ -1,27 +1,21 @@
 package edu.umb.jsVGL.client.ModelBuilder;
 
-import java.awt.event.ItemEvent;
-
-import javax.swing.JLabel;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Label;
 
 public class UnknownSpecificsPanel extends ModelDetailsPanel {
 
 	public UnknownSpecificsPanel() {
-		this.add(new JLabel(Messages.getInstance().getString("VGLII.MustSelectType")));
+		add(new Label("Please choose the interaction type."));
 	}
 
-	public void itemStateChanged(ItemEvent e) {}
+	public void itemStateChanged(Event e) {}
 
-	public String getAsHtml(boolean isForGrader) {
-		StringBuffer b = new StringBuffer();
-		b.append("<ul>");
-		if (isForGrader) {
-			b.append("<li>Unknown</li> ");
-		} else {
-			b.append("<li>" + Messages.getInstance().getString("VGLII.Unknown") + "</li> ");
-		}
-		b.append("</ul>");
-		return b.toString();
+	@Override
+	public void onChange(ChangeEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
