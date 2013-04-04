@@ -1,70 +1,49 @@
 package edu.umb.jsVGL.client.ModelBuilder;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
+public class ComplementationPanel extends ModelDetailsPanel implements ChangeHandler {
 
-public class ComplementationPanel extends ModelDetailsPanel implements ItemListener {
-
-	JComboBox intermediateChoices;  // for middle choice; linked to 1st one
-	JLabel gALabel;
-	JLabel gBLabel;
+	ListBox intermediateChoices;  // for middle choice; linked to 1st one
+	Label gALabel;
+	Label gBLabel;
 
 	public ComplementationPanel(String[] allPhenos,
-			JComboBox t1Choices,
-			JComboBox t2Choices,
+			ListBox t1Choices,
+			ListBox t2Choices,
 			ModelPane mp) {
 		
 		this.mp = mp;
-		
+
+		t1Choices = new ListBox();
+		t2Choices = new ListBox();
+		intermediateChoices = new ListBox();
+
 		// don't use last pheno if complementation
-		String[] phenos = new String[3];
-		phenos[0] = allPhenos[0];
-		phenos[1] = allPhenos[1];
-		phenos[2] = allPhenos[2];
-		t1Choices = new JComboBox(phenos);
-		t1Choices.addItemListener(this);
-		t2Choices = new JComboBox(phenos);
+		for (int i = 0; i < 3; i++) {
+			t1Choices.addItem(allPhenos[i]);
+			t2Choices.addItem(allPhenos[i]);
+			intermediateChoices.addItem(allPhenos[i]);
+		}
+		t1Choices.addChangeHandler(this);
 		this.t1Choices = t1Choices;
-		t1Choices.addItemListener(this);
+		t1Choices.addChangeHandler(this);
 		this.t2Choices = t2Choices;
-		t2Choices.addItemListener(this);
-		intermediateChoices = new JComboBox(phenos);
-		intermediateChoices.addItemListener(this);
+		t2Choices.addChangeHandler(this);
+		intermediateChoices.addChangeHandler(this);
 
 		add(t1Choices);
-		gALabel = new JLabel(Messages.getInstance().getString("VGLII.Gene") + " A");
+		gALabel = new Label("Gene A");
 		add(gALabel);
 		add(intermediateChoices);
-		gBLabel = new JLabel(Messages.getInstance().getString("VGLII.Gene") + " B");
+		gBLabel = new Label("Gene B");
 		add(gBLabel);
 		add(t2Choices);
 	}
 
-
-	// make the first 2 choices track each other and report changes to UI
-	public void itemStateChanged(ItemEvent e) {
-		if (e.getStateChange() == ItemEvent.SELECTED) {
-			if (e.getSource().equals(t1Choices)) {
-				intermediateChoices.setSelectedItem(t1Choices.getSelectedItem());
-				mp.setT1Value(t1Choices.getSelectedIndex());
-			}
-
-			if (e.getSource().equals(intermediateChoices)) {
-				t1Choices.setSelectedItem(intermediateChoices.getSelectedItem());
-			}
-			
-			if (e.getSource().equals(t2Choices)) {
-				mp.setT2Value(t2Choices.getSelectedIndex());
-			}
-		}
-	}
 
 	public void updateT1Choices(int x) {
 		t1Choices.setSelectedIndex(x);
@@ -73,55 +52,39 @@ public class ComplementationPanel extends ModelDetailsPanel implements ItemListe
 	public void updateT2Choices(int x) {
 		t2Choices.setSelectedIndex(x);
 	}
-		
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D)g;
-		g2d.setColor(Color.GRAY);
-		g2d.setStroke(new BasicStroke(5F));
-		g2d.drawLine(gALabel.getLocation().x, gALabel.getLocation().y + 18, 
-				gALabel.getLocation().x + 40, gALabel.getLocation().y + 18);
-		g2d.drawLine(gALabel.getLocation().x + 35, gALabel.getLocation().y + 13, 
-				gALabel.getLocation().x + 40, gALabel.getLocation().y + 18);
-		g2d.drawLine(gALabel.getLocation().x + 35, gALabel.getLocation().y + 23, 
-				gALabel.getLocation().x + 40, gALabel.getLocation().y + 18);
-		g2d.drawLine(gBLabel.getLocation().x, gBLabel.getLocation().y + 18, 
-				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
-		g2d.drawLine(gBLabel.getLocation().x + 35, gBLabel.getLocation().y + 13, 
-				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
-		g2d.drawLine(gBLabel.getLocation().x + 35, gBLabel.getLocation().y + 23, 
-				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
-	}
 
-
-	public String getAsHtml(boolean isForGrader) {
-		StringBuffer b = new StringBuffer();
-		b.append("<ul>");
-		b.append("<li>");
-		b.append((String)t1Choices.getSelectedItem());
-		
-		b.append(" ---(");
-		if (isForGrader) {
-			b.append("Gene");
-		} else {
-			b.append(Messages.getInstance().getString("VGLII.Gene"));	
+	// make the first 2 choices track each other and report changes to UI
+	public void onChange(ChangeEvent e) {
+		if (e.getSource().equals(t1Choices)) {
+			intermediateChoices.setSelectedIndex(t1Choices.getSelectedIndex());
+			mp.setT1Value(t1Choices.getSelectedIndex());
 		}
-		b.append(" A)--->");
-		
-		b.append((String)intermediateChoices.getSelectedItem());
-		b.append(" ---(");
-		if (isForGrader) {
-			b.append("Gene");
-		} else {
-			b.append(Messages.getInstance().getString("VGLII.Gene"));
+
+		if (e.getSource().equals(intermediateChoices)) {
+			t1Choices.setSelectedIndex(intermediateChoices.getSelectedIndex());
 		}
-		b.append(" B)--->");
 		
-		b.append((String)t2Choices.getSelectedItem());
-		b.append("</li>");
-		b.append("</ul>");
-		return b.toString();
+		if (e.getSource().equals(t2Choices)) {
+			mp.setT2Value(t2Choices.getSelectedIndex());
+		}
 	}
-
-
+		
+//	public void paintComponent(Graphics g) {
+//		super.paintComponent(g);
+//		Graphics2D g2d = (Graphics2D)g;
+//		g2d.setColor(Color.GRAY);
+//		g2d.setStroke(new BasicStroke(5F));
+//		g2d.drawLine(gALabel.getLocation().x, gALabel.getLocation().y + 18, 
+//				gALabel.getLocation().x + 40, gALabel.getLocation().y + 18);
+//		g2d.drawLine(gALabel.getLocation().x + 35, gALabel.getLocation().y + 13, 
+//				gALabel.getLocation().x + 40, gALabel.getLocation().y + 18);
+//		g2d.drawLine(gALabel.getLocation().x + 35, gALabel.getLocation().y + 23, 
+//				gALabel.getLocation().x + 40, gALabel.getLocation().y + 18);
+//		g2d.drawLine(gBLabel.getLocation().x, gBLabel.getLocation().y + 18, 
+//				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
+//		g2d.drawLine(gBLabel.getLocation().x + 35, gBLabel.getLocation().y + 13, 
+//				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
+//		g2d.drawLine(gBLabel.getLocation().x + 35, gBLabel.getLocation().y + 23, 
+//				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
+//	}
 }

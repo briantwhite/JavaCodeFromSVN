@@ -19,6 +19,10 @@ for pretty-printing the xml, use http://www.freeformatter.com/xml-formatter.html
 when the red exclamation point shows up in eclipse, 
 	project -> properties -> java build path 
 		edit AppEngine to point to specific one - choose the only one in the list
+	OR
+	project -> properties -> java build path
+		gwt-user.jar
+			you can find it in /Applications/eclipse/plugins/com.google.gwt.eclipse.sdkbundle../gwt-2.5.0/
 
 when using egit
 	saving changes
@@ -27,3 +31,7 @@ when using egit
 		team -> push to upstream
 	loading from server
 		team -> pull
+
+		if pull gives out of sync error
+			team -> reset
+				HARD reset to master

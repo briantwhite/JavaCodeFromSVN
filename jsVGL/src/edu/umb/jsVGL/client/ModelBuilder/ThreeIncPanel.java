@@ -12,39 +12,37 @@ import java.awt.event.ItemListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-public class ThreeIncPanel extends ModelDetailsPanel implements ItemListener {
+public class ThreeIncPanel extends ModelDetailsPanel implements ChangeHandler {
 
-	private JLabel t5;	// marker for arrow
+	private Label t5;	// marker for arrow
 
 	public ThreeIncPanel(String[] phenos,
-			JComboBox t1Choices,
-			JComboBox t2Choices,
-			JComboBox t3Choices,
-			JComboBox t4Choices,
-			JComboBox t5Choices,
-			JComboBox t6Choices,
+			ListBox t1Choices,
+			ListBox t2Choices,
+			ListBox t3Choices,
+			ListBox t4Choices,
+			ListBox t5Choices,
+			ListBox t6Choices,
 			ModelPane mp) {
 
-		t1Choices = new JComboBox(phenos);
-		t2Choices = new JComboBox(phenos);
-		t3Choices = new JComboBox(phenos);
-		t4Choices = new JComboBox(phenos);
-		t5Choices = new JComboBox(phenos);
-		t6Choices = new JComboBox(phenos);
-		GridBagLayout gridBag = new GridBagLayout();
-		GridBagConstraints c = new GridBagConstraints();
-		setLayout(gridBag);
-
+		t1Choices = new ListBox(phenos);
+		t2Choices = new ListBox(phenos);
+		t3Choices = new ListBox(phenos);
+		t4Choices = new ListBox(phenos);
+		t5Choices = new ListBox(phenos);
+		t6Choices = new ListBox(phenos);
+		for (int i = 0; i < phenos.length; i++) {
+			t1Choices.addItem(phenos[i]);
+			t2Choices.addItem(phenos[i]);
+			t3Choices.addItem(phenos[i]);
+			t4Choices.addItem(phenos[i]);
+			t5Choices.addItem(phenos[i]);
+			t6Choices.addItem(phenos[i]);
+		}
+		
 		// first line
-		c.gridx = 0;
-		c.gridy = 0;
-		c.anchor = GridBagConstraints.EAST;
-		gridBag.setConstraints(t1Choices, c);
 		add(t1Choices);
 
-		c.gridx = 1;
-		c.gridy = 0;
-		c.anchor = GridBagConstraints.WEST;
 		JLabel t0 = new JLabel(Messages.getInstance().getString("VGLII.IsPureBreeding"));
 		gridBag.setConstraints(t0, c);
 		add(t0);

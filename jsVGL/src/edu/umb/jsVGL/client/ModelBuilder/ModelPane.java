@@ -302,32 +302,22 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 							new ComplementationPanel(traits, t1Choices, t2Choices, this));
 					clearValues();
 				}
-				if (e.getItem().toString().equals(
-						Messages.getInstance().getString("VGLII.Epistasis"))) {
-					interactionDetailsPanel.setBorder(
-							BorderFactory.createTitledBorder(
-									Messages.getInstance().getString("VGLII.Pathway")));
-					interactionDetailsPanel.removeAll();
+				
+				if (selectedInteractionType.equals("Epistasis")) {
+					interactionDetailsPanel = new CaptionPanel("Pathway");
 					interactionDetailsPanel.add(
 							new EpistasisPanel(traits, t1Choices, t2Choices, t3Choices, this));
-					interactionTypePanel.revalidate();
-					modelBuilderUI.updateUI();
 					clearValues();
 				}
 			}
-			if (alleleNumberChoices.getSelectedItem().toString().equals(
-					"3-" + Messages.getInstance().getString("VGLII.Allele"))) {
-				if (e.getItem().toString().equals(
-						Messages.getInstance().getString("VGLII.Unknown"))) {
-					interactionDetailsPanel.removeAll();
+			
+			if (selectedAlleleNumber.equals("3-Allele")) {
+				if (selectedInteractionType.equals("Unknown")) {
 					interactionDetailsPanel.add(new UnknownSpecificsPanel());
-					interactionDetailsPanel.revalidate();
-					modelBuilderUI.updateUI();
 					clearValues();
 				}
-				if (e.getItem().toString().equals(
-						Messages.getInstance().getString("VGLII.IncompleteDominance"))) {
-					interactionDetailsPanel.removeAll();
+				
+				if (selectedInteractionType.equals("Incomplete Dominance")) {
 					interactionDetailsPanel.add(
 							new ThreeIncPanel(
 									traits, 
@@ -338,8 +328,6 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 									t5Choices,
 									t6Choices, 
 									this));
-					interactionTypePanel.revalidate();		
-					modelBuilderUI.updateUI();
 					clearValues();
 				}
 				if (e.getItem().toString().equals(
