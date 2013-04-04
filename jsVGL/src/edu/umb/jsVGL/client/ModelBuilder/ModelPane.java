@@ -289,28 +289,17 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 							new TwoSimplePanel(traits, t1Choices, t2Choices, this));
 					clearValues();
 				}
-				if (e.getItem().toString().equals(
-						Messages.getInstance().getString("VGLII.IncompleteDominance"))) {
-					interactionDetailsPanel.setBorder(
-							BorderFactory.createTitledBorder(
-									Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
-					interactionDetailsPanel.removeAll();
+				if (selectedInteractionType.equals("Incomplete Dominance")) {
+					interactionDetailsPanel = new CaptionPanel("Specific Interactions Between Phenotypes:");
 					interactionDetailsPanel.add(
 							new TwoIncPanel(traits, t1Choices, t2Choices, t3Choices, this));
-					interactionTypePanel.revalidate();
-					modelBuilderUI.updateUI();
 					clearValues();
 				}
-				if (e.getItem().toString().equals(
-						Messages.getInstance().getString("VGLII.Complementation"))) {
-					interactionDetailsPanel.setBorder(
-							BorderFactory.createTitledBorder(
-									Messages.getInstance().getString("VGLII.Pathway")));
-					interactionDetailsPanel.removeAll();
+				
+				if (selectedInteractionType.equals("Complementation")) {
+					interactionDetailsPanel = new CaptionPanel("Pathway");
 					interactionDetailsPanel.add(
 							new ComplementationPanel(traits, t1Choices, t2Choices, this));
-					interactionTypePanel.revalidate();
-					modelBuilderUI.updateUI();
 					clearValues();
 				}
 				if (e.getItem().toString().equals(
