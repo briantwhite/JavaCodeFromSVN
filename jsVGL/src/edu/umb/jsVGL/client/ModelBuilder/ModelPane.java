@@ -237,10 +237,12 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 	public void itemStateChanged(ChangeEvent e) {
 
 		modelBuilderUI.getVGLII().setChangeSinceLastSave();
-
+		
+		String selectedAlleleNumber = alleleNumberChoices.getItemText(alleleNumberChoices.getSelectedIndex());
+		String selectedInteractionType = interactionTypeChoices.getItemText(interactionTypeChoices.getSelectedIndex());
+		
 		if (e.getSource().equals(alleleNumberChoices)) {
-			String selectedItem = ((ListBox)e.getSource()).getItemText(((ListBox)e.getSource()).getSelectedIndex());
-			if (selectedItem.equals("Unknown")) {
+			if (selectedAlleleNumber.equals("Unknown")) {
 				interactionTypePanel.remove(interactionTypePanel.getContentWidget());
 				interactionTypePanel.add(new UnknownInteractionPanel());
 
@@ -248,7 +250,7 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
 				clearValues();
 			}
-			if (selectedItem.equals("2-Allele")) {
+			if (selectedAlleleNumber.equals("2-Allele")) {
 				interactionTypePanel.remove(interactionTypePanel.getContentWidget());
 				TwoAllelePanel twap = new TwoAllelePanel(incDomPossible,
 						complementationPossible, epistasisPossible);
@@ -260,7 +262,7 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 				interactionDetailsPanel.add(new UnknownSpecificsPanel());
 				clearValues();
 			}
-			if (selectedItem.equals("3-Allele")) {
+			if (selectedAlleleNumber.equals("3-Allele")) {
 				interactionTypePanel.remove(interactionTypePanel.getContentWidget());
 				ThreeAllelePanel thap = new ThreeAllelePanel(circularPossible);
 				interactionTypeChoices = thap.getInteractionTypeChoices();
@@ -275,29 +277,16 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 
 		if (e.getSource().equals(interactionTypeChoices)) {
 
-			if (alleleNumberChoices.getSelectedItem().toString().equals(
-					"2-" + Messages.getInstance().getString("VGLII.Allele"))) {
-				if (e.getItem().toString().equals(
-						Messages.getInstance().getString("VGLII.Unknown"))) {
-					interactionDetailsPanel.setBorder(
-							BorderFactory.createTitledBorder(
-									Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
-					interactionDetailsPanel.removeAll();
+			if (selectedAlleleNumber.equals("2-Allele")) {
+				if (selectedInteractionType.equals("Unknown")) {
+					interactionDetailsPanel = new CaptionPanel("Specific Interactions Between Phenotypes:");
 					interactionDetailsPanel.add(new UnknownSpecificsPanel());
-					interactionDetailsPanel.revalidate();
-					modelBuilderUI.updateUI();
 					clearValues();
 				}
-				if (e.getItem().toString().equals(
-						Messages.getInstance().getString("VGLII.SimpleDominance"))) {
-					interactionDetailsPanel.setBorder(
-							BorderFactory.createTitledBorder(
-									Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
-					interactionDetailsPanel.removeAll();
+				if (selectedInteractionType.equals("Simple Dominance")) {
+					interactionDetailsPanel = new CaptionPanel("Specific Interactions Between Phenotypes:");
 					interactionDetailsPanel.add(
 							new TwoSimplePanel(traits, t1Choices, t2Choices, this));
-					interactionTypePanel.revalidate();
-					modelBuilderUI.updateUI();
 					clearValues();
 				}
 				if (e.getItem().toString().equals(
