@@ -1,54 +1,40 @@
 package edu.umb.jsVGL.client.ModelBuilder;
 
-import java.awt.GridLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-
-public class ThreeHierPanel extends ModelDetailsPanel implements ItemListener {
+public class ThreeHierPanel extends ModelDetailsPanel implements ChangeHandler {
 
 	public ThreeHierPanel(String[] phenos,
-			JComboBox t1Choices,
-			JComboBox t2Choices,
-			JComboBox t3Choices,
+			ListBox t1Choices,
+			ListBox t2Choices,
+			ListBox t3Choices,
 			ModelPane mp) {
-		t1Choices = new JComboBox(phenos);
-		t2Choices = new JComboBox(phenos);
-		t3Choices = new JComboBox(phenos);
+		t1Choices = new ListBox();
+		t2Choices = new ListBox();
+		t3Choices = new ListBox();
+		for (int i = 0; i < phenos.length; i++) {
+			t1Choices.addItem(phenos[i]);
+			t2Choices.addItem(phenos[i]);
+			t3Choices.addItem(phenos[i]);
+		}
 		this.t1Choices = t1Choices;
-		t1Choices.addItemListener(this);
+		t1Choices.addChangeHandler(this);
 		this.t2Choices = t2Choices;
-		t2Choices.addItemListener(this);
+		t2Choices.addChangeHandler(this);
 		this.t3Choices = t3Choices;
-		t3Choices.addItemListener(this);
+		t3Choices.addChangeHandler(this);
 		this.mp = mp;
 
-		setLayout(new GridLayout(5,1));
 		add(t3Choices);
-		add(new JLabel(Messages.getInstance().getString("VGLII.IsDominantTo")));
+		add(new Label("Is Dominant To"));
 		add(t2Choices);
-		add(new JLabel(Messages.getInstance().getString("VGLII.IsDominantTo")));
+		add(new Label("Is Dominant To"));
 		add(t1Choices);
 	}
 
-	public void itemStateChanged(ItemEvent e) {
-		if (e.getStateChange() == ItemEvent.SELECTED) {
-			if (e.getSource().equals(t1Choices)) {
-				mp.setT1Value(t1Choices.getSelectedIndex());
-			}
-
-			if (e.getSource().equals(t2Choices)) {
-				mp.setT2Value(t2Choices.getSelectedIndex());
-			}
-
-			if (e.getSource().equals(t3Choices)) {
-				mp.setT3Value(t3Choices.getSelectedIndex());
-			}
-
-		}
-	}
 
 	public void updateT1Choices(int x) {
 		t1Choices.setSelectedIndex(x);
@@ -62,36 +48,19 @@ public class ThreeHierPanel extends ModelDetailsPanel implements ItemListener {
 		t3Choices.setSelectedIndex(x);
 	}
 
-	public String getAsHtml(boolean isForGrader) {
-		StringBuffer b = new StringBuffer();
-		b.append("<ul>");
-		if (isForGrader) {
-			b.append("<li>" + (String)t1Choices.getSelectedItem() + " ");
-			b.append("is recessive to all</li>");
-
-			b.append("<li>" + (String)t2Choices.getSelectedItem() + " ");
-			b.append("is dominant to ");
-			b.append((String)t1Choices.getSelectedItem() + "; ");
-			b.append("is recessive to ");
-			b.append((String)t3Choices.getSelectedItem() + "</li>");
-
-			b.append("<li>" + (String)t3Choices.getSelectedItem() + " ");
-			b.append("is dominant to all</li>");
-		} else {
-			b.append("<li>" + (String)t1Choices.getSelectedItem() + " ");
-			b.append(Messages.getInstance().getString("VGLII.IsRecessiveToAll") + "</li>");
-
-			b.append("<li>" + (String)t2Choices.getSelectedItem() + " ");
-			b.append(Messages.getInstance().getString("VGLII.IsDominantTo") + " ");
-			b.append((String)t1Choices.getSelectedItem() + "; ");
-			b.append(Messages.getInstance().getString("VGLII.IsRecessiveTo") + " ");
-			b.append((String)t3Choices.getSelectedItem() + "</li>");
-
-			b.append("<li>" + (String)t3Choices.getSelectedItem() + " ");
-			b.append(Messages.getInstance().getString("VGLII.IsDominantToAll") + "</li>");
+	public void onChange(ChangeEvent e) {
+		if (e.getSource().equals(t1Choices)) {
+			mp.setT1Value(t1Choices.getSelectedIndex());
 		}
-		b.append("</ul>");
-		return b.toString();
+
+		if (e.getSource().equals(t2Choices)) {
+			mp.setT2Value(t2Choices.getSelectedIndex());
+		}
+
+		if (e.getSource().equals(t3Choices)) {
+			mp.setT3Value(t3Choices.getSelectedIndex());
+		}
 	}
+
 
 }

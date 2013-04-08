@@ -1,15 +1,13 @@
 package edu.umb.jsVGL.client.ModelBuilder;
 
-import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
-
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 
 import edu.umb.jsVGL.client.VGL.VGLII;
 
@@ -17,64 +15,67 @@ public class LinkagePanel extends AbsolutePanel {
 
 	private VGLII vglII;
 
-	private JComboBox g1g2Linked;
-	private JComboBox g2g3Linked;
-	private JComboBox g3g1Linked;
+	private ListBox g1g2Linked;
+	private ListBox g2g3Linked;
+	private ListBox g3g1Linked;
 
-	private JComboBox g1g2LinkageRelevantCage;
-	private JComboBox g2g3LinkageRelevantCage;
-	private JComboBox g3g1LinkageRelevantCage;	
+	private ListBox g1g2LinkageRelevantCage;
+	private ListBox g2g3LinkageRelevantCage;
+	private ListBox g3g1LinkageRelevantCage;	
 
 	private String[] chars;
 
 	public LinkagePanel(String[] characters, VGLII vglII) {
 		this.vglII = vglII;
 
-		g1g2LinkageRelevantCage = new JComboBox(vglII.getCageList());
-		g2g3LinkageRelevantCage = new JComboBox(vglII.getCageList());
-		g3g1LinkageRelevantCage = new JComboBox(vglII.getCageList());
-
-		String[] choices = new String[51];
-		this.chars = characters;
-		choices[0] = Messages.getInstance().getString("VGLII.Unknown");
-		choices[1] = Messages.getInstance().getString("VGLII.Unlinked");
-		for (int i = 2; i < 51; i++) {
-			choices[i] = Messages.getInstance().getString("VGLII.Linked") 
-			+ " & RF= " + (i - 1) + "%";
+		g1g2LinkageRelevantCage = new ListBox();
+		g2g3LinkageRelevantCage = new ListBox();
+		g3g1LinkageRelevantCage = new ListBox();
+		String[] cageList = vglII.getCageList();
+		for (int i = 0; i < cageList.length; i++) {
+			g1g2LinkageRelevantCage.addItem(cageList[i]);
+			g2g3LinkageRelevantCage.addItem(cageList[i]);
+			g3g1LinkageRelevantCage.addItem(cageList[i]);
 		}
-		g1g2Linked = new JComboBox(choices);
-		g2g3Linked = new JComboBox(choices);
-		g3g1Linked = new JComboBox(choices);
+
+		this.chars = characters;
+
+	
+		g1g2Linked = new ListBox();
+		g2g3Linked = new ListBox();
+		g3g1Linked = new ListBox();
+		g1g2Linked.addItem("Unknown");
+		g2g3Linked.addItem("Unknown");
+		g3g1Linked.addItem("Unknown");
+		g1g2Linked.addItem("Unlinked");
+		g2g3Linked.addItem("Unlinked");
+		g3g1Linked.addItem("Unlinked");
+
+		for (int i = 2; i < 51; i++) {
+			String s = "Linked & RF= " + (i - 1) + "%";
+			g1g2Linked.addItem(s);
+			g2g3Linked.addItem(s);
+			g3g1Linked.addItem(s);
+		}
 
 
-		add(new JLabel(
-				chars[0] + " "
-				+ Messages.getInstance().getString("VGLII.And") + " "
-				+ chars[1] + " "
-				+ Messages.getInstance().getString("VGLII.Are")));
+		add(new Label(chars[0] + " and " + chars[1] + " are "));
 		add(g1g2Linked);
 
-		add(new JLabel(Messages.getInstance().getString("VGLII.RelevantCages")));
+		add(new Label("Relevant Cages:"));
 		add(g1g2LinkageRelevantCage);
 
 		if (chars.length == 3) {
-			setLayout(new GridLayout(3,2));
-			add(new JLabel(
-					chars[1] + " "
-					+ Messages.getInstance().getString("VGLII.And") + " "
-					+ chars[2] + " "
-					+ Messages.getInstance().getString("VGLII.Are")));
+			add(new Label(chars[1] + " and " + chars[2] + " are "));
 			add(g2g3Linked);
-			add(new JLabel(Messages.getInstance().getString("VGLII.RelevantCages")));
+			
+			add(new Label("Relevant Cages:"));
 			add(g2g3LinkageRelevantCage);
 
-			add(new JLabel(
-					chars[0] + " "
-					+ Messages.getInstance().getString("VGLII.And") + " "
-					+ chars[2] + " "
-					+ Messages.getInstance().getString("VGLII.Are")));
+			add(new Label(chars[0] + " and " + chars[2] + " are "));
 			add(g3g1Linked);
-			add(new JLabel(Messages.getInstance().getString("VGLII.RelevantCages")));
+			
+			add(new Label("Relevant Cages:"));
 			add(g3g1LinkageRelevantCage);
 
 		}
@@ -106,27 +107,27 @@ public class LinkagePanel extends AbsolutePanel {
 	 */
 	public int getG1G2LinkageRelevantCage() {
 		if (g1g2LinkageRelevantCage == null) return -1;
-		String[] parts = ((String)g1g2LinkageRelevantCage.getSelectedItem()).split("Cage");
+		String[] parts = ((String)g1g2LinkageRelevantCage.getItemText(g1g2LinkageRelevantCage.getSelectedIndex())).split("Cage");
 		if (parts.length != 2) return -1;
 		return Integer.parseInt(parts[1].trim());
 	}
 	public int getG2G3LinkageRelevantCage() {
 		if (g2g3LinkageRelevantCage == null) return -1;
-		String[] parts = ((String)g2g3LinkageRelevantCage.getSelectedItem()).split("Cage");
+		String[] parts = ((String)g2g3LinkageRelevantCage.getItemText(g2g3LinkageRelevantCage.getSelectedIndex())).split("Cage");
 		if (parts.length != 2) return -1;
 		return Integer.parseInt(parts[1].trim());
 	}
 	public int getG1G3LinkageRelevantCage() {
 		if (g3g1LinkageRelevantCage == null) return -1;
-		String[] parts = ((String)g3g1LinkageRelevantCage.getSelectedItem()).split("Cage");
+		String[] parts = ((String)g3g1LinkageRelevantCage.getItemText(g3g1LinkageRelevantCage.getSelectedIndex())).split("Cage");
 		if (parts.length != 2) return -1;
 		return Integer.parseInt(parts[1].trim());
 	}
 	
-	private double getSelectedRf(JComboBox comboBox) {
-		if (comboBox.getSelectedItem().equals(Messages.getInstance().getString("VGLII.Unknown"))) return -1.0f;
-		if (comboBox.getSelectedItem().equals(Messages.getInstance().getString("VGLII.Unlinked"))) return 0.5f;
-		String choice = (String)comboBox.getSelectedItem();
+	private double getSelectedRf(ListBox listBox) {
+		String choice = (String)listBox.getItemText(listBox.getSelectedIndex());
+		if (choice.equals("Unknown")) return -1.0f;
+		if (choice.equals("Unlinked")) return 0.5f;
 		String[] parts = choice.split("=");
 		double percent = Double.parseDouble(parts[1].replaceAll("%", ""));
 		return percent/100.0f;
@@ -134,109 +135,68 @@ public class LinkagePanel extends AbsolutePanel {
 
 
 	public void setStateFromFile(Element element) {
-		List<Element> elements = element.getChildren();
-		Iterator<Element> it = elements.iterator();
-		while(it.hasNext()) {
-			Element e = it.next();
-			if (e.getName().equals("G1G2")) {
-				g1g2Linked.setSelectedItem((String)e.getText());
-			}
-			if (e.getName().equals("G1G2Evidence")) {
-				g1g2LinkageRelevantCage.setSelectedItem((String)e.getText());
-			}
-			
-			if (e.getName().equals("G2G3")) {
-				g2g3Linked.setSelectedItem((String)e.getText());
-			}
-			if (e.getName().equals("G2G3Evidence")) {
-				g2g3LinkageRelevantCage.setSelectedItem((String)e.getText());
-			}
-
-			if (e.getName().equals("G3G1")) {
-				g3g1Linked.setSelectedItem((String)e.getText());
-			}
-			if (e.getName().equals("G3G1Evidence")) {
-				g3g1LinkageRelevantCage.setSelectedItem((String)e.getText());
-			}
-
-		}
+//		List<Element> elements = element.getChildren();
+//		Iterator<Element> it = elements.iterator();
+//		while(it.hasNext()) {
+//			Element e = it.next();
+//			if (e.getName().equals("G1G2")) {
+//				g1g2Linked.setSelectedItem((String)e.getText());
+//			}
+//			if (e.getName().equals("G1G2Evidence")) {
+//				g1g2LinkageRelevantCage.setSelectedItem((String)e.getText());
+//			}
+//			
+//			if (e.getName().equals("G2G3")) {
+//				g2g3Linked.setSelectedItem((String)e.getText());
+//			}
+//			if (e.getName().equals("G2G3Evidence")) {
+//				g2g3LinkageRelevantCage.setSelectedItem((String)e.getText());
+//			}
+//
+//			if (e.getName().equals("G3G1")) {
+//				g3g1Linked.setSelectedItem((String)e.getText());
+//			}
+//			if (e.getName().equals("G3G1Evidence")) {
+//				g3g1LinkageRelevantCage.setSelectedItem((String)e.getText());
+//			}
+//
+//		}
 	}
 
 	public Element save() {
-		Element lpe = new Element("LinkagePanel");
+		Document d = XMLParser.createDocument();
 
-		Element e = new Element("G1G2");
-		e.setText((String)g1g2Linked.getSelectedItem());
-		lpe.addContent(e);	
-		e = new Element("G1G2Evidence");
-		e.setText((String)g1g2LinkageRelevantCage.getSelectedItem());
-		lpe.addContent(e);
+		Element lpe = d.createElement("LinkagePanel");
 
-		e = new Element("G2G3");
-		e.setText((String)g2g3Linked.getSelectedItem());
-		lpe.addContent(e);
-		e = new Element("G2G3Evidence");
-		e.setText((String)g2g3LinkageRelevantCage.getSelectedItem());
-		lpe.addContent(e);
+		Element e = d.createElement("G1G2");
+		e.appendChild(d.createTextNode(((String)g1g2Linked.getItemText(g1g2Linked.getSelectedIndex()))));
+		lpe.appendChild(e);	
+		e = d.createElement("G1G2Evidence");
+		e.appendChild(d.createTextNode(((String)g1g2LinkageRelevantCage.getItemText(g1g2LinkageRelevantCage.getSelectedIndex()))));
+		lpe.appendChild(e);
 
-		e = new Element("G3G1");
-		e.setText((String)g3g1Linked.getSelectedItem());
-		lpe.addContent(e);
-		e = new Element("G3G1Evidence");
-		e.setText((String)g3g1LinkageRelevantCage.getSelectedItem());
-		lpe.addContent(e);
+		e = d.createElement("G2G3");
+		e.appendChild(d.createTextNode(((String)g2g3Linked.getItemText(g2g3Linked.getSelectedIndex()))));
+		lpe.appendChild(e);
+		e = d.createElement("G2G3Evidence");
+		e.appendChild(d.createTextNode(((String)g2g3Linked.getItemText(g2g3LinkageRelevantCage.getSelectedIndex()))));
+		lpe.appendChild(e);
+
+		e = d.createElement("G3G1");
+		e.appendChild(d.createTextNode(((String)g3g1Linked.getItemText(g3g1Linked.getSelectedIndex()))));
+		lpe.appendChild(e);
+		e = d.createElement("G3G1Evidence");
+		e.appendChild(d.createTextNode(((String)g3g1LinkageRelevantCage.getItemText(g3g1LinkageRelevantCage.getSelectedIndex()))));
+		lpe.appendChild(e);
 
 		return lpe;
 	}
 
-	public String getAsHtml(boolean isForGrader) {
-		StringBuffer b = new StringBuffer();
-		b.append("<b>");
-		b.append(Messages.getInstance().getString("VGLII.Linkage"));
-		b.append("</b><br><ul>");
-		b.append("<li>" + chars[0] + " "
-				+ Messages.getInstance().getString("VGLII.And") + " "
-				+ chars[1] + " "
-				+ Messages.getInstance().getString("VGLII.Are") + " ");
-		b.append((String)g1g2Linked.getSelectedItem() + "</li>");
-		b.append("<ul><li>" 
-				+ Messages.getInstance().getString("VGLII.RelevantCages")
-				+ " "
-				+ g1g2LinkageRelevantCage.getSelectedItem()
-				+ "</li></ul>");
-	
-		if (chars.length == 3) {
-			b.append("<li>" + chars[1] + " "
-					+ Messages.getInstance().getString("VGLII.And") + " "
-					+ chars[2] + " "
-					+ Messages.getInstance().getString("VGLII.Are") + " ");
-			b.append((String)g2g3Linked.getSelectedItem() + "</li>");
-			b.append("<ul><li>" 
-					+ Messages.getInstance().getString("VGLII.RelevantCages")
-					+ " "
-					+ g2g3LinkageRelevantCage.getSelectedItem()
-					+ "</li></ul>");
-
-			b.append("<li>" + chars[0] + " "
-					+ Messages.getInstance().getString("VGLII.And") + " "
-					+ chars[2] + " "
-					+ Messages.getInstance().getString("VGLII.Are") + " ");
-			b.append((String)g3g1Linked.getSelectedItem() + "</li>");
-			b.append("<ul><li>" 
-					+ Messages.getInstance().getString("VGLII.RelevantCages")
-					+ " "
-					+ g3g1LinkageRelevantCage.getSelectedItem()
-					+ "</li></ul>");
-		}
-		b.append("</ul>");
-		return b.toString();
-	}
 	
 	public void updateCageChoices(int nextCageId) {
-		g1g2LinkageRelevantCage.addItem(Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
-		g2g3LinkageRelevantCage.addItem(Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
-		g3g1LinkageRelevantCage.addItem(Messages.getInstance().getString("VGLII.Cage") + " " + nextCageId);
-		revalidate();
+		g1g2LinkageRelevantCage.addItem("Cage " + nextCageId);
+		g2g3LinkageRelevantCage.addItem("Cage " + nextCageId);
+		g3g1LinkageRelevantCage.addItem("Cage " + nextCageId);
 	}
 	
 	public ArrayList<Integer> getRelevantCages() {

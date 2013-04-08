@@ -195,15 +195,5 @@ public class ModelBuilderUI extends TabPanel {
 		return e;
 	}
 
-	public String getAsHtml(boolean isForGrader) {
-		StringBuffer b = new StringBuffer();
-		for (int i = 0; i < modelPanes.length; i++) {
-			b.append(modelPanes[i].getAsHtml(isForGrader));
-			b.append("<hr>");
-		}
-		if (linkagePanel != null) b.append(linkagePanel.getAsHtml(isForGrader));
-
-		return b.toString();
-	}
 
 }

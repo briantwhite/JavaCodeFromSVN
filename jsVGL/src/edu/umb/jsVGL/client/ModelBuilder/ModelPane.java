@@ -234,7 +234,7 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 		interactionCageChoices.addItem("Cage " + nextCageId);
 	}
 
-	public void itemStateChanged(ChangeEvent e) {
+	public void onChange(ChangeEvent e) {
 
 		modelBuilderUI.getVGLII().setChangeSinceLastSave();
 		
@@ -330,24 +330,16 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 									this));
 					clearValues();
 				}
-				if (e.getItem().toString().equals(
-						Messages.getInstance().getString("VGLII.HierarchicalDominance"))) {
-					interactionDetailsPanel.removeAll();
+				if (selectedInteractionType.equals("Hierarchical Dominance")) {
 					interactionDetailsPanel.add(
 							new ThreeHierPanel(traits, 
 									t1Choices, t2Choices, t3Choices, this));
-					interactionTypePanel.revalidate();	
-					modelBuilderUI.updateUI();
 					clearValues();
 				}
-				if (e.getItem().toString().equals(
-						Messages.getInstance().getString("VGLII.CircularDominance"))) {
-					interactionDetailsPanel.removeAll();
+				if (selectedInteractionType.equals("Circular Dominance")) {
 					interactionDetailsPanel.add(
 							new ThreeCircPanel(traits, 
 									t1Choices, t2Choices, t3Choices, this));
-					interactionTypePanel.revalidate();	
-					modelBuilderUI.updateUI();
 					clearValues();
 				}
 			}
@@ -372,7 +364,7 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 
 	public void setupActionListeners() {
 		if (alleleNumberChoices != null) {
-			alleleNumberChoices.addItemListener(this);	
+			alleleNumberChoices.addChangeHandler(this);	
 		}
 	}
 	
@@ -384,7 +376,7 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 	 */
 	public String getSexLinkageChoice() {
 		if (sexLinkageChoices.getItemCount() == 1) return null;
-		return (String)sexLinkageChoices.getSelectedItem();
+		return (String)sexLinkageChoices.getItemText(sexLinkageChoices.getSelectedIndex());
 	}
 	
 	/*
@@ -397,8 +389,8 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 	 */
 	public int getAlleleNumberChoice() {
 		if (alleleNumberChoices.getItemCount() == 1) return 0;
-		String choice = (String) alleleNumberChoices.getSelectedItem();
-		if (choice.equals(Messages.getInstance().getString("VGLII.Unknown"))) return -1;
+		String choice = (String) alleleNumberChoices.getItemText(alleleNumberChoices.getSelectedIndex());
+		if (choice.equals("Unknown")) return -1;
 		String[] pieces = choice.split("-"); 
 		return Integer.parseInt(pieces[0]);
 	}
@@ -418,12 +410,12 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 	public String getInteractionTypeChoice() {
 		if (interactionTypeChoices == null)	 return null;
 		if (interactionTypeChoices.getItemCount() == 1) return null;
-		return interactionTypeChoices.getSelectedItem().toString();
+		return interactionTypeChoices.getItemText(interactionTypeChoices.getSelectedIndex());
 	}
 	
-	public ModelDetailsPanel getModelDetailsPanel() {
-		return (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
-	}
+//	public ModelDetailsPanel getModelDetailsPanel() {
+//		return (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
+//	}
 	
 	/*
 	 * Note for cage numbers vs IDs
@@ -435,77 +427,77 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 	 */
 	public int getSexLinkageCageChoice() {
 		if (sexLinkageCageChoices == null) return -1;
-		String[] parts = ((String)sexLinkageCageChoices.getSelectedItem()).split("Cage");
+		String[] parts = ((String)sexLinkageCageChoices.getItemText(sexLinkageCageChoices.getSelectedIndex())).split("Cage");
 		if (parts.length != 2) return -1;
 		return Integer.parseInt(parts[1].trim());
 	}
 	public int getInteractionCageChoice() {
 		if (interactionCageChoices == null) return -1;
-		String[] parts = ((String)interactionCageChoices.getSelectedItem()).split("Cage");
+		String[] parts = ((String)interactionCageChoices.getItemText(interactionCageChoices.getSelectedIndex())).split("Cage");
 		if (parts.length != 2) return -1;
 		return Integer.parseInt(parts[1].trim());
 	}
 
 	public void setStateFromFile(Element element) {
 
-		List<Element> elements = element.getChildren();
-		Iterator<Element> it = elements.iterator();
-		while(it.hasNext()) {
-			Element e = it.next();
-			if (e.getName().equals("SexLinkage")) {
-				sexLinkageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
-			}
-
-			if (e.getName().equals("AlleleNumber")) {
-				alleleNumberChoices.setSelectedIndex(Integer.parseInt(e.getText()));
-			}
-
-			if (e.getName().equals("InteractionType")) {
-				interactionTypeChoices.setSelectedIndex(Integer.parseInt(e.getText()));
-			}
-
-			// get a reference to the details panel
-			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
-
-			if (e.getName().equals("T1")) {
-				setT1Value(Integer.parseInt(e.getText()));
-				mdp.updateT1Choices(Integer.parseInt(e.getText()));
-			}
-
-			if (e.getName().equals("T2")) {
-				setT2Value(Integer.parseInt(e.getText()));
-				mdp.updateT2Choices(Integer.parseInt(e.getText()));
-			}
-
-			if (e.getName().equals("T3")) {
-				setT3Value(Integer.parseInt(e.getText()));
-				mdp.updateT3Choices(Integer.parseInt(e.getText()));
-			}
-
-			if (e.getName().equals("T4")) {
-				setT4Value(Integer.parseInt(e.getText()));
-				mdp.updateT4Choices(Integer.parseInt(e.getText()));
-			}
-
-			if (e.getName().equals("T5")) {
-				setT5Value(Integer.parseInt(e.getText()));
-				mdp.updateT5Choices(Integer.parseInt(e.getText()));
-			}
-
-			if (e.getName().equals("T6")) {
-				setT6Value(Integer.parseInt(e.getText()));
-				mdp.updateT6Choices(Integer.parseInt(e.getText()));
-			}
-
-			if (e.getName().equals("SexLinkageCage")) {
-				sexLinkageCageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
-			}
-
-			if (e.getName().equals("DetailsCage")) {
-				interactionCageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
-			}
-
-		}
+//		List<Element> elements = element.getChildren();
+//		Iterator<Element> it = elements.iterator();
+//		while(it.hasNext()) {
+//			Element e = it.next();
+//			if (e.getName().equals("SexLinkage")) {
+//				sexLinkageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
+//			}
+//
+//			if (e.getName().equals("AlleleNumber")) {
+//				alleleNumberChoices.setSelectedIndex(Integer.parseInt(e.getText()));
+//			}
+//
+//			if (e.getName().equals("InteractionType")) {
+//				interactionTypeChoices.setSelectedIndex(Integer.parseInt(e.getText()));
+//			}
+//
+//			// get a reference to the details panel
+//			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
+//
+//			if (e.getName().equals("T1")) {
+//				setT1Value(Integer.parseInt(e.getText()));
+//				mdp.updateT1Choices(Integer.parseInt(e.getText()));
+//			}
+//
+//			if (e.getName().equals("T2")) {
+//				setT2Value(Integer.parseInt(e.getText()));
+//				mdp.updateT2Choices(Integer.parseInt(e.getText()));
+//			}
+//
+//			if (e.getName().equals("T3")) {
+//				setT3Value(Integer.parseInt(e.getText()));
+//				mdp.updateT3Choices(Integer.parseInt(e.getText()));
+//			}
+//
+//			if (e.getName().equals("T4")) {
+//				setT4Value(Integer.parseInt(e.getText()));
+//				mdp.updateT4Choices(Integer.parseInt(e.getText()));
+//			}
+//
+//			if (e.getName().equals("T5")) {
+//				setT5Value(Integer.parseInt(e.getText()));
+//				mdp.updateT5Choices(Integer.parseInt(e.getText()));
+//			}
+//
+//			if (e.getName().equals("T6")) {
+//				setT6Value(Integer.parseInt(e.getText()));
+//				mdp.updateT6Choices(Integer.parseInt(e.getText()));
+//			}
+//
+//			if (e.getName().equals("SexLinkageCage")) {
+//				sexLinkageCageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
+//			}
+//
+//			if (e.getName().equals("DetailsCage")) {
+//				interactionCageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
+//			}
+//
+//		}
 	}
 
 	public Element save() {
@@ -537,115 +529,33 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 		e.appendChild(d.createTextNode(String.valueOf(t2Value)));
 		mpe.appendChild(e);
 
-		e = new Element("T3");
+		e = d.createElement("T3");
 		e.appendChild(d.createTextNode(String.valueOf(t3Value)));
 		mpe.appendChild(e);
 
-		e = new Element("T4");
+		e = d.createElement("T4");
 		e.appendChild(d.createTextNode(String.valueOf(t4Value)));
 		mpe.appendChild(e);
 
-		e = new Element("T5");
+		e = d.createElement("T5");
 		e.appendChild(d.createTextNode(String.valueOf(t5Value)));
 		mpe.appendChild(e);
 
-		e = new Element("T6");
+		e = d.createElement("T6");
 		e.appendChild(d.createTextNode(String.valueOf(t6Value)));
 		mpe.appendChild(e);
 
 		if (sexLinkageCageChoices != null) {
-			e = new Element("SexLinkageCage");
+			e = d.createElement("SexLinkageCage");
 			e.appendChild(d.createTextNode(String.valueOf(sexLinkageCageChoices.getSelectedIndex())));
 			mpe.appendChild(e);
 		}
 
-		e = new Element("DetailsCage");
+		e = d.createElement("DetailsCage");
 		e.appendChild(d.createTextNode(String.valueOf(interactionCageChoices.getSelectedIndex())));
 		mpe.appendChild(e);
 
 		return mpe;
 	}
 
-	/*
-	 * if for grader, the items that are not choices
-	 * 		(that is, their choice lists have zero length)
-	 *   	should be shown grayed out
-	 */
-	public String getAsHtml(boolean isForGrader) {
-		StringBuffer b = new StringBuffer();
-		b.append("<b>" + character + "</b><br>");
-		b.append("<ul>");
-
-		b.append("<li>");
-		if (sexLinkageChoices.getItemCount() == 1) 
-			b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
-		b.append(sexLinkageChoices.getSelectedItem());
-		if (sexLinkageChoices.getItemCount() == 1) b.append("</font>");
-		b.append("</li>");
-
-		b.append("<li>");
-		if (alleleNumberChoices.getItemCount() == 1) 
-			b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
-		b.append(alleleNumberChoices.getSelectedItem());
-		if (alleleNumberChoices.getItemCount() == 1) b.append("</font>");
-		b.append("</li>");
-
-		if (interactionTypeChoices != null) {
-
-			b.append("<li>");
-			if (interactionTypeChoices.getItemCount() == 1)
-				b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
-			b.append(interactionTypeChoices.getSelectedItem());
-			if (interactionTypeChoices.getItemCount() == 1) b.append("</font>");
-			b.append("</li>");
-
-			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
-			b.append(mdp.getAsHtml(isForGrader));
-		}
-
-		b.append("<li>");
-		if (isForGrader) {
-			b.append("Relevant Cages:");
-		} else {
-			b.append(Messages.getInstance().getString("VGLII.RelevantCages"));
-		}
-		b.append("</li><ul>");
-
-		if (sexLinkageCageChoices != null) {
-			b.append("<li>");
-			if (isForGrader) {
-				b.append("For/against Sex-linkage:");
-			} else {
-				b.append(Messages.getInstance().getString("VGLII.ForSexLinkage") + " ");				
-			}
-			b.append("<b>");
-			b.append(sexLinkageCageChoices.getSelectedItem() + "</b></li>");
-		}
-
-		b.append("<li>");
-		if (isForGrader) {
-			b.append("For allele interaction type:");
-		} else {
-			b.append(Messages.getInstance().getString("VGLII.ForDetails") + " ");
-		}
-		b.append("<b>");
-
-		b.append(interactionCageChoices.getSelectedItem() + "</b></li>");
-		b.append("</ul>");
-		b.append("</ul><br>");
-		return b.toString();
-	}
-
-	@Override
-	@Deprecated
-	void onChange(Widget sender) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onChange(ChangeEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
 }

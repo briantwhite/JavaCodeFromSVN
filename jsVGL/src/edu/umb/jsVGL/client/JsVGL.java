@@ -56,9 +56,9 @@ public class JsVGL implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		uiImageResource = GWT.create(UIImageResource.class);
-		buildMainPanelUI();
 		Dictionary params = Dictionary.getDictionary("Params");
 		vglII = new VGLII(params, this);
+		buildMainPanelUI();
 	}
 
 	private void buildMainPanelUI() {
