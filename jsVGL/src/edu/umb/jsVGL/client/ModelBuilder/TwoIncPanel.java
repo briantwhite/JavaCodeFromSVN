@@ -2,8 +2,10 @@ package edu.umb.jsVGL.client.ModelBuilder;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class TwoIncPanel extends ModelDetailsPanel implements ChangeHandler {
 
@@ -12,6 +14,8 @@ public class TwoIncPanel extends ModelDetailsPanel implements ChangeHandler {
 			ListBox t2Choices,
 			ListBox t3Choices,
 			ModelPane mp) {
+		
+		VerticalPanel mainPanel = new VerticalPanel();
 
 		t1Choices = new ListBox();
 		t3Choices = new ListBox();
@@ -22,12 +26,16 @@ public class TwoIncPanel extends ModelDetailsPanel implements ChangeHandler {
 			t3Choices.addItem(phenos[i]);			
 		}
 		
-		add(t1Choices);
-		add(new Label("Is Pure Breeding"));
-		add(new Label("Combine to give"));
-		add(t3Choices);		
-		add(t2Choices);
-		add(new Label("Is Pure Breeding"));
+		HorizontalPanel firstRow = new HorizontalPanel();
+		firstRow.add(t1Choices);
+		firstRow.add(new Label("Is Pure Breeding"));
+		
+		HorizontalPanel secondRow = new HorizontalPanel();
+		secondRow.add(new Label(combineArrow));
+		secondRow.add(new Label("Combine to give"));
+		mainPanel.add(t3Choices);		
+		mainPanel.add(t2Choices);
+		mainPanel.add(new Label("Is Pure Breeding"));
 	
 		this.t1Choices = t1Choices;
 		t1Choices.addChangeHandler(this);
@@ -37,7 +45,7 @@ public class TwoIncPanel extends ModelDetailsPanel implements ChangeHandler {
 		t3Choices.addChangeHandler(this);
 
 		this.mp = mp;
-
+		setWidget(mainPanel);
 	}
 
 	public void updateT1Choices(int x) {

@@ -10,6 +10,8 @@ for images, use imageresource
 
 also good gui stuff here http://examples.roughian.com/index.htm
 
+drawing on a panel http://code.google.com/p/gwt-g2d/wiki/Hello_World
+
 for passing params: 
 
 for positioning the dialogboxes DialogBox.PopupPosition()
