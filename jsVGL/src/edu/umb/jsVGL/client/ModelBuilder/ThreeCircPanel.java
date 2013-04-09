@@ -4,16 +4,19 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ThreeCircPanel extends ModelDetailsPanel implements ChangeHandler {
 
-	Label l;
 
 	public ThreeCircPanel(String[] phenos,
 			ListBox t1Choices,
 			ListBox t2Choices,
 			ListBox t3Choices,
 			ModelPane mp) {
+		
+		VerticalPanel mainPanel = new VerticalPanel();
+		
 		t1Choices = new ListBox();
 		t2Choices = new ListBox();
 		t3Choices = new ListBox();
@@ -31,19 +34,14 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ChangeHandler {
 		this.mp = mp;
 
 
-		add(t3Choices);
+		mainPanel.add(t3Choices);
+		mainPanel.add(new Label("is Dominant To"));
+		mainPanel.add(t2Choices);
+		mainPanel.add(new Label("is Dominant To"));
+		mainPanel.add(t1Choices);
+		mainPanel.add(new Label("is Dominant To"));
 
-		add(new Label("Is Dominant To"));
-
-		add(t2Choices);
-
-		add(new Label("Is Dominant To"));
-
-		add(t1Choices);
-
-		l = new Label("Is Dominant To");
-		add(l);
-
+		setWidget(mainPanel);
 	}
 
 	public void updateT1Choices(int x) {

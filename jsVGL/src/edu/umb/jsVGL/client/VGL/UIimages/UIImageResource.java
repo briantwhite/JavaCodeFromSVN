@@ -14,4 +14,5 @@ public interface UIImageResource extends ClientBundle {
 	@Source("maleblack.gif") ImageResource maleBlack();
 	@Source("malegreen.gif") ImageResource maleGreen();
 	@Source("ShowPheno.gif") ImageResource showPheno();
+	@Source("spacer.png") ImageResource spacer();
 }

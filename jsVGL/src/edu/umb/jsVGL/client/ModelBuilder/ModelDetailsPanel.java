@@ -2,6 +2,7 @@ package edu.umb.jsVGL.client.ModelBuilder;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -19,8 +20,9 @@ public abstract class ModelDetailsPanel extends SimplePanel implements ChangeHan
 	ModelPane mp;
 	private UIImageResource uiImageResource = GWT.create(UIImageResource.class);;
 	
-	String combineArrowURL = (new Image(uiImageResource.combineArrow())).getUrl();
-	String combineArrow2URL = (new Image(uiImageResource.combineArrow2())).getUrl();
+	Image combineArrow = new Image(uiImageResource.combineArrow());
+	Image combineArrow2 = new Image(uiImageResource.combineArrow2());
+	Image spacer = new Image(uiImageResource.spacer());
 
 	// must over-ride these for the combo boxes present in each details panel type
 	public void updateT1Choices(int x) {}

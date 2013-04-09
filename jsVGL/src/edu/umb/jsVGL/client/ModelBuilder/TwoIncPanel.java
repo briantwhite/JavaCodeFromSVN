@@ -28,14 +28,21 @@ public class TwoIncPanel extends ModelDetailsPanel implements ChangeHandler {
 		
 		HorizontalPanel firstRow = new HorizontalPanel();
 		firstRow.add(t1Choices);
-		firstRow.add(new Label("Is Pure Breeding"));
+		firstRow.add(new Label("is Pure Breeding"));
 		
 		HorizontalPanel secondRow = new HorizontalPanel();
-		secondRow.add(new Label(combineArrow));
-		secondRow.add(new Label("Combine to give"));
-		mainPanel.add(t3Choices);		
-		mainPanel.add(t2Choices);
-		mainPanel.add(new Label("Is Pure Breeding"));
+		secondRow.add(spacer);
+		secondRow.add(combineArrow);
+		secondRow.add(new Label("combine to give"));
+		secondRow.add(t3Choices);		
+		
+		HorizontalPanel thirdRow = new HorizontalPanel();
+		thirdRow.add(t2Choices);
+		thirdRow.add(new Label("is Pure Breeding"));
+		
+		mainPanel.add(firstRow);
+		mainPanel.add(secondRow);
+		mainPanel.add(thirdRow);
 	
 		this.t1Choices = t1Choices;
 		t1Choices.addChangeHandler(this);
