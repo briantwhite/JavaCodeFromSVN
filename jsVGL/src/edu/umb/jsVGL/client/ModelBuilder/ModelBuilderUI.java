@@ -52,7 +52,7 @@ public class ModelBuilderUI extends TabPanel {
 						geneModels[i].getTraitStrings(), 
 						specs, 
 						this);
-				add(modelPanes[i], geneModels[i].getTraits()[0].getTraitName());
+				add(modelPanes[i], geneModels[i].getTraits()[0].getCharacterName());
 				modelPanes[i].setupActionListeners();
 			}
 		} else {
@@ -66,7 +66,7 @@ public class ModelBuilderUI extends TabPanel {
 						geneModels[0].getTraitStrings(), 
 						specs, 
 						this);
-				add(modelPanes[0], geneModels[0].getTraits()[0].getTraitName());
+				add(modelPanes[0], geneModels[0].getTraits()[0].getCharacterName());
 			} else {
 				// if there is an interaction, need to get the phenotypes from the PhenoProcessor
 				modelPanes[0] = new ModelPane(0, 
@@ -74,7 +74,7 @@ public class ModelBuilderUI extends TabPanel {
 						geneticModel.getPhenoTypeProcessor().getTraits(), 
 						specs, 
 						this);
-				add(modelPanes[0], geneticModel.getPhenoTypeProcessor().getT1().getTraitName());
+				add(modelPanes[0], geneticModel.getPhenoTypeProcessor().getT1().getCharacterName());
 			}
 			modelPanes[0].setupActionListeners();
 
@@ -86,7 +86,7 @@ public class ModelBuilderUI extends TabPanel {
 						geneModels[1].getTraitStrings(), 
 						specs, 
 						this);
-				add(modelPanes[1], geneModels[1].getTraits()[0].getTraitName());
+				add(modelPanes[1], geneModels[1].getTraits()[0].getCharacterName());
 			}
 
 		}

@@ -7,15 +7,10 @@ import com.google.gwt.user.client.ui.Label;
 public class UnknownSpecificsPanel extends ModelDetailsPanel {
 
 	public UnknownSpecificsPanel() {
+		setSize("300px", "100px");
 		add(new Label("Please choose the interaction type."));
 	}
 
-	public void itemStateChanged(Event e) {}
-
-	@Override
-	public void onChange(ChangeEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onChange(ChangeEvent event) {}
 
 }

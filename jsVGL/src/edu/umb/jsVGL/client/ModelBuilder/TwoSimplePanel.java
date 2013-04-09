@@ -11,6 +11,8 @@ public class TwoSimplePanel extends ModelDetailsPanel implements ChangeHandler {
 			ListBox t1Choices, 
 			ListBox t2Choices,
 			ModelPane mp) {
+		
+		setSize("300px", "300px");
 		t2Choices = new ListBox();
 		t1Choices = new ListBox();
 		for (int i = 0; i < phenos.length; i++) {

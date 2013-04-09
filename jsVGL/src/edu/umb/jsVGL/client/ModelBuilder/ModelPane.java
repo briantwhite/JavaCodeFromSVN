@@ -240,14 +240,14 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 		
 		String selectedAlleleNumber = alleleNumberChoices.getItemText(alleleNumberChoices.getSelectedIndex());
 		String selectedInteractionType = interactionTypeChoices.getItemText(interactionTypeChoices.getSelectedIndex());
-		
+
 		if (e.getSource().equals(alleleNumberChoices)) {
 			if (selectedAlleleNumber.equals("Unknown")) {
 				interactionTypePanel.remove(interactionTypePanel.getContentWidget());
-				interactionTypePanel.add(new UnknownInteractionPanel());
+				interactionTypePanel.setContentWidget(new UnknownInteractionPanel());
 
 				interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
-				interactionDetailsPanel.add(new UnknownSpecificsPanel());
+				interactionDetailsPanel.setContentWidget(new UnknownSpecificsPanel());
 				clearValues();
 			}
 			if (selectedAlleleNumber.equals("2-Allele")) {
@@ -256,10 +256,10 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 						complementationPossible, epistasisPossible);
 				interactionTypeChoices = twap.getInteractionTypeChoices();
 				interactionTypeChoices.addChangeHandler(this);
-				interactionTypePanel.add(twap);
+				interactionTypePanel.setContentWidget(twap);
 
 				interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
-				interactionDetailsPanel.add(new UnknownSpecificsPanel());
+				interactionDetailsPanel.setContentWidget(new UnknownSpecificsPanel());
 				clearValues();
 			}
 			if (selectedAlleleNumber.equals("3-Allele")) {
@@ -267,10 +267,10 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 				ThreeAllelePanel thap = new ThreeAllelePanel(circularPossible);
 				interactionTypeChoices = thap.getInteractionTypeChoices();
 				interactionTypeChoices.addChangeHandler(this);
-				interactionTypePanel.add(thap);
+				interactionTypePanel.setContentWidget(thap);
 
 				interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
-				interactionDetailsPanel.add(new UnknownSpecificsPanel());
+				interactionDetailsPanel.setContentWidget(new UnknownSpecificsPanel());
 				clearValues();
 			}
 		}
@@ -279,33 +279,38 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 
 			if (selectedAlleleNumber.equals("2-Allele")) {
 				if (selectedInteractionType.equals("Unknown")) {
-					interactionDetailsPanel = new CaptionPanel("Specific Interactions Between Phenotypes:");
-					interactionDetailsPanel.add(new UnknownSpecificsPanel());
+					interactionDetailsPanel.setCaptionText("Specific Interactions Between Phenotypes:");
+					interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
+					interactionDetailsPanel.setContentWidget(new UnknownSpecificsPanel());
 					clearValues();
 				}
 				if (selectedInteractionType.equals("Simple Dominance")) {
-					interactionDetailsPanel = new CaptionPanel("Specific Interactions Between Phenotypes:");
-					interactionDetailsPanel.add(
+					interactionDetailsPanel.setCaptionText("Specific Interactions Between Phenotypes:");
+					interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
+					interactionDetailsPanel.setContentWidget(
 							new TwoSimplePanel(traits, t1Choices, t2Choices, this));
 					clearValues();
 				}
 				if (selectedInteractionType.equals("Incomplete Dominance")) {
-					interactionDetailsPanel = new CaptionPanel("Specific Interactions Between Phenotypes:");
-					interactionDetailsPanel.add(
+					interactionDetailsPanel.setCaptionText("Specific Interactions Between Phenotypes:");
+					interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
+					interactionDetailsPanel.setContentWidget(
 							new TwoIncPanel(traits, t1Choices, t2Choices, t3Choices, this));
 					clearValues();
 				}
 				
 				if (selectedInteractionType.equals("Complementation")) {
-					interactionDetailsPanel = new CaptionPanel("Pathway");
-					interactionDetailsPanel.add(
+					interactionDetailsPanel.setCaptionText("Pathway");
+					interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
+					interactionDetailsPanel.setContentWidget(
 							new ComplementationPanel(traits, t1Choices, t2Choices, this));
 					clearValues();
 				}
 				
 				if (selectedInteractionType.equals("Epistasis")) {
-					interactionDetailsPanel = new CaptionPanel("Pathway");
-					interactionDetailsPanel.add(
+					interactionDetailsPanel.setCaptionText("Pathway");
+					interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
+					interactionDetailsPanel.setContentWidget(
 							new EpistasisPanel(traits, t1Choices, t2Choices, t3Choices, this));
 					clearValues();
 				}
@@ -313,12 +318,16 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 			
 			if (selectedAlleleNumber.equals("3-Allele")) {
 				if (selectedInteractionType.equals("Unknown")) {
-					interactionDetailsPanel.add(new UnknownSpecificsPanel());
+					interactionDetailsPanel.setCaptionText("Specific Interactions Between Phenotypes:");
+					interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
+					interactionDetailsPanel.setContentWidget(new UnknownSpecificsPanel());
 					clearValues();
 				}
 				
 				if (selectedInteractionType.equals("Incomplete Dominance")) {
-					interactionDetailsPanel.add(
+					interactionDetailsPanel.setCaptionText("Specific Interactions Between Phenotypes:");
+					interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
+					interactionDetailsPanel.setContentWidget(
 							new ThreeIncPanel(
 									traits, 
 									t1Choices, 
@@ -331,13 +340,17 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 					clearValues();
 				}
 				if (selectedInteractionType.equals("Hierarchical Dominance")) {
-					interactionDetailsPanel.add(
+					interactionDetailsPanel.setCaptionText("Specific Interactions Between Phenotypes:");
+					interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
+					interactionDetailsPanel.setContentWidget(
 							new ThreeHierPanel(traits, 
 									t1Choices, t2Choices, t3Choices, this));
 					clearValues();
 				}
 				if (selectedInteractionType.equals("Circular Dominance")) {
-					interactionDetailsPanel.add(
+					interactionDetailsPanel.setCaptionText("Specific Interactions Between Phenotypes:");
+					interactionDetailsPanel.remove(interactionDetailsPanel.getContentWidget());
+					interactionDetailsPanel.setContentWidget(
 							new ThreeCircPanel(traits, 
 									t1Choices, t2Choices, t3Choices, this));
 					clearValues();
