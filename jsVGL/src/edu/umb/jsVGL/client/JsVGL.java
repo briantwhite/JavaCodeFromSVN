@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -43,7 +44,7 @@ public class JsVGL implements EntryPoint {
 
 	private ListBox superCrossChoices = null;
 
-	private ModelBuilderUI modelBuilderPanel = null;
+	private SimplePanel modelBuilderPanel = null;
 	private FlowPanel summaryChartPanel = null;
 	private FlowPanel superCrossPanel = null;
 
@@ -107,7 +108,8 @@ public class JsVGL implements EntryPoint {
 		instructionsPanel.add(new HTML(WELCOME_HTML));
 		mainPanel.add(instructionsPanel, "Instructions");
 
-		modelBuilderPanel = new ModelBuilderUI(vglII, vglII.getGeneticModel());
+		modelBuilderPanel = new SimplePanel();
+		modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
 		mainPanel.add(modelBuilderPanel, "Model Builder");
 
 		summaryChartPanel = new FlowPanel();
@@ -164,7 +166,7 @@ public class JsVGL implements EntryPoint {
 		saveWorkButton.setEnabled(state);
 	}
 		
-	public ModelBuilderUI getModelBuilderPanel() {
+	public SimplePanel getModelBuilderPanel() {
 		return modelBuilderPanel;
 	}
 

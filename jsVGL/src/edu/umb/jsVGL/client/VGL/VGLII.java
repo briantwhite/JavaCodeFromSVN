@@ -108,7 +108,6 @@ public class VGLII {
 		this.params = params;
 		this.jsVGL = jsVGL;
 		random = new Random();
-		geneticModel = GeneticModelFactory.getInstance().createRandomModel(params);
 		changeSinceLastSave = false;
 	}
 
@@ -124,7 +123,7 @@ public class VGLII {
 
 	private void newProblem(boolean practiceMode) {
 		CharacterSpecificationBank.getInstance().refreshAll();
-
+		geneticModel = GeneticModelFactory.getInstance().createRandomModel(params);
 		if (geneticModel == null) return;
 
 		geneticModel.setBeginnerMode(practiceMode);
@@ -135,6 +134,9 @@ public class VGLII {
 
 		Cage fieldPop = geneticModel.generateFieldPopulation();
 		createCageUI(fieldPop, false);
+		
+		jsVGL.getModelBuilderPanel().clear();
+		jsVGL.getModelBuilderPanel().add(new ModelBuilderUI(this, geneticModel));
 		
 		jsVGL.setButtonState(true);
 
