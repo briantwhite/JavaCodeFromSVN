@@ -22,7 +22,9 @@ public class TwoSimplePanel extends ModelDetailsPanel implements ChangeHandler {
 			t2Choices.addItem(phenos[i]);
 		}
 		mainPanel.add(t2Choices);
-		mainPanel.add(new Label("Is Dominant To"));
+		Label l = new Label("Is Dominant To");
+		l.setStyleName("DominanceText");
+		mainPanel.add(l);
 		mainPanel.add(t1Choices);
 
 		this.t1Choices = t1Choices;

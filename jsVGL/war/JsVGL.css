@@ -52,8 +52,15 @@
 	font-size: 10px;	
 }
 
+/** settings for ModelBuilder */
+
+.DominanceText {
+	color: #800000;
+	border-color: #800000;
+}
+
 .ThreeCircPanel {
 	background-image: url('jsvgl/gwt/clean/images/ThreeCircPanelBG.png');
 }
-}
+
 

@@ -12,6 +12,7 @@ public class ThreeHierPanel extends ModelDetailsPanel implements ChangeHandler {
 			ListBox t2Choices,
 			ListBox t3Choices,
 			ModelPane mp) {
+
 		t1Choices = new ListBox();
 		t2Choices = new ListBox();
 		t3Choices = new ListBox();
@@ -29,9 +30,13 @@ public class ThreeHierPanel extends ModelDetailsPanel implements ChangeHandler {
 		this.mp = mp;
 
 		add(t3Choices);
-		add(new Label("Is Dominant To"));
+		Label l1 = new Label("Is Dominant To");
+		l1.setStyleName("DominanceText");
+		add(l1);
 		add(t2Choices);
-		add(new Label("Is Dominant To"));
+		Label l2 = new Label("Is Dominant To");
+		l2.setStyleName("DominanceText");
+		add(l2);
 		add(t1Choices);
 	}
 
