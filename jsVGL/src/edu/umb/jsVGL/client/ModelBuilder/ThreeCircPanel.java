@@ -2,9 +2,9 @@ package edu.umb.jsVGL.client.ModelBuilder;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ThreeCircPanel extends ModelDetailsPanel implements ChangeHandler {
 
@@ -15,7 +15,9 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ChangeHandler {
 			ListBox t3Choices,
 			ModelPane mp) {
 		
-		VerticalPanel mainPanel = new VerticalPanel();
+		AbsolutePanel mainPanel = new AbsolutePanel();
+		mainPanel.setSize("216px", "216px");
+		mainPanel.setStyleName("ThreeCircPanel");
 		
 		t1Choices = new ListBox();
 		t2Choices = new ListBox();
@@ -34,12 +36,9 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ChangeHandler {
 		this.mp = mp;
 
 
-		mainPanel.add(t3Choices);
-		mainPanel.add(new Label("is Dominant To"));
-		mainPanel.add(t2Choices);
-		mainPanel.add(new Label("is Dominant To"));
-		mainPanel.add(t1Choices);
-		mainPanel.add(new Label("is Dominant To"));
+		mainPanel.add(t3Choices, 55, 10);
+		mainPanel.add(t2Choices, 140, 160);
+		mainPanel.add(t1Choices, 0, 160);
 
 		setWidget(mainPanel);
 	}

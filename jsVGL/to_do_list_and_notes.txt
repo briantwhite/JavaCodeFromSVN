@@ -10,7 +10,7 @@ for images, use imageresource
 
 also good gui stuff here http://examples.roughian.com/index.htm
 
-drawing on a panel http://code.google.com/p/gwt-g2d/wiki/Hello_World
+drawing on a panel http://code.google.com/p/gwt-g2d/wiki/Hello_World - ng -this doesn't work with gwt
 
 for passing params: 
 
