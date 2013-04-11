@@ -2,6 +2,7 @@ package edu.umb.jsVGL.client.ModelBuilder;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -33,30 +34,34 @@ public class ThreeIncPanel extends ModelDetailsPanel implements ChangeHandler {
 			t6Choices.addItem(phenos[i]);
 		}
 		
-		// first line
-		add(t1Choices);
+		HorizontalPanel row1 = new HorizontalPanel();
+		row1.add(t1Choices);
+		Label l1 = new Label("is Pure Breeding");
+		l1.setStyleName("jsVGL_InteractionText");
+		row1.add(l1);
 
-		Label t0 = new Label("Is Pure Breeding");
-		add(t0);
+		HorizontalPanel row2 = new HorizontalPanel();
+		row2.add(spacer);
+		row2.add(combineArrow);
+		Label l2 = new Label("combine to give");
+		l2.setStyleName("jsVGL_InteractionText");
+		row2.add(l2);
+		row2.add(t4Choices);		
 
-		// second line
-		Label t1 = new Label("Combine To Give");
-		add(t1);
+		HorizontalPanel row3 = new HorizontalPanel();
+		row3.add(t2Choices);
+		Label l3 = new Label("is Pure Breeding");
+		l3.setStyleName("jsVGL_InteractionText");
+		row3.add(l3);
 
-		add(t4Choices);
-
-		// third line
-		add(t2Choices);
-
-		Label t2 = new Label("Is Pure Breeding");
-		add(t2);
-
-		// fourth line
-		Label t3 = new Label("Combine To Give");
-		add(t3);
-
-		add(t5Choices);
-
+		HorizontalPanel row4 = new HorizontalPanel();
+		row4.add(spacer);
+		row4.add(combineArrow);
+		Label l4 = new Label("combine to give");
+		l4.setStyleName("jsVGL_InteractionText");
+		row4.add(l4);
+		row4.add(t5Choices);		
+		
 		// fifth line
 		add(t3Choices);
 
