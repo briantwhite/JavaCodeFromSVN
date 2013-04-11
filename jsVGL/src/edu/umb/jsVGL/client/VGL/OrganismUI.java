@@ -110,7 +110,7 @@ public class OrganismUI extends HTML implements ClickHandler {
 			boolean isbeginnersmode, SelectionVial sv) {
 		super();
 		
-		setStyleName("OrganismUI");
+		setStyleName("jsVGL_OrganismUI");
 		
 		UIImageResource uiImageResource = GWT.create(UIImageResource.class);
 		

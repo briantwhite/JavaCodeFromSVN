@@ -23,7 +23,7 @@ public class TwoSimplePanel extends ModelDetailsPanel implements ChangeHandler {
 		}
 		mainPanel.add(t2Choices);
 		Label l = new Label("Is Dominant To");
-		l.setStyleName("DominanceText");
+		l.setStyleName("jsVGL_InteractionText");
 		mainPanel.add(l);
 		mainPanel.add(t1Choices);
 

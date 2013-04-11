@@ -31,11 +31,11 @@ public class ThreeHierPanel extends ModelDetailsPanel implements ChangeHandler {
 
 		add(t3Choices);
 		Label l1 = new Label("Is Dominant To");
-		l1.setStyleName("DominanceText");
+		l1.setStyleName("jsVGL_InteractionText");
 		add(l1);
 		add(t2Choices);
 		Label l2 = new Label("Is Dominant To");
-		l2.setStyleName("DominanceText");
+		l2.setStyleName("jsVGL_InteractionText");
 		add(l2);
 		add(t1Choices);
 	}

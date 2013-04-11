@@ -156,7 +156,7 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 
 		// allele interaction details
 		interactionDetailsPanel = new CaptionPanel("Specific Interactions Between Phenotypes:");
-		interactionDetailsPanel.setStyleName("DominanceText");
+		interactionDetailsPanel.setStyleName("jsVGL_InteractionText");
 		interactionDetailsPanel.add(new UnknownSpecificsPanel());
 		add(interactionDetailsPanel);
 

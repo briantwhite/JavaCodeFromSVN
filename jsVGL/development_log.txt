@@ -126,3 +126,8 @@ now from eclipse
 4/3/13
 working on model builder ui
 left off in model pane fixing all errors
+
+4/9/13
+lots of work on Model Builder
+
+4/11/13 prefixed all .css styles with jsVGL_ to avoid conflicts with edx and other cms's

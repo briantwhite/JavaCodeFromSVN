@@ -17,7 +17,7 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ChangeHandler {
 		
 		AbsolutePanel mainPanel = new AbsolutePanel();
 		mainPanel.setSize("216px", "216px");
-		mainPanel.setStyleName("ThreeCircPanel");
+		mainPanel.setStyleName("jsVGL_ThreeCircPanel");
 		
 		t1Choices = new ListBox();
 		t2Choices = new ListBox();

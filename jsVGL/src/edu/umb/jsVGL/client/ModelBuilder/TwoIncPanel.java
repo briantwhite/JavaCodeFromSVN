@@ -29,21 +29,21 @@ public class TwoIncPanel extends ModelDetailsPanel implements ChangeHandler {
 		HorizontalPanel firstRow = new HorizontalPanel();
 		firstRow.add(t1Choices);
 		Label l1 = new Label("is Pure Breeding");
-		l1.setStyleName("DominanceText");
+		l1.setStyleName("jsVGL_InteractionText");
 		firstRow.add(l1);
 		
 		HorizontalPanel secondRow = new HorizontalPanel();
 		secondRow.add(spacer);
 		secondRow.add(combineArrow);
 		Label l2 = new Label("combine to give");
-		l2.setStyleName("DominanceText");
+		l2.setStyleName("jsVGL_InteractionText");
 		secondRow.add(l2);
 		secondRow.add(t3Choices);		
 		
 		HorizontalPanel thirdRow = new HorizontalPanel();
 		thirdRow.add(t2Choices);
 		Label l3 = new Label("is Pure Breeding");
-		l3.setStyleName("DominanceText");
+		l3.setStyleName("jsVGL_InteractionText");
 		thirdRow.add(l3);
 		
 		mainPanel.add(firstRow);

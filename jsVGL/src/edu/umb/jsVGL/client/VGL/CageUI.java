@@ -234,7 +234,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 		//initialize parent
 		super(false);
 		setModal(false);
-		setStyleName("CageUI");
+		setStyleName("jsVGL_CageUI");
 		
 		uiImageResource = GWT.create(UIImageResource.class);
 
@@ -462,19 +462,19 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			}
 		}
 		VerticalPanel organismPanel = new VerticalPanel();
-		organismPanel.setStyleName("OrganismRowPanel");
+		organismPanel.setStyleName("jsVGL_OrganismRowPanel");
 		organismPanel.add(topRowOfOrganismsPanel);
 		organismPanel.add(bottomRowOfOrganismsPanel);
 
 		VerticalPanel countPanel = new VerticalPanel();
-		countPanel.setStyleName("CountRowPanel");
+		countPanel.setStyleName("jsVGL_CountRowPanel");
 
 		SimplePanel maleLabel = new SimplePanel();
 		maleLabel.add(new HTML("<img src=\"" + (new Image(uiImageResource.maleBlack())).getUrl() + "\">"));
-		maleLabel.setStyleName("CountLabel");
+		maleLabel.setStyleName("jsVGL_CountLabel");
 		SimplePanel femaleLabel = new SimplePanel();
 		femaleLabel.add(new HTML("<img src=\"" + (new Image(uiImageResource.femaleBlack())).getUrl() + "\">"));
-		femaleLabel.setStyleName("CountLabel");
+		femaleLabel.setStyleName("jsVGL_CountLabel");
 
 		String mCount = (new Integer(childrenSortedByPhenotype[number].getNumberOfMales())).toString();
 		if (childrenSortedByPhenotype[number].getNumberOfMales() < 10)
@@ -512,7 +512,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 				childrenSortedByPhenotype[number].get(0).getPhenotypes();
 		for (int k = 0; k < numberOfTraits; k++) {
 			phenotypePanels[k] = new HorizontalPanel();
-			phenotypePanels[k].setStyleName("PhenotypeRowPanel");
+			phenotypePanels[k].setStyleName("jsVGL_PhenotypeRowPanel");
 			phenotypePanels[k].add(new Label(phenoList.get(k).getTrait().getTraitName()));
 			phenotypePanels[k].setHeight("34px");
 		}
@@ -541,7 +541,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			parentInfoPanel.add(new Label("(Cage " + cageId + ") " + phenoName1));
 			Label crossLabel = new Label("X");
 			parentInfoPanel.add(crossLabel);
-			crossLabel.setStyleName("CrossLabel");
+			crossLabel.setStyleName("jsVGL_CrossLabel");
 			cageId = o2.getCageId() + 1;
 			String phenoName2 = o2.getPhenotypeString();
 			parentOrganismUIs[1] = new OrganismUI(o2, true, isBeginner, vial);
@@ -555,7 +555,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 					SimplePanel bottomPanel = new SimplePanel();
 					textDetails = new HTML("");
 					final ToggleButton showHideDetails = new ToggleButton("Show Genetic Model", "Hide Genetic Model");
-					showHideDetails.setStyleName("ShowGeneticModelButton");
+					showHideDetails.setStyleName("jsVGL_ShowGeneticModelButton");
 					HorizontalPanel buttonPanel = new HorizontalPanel();
 					buttonPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 					buttonPanel.add(showHideDetails);
