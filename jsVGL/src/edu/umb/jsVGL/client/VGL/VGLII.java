@@ -22,6 +22,7 @@ import edu.umb.jsVGL.client.GeneticModels.CharacterSpecificationBank;
 import edu.umb.jsVGL.client.GeneticModels.GeneticModel;
 import edu.umb.jsVGL.client.GeneticModels.GeneticModelFactory;
 import edu.umb.jsVGL.client.GeneticModels.Organism;
+import edu.umb.jsVGL.client.Grader.AutoGrader;
 import edu.umb.jsVGL.client.ModelBuilder.ModelBuilderUI;
 
 /**
@@ -170,7 +171,9 @@ public class VGLII {
 	/**
 	 * Saves the current work done by the user to the edx server.
 	 */
-	public String saveProblem() {
+	public SavedProblemStrings saveProblem() {
+		String problemXML = "";
+		
 		if (cageCollection != null) {
 
 			try {
@@ -182,15 +185,16 @@ public class VGLII {
 					al.add(c);
 				}
 				Element xmlDoc = getXMLDoc(al);
-				System.out.println(xmlDoc.toString());
 				changeSinceLastSave = false;
-
+				problemXML = xmlDoc.toString();
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		return "";
+		
+		Element grade = AutoGrader.grade(cageCollection, geneticModel, (ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget());
+		return new SavedProblemStrings(problemXML, grade.toString());
 	}
 
 

@@ -17,9 +17,10 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.umb.jsVGL.client.ModelBuilder.ModelBuilderUI;
+import edu.umb.jsVGL.client.VGL.SavedProblemStrings;
 import edu.umb.jsVGL.client.VGL.VGLII;
 import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
 
@@ -51,6 +52,9 @@ public class JsVGL implements EntryPoint {
 	private UIImageResource uiImageResource;
 
 	private VGLII vglII;
+	
+	private TextArea problemText;
+	private TextArea gradeText;
 
 	/**
 	 * This is the entry point method.
@@ -86,7 +90,9 @@ public class JsVGL implements EntryPoint {
 		RootPanel.get("saveWorkButtonConatiner").add(saveWorkButton);
 		saveWorkButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				vglII.saveProblem();
+				SavedProblemStrings result = vglII.saveProblem();
+				problemText.setText(result.problemXML);
+				gradeText.setText(result.gradeXML);
 			}			
 		});
 		
@@ -142,6 +148,11 @@ public class JsVGL implements EntryPoint {
 		mainPanel.setSize("500px", "250px");
 		mainPanel.addStyleName("table-center");
 		RootPanel.get("mainPanelContainer").add(mainPanel);	
+		
+		problemText = new TextArea();
+		RootPanel.get("problemTextContainer").add(problemText);
+		gradeText = new TextArea();
+		RootPanel.get("gradeTextContainer").add(gradeText);
 	}
 
 	/*

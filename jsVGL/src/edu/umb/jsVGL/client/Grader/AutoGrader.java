@@ -187,20 +187,20 @@ public class AutoGrader {
 						// check to be sure they've instantiated the choices
 						if (mdp.t1Choices != null) {
 							// check het pheno first - if it's wrong, give up
-							if (mdp.t3Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) {
+							if (mdp.t3Choices.getItemText(mdp.t3Choices.getSelectedIndex()).equals(geneModel.t3.getTraitName())) {
 
 								// try either permutation of the homozygotes
 								// direct match
 								if (
-										(mdp.t1Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) &&
-										(mdp.t2Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) 
+										(mdp.t1Choices.getItemText(mdp.t1Choices.getSelectedIndex()).equals(geneModel.t1.getTraitName())) &&
+										(mdp.t2Choices.getItemText(mdp.t2Choices.getSelectedIndex()).equals(geneModel.t2.getTraitName())) 
 										){
 									detailsCorrect = true;
 								}
 								// swapped
 								if (
-										(mdp.t1Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) &&
-										(mdp.t2Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) 
+										(mdp.t1Choices.getItemText(mdp.t1Choices.getSelectedIndex()).equals(geneModel.t2.getTraitName())) &&
+										(mdp.t2Choices.getItemText(mdp.t2Choices.getSelectedIndex()).equals(geneModel.t1.getTraitName())) 
 										){
 									detailsCorrect = true;
 								}
@@ -222,32 +222,32 @@ public class AutoGrader {
 						// check to be sure they've instantiated the choices
 						if (mdp.t1Choices != null) {
 							// then, see which permutation it is
-							if (mdp.t1Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) {
+							if (mdp.t1Choices.getItemText(mdp.t1Choices.getSelectedIndex()).equals(geneModel.t1.getTraitName())) {
 								// first alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) detailsCorrect = false;
-								if (!mdp.t4Choices.getSelectedItem().equals(geneModel.t4.getTraitName())) detailsCorrect = false;
-								if (!mdp.t5Choices.getSelectedItem().equals(geneModel.t5.getTraitName())) detailsCorrect = false;
-								if (!mdp.t6Choices.getSelectedItem().equals(geneModel.t6.getTraitName())) detailsCorrect = false;
+								if (!mdp.t2Choices.getItemText(mdp.t2Choices.getSelectedIndex()).equals(geneModel.t2.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getItemText(mdp.t3Choices.getSelectedIndex()).equals(geneModel.t3.getTraitName())) detailsCorrect = false;
+								if (!mdp.t4Choices.getItemText(mdp.t4Choices.getSelectedIndex()).equals(geneModel.t4.getTraitName())) detailsCorrect = false;
+								if (!mdp.t5Choices.getItemText(mdp.t5Choices.getSelectedIndex()).equals(geneModel.t5.getTraitName())) detailsCorrect = false;
+								if (!mdp.t6Choices.getItemText(mdp.t6Choices.getSelectedIndex()).equals(geneModel.t6.getTraitName())) detailsCorrect = false;
 
-							} else if (mdp.t1Choices.getSelectedItem().equals(geneModel.t3.getTraitName())){
+							} else if (mdp.t1Choices.getItemText(mdp.t1Choices.getSelectedIndex()).equals(geneModel.t3.getTraitName())){
 								// second alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) detailsCorrect = false;
-								if (!mdp.t4Choices.getSelectedItem().equals(geneModel.t6.getTraitName())) detailsCorrect = false;
-								if (!mdp.t5Choices.getSelectedItem().equals(geneModel.t4.getTraitName())) detailsCorrect = false;
-								if (!mdp.t6Choices.getSelectedItem().equals(geneModel.t5.getTraitName())) detailsCorrect = false;
+								if (!mdp.t2Choices.getItemText(mdp.t2Choices.getSelectedIndex()).equals(geneModel.t1.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getItemText(mdp.t3Choices.getSelectedIndex()).equals(geneModel.t2.getTraitName())) detailsCorrect = false;
+								if (!mdp.t4Choices.getItemText(mdp.t4Choices.getSelectedIndex()).equals(geneModel.t6.getTraitName())) detailsCorrect = false;
+								if (!mdp.t5Choices.getItemText(mdp.t5Choices.getSelectedIndex()).equals(geneModel.t4.getTraitName())) detailsCorrect = false;
+								if (!mdp.t6Choices.getItemText(mdp.t6Choices.getSelectedIndex()).equals(geneModel.t5.getTraitName())) detailsCorrect = false;
 
-							} else if (mdp.t1Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) {
+							} else if (mdp.t1Choices.getItemText(mdp.t1Choices.getSelectedIndex()).equals(geneModel.t2.getTraitName())) {
 								// third alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) detailsCorrect = false;
-								if (!mdp.t4Choices.getSelectedItem().equals(geneModel.t5.getTraitName())) detailsCorrect = false;
-								if (!mdp.t5Choices.getSelectedItem().equals(geneModel.t6.getTraitName())) detailsCorrect = false;
-								if (!mdp.t6Choices.getSelectedItem().equals(geneModel.t4.getTraitName())) detailsCorrect = false;
+								if (!mdp.t2Choices.getItemText(mdp.t2Choices.getSelectedIndex()).equals(geneModel.t3.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getItemText(mdp.t3Choices.getSelectedIndex()).equals(geneModel.t1.getTraitName())) detailsCorrect = false;
+								if (!mdp.t4Choices.getItemText(mdp.t4Choices.getSelectedIndex()).equals(geneModel.t5.getTraitName())) detailsCorrect = false;
+								if (!mdp.t5Choices.getItemText(mdp.t5Choices.getSelectedIndex()).equals(geneModel.t6.getTraitName())) detailsCorrect = false;
+								if (!mdp.t6Choices.getItemText(mdp.t6Choices.getSelectedIndex()).equals(geneModel.t4.getTraitName())) detailsCorrect = false;
 							}
 							// none of the alternatives, so details aren't correct
 						}
@@ -262,23 +262,23 @@ public class AutoGrader {
 						// check to be sure they've instantiated the choices
 						if (mdp.t1Choices != null) {
 							// then, see which permutation it is
-							if (mdp.t1Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) {
+							if (mdp.t1Choices.getItemText(mdp.t1Choices.getSelectedIndex()).equals(geneModel.t1.getTraitName())) {
 								// first alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) detailsCorrect = false;
+								if (!mdp.t2Choices.getItemText(mdp.t2Choices.getSelectedIndex()).equals(geneModel.t2.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getItemText(mdp.t3Choices.getSelectedIndex()).equals(geneModel.t3.getTraitName())) detailsCorrect = false;
 
-							} else if (mdp.t1Choices.getSelectedItem().equals(geneModel.t3.getTraitName())){
+							} else if (mdp.t1Choices.getItemText(mdp.t1Choices.getSelectedIndex()).equals(geneModel.t3.getTraitName())){
 								// second alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) detailsCorrect = false;
+								if (!mdp.t2Choices.getItemText(mdp.t2Choices.getSelectedIndex()).equals(geneModel.t1.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getItemText(mdp.t3Choices.getSelectedIndex()).equals(geneModel.t2.getTraitName())) detailsCorrect = false;
 
-							} else if (mdp.t1Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) {
+							} else if (mdp.t1Choices.getItemText(mdp.t1Choices.getSelectedIndex()).equals(geneModel.t2.getTraitName())) {
 								// third alternative; provisionally right unless a mismatch
 								detailsCorrect = true;
-								if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) detailsCorrect = false;
-								if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) detailsCorrect = false;
+								if (!mdp.t2Choices.getItemText(mdp.t2Choices.getSelectedIndex()).equals(geneModel.t3.getTraitName())) detailsCorrect = false;
+								if (!mdp.t3Choices.getItemText(mdp.t3Choices.getSelectedIndex()).equals(geneModel.t1.getTraitName())) detailsCorrect = false;
 
 							}
 							// none of the alternatives, so details aren't correct
@@ -290,27 +290,27 @@ public class AutoGrader {
 						 * check each entry; if any mismatch, it's wrong
 						 */
 						if ((mdp.t1Choices != null) && (geneModel.t1 != null)) {
-							if (!mdp.t1Choices.getSelectedItem().equals(geneModel.t1.getTraitName())) detailsCorrect = false;
+							if (!mdp.t1Choices.getItemText(mdp.t1Choices.getSelectedIndex()).equals(geneModel.t1.getTraitName())) detailsCorrect = false;
 						}
 
 						if ((mdp.t2Choices != null) && (geneModel.t2 != null)) {
-							if (!mdp.t2Choices.getSelectedItem().equals(geneModel.t2.getTraitName())) detailsCorrect = false;
+							if (!mdp.t2Choices.getItemText(mdp.t2Choices.getSelectedIndex()).equals(geneModel.t2.getTraitName())) detailsCorrect = false;
 						}
 
 						if ((mdp.t3Choices != null) && (geneModel.t3 != null)) {
-							if (!mdp.t3Choices.getSelectedItem().equals(geneModel.t3.getTraitName())) detailsCorrect = false;
+							if (!mdp.t3Choices.getItemText(mdp.t3Choices.getSelectedIndex()).equals(geneModel.t3.getTraitName())) detailsCorrect = false;
 						}
 
 						if ((mdp.t4Choices != null) && (geneModel.t4 != null)) {
-							if (!mdp.t4Choices.getSelectedItem().equals(geneModel.t4.getTraitName())) detailsCorrect = false;
+							if (!mdp.t4Choices.getItemText(mdp.t4Choices.getSelectedIndex()).equals(geneModel.t4.getTraitName())) detailsCorrect = false;
 						}
 
 						if ((mdp.t5Choices != null) && (geneModel.t5 != null)) {
-							if (!mdp.t5Choices.getSelectedItem().equals(geneModel.t5.getTraitName())) detailsCorrect = false;
+							if (!mdp.t5Choices.getItemText(mdp.t5Choices.getSelectedIndex()).equals(geneModel.t5.getTraitName())) detailsCorrect = false;
 						}
 
 						if ((mdp.t6Choices != null) && (geneModel.t6 != null)) {
-							if (!mdp.t6Choices.getSelectedItem().equals(geneModel.t6.getTraitName())) detailsCorrect = false;
+							if (!mdp.t6Choices.getItemText(mdp.t6Choices.getSelectedIndex()).equals(geneModel.t6.getTraitName())) detailsCorrect = false;
 						}
 					}
 				}
@@ -377,15 +377,15 @@ public class AutoGrader {
 				ModelDetailsPanel mdp = mp.getModelDetailsPanel();
 				// check each entry; if any mismatch, it's wrong
 				if ((mdp.t1Choices != null) && (gm.getPhenoTypeProcessor().getT1() != null)) {
-					if (!mdp.t1Choices.getSelectedItem().equals(gm.getPhenoTypeProcessor().getT1().getTraitName())) detailsCorrect = false;
+					if (!mdp.t1Choices.getItemText(mdp.t1Choices.getSelectedIndex()).equals(gm.getPhenoTypeProcessor().getT1().getTraitName())) detailsCorrect = false;
 				}
 
 				if ((mdp.t2Choices != null) && (gm.getPhenoTypeProcessor().getT2() != null)) {
-					if (!mdp.t2Choices.getSelectedItem().equals(gm.getPhenoTypeProcessor().getT2().getTraitName())) detailsCorrect = false;
+					if (!mdp.t2Choices.getItemText(mdp.t2Choices.getSelectedIndex()).equals(gm.getPhenoTypeProcessor().getT2().getTraitName())) detailsCorrect = false;
 				}
 
 				if ((mdp.t3Choices != null) && (gm.getPhenoTypeProcessor().getT3() != null)) {
-					if (!mdp.t3Choices.getSelectedItem().equals(gm.getPhenoTypeProcessor().getT3().getTraitName())) detailsCorrect = false;
+					if (!mdp.t3Choices.getItemText(mdp.t3Choices.getSelectedIndex()).equals(gm.getPhenoTypeProcessor().getT3().getTraitName())) detailsCorrect = false;
 				}
 			}
 			Element dIt = doc.createElement("InteractionDetails");

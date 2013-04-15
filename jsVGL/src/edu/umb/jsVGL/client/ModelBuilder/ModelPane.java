@@ -433,9 +433,9 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 		return interactionTypeChoices.getItemText(interactionTypeChoices.getSelectedIndex());
 	}
 	
-//	public ModelDetailsPanel getModelDetailsPanel() {
-//		return (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
-//	}
+	public ModelDetailsPanel getModelDetailsPanel() {
+		return (ModelDetailsPanel)interactionDetailsPanel.getContentWidget();
+	}
 	
 	/*
 	 * Note for cage numbers vs IDs
