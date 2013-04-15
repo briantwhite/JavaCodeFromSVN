@@ -150,8 +150,10 @@ public class JsVGL implements EntryPoint {
 		RootPanel.get("mainPanelContainer").add(mainPanel);	
 		
 		problemText = new TextArea();
+		problemText.setSize("500px", "300px");
 		RootPanel.get("problemTextContainer").add(problemText);
 		gradeText = new TextArea();
+		gradeText.setSize("500px", "300px");
 		RootPanel.get("gradeTextContainer").add(gradeText);
 	}
 
