@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ThreeHierPanel extends ModelDetailsPanel implements ChangeHandler {
 
@@ -29,15 +30,18 @@ public class ThreeHierPanel extends ModelDetailsPanel implements ChangeHandler {
 		t3Choices.addChangeHandler(this);
 		this.mp = mp;
 
-		add(t3Choices);
+		VerticalPanel mainPanel = new VerticalPanel();
+		mainPanel.add(t3Choices);
 		Label l1 = new Label("Is Dominant To");
 		l1.setStyleName("jsVGL_InteractionText");
-		add(l1);
-		add(t2Choices);
+		mainPanel.add(l1);
+		mainPanel.add(t2Choices);
 		Label l2 = new Label("Is Dominant To");
 		l2.setStyleName("jsVGL_InteractionText");
-		add(l2);
-		add(t1Choices);
+		mainPanel.add(l2);
+		mainPanel.add(t1Choices);
+		
+		setWidget(mainPanel);
 	}
 
 

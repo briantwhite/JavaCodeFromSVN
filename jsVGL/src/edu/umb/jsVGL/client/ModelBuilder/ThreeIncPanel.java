@@ -2,13 +2,12 @@ package edu.umb.jsVGL.client.ModelBuilder;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class ThreeIncPanel extends ModelDetailsPanel implements ChangeHandler {
-
-	private Label t5;	// marker for arrow
 
 	public ThreeIncPanel(String[] phenos,
 			ListBox t1Choices,
@@ -34,46 +33,10 @@ public class ThreeIncPanel extends ModelDetailsPanel implements ChangeHandler {
 			t6Choices.addItem(phenos[i]);
 		}
 		
-		HorizontalPanel row1 = new HorizontalPanel();
-		row1.add(t1Choices);
-		Label l1 = new Label("is Pure Breeding");
-		l1.setStyleName("jsVGL_InteractionText");
-		row1.add(l1);
-
-		HorizontalPanel row2 = new HorizontalPanel();
-		row2.add(spacer);
-		row2.add(combineArrow);
-		Label l2 = new Label("combine to give");
-		l2.setStyleName("jsVGL_InteractionText");
-		row2.add(l2);
-		row2.add(t4Choices);		
-
-		HorizontalPanel row3 = new HorizontalPanel();
-		row3.add(t2Choices);
-		Label l3 = new Label("is Pure Breeding");
-		l3.setStyleName("jsVGL_InteractionText");
-		row3.add(l3);
-
-		HorizontalPanel row4 = new HorizontalPanel();
-		row4.add(spacer);
-		row4.add(combineArrow);
-		Label l4 = new Label("combine to give");
-		l4.setStyleName("jsVGL_InteractionText");
-		row4.add(l4);
-		row4.add(t5Choices);		
+		AbsolutePanel mainPanel = new AbsolutePanel();
+		mainPanel.setSize("216px", "216px");
+		mainPanel.setStyleName("jsVGL_ThreeIncPanel");
 		
-		// fifth line
-		add(t3Choices);
-
-		Label t4 = new Label("Is Pure Breeding");
-		add(t4);
-
-		// sixth line
-		t5 = new Label("Combine To Give");
-		add(t5);
-
-		add(t6Choices);
-
 		this.t1Choices = t1Choices;
 		t1Choices.addChangeHandler(this);
 		this.t2Choices = t2Choices;
@@ -89,6 +52,13 @@ public class ThreeIncPanel extends ModelDetailsPanel implements ChangeHandler {
 
 		this.mp = mp;
 
+		mainPanel.add(t1Choices, 75, 20); // pure breeding 1
+		mainPanel.add(t4Choices, 145, 70); // 1 + 2
+		mainPanel.add(t2Choices, 145, 135); // pure breeding 2
+		mainPanel.add(t5Choices, 75, 190); // 2 + 3
+		mainPanel.add(t3Choices, 5, 135); // pure breeding 3
+		mainPanel.add(t6Choices, 5, 70); // 3 + 1
+		setWidget(mainPanel);
 	}
 
 
