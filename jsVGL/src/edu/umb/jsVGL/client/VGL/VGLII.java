@@ -287,7 +287,7 @@ public class VGLII {
 				parentUIs[1].setCentralOrganismUI(organismUI1);
 				parentUIs[0].setCentralOrganismUI(organismUI2);
 			}
-//			modelBuilder.updateCageChoices(nextCageId);
+			((ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget()).updateCageChoices(nextCageId);
 			changeSinceLastSave = true;
 		} else {
 //			JOptionPane.showMessageDialog(this, "Virtual Genetics Lab\n"
@@ -324,7 +324,8 @@ public class VGLII {
 		CageUI dlg = null;
 		String details = null;
 		details = geneticModel.toString();
-		dlg = new CageUI(geneticModel.isBeginnerMode(), 
+		dlg = new CageUI(this,
+				geneticModel.isBeginnerMode(), 
 				isSuperCross,
 				c, 
 				selectionVial,

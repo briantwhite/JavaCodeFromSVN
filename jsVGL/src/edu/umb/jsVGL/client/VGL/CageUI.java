@@ -8,6 +8,8 @@ import java.util.TreeMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
@@ -56,6 +58,8 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private static String PARENT_COLOR = "#8E2323";
 	private static String OFFSPRING_COLOR = "#0x007FFF";
 
+	private VGLII vglII;
+	
 	/**
 	 * sets an upper bound so the cages (esp the Super Cross)
 	 *  don't get too big
@@ -223,7 +227,8 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	 *            string containing information about the underlying genetics
 	 *            model
 	 */
-	public CageUI(boolean isbeginnersmode, 
+	public CageUI(VGLII vglII,
+			boolean isbeginnersmode, 
 			boolean isSuperCross,
 			Cage cage,
 			SelectionVial sv, 
@@ -238,6 +243,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 		
 		uiImageResource = GWT.create(UIImageResource.class);
 
+		this.vglII = vglII;
 		this.isBeginner = isbeginnersmode;
 		this.isSuperCross = isSuperCross;
 		this.cage = cage;
