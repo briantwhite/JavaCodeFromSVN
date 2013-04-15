@@ -2,14 +2,12 @@ package edu.umb.jsVGL.client.ModelBuilder;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class ComplementationPanel extends ModelDetailsPanel implements ChangeHandler {
 
 	ListBox intermediateChoices;  // for middle choice; linked to 1st one
-	Label gALabel;
-	Label gBLabel;
 
 	public ComplementationPanel(String[] allPhenos,
 			ListBox t1Choices,
@@ -21,6 +19,10 @@ public class ComplementationPanel extends ModelDetailsPanel implements ChangeHan
 		t1Choices = new ListBox();
 		t2Choices = new ListBox();
 		intermediateChoices = new ListBox();
+
+		AbsolutePanel mainPanel = new AbsolutePanel();
+		mainPanel.setStyleName("jsVGL_ComplementationPanel");
+		mainPanel.setSize("216px", "216px");
 
 		// don't use last pheno if complementation
 		for (int i = 0; i < 3; i++) {
@@ -35,13 +37,10 @@ public class ComplementationPanel extends ModelDetailsPanel implements ChangeHan
 		t2Choices.addChangeHandler(this);
 		intermediateChoices.addChangeHandler(this);
 
-		add(t1Choices);
-		gALabel = new Label("Gene A");
-		add(gALabel);
-		add(intermediateChoices);
-		gBLabel = new Label("Gene B");
-		add(gBLabel);
-		add(t2Choices);
+		mainPanel.add(t1Choices, 25, 5);
+		mainPanel.add(intermediateChoices, 25, 90);
+		mainPanel.add(t2Choices, 25, 170);
+		setWidget(mainPanel);
 	}
 
 

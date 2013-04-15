@@ -2,16 +2,18 @@ package edu.umb.jsVGL.client.ModelBuilder;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
 
 import edu.umb.jsVGL.client.VGL.VGLII;
 
-public class LinkagePanel extends AbsolutePanel {
+public class LinkagePanel extends SimplePanel {
 
 	private VGLII vglII;
 
@@ -58,27 +60,58 @@ public class LinkagePanel extends AbsolutePanel {
 			g3g1Linked.addItem(s);
 		}
 
-
-		add(new Label(chars[0] + " and " + chars[1] + " are "));
-		add(g1g2Linked);
-
-		add(new Label("Relevant Cages:"));
-		add(g1g2LinkageRelevantCage);
-
+		VerticalPanel mainPanel = new VerticalPanel();
+		
+		VerticalPanel panelA = new VerticalPanel();
+		panelA.setStyleName("jsVGL_SubdividerPanel");
+		HorizontalPanel row1 = new HorizontalPanel();
+		Label l1 = new Label(chars[0] + " and " + chars[1] + " are ");
+		l1.setStyleName("jsVGL_InteractionText");
+		row1.add(l1);
+		row1.add(g1g2Linked);
+		panelA.add(row1);
+		HorizontalPanel row2 = new HorizontalPanel();
+		Label l2 = new Label("Relevant Cage:");
+		l2.setStyleName("jsVGL_InteractionText");
+		row2.add(l2);
+		row2.add(g1g2LinkageRelevantCage);
+		panelA.add(row2);
+		mainPanel.add(panelA);
+		
 		if (chars.length == 3) {
-			add(new Label(chars[1] + " and " + chars[2] + " are "));
-			add(g2g3Linked);
-			
-			add(new Label("Relevant Cages:"));
-			add(g2g3LinkageRelevantCage);
+			VerticalPanel panelB = new VerticalPanel();
+			panelB.setStyleName("jsVGL_SubdividerPanel");
+			HorizontalPanel row3 = new HorizontalPanel();
+			Label l3 = new Label(chars[1] + " and " + chars[2] + " are ");
+			l3.setStyleName("jsVGL_InteractionText");
+			row3.add(l3);
+			row3.add(g2g3Linked);
+			panelB.add(row3);
+			HorizontalPanel row4 = new HorizontalPanel();
+			Label l4 = new Label("Relevant Cages:");
+			l4.setStyleName("jsVGL_InteractionText");
+			row4.add(l4);
+			row4.add(g2g3LinkageRelevantCage);
+			panelB.add(row4);
+			mainPanel.add(panelB);
 
-			add(new Label(chars[0] + " and " + chars[2] + " are "));
-			add(g3g1Linked);
-			
-			add(new Label("Relevant Cages:"));
-			add(g3g1LinkageRelevantCage);
-
+			VerticalPanel panelC = new VerticalPanel();
+			panelC.setStyleName("jsVGL_SubdividerPanel");
+			HorizontalPanel row5 = new HorizontalPanel();
+			Label l5 = new Label(chars[0] + " and " + chars[2] + " are ");
+			l5.setStyleName("jsVGL_InteractionText");
+			row5.add(l5);
+			row5.add(g3g1Linked);
+			panelC.add(row5);
+			HorizontalPanel row6 = new HorizontalPanel();
+			Label l6 = new Label("Relevant Cages:");
+			l6.setStyleName("jsVGL_InteractionText");
+			row6.add(l6);
+			row6.add(g3g1LinkageRelevantCage);
+			panelC.add(row6);
+			mainPanel.add(panelC);
 		}
+		setWidget(mainPanel);
 	}
 	
 	/*

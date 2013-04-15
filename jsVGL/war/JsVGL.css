@@ -67,4 +67,13 @@
 	background-image: url('jsvgl/gwt/clean/images/ThreeIncPanelBkG.png');
 }
 
+.jsVGL_ComplementationPanel {
+	background-image: url('jsvgl/gwt/clean/images/ComplementationPanelBG.png');
+}
+
+.jsVGL_SubdividerPanel {
+	border: solid;
+	border-color: #800000;
+}
+
 

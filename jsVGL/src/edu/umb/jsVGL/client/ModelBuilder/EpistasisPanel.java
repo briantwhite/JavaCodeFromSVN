@@ -2,6 +2,7 @@ package edu.umb.jsVGL.client.ModelBuilder;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -31,13 +32,14 @@ public class EpistasisPanel extends ModelDetailsPanel implements ChangeHandler {
 		t3Choices.addChangeHandler(this);
 		this.mp = mp;
 
-		add(t1Choices);
-		gALabel = new Label("Gene A");
-		add(gALabel);
-		add(t2Choices);
-		gBLabel = new Label("Gene B");
-		add(gBLabel);
-		add(t3Choices);
+		AbsolutePanel mainPanel = new AbsolutePanel();
+		mainPanel.setStyleName("jsVGL_ComplementationPanel");
+		mainPanel.setSize("216px", "216px");
+
+		mainPanel.add(t1Choices, 25, 5);
+		mainPanel.add(t2Choices, 25, 90);
+		mainPanel.add(t3Choices, 25, 170);
+		setWidget(mainPanel);
 	}
 
 	public String[] getChoices() {

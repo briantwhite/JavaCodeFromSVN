@@ -132,3 +132,6 @@ lots of work on Model Builder
 
 4/11/13 prefixed all .css styles with jsVGL_ to avoid conflicts with edx and other cms's
 working on ThreeIncPanel
+
+4/15/13 finished all MBUI panels' layouts
+
