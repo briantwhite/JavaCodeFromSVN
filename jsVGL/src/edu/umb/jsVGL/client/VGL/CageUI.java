@@ -259,8 +259,6 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 		this.numberOfTraits = numberOfTraits;
 
-//		setHTML("Cage " + id);
-
 		setupSubComponents();
 
 		isSelected = false;
@@ -271,7 +269,6 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 		//setup the GUI of its internal components
 		components();
-//		show();
 	}
 
 	/**

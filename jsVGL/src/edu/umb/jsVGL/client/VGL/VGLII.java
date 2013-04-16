@@ -80,13 +80,6 @@ public class VGLII {
 	 */
 	private SelectionVial selectionVial;
 
-	/**
-	 * Stores the value of the next position on the screen where a cage should
-	 * be displayed
-	 */
-	private int nextCageScreenPositionX;
-	private int nextCageScreenPositionY;
-
 	private boolean changeSinceLastSave;
 
 	/*
@@ -105,6 +98,18 @@ public class VGLII {
 		this.jsVGL = jsVGL;
 		random = new Random();
 		changeSinceLastSave = false;
+	}
+	
+	public void clearWorkspace() {
+		CharacterSpecificationBank.getInstance().refreshAll();
+		geneticModel = null;
+		nextCageId = 0;
+		cageCollection = new ArrayList<CageUI>();
+		jsVGL.getModelBuilderPanel().clear();
+		jsVGL.getModelBuilderPanel().add(new ModelBuilderUI(this, geneticModel));
+		jsVGL.clearWorkspace();
+		jsVGL.setButtonState(true);
+		changeSinceLastSave = true;
 	}
 
 	/*
@@ -207,7 +212,7 @@ public class VGLII {
 		}
 		root.appendChild(organisms);
 
-//		root.appendChild(modelBuilder.save());
+		root.appendChild(((ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget()).save());
 
 		return root;
 	}
@@ -232,16 +237,10 @@ public class VGLII {
 		geneticModel = null;
 		selectionVial = null;
 		nextCageId = 1;
-		nextCageScreenPositionX = 0;
-		nextCageScreenPositionY = 0;
 //		SummaryChartManager.getInstance().clearSelectedSet();
 //		SummaryChartManager.getInstance().hideSummaryChart();
-//		if (modelBuilder != null) {
-//			modelBuilder.setVisible(false);
-//		}
-//		if (modelBuilderPanel != null) {
-//			modelBuilderPanel.clear();
-//		}
+
+		((ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget()).clear();
 	}
 
 	/**
@@ -316,10 +315,10 @@ public class VGLII {
 	 * @return the newly created cageUI
 	 */
 	private CageUI createCageUI(Cage c, boolean isSuperCross) {
-		CageUI dlg = null;
+		CageUI newCageUI = null;
 		String details = null;
 		details = geneticModel.toString();
-		dlg = new CageUI(this,
+		newCageUI = new CageUI(this,
 				geneticModel.isBeginnerMode(), 
 				isSuperCross,
 				c, 
@@ -328,14 +327,13 @@ public class VGLII {
 				geneticModel.getNumberOfCharacters(),
 				geneticModel.getScrambledCharacterOrder());
 		nextCageId++;
-		if (dlg != null) {
-			cageCollection.add(dlg);
-//			calculateCagePosition(dlg);
-//			dlg.show();
-			jsVGL.getCagesPanel().add(dlg);
+		if (newCageUI != null) {
+			cageCollection.add(newCageUI);
+			jsVGL.getCagesPanel().add(newCageUI);
+			jsVGL.scrollCagesToBottom();
 		}
-		c.setCageUI(dlg);
-		return dlg;
+		c.setCageUI(newCageUI);
+		return newCageUI;
 	}
 
 	/**
@@ -353,17 +351,6 @@ public class VGLII {
 		while (it.hasNext()) {
 			Cage c = it.next();
 			CageUI cageUI = createCageUI(c, c.isSuperCross());
-
-			/*
-			 *  see if the location and visibility have been saved
-			 *  if not, calculate them
-			 */
-			if (c.getXpos() == -1) {
-				calculateCagePosition(cageUI);
-			} else {
-//				cageUI.setPopupPosition(c.getXpos(), c.getYpos());
-			}
-			cageUI.setVisible(c.isVisible());
 
 			if (c.getId() > 0) {
 				OrganismUI[] parentUIs = cageUI.getParentUIs();
@@ -413,25 +400,6 @@ public class VGLII {
 		}
 	}
 
-	/**
-	 * Method to calculate the position of a cage on the screen
-	 * 
-	 * @param cageUI
-	 *            the cage whose position needs to be calculated
-	 */
-	private void calculateCagePosition(CageUI cageUI) {
-        int browserWidth = Window.getClientWidth();
-        int browserHeight = Window.getClientHeight();
-
-		if ((nextCageScreenPositionX  > browserWidth)
-				|| (nextCageScreenPositionY > browserHeight)) {
-			nextCageScreenPositionX = 20;
-			nextCageScreenPositionY = 40;
-		}
-//		cageUI.setPopupPosition(nextCageScreenPositionX, nextCageScreenPositionY);
-		nextCageScreenPositionX += 30;
-		nextCageScreenPositionY += 30;
-	}
 
 	/*
 	 * get list of current cages 
@@ -452,10 +420,6 @@ public class VGLII {
 		return list;
 	}
 
-
-//	public ModelBuilderUI getModelBuilder() {
-//		return modelBuilder;
-//	}
 
 	public void setChangeSinceLastSave() {
 		changeSinceLastSave = true;

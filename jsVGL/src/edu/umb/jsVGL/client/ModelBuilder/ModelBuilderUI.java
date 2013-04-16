@@ -34,6 +34,7 @@ public class ModelBuilderUI extends TabPanel {
 		this.vglII = vglII;
 		this.geneticModel = geneticModel;
 		setupUI();
+		selectTab(0);
 	}
 
 

@@ -162,10 +162,6 @@ function ChiSq(x,n) {
  
 4/15/13
 to go to non-popup cages
-	- move cages to rigth edge of screen
-	- in VGLII - don't call it a "dlg" when you make it
-	- in VGLII - nuke all the reposition stuff
-	- no need to keep and restore position
 	- color field pop cage differently
 	- after adding cage - scrollToBottom
 	

@@ -37,6 +37,7 @@ public class JsVGL implements EntryPoint {
 			+ "<li>Open work you have saved on this problem by clicking the &quot;Open Work&quot; button above.</li></ul>"
 			+ "</body></html>";
 
+	private Button clearWorkspaceButton = null;
 	private Button newPracticeProblemButton = null;
 	private Button newGradedProblemButton = null;
 	private Button openWorkButton = null;
@@ -75,6 +76,14 @@ public class JsVGL implements EntryPoint {
 		cagesPanel = new VerticalPanel();
 		cageScrollPanel = new ScrollPanel(cagesPanel);
 		
+		clearWorkspaceButton = new Button("Clear Workspace");
+		RootPanel.get("clearWorkspaceButtonContainer").add(clearWorkspaceButton);
+		clearWorkspaceButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				vglII.clearWorkspace();
+			}			
+		});
+		
 		newPracticeProblemButton = new Button("New Practice Problem");
 		RootPanel.get("newPracticeProblemButtonContainer").add(newPracticeProblemButton);
 		newPracticeProblemButton.addClickHandler(new ClickHandler() {
@@ -93,6 +102,13 @@ public class JsVGL implements EntryPoint {
 
 		openWorkButton = new Button("Open Work");
 		RootPanel.get("openWorkButtonContainer").add(openWorkButton);
+		openWorkButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				gradeText.setText("");
+				String problemXML = problemText.getText();
+				vglII.openProblem(problemXML);
+			}			
+		});
 
 		saveWorkButton = new Button("Save Work");
 		RootPanel.get("saveWorkButtonConatiner").add(saveWorkButton);
@@ -205,7 +221,20 @@ public class JsVGL implements EntryPoint {
 	public VerticalPanel getCagesPanel() {
 		return cagesPanel;
 	}
+	
+	public void scrollCagesToBottom() {
+		cageScrollPanel.scrollToBottom();
+	}
 
+	public void clearWorkspace() {
+		int numCages = cagesPanel.getWidgetCount();
+		for (int i = 0; i < numCages; i++) {
+			cagesPanel.remove(i);
+		}
+		problemText.setText("");
+		gradeText.setText("");
+	}
+	
 	public int getSuperCrossChoice() {
 		if (superCrossChoices != null) {
 			return Integer.parseInt(superCrossChoices.getValue(superCrossChoices.getSelectedIndex()));
@@ -214,28 +243,4 @@ public class JsVGL implements EntryPoint {
 		}
 	}
 
-	public void newPracticeProblem() {
-		final DialogBox test = new DialogBox();
-		test.setHTML("&nbsp;&nbsp;Cage 2");
-
-		VerticalPanel panel = new VerticalPanel();
-		panel.setSize("100px", "100px");
-		Image closeButtonImage = new Image(uiImageResource.closeButton());
-		Anchor closeButton = new Anchor("");
-		closeButton.getElement().appendChild(closeButtonImage.getElement());
-		closeButton.setTitle("Close Cage");
-		panel.add(closeButton);
-		closeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				test.hide();
-			}			
-		});
-		closeButton.setStyleName("TopRight");
-
-		Image male = new Image(uiImageResource.male());
-		panel.add(male);
-
-		test.add(panel);
-		test.center();
-	}
 }

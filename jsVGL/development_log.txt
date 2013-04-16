@@ -142,3 +142,6 @@ popup cages are a pain
 	they cover the controls
 	they'll be messy in a web-based environment
 put them in scrollable list
+
+4/16/13
+working on non-popup cages
