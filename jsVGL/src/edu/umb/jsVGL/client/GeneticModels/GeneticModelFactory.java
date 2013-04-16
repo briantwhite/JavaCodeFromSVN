@@ -26,8 +26,10 @@ import java.util.Random;
 import java.util.Set;
 
 import com.google.gwt.i18n.client.Dictionary;
+import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
 
 import edu.umb.jsVGL.client.VGL.Base64Coder;
 import edu.umb.jsVGL.client.VGL.SavedWorkFileData;
@@ -67,13 +69,14 @@ public class GeneticModelFactory {
 
 	public SavedWorkFileData readModelFromXML(String xmlString) {
 		SavedWorkFileData result = null;
-//		WorkFileProcessor processor = 
-//				new WorkFileProcessor(doc.getDocumentElement().getChildNodes());
-//		result = 
-//				new SavedWorkFileData(
-//						processor.getGeneticModel(), 
-//						processor.getCages(),
-//						processor.getModelBuilderState());
+		Document doc = XMLParser.parse(xmlString);
+		WorkFileProcessor processor = 
+				new WorkFileProcessor(doc.getDocumentElement().getChildNodes());
+		result = 
+				new SavedWorkFileData(
+						processor.getGeneticModel(), 
+						processor.getCages(),
+						processor.getModelBuilderState());
 		return result;
 	}
 

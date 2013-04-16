@@ -106,7 +106,7 @@ public class WorkFileProcessor {
 				for (int j = 0; j < csItems.getLength(); j++) {
 					Element te = (Element)csItems.item(j);
 					scrambler[Integer.parseInt(te.getAttribute("Index"))] = 
-							Integer.parseInt(te.getFirstChild().getNodeValue());
+							Integer.parseInt(te.getAttribute("Character"));
 				}
 				model.setScrambledCharacterOrder(scrambler);
 

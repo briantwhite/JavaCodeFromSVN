@@ -80,7 +80,7 @@ public class JsVGL implements EntryPoint {
 		RootPanel.get("clearWorkspaceButtonContainer").add(clearWorkspaceButton);
 		clearWorkspaceButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				vglII.clearWorkspace();
+				vglII.resetWorkspace();
 			}			
 		});
 		
@@ -187,18 +187,21 @@ public class JsVGL implements EntryPoint {
 	/*
 	 * two states
 	 * 	FALSE startup (no problem):
+	 * 		clear workspace disabled
 	 * 		new Prob enabled
 	 * 		open work enabled
 	 * 		cross disabled
 	 * 		save disabled
 	 * 
 	 * TRUE have problem to work on
+	 * 		clear workspace enabled
 	 * 		new prob disabled
 	 * 		open work disabled
 	 * 		cross enabled
 	 * 		save enabled
 	 */
 	public void setButtonState(boolean state) {
+		clearWorkspaceButton.setEnabled(state);
 		newPracticeProblemButton.setEnabled(!state);
 		newGradedProblemButton.setEnabled(!state);
 		openWorkButton.setEnabled(!state);
@@ -227,10 +230,10 @@ public class JsVGL implements EntryPoint {
 	}
 
 	public void clearWorkspace() {
-		int numCages = cagesPanel.getWidgetCount();
-		for (int i = 0; i < numCages; i++) {
-			cagesPanel.remove(i);
-		}
+		modelBuilderPanel.clear();
+		modelBuilderPanel = new SimplePanel();
+		modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
+		cagesPanel.clear();
 		problemText.setText("");
 		gradeText.setText("");
 	}

@@ -145,3 +145,6 @@ put them in scrollable list
 
 4/16/13
 working on non-popup cages
+got them working
+working on save state - ok all but ModelBuilderState
+working on load state - ok all but ModelBuilderState!

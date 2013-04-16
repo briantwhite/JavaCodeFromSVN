@@ -100,15 +100,14 @@ public class VGLII {
 		changeSinceLastSave = false;
 	}
 	
-	public void clearWorkspace() {
+	public void resetWorkspace() {
 		CharacterSpecificationBank.getInstance().refreshAll();
 		geneticModel = null;
 		nextCageId = 0;
+		selectionVial = new SelectionVial();
 		cageCollection = new ArrayList<CageUI>();
-		jsVGL.getModelBuilderPanel().clear();
-		jsVGL.getModelBuilderPanel().add(new ModelBuilderUI(this, geneticModel));
 		jsVGL.clearWorkspace();
-		jsVGL.setButtonState(true);
+		jsVGL.setButtonState(false);
 		changeSinceLastSave = true;
 	}
 
@@ -123,21 +122,16 @@ public class VGLII {
 	}
 
 	private void newProblem(boolean practiceMode) {
-		CharacterSpecificationBank.getInstance().refreshAll();
+		resetWorkspace();
 		geneticModel = GeneticModelFactory.getInstance().createRandomModel(params);
 		if (geneticModel == null) return;
 
 		geneticModel.setBeginnerMode(practiceMode);
 		
-		nextCageId = 0;
-		selectionVial = new SelectionVial();
-		cageCollection = new ArrayList<CageUI>();
-
 		Cage fieldPop = geneticModel.generateFieldPopulation();
 		createCageUI(fieldPop, false);
 		
-		jsVGL.getModelBuilderPanel().clear();
-		jsVGL.getModelBuilderPanel().add(new ModelBuilderUI(this, geneticModel));
+		jsVGL.getModelBuilderPanel().setWidget(new ModelBuilderUI(this, geneticModel));
 		
 		jsVGL.setButtonState(true);
 
@@ -150,7 +144,7 @@ public class VGLII {
 	 */
 	public void openProblem(String problemXML) {	
 
-		selectionVial = new SelectionVial();
+		resetWorkspace();
 		SavedWorkFileData result = null;
 
 		try {
@@ -164,7 +158,7 @@ public class VGLII {
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
-
+		jsVGL.setButtonState(true);
 		changeSinceLastSave = false;
 	}
 
