@@ -167,6 +167,7 @@ to go to non-popup cages
 	- in VGLII - nuke all the reposition stuff
 	- no need to keep and restore position
 	- color field pop cage differently
+	- after adding cage - scrollToBottom
 	
 call "model builder" tab "genetic model"
 	in practice mode, it shows the model (no model builder)
