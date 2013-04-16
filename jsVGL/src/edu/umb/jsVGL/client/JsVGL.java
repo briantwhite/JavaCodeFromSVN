@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -53,6 +54,9 @@ public class JsVGL implements EntryPoint {
 
 	private VGLII vglII;
 	
+	private ScrollPanel cageScrollPanel;
+	private VerticalPanel cagesPanel;
+
 	private TextArea problemText;
 	private TextArea gradeText;
 
@@ -67,6 +71,10 @@ public class JsVGL implements EntryPoint {
 	}
 
 	private void buildMainPanelUI() {
+		
+		cagesPanel = new VerticalPanel();
+		cageScrollPanel = new ScrollPanel(cagesPanel);
+		
 		newPracticeProblemButton = new Button("New Practice Problem");
 		RootPanel.get("newPracticeProblemButtonContainer").add(newPracticeProblemButton);
 		newPracticeProblemButton.addClickHandler(new ClickHandler() {
@@ -155,6 +163,9 @@ public class JsVGL implements EntryPoint {
 		gradeText = new TextArea();
 		gradeText.setSize("500px", "300px");
 		RootPanel.get("gradeTextContainer").add(gradeText);
+		
+		cageScrollPanel.setSize("500px", "500px");
+		RootPanel.get("cagesContainer").add(cageScrollPanel);
 	}
 
 	/*
@@ -189,6 +200,10 @@ public class JsVGL implements EntryPoint {
 
 	public Panel getSuperCrossPanel() {
 		return superCrossPanel;
+	}
+	
+	public VerticalPanel getCagesPanel() {
+		return cagesPanel;
 	}
 
 	public int getSuperCrossChoice() {

@@ -135,3 +135,10 @@ working on ThreeIncPanel
 
 4/15/13 finished all MBUI panels' layouts
 working on grader output
+
+popup cages are a pain
+	they don't drag nicely
+	they overlap and it's hard to bring them to the front
+	they cover the controls
+	they'll be messy in a web-based environment
+put them in scrollable list

@@ -135,7 +135,8 @@ function ChiSq(x,n) {
         if (df > 2) {
             x = 0.5 * (df - 1.0);
             z = (even ? 1.0 : 0.5);
-            if (a > BIGX) {
+            if 
+            (a > BIGX) {
                 e = (even ? 0.0 : LOG_SQRT_PI);
                 c = Math.log(a);
                 while (z <= x) {
@@ -159,3 +160,14 @@ function ChiSq(x,n) {
         }
     }
  
+4/15/13
+to go to non-popup cages
+	- move cages to rigth edge of screen
+	- in VGLII - don't call it a "dlg" when you make it
+	- in VGLII - nuke all the reposition stuff
+	- no need to keep and restore position
+	- color field pop cage differently
+	
+call "model builder" tab "genetic model"
+	in practice mode, it shows the model (no model builder)
+	in reg mode, it is model builder

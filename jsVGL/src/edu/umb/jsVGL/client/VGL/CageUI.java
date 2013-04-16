@@ -8,10 +8,7 @@ import java.util.TreeMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.user.client.ui.CaptionPanel;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -52,7 +49,7 @@ import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
  * @author Nikunj Koolar & Brian White
  * @version 1.0 $Id$
  */
-public class CageUI extends DialogBox implements Comparable<CageUI> {
+public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 	private static String FIELD_POP_COLOR = "#2E8B57";
 	private static String PARENT_COLOR = "#8E2323";
@@ -237,8 +234,9 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 			int[] scrambledTraitOrder) {
 
 		//initialize parent
-		super(false);
-		setModal(false);
+//		super(false);
+//		setModal(false);
+		super("Cage " + (cage.getId() + 1));
 		setStyleName("jsVGL_CageUI");
 		
 		uiImageResource = GWT.create(UIImageResource.class);
@@ -261,7 +259,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		this.numberOfTraits = numberOfTraits;
 
-		setHTML("Cage " + id);
+//		setHTML("Cage " + id);
 
 		setupSubComponents();
 
@@ -273,7 +271,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 
 		//setup the GUI of its internal components
 		components();
-		show();
+//		show();
 	}
 
 	/**
@@ -304,7 +302,7 @@ public class CageUI extends DialogBox implements Comparable<CageUI> {
 	private void components() {
 		setupOrganismPanel();
 		setupParentInfoPanel();
-		setWidget(superPanel);
+		setContentWidget(superPanel);
 	}
 
 

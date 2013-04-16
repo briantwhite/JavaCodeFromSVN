@@ -1,17 +1,11 @@
 package edu.umb.jsVGL.client.VGL;
 
-import java.awt.Dimension;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
-import com.google.gwt.dev.shell.Messages;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
@@ -100,6 +94,7 @@ public class VGLII {
 	 * this string is its name in the doc
 	 */
 	private Dictionary params;
+	
 
 	/**
 	 * The constructor
@@ -335,8 +330,9 @@ public class VGLII {
 		nextCageId++;
 		if (dlg != null) {
 			cageCollection.add(dlg);
-			calculateCagePosition(dlg);
-			dlg.show();
+//			calculateCagePosition(dlg);
+//			dlg.show();
+			jsVGL.getCagesPanel().add(dlg);
 		}
 		c.setCageUI(dlg);
 		return dlg;
@@ -365,7 +361,7 @@ public class VGLII {
 			if (c.getXpos() == -1) {
 				calculateCagePosition(cageUI);
 			} else {
-				cageUI.setPopupPosition(c.getXpos(), c.getYpos());
+//				cageUI.setPopupPosition(c.getXpos(), c.getYpos());
 			}
 			cageUI.setVisible(c.isVisible());
 
@@ -432,7 +428,7 @@ public class VGLII {
 			nextCageScreenPositionX = 20;
 			nextCageScreenPositionY = 40;
 		}
-		cageUI.setPopupPosition(nextCageScreenPositionX, nextCageScreenPositionY);
+//		cageUI.setPopupPosition(nextCageScreenPositionX, nextCageScreenPositionY);
 		nextCageScreenPositionX += 30;
 		nextCageScreenPositionY += 30;
 	}
