@@ -80,7 +80,10 @@ public class JsVGL implements EntryPoint {
 		RootPanel.get("clearWorkspaceButtonContainer").add(clearWorkspaceButton);
 		clearWorkspaceButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				vglII.resetWorkspace();
+				vglII.resetProblemSpace();
+				resetUI();
+				modelBuilderPanel.clear();
+				modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
 			}			
 		});
 		
@@ -229,13 +232,11 @@ public class JsVGL implements EntryPoint {
 		cageScrollPanel.scrollToBottom();
 	}
 
-	public void clearWorkspace() {
-		modelBuilderPanel.clear();
-		modelBuilderPanel = new SimplePanel();
-		modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
+	public void resetUI() {
 		cagesPanel.clear();
 		problemText.setText("");
 		gradeText.setText("");
+		setButtonState(false);
 	}
 	
 	public int getSuperCrossChoice() {

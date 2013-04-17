@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
@@ -100,14 +101,12 @@ public class VGLII {
 		changeSinceLastSave = false;
 	}
 	
-	public void resetWorkspace() {
+	public void resetProblemSpace() {
 		CharacterSpecificationBank.getInstance().refreshAll();
 		geneticModel = null;
 		nextCageId = 0;
 		selectionVial = new SelectionVial();
 		cageCollection = new ArrayList<CageUI>();
-		jsVGL.clearWorkspace();
-		jsVGL.setButtonState(false);
 		changeSinceLastSave = true;
 	}
 
@@ -122,7 +121,9 @@ public class VGLII {
 	}
 
 	private void newProblem(boolean practiceMode) {
-		resetWorkspace();
+		resetProblemSpace();
+//		jsVGL.resetUI();
+		
 		geneticModel = GeneticModelFactory.getInstance().createRandomModel(params);
 		if (geneticModel == null) return;
 
@@ -131,6 +132,7 @@ public class VGLII {
 		Cage fieldPop = geneticModel.generateFieldPopulation();
 		createCageUI(fieldPop, false);
 		
+		jsVGL.getModelBuilderPanel().clear();
 		jsVGL.getModelBuilderPanel().setWidget(new ModelBuilderUI(this, geneticModel));
 		
 		jsVGL.setButtonState(true);
@@ -144,7 +146,7 @@ public class VGLII {
 	 */
 	public void openProblem(String problemXML) {	
 
-		resetWorkspace();
+		resetProblemSpace();
 		SavedWorkFileData result = null;
 
 		try {

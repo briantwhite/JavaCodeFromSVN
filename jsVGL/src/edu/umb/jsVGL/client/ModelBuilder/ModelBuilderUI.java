@@ -189,10 +189,10 @@ public class ModelBuilderUI extends TabPanel {
 	public Element save() {
 		Document d = XMLParser.createDocument();
 		Element e = d.createElement("ModelBuilderState");
-//		for (int i = 0; i < modelPanes.length; i++) {
-//			e.appendChild(modelPanes[i].save());
-//		}
-//		if (linkagePanel != null) e.appendChild(linkagePanel.save());
+		for (int i = 0; i < modelPanes.length; i++) {
+			e.appendChild(modelPanes[i].save());
+		}
+		if (linkagePanel != null) e.appendChild(linkagePanel.save());
 		return e;
 	}
 
