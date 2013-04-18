@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -450,21 +451,36 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 		return Integer.parseInt(parts[1].trim());
 	}
 
-	public void setStateFromFile(Element element) {
+	public void setStateFromXML(Element element) {
 
 		NodeList elements = element.getChildNodes();
 		for (int i = 0; i < elements.getLength(); i++) {
 			Element e = (Element)elements.item(i);
 			if (e.getTagName().equals("SexLinkage")) {
 				sexLinkageChoices.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				/*
+				 * need to manually fire event to get box to update
+				 * 	note, need different Document
+				 */
+				DomEvent.fireNativeEvent(com.google.gwt.dom.client.Document.get().createChangeEvent(), sexLinkageChoices);
 			}
 
 			if (e.getTagName().equals("AlleleNumber")) {
 				alleleNumberChoices.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				/*
+				 * need to manually fire event to get box to update
+				 * 	note, need different Document
+				 */
+				DomEvent.fireNativeEvent(com.google.gwt.dom.client.Document.get().createChangeEvent(), alleleNumberChoices);
 			}
 
 			if (e.getTagName().equals("InteractionType")) {
 				interactionTypeChoices.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				/*
+				 * need to manually fire event to get box to update
+				 * 	note, need different Document
+				 */
+				DomEvent.fireNativeEvent(com.google.gwt.dom.client.Document.get().createChangeEvent(), interactionTypeChoices);
 			}
 
 			// get a reference to the details panel

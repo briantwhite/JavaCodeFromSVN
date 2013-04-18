@@ -39,6 +39,7 @@ when using egit
 		if pull gives out of sync error
 			team -> reset
 				HARD reset to master
+		then team -> pull
 
 for doing the summary chart - probably not that hard: just do an html table!
 chi-square calc from: http://www.quantpsy.org/chisq/chisq.htm

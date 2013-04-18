@@ -152,3 +152,7 @@ working on load state - ok all but ModelBuilderState!
 4/18/13
 working on loading model builder state
 only part NG is getting the interaction details panel to change
+
+programmatically changing the ListBox doesn't fire a ChangeEvent
+	you have to do it yourself
+	- works!

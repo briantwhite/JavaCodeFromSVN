@@ -125,7 +125,7 @@ public class ModelBuilderUI extends TabPanel {
 			Element e = (Element)elements.item(i);
 			if (e.getTagName().equals("Character")) {
 				int index = Integer.parseInt(e.getAttribute("Index"));
-				modelPanes[index].setStateFromFile(e);
+				modelPanes[index].setStateFromXML(e);
 			}
 			if (e.getTagName().equals("LinkagePanel")) {
 				linkagePanel.setStateFromFile(e);
