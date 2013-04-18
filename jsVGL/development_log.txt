@@ -156,3 +156,16 @@ only part NG is getting the interaction details panel to change
 programmatically changing the ListBox doesn't fire a ChangeEvent
 	you have to do it yourself
 	- works!
+
+need to be able to zip the problemXML
+use http://code.google.com/p/gwt-lzma/
+unzipped in downloads
+copied org/ folder to workspace
+	it made lots of top-level directories for each subdir!
+	try importing it - no good
+	drag it in to src/
+	
+may not work - it looks like zip is not designed to run in a browser
+	there's a warning at the site for gwt-lzma
+take it out
+
