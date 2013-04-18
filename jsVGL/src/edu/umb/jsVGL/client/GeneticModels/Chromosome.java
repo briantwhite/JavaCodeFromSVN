@@ -52,9 +52,9 @@ public class Chromosome {
 		for (int i = 0; i < alleleNodes.getLength(); i++) {
 			Element alleleE = (Element) alleleNodes.item(i);
 			int geneIndex = 
-				Integer.parseInt(alleleE.getAttribute("GeneIndex"));
+				Integer.parseInt(alleleE.getAttribute("i"));
 			int traitNum = 
-				Integer.parseInt(alleleE.getAttribute("TraitNumber"));
+				Integer.parseInt(alleleE.getAttribute("n"));
 			Allele allele = new Allele(
 					TraitFactory.getInstance().getTrait(
 							chromoNum, geneIndex, traitNum), 
@@ -74,14 +74,20 @@ public class Chromosome {
 
 	public Element save(String id) throws Exception {
 		Document d = XMLParser.createDocument();
-		Element e = d.createElement("Chromosome");
+		Element e = d.createElement("C");
 
-		e.setAttribute("Id", id);
+		String shortId = "";
+		if (id.equals("MaternalAutosome")) shortId = "MA";
+		if (id.equals("PaternalAutosome")) shortId = "PA";
+		if (id.equals("MaternalSexChromosome")) shortId = "MS";
+		if (id.equals("PaternalSexChromosome")) shortId = "PS";
+		
+		e.setAttribute("i", shortId);
 
 		if (this == NullSexChromosome.getInstance()) {
-			e.setAttribute("Size", String.valueOf(-1));
+			e.setAttribute("s", String.valueOf(-1));
 		} else {
-			e.setAttribute("Size", String.valueOf(alleles.size()));
+			e.setAttribute("s", String.valueOf(alleles.size()));
 		}
 
 		for (int i = 0; i < alleles.size(); i++) {

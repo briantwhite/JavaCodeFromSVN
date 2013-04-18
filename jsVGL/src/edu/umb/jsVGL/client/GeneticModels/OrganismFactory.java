@@ -32,32 +32,32 @@ public class OrganismFactory {
 		Chromosome maternalSexChromosome = null;
 		Chromosome paternalSexChromosome = null;
 
-		boolean male = Boolean.parseBoolean(e.getAttribute("Male"));
-		int id = Integer.parseInt(e.getAttribute("Id"));
+		boolean male = e.hasAttribute("M");
+		int id = Integer.parseInt(e.getAttribute("i"));
 		NodeList chromoNodes = e.getChildNodes();
 		for (int i = 0; i < chromoNodes.getLength(); i++) {
 			Element chromoE = (Element) chromoNodes.item(i);
-			String type = chromoE.getAttribute("Id");
+			String type = chromoE.getAttribute("i");
 
 			boolean isNullSexChromosome = false;
-			if (Integer.parseInt(chromoE.getAttribute("Size")) == -1) {
+			if (Integer.parseInt(chromoE.getAttribute("s")) == -1) {
 				isNullSexChromosome = true;
 			}
 
-			if (type.equals("MaternalAutosome")) {
+			if (type.equals("MA")) {
 				maternalAutosome = new Chromosome(chromoE, 
 						Chromosome.AUTOSOME);
-			} else if (type.equals("PaternalAutosome")) {
+			} else if (type.equals("PA")) {
 				paternalAutosome = new Chromosome(chromoE, 
 						Chromosome.AUTOSOME);
-			} else if (type.equals("MaternalSexChromosome")) {
+			} else if (type.equals("MS")) {
 				if (isNullSexChromosome) {
 					maternalSexChromosome = NullSexChromosome.getInstance();
 				} else {
 					maternalSexChromosome = new Chromosome(chromoE, 
 							Chromosome.SEX_CHROMOSOME);
 				}
-			} else if (type.equals("PaternalSexChromosome")) {
+			} else if (type.equals("PS")) {
 				if (isNullSexChromosome) {
 					paternalSexChromosome = NullSexChromosome.getInstance();
 				} else {

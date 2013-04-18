@@ -54,9 +54,9 @@ public class Allele {
 	
 	public Element save(int index) throws Exception {
 		Document d = XMLParser.createDocument();
-		Element e = d.createElement("Allele");
-		e.setAttribute("GeneIndex", String.valueOf(index));
-		e.setAttribute("TraitNumber", String.valueOf(intVal));
+		Element e = d.createElement("A");
+		e.setAttribute("i", String.valueOf(index));
+		e.setAttribute("n", String.valueOf(intVal));
 		return e;
 	}
 }

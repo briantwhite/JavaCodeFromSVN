@@ -183,3 +183,5 @@ just make the xml tags smaller for organisms
 	Allele = "A"
 		GeneIndex = "i"
 		TraitNumber = "n"
+
+almost working...

@@ -211,13 +211,13 @@ public class WorkFileProcessor {
 				Organism p1 = 
 						OrganismFactory.buildOrganism(
 								p1E, 
-								Integer.parseInt(p1E.getAttribute("CageId")),
+								Integer.parseInt(p1E.getAttribute("i")),
 								geneticModel);
 				Element p2E = (Element)parentNodes.item(1);
 				Organism p2 = 
 						OrganismFactory.buildOrganism(
 								p2E,
-								Integer.parseInt(p2E.getAttribute("CageId")),
+								Integer.parseInt(p2E.getAttribute("i")),
 								geneticModel);
 				cage.setParents(p1, p2);
 			} else if(item.getTagName().equals("Children")) {
@@ -225,8 +225,8 @@ public class WorkFileProcessor {
 				NodeList childNodes = item.getChildNodes();
 				for (int j = 0; j < childNodes.getLength(); j++) {
 					Element childE = (Element)childNodes.item(j);
-					if (childE.getTagName().equals("Organism")) {
-						int index = Integer.parseInt(childE.getAttribute("Id"));
+					if (childE.getTagName().equals("O")) {
+						int index = Integer.parseInt(childE.getAttribute("i"));
 						childrenInOrder[index] = 
 								OrganismFactory.buildOrganism(
 										childE, cageId, geneticModel);
