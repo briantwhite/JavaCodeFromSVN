@@ -56,6 +56,8 @@ public class VGLII {
 	 * the genetic model for the current problem
 	 */
 	private GeneticModel geneticModel;
+	
+	private ModelBuilderUI modelBuilder;
 
 	/**
 	 * reference back to enclosing jsVGL
@@ -122,7 +124,7 @@ public class VGLII {
 
 	private void newProblem(boolean practiceMode) {
 		resetProblemSpace();
-//		jsVGL.resetUI();
+		jsVGL.resetUI();
 		
 		geneticModel = GeneticModelFactory.getInstance().createRandomModel(params);
 		if (geneticModel == null) return;
@@ -133,7 +135,8 @@ public class VGLII {
 		createCageUI(fieldPop, false);
 		
 		jsVGL.getModelBuilderPanel().clear();
-		jsVGL.getModelBuilderPanel().setWidget(new ModelBuilderUI(this, geneticModel));
+		modelBuilder = new ModelBuilderUI(this, geneticModel);
+		jsVGL.getModelBuilderPanel().setWidget(modelBuilder);
 		
 		jsVGL.setButtonState(true);
 
@@ -160,6 +163,12 @@ public class VGLII {
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
+		
+		modelBuilder = new ModelBuilderUI(this, geneticModel);
+		modelBuilder.configureFromXML(result.getModelBuilderState());
+		jsVGL.getModelBuilderPanel().clear();
+		jsVGL.getModelBuilderPanel().setWidget(modelBuilder);
+		
 		jsVGL.setButtonState(true);
 		changeSinceLastSave = false;
 	}

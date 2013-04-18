@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
 import edu.umb.jsVGL.client.GeneticModels.ProblemTypeSpecification;
@@ -451,64 +452,63 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 
 	public void setStateFromFile(Element element) {
 
-//		List<Element> elements = element.getChildren();
-//		Iterator<Element> it = elements.iterator();
-//		while(it.hasNext()) {
-//			Element e = it.next();
-//			if (e.getName().equals("SexLinkage")) {
-//				sexLinkageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
-//			}
-//
-//			if (e.getName().equals("AlleleNumber")) {
-//				alleleNumberChoices.setSelectedIndex(Integer.parseInt(e.getText()));
-//			}
-//
-//			if (e.getName().equals("InteractionType")) {
-//				interactionTypeChoices.setSelectedIndex(Integer.parseInt(e.getText()));
-//			}
-//
-//			// get a reference to the details panel
-//			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
-//
-//			if (e.getName().equals("T1")) {
-//				setT1Value(Integer.parseInt(e.getText()));
-//				mdp.updateT1Choices(Integer.parseInt(e.getText()));
-//			}
-//
-//			if (e.getName().equals("T2")) {
-//				setT2Value(Integer.parseInt(e.getText()));
-//				mdp.updateT2Choices(Integer.parseInt(e.getText()));
-//			}
-//
-//			if (e.getName().equals("T3")) {
-//				setT3Value(Integer.parseInt(e.getText()));
-//				mdp.updateT3Choices(Integer.parseInt(e.getText()));
-//			}
-//
-//			if (e.getName().equals("T4")) {
-//				setT4Value(Integer.parseInt(e.getText()));
-//				mdp.updateT4Choices(Integer.parseInt(e.getText()));
-//			}
-//
-//			if (e.getName().equals("T5")) {
-//				setT5Value(Integer.parseInt(e.getText()));
-//				mdp.updateT5Choices(Integer.parseInt(e.getText()));
-//			}
-//
-//			if (e.getName().equals("T6")) {
-//				setT6Value(Integer.parseInt(e.getText()));
-//				mdp.updateT6Choices(Integer.parseInt(e.getText()));
-//			}
-//
-//			if (e.getName().equals("SexLinkageCage")) {
-//				sexLinkageCageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
-//			}
-//
-//			if (e.getName().equals("DetailsCage")) {
-//				interactionCageChoices.setSelectedIndex(Integer.parseInt(e.getText()));
-//			}
-//
-//		}
+		NodeList elements = element.getChildNodes();
+		for (int i = 0; i < elements.getLength(); i++) {
+			Element e = (Element)elements.item(i);
+			if (e.getTagName().equals("SexLinkage")) {
+				sexLinkageChoices.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+			if (e.getTagName().equals("AlleleNumber")) {
+				alleleNumberChoices.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+			if (e.getTagName().equals("InteractionType")) {
+				interactionTypeChoices.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+			// get a reference to the details panel
+			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getContentWidget();
+
+			if (e.getTagName().equals("T1")) {
+				setT1Value(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				mdp.updateT1Choices(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+			if (e.getTagName().equals("T2")) {
+				setT2Value(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				mdp.updateT2Choices(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+			if (e.getTagName().equals("T3")) {
+				setT3Value(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				mdp.updateT3Choices(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+			if (e.getTagName().equals("T4")) {
+				setT4Value(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				mdp.updateT4Choices(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+			if (e.getTagName().equals("T5")) {
+				setT5Value(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				mdp.updateT5Choices(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+			if (e.getTagName().equals("T6")) {
+				setT6Value(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				mdp.updateT6Choices(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+			if (e.getTagName().equals("SexLinkageCage")) {
+				sexLinkageCageChoices.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+			if (e.getTagName().equals("DetailsCage")) {
+				interactionCageChoices.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+			}
+
+		}
 	}
 
 	public Element save() {

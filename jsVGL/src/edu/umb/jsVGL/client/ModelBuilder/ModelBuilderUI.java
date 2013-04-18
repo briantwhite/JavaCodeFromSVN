@@ -1,17 +1,14 @@
 package edu.umb.jsVGL.client.ModelBuilder;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.TreeSet;
 
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
-
-import com.google.gwt.user.client.ui.TabPanel;
-
 
 import edu.umb.jsVGL.client.GeneticModels.GeneModel;
 import edu.umb.jsVGL.client.GeneticModels.GeneticModel;
@@ -121,20 +118,19 @@ public class ModelBuilderUI extends TabPanel {
 		add(linkagePanel, "Linkage");
 	}
 
-	public void configureFromFile(Element root) {
+	public void configureFromXML(Element root) {
 
-//		List<Element> elements = root.getChildren();
-//		Iterator<Element> it = elements.iterator();
-//		while (it.hasNext()) {
-//			Element e = it.next();
-//			if (e.getName().equals("Character")) {
-//				int index = Integer.parseInt(e.getAttributeValue("Index"));
-//				modelPanes[index].setStateFromFile(e);
-//			}
-//			if (e.getName().equals("LinkagePanel")) {
-//				linkagePanel.setStateFromFile(e);
-//			}
-//		}
+		NodeList elements = root.getChildNodes();
+		for (int i = 0; i < elements.getLength(); i++) {
+			Element e = (Element)elements.item(i);
+			if (e.getTagName().equals("Character")) {
+				int index = Integer.parseInt(e.getAttribute("Index"));
+				modelPanes[index].setStateFromFile(e);
+			}
+			if (e.getTagName().equals("LinkagePanel")) {
+				linkagePanel.setStateFromFile(e);
+			}
+		}
 	}
 
 	public VGLII getVGLII() {
