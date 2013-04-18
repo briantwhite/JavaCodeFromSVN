@@ -1,5 +1,6 @@
 package edu.umb.jsVGL.client.VGL;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -195,7 +196,6 @@ public class VGLII {
 				e.printStackTrace();
 			}
 		}
-		
 		Element grade = AutoGrader.grade(cageCollection, geneticModel, (ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget());
 		return new SavedProblemStrings(problemXML, grade.toString());
 	}

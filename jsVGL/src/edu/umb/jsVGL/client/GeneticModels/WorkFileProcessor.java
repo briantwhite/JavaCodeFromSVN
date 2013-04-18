@@ -200,22 +200,7 @@ public class WorkFileProcessor {
 
 		Cage cage = new Cage(cageId);
 
-		/*
-		 * see if it's an old style cage (version 2.1.1 & earlier)
-		 * in that case, we didn't save the position, superness, and visibility
-		 * so need to fill them in
-		 */
-		if (e.getAttribute("Xpos") != null) {
-			cage.setXpos(Integer.parseInt(e.getAttribute("Xpos")));
-			cage.setYpos(Integer.parseInt(e.getAttribute("Ypos")));
-			cage.setVisible(Boolean.parseBoolean(e.getAttribute("Visible")));
-			cage.setSuper(Boolean.parseBoolean(e.getAttribute("SuperCross")));
-		} else {
-			cage.setXpos(-1);
-			cage.setYpos(-1);
-			cage.setVisible(true);
-			cage.setSuper(false);
-		}
+		cage.setSuper(Boolean.parseBoolean(e.getAttribute("SuperCross")));
 
 		NodeList contentNodes = e.getChildNodes();
 		for (int i = 0; i < contentNodes.getLength(); i++) {

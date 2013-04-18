@@ -1,16 +1,15 @@
 package edu.umb.jsVGL.client;
 
+import java.io.UnsupportedEncodingException;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.Dictionary;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
@@ -22,6 +21,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsVGL.client.VGL.SavedProblemStrings;
+import edu.umb.jsVGL.client.VGL.StringCompressionUtils;
 import edu.umb.jsVGL.client.VGL.VGLII;
 import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
 

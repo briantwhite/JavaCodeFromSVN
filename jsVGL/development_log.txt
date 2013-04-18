@@ -169,3 +169,17 @@ may not work - it looks like zip is not designed to run in a browser
 	there's a warning at the site for gwt-lzma
 take it out
 
+use one-byte to 2-byte compression
+	write algorithm - safe as long as we use ascii
+	
+just make the xml tags smaller for organisms
+	Organism = "O"
+		id = "i"
+		CageId = "c"
+		male = "M" and just use present or absent (Element.hasAttribute("M"))
+	Chromosome = "C"
+		id = "PA", "MA", "PS", "MS"
+		size = "s"
+	Allele = "A"
+		GeneIndex = "i"
+		TraitNumber = "n"
