@@ -198,4 +198,14 @@ set up on practice mode
 	can't save
 	model builder shows model
 working!
+
+tried compiling it
+runs aok on firefox
+on chrome, get error:
+Unsafe JavaScript attempt to access frame with URL 
+	file:///Users/brian/git/JavaCodeFromSVN/jsVGL/war/JsVGL.html 
+	from frame with URL file:///Users/brian/git/JavaCodeFromSVN/jsVGL/war/jsvgl/1629246A986A8ED8C204259F41AF0F24.cache.html. 
+	Domains, protocols and ports must match.
+
+really unclear what this means...
 	

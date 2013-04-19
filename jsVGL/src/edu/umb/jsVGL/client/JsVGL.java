@@ -131,7 +131,6 @@ public class JsVGL implements EntryPoint {
 		RootPanel.get("crossButtonContainer").add(crossButton);
 		crossButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				saveWorkButton.setEnabled(true);
 				vglII.crossTwo(false);
 			}			
 		});
