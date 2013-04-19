@@ -185,3 +185,12 @@ just make the xml tags smaller for organisms
 		TraitNumber = "n"
 
 almost working...
+
+4/19/13
+got it working
+can make it more compact
+	for allele, give i = <GeneIndex>,<TraitNumber>
+	for organism, collapse id, cageId, sex into comma-sep
+seems to be working with 2 genes
+
+	

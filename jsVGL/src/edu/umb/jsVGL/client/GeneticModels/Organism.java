@@ -231,16 +231,13 @@ public class Organism {
 	 * @return this organism in JDom Element format
 	 */
 	public Element save() throws Exception {
+		
 		Document d = XMLParser.createDocument();
+		String sex = "F";
+		if (male) sex = "M";
+		
 		Element orga = d.createElement("O");
-		orga.setAttribute("i", String.valueOf(id));
-		orga.setAttribute("c", String.valueOf(cageId));
-
-		if (male) {
-			orga.setAttribute("S", "M");
-		} else {
-			orga.setAttribute("S", "F");
-		}
+		orga.setAttribute("i", String.valueOf(id) + "," + String.valueOf(cageId) + "," + sex);
 		orga.appendChild(maternalAutosome.save("MaternalAutosome"));
 		orga.appendChild(paternalAutosome.save("PaternalAutosome"));
 		orga.appendChild(maternalSexChromosome.save("MaternalSexChromosome"));

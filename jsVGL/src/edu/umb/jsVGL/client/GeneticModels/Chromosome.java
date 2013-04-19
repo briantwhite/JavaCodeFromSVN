@@ -51,10 +51,12 @@ public class Chromosome {
 		NodeList alleleNodes = e.getChildNodes();
 		for (int i = 0; i < alleleNodes.getLength(); i++) {
 			Element alleleE = (Element) alleleNodes.item(i);
+			String indexAndNumber = alleleE.getAttribute("i");
+			String[] parts = indexAndNumber.split(",");
 			int geneIndex = 
-				Integer.parseInt(alleleE.getAttribute("i"));
+				Integer.parseInt(parts[0]);
 			int traitNum = 
-				Integer.parseInt(alleleE.getAttribute("n"));
+				Integer.parseInt(parts[1]);
 			Allele allele = new Allele(
 					TraitFactory.getInstance().getTrait(
 							chromoNum, geneIndex, traitNum), 
