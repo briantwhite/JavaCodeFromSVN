@@ -128,6 +128,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 	 */
 	private OrganismList[] childrenSortedByPhenotype;
 
+	private String[] phenotypeNames;
 	/**
 	 * This variable stores a reference to the list of parents associated with
 	 * this cage
@@ -253,7 +254,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 		Iterator<String> it1 = phenotypeStrings.iterator();
 		numPhenosPresent = phenotypeStrings.size();
 
-		String[] phenotypeNames = new String[numPhenosPresent];
+		phenotypeNames = new String[numPhenosPresent];
 		childrenSortedByPhenotype = new OrganismList[numPhenosPresent];
 
 		int i = 0;
@@ -380,6 +381,14 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 		//lay out two neat rows of OrganismUIs
 		if (isSuperCross) {
+			
+			// first, mark all as hidden; then mark only the visible ones
+			while (it.hasNext()) {
+				Organism o = (Organism) it.next();
+				o.setVisibleInCage(false);
+			}
+			it = childrenSortedByPhenotype[number].iterator();
+			
 			// if super cross, need a row of males and a row of females
 			int i = 0;
 			while (it.hasNext() && (i < (2 * absoluteMaxOrgsPerRow))) {
@@ -405,6 +414,8 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 							bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow]);
 					i++;
 				}
+				// mark only the visible ones
+				o.setVisibleInCage(true);
 			}
 		} else {
 			int count = 0;
@@ -424,6 +435,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 					bottomRowOfOrganismsPanel.add(bottomRowOFOrganismUIs[j]);
 					j++;
 				}
+				o1.setVisibleInCage(true);
 			}
 			SimplePanel filler = new SimplePanel();
 			filler.setWidth("15px");
@@ -456,13 +468,31 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 		femaleLabel.add(new HTML("<img src=\"" + (new Image(uiImageResource.femaleBlack())).getUrl() + "\">"));
 		femaleLabel.setStyleName("jsVGL_CountLabel");
 
-		String mCount = (new Integer(childrenSortedByPhenotype[number].getNumberOfMales())).toString();
-		if (childrenSortedByPhenotype[number].getNumberOfMales() < 10)
+		/*
+		 * if it's a regular cross - get the counts from the cage's list of organsims
+		 * if it's a supercross - get the counts that were saved with it
+		 * 	UNLESS it's an new supercross, in that case the saved counts aren't there
+		 * 		so use cages' organism lists
+		 */
+		int numberOfMales = 0;
+		if (isSuperCross && (cage.getPhenotypeCounts(phenotypeNames[number]) != null)) {
+			numberOfMales = cage.getPhenotypeCounts(phenotypeNames[number]).getMales();
+		} else {
+			numberOfMales = childrenSortedByPhenotype[number].getNumberOfMales();
+		}
+		String mCount = (new Integer(numberOfMales)).toString();
+		if (numberOfMales < 10)
 			mCount = "0" + mCount;
 		Label maleCountLabel = new Label(mCount);
 
-		String fCount = (new Integer(childrenSortedByPhenotype[number].getNumberOfFemales())).toString();
-		if (childrenSortedByPhenotype[number].getNumberOfFemales() < 10)
+		int numberOfFemales = 0;
+		if (isSuperCross && (cage.getPhenotypeCounts(phenotypeNames[number]) != null)) {
+			numberOfFemales = cage.getPhenotypeCounts(phenotypeNames[number]).getFemales();
+		} else {
+			numberOfFemales = childrenSortedByPhenotype[number].getNumberOfFemales();
+		}
+		String fCount = (new Integer(numberOfFemales)).toString();
+		if (numberOfFemales < 10)
 			fCount = "0" + fCount;
 		Label femaleCountLabel = new Label(fCount);
 

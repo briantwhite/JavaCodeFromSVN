@@ -221,5 +221,13 @@ possible solution: the problem is just supercross
 	- for supercross only:
 		just save the organisms that are displayed
 		save the counts for display
+add field to Organism: visibleInCage - if it is visible in the CageUI
+	for regular cages, all are visible
+	for super cross, only save and load visible ones
+
+almost working - two bugs
+	- on re-open, there are fewer orgs in the supercross panel
+	- on re-reopen from intermediate save, there's an error missing parent.
+	(probably related)
 
 	

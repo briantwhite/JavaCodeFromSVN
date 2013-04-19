@@ -11,6 +11,7 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
 
 import edu.umb.jsVGL.client.VGL.CageUI;
+import edu.umb.jsVGL.client.VGL.MFTotCounts;
 
 /**
  * Brian White Summer 2008
@@ -38,23 +39,21 @@ public class Cage {
 	private int id;
 
 	private int count; // organism's id start from 0
-	
+
 	private Organism parent1;
 
 	private Organism parent2;
 
 	private TreeMap<String, OrganismList> children;
-	
+
 	private Date creationDate;
-	
+
 	private boolean isSuperCross;
-	
+	private TreeMap<String, MFTotCounts> phenotypeCounts;	// only for supercross since we only keep some of the orgs
+
 	// variables to save in work files
 	private CageUI cageUI;
-	private int Xpos;
-	private int Ypos;
-	private boolean visible;
-	
+
 	/**
 	 * Constructor for field population which has no parent.
 	 * 
@@ -83,47 +82,32 @@ public class Cage {
 		children = new TreeMap<String, OrganismList>();
 		creationDate = new Date();
 		this.isSuperCross = isSuper;
+		phenotypeCounts = new TreeMap<String, MFTotCounts>();
 	}
-	
+
 	public void setCageUI(CageUI cageUI) {
 		this.cageUI = cageUI;
 	}
-	
+
 	public void setParents(Organism p1, Organism p2) {
 		parent1 = p1;
 		parent2 = p2;
 	}
 
-	public int getXpos() {
-		return Xpos;
-	}
-
-	public void setXpos(int xpos) {
-		Xpos = xpos;
-	}
-
-	public int getYpos() {
-		return Ypos;
-	}
-
-	public void setYpos(int ypos) {
-		Ypos = ypos;
-	}
-
-	public boolean isVisible() {
-		return visible;
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-	
 	public void setSuper(boolean b) {
 		isSuperCross = b;
 	}
-	
+
 	public boolean isSuperCross() {
 		return isSuperCross;
+	}
+	
+	public void addToPhenotypeCounts(String pheno, MFTotCounts counts) {
+		phenotypeCounts.put(pheno, counts);
+	}
+	
+	public MFTotCounts getPhenotypeCounts(String pheno) {
+		return phenotypeCounts.get(pheno);
 	}
 
 	/**
@@ -137,7 +121,7 @@ public class Cage {
 		count++;
 		addToProperOrganismList(o);
 	}
-	
+
 	private void addToProperOrganismList(Organism o) {
 		//if there isn't a list of organisms with this pheno
 		//  make one
@@ -151,7 +135,7 @@ public class Cage {
 			oList.add(o);
 		}
 	}
-	
+
 	/**
 	 * add organism read from file
 	 * - already has proper id
@@ -189,7 +173,7 @@ public class Cage {
 	public int getId() {
 		return id;
 	}
-	
+
 	/**
 	 * get the max number of offspring in any given pheno class
 	 * used for setting up cage ui
@@ -253,7 +237,9 @@ public class Cage {
 		ec.setAttribute("Created", creationDate.toString());
 		ec.setAttribute("SuperCross", String.valueOf(cageUI.isSuperCross()));
 		ec.setAttribute("Id", String.valueOf(id));
+
 		ec.setAttribute("NumChildren", String.valueOf(count));
+
 
 		// parents
 		if ((parent1 != null) || (parent2 != null)) {
@@ -276,11 +262,27 @@ public class Cage {
 			OrganismList l = children.get(phenotype);
 			for (int j = 0; j < l.getTotalNumber(); j++) {
 				Organism o = l.get(j);
-				echildren.appendChild(o.save());
+				if (o.isVisibleInCage()) {
+					echildren.appendChild(o.save());
+				}
 			}
 		}
 		ec.appendChild(echildren);
 		
+		// if supercross, need to save count info for each pheno
+		if (isSuperCross) {
+			Iterator<String> phenos = children.keySet().iterator();
+			while (phenos.hasNext()) {
+				String pheno = phenos.next();
+				OrganismList ol = children.get(pheno);
+				Element pEl = dc.createElement("PhenoCountData");
+				pEl.setAttribute("Pheno", pheno);
+				pEl.setAttribute("Ms", String.valueOf(ol.getNumberOfMales()));
+				pEl.setAttribute("Fs", String.valueOf(ol.getNumberOfFemales()));
+				ec.appendChild(pEl);
+			}
+		}
+
 		return ec;
 	}
 

@@ -1,9 +1,13 @@
 package edu.umb.jsVGL.client.GeneticModels;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+
+import edu.umb.jsVGL.client.VGL.MFTotCounts;
 /**
  * Brian White Summer 2008
  * 
@@ -220,22 +224,37 @@ public class WorkFileProcessor {
 								Integer.parseInt(p2E.getAttribute("i").split(",")[1]),
 								geneticModel);
 				cage.setParents(p1, p2);
-			} else if(item.getTagName().equals("Children")) {
-				Organism[] childrenInOrder = new Organism[numChildren];
+			} else if (item.getTagName().equals("Children")) {
+				TreeMap<Integer, Organism> childrenInOrder = new TreeMap<Integer, Organism>();
 				NodeList childNodes = item.getChildNodes();
 				for (int j = 0; j < childNodes.getLength(); j++) {
 					Element childE = (Element)childNodes.item(j);
 					if (childE.getTagName().equals("O")) {
 						int index = Integer.parseInt(childE.getAttribute("i").split(",")[0]);
-						childrenInOrder[index] = 
+						childrenInOrder.put(index,
 								OrganismFactory.buildOrganism(
-										childE, cageId, geneticModel);
+										childE, cageId, geneticModel));
 					}
 				}
 
-				for (int k = 0; k < numChildren; k++) {
-					cage.addSaved(childrenInOrder[k]);
+				Iterator<Integer> sortedChildIt = childrenInOrder.keySet().iterator();
+				while (sortedChildIt.hasNext()) {
+					/*
+					 * need to check if present because saved supercross only saves visible
+					 * organisms, and they don't have sequential id numbers
+					 */
+					Organism o = childrenInOrder.get(sortedChildIt.next());
+					if (o != null) {
+						cage.addSaved(o);
+					}
 				}
+				// this is for super cross only
+			} else if (item.getTagName().equals("PhenoCountData")) {
+				cage.addToPhenotypeCounts(
+						item.getAttribute("Pheno"), 
+						new MFTotCounts(
+								Integer.parseInt(item.getAttribute("Ms")), 
+										Integer.parseInt(item.getAttribute("Fs"))));
 			}
 		}
 		return cage;

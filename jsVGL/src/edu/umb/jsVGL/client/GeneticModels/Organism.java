@@ -31,6 +31,17 @@ public class Organism {
 
 	private int id;  //organism's id#
 	private int cageId; // cage's id#
+	
+	/*
+	 * because super crosses have so many Organisms, they take a long time
+	 * to save - but you only need crossable organisms for the visible ones
+	 * - these are flagged by this boolean
+	 * 
+	 * this will be true for all orgs in regular crosses
+	 * 	and for visible orgs in super cross
+	 * 	but most orgs in supercross won't be visible (false)
+	 */
+	private boolean visibleInCage;
 
 	private Chromosome maternalAutosome;
 	private Chromosome paternalAutosome;
@@ -52,6 +63,7 @@ public class Organism {
 			ArrayList<Phenotype> phenotypes,
 			boolean male,
 			GeneticModel geneticModel) {
+		visibleInCage = true;
 		this.cageId = cageId;
 		this.maternalAutosome = maternalAutosome;
 		this.paternalAutosome = paternalAutosome;
@@ -80,6 +92,14 @@ public class Organism {
 				phenotypes,
 				male,
 				geneticModel);
+	}
+	
+	public boolean isVisibleInCage() {
+		return visibleInCage;
+	}
+	
+	public void setVisibleInCage(boolean b) {
+		visibleInCage = b;
 	}
 
 	public int getId() {
