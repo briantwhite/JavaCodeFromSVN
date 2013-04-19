@@ -208,4 +208,9 @@ Unsafe JavaScript attempt to access frame with URL
 	Domains, protocols and ports must match.
 
 really unclear what this means...
+some hint here http://maxrohde.com/2011/05/20/gwt-script-does-not-load-in-chrome-and-internet-explorer/
+the hint there said to put on web server
+tried on securebio and it works!
+	http://www.securebio.umb.edu/edX/war/JsVGL.html
+	
 	
