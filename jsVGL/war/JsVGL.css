@@ -5,6 +5,8 @@
 	height: 17px;
 }
 
+
+/** settings for Cage UI */
 .jsVGL_CageUI {
 	border-style: solid;
 	border-width: 2px;
@@ -73,9 +75,52 @@
 
 /** settings for ModelBuilder */
 
-.jsVGL_InteractionText {
-	color: #800000;
-	border-color: #800000;
+.jsVGL_SexLinkagePanel {
+	border: solid;
+	border-width: 2px;
+	border-color: #497574;
+	color: #497574;
+	background: #f8f8f8;	
+}
+
+.jsVGL_NumAllelesPanel {
+	border: solid;
+	border-width: 2px;
+	border-color: #a1ad2a;
+	color: #a1ad2a;
+	background: #f8f8f8;	
+}
+
+.jsVGL_InteractionTypePanel {
+	border: solid;
+	border-width: 2px;
+	border-color: #845589;
+	color: #845589;
+	background: #f8f8f8;	
+}
+
+.jsVGL_InteractionDetailsPanel {
+	border: solid;
+	border-width: 2px;
+	border-color: #3f5d89;
+	color: #3f5d89;
+	background: #f8f8f8;	
+}
+
+.jsVGL_LinkagePanel {
+	border: solid;
+	border-width: 2px;
+	border-color: #798ebb;
+	color: #798ebb;
+	background: #f8f8f8;	
+}
+
+.jsVGL_RelevantCrossPanel {
+	border: solid;
+	border-width: 2px;
+	border-color: black;
+	color: black;
+	background: #f8f8f8;	
 }
 
 .jsVGL_ThreeCircPanel {

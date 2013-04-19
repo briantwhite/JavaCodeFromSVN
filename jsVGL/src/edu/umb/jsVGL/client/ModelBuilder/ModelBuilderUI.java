@@ -115,6 +115,7 @@ public class ModelBuilderUI extends TabPanel {
 			chars[i] = characters.get(i);
 		}
 		linkagePanel = new LinkagePanel(chars, vglII);
+		linkagePanel.setStyleName("jsVGL_LinkagePanel");
 		add(linkagePanel, "Linkage");
 	}
 

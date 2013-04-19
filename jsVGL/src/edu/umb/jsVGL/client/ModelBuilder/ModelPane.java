@@ -80,6 +80,7 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 		 * sex linkage info
 		 */
 		CaptionPanel sexLinkagePanel = new CaptionPanel("Sex Linkage");
+		sexLinkagePanel.setStyleName("jsVGL_SexLinkagePanel");
 		sexLinkageChoices = new ListBox();
 		if (specs.getGene1_chSexLinked() > 0.0) {
 			sexLinkageChoices.addItem("Unknown");
@@ -99,6 +100,7 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 
 		// number of alleles
 		CaptionPanel alleleNumberChoicePanel = new CaptionPanel("Number of Alleles");
+		alleleNumberChoicePanel.setStyleName("jsVGL_NumAllelesPanel");
 		boolean isOnly2Alleles;
 		alleleNumberChoices = new ListBox();
 		if ((specs.getGene1_ch3Alleles() > 0.0) ||
@@ -134,7 +136,8 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 		if ((specs.getPhenotypeInteraction() > 0.0)
 				&& (specs.getEpistasis() != 0.0)) epistasisPossible = true;
 
-		interactionTypePanel = new CaptionPanel("Interactions among alleles");
+		interactionTypePanel = new CaptionPanel("Interactions among phenotypes");
+		interactionTypePanel.setStyleName("jsVGL_InteractionTypePanel");
 		if (isOnly2Alleles) {
 			TwoAllelePanel twap = new TwoAllelePanel(
 					incDomPossible, complementationPossible, epistasisPossible);
@@ -149,12 +152,13 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 
 		// allele interaction details
 		interactionDetailsPanel = new CaptionPanel("Specific Interactions Between Phenotypes:");
-		interactionDetailsPanel.setStyleName("jsVGL_InteractionText");
+		interactionDetailsPanel.setStyleName("jsVGL_InteractionDetailsPanel");
 		interactionDetailsPanel.add(new UnknownSpecificsPanel());
 		add(interactionDetailsPanel);
 
 		// relevant crosses
 		CaptionPanel relevantCrossPanelWrapper = new CaptionPanel("Relevant Cages:");
+		relevantCrossPanelWrapper.setStyleName("jsVGL_RelevantCrossPanel");
 		VerticalPanel relevantCrossPanel = new VerticalPanel();
 		// if sex-linkage, need a relevant cage selector
 		if (specs.getGene1_chSexLinked() > 0.0) {

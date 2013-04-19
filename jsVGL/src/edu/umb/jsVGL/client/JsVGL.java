@@ -151,27 +151,32 @@ public class JsVGL implements EntryPoint {
 		summaryChartPanel.add(new Label("SCUI"));
 		mainPanel.add(summaryChartPanel, "Summary Chart");
 
-		if (RootPanel.get("superCrossButtonContainer") != null) {
-			superCrossPanel = new FlowPanel();
-			superCrossPanel.add(new HTML(
-					"<h3>Super Cross</h3>"
-							+ "This carries out a cross with a large number of offpspring.<br>"
-							+ "It is useful for getting recombination frequency data.<br>"
-							+ "WARNING: it produces large files which are slow to save,<br>"
-							+ "so it should be used sparingly.<br>"
-							+"Choose the desired number of offspring from the list below:<br>"));
-			superCrossChoices = new ListBox();
-			superCrossChoices.addItem("100");
-			superCrossChoices.addItem("200");
-			superCrossChoices.addItem("500");
-			superCrossChoices.addItem("1000");
-			superCrossChoices.addItem("2000");
-			superCrossChoices.setVisibleItemCount(1);
-			superCrossPanel.add(superCrossChoices);
-			superCrossButton = new Button("Super Cross");
-			superCrossPanel.add(superCrossButton);
-			mainPanel.add(superCrossPanel, "Super Cross");
-		}
+		superCrossPanel = new FlowPanel();
+		superCrossPanel.add(new HTML(
+				"<h3>Super Cross</h3>"
+						+ "This carries out a cross with a large number of offpspring.<br>"
+						+ "It is useful for getting recombination frequency data.<br>"
+						+ "WARNING: it produces large files which are slow to save,<br>"
+						+ "so it should be used sparingly.<br>"
+						+"Choose the desired number of offspring from the list below:<br>"));
+		superCrossChoices = new ListBox();
+		superCrossChoices.addItem("100");
+		superCrossChoices.addItem("200");
+		superCrossChoices.addItem("500");
+		superCrossChoices.addItem("1000");
+		superCrossChoices.addItem("2000");
+		superCrossChoices.setVisibleItemCount(1);
+		superCrossPanel.add(superCrossChoices);
+		superCrossButton = new Button("Super Cross");
+		superCrossPanel.add(superCrossButton);
+		superCrossButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				vglII.crossTwo(true);
+			}			
+		});
+
+		mainPanel.add(superCrossPanel, "Super Cross");
+
 
 		mainPanel.selectTab(0);
 		mainPanel.setSize("300px", "250px");

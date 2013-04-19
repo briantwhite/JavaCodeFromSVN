@@ -201,6 +201,7 @@ public class VGLII {
 			}
 		}
 		Element grade = AutoGrader.grade(cageCollection, geneticModel, (ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget());
+		System.out.println("VGLII 204: Length=" + problemXML.length());
 		return new SavedProblemStrings(problemXML, grade.toString());
 	}
 

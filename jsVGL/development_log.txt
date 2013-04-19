@@ -212,5 +212,14 @@ some hint here http://maxrohde.com/2011/05/20/gwt-script-does-not-load-in-chrome
 the hint there said to put on web server
 tried on securebio and it works!
 	http://www.securebio.umb.edu/edX/war/JsVGL.html
+
+problems with supercross
+	one with a two gene problem and 2000 offspring saves 290,586 bytes (uncompressed)
+	a single field pop cage took 6,020 bytes (uncompressed)
 	
+possible solution: the problem is just supercross
+	- for supercross only:
+		just save the organisms that are displayed
+		save the counts for display
+
 	
