@@ -193,4 +193,9 @@ can make it more compact
 	for organism, collapse id, cageId, sex into comma-sep
 seems to be working with 2 genes
 
+set up layout to be more pretty
+set up on practice mode
+	can't save
+	model builder shows model
+working!
 	

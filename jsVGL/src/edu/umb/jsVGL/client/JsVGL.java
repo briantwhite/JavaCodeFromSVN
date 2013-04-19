@@ -54,7 +54,7 @@ public class JsVGL implements EntryPoint {
 	private UIImageResource uiImageResource;
 
 	private VGLII vglII;
-	
+
 	private ScrollPanel cageScrollPanel;
 	private VerticalPanel cagesPanel;
 
@@ -72,10 +72,10 @@ public class JsVGL implements EntryPoint {
 	}
 
 	private void buildMainPanelUI() {
-		
+
 		cagesPanel = new VerticalPanel();
 		cageScrollPanel = new ScrollPanel(cagesPanel);
-		
+
 		clearWorkspaceButton = new Button("Clear Workspace");
 		RootPanel.get("clearWorkspaceButtonContainer").add(clearWorkspaceButton);
 		clearWorkspaceButton.addClickHandler(new ClickHandler() {
@@ -86,7 +86,7 @@ public class JsVGL implements EntryPoint {
 				modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
 			}			
 		});
-		
+
 		newPracticeProblemButton = new Button("New Practice Problem");
 		RootPanel.get("newPracticeProblemButtonContainer").add(newPracticeProblemButton);
 		newPracticeProblemButton.addClickHandler(new ClickHandler() {
@@ -125,7 +125,7 @@ public class JsVGL implements EntryPoint {
 				gradeText.setText(result.gradeXML);
 			}			
 		});
-		
+
 
 		crossButton = new Button("Cross Two");
 		RootPanel.get("crossButtonContainer").add(crossButton);
@@ -135,7 +135,7 @@ public class JsVGL implements EntryPoint {
 				vglII.crossTwo(false);
 			}			
 		});
-		
+
 		setButtonState(false);
 
 		final TabPanel mainPanel = new TabPanel();
@@ -146,7 +146,7 @@ public class JsVGL implements EntryPoint {
 
 		modelBuilderPanel = new SimplePanel();
 		modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
-		mainPanel.add(modelBuilderPanel, "Model Builder");
+		mainPanel.add(modelBuilderPanel, "Genetic Model");
 
 		summaryChartPanel = new FlowPanel();
 		summaryChartPanel.add(new Label("SCUI"));
@@ -178,14 +178,14 @@ public class JsVGL implements EntryPoint {
 		mainPanel.setSize("300px", "250px");
 		mainPanel.addStyleName("table-center");
 		RootPanel.get("mainPanelContainer").add(mainPanel);	
-		
+
 		problemText = new TextArea();
 		problemText.setSize("500px", "300px");
 		RootPanel.get("problemTextContainer").add(problemText);
 		gradeText = new TextArea();
 		gradeText.setSize("500px", "300px");
 		RootPanel.get("gradeTextContainer").add(gradeText);
-		
+
 		cageScrollPanel.setSize("650px", "500px");
 		RootPanel.get("cagesContainer").add(cageScrollPanel);
 	}
@@ -212,9 +212,13 @@ public class JsVGL implements EntryPoint {
 		newGradedProblemButton.setEnabled(!state);
 		openWorkButton.setEnabled(!state);
 		crossButton.setEnabled(state);
-		saveWorkButton.setEnabled(state);
+		if ((vglII.getGeneticModel() != null) && (vglII.getGeneticModel().isBeginnerMode())) {
+			saveWorkButton.setEnabled(false);
+		} else {
+			saveWorkButton.setEnabled(state);
+		}
 	}
-		
+
 	public SimplePanel getModelBuilderPanel() {
 		return modelBuilderPanel;
 	}
@@ -226,11 +230,11 @@ public class JsVGL implements EntryPoint {
 	public Panel getSuperCrossPanel() {
 		return superCrossPanel;
 	}
-	
+
 	public VerticalPanel getCagesPanel() {
 		return cagesPanel;
 	}
-	
+
 	public void scrollCagesToBottom() {
 		cageScrollPanel.scrollToBottom();
 	}
@@ -241,7 +245,7 @@ public class JsVGL implements EntryPoint {
 		gradeText.setText("");
 		setButtonState(false);
 	}
-	
+
 	public int getSuperCrossChoice() {
 		if (superCrossChoices != null) {
 			return Integer.parseInt(superCrossChoices.getValue(superCrossChoices.getSelectedIndex()));

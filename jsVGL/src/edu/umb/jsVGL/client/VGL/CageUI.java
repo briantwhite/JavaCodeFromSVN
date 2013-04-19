@@ -99,26 +99,6 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 	private int maxOrgsInOneRow;
 
 	/**
-	 * Parameter to the set the width of the dialog
-	 */
-	private int dialogWidth;
-
-	/**
-	 * Parameter to the set the height of the dialog
-	 */
-	private int dialogHeight ;
-
-	/**
-	 * Parameter to the set the X-coordinate of the dialog
-	 */
-	private int dialogLocationX;
-
-	/**
-	 * Parameter to the set the Y-coordinate of the dialog
-	 */
-	private int dialogLocationY;
-
-	/**
 	 * The panel that contains all the subpanels.
 	 */
 	private DockPanel superPanel;
@@ -133,11 +113,6 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 	 * image resource
 	 */
 	private UIImageResource uiImageResource;
-
-	/**
-	 * container for the details of the genetic model, if shown
-	 */
-	private HTML textDetails;
 
 	/**
 	 * This variable stores a reference to the hashmap of children associated
@@ -555,51 +530,8 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 			parentInfoPanel.add(new Label("(Cage " + cageId + ") " + phenoName2));
 			captionedParentInfoPanel.add(parentInfoPanel);
 			superPanel.add(captionedParentInfoPanel, DockPanel.NORTH);
-		} else {
-			if (isBeginner) {
-				if (details != null) {
-					SimplePanel bottomPanel = new SimplePanel();
-					textDetails = new HTML("");
-					final ToggleButton showHideDetails = new ToggleButton("Show Genetic Model", "Hide Genetic Model");
-					showHideDetails.setStyleName("jsVGL_ShowGeneticModelButton");
-					HorizontalPanel buttonPanel = new HorizontalPanel();
-					buttonPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-					buttonPanel.add(showHideDetails);
-					ScrollPanel detailsScrollPanel = new ScrollPanel(textDetails);
-					showHideDetails.addClickHandler(new ClickHandler() {
-						public void onClick(ClickEvent event) {
-							if (showHideDetails.isDown()) {
-								showDetails();
-							} else {
-								hideDetails();
-							}
-						}
-					});
-					DockPanel showHidePanel = new DockPanel();
-					showHidePanel.add(buttonPanel, DockPanel.NORTH);
-					showHidePanel.add(detailsScrollPanel, DockPanel.CENTER);
-					bottomPanel.add(showHidePanel);
-					superPanel.add(bottomPanel, DockPanel.SOUTH);
-				}
-			}
-		}
+		} 
 	}
-
-	/**
-	 * This method sets up the Panel that displays the genetics details when the
-	 * toggle button is pressed
-	 */
-	private void showDetails() {
-		textDetails.setHTML(details);
-	}
-
-	/**
-	 * This method hides the panel thats has the genetics information
-	 */
-	private void hideDetails() {
-		textDetails.setHTML("");
-	}
-
 
 	public int getId() {
 		return id;

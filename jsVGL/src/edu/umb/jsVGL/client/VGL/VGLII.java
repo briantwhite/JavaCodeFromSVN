@@ -1,11 +1,11 @@
 package edu.umb.jsVGL.client.VGL;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
 import com.google.gwt.i18n.client.Dictionary;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
@@ -55,16 +55,16 @@ public class VGLII {
 	 * the genetic model for the current problem
 	 */
 	private GeneticModel geneticModel;
-	
+
 	private ModelBuilderUI modelBuilder;
 
 	/**
 	 * reference back to enclosing jsVGL
 	 */
 	private JsVGL jsVGL;
-	
-//	private ModelBuilderUI modelBuilder;
-	
+
+	//	private ModelBuilderUI modelBuilder;
+
 
 	/**
 	 * The collection of Cage UIs associated with the current problem
@@ -89,7 +89,7 @@ public class VGLII {
 	 * this string is its name in the doc
 	 */
 	private Dictionary params;
-	
+
 
 	/**
 	 * The constructor
@@ -101,7 +101,7 @@ public class VGLII {
 		random = new Random();
 		changeSinceLastSave = false;
 	}
-	
+
 	public void resetProblemSpace() {
 		CharacterSpecificationBank.getInstance().refreshAll();
 		geneticModel = null;
@@ -124,19 +124,23 @@ public class VGLII {
 	private void newProblem(boolean practiceMode) {
 		resetProblemSpace();
 		jsVGL.resetUI();
-		
+
 		geneticModel = GeneticModelFactory.getInstance().createRandomModel(params);
 		if (geneticModel == null) return;
 
 		geneticModel.setBeginnerMode(practiceMode);
-		
+
 		Cage fieldPop = geneticModel.generateFieldPopulation();
 		createCageUI(fieldPop, false);
-		
+
 		jsVGL.getModelBuilderPanel().clear();
-		modelBuilder = new ModelBuilderUI(this, geneticModel);
-		jsVGL.getModelBuilderPanel().setWidget(modelBuilder);
-		
+
+		if (practiceMode) {
+			jsVGL.getModelBuilderPanel().setWidget(new HTML(geneticModel.toString()));
+		} else {
+			modelBuilder = new ModelBuilderUI(this, geneticModel);
+			jsVGL.getModelBuilderPanel().setWidget(modelBuilder);
+		}
 		jsVGL.setButtonState(true);
 
 		changeSinceLastSave = true;
@@ -162,12 +166,12 @@ public class VGLII {
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
-		
+
 		modelBuilder = new ModelBuilderUI(this, geneticModel);
 		modelBuilder.configureFromXML(result.getModelBuilderState());
 		jsVGL.getModelBuilderPanel().clear();
 		jsVGL.getModelBuilderPanel().setWidget(modelBuilder);
-		
+
 		jsVGL.setButtonState(true);
 		changeSinceLastSave = false;
 	}
@@ -177,7 +181,7 @@ public class VGLII {
 	 */
 	public SavedProblemStrings saveProblem() {
 		String problemXML = "";
-		
+
 		if (cageCollection != null) {
 
 			try {
@@ -240,8 +244,8 @@ public class VGLII {
 		geneticModel = null;
 		selectionVial = null;
 		nextCageId = 1;
-//		SummaryChartManager.getInstance().clearSelectedSet();
-//		SummaryChartManager.getInstance().hideSummaryChart();
+		//		SummaryChartManager.getInstance().clearSelectedSet();
+		//		SummaryChartManager.getInstance().hideSummaryChart();
 
 		((ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget()).clear();
 	}
@@ -284,13 +288,15 @@ public class VGLII {
 				parentUIs[1].setCentralOrganismUI(organismUI1);
 				parentUIs[0].setCentralOrganismUI(organismUI2);
 			}
-			((ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget()).updateCageChoices(nextCageId);
+			if (!geneticModel.isBeginnerMode()) {
+				((ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget()).updateCageChoices(nextCageId);
+			}
 			changeSinceLastSave = true;
 		} else {
-//			JOptionPane.showMessageDialog(this, "Virtual Genetics Lab\n"
-//					+ "Cross Two cannot be carried out without two organisms\n"
-//					+ "Please select two organisms and try again",
-//					"Cross Two", JOptionPane.ERROR_MESSAGE); 
+			//			JOptionPane.showMessageDialog(this, "Virtual Genetics Lab\n"
+			//					+ "Cross Two cannot be carried out without two organisms\n"
+			//					+ "Please select two organisms and try again",
+			//					"Cross Two", JOptionPane.ERROR_MESSAGE); 
 		}
 	}
 
@@ -397,7 +403,7 @@ public class VGLII {
 					System.out.println("For parents of Cage #: " + c.getId()); 
 					if (cage1 == null)
 						System.out.println("Cage for organism " + o1.getId() + " " + o1.getCageId() + " not found!");
-						System.out.println("Cage for organism " + o2.getId() + " " + o2.getCageId() + " not found!"); 
+					System.out.println("Cage for organism " + o2.getId() + " " + o2.getCageId() + " not found!"); 
 				}
 			}
 		}

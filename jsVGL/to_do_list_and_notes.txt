@@ -161,11 +161,3 @@ function ChiSq(x,n) {
         }
     }
  
-4/15/13
-to go to non-popup cages
-	- color field pop cage differently
-	- after adding cage - scrollToBottom
-	
-call "model builder" tab "genetic model"
-	in practice mode, it shows the model (no model builder)
-	in reg mode, it is model builder

@@ -1,13 +1,4 @@
 /** Add css rules here for your application. */
-.jsVGL_TopRight {
-	float: left;
-	margin-top: -25px;
-	margin-left: -10px;
-	width: 16px;
-	height: 16px;
-	display: block;
-}
-
 .jsVGL_OrganismUI {
 	border: none;
 	width: 17px;
@@ -79,11 +70,6 @@
 	text-align: center;
 }
 
-.jsVGL_ShowGeneticModelButton {
-	color: black;
-	background: #FFFF80;
-	font-size: 10px;	
-}
 
 /** settings for ModelBuilder */
 
