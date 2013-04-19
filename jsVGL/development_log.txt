@@ -176,7 +176,7 @@ just make the xml tags smaller for organisms
 	Organism = "O"
 		id = "i"
 		CageId = "c"
-		male = "M" and just use present or absent (Element.hasAttribute("M"))
+		male = use "S" = "M" (male) or "F" (female)
 	Chromosome = "C"
 		id = "PA", "MA", "PS", "MS"
 		size = "s"

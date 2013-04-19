@@ -232,11 +232,15 @@ public class Organism {
 	 */
 	public Element save() throws Exception {
 		Document d = XMLParser.createDocument();
-		Element orga = d.createElement("Organism");
-		orga.setAttribute("Id", String.valueOf(id));
-		orga.setAttribute("CageId", String.valueOf(cageId));
+		Element orga = d.createElement("O");
+		orga.setAttribute("i", String.valueOf(id));
+		orga.setAttribute("c", String.valueOf(cageId));
 
-		orga.setAttribute("Male", String.valueOf(male));
+		if (male) {
+			orga.setAttribute("S", "M");
+		} else {
+			orga.setAttribute("S", "F");
+		}
 		orga.appendChild(maternalAutosome.save("MaternalAutosome"));
 		orga.appendChild(paternalAutosome.save("PaternalAutosome"));
 		orga.appendChild(maternalSexChromosome.save("MaternalSexChromosome"));

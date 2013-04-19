@@ -32,7 +32,9 @@ public class OrganismFactory {
 		Chromosome maternalSexChromosome = null;
 		Chromosome paternalSexChromosome = null;
 
-		boolean male = e.hasAttribute("M");
+		boolean male = true;
+		if (e.getAttribute("S").equals("F")) male = false;
+		
 		int id = Integer.parseInt(e.getAttribute("i"));
 		NodeList chromoNodes = e.getChildNodes();
 		for (int i = 0; i < chromoNodes.getLength(); i++) {
