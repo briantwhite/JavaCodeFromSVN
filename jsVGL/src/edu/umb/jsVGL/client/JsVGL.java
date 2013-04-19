@@ -92,6 +92,7 @@ public class JsVGL implements EntryPoint {
 		newPracticeProblemButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				vglII.newPracticeProblem();
+				saveWorkButton.setEnabled(false);
 			}			
 		});
 
@@ -100,6 +101,7 @@ public class JsVGL implements EntryPoint {
 		newGradedProblemButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				vglII.newGradedProblem();
+				saveWorkButton.setEnabled(true);
 			}			
 		});
 
@@ -110,6 +112,7 @@ public class JsVGL implements EntryPoint {
 				gradeText.setText("");
 				String problemXML = problemText.getText();
 				vglII.openProblem(problemXML);
+				saveWorkButton.setEnabled(true);
 			}			
 		});
 
@@ -172,7 +175,7 @@ public class JsVGL implements EntryPoint {
 		}
 
 		mainPanel.selectTab(0);
-		mainPanel.setSize("500px", "250px");
+		mainPanel.setSize("300px", "250px");
 		mainPanel.addStyleName("table-center");
 		RootPanel.get("mainPanelContainer").add(mainPanel);	
 		
@@ -183,7 +186,7 @@ public class JsVGL implements EntryPoint {
 		gradeText.setSize("500px", "300px");
 		RootPanel.get("gradeTextContainer").add(gradeText);
 		
-		cageScrollPanel.setSize("500px", "500px");
+		cageScrollPanel.setSize("650px", "500px");
 		RootPanel.get("cagesContainer").add(cageScrollPanel);
 	}
 

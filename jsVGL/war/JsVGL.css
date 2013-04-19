@@ -17,7 +17,40 @@
 .jsVGL_CageUI {
 	border-style: solid;
 	border-width: 2px;
-	background: white;
+	border-color: #3F5D89;
+	color: #3F5D89;
+	background: #e0e0e0;
+}
+
+.jsVGL_FieldPopDetailsPanel {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #497574;
+	background: #d0d0d0;
+	color: #497574;
+}
+
+.jsVGL_RegularDetailsPanel {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #a1ad2a;
+	color: #a1ad2a;
+	background: #d0d0d0;
+}
+
+.jsVGL_ParentInfoPanel {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #845589;
+	background: #f0f0f0;
+	color: #845589;
+	
+}
+
+.jsVGL_CageInfoSubPanels {
+	color: black;
+	background: #f8f8f8;
+	
 }
 
 .jsVGL_CountLabel {

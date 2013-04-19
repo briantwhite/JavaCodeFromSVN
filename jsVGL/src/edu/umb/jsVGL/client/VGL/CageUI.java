@@ -233,9 +233,6 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 			int numberOfTraits,
 			int[] scrambledTraitOrder) {
 
-		//initialize parent
-//		super(false);
-//		setModal(false);
 		super("Cage " + (cage.getId() + 1));
 		setStyleName("jsVGL_CageUI");
 		
@@ -314,17 +311,21 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 		if (id > 1) {
 			captionedDetailsPanel = new CaptionPanel("Offspring");
 			captionedDetailsPanel.add(detailsPanel);
+			captionedDetailsPanel.setStyleName("jsVGL_RegularDetailsPanel");
 		} else {
 			captionedDetailsPanel = new CaptionPanel("Organisms Collected From the Wild");
 			captionedDetailsPanel.add(detailsPanel);
+			captionedDetailsPanel.setStyleName("jsVGL_FieldPopDetailsPanel");
 		}
 		HorizontalPanel individualPanel = new HorizontalPanel();
 
 		CaptionPanel captionedOrganismPanel = new CaptionPanel("Organisms");
+		captionedOrganismPanel.setStyleName("jsVGL_CageInfoSubPanels");
 		VerticalPanel organismsPanel = new VerticalPanel();
 		captionedOrganismPanel.add(organismsPanel);
 
 		CaptionPanel captionedCountsPanel = new CaptionPanel("Counts");
+		captionedCountsPanel.setStyleName("jsVGL_CageInfoSubPanels");
 		VerticalPanel countsPanel = new VerticalPanel();
 		captionedCountsPanel.add(countsPanel);
 
@@ -339,6 +340,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 		for (int i = 0; i < numberOfTraits; i++) {
 			traitPanels[i] = new VerticalPanel();
 			captionedTraitPanels[i] = new CaptionPanel(phenotypes.get(scrambledTraitOrder[i]).getTrait().getBodyPart());
+			captionedTraitPanels[i].setStyleName("jsVGL_CageInfoSubPanels");
 			captionedTraitPanels[i].add(traitPanels[i]);
 		}
 
@@ -378,6 +380,8 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 		} else {
 			if (isBeginner) {
 				superPanel.add(captionedDetailsPanel, DockPanel.NORTH);
+			} else {
+				superPanel.add(captionedDetailsPanel, DockPanel.CENTER);
 			}
 		}
 	}
@@ -531,6 +535,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 	private void setupParentInfoPanel() {
 		if (id > 1) {
 			CaptionPanel captionedParentInfoPanel = new CaptionPanel("Parents");
+			captionedParentInfoPanel.setStyleName("jsVGL_ParentInfoPanel");
 			HorizontalPanel parentInfoPanel = new HorizontalPanel();
 			parentOrganismUIs = new OrganismUI[2];
 			Organism o1 = parents.get(0);
