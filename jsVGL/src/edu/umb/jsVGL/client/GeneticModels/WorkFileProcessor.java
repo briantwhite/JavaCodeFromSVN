@@ -205,6 +205,13 @@ public class WorkFileProcessor {
 		Cage cage = new Cage(cageId);
 
 		cage.setSuper(Boolean.parseBoolean(e.getAttribute("SuperCross")));
+		
+		/*
+		 * if we're loading a supercross, it has already been "trimmed"
+		 * 	(only save the visible organisms)
+		 *  need to mark this for display properly
+		 */
+		cage.setAlreadyBeenTrimmed(cage.isSuperCross());
 
 		NodeList contentNodes = e.getChildNodes();
 		for (int i = 0; i < contentNodes.getLength(); i++) {

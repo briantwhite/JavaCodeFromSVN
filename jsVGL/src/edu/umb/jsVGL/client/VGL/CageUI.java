@@ -56,7 +56,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 	private static String OFFSPRING_COLOR = "#0x007FFF";
 
 	private VGLII vglII;
-	
+
 	/**
 	 * sets an upper bound so the cages (esp the Super Cross)
 	 *  don't get too big
@@ -211,7 +211,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 		super("Cage " + (cage.getId() + 1));
 		setStyleName("jsVGL_CageUI");
-		
+
 		uiImageResource = GWT.create(UIImageResource.class);
 
 		this.vglII = vglII;
@@ -381,41 +381,78 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 		//lay out two neat rows of OrganismUIs
 		if (isSuperCross) {
-			
-			// first, mark all as hidden; then mark only the visible ones
-			while (it.hasNext()) {
-				Organism o = (Organism) it.next();
-				o.setVisibleInCage(false);
-			}
-			it = childrenSortedByPhenotype[number].iterator();
-			
-			// if super cross, need a row of males and a row of females
-			int i = 0;
-			while (it.hasNext() && (i < (2 * absoluteMaxOrgsPerRow))) {
-				Organism o = (Organism) it.next();
-				// first, a row of males (or females, if there are no males)
-				if (i < absoluteMaxOrgsPerRow) {
-					topRowOfOrganismUIs[i] = new OrganismUI(o, false, isBeginner, vial);
-					topRowOfOrganismsPanel.add(topRowOfOrganismUIs[i]);
-					i++;
-				} else {
-					// second row:
-					// then see if there are any females
-					//   if so, then make a row of females
-					//   if not, make another row of males
-					if ((childrenSortedByPhenotype[number].getNumberOfFemales() > 0) 
-							&& (it.hasNext())) {
-						// run thru the remaining males
-						while (((Organism)it.next()).getSexString().equals("Male")) {}
-					} 
-					bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow] = 
-							new OrganismUI(o, false, isBeginner, vial);
-					bottomRowOfOrganismsPanel.add(
-							bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow]);
-					i++;
+
+			if (cage.isAlreadyBeenTrimmed()) {
+				/*
+				 * here, the cage has been trimmed, so display it like a normal
+				 * cage EXCEPT that use absoluteMaxOrgsPerRow not maxOrgsPerRow
+				 */
+				int count = 0;
+				int i = 0;
+				int j = 0;
+				while (it.hasNext()) {
+					Organism o1 = (Organism) it.next();
+					count++;
+					if (count <= absoluteMaxOrgsPerRow) {
+						topRowOfOrganismUIs[i] = new OrganismUI(o1, false, isBeginner,
+								vial);
+						topRowOfOrganismsPanel.add(topRowOfOrganismUIs[i]);
+						i++;
+					} else {
+						bottomRowOFOrganismUIs[j] = new OrganismUI(o1, false, isBeginner,
+								vial);
+						bottomRowOfOrganismsPanel.add(bottomRowOFOrganismUIs[j]);
+						j++;
+					}
+					o1.setVisibleInCage(true);
 				}
-				// mark only the visible ones
-				o.setVisibleInCage(true);
+			} else {
+				/*
+				 * this is the first time the super cross has been seen,
+				 * 	so need to "trim" to save only the visible organisms
+				 *  (that way, the saved XML is MUCH smaller)
+				 *  
+				 * there's a boolean for each organism: isVisibleInCage to mark this
+				 *  
+				 */
+				
+				// first, mark all as hidden; then mark only the visible ones
+				while (it.hasNext()) {
+					Organism o = (Organism) it.next();
+					o.setVisibleInCage(false);
+				}
+				it = childrenSortedByPhenotype[number].iterator();
+
+				// if super cross, need a row of males and a row of females
+				int i = 0;
+				while (it.hasNext() && (i < (2 * absoluteMaxOrgsPerRow))) {
+					Organism o = (Organism) it.next();
+					// first, a row of males (or females, if there are no males)
+					if (i < absoluteMaxOrgsPerRow) {
+						topRowOfOrganismUIs[i] = new OrganismUI(o, false, isBeginner, vial);
+						topRowOfOrganismsPanel.add(topRowOfOrganismUIs[i]);
+						o.setVisibleInCage(true);
+						i++;
+					} else {
+						// second row:
+						// then see if there are any females
+						//   if so, then make a row of females
+						//   if not, make another row of males
+						if ((childrenSortedByPhenotype[number].getNumberOfFemales() > 0) 
+								&& (it.hasNext())) {
+							// run thru the remaining males
+							while (((Organism)it.next()).getSexString().equals("Male")) {}
+						} 
+						// get next org
+						o = (Organism) it.next();
+						bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow] = 
+								new OrganismUI(o, false, isBeginner, vial);
+						bottomRowOfOrganismsPanel.add(
+								bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow]);
+						o.setVisibleInCage(true);
+						i++;
+					}
+				}
 			}
 		} else {
 			int count = 0;
@@ -471,11 +508,11 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 		/*
 		 * if it's a regular cross - get the counts from the cage's list of organsims
 		 * if it's a supercross - get the counts that were saved with it
-		 * 	UNLESS it's an new supercross, in that case the saved counts aren't there
+		 * 	UNLESS it's an new (therefore untrimmed) supercross, in that case the saved counts aren't there
 		 * 		so use cages' organism lists
 		 */
 		int numberOfMales = 0;
-		if (isSuperCross && (cage.getPhenotypeCounts(phenotypeNames[number]) != null)) {
+		if (isSuperCross && (cage.isAlreadyBeenTrimmed())) {
 			numberOfMales = cage.getPhenotypeCounts(phenotypeNames[number]).getMales();
 		} else {
 			numberOfMales = childrenSortedByPhenotype[number].getNumberOfMales();
@@ -486,7 +523,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 		Label maleCountLabel = new Label(mCount);
 
 		int numberOfFemales = 0;
-		if (isSuperCross && (cage.getPhenotypeCounts(phenotypeNames[number]) != null)) {
+		if (isSuperCross && (cage.isAlreadyBeenTrimmed())) {
 			numberOfFemales = cage.getPhenotypeCounts(phenotypeNames[number]).getFemales();
 		} else {
 			numberOfFemales = childrenSortedByPhenotype[number].getNumberOfFemales();

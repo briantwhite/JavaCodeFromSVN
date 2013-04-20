@@ -230,4 +230,16 @@ almost working - two bugs
 	- on re-reopen from intermediate save, there's an error missing parent.
 	(probably related)
 
+4/20/13
+	- problem is, on save of already processed super cross cage, the code that finds a subset of orgs to display
+		loses some because it expects a huge number, so not showing them all is ok
+	solution: add boolean alreadyBeenTrimmed (set on loading a supercross from xml) => means:
+		- should lay out orgs like regular cross
+		- display counts using saved data not counts of organisms saved
+took a little doing
+	- layout is not exactly the same as regular
+	- need to be careful about saving actual counts in super cross vs saved counts
+WORKING!
+
+
 	

@@ -49,6 +49,13 @@ public class Cage {
 	private Date creationDate;
 
 	private boolean isSuperCross;
+	/*
+	 * for supercross only
+	 * alreadyBeenTrimmed (set on loading a supercross from xml) => means:
+	 *	- should lay out orgs ~like regular cross
+	 *	- display counts using saved data not counts of organisms saved
+	 */
+	private boolean alreadyBeenTrimmed; 
 	private TreeMap<String, MFTotCounts> phenotypeCounts;	// only for supercross since we only keep some of the orgs
 
 	// variables to save in work files
@@ -83,6 +90,7 @@ public class Cage {
 		creationDate = new Date();
 		this.isSuperCross = isSuper;
 		phenotypeCounts = new TreeMap<String, MFTotCounts>();
+		alreadyBeenTrimmed = false;
 	}
 
 	public void setCageUI(CageUI cageUI) {
@@ -101,11 +109,19 @@ public class Cage {
 	public boolean isSuperCross() {
 		return isSuperCross;
 	}
-	
+
+	public void setAlreadyBeenTrimmed(boolean b) {
+		alreadyBeenTrimmed = b;
+	}
+
+	public boolean isAlreadyBeenTrimmed() {
+		return alreadyBeenTrimmed;
+	}
+
 	public void addToPhenotypeCounts(String pheno, MFTotCounts counts) {
 		phenotypeCounts.put(pheno, counts);
 	}
-	
+
 	public MFTotCounts getPhenotypeCounts(String pheno) {
 		return phenotypeCounts.get(pheno);
 	}
@@ -268,8 +284,12 @@ public class Cage {
 			}
 		}
 		ec.appendChild(echildren);
-		
-		// if supercross, need to save count info for each pheno
+
+		/*
+		 * if supercross, need to save count info for each pheno
+		 * 	on the first save when phenotypeCounts is empty - use actual counts
+		 *  after that, when phenotypeCounts is full - use the values in phenotypeCounts
+		 */
 		if (isSuperCross) {
 			Iterator<String> phenos = children.keySet().iterator();
 			while (phenos.hasNext()) {
@@ -277,8 +297,13 @@ public class Cage {
 				OrganismList ol = children.get(pheno);
 				Element pEl = dc.createElement("PhenoCountData");
 				pEl.setAttribute("Pheno", pheno);
-				pEl.setAttribute("Ms", String.valueOf(ol.getNumberOfMales()));
-				pEl.setAttribute("Fs", String.valueOf(ol.getNumberOfFemales()));
+				if (phenotypeCounts.containsKey(pheno)) {
+					pEl.setAttribute("Ms", String.valueOf(phenotypeCounts.get(pheno).getMales()));
+					pEl.setAttribute("Fs", String.valueOf(phenotypeCounts.get(pheno).getFemales()));
+				} else {
+					pEl.setAttribute("Ms", String.valueOf(ol.getNumberOfMales()));
+					pEl.setAttribute("Fs", String.valueOf(ol.getNumberOfFemales()));
+				}
 				ec.appendChild(pEl);
 			}
 		}
