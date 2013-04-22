@@ -1,12 +1,36 @@
 /** Add css rules here for your application. */
+
+/** front panel items */
+.jsVGL_Button {
+	padding: 5px;
+	border: 1px solid #000000;
+	text-decoration: none;
+	background-color: #f0f0f0;
+}
+
+.jsVGL_Button:hover:enabled {
+	background-color: #d0d0d0;
+}
+
+.jsVGL_CrossButton {
+	
+}
+
+.jsVGL_CrossButton:enabled {
+	
+}
+
+.jsVGL_CagePanel {
+	
+}
+
+/** settings for Organisms and Cages */
 .jsVGL_OrganismUI {
 	border: none;
 	width: 17px;
 	height: 17px;
 }
 
-
-/** settings for Cage UI */
 .jsVGL_CageUI {
 	border-style: solid;
 	border-width: 2px;

@@ -1,13 +1,12 @@
 package edu.umb.jsVGL.client;
 
-import java.io.UnsupportedEncodingException;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -21,7 +20,6 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsVGL.client.VGL.SavedProblemStrings;
-import edu.umb.jsVGL.client.VGL.StringCompressionUtils;
 import edu.umb.jsVGL.client.VGL.VGLII;
 import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
 
@@ -68,15 +66,13 @@ public class JsVGL implements EntryPoint {
 		uiImageResource = GWT.create(UIImageResource.class);
 		Dictionary params = Dictionary.getDictionary("Params");
 		vglII = new VGLII(params, this);
-		buildMainPanelUI();
+		buildMainPanelUI(params);
 	}
 
-	private void buildMainPanelUI() {
-
-		cagesPanel = new VerticalPanel();
-		cageScrollPanel = new ScrollPanel(cagesPanel);
+	private void buildMainPanelUI(Dictionary params) {
 
 		clearWorkspaceButton = new Button("Clear Workspace");
+		clearWorkspaceButton.setStyleName("jsVGL_Button");
 		RootPanel.get("clearWorkspaceButtonContainer").add(clearWorkspaceButton);
 		clearWorkspaceButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -88,6 +84,7 @@ public class JsVGL implements EntryPoint {
 		});
 
 		newPracticeProblemButton = new Button("New Practice Problem");
+		newPracticeProblemButton.setStyleName("jsVGL_Button");
 		RootPanel.get("newPracticeProblemButtonContainer").add(newPracticeProblemButton);
 		newPracticeProblemButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -97,6 +94,7 @@ public class JsVGL implements EntryPoint {
 		});
 
 		newGradedProblemButton = new Button("New Graded Problem");
+		newGradedProblemButton.setStyleName("jsVGL_Button");
 		RootPanel.get("newGradedProblemButtonContainer").add(newGradedProblemButton);
 		newGradedProblemButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -106,6 +104,7 @@ public class JsVGL implements EntryPoint {
 		});
 
 		openWorkButton = new Button("Open Work");
+		openWorkButton.setStyleName("jsVGL_Button");
 		RootPanel.get("openWorkButtonContainer").add(openWorkButton);
 		openWorkButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -117,6 +116,7 @@ public class JsVGL implements EntryPoint {
 		});
 
 		saveWorkButton = new Button("Save Work");
+		saveWorkButton.setStyleName("jsVGL_Button");
 		RootPanel.get("saveWorkButtonConatiner").add(saveWorkButton);
 		saveWorkButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -128,6 +128,7 @@ public class JsVGL implements EntryPoint {
 
 
 		crossButton = new Button("Cross Two");
+		crossButton.setStyleName("jsVGL_CrossButton");
 		RootPanel.get("crossButtonContainer").add(crossButton);
 		crossButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -147,36 +148,31 @@ public class JsVGL implements EntryPoint {
 		modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
 		mainPanel.add(modelBuilderPanel, "Genetic Model");
 
-		summaryChartPanel = new FlowPanel();
-		summaryChartPanel.add(new Label("SCUI"));
-		mainPanel.add(summaryChartPanel, "Summary Chart");
+		if (params.keySet().contains("SuperCrossEnabled") && Boolean.parseBoolean(params.get("SuperCrossEnabled"))) {
+			superCrossPanel = new FlowPanel();
+			superCrossPanel.add(new HTML(
+					"<h3>Super Cross</h3>"
+							+ "This carries out a cross with a large number of offpspring.<br>"
+							+ "It is useful for getting recombination frequency data.<br>"
+							+"Choose the desired number of offspring from the list below:<br>"));
+			superCrossChoices = new ListBox();
+			superCrossChoices.addItem("100");
+			superCrossChoices.addItem("200");
+			superCrossChoices.addItem("500");
+			superCrossChoices.addItem("1000");
+			superCrossChoices.addItem("2000");
+			superCrossChoices.setVisibleItemCount(1);
+			superCrossPanel.add(superCrossChoices);
+			superCrossButton = new Button("Super Cross");
+			superCrossPanel.add(superCrossButton);
+			superCrossButton.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					vglII.crossTwo(true);
+				}			
+			});
 
-		superCrossPanel = new FlowPanel();
-		superCrossPanel.add(new HTML(
-				"<h3>Super Cross</h3>"
-						+ "This carries out a cross with a large number of offpspring.<br>"
-						+ "It is useful for getting recombination frequency data.<br>"
-						+ "WARNING: it produces large files which are slow to save,<br>"
-						+ "so it should be used sparingly.<br>"
-						+"Choose the desired number of offspring from the list below:<br>"));
-		superCrossChoices = new ListBox();
-		superCrossChoices.addItem("100");
-		superCrossChoices.addItem("200");
-		superCrossChoices.addItem("500");
-		superCrossChoices.addItem("1000");
-		superCrossChoices.addItem("2000");
-		superCrossChoices.setVisibleItemCount(1);
-		superCrossPanel.add(superCrossChoices);
-		superCrossButton = new Button("Super Cross");
-		superCrossPanel.add(superCrossButton);
-		superCrossButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				vglII.crossTwo(true);
-			}			
-		});
-
-		mainPanel.add(superCrossPanel, "Super Cross");
-
+			mainPanel.add(superCrossPanel, "Super Cross");
+		}
 
 		mainPanel.selectTab(0);
 		mainPanel.setSize("300px", "250px");
@@ -190,8 +186,13 @@ public class JsVGL implements EntryPoint {
 		gradeText.setSize("500px", "300px");
 		RootPanel.get("gradeTextContainer").add(gradeText);
 
+		cagesPanel = new VerticalPanel();
+		cageScrollPanel = new ScrollPanel(cagesPanel);
 		cageScrollPanel.setSize("650px", "500px");
-		RootPanel.get("cagesContainer").add(cageScrollPanel);
+		CaptionPanel captionedCageScrollPanel = new CaptionPanel("Cages with Organisms for crossing");
+		captionedCageScrollPanel.add(cageScrollPanel);
+		captionedCageScrollPanel.setStyleName("jsVGL_CagePanel");
+		RootPanel.get("cagesContainer").add(captionedCageScrollPanel);
 	}
 
 	/*

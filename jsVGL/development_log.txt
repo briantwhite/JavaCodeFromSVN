@@ -241,5 +241,8 @@ took a little doing
 	- need to be careful about saving actual counts in super cross vs saved counts
 WORKING!
 
+4/22/13
+problem with super cross display 
+	if only one row of offspring, need to add spacer row just in case
 
 	
