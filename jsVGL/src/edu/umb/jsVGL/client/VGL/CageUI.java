@@ -406,6 +406,22 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 					}
 					o1.setVisibleInCage(true);
 				}
+				SimplePanel filler = new SimplePanel();
+				filler.setWidth("15px");
+				filler.setHeight("15px");
+				if (i < absoluteMaxOrgsPerRow) {
+					while (i < absoluteMaxOrgsPerRow) {
+						topRowOfOrganismsPanel.add(filler);
+						i++;
+					}
+				}
+				if (j < absoluteMaxOrgsPerRow) {
+					while (j < absoluteMaxOrgsPerRow) {
+						bottomRowOfOrganismsPanel.add(filler);
+						j++;
+					}
+				}
+
 			} else {
 				/*
 				 * this is the first time the super cross has been seen,
@@ -415,7 +431,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 				 * there's a boolean for each organism: isVisibleInCage to mark this
 				 *  
 				 */
-				
+
 				// first, mark all as hidden; then mark only the visible ones
 				while (it.hasNext()) {
 					Organism o = (Organism) it.next();
@@ -444,13 +460,15 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 							while (((Organism)it.next()).getSexString().equals("Male")) {}
 						} 
 						// get next org
-						o = (Organism) it.next();
-						bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow] = 
-								new OrganismUI(o, false, isBeginner, vial);
-						bottomRowOfOrganismsPanel.add(
-								bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow]);
-						o.setVisibleInCage(true);
-						i++;
+						if (it.hasNext()) {
+							o = (Organism) it.next();
+							bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow] = 
+									new OrganismUI(o, false, isBeginner, vial);
+							bottomRowOfOrganismsPanel.add(
+									bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow]);
+							o.setVisibleInCage(true);
+							i++;
+						}
 					}
 				}
 			}
@@ -494,6 +512,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 		organismPanel.setStyleName("jsVGL_OrganismRowPanel");
 		organismPanel.add(topRowOfOrganismsPanel);
 		organismPanel.add(bottomRowOfOrganismsPanel);
+		organismPanel.setHeight("39px");
 
 		VerticalPanel countPanel = new VerticalPanel();
 		countPanel.setStyleName("jsVGL_CountRowPanel");
