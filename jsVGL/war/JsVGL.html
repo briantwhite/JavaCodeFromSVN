@@ -49,12 +49,12 @@
       			<tr>
       				<td id="newPracticeProblemButtonContainer"></td>
       				<td id="newGradedProblemButtonContainer"></td>
+      				<td id="clearWorkspaceButtonContainer"></td>
       				<td></td>
       			</tr>
       			<tr>
-      				<td id="clearWorkspaceButtonContainer"></td>
-      				<td id="openWorkButtonContainer"></td>
-      				<td id="saveWorkButtonConatiner"></td>
+      				<td><button onClick="jsvgl.getStateXML();">Save</button></td>
+      				<td></td>
       			</tr>
       		</table>
       	</td>
@@ -64,9 +64,16 @@
         <td id="mainPanelContainer"></td>
         <td id="cagesContainer"></td>
      </tr>
+    </table>
+    <hr>
+    <table border="1">
       <tr>
-        <td id="problemTextContainer"></td>
-        <td id="gradeTextContainer"></td>
+      	<th>State info</th>
+      	<th>Grade info</th>
+      </tr>
+      <tr>
+        <td><textarea rows="20" cols="30" name="state"></textarea></td>
+        <td><textarea rows="20" cols="30" name="grade"></textarea></td>
       </tr>
     </table>
   </body>

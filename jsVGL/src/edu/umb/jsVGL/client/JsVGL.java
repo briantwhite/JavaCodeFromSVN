@@ -38,32 +38,23 @@ public class JsVGL implements EntryPoint {
 	private Button clearWorkspaceButton = null;
 	private Button newPracticeProblemButton = null;
 	private Button newGradedProblemButton = null;
-	private Button openWorkButton = null;
-	private Button saveWorkButton = null;
 	private Button crossButton = null;
 	private Button superCrossButton = null;
 
 	private ListBox superCrossChoices = null;
 
 	private SimplePanel modelBuilderPanel = null;
-	private FlowPanel summaryChartPanel = null;
 	private FlowPanel superCrossPanel = null;
-
-	private UIImageResource uiImageResource;
 
 	private VGLII vglII;
 
 	private ScrollPanel cageScrollPanel;
 	private VerticalPanel cagesPanel;
 
-	private TextArea problemText;
-	private TextArea gradeText;
-
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		uiImageResource = GWT.create(UIImageResource.class);
 		Dictionary params = Dictionary.getDictionary("Params");
 		vglII = new VGLII(params, this);
 		buildMainPanelUI(params);
@@ -89,7 +80,6 @@ public class JsVGL implements EntryPoint {
 		newPracticeProblemButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				vglII.newPracticeProblem();
-				saveWorkButton.setEnabled(false);
 			}			
 		});
 
@@ -99,33 +89,8 @@ public class JsVGL implements EntryPoint {
 		newGradedProblemButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				vglII.newGradedProblem();
-				saveWorkButton.setEnabled(true);
 			}			
 		});
-
-		openWorkButton = new Button("Open Work");
-		openWorkButton.setStyleName("jsVGL_Button");
-		RootPanel.get("openWorkButtonContainer").add(openWorkButton);
-		openWorkButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				gradeText.setText("");
-				String problemXML = problemText.getText();
-				vglII.openProblem(problemXML);
-				saveWorkButton.setEnabled(true);
-			}			
-		});
-
-		saveWorkButton = new Button("Save Work");
-		saveWorkButton.setStyleName("jsVGL_Button");
-		RootPanel.get("saveWorkButtonConatiner").add(saveWorkButton);
-		saveWorkButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				SavedProblemStrings result = vglII.saveProblem();
-				problemText.setText(result.problemXML);
-				gradeText.setText(result.gradeXML);
-			}			
-		});
-
 
 		crossButton = new Button("Cross Two");
 		crossButton.setStyleName("jsVGL_CrossButton");
@@ -179,13 +144,6 @@ public class JsVGL implements EntryPoint {
 		mainPanel.addStyleName("table-center");
 		RootPanel.get("mainPanelContainer").add(mainPanel);	
 
-		problemText = new TextArea();
-		problemText.setSize("500px", "300px");
-		RootPanel.get("problemTextContainer").add(problemText);
-		gradeText = new TextArea();
-		gradeText.setSize("500px", "300px");
-		RootPanel.get("gradeTextContainer").add(gradeText);
-
 		cagesPanel = new VerticalPanel();
 		cageScrollPanel = new ScrollPanel(cagesPanel);
 		cageScrollPanel.setSize("650px", "500px");
@@ -193,6 +151,21 @@ public class JsVGL implements EntryPoint {
 		captionedCageScrollPanel.add(cageScrollPanel);
 		captionedCageScrollPanel.setStyleName("jsVGL_CagePanel");
 		RootPanel.get("cagesContainer").add(captionedCageScrollPanel);
+	}
+	
+	/*
+	 * methods for interfacing with LMS
+	 */
+	public String getStateXML() {
+		return vglII.saveProblem().problemXML;
+	}
+	
+	public void setStateXML(String state) {
+		vglII.openProblem(state);
+	}
+	
+	public String getGradeXML() {
+		return vglII.saveProblem().gradeXML;
 	}
 
 	/*
@@ -215,21 +188,11 @@ public class JsVGL implements EntryPoint {
 		clearWorkspaceButton.setEnabled(state);
 		newPracticeProblemButton.setEnabled(!state);
 		newGradedProblemButton.setEnabled(!state);
-		openWorkButton.setEnabled(!state);
 		crossButton.setEnabled(state);
-		if ((vglII.getGeneticModel() != null) && (vglII.getGeneticModel().isBeginnerMode())) {
-			saveWorkButton.setEnabled(false);
-		} else {
-			saveWorkButton.setEnabled(state);
-		}
 	}
 
 	public SimplePanel getModelBuilderPanel() {
 		return modelBuilderPanel;
-	}
-
-	public Panel getSummaryChartPanel() {
-		return summaryChartPanel;
 	}
 
 	public Panel getSuperCrossPanel() {
@@ -246,8 +209,6 @@ public class JsVGL implements EntryPoint {
 
 	public void resetUI() {
 		cagesPanel.clear();
-		problemText.setText("");
-		gradeText.setText("");
 		setButtonState(false);
 	}
 
