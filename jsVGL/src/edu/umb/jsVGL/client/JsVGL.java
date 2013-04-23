@@ -46,7 +46,7 @@ public class JsVGL implements EntryPoint {
 	private SimplePanel modelBuilderPanel = null;
 	private FlowPanel superCrossPanel = null;
 
-	private static VGLII vglII;
+	private VGLII vglII;
 
 	private ScrollPanel cageScrollPanel;
 	private VerticalPanel cagesPanel;
@@ -58,7 +58,7 @@ public class JsVGL implements EntryPoint {
 		Dictionary params = Dictionary.getDictionary("Params");
 		vglII = new VGLII(params, this);
 		buildMainPanelUI(params);
-		exportStaticMethods();
+		exportStaticMethods(this);
 	}
 
 	private void buildMainPanelUI(Dictionary params) {
@@ -158,21 +158,22 @@ public class JsVGL implements EntryPoint {
 	 * methods for interfacing with LMS
 	 */
 	
-	public native void exportStaticMethods() /*-{
-		$wnd.getStateXML = $entry(@edu.umb.jsVGL.client.JsVGL::getStateXML());
-		$wnd.setStateXML = $entry(@edu.umb.jsVGL.client.JsVGL::setStateXML(Ljava/lang/String;));
-		$wnd.getGradeXML = $entry(@edu.umb.jsVGL.client.JsVGL::getGradeXML());
+	public native void exportStaticMethods(JsVGL jsvgl) /*-{
+		$wnd.getStateXML = $entry(function() {return jsvgl.@edu.umb.jsVGL.client.JsVGL::getStateXML()();});
+		$wnd.setStateXML = $entry(function(xmlString) {return jsvgl.@edu.umb.jsVGL.client.JsVGL::setStateXML(Ljava/lang/String;)(xmlString);});
+		$wnd.getGradeXML = $entry(function() {return jsvgl.@edu.umb.jsVGL.client.JsVGL::getGradeXML()();});
 	}-*/;
 	
-	public static String getStateXML() {
+	public String getStateXML() {
 		return vglII.saveProblem().problemXML;
 	}
 	
-	public static void setStateXML(String state) {
+	public void setStateXML(String state) {
+		resetUI();
 		vglII.openProblem(state);
 	}
 	
-	public static String getGradeXML() {
+	public String getGradeXML() {
 		return vglII.saveProblem().gradeXML;
 	}
 

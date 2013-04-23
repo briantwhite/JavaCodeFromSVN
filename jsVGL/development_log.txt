@@ -251,4 +251,7 @@ need to export public methods for access from javascript in page
 	https://developers.google.com/web-toolkit/doc/latest/DevGuideCodingBasicsJSNI
 got it going
 
+some bugs
+- sex linkage not grading right
+- linkage panel is ugly
 	

@@ -20,11 +20,6 @@ import edu.umb.jsVGL.client.GeneticModels.ProblemTypeSpecification;
 
 public class ModelPane extends AbsolutePanel implements ChangeHandler {
 
-	/*
-	 *  color for list items where the student didn't have 
-	 *    a choice - so don't grade
-	 */
-	private static final String NOT_A_CHOICE_COLOR = "gray";
 
 	private int index;
 	private String character;

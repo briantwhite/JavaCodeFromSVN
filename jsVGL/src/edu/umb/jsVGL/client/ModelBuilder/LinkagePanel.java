@@ -2,6 +2,8 @@ package edu.umb.jsVGL.client.ModelBuilder;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -65,11 +67,15 @@ public class LinkagePanel extends SimplePanel {
 		VerticalPanel panelA = new VerticalPanel();
 		panelA.setStyleName("jsVGL_SubdividerPanel");
 		HorizontalPanel row1 = new HorizontalPanel();
-		Label l1 = new Label(chars[0] + " and " + chars[1] + " are ");
+		Label l1 = new Label(chars[0] + " and " + chars[1] + " are:");
+		l1.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		l1.setStyleName("jsVGL_InteractionText");
 		row1.add(l1);
 		row1.add(g1g2Linked);
 		panelA.add(row1);
+		SimplePanel spacerPanelA = new SimplePanel();
+		spacerPanelA.setHeight("15px");
+		panelA.add(spacerPanelA);
 		HorizontalPanel row2 = new HorizontalPanel();
 		Label l2 = new Label("Relevant Cage:");
 		l2.setStyleName("jsVGL_InteractionText");
@@ -83,10 +89,14 @@ public class LinkagePanel extends SimplePanel {
 			panelB.setStyleName("jsVGL_SubdividerPanel");
 			HorizontalPanel row3 = new HorizontalPanel();
 			Label l3 = new Label(chars[1] + " and " + chars[2] + " are ");
+			l3.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 			l3.setStyleName("jsVGL_InteractionText");
 			row3.add(l3);
 			row3.add(g2g3Linked);
 			panelB.add(row3);
+			SimplePanel spacerPanelB = new SimplePanel();
+			spacerPanelB.setHeight("15px");
+			panelA.add(spacerPanelB);
 			HorizontalPanel row4 = new HorizontalPanel();
 			Label l4 = new Label("Relevant Cages:");
 			l4.setStyleName("jsVGL_InteractionText");
@@ -99,10 +109,14 @@ public class LinkagePanel extends SimplePanel {
 			panelC.setStyleName("jsVGL_SubdividerPanel");
 			HorizontalPanel row5 = new HorizontalPanel();
 			Label l5 = new Label(chars[0] + " and " + chars[2] + " are ");
+			l5.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 			l5.setStyleName("jsVGL_InteractionText");
 			row5.add(l5);
 			row5.add(g3g1Linked);
 			panelC.add(row5);
+			SimplePanel spacerPanelC = new SimplePanel();
+			spacerPanelC.setHeight("15px");
+			panelA.add(spacerPanelC);
 			HorizontalPanel row6 = new HorizontalPanel();
 			Label l6 = new Label("Relevant Cages:");
 			l6.setStyleName("jsVGL_InteractionText");

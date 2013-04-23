@@ -86,7 +86,7 @@ public class AutoGrader {
 					if (gm.isGeneModelSexLinkedByIndex(i)) {
 						if (gm.getSexLinkageType()) {
 							// XX/XY
-							if (modelPane.getSexLinkageChoice().equals("XX Female /XY Male")) sexLinkageCorrect = true;
+							if (modelPane.getSexLinkageChoice().equals("XX Female/XY Male")) sexLinkageCorrect = true;
 						} else {
 							// ZZ/ZW
 							if (modelPane.getSexLinkageChoice().equals("ZZ Male/ZW Female")) sexLinkageCorrect = true;
