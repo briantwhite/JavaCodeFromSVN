@@ -27,6 +27,15 @@
 			PhenotypeInteraction: "0.0",
 			Epistasis: "0.0"
     	};
+    	
+    	function save() {
+    		document.getElementById('state').value = window.getStateXML();
+    		document.getElementById('grade').value = window.getGradeXML();
+    	}
+    	
+    	function load() {
+    		window.setStateXML(document.getElementById('state').value);
+    	}
     </script>
   </head>
 
@@ -53,8 +62,8 @@
       				<td></td>
       			</tr>
       			<tr>
-      				<td><button onClick="jsvgl.getStateXML();">Save</button></td>
-      				<td></td>
+      				<td><button onClick="save();">Save</button></td>
+      				<td><button onClick="load();">Load</button></td>
       			</tr>
       		</table>
       	</td>
@@ -72,8 +81,8 @@
       	<th>Grade info</th>
       </tr>
       <tr>
-        <td><textarea rows="20" cols="30" name="state"></textarea></td>
-        <td><textarea rows="20" cols="30" name="grade"></textarea></td>
+        <td><textarea rows="20" cols="30" id="state"></textarea></td>
+        <td><textarea rows="20" cols="30" id="grade"></textarea></td>
       </tr>
     </table>
   </body>

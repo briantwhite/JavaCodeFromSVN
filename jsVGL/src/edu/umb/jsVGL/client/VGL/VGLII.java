@@ -180,6 +180,9 @@ public class VGLII {
 	 * Saves the current work done by the user to the edx server.
 	 */
 	public SavedProblemStrings saveProblem() {
+		
+		if ((geneticModel != null) && geneticModel.isBeginnerMode()) return new SavedProblemStrings("ERROR: Practice Mode", "");
+		
 		String problemXML = "";
 
 		if (cageCollection != null) {
@@ -199,10 +202,12 @@ public class VGLII {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			Element grade = AutoGrader.grade(cageCollection, geneticModel, (ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget());
+			System.out.println("VGLII 204: Length=" + problemXML.length());
+			return new SavedProblemStrings(problemXML, grade.toString());
+		} else {
+			return new SavedProblemStrings("ERROR: No Problem Loaded", "");
 		}
-		Element grade = AutoGrader.grade(cageCollection, geneticModel, (ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget());
-		System.out.println("VGLII 204: Length=" + problemXML.length());
-		return new SavedProblemStrings(problemXML, grade.toString());
 	}
 
 

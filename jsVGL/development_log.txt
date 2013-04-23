@@ -245,4 +245,10 @@ WORKING!
 problem with super cross display 
 	if only one row of offspring, need to add spacer row just in case
  FIXED
+
+4/23/13
+need to export public methods for access from javascript in page
+	https://developers.google.com/web-toolkit/doc/latest/DevGuideCodingBasicsJSNI
+got it going
+
 	
