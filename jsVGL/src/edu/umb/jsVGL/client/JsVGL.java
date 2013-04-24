@@ -27,14 +27,7 @@ import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class JsVGL implements EntryPoint {
-
-	private final static String WELCOME_HTML = "<html><body>"
-			+ "<h3>Welcome to VGL</h3>"
-			+ "You can either:"
-			+ "<ul><li>Start a new problem by clicking the &quot;New Problem&quot; button above.</li>"
-			+ "<li>Open work you have saved on this problem by clicking the &quot;Open Work&quot; button above.</li></ul>"
-			+ "</body></html>";
-
+	
 	private Button clearWorkspaceButton = null;
 	private Button newPracticeProblemButton = null;
 	private Button newGradedProblemButton = null;
@@ -58,7 +51,7 @@ public class JsVGL implements EntryPoint {
 		Dictionary params = Dictionary.getDictionary("Params");
 		vglII = new VGLII(params, this);
 		buildMainPanelUI(params);
-		exportStaticMethods(this);
+		exportMethods(this);
 	}
 
 	private void buildMainPanelUI(Dictionary params) {
@@ -107,7 +100,7 @@ public class JsVGL implements EntryPoint {
 		final TabPanel mainPanel = new TabPanel();
 
 		final FlowPanel instructionsPanel = new FlowPanel();
-		instructionsPanel.add(new HTML(WELCOME_HTML));
+		instructionsPanel.add(new HTML(TextStrings.WELCOME_TEXT));
 		mainPanel.add(instructionsPanel, "Instructions");
 
 		modelBuilderPanel = new SimplePanel();
@@ -116,11 +109,7 @@ public class JsVGL implements EntryPoint {
 
 		if (params.keySet().contains("SuperCrossEnabled") && Boolean.parseBoolean(params.get("SuperCrossEnabled"))) {
 			superCrossPanel = new FlowPanel();
-			superCrossPanel.add(new HTML(
-					"<h3>Super Cross</h3>"
-							+ "This carries out a cross with a large number of offpspring.<br>"
-							+ "It is useful for getting recombination frequency data.<br>"
-							+"Choose the desired number of offspring from the list below:<br>"));
+			superCrossPanel.add(new HTML(TextStrings.SUPER_CROSS_TEXT));
 			superCrossChoices = new ListBox();
 			superCrossChoices.addItem("100");
 			superCrossChoices.addItem("200");
@@ -139,6 +128,10 @@ public class JsVGL implements EntryPoint {
 
 			mainPanel.add(superCrossPanel, "Super Cross");
 		}
+		
+		final SimplePanel aboutPanel = new SimplePanel();
+		aboutPanel.setWidget(new HTML(TextStrings.ABOUT_jsVGL));
+		mainPanel.add(aboutPanel, "About jsVGL");
 
 		mainPanel.selectTab(0);
 		mainPanel.setSize("300px", "250px");
@@ -158,7 +151,7 @@ public class JsVGL implements EntryPoint {
 	 * methods for interfacing with LMS
 	 */
 	
-	public native void exportStaticMethods(JsVGL jsvgl) /*-{
+	public native void exportMethods(JsVGL jsvgl) /*-{
 		$wnd.getStateXML = $entry(function() {return jsvgl.@edu.umb.jsVGL.client.JsVGL::getStateXML()();});
 		$wnd.setStateXML = $entry(function(xmlString) {return jsvgl.@edu.umb.jsVGL.client.JsVGL::setStateXML(Ljava/lang/String;)(xmlString);});
 		$wnd.getGradeXML = $entry(function() {return jsvgl.@edu.umb.jsVGL.client.JsVGL::getGradeXML()();});
