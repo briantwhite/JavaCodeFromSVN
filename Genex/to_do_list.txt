@@ -18,4 +18,5 @@ setup applet for edX
 		
 also - can automatically find coding region
 	must be in exon and index > start codon and < stop codon
-	
+
+testing
