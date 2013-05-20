@@ -19,4 +19,9 @@ setup applet for edX
 also - can automatically find coding region
 	must be in exon and index > start codon and < stop codon
 
-testing
+1) make print-capable version of application and put on web
+2) add to jsGenex
+	- notice that you've changed 0, 1, or >1 base 
+		disabled when building a gene
+	- pass in problem as xml not number
+	
