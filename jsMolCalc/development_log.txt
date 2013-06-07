@@ -53,4 +53,9 @@ put in the /jsme into war/
 got error
 Unable to find 'jsme.gwt.xml' on your classpath; could be a typo, or maybe you forgot to include a classpath entry for source?
 maybe it's trying to build jsme?
-weird - you don't get the error until you try to connect.
+weird - you don't get the error until you try to connect (it seems to build fine)
+
+have to compile and then run from browser (not chrome - it won't run unless on a server)
+firefox is best
+needed to change native methods to use $doc.JME not $doc.getElementById('JME')
+works!

@@ -122,22 +122,22 @@ public class JsMolCalc implements EntryPoint {
 	}
 	
 	private native void setJMEmol(String mol) /*-{
-		var JME = $doc.getElementById('JME');
+		var JME = $doc.JME;
 		JME.readMolFile(mol);
 	}-*/;
 
 	private native String getJMESmiles() /*-{
-		var JME = $doc.getElementById('JME');
+		var JME = $doc.JME;
 		return JME.smiles();
 	}-*/;
 
 	private native String getJMEjme() /*-{
-		var JME = $doc.getElementById('JME');
+		var JME = $doc.JME;
 		return JME.jmeFile();
 	}-*/;
 	
 	private native String getJMEmol() /*-{
-		var JME = $doc.getElementById('JME');
+		var JME = $doc.JME;
 		return JME.molFile();
 	}-*/;
 	
