@@ -1,4 +1,12 @@
 6/7/13
 new -> Google -> Web Application Project
+nuke server stuff
 moving code from Jean-Michel Claus' gwt-ification of Genex
 got it from https://github.com/MITx/Blades/tree/master/genex
+only have src/
+	drag in files to client/
+	also put content of Genex.gwt.xml into JsGenex.gwt.xml
+	content of public/genex.css to war/JsGenex.css
+	put images/ in war/
+had to fix package
+nuked DocumentRenderer
