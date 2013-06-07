@@ -1,3 +1,34 @@
+11/24/12
+started off
+following tutorial from http://www.vogella.com/articles/GWT/article.html
+- did not use GoogleAppEngine
+
+put jme.jar in war/ directory to try to build it into page
+
+working
+
+pasted in code for calculations from MolCalc 3.0
+put all in jsMolCalc.java
+	make Atom and AtomSpec classes inside jsMolCalc
+
+11/25/12
+added molecules.txt and ability to load random molecule
+works when compiled and posted to web
+
+12/3/12
+added "modification targets" and changed layout
+
+12/5/12
+added ability to import and export molfiles
+
+12/19/12
+need to fix - when you draw an illegal molecule, it gets marked as "correct"
+	- need to fix that illegal molecule can't be correct
+	- need two methods that are accessible from the page:
+		public String isValid() - returns "true" or "false" if molecule is OK or not
+		public String getError() - returns "" or the error string (if not valid)
+
+
 6/7/13
 reconstructed (had been lost in migration to git)
 
@@ -5,3 +36,15 @@ started new Google/Web Application Project
 
 restored from time machine backup from March 2013
 dragged folders into git directory
+
+error - couldn't find /Users/brian/git/JavaCodeFromSVN/jsMolCalc/war/WEB-INF/appengine-web.xml
+just stole one from jsVGL
+ditto for /Users/brian/git/JavaCodeFromSVN/jsMolCalc/war/WEB-INF/logging.properties
+
+missing other crap
+copy in all from default version to war/WEB-INF/lib
+
+seems to work but java plugin is ng on apple!
+
+try with jsme
+
