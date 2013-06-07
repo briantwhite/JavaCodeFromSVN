@@ -3,37 +3,36 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-
-    <!--                                                               -->
-    <!-- Consider inlining CSS to reduce the number of requested files -->
-    <!--                                                               -->
     <link type="text/css" rel="stylesheet" href="JsMolCalc.css">
 
-    <!--                                           -->
-    <!-- Any title is fine                         -->
-    <!--                                           -->
     <title>Molecular Calculator Demo page</title>
     
-    <!--                                           -->
-    <!-- This script loads your compiled module.   -->
-    <!-- If you add any GWT meta tags, they must   -->
-    <!-- be added before this line.                -->
-    <!--                                           -->
     <script type="text/javascript" language="javascript" src="jsmolcalc/jsmolcalc.nocache.js"></script>
+    <script type="text/javascript" language="javascript" src="jsme/jsme.nocache.js"></script>
+
+<script type="text/javascript">
+
+	//this function will be called after the JavaScriptApplet code has been loaded.
+	function jsmeOnLoad() {
+
+		//Instantiate a new JSME:
+		//arguments: HTML id, width, height (must be string not number!)
+
+		jsmeApplet = new JSApplet.JSME("appletContainer", "380px", "340px", {
+			//optional parameters
+			"options" : "query,hydrogens"
+		});
+
+		document.JME = jsmeApplet;
+	}
+
+</script>
+    
+    
   </head>
 
-  <!--                                           -->
-  <!-- The body can have arbitrary html, or      -->
-  <!-- you can leave the body empty if you want  -->
-  <!-- to create a completely dynamic UI.        -->
-  <!--                                           -->
   <body>
   
-
-    <!-- OPTIONAL: include this if you want history support -->
-    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
-    
-    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
     <noscript>
       <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
         Your web browser must have JavaScript enabled
@@ -48,8 +47,7 @@
       	<td id="molfileInput"></td>
       </tr>
       <tr>
-        <td style="font-weight:bold;"> <applet code="JME.class" archive="JME.jar" id="JME" width=500 height=400>
-            You have to enable Java and JavaScript on your machine !</applet></td>  
+        <td id="appletContainer"></td>  
         <td>
         	<div id="newMoleculeButtonContainer"></div>
         	<div id="calculateButtonContainer"></div>

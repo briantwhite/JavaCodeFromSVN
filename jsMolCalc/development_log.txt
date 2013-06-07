@@ -46,5 +46,11 @@ copy in all from default version to war/WEB-INF/lib
 
 seems to work but java plugin is ng on apple!
 
-try with jsme
+try with jsme from http://peter-ertl.com/jsme/
+version 2013-05-30
+put in the /jsme into war/
 
+got error
+Unable to find 'jsme.gwt.xml' on your classpath; could be a typo, or maybe you forgot to include a classpath entry for source?
+maybe it's trying to build jsme?
+weird - you don't get the error until you try to connect.
