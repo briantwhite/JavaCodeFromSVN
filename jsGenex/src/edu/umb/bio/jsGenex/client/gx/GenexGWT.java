@@ -308,8 +308,8 @@ public class GenexGWT implements EntryPoint {
 			if (id !== null && id === "dna-strand") {
 				var sel = $wnd.getSelection();
 				var offset = getCharOffsetRelativeTo(dnaStrandSpan, sel.anchorNode, sel.anchorOffset);
-				gn.@genex.client.gx.GenexGWT::mouseClicked(I)(offset);
-				gn.@genex.client.gx.GenexGWT::dnaStrandWasClicked = true;
+				gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::mouseClicked(I)(offset);
+				gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::dnaStrandWasClicked = true;
 				//Stop propagation of event
 				if (e.stopPropagation) {
 					e.stopPropagation();
@@ -319,10 +319,10 @@ public class GenexGWT implements EntryPoint {
  				}	
 			}
 			else {
-				if (gn.@genex.client.gx.GenexGWT::dnaStrandWasClicked) {
-					gn.@genex.client.gx.GenexGWT::dnaStrandWasClicked = false;
+				if (gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::dnaStrandWasClicked) {
+					gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::dnaStrandWasClicked = false;
 					//Refresh the display to erase the blue selection
-					gn.@genex.client.gx.GenexGWT::eraseBlueSelection()();
+					gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::eraseBlueSelection()();
 				}	
 			}	
 		}		
@@ -338,27 +338,27 @@ public class GenexGWT implements EntryPoint {
 	dnaStrandSpan.onclick = function() {
 		var sel = $wnd.getSelection();
 		var offset = getCharOffsetRelativeTo(this, sel.anchorNode, sel.anchorOffset);
-		gn.@genex.client.gx.GenexGWT::mouseClicked(I)(offset);
-		gn.@genex.client.gx.GenexGWT::dnaStrandWasClicked = true;
+		gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::mouseClicked(I)(offset);
+		gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::dnaStrandWasClicked = true;
 	};
 	*/
 	
 	public static native void setKeyEvent(GenexGWT gn)
 	/*-{
 		$doc.onkeypress = function(e) {
-			if (gn.@genex.client.gx.GenexGWT::dnaStrandWasClicked) {
+			if (gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::dnaStrandWasClicked) {
 				var e = $wnd.event || e;
  				var keyTyped = String.fromCharCode(e.charCode);
  				var keyNum = e.charCode;
- 				gn.@genex.client.gx.GenexGWT::keyPressed(Ljava/lang/String;I)(keyTyped, keyNum);
+ 				gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::keyPressed(Ljava/lang/String;I)(keyTyped, keyNum);
 			}
 		};
 		
 		$doc.onkeydown = function(e) {
-			if (gn.@genex.client.gx.GenexGWT::dnaStrandWasClicked) {
+			if (gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::dnaStrandWasClicked) {
 				var e = $wnd.event || e;
  				var keyCode = e.keyCode;
- 				gn.@genex.client.gx.GenexGWT::keyDown(I)(keyCode);
+ 				gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::keyDown(I)(keyCode);
  				//Added to disable default backspace behavior in Chrome & Firefox
  				if (e.keyCode === 8) {
  					e.preventDefault();
@@ -656,26 +656,26 @@ public class GenexGWT implements EntryPoint {
 	}
 	
 	private native void exportSetDefaultDNASequence(GenexGWT gn) /*-{ 
-		$wnd.genexSetDefaultDNASequence = $entry(function(str) {return gn.@genex.client.gx.GenexGWT::setDefaultDNASequence(Ljava/lang/String;)(str);});
+		$wnd.genexSetDefaultDNASequence = $entry(function(str) {return gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::setDefaultDNASequence(Ljava/lang/String;)(str);});
 	}-*/;
 	
 	private native void exportSetDNASequence(GenexGWT gn) /*-{ 
-		$wnd.genexSetDNASequence = $entry(function(str) {return gn.@genex.client.gx.GenexGWT::setDNASequence(Ljava/lang/String;)(str);});
+		$wnd.genexSetDNASequence = $entry(function(str) {return gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::setDNASequence(Ljava/lang/String;)(str);});
 	}-*/;
 	
 	private native void exportSetClickEvent(GenexGWT gn) /*-{ 
-		$wnd.genexSetClickEvent = $entry(function() {@genex.client.gx.GenexGWT::setClickEvent(Lgenex/client/gx/GenexGWT;)(gn);});
+		$wnd.genexSetClickEvent = $entry(function() {@edu.umb.bio.jsGenex.client.gx.GenexGWT::setClickEvent(Lgenex/client/gx/GenexGWT;)(gn);});
 	}-*/;
 	
 	private native void exportSetKeyEvent(GenexGWT gn) /*-{ 
-		$wnd.genexSetKeyEvent = $entry(function() {@genex.client.gx.GenexGWT::setKeyEvent(Lgenex/client/gx/GenexGWT;)(gn);});
+		$wnd.genexSetKeyEvent = $entry(function() {@edu.umb.bio.jsGenex.client.gx.GenexGWT::setKeyEvent(Lgenex/client/gx/GenexGWT;)(gn);});
 	}-*/;
 	
 	private native void exportSetProblemNumber(GenexGWT gn) /*-{ 
-		$wnd.genexSetProblemNumber = $entry(function(problemNumber) {return gn.@genex.client.gx.GenexGWT::setProblemNumber(I)(problemNumber);});
+		$wnd.genexSetProblemNumber = $entry(function(problemNumber) {return gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::setProblemNumber(I)(problemNumber);});
 	}-*/;
 	
 	private native void exportGetDNASequence(GenexGWT gn) /*-{ 
-	$wnd.genexGetDNASequence = $entry(function() {return gn.@genex.client.gx.GenexGWT::getDNASequence()();});
+	$wnd.genexGetDNASequence = $entry(function() {return gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::getDNASequence()();});
 }-*/;
 }

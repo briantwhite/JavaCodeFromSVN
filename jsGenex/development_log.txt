@@ -10,3 +10,7 @@ only have src/
 	put images/ in war/
 had to fix package
 nuked DocumentRenderer
+
+coundn't find server class
+edited web.xml to remove that reference
+

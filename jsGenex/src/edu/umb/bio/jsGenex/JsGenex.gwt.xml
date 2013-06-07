@@ -17,7 +17,7 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
   
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='genex.client.gx.GenexGWT'/>
+  <entry-point class='edu.umb.bio.jsGenex.client.gx.GenexGWT'/>
   
   <!-- Specify the application specific style sheet.              -->
   <stylesheet src='genex.css' />
