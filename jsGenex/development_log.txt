@@ -14,3 +14,22 @@ nuked DocumentRenderer
 coundn't find server class
 edited web.xml to remove that reference
 
+can get it to build but it makes war/genex folder
+	not war/jsgenex folder
+	why?
+	- line in JsGenex.gwt.xml: <module rename-to
+	
+how to run it?
+look in mitx_all/mitx/common/static/js/capa
+	find some stuff on genex
+	especially edit-a-gene.js
+		put it in war
+		add reference to JsGenex.html
+		
+it couldn't find "$wnd"
+need to add jquery
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+to JsGenex.html
+
+now visible
+but can't respond to key strokes

@@ -664,11 +664,11 @@ public class GenexGWT implements EntryPoint {
 	}-*/;
 	
 	private native void exportSetClickEvent(GenexGWT gn) /*-{ 
-		$wnd.genexSetClickEvent = $entry(function() {@edu.umb.bio.jsGenex.client.gx.GenexGWT::setClickEvent(Lgenex/client/gx/GenexGWT;)(gn);});
+		$wnd.genexSetClickEvent = $entry(function() {@edu.umb.bio.jsGenex.client.gx.GenexGWT::setClickEvent(Ledu/umb/bio/jsGenex/client/gx/GenexGWT;)(gn);});
 	}-*/;
 	
 	private native void exportSetKeyEvent(GenexGWT gn) /*-{ 
-		$wnd.genexSetKeyEvent = $entry(function() {@edu.umb.bio.jsGenex.client.gx.GenexGWT::setKeyEvent(Lgenex/client/gx/GenexGWT;)(gn);});
+		$wnd.genexSetKeyEvent = $entry(function() {@edu.umb.bio.jsGenex.client.gx.GenexGWT::setKeyEvent(Ledu/umb/bio/jsGenex/client/gx/GenexGWT;)(gn);});
 	}-*/;
 	
 	private native void exportSetProblemNumber(GenexGWT gn) /*-{ 
