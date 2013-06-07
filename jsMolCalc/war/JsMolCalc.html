@@ -1,8 +1,4 @@
 <!doctype html>
-<!-- The DOCTYPE declaration above will set the     -->
-<!-- browser's rendering engine into                -->
-<!-- "Standards Mode". Replacing this declaration   -->
-<!-- with a "Quirks Mode" doctype is not supported. -->
 
 <html>
   <head>
@@ -16,7 +12,7 @@
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
-    <title>Web Application Starter Project</title>
+    <title>Molecular Calculator Demo page</title>
     
     <!--                                           -->
     <!-- This script loads your compiled module.   -->
@@ -32,6 +28,7 @@
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
+  
 
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
@@ -44,19 +41,30 @@
       </div>
     </noscript>
 
-    <h1>Web Application Starter Project</h1>
-
-    <table align="center">
+ 
+    <table align="center" border=1>
       <tr>
-        <td colspan="2" style="font-weight:bold;">Please enter your name:</td>        
+      	<td>Paste molfile text here and click "load molfile" button</td>
+      	<td id="molfileInput"></td>
       </tr>
       <tr>
-        <td id="nameFieldContainer"></td>
-        <td id="sendButtonContainer"></td>
+        <td style="font-weight:bold;"> <applet code="JME.class" archive="JME.jar" id="JME" width=500 height=400>
+            You have to enable Java and JavaScript on your machine !</applet></td>  
+        <td>
+        	<div id="newMoleculeButtonContainer"></div>
+        	<div id="calculateButtonContainer"></div>
+        	<div id="loadMolFileButtonContainer"></div>
+        	<div id="exportMolFileButtonContainer"></div>
+        </td>      
       </tr>
       <tr>
-        <td colspan="2" style="color:red;" id="errorLabelContainer"></td>
+        <td>Molecule properties:</td>
+        <td id="resultFieldContainer"></td>
       </tr>
-    </table>
+      <tr>
+      	<td>Modification targets:</td>
+      	<td id="targetsField"></td>
+      </tr>
+     </table>
   </body>
 </html>

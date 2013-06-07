@@ -2,3 +2,6 @@
 reconstructed (had been lost in migration to git)
 
 started new Google/Web Application Project
+
+restored from time machine backup from March 2013
+dragged folders into git directory

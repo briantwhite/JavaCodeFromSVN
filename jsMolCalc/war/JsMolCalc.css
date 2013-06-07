@@ -10,7 +10,12 @@ h1 {
   text-align: center;
 }
 
-.sendButton {
+.calculateButton {
+  display: block;
+  font-size: 16pt;
+}
+
+.newMoleculeButton {
   display: block;
   font-size: 16pt;
 }
