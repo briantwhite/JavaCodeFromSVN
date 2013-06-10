@@ -37,3 +37,20 @@ but can't respond to key strokes
 6/10/13
 test posting - again
 
+maybe key stroke thing is because we didn't register the callbacks
+
+trying on home mac, but now it can't find
+Unable to find 'edu/umb/bio/genex/JsGenex.gwt.xml' on your classpath; could be a typo, or maybe you forgot to include a classpath entry for source?
+this is because it's edu/umb/bio/jsGenex/JsGenex.gwt.xml
+where is the reference?
+in Run As -> Run Configurations -> arguments 
+	program arguments contained edu.bio.umb.genex.JsGenex in addition to the correct one edu.umb.bio.jsGenex.JsGenex
+	deleted wrong one and it seems to work
+	
+weird errors with jQuery stuff
+added jquery-1.10.1.min.js to war/
+edited JsGenex.html to use this one
+didn't help
+error is in GenexGWT.java notifyHostpage()
+	expects int, gets undefined
+	probably because the reference to $wnd is no good
