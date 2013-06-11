@@ -54,3 +54,14 @@ didn't help
 error is in GenexGWT.java notifyHostpage()
 	expects int, gets undefined
 	probably because the reference to $wnd is no good
+
+maybe not - you need to have fields with genex_dna_sequence and genex_problem_number
+found them in mitx/common/lib/capa/capa/templates/editageneinput.html
+
+still seeing the JS type errors in notifyHostpage();
+	getting string when expecting int
+also: notifyHostpage(){[]} JSON.parse: unexpected character
+	perhaps they're related
+probably a problem in edit-a-gene.js
+	it's looking for a missing field - maybe ingenexGetInputField - looking for .problem
+
