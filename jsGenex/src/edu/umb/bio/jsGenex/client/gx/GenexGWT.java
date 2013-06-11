@@ -191,7 +191,7 @@ public class GenexGWT implements EntryPoint {
 	}
 	
 	public static native void notifyHostpage() /*-{
-	if (typeof $wnd.genexIsReady === 'function')
+	if (typeof $wnd.genexIsReady === 'function') 
 		$wnd.genexIsReady();
 	}-*/;
 	

@@ -96,4 +96,48 @@ had to make internal quotes be single quotes
 	but still has errors
 	
 also - can't click on bases until you've entered a new DNA sequence...
+
+e-mailed JMC and he said
+	genexGetInputField is the one causing the problem. It looks for that hidden 
+	field whose value is the saved state that can be graded by the Python backend.
+
+	So, just add third hidden input field and give it a name. Then do not use 
+	genexGetInputField that looks for the <input type="hidden" name="input_${id}" 
+	id="input_${id}" value="${value|h}"/> in the template.
+
+if you delete the $wnd.genexIsReady(); from GenexGWT.notifyHostpage() you don't get that error
+so it's in the genexIsReady()
+no errors if you comment out the whole genexIsReady() function (but no genex shows up either)
+
+break it down:
+
+if only comment out:
+        if (genex_saved_state === '') {
+            //Load DNA sequence from xml file 
+            genex_dna_sequence = genex_default_dna_sequence;
+        }
+        else {
+            //Load DNA sequence from saved value
+            genex_saved_state = JSON.parse(genex_saved_state);
+            genex_dna_sequence = genex_saved_state.genex_dna_sequence;
+        }
+still get errors
+
+comment all but last part below         //Now load mouse and keyboard handlers
+	different errors
+	
+found 2 problems
+	- the string found when expecting int comes from 
+		var genex_problem_number = $('#genex_problem_number').val();
+		- try fixing by taking quote out of JsGenex.html value="1"
+			NG, try parseInt()
+			OK!
+			
+	- the unexpected ' token is from
+		    genex_saved_state = JSON.parse(genex_saved_state);
+            genex_dna_sequence = genex_saved_state.genex_dna_sequence;
+ 		- try switching quotes to value='{"genexblabla":"fred"}'
+ 
+ NOW FULLY AOK!
+		
 	

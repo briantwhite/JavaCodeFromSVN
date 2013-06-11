@@ -45,7 +45,7 @@
         genexSetDefaultDNASequence(genex_default_dna_sequence);
         
         //Now load problem
-        var genex_problem_number = $('#genex_problem_number').val();
+        var genex_problem_number = parseInt($('#genex_problem_number').val());
         genexSetProblemNumber(genex_problem_number);
         
         //Set the DNA sequence that is displayed
