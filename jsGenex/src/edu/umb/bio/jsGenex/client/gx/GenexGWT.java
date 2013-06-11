@@ -77,6 +77,7 @@ public class GenexGWT implements EntryPoint {
 	TextBox dnaTextBox;
 	Button cancelButton;
 	Button okButton;
+	Button evaluateButton;
 	HorizontalPanel holder;
 	
 	boolean dnaStrandWasClicked = false;
@@ -159,9 +160,18 @@ public class GenexGWT implements EntryPoint {
 		infoLabel = new Label("Selected Base = ");
 		infoLabel.addStyleName("genex-label");
 		
+		evaluateButton = new Button("Evaluate Answer");
+		evaluateButton.addStyleName("genex-button");
+		evaluateButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				evaluateAnswer();
+			}
+		});
+		
 		footerPanel = new HorizontalPanel();
 		footerPanel.add(resetButton);
 		footerPanel.add(newSequenceButton);
+		footerPanel.add(evaluateButton);
 		footerPanel.add(infoLabel);
 		RootPanel.get("genex_container").add(footerPanel);
 		
@@ -282,6 +292,10 @@ public class GenexGWT implements EntryPoint {
 	
 	public String getDNASequence() {
 		return this.DNA;
+	}
+	
+	public void evaluateAnswer() {
+		alert(prob.evaluate(getState()));
 	}
 	
 	public static native void alert(String msg)
