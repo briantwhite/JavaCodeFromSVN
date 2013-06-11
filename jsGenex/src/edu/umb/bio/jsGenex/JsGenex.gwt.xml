@@ -20,7 +20,7 @@
   <entry-point class='edu.umb.bio.jsGenex.client.gx.GenexGWT'/>
   
   <!-- Specify the application specific style sheet.              -->
-  <stylesheet src='jsgenex/JsGenex.css' />
+  <stylesheet src='JsGenex.css' />
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
