@@ -86,4 +86,14 @@ go into edx page and look for window.$('#genex_container').parents('.problem')
 	NG
 but - the quotes are somehow messed up - if you do window.genexGetInputField()
 	there are weird extra blue quotes...
+there are characters <U+200B> - "zero width space"
+see them in TextWrngler by view -> text display -> show invisibles
+removed them
+	still NG
+had to make internal quotes be single quotes
+	at least now, the color coding of the result of window.genexGetInputField() in chrome
+		matches the 7.00x mooc version
+	but still has errors
+	
+also - can't click on bases until you've entered a new DNA sequence...
 	
