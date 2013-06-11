@@ -67,3 +67,23 @@ probably a problem in edit-a-gene.js
 
 can run it in chrome if you start chrome with open -a Google\ Chrome --args --disable-web-security
 
+6/11/13
+using chrome and the edx site and the js console
+did window.genexGetInputField() and it gave back:
+[
+<input type=​"hidden" name=​"input_i4x-MITx-7_00x-problem-PSet4_graded_P4_Q5a_2_2_1" id=​"input_i4x-MITx-7_00x-problem-PSet4_graded_P4_Q5a_2_2_1" value=​"{"genex_dna_sequence":​"AGCCT","genex_answer":​"INCORRECT"}​">​,
+<input type=​"hidden" name=​"problem_id" value=​"{"genex_dna_sequence":​"AGCCT","genex_answer":​"INCORRECT"}​">​
+]
+try putting these in JsGenex.html
+
+same errors and window.genexGetInputField() gives []
+what is ".parent"?
+go into edx page and look for window.$('#genex_container').parents('.problem')
+	and it finds a <section class="problem>
+					</section>
+			wrapping the genex prob
+	try adding that.
+	NG
+but - the quotes are somehow messed up - if you do window.genexGetInputField()
+	there are weird extra blue quotes...
+	
