@@ -1,0 +1,3 @@
+- make pop up enter sequence dialog look nice
+- get nice dialog working for "evaluate answer"
+- add a few more numbered problem types
