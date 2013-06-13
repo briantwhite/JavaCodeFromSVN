@@ -173,7 +173,11 @@ public class GenexGWT implements EntryPoint {
 		evaluateButton.addStyleName("genex-button");
 		evaluateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				answerEvaluationMessage.setHTML(prob.evaluate(getState()));
+				String result = prob.evaluate(getState());
+				if (result.equals("OK")) {
+					result = "Your answer is correct!";
+				}
+				answerEvaluationMessage.setHTML(result);
 				answerEvaluationDialog.center();
 			}
 		});
