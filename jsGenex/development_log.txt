@@ -144,4 +144,14 @@ found 2 problems
 working on "evaluate answer" dialog
 got it to show
 
+<sigh> when you GWT compile, it nukes the .css file in war/jsgenex
+	need to protect it somehow
+		can't move it out - it's in the equivalent of the war/ folder on the edX site
+same with jsgenex/images
+	ditto
+	
+keep them out of war/jsgenex
+then copy them in after compiling <sigh>
+
+	
 	
