@@ -139,5 +139,9 @@ found 2 problems
  		- try switching quotes to value='{"genexblabla":"fred"}'
  
  NOW FULLY AOK!
-		
+
+6/13/13
+working on "evaluate answer" dialog
+got it to show
+
 	

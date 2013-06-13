@@ -57,7 +57,7 @@ public class Problem {
 			if (!r.isSatisfied(gs)) {
 				satisfied = false;
 				failBuffer.append(r.getFailureString());
-				//failBuffer.append("<br>");
+				failBuffer.append("<br>");
 			}
 		}
 		if (satisfied) {

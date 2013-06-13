@@ -71,18 +71,27 @@ public class GenexGWT implements EntryPoint {
 	Button newSequenceButton;
 	Label infoLabel;
 	HTML html;
-	DialogBox dialogBox;
-	VerticalPanel dialogBoxContents;
-	HTML message;
-	TextBox dnaTextBox;
-	Button cancelButton;
-	Button okButton;
+	
+	// components for "Enter new DNA sequence" dialog
+	DialogBox enterDNAdialogBox;
+	VerticalPanel enterDNAdialogBoxContents;
+	HTML enterDNAdialogMessage;
+	TextBox enterDNAtextBox;
+	Button enterDNAcancelButton;
+	Button enterDNAokButton;
+	HorizontalPanel enterDNAdialogHolder;
+	
+	// components for "Evaluate Answer" dialog
 	Button evaluateButton;
-	HorizontalPanel holder;
+	DialogBox answerEvaluationDialog;
+	VerticalPanel answerEvaluationContents;
+	HTML answerEvaluationMessage;
+	Button answerEvaluationOkButton;
+	HorizontalPanel answerEvaluationHolder;
 	
 	boolean dnaStrandWasClicked = false;
 	
-	//Problems
+	//Current problem
 	private Problem prob;
 	
 	public void onModuleLoad() {
@@ -94,30 +103,30 @@ public class GenexGWT implements EntryPoint {
 		RootPanel.get("genex_container").add(scrollPanel);
 		
 		// Create a DialogBox with a button to close it
-	    dialogBox = new DialogBox(false);
-	    dialogBox.addStyleName("genex-dialogbox");
-	    dialogBoxContents = new VerticalPanel();
-	    dialogBox.setText("New DNA Sequence");
-	    message = new HTML("Enter new DNA Sequence");
-	    message.setStyleName("genex-dialogbox-message");
+	    enterDNAdialogBox = new DialogBox(false);
+	    enterDNAdialogBox.addStyleName("genex-dialogbox");
+	    enterDNAdialogBoxContents = new VerticalPanel();
+	    enterDNAdialogBox.setText("New DNA Sequence");
+	    enterDNAdialogMessage = new HTML("Enter new DNA Sequence");
+	    enterDNAdialogMessage.setStyleName("genex-dialogbox-message");
 	    
-	    dnaTextBox = new TextBox();
+	    enterDNAtextBox = new TextBox();
 	    
-	    cancelButton = new Button("Cancel");
-	    cancelButton.addStyleName("genex-button");
-	    cancelButton.addClickHandler(new ClickHandler() {
+	    enterDNAcancelButton = new Button("Cancel");
+	    enterDNAcancelButton.addStyleName("genex-button");
+	    enterDNAcancelButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-				dnaTextBox.setText("");
+				enterDNAdialogBox.hide();
+				enterDNAtextBox.setText("");
 			}
 		});
 	    
-	    okButton = new Button("OK");
-	    okButton.addStyleName("genex-button");
-	    okButton.addClickHandler(new ClickHandler() {
+	    enterDNAokButton = new Button("OK");
+	    enterDNAokButton.addStyleName("genex-button");
+	    enterDNAokButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				previousProteinString = currentProteinString;
-				String newDNA = dnaTextBox.getText();
+				String newDNA = enterDNAtextBox.getText();
 				newDNA = newDNA.toUpperCase();
 				newDNA = newDNA.replaceAll("[^AGCT]","");
 				DNA = newDNA;
@@ -128,18 +137,18 @@ public class GenexGWT implements EntryPoint {
 				headerLength = currentGene.getGene().getHeaderLength();
 				DNASequenceLength = currentGene.getGene().getDNASequenceLength();  
 				headerLength = currentGene.getGene().getHeaderLength();
-				dialogBox.hide();
+				enterDNAdialogBox.hide();
 				checkAnswer(); //Automatic grading
 			}
 		});
 	    
-	    holder = new HorizontalPanel();
-	    holder.add(cancelButton);
-	    holder.add(okButton);
-	    dialogBoxContents.add(message);
-	    dialogBoxContents.add(dnaTextBox);
-	    dialogBoxContents.add(holder);
-	    dialogBox.setWidget(dialogBoxContents);
+	    enterDNAdialogHolder = new HorizontalPanel();
+	    enterDNAdialogHolder.add(enterDNAcancelButton);
+	    enterDNAdialogHolder.add(enterDNAokButton);
+	    enterDNAdialogBoxContents.add(enterDNAdialogMessage);
+	    enterDNAdialogBoxContents.add(enterDNAtextBox);
+	    enterDNAdialogBoxContents.add(enterDNAdialogHolder);
+	    enterDNAdialogBox.setWidget(enterDNAdialogBoxContents);
 		
 		resetButton = new Button("Reset DNA Sequence");
 		resetButton.addStyleName("genex-button");
@@ -153,7 +162,7 @@ public class GenexGWT implements EntryPoint {
 		newSequenceButton.addStyleName("genex-button");
 		newSequenceButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				dialogBox.center();
+				enterDNAdialogBox.center();
 			}
 		});
 		
@@ -164,9 +173,30 @@ public class GenexGWT implements EntryPoint {
 		evaluateButton.addStyleName("genex-button");
 		evaluateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				evaluateAnswer();
+				answerEvaluationMessage.setHTML(prob.evaluate(getState()));
+				answerEvaluationDialog.center();
 			}
 		});
+		
+		// dialog box that shows answer evaluation
+		answerEvaluationDialog = new DialogBox(false);
+		answerEvaluationDialog.addStyleName("genex-dialogbox");
+	    answerEvaluationContents = new VerticalPanel();
+	    answerEvaluationMessage = new HTML("");
+	    answerEvaluationMessage.setStyleName("genex-dialogbox-message");
+	    answerEvaluationOkButton = new Button("OK");
+	    answerEvaluationOkButton.addStyleName("genex-button");
+	    answerEvaluationOkButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				answerEvaluationDialog.hide();
+			}
+		});
+	    answerEvaluationHolder = new HorizontalPanel();
+	    answerEvaluationHolder.add(answerEvaluationOkButton);
+	    answerEvaluationContents.add(answerEvaluationMessage);
+	    answerEvaluationContents.add(answerEvaluationHolder);
+	    answerEvaluationDialog.setWidget(answerEvaluationContents);
+
 		
 		footerPanel = new HorizontalPanel();
 		footerPanel.add(resetButton);
@@ -293,11 +323,7 @@ public class GenexGWT implements EntryPoint {
 	public String getDNASequence() {
 		return this.DNA;
 	}
-	
-	public void evaluateAnswer() {
-		alert(prob.evaluate(getState()));
-	}
-	
+		
 	public static native void alert(String msg)
 	/*-{
 		$wnd.alert(msg);
