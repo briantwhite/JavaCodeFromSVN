@@ -153,5 +153,18 @@ same with jsgenex/images
 keep them out of war/jsgenex
 then copy them in after compiling <sigh>
 
+Tried to integrate into edx - put in mitx_all/mitx/common/static/js/capa/genex
+	NG - it looks for something called genex not jsgenex
+	made changes in JsGenex.gwt.xml
+		- <module rename-to='genex'>
+		-   <stylesheet src='genex.css' />
+		
+	better - no error but no genex window (only the buttons)
+	why? what's looking for what?
+- but it may be broken other ways 
+	when I restore the .../capa/genex directory to yesterday's version - it doesn't even show the buttons in genex
+	but it works fine if you open JsGenex.html in a browser
+- will need to talk to edX
+
 	
 	

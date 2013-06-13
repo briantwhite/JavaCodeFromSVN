@@ -1,1 +1,2 @@
 - add a few more numbered problem types
+- have keyboard appear on iPad
