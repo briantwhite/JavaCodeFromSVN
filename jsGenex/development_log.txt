@@ -166,5 +166,10 @@ Tried to integrate into edx - put in mitx_all/mitx/common/static/js/capa/genex
 	but it works fine if you open JsGenex.html in a browser
 - will need to talk to edX
 
+6/14/13
+working on button keyboard (for iPad and also other key click issues with some computers)
+weird thing - whenever you get a dialog, the selected base is no-longer selected
+	but all other highlighting stays...
+		why?
 	
 	

@@ -28,10 +28,10 @@ import edu.umb.bio.jsGenex.client.requirements.ShortermRNARequirement;
 import edu.umb.bio.jsGenex.client.requirements.SingleMutationRequirement;
 
 public class GenexGWT implements EntryPoint {
-	
+
 	GenexParams params = new GenexParams();
 	Gene workingGene;
-	 
+
 	String defaultDNA; //Sequence loaded from the edX xml file
 	String DNA;
 	String promoterSequence;
@@ -44,7 +44,7 @@ public class GenexGWT implements EntryPoint {
 	//length (as actually displayed) of the text 
 	// & labels before the start of the top DNA strand
 	int headerLength; 
-	
+
 	int DNASequenceLength;
 
 	String defaultProtein ="";
@@ -63,7 +63,7 @@ public class GenexGWT implements EntryPoint {
 	boolean allowPrinting = false; //parameter for allowing printing
 	// if false, it will not bother you by asking 
 	// if you want to allow printing
-	
+
 	//GUI elements
 	ScrollPanel scrollPanel;
 	HorizontalPanel footerPanel;
@@ -71,7 +71,7 @@ public class GenexGWT implements EntryPoint {
 	Button newSequenceButton;
 	Label infoLabel;
 	HTML html;
-	
+
 	// components for "Enter new DNA sequence" dialog
 	DialogBox enterDNAdialogBox;
 	VerticalPanel enterDNAdialogBoxContents;
@@ -80,7 +80,7 @@ public class GenexGWT implements EntryPoint {
 	Button enterDNAcancelButton;
 	Button enterDNAokButton;
 	HorizontalPanel enterDNAdialogHolder;
-	
+
 	// components for "Evaluate Answer" dialog
 	Button evaluateButton;
 	DialogBox answerEvaluationDialog;
@@ -88,42 +88,42 @@ public class GenexGWT implements EntryPoint {
 	HTML answerEvaluationMessage;
 	Button answerEvaluationOkButton;
 	HorizontalPanel answerEvaluationHolder;
-	
+
 	boolean dnaStrandWasClicked = false;
-	
+
 	//Current problem
 	private Problem prob;
-	
+
 	public void onModuleLoad() {
-		 		
+
 		html = new HTML();
 		scrollPanel = new ScrollPanel(html);
 		scrollPanel.setSize("818px", "325px"); //Inside edX, 818px is the maximum content size in the edX platform
 		scrollPanel.setStyleName("genex-scrollpanel");
 		RootPanel.get("genex_container").add(scrollPanel);
-		
+
 		// Create a DialogBox with a button to close it
-	    enterDNAdialogBox = new DialogBox(false);
-	    enterDNAdialogBox.addStyleName("genex-dialogbox");
-	    enterDNAdialogBoxContents = new VerticalPanel();
-	    enterDNAdialogBox.setText("New DNA Sequence");
-	    enterDNAdialogMessage = new HTML("Enter new DNA Sequence");
-	    enterDNAdialogMessage.setStyleName("genex-dialogbox-message");
-	    
-	    enterDNAtextBox = new TextBox();
-	    
-	    enterDNAcancelButton = new Button("Cancel");
-	    enterDNAcancelButton.addStyleName("genex-button");
-	    enterDNAcancelButton.addClickHandler(new ClickHandler() {
+		enterDNAdialogBox = new DialogBox(false);
+		enterDNAdialogBox.addStyleName("genex-dialogbox");
+		enterDNAdialogBoxContents = new VerticalPanel();
+		enterDNAdialogBox.setText("New DNA Sequence");
+		enterDNAdialogMessage = new HTML("Enter new DNA Sequence");
+		enterDNAdialogMessage.setStyleName("genex-dialogbox-message");
+
+		enterDNAtextBox = new TextBox();
+
+		enterDNAcancelButton = new Button("Cancel");
+		enterDNAcancelButton.addStyleName("genex-button");
+		enterDNAcancelButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				enterDNAdialogBox.hide();
 				enterDNAtextBox.setText("");
 			}
 		});
-	    
-	    enterDNAokButton = new Button("OK");
-	    enterDNAokButton.addStyleName("genex-button");
-	    enterDNAokButton.addClickHandler(new ClickHandler() {
+
+		enterDNAokButton = new Button("OK");
+		enterDNAokButton.addStyleName("genex-button");
+		enterDNAokButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				previousProteinString = currentProteinString;
 				String newDNA = enterDNAtextBox.getText();
@@ -141,15 +141,15 @@ public class GenexGWT implements EntryPoint {
 				checkAnswer(); //Automatic grading
 			}
 		});
-	    
-	    enterDNAdialogHolder = new HorizontalPanel();
-	    enterDNAdialogHolder.add(enterDNAcancelButton);
-	    enterDNAdialogHolder.add(enterDNAokButton);
-	    enterDNAdialogBoxContents.add(enterDNAdialogMessage);
-	    enterDNAdialogBoxContents.add(enterDNAtextBox);
-	    enterDNAdialogBoxContents.add(enterDNAdialogHolder);
-	    enterDNAdialogBox.setWidget(enterDNAdialogBoxContents);
-		
+
+		enterDNAdialogHolder = new HorizontalPanel();
+		enterDNAdialogHolder.add(enterDNAcancelButton);
+		enterDNAdialogHolder.add(enterDNAokButton);
+		enterDNAdialogBoxContents.add(enterDNAdialogMessage);
+		enterDNAdialogBoxContents.add(enterDNAtextBox);
+		enterDNAdialogBoxContents.add(enterDNAdialogHolder);
+		enterDNAdialogBox.setWidget(enterDNAdialogBoxContents);
+
 		resetButton = new Button("Reset DNA Sequence");
 		resetButton.addStyleName("genex-button");
 		resetButton.addClickHandler(new ClickHandler() {
@@ -157,7 +157,7 @@ public class GenexGWT implements EntryPoint {
 				setDNASequence(defaultDNA);
 			}
 		});
-		
+
 		newSequenceButton = new Button("Enter New DNA Sequence");
 		newSequenceButton.addStyleName("genex-button");
 		newSequenceButton.addClickHandler(new ClickHandler() {
@@ -165,10 +165,10 @@ public class GenexGWT implements EntryPoint {
 				enterDNAdialogBox.center();
 			}
 		});
-		
+
 		infoLabel = new Label("Selected Base = ");
 		infoLabel.addStyleName("genex-label");
-		
+
 		evaluateButton = new Button("Evaluate Answer");
 		evaluateButton.addStyleName("genex-button");
 		evaluateButton.addClickHandler(new ClickHandler() {
@@ -181,36 +181,36 @@ public class GenexGWT implements EntryPoint {
 				answerEvaluationDialog.center();
 			}
 		});
-		
+
 		// dialog box that shows answer evaluation
 		answerEvaluationDialog = new DialogBox(false);
 		answerEvaluationDialog.addStyleName("genex-dialogbox");
-	    answerEvaluationContents = new VerticalPanel();
-	    answerEvaluationMessage = new HTML("");
-	    answerEvaluationMessage.setStyleName("genex-dialogbox-message");
-	    answerEvaluationOkButton = new Button("OK");
-	    answerEvaluationOkButton.addStyleName("genex-button");
-	    answerEvaluationOkButton.addClickHandler(new ClickHandler() {
+		answerEvaluationContents = new VerticalPanel();
+		answerEvaluationMessage = new HTML("");
+		answerEvaluationMessage.setStyleName("genex-dialogbox-message");
+		answerEvaluationOkButton = new Button("OK");
+		answerEvaluationOkButton.addStyleName("genex-button");
+		answerEvaluationOkButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				answerEvaluationDialog.hide();
 			}
 		});
-	    answerEvaluationHolder = new HorizontalPanel();
-	    answerEvaluationHolder.add(answerEvaluationOkButton);
-	    answerEvaluationContents.add(answerEvaluationMessage);
-	    answerEvaluationContents.add(answerEvaluationHolder);
-	    answerEvaluationDialog.setWidget(answerEvaluationContents);
+		answerEvaluationHolder = new HorizontalPanel();
+		answerEvaluationHolder.add(answerEvaluationOkButton);
+		answerEvaluationContents.add(answerEvaluationMessage);
+		answerEvaluationContents.add(answerEvaluationHolder);
+		answerEvaluationDialog.setWidget(answerEvaluationContents);
 
-	    // create Dialog with keypad buttons and a button to show it
-	    final DialogBox keyboardDialog = MakeKeyboardDialog.makeKeyboardDialog(this);
-	    Button showKeyBoardButton = new Button("<img src='images/keyboard.png' />");
-	    showKeyBoardButton.addClickHandler(new ClickHandler() {
+		// create Dialog with keypad buttons and a button to show it
+		final DialogBox keyboardDialog = MakeKeyboardDialog.makeKeyboardDialog(this);
+		Button showKeyBoardButton = new Button("<img src='images/keyboard.png' />");
+		showKeyBoardButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				keyboardDialog.center();
 			}
-	    });
-	    
-		
+		});
+
+
 		footerPanel = new HorizontalPanel();
 		footerPanel.add(showKeyBoardButton);
 		footerPanel.add(resetButton);
@@ -218,17 +218,17 @@ public class GenexGWT implements EntryPoint {
 		footerPanel.add(evaluateButton);
 		footerPanel.add(infoLabel);
 		RootPanel.get("genex_container").add(footerPanel);
-		
+
 		//Using a deferred command ensures that notifyHostpage() is called after
 		//GWT initialization is finished.
 		class DeferredCommand implements Command {
 			GenexGWT gn;
-			
+
 			public DeferredCommand(GenexGWT gn) {
 				super();
 				this.gn = gn;
 			}
-			
+
 			public void execute() {
 				//Export the GWT Java functions that will be accessible from outside JavaScript
 				exportSetDefaultDNASequence(gn);
@@ -240,61 +240,55 @@ public class GenexGWT implements EntryPoint {
 				notifyHostpage();
 			}
 		}
-		
+
 		Scheduler.get().scheduleDeferred(new DeferredCommand(this));
 	}
-	
+
 	public static native void notifyHostpage() /*-{
 	if (typeof $wnd.genexIsReady === 'function') 
 		$wnd.genexIsReady();
 	}-*/;
-	
+
 	public static native void storeAnswer(String str) /*-{
 	if (typeof $wnd.genexStoreAnswer === 'function')
 		$wnd.genexStoreAnswer(str);
 	}-*/;
-	
+
 	public void setDefaultDNASequence(String dnaSequence) {
-	    String inputDNAString = dnaSequence;
-	    
-	    if (inputDNAString != null) {
-	        params.setDefaultDNA(inputDNAString);
-	    }
-	    
-	    String inputPromoterString = "TATAA"; //TO DO getParameter("PROMOTER");
-	    if (inputPromoterString != null) {
-	        params.setPromoterSequence(inputPromoterString);
-	    }
-	    
-	    String inputTerminatorString = "GGGGG"; //TO DO getParameter("TERMINATOR");
-	    if (inputTerminatorString != null) {
-	        params.setTerminatorSequence(inputTerminatorString);
-	    }
-	    
-	    String inputIntronStartString = "GUGCG"; //TO DO getParameter("INTRON_START");
-	    if (inputIntronStartString != null) {
-	        params.setIntronStartSequence(inputIntronStartString);
-	    }
-	    
-	    String inputIntronEndString = "CAAAG"; //TO DO getParameter("INTRON_END");
-	    if (inputIntronEndString != null) {
-	        params.setIntronEndSequence(inputIntronEndString);
-	    }
-	    
-	    String inputPolyAString = "AAAAAAAAAAAAA"; //TO DO getParameter("POLY_A_TAIL");
-	    if (inputPolyAString != null) {
-	        params.setPolyATail(inputPolyAString);
-	    }
-	    
-	    //Printing is disabled
-	    String inputPrintingString = null; //TO DO getParameter("PRINTING");
-	    if (inputPrintingString != null) {
-	    	    params.setAllowPrinting(true);
-	    }
-	    
-	    //Setup GUI
-	    //This part is redundant as we have blended GenexGUI and GenexApplet. Keep for the moment.
-	    defaultDNA = params.getDefaultDNA();
+		String inputDNAString = dnaSequence;
+
+		if (inputDNAString != null) {
+			params.setDefaultDNA(inputDNAString);
+		}
+
+		String inputPromoterString = "TATAA"; //TO DO getParameter("PROMOTER");
+		if (inputPromoterString != null) {
+			params.setPromoterSequence(inputPromoterString);
+		}
+
+		String inputTerminatorString = "GGGGG"; //TO DO getParameter("TERMINATOR");
+		if (inputTerminatorString != null) {
+			params.setTerminatorSequence(inputTerminatorString);
+		}
+
+		String inputIntronStartString = "GUGCG"; //TO DO getParameter("INTRON_START");
+		if (inputIntronStartString != null) {
+			params.setIntronStartSequence(inputIntronStartString);
+		}
+
+		String inputIntronEndString = "CAAAG"; //TO DO getParameter("INTRON_END");
+		if (inputIntronEndString != null) {
+			params.setIntronEndSequence(inputIntronEndString);
+		}
+
+		String inputPolyAString = "AAAAAAAAAAAAA"; //TO DO getParameter("POLY_A_TAIL");
+		if (inputPolyAString != null) {
+			params.setPolyATail(inputPolyAString);
+		}
+
+		//Setup GUI
+		//This part is redundant as we have blended GenexGUI and GenexApplet. Keep for the moment.
+		defaultDNA = params.getDefaultDNA();
 		DNA = params.getDefaultDNA();
 		DNASequenceLength = DNA.length();
 
@@ -305,12 +299,12 @@ public class GenexGWT implements EntryPoint {
 		intronEndSequence = params.getIntronEndSequence();
 		polyATail = params.getPolyATail();
 		allowPrinting = params.isAllowPrinting();
-		
+
 		//if it's a prokaryote, no poly A tail
 		if (intronStartSequence.equals("none") || intronEndSequence.equals("none")) {
 			polyATail = "";
 		}
-		
+
 		//display the default gene
 		VisibleGene currentGene = expressGene(defaultDNA, -1);
 		defaultMaturemRNA = currentGene.getGene()._mRNASequence;
@@ -319,10 +313,10 @@ public class GenexGWT implements EntryPoint {
 		headerLength = currentGene.getGene().getHeaderLength();
 		DNASequenceLength = currentGene.getGene().getDNASequenceLength();
 		currentProteinString = currentGene.getGene().getProteinString();
-		
+
 		html.setHTML(currentGene.getColorHTML() + caption + "</pre></body></html>");
 	}
-	
+
 	public void setDNASequence(String dnaSequence) {
 		DNA = dnaSequence;
 		VisibleGene currentGene = expressGene(DNA, -1);
@@ -333,16 +327,16 @@ public class GenexGWT implements EntryPoint {
 		headerLength = currentGene.getGene().getHeaderLength();
 		checkAnswer(); //Automatic grading
 	}
-	
+
 	public String getDNASequence() {
 		return this.DNA;
 	}
-		
+
 	public static native void alert(String msg)
 	/*-{
 		$wnd.alert(msg);
 	}-*/;
-	
+
 	public static native void setClickEvent(GenexGWT gn)
 	/*-{
 		function getCharOffsetRelativeTo(container, node, offset) {
@@ -351,10 +345,10 @@ public class GenexGWT implements EntryPoint {
     		range.setEnd(node, offset);
     		return range.toString().length;
 		}
-		
+
 		var dnaStrandSpan = $doc.getElementById("dna-strand");
 		dnaStrandSpan.style.cursor="pointer";
-		
+
 		$doc.onclick = function(e) {
 			var e = $wnd.event || e; //window.event in IE only
 			var src =  e.target || e.srcElement; //target in Firefox only
@@ -381,12 +375,12 @@ public class GenexGWT implements EntryPoint {
 			}	
 		}		
 	}-*/;
-	
+
 	public void eraseBlueSelection() {
 		VisibleGene currentGene = expressGene(DNA, -1);
 		refreshDisplay(currentGene, -1);
 	}
-	
+
 	/*The following was causing problems: ie a click on an input field would alter the DNA sequence.
 	  We now append the onclick to the window element.
 	dnaStrandSpan.onclick = function() {
@@ -395,8 +389,8 @@ public class GenexGWT implements EntryPoint {
 		gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::mouseClicked(I)(offset);
 		gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::dnaStrandWasClicked = true;
 	};
-	*/
-	
+	 */
+
 	public static native void setKeyEvent(GenexGWT gn)
 	/*-{
 		$doc.onkeypress = function(e) {
@@ -407,7 +401,7 @@ public class GenexGWT implements EntryPoint {
  				gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::keyPressed(Ljava/lang/String;I)(keyTyped, keyNum);
 			}
 		};
-		
+
 		$doc.onkeydown = function(e) {
 			if (gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::dnaStrandWasClicked) {
 				var e = $wnd.event || e;
@@ -420,7 +414,7 @@ public class GenexGWT implements EntryPoint {
 			}
 		};
 	}-*/;
-	
+
 	public void mouseClicked(int pos) {
 		int clickSite = pos; //- headerLength;
 		if ((clickSite >= 0) && (clickSite <= DNASequenceLength)) {
@@ -432,154 +426,140 @@ public class GenexGWT implements EntryPoint {
 			checkAnswer(); //Automatic grading
 		}  
 	}
-	
+
 	public void keyPressed(String keyTyped, int keyNum) {
-			if (keyTyped.equals("A")
-					|| keyTyped.equals("G")
-					|| keyTyped.equals("C")
-					|| keyTyped.equals("T") ) {
-				previousProteinString = currentProteinString;
-				StringBuffer workingDNAbuffer = new StringBuffer(DNA);
-				workingDNAbuffer.insert(caretPosition, keyTyped);
-				DNA = workingDNAbuffer.toString();
-				caretPosition++;
-				VisibleGene vg = expressGene(DNA, caretPosition);
-				refreshDisplay(vg, caretPosition);
-				currentProteinString = vg.getGene().getProteinString();
-				DNASequenceLength = vg.getGene().getDNASequenceLength();
-				headerLength = vg.getGene().getHeaderLength() + 1;
-				checkAnswer(); //Automatic grading
-				// need the +1 otherwise, when you click on a base after moving + or -
-				// the selected base is n+1 - why??            
-			}
+		if (keyTyped.equals("A")
+				|| keyTyped.equals("G")
+				|| keyTyped.equals("C")
+				|| keyTyped.equals("T") ) {
+			insertBase(keyTyped);
+		}
 
-			if (keyTyped.equals("a")
-					|| keyTyped.equals("g")
-					|| keyTyped.equals("c")
-					|| keyTyped.equals("t") ) {
-				previousProteinString = currentProteinString;
-				StringBuffer workingDNAbuffer = new StringBuffer(DNA);
-				workingDNAbuffer.replace(caretPosition, 
-						caretPosition + 1,
-						keyTyped.toUpperCase());
-				DNA = workingDNAbuffer.toString();
-				VisibleGene vg = expressGene(DNA, caretPosition);
-				refreshDisplay(vg, caretPosition);
-				currentProteinString = vg.getGene().getProteinString();
-				DNASequenceLength = vg.getGene().getDNASequenceLength();
-				headerLength = vg.getGene().getHeaderLength() + 1;
-				checkAnswer(); //Automatic grading
-				// need the +1 otherwise, when you click on a base after moving + or -
-				// the selected base is n+1 - why??            
-			}
+		if (keyTyped.equals("a")
+				|| keyTyped.equals("g")
+				|| keyTyped.equals("c")
+				|| keyTyped.equals("t") ) {
+			replaceBase(keyTyped);
+		}
 
-			if (keyTyped.equals("+") 
-					|| keyTyped.equals("-")
-					|| keyTyped.equals("=") || keyTyped.equals("_")) { //Added keyTyped.equals("_")
-				if (keyTyped.equals("+") || keyTyped.equals("=")) {
-					caretPosition++;
-					if (caretPosition > (DNA.length() - 1)) {
-						caretPosition = DNA.length() - 1;
-					}
-				} else {
-					caretPosition--;
-					if (caretPosition < 0) {
-						caretPosition = 0;
-					}
-				}
-				VisibleGene vg = expressGene(DNA, caretPosition);
-				refreshDisplay(vg, caretPosition);
-				DNASequenceLength = vg.getGene().getDNASequenceLength();
-				headerLength = vg.getGene().getHeaderLength() + 1;
-				checkAnswer(); //Automatic grading
-				// need the +1 otherwise, when you click on a base after moving + or -
-				// the selected base is n+1 - why??            
+		if (keyTyped.equals("+") 
+				|| keyTyped.equals("-")
+				|| keyTyped.equals("=") || keyTyped.equals("_")) { //Added keyTyped.equals("_")
+			if (keyTyped.equals("+") || keyTyped.equals("=")) {
+				moveRight();
+			} else {
+				moveLeft();
 			}
-			
-			if (keyNum == 39) {
-				caretPosition++;
-				if (caretPosition > (DNA.length() - 1)) {
-					caretPosition = DNA.length() - 1;
-				}
-				VisibleGene vg = expressGene(DNA, caretPosition);
-				refreshDisplay(vg, caretPosition);
-				DNASequenceLength = vg.getGene().getDNASequenceLength();
-				headerLength = vg.getGene().getHeaderLength() + 1;
-				checkAnswer(); //Automatic grading
-				// need the +1 otherwise, when you click on a base after moving + or -
-				// the selected base is n+1 - why??            
+		}
 
-			}
-			
-			if (keyNum == 37){
-				caretPosition--;
-				if (caretPosition < 0) {
-					caretPosition = 0;
-				}      	
-				VisibleGene vg = expressGene(DNA, caretPosition);
-				refreshDisplay(vg, caretPosition);
-				DNASequenceLength = vg.getGene().getDNASequenceLength();
-				headerLength = vg.getGene().getHeaderLength() + 1;
-				checkAnswer(); //Automatic grading
-				// need the +1 otherwise, when you click on a base after moving + or -
-				// the selected base is n+1 - why??            
-			}
+		if (keyNum == 39) {
+			moveRight();
+		}
+
+		if (keyNum == 37){
+			moveLeft();           
+		}
 	}
-	
+
 	public void keyDown(int keyCode) {
 		//Right arrow
 		if (keyCode == 39) {
-			caretPosition++;
-			if (caretPosition > (DNA.length() - 1)) {
-				caretPosition = DNA.length() - 1;
-			}
-			VisibleGene vg = expressGene(DNA, caretPosition);
-			refreshDisplay(vg, caretPosition);
-			DNASequenceLength = vg.getGene().getDNASequenceLength();
-			headerLength = vg.getGene().getHeaderLength() + 1;
-			checkAnswer(); //Automatic grading
-			// need the +1 otherwise, when you click on a base after moving + or -
-			// the selected base is n+1 - why??            
+			moveRight();
 		}
 		//Left arrow
 		if (keyCode == 37){
-			caretPosition--;
-			if (caretPosition < 0) {
-				caretPosition = 0;
-			}      	
-			VisibleGene vg = expressGene(DNA, caretPosition);
-			refreshDisplay(vg, caretPosition);
-			DNASequenceLength = vg.getGene().getDNASequenceLength();
-			headerLength = vg.getGene().getHeaderLength() + 1;
-			checkAnswer(); //Automatic grading
-			// need the +1 otherwise, when you click on a base after moving + or -
-			// the selected base is n+1 - why??            
+			moveLeft();
 		}
 		//Backspace and Delete
 		if (keyCode == 8 || keyCode == 46){
-			previousProteinString = currentProteinString;
-			StringBuffer workingDNAbuffer = new StringBuffer(DNA);
-			workingDNAbuffer.deleteCharAt(caretPosition);
-			DNA = workingDNAbuffer.toString();
-			if (caretPosition >= 0) {
-				caretPosition--;
-			}
-			VisibleGene vg = expressGene(DNA, caretPosition);
-			refreshDisplay(vg, caretPosition);
-			currentProteinString = vg.getGene().getProteinString();
-			DNASequenceLength = vg.getGene().getDNASequenceLength();
-			headerLength = vg.getGene().getHeaderLength();
-			checkAnswer(); //Automatic grading
+			deleteBase();
 		}
 	}
-	
+
+	public void insertBase(String base) {
+		previousProteinString = currentProteinString;
+		StringBuffer workingDNAbuffer = new StringBuffer(DNA);
+		workingDNAbuffer.insert(caretPosition, base);
+		DNA = workingDNAbuffer.toString();
+		caretPosition++;
+		VisibleGene vg = expressGene(DNA, caretPosition);
+		refreshDisplay(vg, caretPosition);
+		currentProteinString = vg.getGene().getProteinString();
+		DNASequenceLength = vg.getGene().getDNASequenceLength();
+		headerLength = vg.getGene().getHeaderLength() + 1;
+		checkAnswer(); //Automatic grading
+		// need the +1 otherwise, when you click on a base after moving + or -
+		// the selected base is n+1 - why??            
+	}
+
+	public void replaceBase(String base) {
+		previousProteinString = currentProteinString;
+		StringBuffer workingDNAbuffer = new StringBuffer(DNA);
+		workingDNAbuffer.replace(caretPosition, 
+				caretPosition + 1,
+				base.toUpperCase());
+		DNA = workingDNAbuffer.toString();
+		VisibleGene vg = expressGene(DNA, caretPosition);
+		refreshDisplay(vg, caretPosition);
+		currentProteinString = vg.getGene().getProteinString();
+		DNASequenceLength = vg.getGene().getDNASequenceLength();
+		headerLength = vg.getGene().getHeaderLength() + 1;
+		checkAnswer(); //Automatic grading
+		// need the +1 otherwise, when you click on a base after moving + or -
+		// the selected base is n+1 - why??            
+	}
+
+	public void deleteBase() {
+		previousProteinString = currentProteinString;
+		StringBuffer workingDNAbuffer = new StringBuffer(DNA);
+		workingDNAbuffer.deleteCharAt(caretPosition);
+		DNA = workingDNAbuffer.toString();
+		if (caretPosition >= 0) {
+			caretPosition--;
+		}
+		VisibleGene vg = expressGene(DNA, caretPosition);
+		refreshDisplay(vg, caretPosition);
+		currentProteinString = vg.getGene().getProteinString();
+		DNASequenceLength = vg.getGene().getDNASequenceLength();
+		headerLength = vg.getGene().getHeaderLength();
+		checkAnswer(); //Automatic grading
+	}
+
+	public void moveLeft() {
+		caretPosition--;
+		if (caretPosition < 0) {
+			caretPosition = 0;
+		}      	
+		VisibleGene vg = expressGene(DNA, caretPosition);
+		refreshDisplay(vg, caretPosition);
+		DNASequenceLength = vg.getGene().getDNASequenceLength();
+		headerLength = vg.getGene().getHeaderLength() + 1;
+		checkAnswer(); //Automatic grading
+		// need the +1 otherwise, when you click on a base after moving + or -
+		// the selected base is n+1 - why??            
+	}
+
+	public void moveRight() {
+		caretPosition++;
+		if (caretPosition > (DNA.length() - 1)) {
+			caretPosition = DNA.length() - 1;
+		}
+		VisibleGene vg = expressGene(DNA, caretPosition);
+		refreshDisplay(vg, caretPosition);
+		DNASequenceLength = vg.getGene().getDNASequenceLength();
+		headerLength = vg.getGene().getHeaderLength() + 1;
+		checkAnswer(); //Automatic grading
+		// need the +1 otherwise, when you click on a base after moving + or -
+		// the selected base is n+1 - why??            
+	}
+
 	public void refreshDisplay(VisibleGene vg, int selectedBase) {
 		if (selectedBase != -1) {
 			infoLabel.setText("Selected Base = " + selectedBase);
 		}  else {
 			infoLabel.setText("Selected Base = ");
 		}
-		
+
 		html.setHTML(vg.getColorHTML() 
 				+ "<font color=blue>" + previousProteinString 
 				+ "</font></pre><br><br><br><font size=+1>" + caption 
@@ -588,7 +568,7 @@ public class GenexGWT implements EntryPoint {
 		setClickEvent(this);
 		//html.setCaretPosition(0);
 	}
-	
+
 	public VisibleGene expressGene(String currentDNA, int selectedDNABase) {
 
 		// set up the gene for transcription, etc.
@@ -609,14 +589,14 @@ public class GenexGWT implements EntryPoint {
 		//generate the html & return it
 		return new VisibleGene(currentGene.generateHTML(selectedDNABase), currentGene);
 	}
-	
+
 	public void setProblemNumber(int problemNumber) {
 		prob = new Problem();
-		
+
 		Requirement r1, r2, r3;
 		ProteinLengthRequirement r11;
 		IntronNumberRequirement r22;
-		
+
 		//For some strange reason, switch/case wasn't working here!
 		if (problemNumber == 1) {
 			prob.setNumber(1);
@@ -631,55 +611,55 @@ public class GenexGWT implements EntryPoint {
 		}
 		else if (problemNumber == 2) {
 			prob.setNumber(2);
-	        prob.setName("Longer Protein");
-	        prob.setDescription("Start by Resetting the DNA sequence. Then, make a single base substitution so that the protein is longer.");
-	        r1 = new SingleMutationRequirement();
-	        r1.setFailureString("You did not make a single base substitution.");
-	        prob.addRequirement(r1);
-	        r2 = new LongerProteinRequirement();
-	        r2.setFailureString("Your change does not make the protein longer.");
-	        prob.addRequirement(r2);
+			prob.setName("Longer Protein");
+			prob.setDescription("Start by Resetting the DNA sequence. Then, make a single base substitution so that the protein is longer.");
+			r1 = new SingleMutationRequirement();
+			r1.setFailureString("You did not make a single base substitution.");
+			prob.addRequirement(r1);
+			r2 = new LongerProteinRequirement();
+			r2.setFailureString("Your change does not make the protein longer.");
+			prob.addRequirement(r2);
 		}    
 		else if (problemNumber == 3) {
 			prob.setNumber(3);
-	        prob.setName("Shorter Protein");
-	        prob.setDescription("Start by Resetting the DNA sequence. Then, make a single base substitution so that the protein is shorter.");
-	        r1 = new SingleMutationRequirement();
-	        r1.setFailureString("You did not make a single base substitution.");
-	        prob.addRequirement(r1);
-	        r2 = new ShorterProteinRequirement();
-	        r2.setFailureString("Your change does not make the protein shorter.");
-	        prob.addRequirement(r2);
+			prob.setName("Shorter Protein");
+			prob.setDescription("Start by Resetting the DNA sequence. Then, make a single base substitution so that the protein is shorter.");
+			r1 = new SingleMutationRequirement();
+			r1.setFailureString("You did not make a single base substitution.");
+			prob.addRequirement(r1);
+			r2 = new ShorterProteinRequirement();
+			r2.setFailureString("Your change does not make the protein shorter.");
+			prob.addRequirement(r2);
 		}
 		else if (problemNumber == 4) {
 			prob.setNumber(4);
-	        prob.setName("No mRNA; no Protein");
-	        prob.setDescription("Start by Resetting the DNA sequence. Then, make a single base substitution so that the gene neither makes mRNA nor protein.");
-	        r1 = new SingleMutationRequirement();
-	        r1.setFailureString("You did not make a single base substitution.");
-	        prob.addRequirement(r1);
-	        r2 = new NomRNARequirement();
-	        r2.setFailureString("Your change does not prevent mRNA from being made.");
-	        prob.addRequirement(r2);
-	        r3 = new NoProteinRequirement();
-	        r3.setFailureString("Your change does not prevent protein from being made");
-	        prob.addRequirement(r3);
+			prob.setName("No mRNA; no Protein");
+			prob.setDescription("Start by Resetting the DNA sequence. Then, make a single base substitution so that the gene neither makes mRNA nor protein.");
+			r1 = new SingleMutationRequirement();
+			r1.setFailureString("You did not make a single base substitution.");
+			prob.addRequirement(r1);
+			r2 = new NomRNARequirement();
+			r2.setFailureString("Your change does not prevent mRNA from being made.");
+			prob.addRequirement(r2);
+			r3 = new NoProteinRequirement();
+			r3.setFailureString("Your change does not prevent protein from being made");
+			prob.addRequirement(r3);
 		}    
 		else if (problemNumber == 5) {
 			prob.setNumber(5);
-	        prob.setName("Build a Gene");
-	        prob.setDescription("Use the Enter New DNA Sequence button. Then, type in DNA to make a gene that encodes a protein of 5 amino acids and has one intron.");
-	        r11 = new ProteinLengthRequirement();
-	        r11.setLength(15);
-	        r11.setFailureString("Your protein does not have 5 amino acids.");
-	        prob.addRequirement(r11);
-	        r22 = new IntronNumberRequirement();
-	        r22.setNumber(1);
-	        r22.setFailureString("Your gene does not contain one intron.");
-	        prob.addRequirement(r22);
+			prob.setName("Build a Gene");
+			prob.setDescription("Use the Enter New DNA Sequence button. Then, type in DNA to make a gene that encodes a protein of 5 amino acids and has one intron.");
+			r11 = new ProteinLengthRequirement();
+			r11.setLength(15);
+			r11.setFailureString("Your protein does not have 5 amino acids.");
+			prob.addRequirement(r11);
+			r22 = new IntronNumberRequirement();
+			r22.setNumber(1);
+			r22.setFailureString("Your gene does not contain one intron.");
+			prob.addRequirement(r22);
 		}  	
 	}
-	
+
 	public GenexState getState() {
 		if (workingGene == null) {
 			return null;
@@ -694,7 +674,7 @@ public class GenexGWT implements EntryPoint {
 				workingGene._mRNASequence,
 				workingGene._proteinSequence);
 	}
-	
+
 	public void checkAnswer() {
 		GenexState state = getState();
 		if (state == null) {
@@ -708,27 +688,27 @@ public class GenexGWT implements EntryPoint {
 			storeAnswer("INCORRECT");
 		}
 	}
-	
+
 	private native void exportSetDefaultDNASequence(GenexGWT gn) /*-{ 
 		$wnd.genexSetDefaultDNASequence = $entry(function(str) {return gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::setDefaultDNASequence(Ljava/lang/String;)(str);});
 	}-*/;
-	
+
 	private native void exportSetDNASequence(GenexGWT gn) /*-{ 
 		$wnd.genexSetDNASequence = $entry(function(str) {return gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::setDNASequence(Ljava/lang/String;)(str);});
 	}-*/;
-	
+
 	private native void exportSetClickEvent(GenexGWT gn) /*-{ 
 		$wnd.genexSetClickEvent = $entry(function() {@edu.umb.bio.jsGenex.client.gx.GenexGWT::setClickEvent(Ledu/umb/bio/jsGenex/client/gx/GenexGWT;)(gn);});
 	}-*/;
-	
+
 	private native void exportSetKeyEvent(GenexGWT gn) /*-{ 
 		$wnd.genexSetKeyEvent = $entry(function() {@edu.umb.bio.jsGenex.client.gx.GenexGWT::setKeyEvent(Ledu/umb/bio/jsGenex/client/gx/GenexGWT;)(gn);});
 	}-*/;
-	
+
 	private native void exportSetProblemNumber(GenexGWT gn) /*-{ 
 		$wnd.genexSetProblemNumber = $entry(function(problemNumber) {return gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::setProblemNumber(I)(problemNumber);});
 	}-*/;
-	
+
 	private native void exportGetDNASequence(GenexGWT gn) /*-{ 
 	$wnd.genexGetDNASequence = $entry(function() {return gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::getDNASequence()();});
 }-*/;
