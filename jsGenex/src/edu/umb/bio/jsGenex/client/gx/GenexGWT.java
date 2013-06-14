@@ -369,8 +369,6 @@ public class GenexGWT implements EntryPoint {
 			else {
 				if (gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::dnaStrandWasClicked) {
 					gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::dnaStrandWasClicked = false;
-					//Refresh the display to erase the blue selection
-					gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::eraseBlueSelection()();
 				}	
 			}	
 		}		
