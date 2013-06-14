@@ -201,8 +201,18 @@ public class GenexGWT implements EntryPoint {
 	    answerEvaluationContents.add(answerEvaluationHolder);
 	    answerEvaluationDialog.setWidget(answerEvaluationContents);
 
+	    // create Dialog with keypad buttons and a button to show it
+	    final DialogBox keyboardDialog = MakeKeyboardDialog.makeKeyboardDialog(this);
+	    Button showKeyBoardButton = new Button("<img src='images/keyboard.png' />");
+	    showKeyBoardButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				keyboardDialog.center();
+			}
+	    });
+	    
 		
 		footerPanel = new HorizontalPanel();
+		footerPanel.add(showKeyBoardButton);
 		footerPanel.add(resetButton);
 		footerPanel.add(newSequenceButton);
 		footerPanel.add(evaluateButton);
