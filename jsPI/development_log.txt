@@ -33,3 +33,13 @@ try to run
 get error Failed startup of context com.google.appengine.tools.development.DevAppEngineWebAppContext
 in WEB-INF/web.xml
 	nuked servlet lines
+no more error
+
+now, need to get it to display in page
+getting errors in graphics classes like
+	floatToIntBits is undefined for type FLoat
+	doubleToLongBits is undefined for type Double
+these are hash code methods for implementing comparable
+it looks like GWT version 2.5.0 has code for this
+	but I'm running 2.4.0
+		see in Project->Properties->Java Build Path
