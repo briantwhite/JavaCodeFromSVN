@@ -1,3 +1,11 @@
 6/17/13
 new -> Google -> Web Application Project
 nuke server stuff
+moving code from Jean-Michel Claus' gwt-ification of protex
+got it from https://github.com/MITx/Blades/tree/master/protex
+only have src/
+	drag in files to client/
+	also put content of Genex.gwt.xml into JsGenex.gwt.xml
+	content of public/genex.css to war/JsGenex.css
+	put images/ in war/
+avoided package issues by just copying in src folder contents
