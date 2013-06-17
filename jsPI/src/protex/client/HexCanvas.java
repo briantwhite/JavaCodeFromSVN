@@ -52,14 +52,17 @@ public class HexCanvas extends GridCanvas {
 		hexagon.addPoint(0, sqrt3 * cellRadius);
 	}
 
+	@Override
 	protected void setGrid(Grid grid) {
 		super.setGrid(grid);
 	}
 
+	@Override
 	protected int getAcidRadius() {
 		return cellRadius;
 	}
 
+	@Override
 	protected GridPoint project(GridPoint p) {
 		GridPoint spot = new GridPoint((1 + 2 * p.x + p.y) * cellRadius, p.y
 				* cellHeight + cellRadius);

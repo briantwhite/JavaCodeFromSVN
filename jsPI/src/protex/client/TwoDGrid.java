@@ -51,10 +51,12 @@ public abstract class TwoDGrid extends Grid {
 		}
 	}
 
+	@Override
 	public GridPoint getCenter() {
 		return new GridPoint(size / 2, size / 2);
 	}
 
+	@Override
 	public void set(int index, GridPoint p, Direction from) {
 		AcidInChain a = acids[index];
 		cells[p.y][p.x] = a;
@@ -64,14 +66,17 @@ public abstract class TwoDGrid extends Grid {
 		}
 	}
 
+	@Override
 	protected void unset(GridPoint p) {
 		this.unset(p.x, p.y);
 	}
 
+	@Override
 	protected void unset(GridPoint p, int index) {
 		unset(cells[p.y][p.x], index, p.x, p.y);
 	}
 
+	@Override
 	protected void unset(AcidInChain a) {
 		if ((a != null) && (a.xyz != null)) {
 			unset(a.xyz.x, a.xyz.y);
@@ -93,6 +98,7 @@ public abstract class TwoDGrid extends Grid {
 		}
 	}
 
+	@Override
 	protected AcidInChain get(GridPoint p) {
 		return this.get(p.x, p.y);
 	}
@@ -101,6 +107,7 @@ public abstract class TwoDGrid extends Grid {
 		return cells[y][x];
 	}
 
+	@Override
 	protected Direction getDirection(GridPoint p1, GridPoint p2) {
 		return getDirection(p1.x, p1.y, p2.x, p2.y);
 	}
@@ -112,12 +119,15 @@ public abstract class TwoDGrid extends Grid {
 
 	protected abstract Direction getDirection(int x1, int y1, int x2, int y2);
 
+	@Override
 	protected abstract Direction[] getAllDirections();
 
 	protected Direction[] allDirections = null;
 
+	@Override
 	protected abstract GridPoint nextCell(Direction direction, GridPoint p);
 
+	@Override
 	public abstract Direction[] getThirdPlacement();
 
 	// statistics
@@ -126,6 +136,7 @@ public abstract class TwoDGrid extends Grid {
 
 	protected int freeEdges;
 
+	@Override
 	public double getEnergy(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
 		//more energy is BAD
 		energy = 0;
@@ -219,21 +230,25 @@ public abstract class TwoDGrid extends Grid {
 		}
 	}
 
+	@Override
 	public double getFoldingIndex(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
 		computeStatistics(custom, hpIndex, hIndex, iIndex, sIndex);
 		return freeEdges / (double) (2 + 4 * pp.getLength());
 	}
 
+	@Override
 	public int getFreeEdges(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
 		computeStatistics(custom, hpIndex, hIndex, iIndex, sIndex);
 		return freeEdges;
 	}
 
+	@Override
 	public void computeStatistics(boolean custom, double hpIndex, double hIndex, double iIndex, double sIndex) {
 		getEnergy(custom, hpIndex, hIndex, iIndex, sIndex);
 		setNeighbors();
 	}
 
+	@Override
 	public void setNeighbors() {
 		pp.clearTopology();
 		for (int i = 0; i < numAcids; i++) {
@@ -241,10 +256,12 @@ public abstract class TwoDGrid extends Grid {
 		}
 	}
 
+	@Override
 	public boolean isLastAcidPlaced() {
 		return (acids[numAcids - 1]).xyz != null;
 	}
 
+	@Override
 	protected void setNeighbors(AcidInChain to) {
 		GridPoint p = to.xyz;
 		if (p == null) {
@@ -255,6 +272,7 @@ public abstract class TwoDGrid extends Grid {
 		}
 	}
 
+	@Override
 	protected void setNeighbor(AcidInChain to, GridPoint p, Direction d) {
 		AcidInChain from = get(nextCell(d, p));
 		if (from != null) {

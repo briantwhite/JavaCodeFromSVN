@@ -673,7 +673,8 @@ public class Color implements /*Paint, */java.io.Serializable {
      * @return     a hash code value for this object.
      * @since      JDK1.0
      */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return value;
     }
 
@@ -690,7 +691,8 @@ public class Color implements /*Paint, */java.io.Serializable {
      *                             <code>false</code> otherwise.
      * @since   JDK1.0
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         return obj instanceof Color && ((Color)obj).getRGB() == this.getRGB();
     }
 
@@ -703,7 +705,8 @@ public class Color implements /*Paint, */java.io.Serializable {
      *
      * @return  a string representation of this <code>Color</code>.
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return getClass().getName() + "[r=" + getRed() + ",g=" + getGreen() + ",b=" + getBlue() + "]";
     }
 
@@ -909,7 +912,7 @@ public class Color implements /*Paint, */java.io.Serializable {
         int cmin = (r < g) ? r : g;
         if (b < cmin) cmin = b;
 
-        brightness = ((float) cmax) / 255.0f;
+        brightness = (cmax) / 255.0f;
         if (cmax != 0)
             saturation = ((float) (cmax - cmin)) / ((float) cmax);
         else
@@ -978,10 +981,10 @@ public class Color implements /*Paint, */java.io.Serializable {
             f = compArray;
         }
         if (frgbvalue == null) {
-            f[0] = ((float)getRed())/255f;
-            f[1] = ((float)getGreen())/255f;
-            f[2] = ((float)getBlue())/255f;
-            f[3] = ((float)getAlpha())/255f;
+            f[0] = (getRed())/255f;
+            f[1] = (getGreen())/255f;
+            f[2] = (getBlue())/255f;
+            f[3] = (getAlpha())/255f;
         } else {
             f[0] = frgbvalue[0];
             f[1] = frgbvalue[1];
@@ -1010,9 +1013,9 @@ public class Color implements /*Paint, */java.io.Serializable {
             f = compArray;
         }
         if (frgbvalue == null) {
-            f[0] = ((float)getRed())/255f;
-            f[1] = ((float)getGreen())/255f;
-            f[2] = ((float)getBlue())/255f;
+            f[0] = (getRed())/255f;
+            f[1] = (getGreen())/255f;
+            f[2] = (getBlue())/255f;
         } else {
             f[0] = frgbvalue[0];
             f[1] = frgbvalue[1];

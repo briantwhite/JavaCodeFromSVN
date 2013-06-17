@@ -126,7 +126,8 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public double getWidth() {
+    @Override
+	public double getWidth() {
         return width;
     }
 
@@ -134,7 +135,8 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public double getHeight() {
+    @Override
+	public double getHeight() {
         return height;
     }
 
@@ -149,7 +151,8 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      * @param height the new height for the <code>Dimension</code> object
      * @since 1.2
      */
-    public void setSize(double width, double height) {
+    @Override
+	public void setSize(double width, double height) {
         this.width = (int) Math.ceil(width);
         this.height = (int) Math.ceil(height);
     }
@@ -203,7 +206,8 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
     /**
      * Checks whether two dimension objects have equal values.
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj instanceof Dimension) {
             Dimension d = (Dimension)obj;
             return (width == d.width) && (height == d.height);
@@ -216,7 +220,8 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      *
      * @return    a hash code for this <code>Dimension</code>
      */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         int sum = width + height;
         return sum * (sum + 1)/2 + width;
     }
@@ -232,7 +237,8 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      * @return  a string representation of this <code>Dimension</code>
      *          object
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return getClass().getName() + "[width=" + width + ",height=" + height + "]";
     }
 }

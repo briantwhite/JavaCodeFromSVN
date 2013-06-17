@@ -2,7 +2,6 @@ package protex.client;
 
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -13,8 +12,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
@@ -28,7 +25,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import protex.client.java.awt.Dimension;
 
 
@@ -123,6 +119,7 @@ public class ProtexGWT implements EntryPoint {
 		
 		//Amino Acid Sequence TextBox with Paste disabled
 		psTextBox = new TextBox() {
+			@Override
 			public void onBrowserEvent(Event event ) {  
 		        super.onBrowserEvent(event);  
 		        switch (event.getTypeInt()) {

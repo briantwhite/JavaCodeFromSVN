@@ -9,3 +9,27 @@ only have src/
 	content of public/genex.css to war/JsGenex.css
 	put images/ in war/
 avoided package issues by just copying in src folder contents
+
+fixed errors
+- nuke ProteinImageSet - since no history list
+- nuke SingleLetterCodeDocument - not used (JMC must've did the editing differently)
+- nuke TargetShape - not used 
+- in protex.client.java.awt.Graphics
+	need to take out lots of @override lines (why are they there?)
+- protex.client.java.awt.geom.Path2D.java needs Curve
+	got from web the sun.awt.geom.Curve.java code
+		dragged into protex.client.java.awt.geom
+
+need to set up JsPI.html
+
+went to mitx_all/mitx/common/static/js/capa
+	got design-protein-2d.js
+	put in war/
+	put in reference in JsPI.html
+
+added jquery also to JsPI.html
+
+try to run
+get error Failed startup of context com.google.appengine.tools.development.DevAppEngineWebAppContext
+in WEB-INF/web.xml
+	nuked servlet lines

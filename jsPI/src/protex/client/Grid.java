@@ -15,7 +15,6 @@
 
 package protex.client;
 
-import protex.client.java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;

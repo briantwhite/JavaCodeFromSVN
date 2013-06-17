@@ -264,7 +264,8 @@ public class Rectangle extends Rectangle2D
      * <code>double</code> precision.
      * @return the X coordinate of the bounding <code>Rectangle</code>.
      */
-    public double getX() {
+    @Override
+	public double getX() {
         return x;
     }
 
@@ -273,7 +274,8 @@ public class Rectangle extends Rectangle2D
      * <code>double</code> precision.
      * @return the Y coordinate of the bounding <code>Rectangle</code>.
      */
-    public double getY() {
+    @Override
+	public double getY() {
         return y;
     }
 
@@ -282,7 +284,8 @@ public class Rectangle extends Rectangle2D
      * <code>double</code> precision.
      * @return the width of the bounding <code>Rectangle</code>.
      */
-    public double getWidth() {
+    @Override
+	public double getWidth() {
         return width;
     }
 
@@ -291,7 +294,8 @@ public class Rectangle extends Rectangle2D
      * <code>double</code> precision.
      * @return the height of the bounding <code>Rectangle</code>.
      */
-    public double getHeight() {
+    @Override
+	public double getHeight() {
         return height;
     }
 
@@ -309,7 +313,8 @@ public class Rectangle extends Rectangle2D
      * @since     1.1
      */
 //    @Transient
-    public Rectangle getBounds() {
+    @Override
+	public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }
 
@@ -317,7 +322,8 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle2D getBounds2D() {
+    @Override
+	public Rectangle2D getBounds2D() {
         return new Rectangle(x, y, width, height);
     }
 
@@ -373,7 +379,8 @@ public class Rectangle extends Rectangle2D
      * @param width the width of the specified rectangle
      * @param height the new height of the specified rectangle
      */
-    public void setRect(double x, double y, double width, double height) {
+    @Override
+	public void setRect(double x, double y, double width, double height) {
         int newx, newy, neww, newh;
 
         if (x > 2.0 * Integer.MAX_VALUE) {
@@ -1118,7 +1125,8 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean isEmpty() {
+    @Override
+	public boolean isEmpty() {
         return (width <= 0) || (height <= 0);
     }
 
@@ -1126,7 +1134,8 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
-    public int outcode(double x, double y) {
+    @Override
+	public int outcode(double x, double y) {
         /*
          * Note on casts to double below.  If the arithmetic of
          * x+w or y+h is done in int, then we may get integer
@@ -1158,7 +1167,8 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle2D createIntersection(Rectangle2D r) {
+    @Override
+	public Rectangle2D createIntersection(Rectangle2D r) {
         if (r instanceof Rectangle) {
             return intersection((Rectangle) r);
         }
@@ -1171,7 +1181,8 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle2D createUnion(Rectangle2D r) {
+    @Override
+	public Rectangle2D createUnion(Rectangle2D r) {
         if (r instanceof Rectangle) {
             return union((Rectangle) r);
         }
@@ -1192,7 +1203,8 @@ public class Rectangle extends Rectangle2D
      * @return    <code>true</code> if the objects are equal;
      *            <code>false</code> otherwise.
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj instanceof Rectangle) {
             Rectangle r = (Rectangle)obj;
             return ((x == r.x) &&
@@ -1209,7 +1221,8 @@ public class Rectangle extends Rectangle2D
      * @return a <code>String</code> representing this
      *               <code>Rectangle</code> object's coordinate and size values.
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
     }
 }

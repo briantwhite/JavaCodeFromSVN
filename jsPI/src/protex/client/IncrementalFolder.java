@@ -12,8 +12,6 @@
  */
 
 package protex.client;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
 /**
  * Incremental approximation algorithm searching for minimal energy.
@@ -36,10 +34,12 @@ public class IncrementalFolder extends BruteForceFolder {
 	//current amino acid being worked in
 	int current;
 	
+	@Override
 	public int getCurrent() {
 		return current;
 	}
 
+	@Override
 	public String getName() {
 		return "Incremental folding - " + "lookahead: " + lookAhead + " step: "
 				+ step;
@@ -92,6 +92,7 @@ public class IncrementalFolder extends BruteForceFolder {
 	
 	int localLookAhead;
 	
+	@Override
 	protected void placeRestOfAcids() {
 		current = 2; // ready to place 3rd acid
 		resetEnergy();

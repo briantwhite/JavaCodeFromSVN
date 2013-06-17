@@ -42,15 +42,10 @@
 package protex.client;
 
 
-import protex.client.java.awt.Color;
 import protex.client.java.awt.Dimension;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.CssColor;
 
 /**
  * OutputPalette displays folding results.

@@ -115,23 +115,26 @@ public abstract class Line2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX1() {
-            return (double) x1;
+        @Override
+		public double getX1() {
+            return x1;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY1() {
-            return (double) y1;
+        @Override
+		public double getY1() {
+            return y1;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public Point2D getP1() {
+        @Override
+		public Point2D getP1() {
             return new Point2D.Float(x1, y1);
         }
 
@@ -139,23 +142,26 @@ public abstract class Line2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX2() {
-            return (double) x2;
+        @Override
+		public double getX2() {
+            return x2;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY2() {
-            return (double) y2;
+        @Override
+		public double getY2() {
+            return y2;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public Point2D getP2() {
+        @Override
+		public Point2D getP2() {
             return new Point2D.Float(x2, y2);
         }
 
@@ -163,7 +169,8 @@ public abstract class Line2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setLine(double x1, double y1, double x2, double y2) {
+        @Override
+		public void setLine(double x1, double y1, double x2, double y2) {
             this.x1 = (float) x1;
             this.y1 = (float) y1;
             this.x2 = (float) x2;
@@ -283,7 +290,8 @@ public abstract class Line2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX1() {
+        @Override
+		public double getX1() {
             return x1;
         }
 
@@ -291,7 +299,8 @@ public abstract class Line2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY1() {
+        @Override
+		public double getY1() {
             return y1;
         }
 
@@ -299,7 +308,8 @@ public abstract class Line2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Point2D getP1() {
+        @Override
+		public Point2D getP1() {
             return new Point2D.Double(x1, y1);
         }
 
@@ -307,7 +317,8 @@ public abstract class Line2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX2() {
+        @Override
+		public double getX2() {
             return x2;
         }
 
@@ -315,7 +326,8 @@ public abstract class Line2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY2() {
+        @Override
+		public double getY2() {
             return y2;
         }
 
@@ -323,7 +335,8 @@ public abstract class Line2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Point2D getP2() {
+        @Override
+		public Point2D getP2() {
             return new Point2D.Double(x2, y2);
         }
 
@@ -331,7 +344,8 @@ public abstract class Line2D implements Shape, Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setLine(double x1, double y1, double x2, double y2) {
+        @Override
+		public void setLine(double x1, double y1, double x2, double y2) {
             this.x1 = x1;
             this.y1 = y1;
             this.x2 = x2;

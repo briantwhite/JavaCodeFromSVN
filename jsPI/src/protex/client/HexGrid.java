@@ -58,17 +58,20 @@ public class HexGrid extends TwoDGrid {
 
 	}
 
+	@Override
 	protected Direction[] getAllDirections() {
 		Direction[] all = { Direction.E, Direction.NE, Direction.NW,
 				Direction.W, Direction.SW, Direction.SE };
 		return all;
 	}
 
+	@Override
 	public Direction[] getThirdPlacement() {
 		Direction[] directions = { E, NE, NW };
 		return directions;
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		for (int row = 0; row < size; row++) {
@@ -85,6 +88,7 @@ public class HexGrid extends TwoDGrid {
 		return buf.toString();
 	}
 
+	@Override
 	protected Direction getDirection(int x1, int y1, int x2, int y2) {
 		if (y1 == y2) {
 			if (x1 + 1 == x2)
@@ -104,6 +108,7 @@ public class HexGrid extends TwoDGrid {
 	/*-{
 		console.log(msg);
 	}-*/;
+	@Override
 	protected GridPoint nextCell(Direction direction, GridPoint p) {
 		int x = p.x;
 		int y = p.y;
@@ -127,16 +132,19 @@ public class HexGrid extends TwoDGrid {
 	// coming from some Direction, try to continue in the same
 	// Direction. Make counterclockwise turn if you must turn.
 
+	@Override
 	protected Direction[] getDirectionRing3() {
 		Direction[] ring = { E, NE, NW, W, SW, SE, E, NE, NW, W, SW, SE, E, NE,
 				NW, W, SW, SE };
 		return ring;
 	}
 
+	@Override
 	protected int getNumDirections() {
 		return 6;
 	}
 
+	@Override
 	public void setNextDirectionsStraight() {
 		straightMap = new HashMap();
 		Direction[] nextE = { E, NE, SE, NW, SW };

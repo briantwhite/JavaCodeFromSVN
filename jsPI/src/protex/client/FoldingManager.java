@@ -40,7 +40,6 @@
 
 package protex.client;
 
-import protex.client.java.awt.Color;
 import com.google.gwt.i18n.client.NumberFormat;
 import java.util.Vector;
 

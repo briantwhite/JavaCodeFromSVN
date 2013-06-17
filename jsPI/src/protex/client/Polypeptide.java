@@ -104,11 +104,12 @@ public class Polypeptide {
 		return (AcidInChain) acids.get(i);
 	}
 
+	@Override
 	public String toString() {
 		Iterator i = iterator();
 		StringBuffer buf = new StringBuffer();
 		while (i.hasNext()) {
-			buf.append((AcidInChain) i.next() + " : ");
+			buf.append(i.next() + " : ");
 		}
 		return buf.toString();
 	}

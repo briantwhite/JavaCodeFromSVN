@@ -40,10 +40,12 @@ public class BlackColorCoder extends ColorCoder {
 		c = 3 - 2 * k;
 	}
 
+	@Override
 	protected Color getCellColor(double hydrophobicIndex) {
 		return getCellColor((float) hydrophobicIndex);
 	}
 
+	@Override
 	protected Color getCellColor(float hydrophobicIndex) {
 		// maps hydrophobic index from [-1, 1] into [0, 1]
 		float x = (hydrophobicIndex + 1) / 2;

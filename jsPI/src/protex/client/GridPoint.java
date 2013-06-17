@@ -70,6 +70,7 @@ public class GridPoint {
 		return new GridPoint(x - p.x, y - p.y, z - p.z);
 	}
 
+	@Override
 	public String toString() {
 		return "[" + x + "," + y + "," + z + "]";
 	}

@@ -1,12 +1,6 @@
 package protex.client;
 
-import protex.client.java.awt.Dimension;
-import protex.client.java.awt.Graphics;
-
 import java.util.ArrayList;
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 
 public class ProteinImageFactory {
 	

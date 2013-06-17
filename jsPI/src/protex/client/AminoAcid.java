@@ -118,6 +118,7 @@ public class AminoAcid {
 		normalizedHydrophobicIndex = (float) val;
 	}
 
+	@Override
 	public String toString() {
 		return name;
 	}

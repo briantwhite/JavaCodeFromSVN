@@ -69,10 +69,12 @@ public class ColorColorCoder extends ColorCoder {
 		c = 3 - 2 * k;
 	}
 
+	@Override
 	protected Color getCellColor(double hydrophobicIndex) {
 		return getCellColor((float) hydrophobicIndex);
 	}
 
+	@Override
 	protected Color getCellColor(float hydrophobicIndex) {
 		float x = (hydrophobicIndex + 1) / 2; // map [-1,1] to [0,1]
 		float alpha = x * (c + x * (b + a * x)); // polynomial evaluation trick

@@ -47,18 +47,15 @@ public class Graphics implements GraphicsInterface {
     this.component = component;
   }
 
-  @Override
   public void forceRepaint() {
     if (component != null)
       component.repaint();
   }
 
-  @Override
   public Context2d getContext2d() {
     return context;
   }
 
-  @Override
   public void translate(int x, int y) {
     context.translate(x, y);
   }
@@ -68,7 +65,6 @@ public class Graphics implements GraphicsInterface {
     return "rgba(" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() + ", " + alpha + ")";
   }
 
-  @Override
   public void setColor(Color color) {
     if (color != null) {
       float alpha = color.getAlpha() / 255f;
@@ -79,16 +75,15 @@ public class Graphics implements GraphicsInterface {
     }
   }
 
-  @Override
   public void setFillColor(Color color) {
     if (color != null) {
-      float alpha = (float) color.getAlpha() / 255f;
+      float alpha = color.getAlpha() / 255f;
       String colorString = convert(color, alpha);
       context.setFillStyle(colorString);
     }
   }
 
-  @Override
+  
   public void setStroke(BasicStroke stroke) {
     if (stroke != null) {
       // TODO support for stroke pattern as soon ie is support stroke patterns
@@ -132,7 +127,7 @@ public class Graphics implements GraphicsInterface {
     }
   }
 
-  @Override
+  
   public void draw(Shape shape) {
     if (shape != null) {
       path(shape);
@@ -142,7 +137,6 @@ public class Graphics implements GraphicsInterface {
     }
   }
 
-  @Override
   public void fill(Shape shape) {
     if (shape != null) {
       path(shape);
@@ -180,13 +174,13 @@ public class Graphics implements GraphicsInterface {
 	  context.setFont(str);
   }
 
-  @Override
+  
   public void clipRect(int x, int y, int width, int height) {
     // TODO validate, intersec, null
     this.setClip(x, y, width, height);
   }
 
-  @Override
+  
   public void setClip(int x, int y, int width, int height) {
     context.beginPath();
     context.moveTo(x, y);
@@ -199,18 +193,18 @@ public class Graphics implements GraphicsInterface {
 
   }
 
-  @Override
+  
   public void setClip(Shape clip) {
     path(clip);
     context.clip();
   }
 
-  @Override
+  
   public void clearRect(int x, int y, int width, int height) {
     context.clearRect(x, y, width, height);
   }
 
-  @Override
+  
   public void drawString(String str, int x, int y) {
     context.strokeText(str, x, y);
   }
@@ -225,12 +219,12 @@ public class Graphics implements GraphicsInterface {
   }
   //END ADD
   
-  @Override
+  
   public void drawChars(char data[], int offset, int length, int x, int y) {
     drawString(new String(data, offset, length), x, y);
   }
 
-  @Override
+  
   public void drawLine(double x, double y, double x2, double y2) {
     context.beginPath();
     context.moveTo(x, y);

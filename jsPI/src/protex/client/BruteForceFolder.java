@@ -16,9 +16,7 @@
 package protex.client;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-import java.util.Vector;
 
 
 /**
@@ -49,6 +47,7 @@ public class BruteForceFolder extends Folder {
 	
 	ProtexGWT protexGWT;
 
+	@Override
 	public String getName() {
 		return "Brute force folding";
 	}
@@ -66,6 +65,7 @@ public class BruteForceFolder extends Folder {
 		infiniteEnergy = grid.getInfiniteEnergy();
 	}
 
+	@Override
 	public void realFold() {
 		for (int i = 0; i < buckets.length; i++) {
 			buckets[i] = 0;
@@ -249,6 +249,7 @@ public class BruteForceFolder extends Folder {
 		return topologies.toString();
 	}
 
+	@Override
 	public String getStatistics() {
 		return "explored " + chainCount + " chains in " + getTime()
 				+ " seconds";
@@ -262,6 +263,7 @@ public class BruteForceFolder extends Folder {
 		return buf.toString();
 	}
 
+	@Override
 	public String report() {
 		StringBuffer buf = new StringBuffer(super.report());
 		buf.append("\nexplored " + chainCount + " chains");

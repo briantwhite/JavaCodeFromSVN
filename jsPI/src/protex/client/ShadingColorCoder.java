@@ -33,10 +33,12 @@ public class ShadingColorCoder extends ColorCoder {
 		this();
 	}
 
+	@Override
 	protected Color getCellColor(double hydrophobicIndex) {
 		return getCellColor((float) hydrophobicIndex);
 	}
 
+	@Override
 	protected Color getCellColor(float hydrophobicIndex) {
 		float x = (0.99f) * (1 - (hydrophobicIndex * hydrophobicIndex * hydrophobicIndex)); 
 		return new Color((maxRed * x), (maxGreen * x), (maxBlue * x));

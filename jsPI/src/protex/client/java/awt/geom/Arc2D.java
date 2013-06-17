@@ -214,8 +214,9 @@ public abstract class Arc2D extends RectangularShape {
          *
          * @since 1.2
          */
-        public double getX() {
-            return (double) x;
+        @Override
+		public double getX() {
+            return x;
         }
 
         /**
@@ -226,8 +227,9 @@ public abstract class Arc2D extends RectangularShape {
          *
          * @since 1.2
          */
-        public double getY() {
-            return (double) y;
+        @Override
+		public double getY() {
+            return y;
         }
 
         /**
@@ -238,8 +240,9 @@ public abstract class Arc2D extends RectangularShape {
          *
          * @since 1.2
          */
-        public double getWidth() {
-            return (double) width;
+        @Override
+		public double getWidth() {
+            return width;
         }
 
         /**
@@ -250,31 +253,35 @@ public abstract class Arc2D extends RectangularShape {
          *
          * @since 1.2
          */
-        public double getHeight() {
-            return (double) height;
+        @Override
+		public double getHeight() {
+            return height;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getAngleStart() {
-            return (double) start;
+        @Override
+		public double getAngleStart() {
+            return start;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getAngleExtent() {
-            return (double) extent;
+        @Override
+		public double getAngleExtent() {
+            return extent;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        @Override
+		public boolean isEmpty() {
             return (width <= 0.0 || height <= 0.0);
         }
 
@@ -282,7 +289,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setArc(double x, double y, double w, double h,
+        @Override
+		public void setArc(double x, double y, double w, double h,
                            double angSt, double angExt, int closure) {
             this.setArcType(closure);
             this.x = (float) x;
@@ -297,7 +305,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setAngleStart(double angSt) {
+        @Override
+		public void setAngleStart(double angSt) {
             this.start = (float) angSt;
         }
 
@@ -305,7 +314,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setAngleExtent(double angExt) {
+        @Override
+		public void setAngleExtent(double angExt) {
             this.extent = (float) angExt;
         }
 
@@ -313,7 +323,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        protected Rectangle2D makeBounds(double x, double y,
+        @Override
+		protected Rectangle2D makeBounds(double x, double y,
                                          double w, double h) {
             return new Rectangle2D.Float((float) x, (float) y,
                                          (float) w, (float) h);
@@ -507,7 +518,8 @@ public abstract class Arc2D extends RectangularShape {
          *
          * @since 1.2
          */
-        public double getX() {
+        @Override
+		public double getX() {
             return x;
         }
 
@@ -519,7 +531,8 @@ public abstract class Arc2D extends RectangularShape {
          *
          * @since 1.2
          */
-        public double getY() {
+        @Override
+		public double getY() {
             return y;
         }
 
@@ -531,7 +544,8 @@ public abstract class Arc2D extends RectangularShape {
          *
          * @since 1.2
          */
-        public double getWidth() {
+        @Override
+		public double getWidth() {
             return width;
         }
 
@@ -543,7 +557,8 @@ public abstract class Arc2D extends RectangularShape {
          *
          * @since 1.2
          */
-        public double getHeight() {
+        @Override
+		public double getHeight() {
             return height;
         }
 
@@ -551,7 +566,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getAngleStart() {
+        @Override
+		public double getAngleStart() {
             return start;
         }
 
@@ -559,7 +575,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getAngleExtent() {
+        @Override
+		public double getAngleExtent() {
             return extent;
         }
 
@@ -567,7 +584,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        @Override
+		public boolean isEmpty() {
             return (width <= 0.0 || height <= 0.0);
         }
 
@@ -575,7 +593,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setArc(double x, double y, double w, double h,
+        @Override
+		public void setArc(double x, double y, double w, double h,
                            double angSt, double angExt, int closure) {
             this.setArcType(closure);
             this.x = x;
@@ -590,7 +609,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setAngleStart(double angSt) {
+        @Override
+		public void setAngleStart(double angSt) {
             this.start = angSt;
         }
 
@@ -598,7 +618,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setAngleExtent(double angExt) {
+        @Override
+		public void setAngleExtent(double angExt) {
             this.extent = angExt;
         }
 
@@ -606,7 +627,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        protected Rectangle2D makeBounds(double x, double y,
+        @Override
+		protected Rectangle2D makeBounds(double x, double y,
                                          double w, double h) {
             return new Rectangle2D.Double(x, y, w, h);
         }
@@ -1027,7 +1049,8 @@ public abstract class Arc2D extends RectangularShape {
      *
      * @since 1.2
      */
-    public void setFrame(double x, double y, double w, double h) {
+    @Override
+	public void setFrame(double x, double y, double w, double h) {
         setArc(x, y, w, h, getAngleStart(), getAngleExtent(), type);
     }
 
@@ -1362,7 +1385,8 @@ public abstract class Arc2D extends RectangularShape {
      * <CODE>false</CODE> if the arc doesn't contain the rectangle.
      * @since 1.2
      */
-    public boolean contains(Rectangle2D r) {
+    @Override
+	public boolean contains(Rectangle2D r) {
         return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight(), r);
     }
 
@@ -1455,7 +1479,8 @@ public abstract class Arc2D extends RectangularShape {
      *          <code>false</code> otherwise.
      * @since 1.6
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }

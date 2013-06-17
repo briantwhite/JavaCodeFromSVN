@@ -22,12 +22,12 @@
 
 package protex.client.java.awt.geom;
 
-import protex.client.java.awt.Rectangle;
-import protex.client.java.awt.Shape;
 import java.io.Serializable;
-import sun.awt.geom.Curve;
 
 import protex.client.helper.Arrays;
+import protex.client.java.awt.Rectangle;
+import protex.client.java.awt.Shape;
+import protex.client.sun.awt.geom.Curve;
 
 /**
  * The {@code Path2D} class provides a simple, yet flexible shape which represents an arbitrary
@@ -217,7 +217,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
       }
     }
 
-    float[] cloneCoordsFloat(AffineTransform at) {
+    @Override
+	float[] cloneCoordsFloat(AffineTransform at) {
       float ret[];
       if (at == null) {
         ret = Arrays.copyOf(this.floatCoords, this.floatCoords.length);
@@ -228,7 +229,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
       return ret;
     }
 
-    double[] cloneCoordsDouble(AffineTransform at) {
+    @Override
+	double[] cloneCoordsDouble(AffineTransform at) {
       double ret[] = new double[floatCoords.length];
       if (at == null) {
         for (int i = 0; i < numCoords; i++) {
@@ -240,21 +242,25 @@ public abstract class Path2D implements Shape/* , Cloneable */{
       return ret;
     }
 
-    void append(float x, float y) {
+    @Override
+	void append(float x, float y) {
       floatCoords[numCoords++] = x;
       floatCoords[numCoords++] = y;
     }
 
-    void append(double x, double y) {
+    @Override
+	void append(double x, double y) {
       floatCoords[numCoords++] = (float) x;
       floatCoords[numCoords++] = (float) y;
     }
 
-    Point2D getPoint(int coordindex) {
+    @Override
+	Point2D getPoint(int coordindex) {
       return new Point2D.Float(floatCoords[coordindex], floatCoords[coordindex + 1]);
     }
 
-    void needRoom(boolean needMove, int newCoords) {
+    @Override
+	void needRoom(boolean needMove, int newCoords) {
       if (needMove && numTypes == 0) {
         throw new IllegalPathStateException("missing initial moveto " + "in path definition");
       }
@@ -284,7 +290,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final synchronized void moveTo(double x, double y) {
+    @Override
+	public final synchronized void moveTo(double x, double y) {
       if (numTypes > 0 && pointTypes[numTypes - 1] == SEG_MOVETO) {
         floatCoords[numCoords - 2] = (float) x;
         floatCoords[numCoords - 1] = (float) y;
@@ -324,7 +331,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final synchronized void lineTo(double x, double y) {
+    @Override
+	public final synchronized void lineTo(double x, double y) {
       needRoom(true, 2);
       pointTypes[numTypes++] = SEG_LINETO;
       floatCoords[numCoords++] = (float) x;
@@ -355,7 +363,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final synchronized void quadTo(double x1, double y1, double x2, double y2) {
+    @Override
+	public final synchronized void quadTo(double x1, double y1, double x2, double y2) {
       needRoom(true, 4);
       pointTypes[numTypes++] = SEG_QUADTO;
       floatCoords[numCoords++] = (float) x1;
@@ -394,7 +403,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final synchronized void curveTo(double x1, double y1, double x2, double y2, double x3, double y3) {
+    @Override
+	public final synchronized void curveTo(double x1, double y1, double x2, double y2, double x3, double y3) {
       needRoom(true, 6);
       pointTypes[numTypes++] = SEG_CUBICTO;
       floatCoords[numCoords++] = (float) x1;
@@ -434,7 +444,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
       floatCoords[numCoords++] = y3;
     }
 
-    int pointCrossings(double px, double py) {
+    @Override
+	int pointCrossings(double px, double py) {
       double movx, movy, curx, cury, endx, endy;
       float coords[] = floatCoords;
       curx = movx = coords[0];
@@ -482,7 +493,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
       return crossings;
     }
 
-    int rectCrossings(double rxmin, double rymin, double rxmax, double rymax) {
+    @Override
+	int rectCrossings(double rxmin, double rymin, double rxmax, double rymax) {
       float coords[] = floatCoords;
       double curx, cury, movx, movy, endx, endy;
       curx = movx = coords[0];
@@ -542,7 +554,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final void append(PathIterator pi, boolean connect) {
+    @Override
+	public final void append(PathIterator pi, boolean connect) {
       float coords[] = new float[6];
       while (!pi.isDone()) {
         switch (pi.currentSegment(coords)){
@@ -580,7 +593,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final void transform(AffineTransform at) {
+    @Override
+	public final void transform(AffineTransform at) {
       at.transform(floatCoords, 0, floatCoords, 0, numCoords / 2);
     }
 
@@ -931,7 +945,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
       }
     }
 
-    float[] cloneCoordsFloat(AffineTransform at) {
+    @Override
+	float[] cloneCoordsFloat(AffineTransform at) {
       float ret[] = new float[doubleCoords.length];
       if (at == null) {
         for (int i = 0; i < numCoords; i++) {
@@ -943,7 +958,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
       return ret;
     }
 
-    double[] cloneCoordsDouble(AffineTransform at) {
+    @Override
+	double[] cloneCoordsDouble(AffineTransform at) {
       double ret[];
       if (at == null) {
         ret = Arrays.copyOf(this.doubleCoords, this.doubleCoords.length);
@@ -954,21 +970,25 @@ public abstract class Path2D implements Shape/* , Cloneable */{
       return ret;
     }
 
-    void append(float x, float y) {
+    @Override
+	void append(float x, float y) {
       doubleCoords[numCoords++] = x;
       doubleCoords[numCoords++] = y;
     }
 
-    void append(double x, double y) {
+    @Override
+	void append(double x, double y) {
       doubleCoords[numCoords++] = x;
       doubleCoords[numCoords++] = y;
     }
 
-    Point2D getPoint(int coordindex) {
+    @Override
+	Point2D getPoint(int coordindex) {
       return new Point2D.Double(doubleCoords[coordindex], doubleCoords[coordindex + 1]);
     }
 
-    void needRoom(boolean needMove, int newCoords) {
+    @Override
+	void needRoom(boolean needMove, int newCoords) {
       if (needMove && numTypes == 0) {
         throw new IllegalPathStateException("missing initial moveto " + "in path definition");
       }
@@ -998,7 +1018,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final synchronized void moveTo(double x, double y) {
+    @Override
+	public final synchronized void moveTo(double x, double y) {
       if (numTypes > 0 && pointTypes[numTypes - 1] == SEG_MOVETO) {
         doubleCoords[numCoords - 2] = x;
         doubleCoords[numCoords - 1] = y;
@@ -1015,7 +1036,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final synchronized void lineTo(double x, double y) {
+    @Override
+	public final synchronized void lineTo(double x, double y) {
       needRoom(true, 2);
       pointTypes[numTypes++] = SEG_LINETO;
       doubleCoords[numCoords++] = x;
@@ -1027,7 +1049,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final synchronized void quadTo(double x1, double y1, double x2, double y2) {
+    @Override
+	public final synchronized void quadTo(double x1, double y1, double x2, double y2) {
       needRoom(true, 4);
       pointTypes[numTypes++] = SEG_QUADTO;
       doubleCoords[numCoords++] = x1;
@@ -1041,7 +1064,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final synchronized void curveTo(double x1, double y1, double x2, double y2, double x3, double y3) {
+    @Override
+	public final synchronized void curveTo(double x1, double y1, double x2, double y2, double x3, double y3) {
       needRoom(true, 6);
       pointTypes[numTypes++] = SEG_CUBICTO;
       doubleCoords[numCoords++] = x1;
@@ -1052,7 +1076,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
       doubleCoords[numCoords++] = y3;
     }
 
-    int pointCrossings(double px, double py) {
+    @Override
+	int pointCrossings(double px, double py) {
       double movx, movy, curx, cury, endx, endy;
       double coords[] = doubleCoords;
       curx = movx = coords[0];
@@ -1100,7 +1125,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
       return crossings;
     }
 
-    int rectCrossings(double rxmin, double rymin, double rxmax, double rymax) {
+    @Override
+	int rectCrossings(double rxmin, double rymin, double rxmax, double rymax) {
       double coords[] = doubleCoords;
       double curx, cury, movx, movy, endx, endy;
       curx = movx = coords[0];
@@ -1161,7 +1187,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final void append(PathIterator pi, boolean connect) {
+    @Override
+	public final void append(PathIterator pi, boolean connect) {
       double coords[] = new double[6];
       while (!pi.isDone()) {
         switch (pi.currentSegment(coords)){
@@ -1199,7 +1226,8 @@ public abstract class Path2D implements Shape/* , Cloneable */{
      * 
      * @since 1.6
      */
-    public final void transform(AffineTransform at) {
+    @Override
+	public final void transform(AffineTransform at) {
       at.transform(doubleCoords, 0, doubleCoords, 0, numCoords / 2);
     }
 

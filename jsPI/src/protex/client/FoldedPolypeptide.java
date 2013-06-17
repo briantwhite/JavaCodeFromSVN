@@ -1,7 +1,5 @@
 package protex.client;
 
-import protex.client.java.awt.Color;
-
 
 public class FoldedPolypeptide {
 	private boolean ssBondsOn;

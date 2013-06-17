@@ -347,7 +347,8 @@ public class BasicStroke implements Stroke {
    * 
    * @return a hash code for this stroke.
    */
-  public int hashCode() {
+  @Override
+public int hashCode() {
     int hash = Float.floatToIntBits(width);
     hash = hash * 31 + join;
     hash = hash * 31 + cap;
@@ -373,7 +374,8 @@ public class BasicStroke implements Stroke {
    * @return <code>true</code> if the width, join, cap, miter limit, dash, and dash phase are the
    *         same for both objects; <code>false</code> otherwise.
    */
-  public boolean equals(Object obj) {
+  @Override
+public boolean equals(Object obj) {
     if (!(obj instanceof BasicStroke)) {
       return false;
     }

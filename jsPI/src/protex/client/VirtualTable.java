@@ -32,6 +32,7 @@ public class VirtualTable extends AminoAcidTable {
 	 * @param probability
 	 *            how likely is that AminoAcid?
 	 */
+	@Override
 	public void add(AminoAcid a, double probability) throws FoldingException {
 		throw new FoldingException("can't add to virtual table");
 	}
@@ -45,6 +46,7 @@ public class VirtualTable extends AminoAcidTable {
 	 * @throws FoldingException
 	 *             if operation not allowed.
 	 */
+	@Override
 	public void add(AminoAcid a) throws FoldingException {
 		throw new FoldingException("can't add to virtual table");
 	}
@@ -52,6 +54,7 @@ public class VirtualTable extends AminoAcidTable {
 	/**
 	 * Returns the name of this table
 	 */
+	@Override
 	public String getName() {
 		return AminoAcidTable.VIRTUAL;
 	}
@@ -64,6 +67,7 @@ public class VirtualTable extends AminoAcidTable {
 	 * 
 	 * @return the acid, null if none.
 	 */
+	@Override
 	public AminoAcid get(String name) throws FoldingException {
 		try {
 			double hydrophobicIndex = (new Double(name)).doubleValue();
@@ -89,6 +93,7 @@ public class VirtualTable extends AminoAcidTable {
 	 * @param seed
 	 *            a seed for the random number generator.
 	 */
+	@Override
 	public AminoAcid[] getRandom(int length, int seed) {
 		AminoAcid[] sequence = new AminoAcid[length];
 		java.util.Random random = new java.util.Random(seed);
@@ -111,6 +116,7 @@ public class VirtualTable extends AminoAcidTable {
 	 * 
 	 * @return the bound.
 	 */
+	@Override
 	public double getMaxEnergy() {
 		return maxEnergy;
 	}
@@ -126,6 +132,7 @@ public class VirtualTable extends AminoAcidTable {
 		}
 	}
 
+	@Override
 	public AminoAcid getFromAbName(String name) throws FoldingException {
 		// TODO Auto-generated method stub
 		return null;

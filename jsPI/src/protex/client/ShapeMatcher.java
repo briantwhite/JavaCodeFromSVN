@@ -1,7 +1,5 @@
 package protex.client;
 
-import protex.client.java.awt.Dimension;
-
 public class ShapeMatcher {
 	
 	private String targetString;

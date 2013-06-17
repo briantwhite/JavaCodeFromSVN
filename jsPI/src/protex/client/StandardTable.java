@@ -82,6 +82,7 @@ public class StandardTable extends AminoAcidTable  {
 		//		showContactEnergies();  for debugging only
 	}
 
+	@Override
 	public Iterator getIterator() throws FoldingException {
 		return table.keySet().iterator();
 	}
@@ -94,6 +95,7 @@ public class StandardTable extends AminoAcidTable  {
 	 * @param probability
 	 *            how likely is that AminoAcid?
 	 */
+	@Override
 	public void add(AminoAcid a, double probability) throws FoldingException {
 		String aName = a.getName().trim().toUpperCase();
 		table.put(aName, new AcidInTable(a, probability));
@@ -109,6 +111,7 @@ public class StandardTable extends AminoAcidTable  {
 	 * @throws FoldingException
 	 *             if operation not allowed.
 	 */
+	@Override
 	public void add(AminoAcid a) throws FoldingException {
 		throw new FoldingException(
 				"can't add to standard table without probability");
@@ -122,6 +125,7 @@ public class StandardTable extends AminoAcidTable  {
 	 * 
 	 * @return the acid, null if none.
 	 */
+	@Override
 	public AminoAcid get(String name) {
 		AcidInTable a = (AcidInTable) table.get(name.trim().toUpperCase());
 		if (a == null) {
@@ -134,6 +138,7 @@ public class StandardTable extends AminoAcidTable  {
 	 * added by TJ
 	 * Retrieve an acid from the table with abName
 	 */
+	@Override
 	public AminoAcid getFromAbName(String abName){
 		String aName = (String) abNameTable.get(abName.trim().toUpperCase());
 		if(aName == null){  // no amino acid with abName existed, return
@@ -166,6 +171,7 @@ public class StandardTable extends AminoAcidTable  {
 	 * 
 	 * @return the constant.
 	 */
+	@Override
 	public float getContrastScaler() {
 		return (float) 1.0;
 	}
@@ -173,6 +179,7 @@ public class StandardTable extends AminoAcidTable  {
 	/**
 	 * Returns the name of this table
 	 */
+	@Override
 	public String getName() {
 		return AminoAcidTable.STANDARD;
 	}
@@ -185,6 +192,7 @@ public class StandardTable extends AminoAcidTable  {
 	 * @param seed
 	 *            a seed for the random number generator.
 	 */
+	@Override
 	public AminoAcid[] getRandom(int length, int seed) {
 		AminoAcid[] sequence = new AminoAcid[length];
 		Random r = new Random(seed);
@@ -312,6 +320,7 @@ public class StandardTable extends AminoAcidTable  {
 			this.probability = probability;
 		}
 
+		@Override
 		public String toString() {
 			return a.toString() + '\t' + a.getHydrophobicIndex() + '\t'
 					+ a.getNormalizedHydrophobicIndex() + "\t\t" + probability
@@ -319,6 +328,7 @@ public class StandardTable extends AminoAcidTable  {
 		}
 	}
 
+	@Override
 	public String toString() {
 		return "name\t\thi\tnormal\tprob\n" + table.toString();
 	}
@@ -328,6 +338,7 @@ public class StandardTable extends AminoAcidTable  {
 	 * 
 	 * @return the bound.
 	 */
+	@Override
 	public double getMaxEnergy() {
 		return maxEnergy;
 	}

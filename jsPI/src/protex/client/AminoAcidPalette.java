@@ -42,13 +42,10 @@
 package protex.client;
 
 import protex.client.java.awt.Color;
-import protex.client.java.awt.Dimension;
 import protex.client.java.awt.Graphics;
 import protex.client.java.awt.geom.Ellipse2D;
 import protex.client.java.awt.geom.Rectangle2D;
 
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 

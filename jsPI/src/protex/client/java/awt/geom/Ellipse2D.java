@@ -105,39 +105,44 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX() {
-            return (double) x;
+        @Override
+		public double getX() {
+            return x;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY() {
-            return (double) y;
+        @Override
+		public double getY() {
+            return y;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getWidth() {
-            return (double) width;
+        @Override
+		public double getWidth() {
+            return width;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getHeight() {
-            return (double) height;
+        @Override
+		public double getHeight() {
+            return height;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        @Override
+		public boolean isEmpty() {
             return (width <= 0.0 || height <= 0.0);
         }
 
@@ -164,7 +169,8 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setFrame(double x, double y, double w, double h) {
+        @Override
+		public void setFrame(double x, double y, double w, double h) {
             this.x = (float) x;
             this.y = (float) y;
             this.width = (float) w;
@@ -249,7 +255,8 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX() {
+        @Override
+		public double getX() {
             return x;
         }
 
@@ -257,7 +264,8 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY() {
+        @Override
+		public double getY() {
             return y;
         }
 
@@ -265,7 +273,8 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getWidth() {
+        @Override
+		public double getWidth() {
             return width;
         }
 
@@ -273,7 +282,8 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getHeight() {
+        @Override
+		public double getHeight() {
             return height;
         }
 
@@ -281,7 +291,8 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        @Override
+		public boolean isEmpty() {
             return (width <= 0.0 || height <= 0.0);
         }
 
@@ -289,7 +300,8 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setFrame(double x, double y, double w, double h) {
+        @Override
+		public void setFrame(double x, double y, double w, double h) {
             this.x = x;
             this.y = y;
             this.width = w;
@@ -448,7 +460,8 @@ public abstract class Ellipse2D extends RectangularShape {
      *          <code>false</code> otherwise.
      * @since 1.6
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }
