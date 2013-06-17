@@ -43,3 +43,8 @@ these are hash code methods for implementing comparable
 it looks like GWT version 2.5.0 has code for this
 	but I'm running 2.4.0
 		see in Project->Properties->Java Build Path
+tried updating eclipse - NG
+
+went to https://developers.google.com/web-toolkit/versions
+	got http://google-web-toolkit.googlecode.com/files/gwt-2.5.1.zip
+	install in /Applications/eclipse/plugins/com.google.gwt.eclipse.sdkbundle..
