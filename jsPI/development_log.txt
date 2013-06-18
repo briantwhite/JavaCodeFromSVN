@@ -48,3 +48,13 @@ tried updating eclipse - NG
 went to https://developers.google.com/web-toolkit/versions
 	got http://google-web-toolkit.googlecode.com/files/gwt-2.5.1.zip
 	install in /Applications/eclipse/plugins/com.google.gwt.eclipse.sdkbundle..
+	
+6/18/13
+test commit from home
+	did (all in eclipse)
+		git hard reset
+		git pull
+		import from git 
+			local
+				just jsPI
+	seemed to work
