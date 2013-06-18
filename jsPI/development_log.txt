@@ -67,3 +67,11 @@ get real PI page in edx and search in text for these strings to get values
 
 got it to display, but still some errors on folding
 
+it's not displaying the folded protein
+	and then, when it tries to check the answer, it's null
+or, maybe, it's checking before it folds?
+	try commenting out the check answer stuff in design-protein-2d.js
+it now reveals error in HexCanvas - 
+	it's not placing all the acids before trying to draw...
+		if I type in 5 aas, it gets to 3 before it hits null x and y
+	maybe this is JMC's asynch thing...

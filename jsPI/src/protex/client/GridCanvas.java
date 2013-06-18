@@ -371,7 +371,7 @@ public abstract class GridCanvas {
 	public void calculateRequiredCanvasSize() {
 		if (grid == null)
 			return;
-		
+
 		GridPoint[] spots = new GridPoint[numAcids];
 		AcidInChain[] acidsByZ = new AcidInChain[numAcids];
 		for (int i = 0; i < numAcids; i++) {

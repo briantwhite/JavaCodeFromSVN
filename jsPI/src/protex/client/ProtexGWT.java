@@ -338,6 +338,7 @@ public class ProtexGWT implements EntryPoint {
 			
 			attributes = new Attributes(psTextBox.getText().trim(), customEnergy,
 									3, ssBondIndex, "straight", "test");
+
 			//fold the polypeptide
 			manager.protexGWT = this;
 			try {
