@@ -58,3 +58,12 @@ test commit from home
 			local
 				just jsPI
 	seemed to work
+
+need input params
+looked in mitx_all/mitx/common/lib/capa/capa/templates/designprotein2dinput.html
+    <input type="hidden" name="target_shape" id="target_shape" value ="${target_shape}"></input>
+    <input type="hidden" name="input_${id}" id="input_${id}" value="${value|h}"/>
+get real PI page in edx and search in text for these strings to get values
+
+got it to display, but still some errors on folding
+
