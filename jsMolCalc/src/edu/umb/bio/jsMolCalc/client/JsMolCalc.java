@@ -50,10 +50,10 @@ public class JsMolCalc implements EntryPoint {
 		RootPanel.get("resultFieldContainer").add(resultField);
 		RootPanel.get("calculateButtonContainer").add(calculateButton);
 		RootPanel.get("newMoleculeButtonContainer").add(newMoleculeButton);
-		RootPanel.get("loadMolFileButtonContainer").add(loadMolFileButton);
-		RootPanel.get("exportMolFileButtonContainer").add(exportMolFileButton);
-		RootPanel.get("molfileInput").add(molFileTextArea);
-		RootPanel.get("targetsField").add(targetsField);
+		if (RootPanel.get("loadMolFileButtonContainer") != null) RootPanel.get("loadMolFileButtonContainer").add(loadMolFileButton);
+		if (RootPanel.get("exportMolFileButtonContainer") != null) RootPanel.get("exportMolFileButtonContainer").add(exportMolFileButton);
+		if (RootPanel.get("molfileInput") != null) RootPanel.get("molfileInput").add(molFileTextArea);
+		if (RootPanel.get("targetsField") != null) RootPanel.get("targetsField").add(targetsField);
 
 
 		// Create a handler for the calculateButton
@@ -486,8 +486,8 @@ public class JsMolCalc implements EntryPoint {
 		}
 		errorString = "";
 		if (illegalAtoms.length() != 0) {
-			errorString = "<html><body>It is not possible to calculate logp<br>"
-				+ "for your molecule because it contains:<br>"
+			errorString = "<html><body>It is not possible to calculate the properties<br>"
+				+ "of your molecule because it contains:<br>"
 				+ illegalAtoms.toString() + "</body></html>";
 		}
 

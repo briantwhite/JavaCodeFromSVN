@@ -59,3 +59,8 @@ have to compile and then run from browser (not chrome - it won't run unless on a
 firefox is best
 needed to change native methods to use $doc.JME not $doc.getElementById('JME')
 works!
+
+6/24/13
+working on version for web
+	nix the load and save molfile parts - have them only work if non-null
+	change html to be more friendly
