@@ -79,13 +79,13 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 		sexLinkageChoices = new ListBox();
 		if (specs.getGene1_chSexLinked() > 0.0) {
 			sexLinkageChoices.addItem("Unknown");
-			sexLinkageChoices.addItem("NotSexLinked");
+			sexLinkageChoices.addItem("Not Sex-Linked");
 			sexLinkageChoices.addItem("XX Female/XY Male");
 			if (specs.getChZZ_ZW() > 0.0) {
 				sexLinkageChoices.addItem("ZZ Male/ZW Female");
 			}
 		} else {
-			sexLinkageChoices.addItem("Not Sex Linked");
+			sexLinkageChoices.addItem("Not Sex-Linked");
 		}
 		sexLinkageChoices.addChangeHandler(this);
 		sexLinkagePanel.add(sexLinkageChoices);

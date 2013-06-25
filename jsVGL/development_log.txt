@@ -254,4 +254,15 @@ got it going
 some bugs
 - sex linkage not grading right
 - linkage panel is ugly
+
+6/26/13
+working on misc bugs
+1) sex-linkage not grading right
+	it looks like, if not sex-linked, and you select not sex linked, it's marked wrong
+	it may always be marked false...
+	the problem was "NotSexLinked" vs "Not Sex Linked" vs "Not Sex-Linked"
+fixed
+
+			 
+
 	
