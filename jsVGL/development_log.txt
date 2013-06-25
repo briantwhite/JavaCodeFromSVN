@@ -262,6 +262,12 @@ working on misc bugs
 	it may always be marked false...
 	the problem was "NotSexLinked" vs "Not Sex Linked" vs "Not Sex-Linked"
 fixed
+2) linkage panel isn't that ugly... (leave alone)
+3) need to fail gracefully if ugly state XML
+	on openProblem - have it catch any exceptions and put up a warning
+did it
+4) want, if present, to have a nice HTML panel to show grading info
+	grades overall model correctness and justification
 
 			 
 

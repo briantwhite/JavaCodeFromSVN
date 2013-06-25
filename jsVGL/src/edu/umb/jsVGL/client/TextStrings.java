@@ -2,7 +2,7 @@ package edu.umb.jsVGL.client;
 
 public class TextStrings {
 
-	private final static String VERSION = "0.9";
+	private final static String VERSION = "1.0";
 
 	public static final String WELCOME_TEXT = "<html><body>"
 			+ "<h3>Welcome to js VGL version " + VERSION + "</h3>"
@@ -32,4 +32,10 @@ public class TextStrings {
 					+ "This carries out a cross with a large number of offpspring."
 					+ "It is useful for getting recombination frequency data.<br><br>"
 					+"Choose the desired number of offspring from the list below:<br>";
+	
+	public static final String FAILED_TO_LOAD = "<div style='background-color: yellow; border: 2px dotted red; width: 300px; text-align: center;'>" +
+					"Sorry, there was an error loading the saved problem."
+					+ "<br>Unfortunately, it cannot be opened."
+					+ "<br>Please consult your system administrator."
+					+ "</div>";
 }

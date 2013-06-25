@@ -20,6 +20,7 @@
     	function save() {
     		document.getElementById('state').value = window.getStateXML();
     		document.getElementById('grade').value = window.getGradeXML();
+    		document.getElementById('gradeHTML').innerHTML = window.getGradeHTML();
     	}
     	
     	function load() {
@@ -73,6 +74,9 @@
         <td><textarea rows="20" cols="30" id="state"></textarea></td>
         <td><textarea rows="20" cols="30" id="grade"></textarea></td>
       </tr>
+      <tr>
+      	<td></td>
+      	<td><div id="gradeHTML"></div></td>
     </table>
   </body>
 </html>

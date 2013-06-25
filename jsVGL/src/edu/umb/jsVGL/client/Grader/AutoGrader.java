@@ -22,14 +22,24 @@ import edu.umb.jsVGL.client.VGL.CageUI;
  * returns info for direct on-line grading
  * = Success or failure in matching - not details of their answer
  * this is meant to be machine readable, not human readable
+ * 
+ * also includes html result that summarizes this
+ *  the html is human readable
  */
 public class AutoGrader {
 
 	// allowable difference between
 	private static final float ERROR_TOLERANCE = 0.1f;
 
-	public static Element grade(ArrayList<CageUI> cageCollection, GeneticModel gm, ModelBuilderUI mbui) {
-
+	public static GradeResult grade(ArrayList<CageUI> cageCollection, GeneticModel gm, ModelBuilderUI mbui) {
+		
+		// for grade HTML
+		StringBuffer b = new StringBuffer(); 
+		b.append("<html><body>");
+		// start with true; if any false then overall is false
+		boolean allModelCorrect = true;
+		boolean allModelJustified = true;
+		
 		// set up to score cages
 		Iterator<CageUI> it = cageCollection.iterator();
 		ArrayList<Cage> cages = new ArrayList<Cage>();
@@ -95,6 +105,11 @@ public class AutoGrader {
 						// not sex-linked
 						if (modelPane.getSexLinkageChoice().equals("Not Sex-Linked")) sexLinkageCorrect = true;
 					}
+					
+					// if any wrong, mark the problem wrong
+					if (!sexLinkageCorrect) allModelCorrect = false; 
+					
+					// now the xml
 					Element slEl = doc.createElement("SexLinkage");
 					Element slCorEl = doc.createElement("Correct");
 					slCorEl.appendChild(doc.createTextNode(String.valueOf(sexLinkageCorrect)));
@@ -105,6 +120,7 @@ public class AutoGrader {
 						Element slJusEl = doc.createElement("Justified");
 						slJusEl.appendChild(doc.createTextNode(String.valueOf(false)));
 						slEl.appendChild(slJusEl);
+						allModelJustified = false;
 					} else {
 						// sex-linkage choice must match correct type
 						if(gm.isGeneModelSexLinkedByIndex(i)) {
@@ -114,6 +130,7 @@ public class AutoGrader {
 									doc.createTextNode(
 											String.valueOf(slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
 							slEl.appendChild(slJusEl);
+							if (!slCsr.getCageScoreForCharacter(i).showsSexLinkage) allModelJustified = false;
 						} else {
 							// not sex-linked, so cage must not show sex-linkage
 							Element slJusEl = doc.createElement("Justified");
@@ -121,6 +138,7 @@ public class AutoGrader {
 									doc.createTextNode(
 											String.valueOf(!slCsr.getCageScoreForCharacter(i).showsSexLinkage)));
 							slEl.appendChild(slJusEl);
+							if (slCsr.getCageScoreForCharacter(i).showsSexLinkage) allModelJustified = false;
 						}
 					}
 					geneEl.appendChild(slEl);
@@ -141,12 +159,12 @@ public class AutoGrader {
 							doc.createTextNode(String.valueOf(numAllelesCorrect)));
 					naEl.appendChild(naCorEl);
 					geneEl.appendChild(naEl);
+					if (!numAllelesCorrect) allModelCorrect = false; 
 				}
 
 
 				/*
 				 * these are the raw selected strings (eg "Simple dominance") 
-				 * in the LOCAL language, so you have to match with translated version
 				 * 
 				 * also, can't get type right if number of alleles is wrong
 				 */
@@ -167,6 +185,7 @@ public class AutoGrader {
 						itCorEl.appendChild(doc.createTextNode(String.valueOf(interactionTypeCorrect)));
 						itEl.appendChild(itCorEl);
 						geneEl.appendChild(itEl);
+						if (!interactionTypeCorrect) allModelCorrect = false;
 					} else {
 						interactionTypeCorrect = true;	// if they didn't have to enter it, it's OK 
 					}
@@ -331,6 +350,7 @@ public class AutoGrader {
 				Element idCorEl = doc.createElement("Correct");
 				idCorEl.appendChild(doc.createTextNode(String.valueOf(detailsCorrect)));
 				idEl.appendChild(idCorEl);
+				if (!detailsCorrect) allModelCorrect = false;
 				
 				int interactionCageChoice = modelPane.getInteractionCageChoice();
 				CageScoreResult inCsr = cageScorer.scoreCage(interactionCageChoice);
@@ -338,9 +358,11 @@ public class AutoGrader {
 				if (inCsr == null) {
 					idJusEl.appendChild(doc.createTextNode(String.valueOf(false)));
 					idEl.appendChild(idJusEl);
+					allModelJustified = false;
 				} else {
 					idJusEl.appendChild(doc.createTextNode(String.valueOf(inCsr.getCageScoreForCharacter(i).showsInteraction)));
 					idEl.appendChild(idJusEl);
+					if (!inCsr.getCageScoreForCharacter(i).showsInteraction) allModelJustified = false;
 				}
 				geneEl.appendChild(idEl);
 
@@ -378,16 +400,17 @@ public class AutoGrader {
 			if (inCsr == null) {
 				itJusEl.appendChild(doc.createTextNode(String.valueOf(false)));
 				itEl.appendChild(itJusEl);
+				allModelJustified = false;
 			} else {
 				itJusEl.appendChild(doc.createTextNode(
 						String.valueOf(inCsr.getCageScoreForCharacter(0).showsInteraction)));
 				itEl.appendChild(itJusEl);
+				if (!inCsr.getCageScoreForCharacter(0).showsInteraction) allModelJustified = false;
 			}
 			gmEl.appendChild(itEl);
 
 			/*
 			 * these are also the raw selected strings
-			 * in the local language, so need to match with translated version
 			 * 
 			 * but, if the type is wrong, the details CAN'T be right
 			 */
@@ -414,6 +437,7 @@ public class AutoGrader {
 			dCorEl.appendChild(doc.createTextNode(String.valueOf(detailsCorrect)));
 			dEl.appendChild(dCorEl);
 			gmEl.appendChild(dEl);
+			if (!detailsCorrect) allModelCorrect = false;
 
 			e.appendChild(gmEl);
 		}
@@ -520,6 +544,7 @@ public class AutoGrader {
 			lCorEl.setAttribute("AverageError", NumberFormat.getFormat("0.000").format(averageError));
 			lCorEl.setAttribute("MaxError", NumberFormat.getFormat("0.000").format(maxError));
 			le.appendChild(lCorEl);
+			if (!linkageCorrect) allModelCorrect = false;
 
 			// see if justified by right cages
 			boolean linkageJustified = true;
@@ -558,7 +583,21 @@ public class AutoGrader {
 			lJusEl.appendChild(doc.createTextNode(String.valueOf(linkageJustified)));
 			le.appendChild(lJusEl);
 			e.appendChild(le);
+			if (!linkageJustified) allModelJustified = false;
 		}
-		return e;
+		
+		b.append("<ul>\n");
+		if (allModelCorrect) {
+			b.append("<li><font color='green'>All parts of the genetic model you entered are correct.</font></li>\n");
+		} else {
+			b.append("<li><font color='red'>One or more parts of the genetic model you entered are incorrect.</font></li>\n");
+		}
+		if (allModelJustified) {
+			b.append("<li><font color='green'>All the cage(s) you selected to justify your model show relevant evidence.</font></li>\n");
+		} else {
+			b.append("<li><font color='red'>One or more of the cage(s) you selected to justify your model do not show relevant evidence.</font></li>\n");
+		}
+		
+		return new GradeResult(b.toString(), e.toString());
 	}
 }

@@ -11,12 +11,14 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
 
 import edu.umb.jsVGL.client.JsVGL;
+import edu.umb.jsVGL.client.TextStrings;
 import edu.umb.jsVGL.client.GeneticModels.Cage;
 import edu.umb.jsVGL.client.GeneticModels.CharacterSpecificationBank;
 import edu.umb.jsVGL.client.GeneticModels.GeneticModel;
 import edu.umb.jsVGL.client.GeneticModels.GeneticModelFactory;
 import edu.umb.jsVGL.client.GeneticModels.Organism;
 import edu.umb.jsVGL.client.Grader.AutoGrader;
+import edu.umb.jsVGL.client.Grader.GradeResult;
 import edu.umb.jsVGL.client.ModelBuilder.ModelBuilderUI;
 
 /**
@@ -44,10 +46,6 @@ import edu.umb.jsVGL.client.ModelBuilder.ModelBuilderUI;
  */
 public class VGLII {
 
-	/**
-	 * the version number
-	 */
-	public final static String version = "3.3.1 2012-02-25 22:00"; //$NON-NLS-1$
 
 	private Random random;
 
@@ -163,29 +161,30 @@ public class VGLII {
 			cageCollection = new ArrayList<CageUI>();
 			nextCageId = 0;
 			reopenCages(result.getCages());
+			modelBuilder = new ModelBuilderUI(this, geneticModel);
+			modelBuilder.configureFromXML(result.getModelBuilderState());
+			jsVGL.getModelBuilderPanel().clear();
+			jsVGL.getModelBuilderPanel().setWidget(modelBuilder);
+
+			jsVGL.setButtonState(true);
+			changeSinceLastSave = false;
 		} catch (Exception e) {
+			jsVGL.getCagesPanel().add(new HTML(TextStrings.FAILED_TO_LOAD));
 			System.out.print(e.getMessage());
 		}
 
-		modelBuilder = new ModelBuilderUI(this, geneticModel);
-		modelBuilder.configureFromXML(result.getModelBuilderState());
-		jsVGL.getModelBuilderPanel().clear();
-		jsVGL.getModelBuilderPanel().setWidget(modelBuilder);
-
-		jsVGL.setButtonState(true);
-		changeSinceLastSave = false;
 	}
 
 	/**
 	 * Saves the current work done by the user to the edx server.
 	 */
 	public SavedProblemStrings saveProblem() {
-		
-		if ((geneticModel != null) && geneticModel.isBeginnerMode()) return new SavedProblemStrings("ERROR: Practice Mode", "");
-		
+
+		if ((geneticModel != null) && geneticModel.isBeginnerMode()) return new SavedProblemStrings("ERROR: Practice Mode", "", "");
+
 		String problemXML = "";
 
-		if (cageCollection != null) {
+		if ((cageCollection != null) && (cageCollection.size() > 0)) {
 
 			try {
 				Iterator<CageUI> it = cageCollection.iterator();
@@ -202,11 +201,11 @@ public class VGLII {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			Element grade = AutoGrader.grade(cageCollection, geneticModel, (ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget());
-			System.out.println("VGLII 204: Length=" + problemXML.length());
-			return new SavedProblemStrings(problemXML, grade.toString());
+			GradeResult grade = AutoGrader.grade(cageCollection, geneticModel, (ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget());
+//			System.out.println("VGLII 204: Length=" + problemXML.length());
+			return new SavedProblemStrings(problemXML, grade.gradeXML, grade.gradeHTML);
 		} else {
-			return new SavedProblemStrings("ERROR: No Problem Loaded", "");
+			return new SavedProblemStrings("ERROR: No Problem Loaded", "", "");
 		}
 	}
 

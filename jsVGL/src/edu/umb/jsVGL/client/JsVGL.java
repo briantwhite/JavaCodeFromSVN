@@ -155,6 +155,7 @@ public class JsVGL implements EntryPoint {
 		$wnd.getStateXML = $entry(function() {return jsvgl.@edu.umb.jsVGL.client.JsVGL::getStateXML()();});
 		$wnd.setStateXML = $entry(function(xmlString) {return jsvgl.@edu.umb.jsVGL.client.JsVGL::setStateXML(Ljava/lang/String;)(xmlString);});
 		$wnd.getGradeXML = $entry(function() {return jsvgl.@edu.umb.jsVGL.client.JsVGL::getGradeXML()();});
+		$wnd.getGradeHTML = $entry(function() {return jsvgl.@edu.umb.jsVGL.client.JsVGL::getGradeHTML()();});
 	}-*/;
 	
 	public String getStateXML() {
@@ -168,6 +169,10 @@ public class JsVGL implements EntryPoint {
 	
 	public String getGradeXML() {
 		return vglII.saveProblem().gradeXML;
+	}
+	
+	public String getGradeHTML() {
+		return vglII.saveProblem().gradeHTML;
 	}
 
 	/*
