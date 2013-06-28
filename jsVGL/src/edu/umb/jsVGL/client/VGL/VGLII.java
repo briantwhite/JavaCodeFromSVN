@@ -161,10 +161,14 @@ public class VGLII {
 			cageCollection = new ArrayList<CageUI>();
 			nextCageId = 0;
 			reopenCages(result.getCages());
-			modelBuilder = new ModelBuilderUI(this, geneticModel);
-			modelBuilder.configureFromXML(result.getModelBuilderState());
-			jsVGL.getModelBuilderPanel().clear();
-			jsVGL.getModelBuilderPanel().setWidget(modelBuilder);
+			if (geneticModel.isBeginnerMode()) {
+				jsVGL.getModelBuilderPanel().setWidget(new HTML(geneticModel.toString()));
+			} else {
+				modelBuilder = new ModelBuilderUI(this, geneticModel);
+				modelBuilder.configureFromXML(result.getModelBuilderState());
+				jsVGL.getModelBuilderPanel().clear();
+				jsVGL.getModelBuilderPanel().setWidget(modelBuilder);
+			}
 
 			jsVGL.setButtonState(true);
 			changeSinceLastSave = false;
@@ -202,7 +206,7 @@ public class VGLII {
 				e.printStackTrace();
 			}
 			GradeResult grade = AutoGrader.grade(cageCollection, geneticModel, (ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget());
-//			System.out.println("VGLII 204: Length=" + problemXML.length());
+			//			System.out.println("VGLII 204: Length=" + problemXML.length());
 			return new SavedProblemStrings(problemXML, grade.gradeXML, grade.gradeHTML);
 		} else {
 			return new SavedProblemStrings("ERROR: No Problem Loaded", "", "");

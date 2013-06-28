@@ -1,0 +1,76 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <link type="text/css" rel="stylesheet" href="JsVGL.css">
+
+    <title>Virtual Genetics Lab for APAIB Problem: Genetics C1</title>
+    
+    <script type="text/javascript" language="javascript" src="jsvgl/jsvgl.nocache.js"></script>
+    <script type="text/javascript" language="javascript">
+    	var Params = {
+    		SuperCrossEnabled: "false",
+    		ZZ_ZW: "0.0",
+			Gene1_SexLinked: "0.0"
+    	};
+    	
+    	function save() {
+    		document.getElementById('state').value = window.getStateXML();
+    		document.getElementById('grade').value = window.getGradeXML();
+    		document.getElementById('gradeHTML').innerHTML = window.getGradeHTML();
+    	}
+    	
+    	function load() {
+    		window.setStateXML(document.getElementById('state').value);
+    	}
+    	
+    </script>
+  </head>
+
+  <body>
+    
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+
+    <h1>Virtual Genetics Lab for APAIB Problem: Genetics C1</h1>
+    Instructions:
+    <ol>
+    	<li>Click "Load" to load the problem described in the text.</li>
+    	<li>Try to solve it:</li>
+    		<ol>
+    			<li>Carry out at least 5 crosses</li>
+    			<li>In the "Genetic Model" tab, enter a model and choose a relevant cross</li>
+    		</ol>
+    	<li>Click "Save"</li>
+    	<li>Look in the box under the "Grade Info" box to see if you got it right</li>
+    	<li>Select all of the contents of the box under the "State Info" label</li>
+    	<li>Paste into the answer blank in the MOOC page</li>
+    </ol>
+<hr>
+<table>
+	<tr>
+		<input type="hidden" id="newPracticeProblemButtonContainer"></input> 
+		<input type="hidden" id="newGradedProblemButtonContainer"></input>
+		<input type="hidden" id="clearWorkspaceButtonContainer"></input>
+      	<td><button onClick="load();">Load</button></td>
+		<td id="crossButtonContainer"></td>
+	</tr>
+</table>
+<table>
+   <tr>
+	<td id="mainPanelContainer"></td>
+	<td id="cagesContainer"></td>
+ </tr>
+</table>
+
+<input type="hidden" id="state" value='<VglII><GeneticModel XX_XYSexDetermination="true" BeginnerMode="true" NumberOfGeneModels="1" NumberOfCharacters="1" MinOffspring="25" MaxOffspring="35"><CharacterOrderScrambler><Character Index="0" Character="0"/></CharacterOrderScrambler><ProblemTypeSpecification><FieldPopTrueBreeding>false</FieldPopTrueBreeding><BeginnerMode>true</BeginnerMode><MinOffspring>25</MinOffspring><MaxOffspring>35</MaxOffspring><ZZ_ZW>0</ZZ_ZW><Gene1_SexLinked>0</Gene1_SexLinked><Gene1_3Alleles>0</Gene1_3Alleles><Gene1_IncDom>0</Gene1_IncDom><Gene1_CircDom>0.5</Gene1_CircDom><Gene2_Present>0</Gene2_Present><Gene2_SameChrAsGene1>0</Gene2_SameChrAsGene1><Gene2_MinRfToGene1>0</Gene2_MinRfToGene1><Gene2_MaxRfToGene1>0</Gene2_MaxRfToGene1><Gene2_3Alleles>0</Gene2_3Alleles><Gene2_IncDom>0</Gene2_IncDom><Gene2_CircDom>0.5</Gene2_CircDom><Gene3_Present>0</Gene3_Present><Gene3_SameChrAsGene1>0</Gene3_SameChrAsGene1><Gene3_MinRfToPrevGene>0</Gene3_MinRfToPrevGene><Gene3_MaxRfToPrevGene>0</Gene3_MaxRfToPrevGene><Gene3_3Alleles>0</Gene3_3Alleles><Gene3_IncDom>0</Gene3_IncDom><Gene3_CircDom>0.5</Gene3_CircDom><PhenotypeInteraction>0</PhenotypeInteraction><Epistasis>0</Epistasis></ProblemTypeSpecification><PhenotypeProcessor InteractionType="0"/><ChromosomeModel SexChromosome="false" NumGenes="1"><GeneModel Index="0" Type="TwoAlleleSimpleDominance" RfToPrevious="-1"><Trait Index="1" TraitName="Red" Type="Color" BodyPart="Wing"/><Trait Index="2" TraitName="Yellow" Type="Color" BodyPart="Wing"/></GeneModel></ChromosomeModel><ChromosomeModel SexChromosome="true" NumGenes="0"/></GeneticModel><Organisms><Cage Created="Fri Jun 28 09:50:59 GMT-400 2013" SuperCross="false" Id="0" NumChildren="32"><Children><O i="31,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="-1"/><C i="PS" s="0"/></O><O i="30,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="-1"/></O><O i="29,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="-1"/><C i="PS" s="0"/></O><O i="21,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="-1"/><C i="PS" s="0"/></O><O i="18,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="-1"/></O><O i="16,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="-1"/><C i="PS" s="0"/></O><O i="14,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="-1"/></O><O i="6,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="-1"/><C i="PS" s="0"/></O><O i="5,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="-1"/><C i="PS" s="0"/></O><O i="1,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="-1"/><C i="PS" s="0"/></O><O i="0,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="-1"/><C i="PS" s="0"/></O><O i="7,0,F"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="8,0,F"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="9,0,F"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="10,0,F"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="19,0,F"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="20,0,F"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="23,0,F"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="26,0,F"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="24,0,M"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="-1"/></O><O i="22,0,M"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,2"/></C><C i="MS" s="0"/><C i="PS" s="-1"/></O><O i="15,0,M"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,2"/></C><C i="MS" s="0"/><C i="PS" s="-1"/></O><O i="11,0,M"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,2"/></C><C i="MS" s="0"/><C i="PS" s="-1"/></O><O i="4,0,M"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,2"/></C><C i="MS" s="0"/><C i="PS" s="-1"/></O><O i="2,0,F"><C i="MA" s="1"><A i="0,1"/></C><C i="PA" s="1"><A i="0,2"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="3,0,F"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,2"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="12,0,F"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,2"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="13,0,F"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="17,0,F"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,2"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="25,0,F"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="27,0,F"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,2"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O><O i="28,0,F"><C i="MA" s="1"><A i="0,2"/></C><C i="PA" s="1"><A i="0,1"/></C><C i="MS" s="0"/><C i="PS" s="0"/></O></Children></Cage></Organisms><ModelBuilderState><Character Name="Wing Color" Index="0"><SexLinkage>0</SexLinkage><AlleleNumber>0</AlleleNumber><InteractionType>0</InteractionType><T1>0</T1><T2>0</T2><T3>0</T3><T4>0</T4><T5>0</T5><T6>0</T6><DetailsCage>0</DetailsCage></Character></ModelBuilderState></VglII>'></input>
+<input type="hidden" id="grade"></input><div id="gradeHTML"></td>
+  </body>
+</html>
