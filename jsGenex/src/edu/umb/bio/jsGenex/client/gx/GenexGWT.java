@@ -71,6 +71,7 @@ public class GenexGWT implements EntryPoint {
 	Button newSequenceButton;
 	Label infoLabel;
 	HTML html;
+	TextBox state;
 
 	// components for "Enter new DNA sequence" dialog
 	DialogBox enterDNAdialogBox;
@@ -101,6 +102,11 @@ public class GenexGWT implements EntryPoint {
 		scrollPanel.setSize("818px", "325px"); //Inside edX, 818px is the maximum content size in the edX platform
 		scrollPanel.setStyleName("genex-scrollpanel");
 		RootPanel.get("genex_container").add(scrollPanel);
+		
+		if (RootPanel.get("genex_state") != null) {
+			state = new TextBox();
+			RootPanel.get("genex_state").add(state);
+		}
 
 		// Create a DialogBox with a button to close it
 		enterDNAdialogBox = new DialogBox(false);
@@ -173,7 +179,11 @@ public class GenexGWT implements EntryPoint {
 		evaluateButton.addStyleName("genex-button");
 		evaluateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				String result = prob.evaluate(getState());
+				GenexState currentState = getState();
+				if (state != null) {
+					state.setText(currentState.toString());
+				}
+				String result = prob.evaluate(currentState);
 				if (result.equals("OK")) {
 					result = "Your answer is correct!";
 				}
@@ -259,6 +269,7 @@ public class GenexGWT implements EntryPoint {
 
 		if (inputDNAString != null) {
 			params.setDefaultDNA(inputDNAString);
+			defaultDNA = inputDNAString;
 		}
 
 		String inputPromoterString = "TATAA"; //TO DO getParameter("PROMOTER");
@@ -313,7 +324,6 @@ public class GenexGWT implements EntryPoint {
 		headerLength = currentGene.getGene().getHeaderLength();
 		DNASequenceLength = currentGene.getGene().getDNASequenceLength();
 		currentProteinString = currentGene.getGene().getProteinString();
-
 		html.setHTML(currentGene.getColorHTML() + caption + "</pre></body></html>");
 	}
 
@@ -596,7 +606,16 @@ public class GenexGWT implements EntryPoint {
 		IntronNumberRequirement r22;
 
 		//For some strange reason, switch/case wasn't working here!
-		if (problemNumber == 1) {
+		if (problemNumber == 0) {
+			prob.setNumber(0);
+			prob.setName("Build a simple Gene");
+			prob.setDescription("Use the Enter New DNA Sequence button. Then, type in DNA to make a gene that encodes a protein of 5 amino acids.");
+			r11 = new ProteinLengthRequirement();
+			r11.setLength(15);
+			r11.setFailureString("Your protein does not have 5 amino acids.");
+			prob.addRequirement(r11);
+		}
+		else if (problemNumber == 1) {
 			prob.setNumber(1);
 			prob.setName("Shorter mRNA");
 			prob.setDescription("Start by Resetting the DNA sequence. Then, make a single base substitution so that the mature mRNA is shorter.");

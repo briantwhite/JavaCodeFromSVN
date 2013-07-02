@@ -177,5 +177,22 @@ found the problem - in GenexGWT's 	public static native void setClickEvent(Genex
 					gn.@edu.umb.bio.jsGenex.client.gx.GenexGWT::eraseBlueSelection()();
 		- I don't think this is necessary
 			nuke it out
-	
+
+7/2/13
+added level 0 problem - make a gene that makes a protein of 5 aas (no intron needed)
+
+also, had trouble with standard page loading long default DNA
+because of parameter
+	<input type="hidden" name="input_i4x-MITx-7_00x-problem-PSet4_graded_P4_Q5a_2_2_1" id="input_i4x-MITx-7_00x-problem-PSet4_graded_P4_Q5a_2_2_1" value='{"genex_dna_sequence":"TAAGGCTATAACCGAGATTGATGCCTTGTGCGATAAGGTGTGTCCCCCCCGAAAGTGTCGGATGTCGAGTGCGCGTGCAAAAAAAAACAAAGGCGAGGACCTTAAGAAGGTGTGAGGGGGCGCTCGAT","genex_answer":"CORRECT"}'>
+but if you leave it out, you get an error
+that's because bad coding in edit-a-gene.js
+	line 52 tests if genex_saved_stats is undefined 
+		initially it was genex_saved_state === ''
+		this is WRONG - must be typeof(genex_saved_state) == 'undefined'
+		see http://stackoverflow.com/questions/3390396/how-to-check-for-undefined-in-javascript
+		
+added textbox with state info for grading
+	optional - if left out, you don't get an error
+	otherwise, on "evaluate answer" it puts the GenexState.toString() in that box for grading
+
 	

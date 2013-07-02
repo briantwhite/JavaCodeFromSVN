@@ -43,13 +43,13 @@
         genex_default_dna_sequence = $('#genex_dna_sequence').val();
         //Set the default DNA
         genexSetDefaultDNASequence(genex_default_dna_sequence);
-        
+
         //Now load problem
         var genex_problem_number = parseInt($('#genex_problem_number').val());
         genexSetProblemNumber(genex_problem_number);
-        
+
         //Set the DNA sequence that is displayed
-        if (genex_saved_state === '') {
+        if (typeof(genex_saved_state) === 'undefined') {
             //Load DNA sequence from xml file 
             genex_dna_sequence = genex_default_dna_sequence;
         }
@@ -59,7 +59,7 @@
             genex_dna_sequence = genex_saved_state.genex_dna_sequence;
         }
         genexSetDNASequence(genex_dna_sequence);
-        
+
         //Now load mouse and keyboard handlers
         genexSetClickEvent();
         genexSetKeyEvent();
