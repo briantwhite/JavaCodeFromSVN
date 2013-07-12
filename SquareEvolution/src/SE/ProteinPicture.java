@@ -2,13 +2,9 @@ package SE;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -18,37 +14,30 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 
 
 public class ProteinPicture extends JFrame{
 
 	private static final Color BACKGROUND_COLOR = new Color(128, 255, 128);
 	private static final Color BACKBONE_COLOR = Color.magenta;
-	
+
 	private static final Color BASE_COLOR = new Color(128, 128, 255);
 	private static final Color ACID_COLOR = new Color(255, 128, 128);
-	
-	private static final int IMAGE_SIZE = 600;
-	private static final int AA_SIZE = 30;
 
-	private DefaultListModel sequenceListModel;
-	HashMap<String, ArrayList<String>> sequencesAndStructures;
-	private ImagePanel imagePanel;
+	private static final int IMAGE_SIZE = 200;
+	private static final int AA_SIZE = 20;
+	
+	private ArrayList<ProteinData>proteins;
 
 	public ProteinPicture() {
 		super("Protein Picture Maker");
@@ -74,14 +63,27 @@ public class ProteinPicture extends JFrame{
 		fileChooser.setDialogTitle("Select the output.txt file");
 		int retVal = fileChooser.showOpenDialog(this);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
-			sequencesAndStructures = new HashMap<String, ArrayList<String>>();
+			proteins = new ArrayList<ProteinData>();
 			File file = fileChooser.getSelectedFile();
 			BufferedReader reader = null;
 			String text = null;
+			int run = -1;
+			int generation = -1;
+			double fitness = 0.0f;
 			try {
 				reader = new BufferedReader(new FileReader(file));
 				while ((text = reader.readLine()) != null) {
-					// start with a DNA sequence line
+					/*
+					 * start with Run line 
+					 * 	but not all run lines are full reports
+					 *  so start but only keep going if next line has DNA seq
+					 */
+					if (text.contains("Run")) {
+						String[] pieces = text.split(" ");
+						run = Integer.parseInt(pieces[1]);
+						generation = Integer.parseInt(pieces[3]);
+						fitness = Double.parseDouble(pieces[7]);
+					}
 					if (text.matches("^[AGCT][AGCT]+")) {
 						// next line is the protein sequence
 						String proteinSeq = reader.readLine().replaceAll("\\W","");
@@ -93,7 +95,8 @@ public class ProteinPicture extends JFrame{
 								structureLines.add(text);
 								text = reader.readLine();
 							}
-							sequencesAndStructures.put(proteinSeq, structureLines);
+							ProteinData pd = new ProteinData(run, generation, proteinSeq, fitness, structureLines);
+							proteins.add(pd);
 						}
 					}
 				}
@@ -114,45 +117,64 @@ public class ProteinPicture extends JFrame{
 			// set up to show them
 			JDialog resultsDialog = new JDialog();
 			resultsDialog.setTitle("Results");
-			resultsDialog.setLayout(new FlowLayout());
+			resultsDialog.setLayout(new BorderLayout());
 
-			sequenceListModel = new DefaultListModel();
-			JList proteins = new JList(sequenceListModel);
-			Iterator<String> it = sequencesAndStructures.keySet().iterator();
-			int i = 0;
-			while (it.hasNext()) {
-				String protSeq = it.next();
-				sequenceListModel.add(i, protSeq);
-				i++;
+			String[] columnNames = {"Run", "Generation", "Sequence", "Fitness", "Structure"};
+			Object[][] data = new Object[proteins.size()][columnNames.length];
+			for (int i = 0; i < proteins.size(); i++) {
+				System.out.println(i);
+				ProteinData pd = proteins.get(i);
+				data[i][0] = pd.run;
+				data[i][1] = pd.generation;
+				data[i][2] = pd.aaSeq;
+				data[i][3] = pd.fitness;
+				data[i][4] = new ImageIcon(makePicture(pd.structure, IMAGE_SIZE));
 			}
-			proteins.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			proteins.setLayoutOrientation(JList.VERTICAL);
-			proteins.setVisibleRowCount(-1);
-			proteins.setFont(new Font("Monospaced", Font.PLAIN, 12));
-			JScrollPane listScroller = new JScrollPane(proteins);
-			listScroller.setPreferredSize(new Dimension(300,300));
-			resultsDialog.add(listScroller);
 
-			proteins.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent evt) {
-					JList list = (JList) evt.getSource();
-					String workFileName =
-						(sequenceListModel.get((list.locationToIndex(evt.getPoint())))).toString();
-					showStructure(workFileName);
-				}
-			});
-
-			imagePanel = new ImagePanel();
-			resultsDialog.add(imagePanel);
-
+			JTable table = new JTable(new MyTableModel(columnNames, data));
+			table.setAutoCreateRowSorter(true);
+			table.getColumnModel().getColumn(2).setPreferredWidth(400);
+			table.getColumnModel().getColumn(4).setPreferredWidth(IMAGE_SIZE);
+			table.setRowHeight(IMAGE_SIZE);
+			JScrollPane scroller = new JScrollPane(table);
+			table.setFillsViewportHeight(true);
+			table.setSize(new Dimension(1000,1000));
+			resultsDialog.add(scroller, BorderLayout.CENTER);
 			resultsDialog.pack();
 			resultsDialog.setVisible(true);
 		}
 	}
 
-	private void showStructure(String sequence) {
-		ArrayList<String> struct = sequencesAndStructures.get(sequence);
-		imagePanel.updateImage(new ImageIcon(makePicture(struct, IMAGE_SIZE)));
+	class MyTableModel extends AbstractTableModel {
+		
+		String[] columnNames;
+		Object[][] data;
+		
+		public MyTableModel(String[] columnNames, Object[][] data) {
+			this.columnNames = columnNames;
+			this.data = data;
+		}
+
+		public int getColumnCount() {
+			return columnNames.length;
+		}
+
+		public int getRowCount() {
+			return data.length;
+		}
+
+		public String getColumnName(int col) {
+			return columnNames[col];
+		}
+
+		public Object getValueAt(int row, int col) {
+			return data[row][col];
+		}
+
+		public Class getColumnClass(int c) {
+			return getValueAt(0, c).getClass();
+		}
+
 	}
 
 	private BufferedImage makePicture(ArrayList<String> struct, int imageSize) {
@@ -192,7 +214,7 @@ public class ProteinPicture extends JFrame{
 				}
 				x = AA_SIZE;
 			} else if (noWS.equals("")){
-				
+
 			} else {
 				int spaceCount = 0;
 				for (int j = 0; j < line.length(); j++) {
@@ -222,24 +244,24 @@ public class ProteinPicture extends JFrame{
 				y = y + AA_SIZE;
 			}
 		}
-		
+
 		g.setColor(BACKBONE_COLOR);
 		for (int b = 0; b < backboneLines.size(); b++) {
 			BackboneLine l = backboneLines.get(b);
 			g.drawLine(l.x1, l.y1, l.x2, l.y2);
 		}
-		
+
 		g.dispose();
 		pic.flush();
 		return pic;
 	}
-	
+
 	class BackboneLine {
 		public int x1;
 		public int y1;
 		public int x2;
 		public int y2;
-		
+
 		public BackboneLine(int x1, int y1, int x2, int y2) {
 			this.x1 = x1;
 			this.y1 = y1;
@@ -256,7 +278,7 @@ public class ProteinPicture extends JFrame{
 
 			// make blank starting image
 			BufferedImage bi = 
-				new BufferedImage(IMAGE_SIZE, IMAGE_SIZE, BufferedImage.TYPE_INT_RGB);
+					new BufferedImage(IMAGE_SIZE, IMAGE_SIZE, BufferedImage.TYPE_INT_RGB);
 			Graphics g = bi.getGraphics();
 			g.setColor(BACKGROUND_COLOR);
 			g.fillRect(0, 0, IMAGE_SIZE, IMAGE_SIZE);
@@ -277,7 +299,7 @@ public class ProteinPicture extends JFrame{
 		}
 
 	}
-	
+
 	private Color getAAColor(char a) {
 		switch(Character.toUpperCase(a)) {
 		case 'A':
@@ -318,8 +340,8 @@ public class ProteinPicture extends JFrame{
 			return Color.DARK_GRAY;
 		case 'Y':
 			return Color.WHITE;
-			default:
-				return Color.LIGHT_GRAY;
+		default:
+			return Color.LIGHT_GRAY;
 		}
 	}
 

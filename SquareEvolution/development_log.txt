@@ -1549,3 +1549,8 @@ version 2.5.1
 3/16/13
 made GenerateXML.pl - makes all the needed repurposing files 
 see Square Evolution Log 07 page 41
+
+7/12/13
+fixed up ProteinPicture to be a table
+	but too many images uses up all the ram...
+	
