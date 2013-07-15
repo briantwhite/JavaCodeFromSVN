@@ -1554,3 +1554,5 @@ see Square Evolution Log 07 page 41
 fixed up ProteinPicture to be a table
 	but too many images uses up all the ram...
 	
+7/15/13
+working on improved interface
