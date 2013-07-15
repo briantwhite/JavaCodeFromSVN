@@ -2,9 +2,14 @@ package SE;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -15,7 +20,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -23,6 +31,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 
@@ -34,10 +46,15 @@ public class ProteinPicture extends JFrame{
 	private static final Color BASE_COLOR = new Color(128, 128, 255);
 	private static final Color ACID_COLOR = new Color(255, 128, 128);
 
-	private static final int IMAGE_SIZE = 200;
-	private static final int AA_SIZE = 20;
-	
+	private static final int IMAGE_SIZE = 600;
+	private static final int AA_SIZE = 30;
+
 	private ArrayList<ProteinData>proteins;
+
+	private JTable table;
+
+	private JLabel structure;
+	private ArrayList<ArrayList<String>> structures;
 
 	public ProteinPicture() {
 		super("Protein Picture Maker");
@@ -119,37 +136,76 @@ public class ProteinPicture extends JFrame{
 			resultsDialog.setTitle("Results");
 			resultsDialog.setLayout(new BorderLayout());
 
-			String[] columnNames = {"Run", "Generation", "Sequence", "Fitness", "Structure"};
+			String[] columnNames = {"Run", "Generation", "Sequence", "Fitness"};
 			Object[][] data = new Object[proteins.size()][columnNames.length];
+			structures = new ArrayList<ArrayList<String>>();
 			for (int i = 0; i < proteins.size(); i++) {
-				System.out.println(i);
 				ProteinData pd = proteins.get(i);
 				data[i][0] = pd.run;
 				data[i][1] = pd.generation;
 				data[i][2] = pd.aaSeq;
 				data[i][3] = pd.fitness;
-				data[i][4] = new ImageIcon(makePicture(pd.structure, IMAGE_SIZE));
+				structures.add(pd.structure);
 			}
 
-			JTable table = new JTable(new MyTableModel(columnNames, data));
+			table = new JTable(new MyTableModel(columnNames, data));
 			table.setAutoCreateRowSorter(true);
-			table.getColumnModel().getColumn(2).setPreferredWidth(400);
-			table.getColumnModel().getColumn(4).setPreferredWidth(IMAGE_SIZE);
-			table.setRowHeight(IMAGE_SIZE);
+			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table.setFont(new Font("Courier", Font.PLAIN, 12));
+			table.getColumnModel().getColumn(2).setPreferredWidth(200);
 			JScrollPane scroller = new JScrollPane(table);
 			table.setFillsViewportHeight(true);
-			table.setSize(new Dimension(1000,1000));
-			resultsDialog.add(scroller, BorderLayout.CENTER);
+
+			ListSelectionModel lsm = table.getSelectionModel();
+			lsm.addListSelectionListener(new ListSelectionListener() {
+				public void valueChanged(ListSelectionEvent arg0) {
+					int i = arg0.getFirstIndex();
+					structure.setIcon(new ImageIcon(makePicture(structures.get(i), IMAGE_SIZE)));
+				}				
+			});
+			table.setSelectionModel(lsm);
+
+			JPanel leftPanel = new JPanel();
+			leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+			leftPanel.add(Box.createRigidArea(new Dimension(400,1)));
+			leftPanel.add(scroller);
+
+			JPanel rightPanel = new JPanel();
+			rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+			rightPanel.add(Box.createRigidArea(new Dimension(600,1)));
+			JButton clipboardButton = new JButton("Copy Image to Clipboard");
+			clipboardButton.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent arg0) {
+					int i = table.getSelectedRow();
+					if (i >= 0) {
+						Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+						ImageForClipboard ifc = new ImageForClipboard(makePicture(structures.get(i),IMAGE_SIZE));
+						c.setContents(ifc, null);
+					}
+				}				
+			});
+			rightPanel.add(clipboardButton);
+			structure = new JLabel();
+			structure.setHorizontalAlignment(SwingConstants.LEFT);
+			rightPanel.add(structure);
+
+			JPanel mainPanel = new JPanel();
+			mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+			mainPanel.add(leftPanel);
+			mainPanel.add(rightPanel);
+
+
+			resultsDialog.add(mainPanel);
 			resultsDialog.pack();
 			resultsDialog.setVisible(true);
 		}
 	}
 
 	class MyTableModel extends AbstractTableModel {
-		
+
 		String[] columnNames;
 		Object[][] data;
-		
+
 		public MyTableModel(String[] columnNames, Object[][] data) {
 			this.columnNames = columnNames;
 			this.data = data;
