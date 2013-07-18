@@ -90,30 +90,41 @@ public class ProteinPicture extends JFrame{
 			try {
 				reader = new BufferedReader(new FileReader(file));
 				while ((text = reader.readLine()) != null) {
-					/*
-					 * start with Run line 
-					 * 	but not all run lines are full reports
-					 *  so start but only keep going if next line has DNA seq
-					 */
-					if (text.contains("Run")) {
-						String[] pieces = text.split(" ");
-						run = Integer.parseInt(pieces[1]);
-						generation = Integer.parseInt(pieces[3]);
-						fitness = Double.parseDouble(pieces[7]);
-					}
-					if (text.matches("^[AGCT][AGCT]+")) {
-						// next line is the protein sequence
-						String proteinSeq = reader.readLine().replaceAll("\\W","");
-						if (!proteinSeq.equals("")) {
-							// next lines are structure
-							ArrayList<String> structureLines = new ArrayList<String>();
-							text = reader.readLine();
-							while (!text.contains("Run")) {
-								structureLines.add(text);
+					if (!text.contains("#")) {  // ignore lines like "Run # 0 took 10 seconds"
+						/*
+						 * start with Run line 
+						 * 	but not all run lines are full reports
+						 *  so start but only keep going if next line has DNA seq
+						 *  
+						 */
+						if (text.contains("Run")) {
+							String[] pieces = text.split(" ");
+							run = Integer.parseInt(pieces[1]);
+							generation = Integer.parseInt(pieces[3]);
+							fitness = Double.parseDouble(pieces[7]);
+						}
+						if (text.matches("^[AGCT][AGCT]+")) {
+							// next line is the protein sequence
+							String proteinSeq = reader.readLine().replaceAll("\\W","");
+							if (!proteinSeq.equals("")) {
+								// next lines are structure
+								ArrayList<String> structureLines = new ArrayList<String>();
 								text = reader.readLine();
+								while (!text.contains("Run")) {
+									structureLines.add(text);
+									text = reader.readLine();
+								}
+								ProteinData pd = new ProteinData(run, generation, proteinSeq, fitness, structureLines);
+								proteins.add(pd);
+								/*
+								 * the current line is a "Run " line for the next run
+								 * so log the params
+								 */
+								String[] pieces = text.split(" ");
+								run = Integer.parseInt(pieces[1]);
+								generation = Integer.parseInt(pieces[3]);
+								fitness = Double.parseDouble(pieces[7]);
 							}
-							ProteinData pd = new ProteinData(run, generation, proteinSeq, fitness, structureLines);
-							proteins.add(pd);
 						}
 					}
 				}
