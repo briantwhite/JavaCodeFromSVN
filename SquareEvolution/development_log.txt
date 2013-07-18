@@ -1558,3 +1558,11 @@ fixed up ProteinPicture to be a table
 working on improved interface for ProteinPicture
 nice
 version 2.5.2
+
+7/18/13
+fixing bugs in ProteinPicture
+- was crashing because of "Run # 0 ..." lines => ignore any with "#"
+- wasnt getting params from later generations in same run => need to add getting params to bottom of loop
+- was showing protein of last one selected not current selection => use table.getSelectedRow() not event.getStartIndex()
+
+version 2.5.3

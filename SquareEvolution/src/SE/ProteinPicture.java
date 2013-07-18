@@ -170,7 +170,7 @@ public class ProteinPicture extends JFrame{
 			ListSelectionModel lsm = table.getSelectionModel();
 			lsm.addListSelectionListener(new ListSelectionListener() {
 				public void valueChanged(ListSelectionEvent arg0) {
-					int i = arg0.getFirstIndex();
+					int i = table.getSelectedRow();
 					structure.setIcon(new ImageIcon(makePicture(structures.get(i), IMAGE_SIZE)));
 				}				
 			});
