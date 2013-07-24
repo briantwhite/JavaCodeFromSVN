@@ -272,7 +272,7 @@ did it
 6/28/13
 added ability to open saved files in practice mode and have model shown
 
-
+7/23/13 testing git
 			 
 
 	
