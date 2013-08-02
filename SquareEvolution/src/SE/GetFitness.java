@@ -134,8 +134,8 @@ public class GetFitness {
 					 */
 					double fitness = config.getNeutrality() + (1 - config.getNeutrality()) * proteinFitness;
 					System.out.println("dG fold = " + Double.parseDouble(pieces[1]));
-					System.out.println("best fold NRG = " + bestBindingEnergy);
-					System.out.println("fold part sum = " + bindingPartitionSum);
+					System.out.println("best bind NRG = " + bestBindingEnergy);
+					System.out.println("bind part sum = " + bindingPartitionSum);
 					System.out.println("Z = " + z);
 					System.out.println("dG bind = " + dGb);
 					System.out.println("Kfold = " + Kf);
