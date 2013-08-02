@@ -1566,3 +1566,9 @@ fixing bugs in ProteinPicture
 - was showing protein of last one selected not current selection => use table.getSelectedRow() not event.getStartIndex()
 
 version 2.5.3
+
+8/2/13
+weird trouble with fitness and rotamers
+made class GetFitness <prot seq> <template config file name>
+it gives fitness.
+version 2.5.4
