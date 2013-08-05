@@ -75,3 +75,13 @@ it now reveals error in HexCanvas -
 	it's not placing all the acids before trying to draw...
 		if I type in 5 aas, it gets to 3 before it hits null x and y
 	maybe this is JMC's asynch thing...
+	
+8/5/13
+odd - it wouldn't compile - it gave error
+An internal compiler exception occurred
+com.google.gwt.dev.jjs.InternalCompilerException: Unexpected error during visit.
+
+looked on web
+deleted folder gwt-unitCache
+re-compiled & now works....
+who knew?
