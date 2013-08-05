@@ -1572,3 +1572,6 @@ weird trouble with fitness and rotamers
 made class GetFitness <prot seq> <template config file name>
 it gives fitness.
 version 2.5.4
+
+8/5/13
+fixed it so now it deals with rotamers > 3 in DirectionVector
