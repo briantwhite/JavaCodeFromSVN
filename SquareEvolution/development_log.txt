@@ -1575,3 +1575,15 @@ version 2.5.4
 
 8/5/13
 fixed it so now it deals with rotamers > 3 in DirectionVector
+
+8/7/13
+more tuning
+add making a picture to GetFitness
+
+modified SquareEvol so that on big reports to output.txt, it gives the run and fitness
+info - it had NOT been doing this
+this makes output.txt's not back compatable.
+Also add flags on either side of structure so that ProteinPicture will pick it up
+
+version 2.5.5
+

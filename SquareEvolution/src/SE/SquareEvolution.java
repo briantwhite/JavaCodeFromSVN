@@ -25,7 +25,7 @@ import Logging.OutputLogEntry;
 
 public class SquareEvolution {
 
-	private static final String VERSION = "2.5.3";
+	private static final String VERSION = "2.5.5";
 
 	private static String[] bases = {"A","G","C","T"};
 
@@ -263,17 +263,28 @@ public class SquareEvolution {
 
 						if (g%config.getBigReportInterval() == 0) {
 							logWriter.addLogEntry(
+							new OutputLogEntry("Run: " + i
+									+ " Gen: " + g
+									+ " Av_fit: " + fr.getTotalFitness()/config.getPopulationSize() 
+									+ " Max_fit: " + fr.getMaxFitness()
+									+ " " + fr.getBestEntry().proteinSequence));
+							logWriter.addLogEntry(
 									new OutputLogEntry(
 											config.getGeneticCode().prettyTranslate(fr.getBestDNA())));
 							logWriter.addLogEntry(
-									new OutputLogEntry(DisplayStructure.getStructure(
+									new OutputLogEntry("StartStructure: R:" + i 
+											+ " G:" + g 
+											+ " F:" + fr.getMaxFitness() 
+											+ " P:" + fr.getBestEntry().proteinSequence + "\n" +
+											DisplayStructure.getStructure(
 											fr.getBestEntry().proteinSequence, 
 											fr.getBestEntry().proteinStructure, 
 											fr.getBestEntry().ligandSequence, 
 											fr.getBestEntry().ligandStructure, 
 											fr.getBestEntry().bestRotamer, 
 											fr.getBestEntry().bestLigX, 
-											fr.getBestEntry().bestLigY)));
+											fr.getBestEntry().bestLigY)
+											+ "EndStructure\n"));
 						}
 
 						if (g%config.getFitnessReportInterval() == 0) {

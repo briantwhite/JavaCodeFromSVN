@@ -35,7 +35,9 @@ public class GetFitness {
 
 			// fold 'it
 			System.out.println("Folding protein " + proteinSequence);
-
+			System.out.println("Ligand: seq= " + config.getLigandSequence()
+					+ " str= " + config.getLigandStructure()
+					+ " desired rotamer= " + config.getLigandRotamer());
 
 
 			// build the request string for this run
@@ -143,6 +145,16 @@ public class GetFitness {
 					System.out.println("fract folded = " + (Kf/(1 + Kf)));
 					System.out.println("fract bound = " + (Kb/(1 + Kb)));
 					System.out.println("fitness = " + fitness);
+					System.out.println("Structure:");
+					System.out.println(DisplayStructure.getStructure(
+							pieces[0],		// protSeq 
+							pieces[2],		// protStr
+							config.getLigandSequence(),		// ligSeq, 
+							config.getLigandStructure(),	// ligStr, 
+							Integer.parseInt(pieces[5]),		// ligandRotamer, 
+							Integer.parseInt(pieces[6]),		// ligX, 
+							Integer.parseInt(pieces[7])));	// ligY
+
 				}
 			}
 
