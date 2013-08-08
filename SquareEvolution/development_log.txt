@@ -1587,3 +1587,5 @@ Also add flags on either side of structure so that ProteinPicture will pick it u
 
 version 2.5.5
 
+fixed ProteinPicture
+version 2.5.6

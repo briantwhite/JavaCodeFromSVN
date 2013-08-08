@@ -87,47 +87,39 @@ public class ProteinPicture extends JFrame{
 			int run = -1;
 			int generation = -1;
 			double fitness = 0.0f;
+			boolean inStructure = false;
+			String proteinSequence = "";
+			ArrayList<String>structureLines = null;
 			try {
 				reader = new BufferedReader(new FileReader(file));
 				while ((text = reader.readLine()) != null) {
-					if (!text.contains("#")) {  // ignore lines like "Run # 0 took 10 seconds"
-						/*
-						 * start with Run line 
-						 * 	but not all run lines are full reports
-						 *  so start but only keep going if next line has DNA seq
-						 *  
-						 */
-						if (text.contains("Run")) {
-							String[] pieces = text.split(" ");
-							run = Integer.parseInt(pieces[1]);
-							generation = Integer.parseInt(pieces[3]);
-							fitness = Double.parseDouble(pieces[7]);
+					/*
+					 * look for start of a structure record
+					 */
+					if (text.contains("StartStructure")) {
+						inStructure = true;
+						String[] pieces = text.split(" ");
+						run = Integer.parseInt(pieces[1].split(":")[1]);
+						generation = Integer.parseInt(pieces[2].split(":")[1]);
+						fitness = Double.parseDouble(pieces[3].split(":")[1]);
+						if (pieces[4].split(":").length != 2) {
+							proteinSequence = "";
+						} else {
+							proteinSequence = pieces[4].split(":")[1];
 						}
-						if (text.matches("^[AGCT][AGCT]+")) {
-							// next line is the protein sequence
-							String proteinSeq = reader.readLine().replaceAll("\\W","");
-							if (!proteinSeq.equals("")) {
-								// next lines are structure
-								ArrayList<String> structureLines = new ArrayList<String>();
-								text = reader.readLine();
-								while (!text.contains("Run")) {
-									structureLines.add(text);
-									text = reader.readLine();
-								}
-								ProteinData pd = new ProteinData(run, generation, proteinSeq, fitness, structureLines);
-								proteins.add(pd);
-								/*
-								 * the current line is a "Run " line for the next run
-								 * so log the params
-								 */
-								String[] pieces = text.split(" ");
-								run = Integer.parseInt(pieces[1]);
-								generation = Integer.parseInt(pieces[3]);
-								fitness = Double.parseDouble(pieces[7]);
-							}
+						structureLines = new ArrayList<String>();
+					} else if (text.contains("EndStructure")) {
+						inStructure = false;
+						// log it
+						if (!proteinSequence.equals("")) {
+							ProteinData pd = new ProteinData(run, generation, proteinSequence, fitness, structureLines);
+							proteins.add(pd);
 						}
+					} else if (inStructure) {
+						structureLines.add(text);
 					}
 				}
+
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -171,7 +163,7 @@ public class ProteinPicture extends JFrame{
 			lsm.addListSelectionListener(new ListSelectionListener() {
 				public void valueChanged(ListSelectionEvent arg0) {
 					int i = table.getSelectedRow();
-					structure.setIcon(new ImageIcon(makePicture(structures.get(i), IMAGE_SIZE)));
+					structure.setIcon(new ImageIcon(makePicture(structures.get(table.convertRowIndexToModel(i)), IMAGE_SIZE)));
 				}				
 			});
 			table.setSelectionModel(lsm);
