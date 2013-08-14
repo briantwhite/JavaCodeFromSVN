@@ -1,2 +1,4 @@
 8/14/13
 new -> Google -> Web Application Project
+nuked server stuff
+drag src file into src/client

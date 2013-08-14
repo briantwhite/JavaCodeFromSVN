@@ -1,0 +1,290 @@
+<HTML>
+<HEAD>
+<TITLE>Pedigree Explorer help</TITLE>
+</HEAD>
+<BODY BGCOLOR=#ffffff LINK="#FF0000" VLINK="#FF0000" ALINK="#CC0000">
+<H1>Pedigree Explorer</H1>
+
+<H3>Contents</H3>
+<a href="#intro">Introduction</a><BR>
+<a href="#file">File menu</a><BR>
+<a href="#edit">Edit menu</a><br>
+<a href="#options">Options menu</a><br>
+<a href="#view">View menu</a><br>
+<a href="#model">Select Model menu</a><br>
+<a href="#display">Editing the display</a><br>
+<a href="#layouts">Different layouts</a><br>
+<a href="#spouses">Multiple spouses</a><br>
+<a href="#loops">Loops</a>
+<P>
+<a name="intro"><H3>Introduction</H3></a>
+The Pedigree Explorer allows the user to enter, edit, and solve human pedigrees
+involving one gene.
+
+Changes are made to the pedigree via a graphical display interface.  The
+resulting display can be saved as a pedigree file and as a graphical
+image file.
+<P>
+Pedigree Explorer is based on  <i>Pelican</i>:
+<BR>
+Dudbridge F, Carver T, Williams GW.  Pelican: Pedigree Editor for
+Linkage Computer Analysis.  Bioinformatics 20:2327-8
+<P>
+The initial window displays a female parent.  This can be changed to a
+male using the popup menu (see below).
+<P>
+There are four main menu buttons: File, Edit, Options, View.
+<P>
+<A HREF="pelicanHelp.html">Back</a>
+<HR>
+<a name="file"></a>
+<H3>File menu</H3>
+
+<STRONG>New pedigree</STRONG>
+- starts displaying a new pedigree.  A new pedigree always
+consists of the female ancestor.  If you have selected this item by
+mistake and lost your pedigree, you should select "Edit->Undo". 
+
+<p>
+<STRONG>Open </STRONG>
+ - reads in a pedigree file and displays the data in
+the graphical window ready for editing.  Pedigrees must be 
+saved in the custom .xml format saved by PedigreeExplorer.
+
+ <p>
+<STRONG>Save </STRONG>
+ - saves the data to a .ped xml file.  
+
+
+<p>
+<STRONG>Print</STRONG>
+- prints the pedigree either to a file or printer.  If "Print->file"
+is chosen, the pedigree will be saved as an image file in either PNG (default)
+or JPEG format.  If this option cannot be selected, you need a more
+recent Java version.
+If "Print->printer" is chosen, the pedigree will be printed on a local
+PostScript printer.  Many systems have an option within the printer
+driver to save the PostScript output to disk.
+
+
+<p>
+<STRONG>Exit</STRONG>
+ - exits Pelican.  This can also be achieved by pressing "q" on the keyboard.
+<P>
+<A HREF="pelicanHelp.html">Back</a>
+<HR>
+<a name="edit"></a>
+<h3>Edit menu</h3>
+
+These change the editing you have done to the data.
+
+<p>
+<STRONG>Undo</STRONG> - undoes the previous editing change.
+Undo can also be performed by pressing "u" on the keyboard.
+
+<p>
+<STRONG>Redo</STRONG> - makes the editing change again (opposite of
+Undo).  Redo can also be performed by pressing "r" on the keyboard.
+
+<p>
+<STRONG>Clear history</STRONG> - this make Pelican forget the history
+of changes so that Undo cannot undo the changes made prior to
+selecting this option.
+
+<p>
+<STRONG>Renumber</STRONG>
+- renumbers the subjects according the current layout, in top-down
+left-right order.
+<P>
+<A HREF="pelicanHelp.html">Back</A>
+<HR>
+<a name="view"></a>
+<h3>View menu</h3>
+
+This gives a set of options for resizing the graphical display window
+and refreshing the display.  Resizing or refreshing the display will
+always centre the pedigree in the window.  Zoom-in can also be
+performed by pressing "Z" (shift-z) on the keyboard, and zoom-out be
+pressing "z".
+<P>
+<A HREF="pelicanHelp.html">Back</a>
+<HR>
+<a name="options"></a>
+<h3>Options menu</h3>
+This allows you to set various operational options.
+<P>
+<strong>Auto layout</strong>
+- when selected, the pedigree will be automatically rearranged on screen
+each time a subject is moved with the mouse.  When deselected, you can
+use the mouse to move individual subjects around, which can sometimes
+result in more elegant displays than the automatic arrangement.  When
+new subjects are added to the pedigree, it is always
+automatically laid out again.
+<P>
+The layout algorithm is basically to take each orphan mating and plot
+all descendents in depth-first order.  Undrawn spouses are added to
+the right.  The trees for each orphan mating are added from left to
+right according to the input order.
+<P>
+<strong>Display IDs</strong>
+- when selected, the numeric ID of each subject is displayed beneath the
+symbol for that subject.
+<P>
+<strong>Display Names</strong>
+- when selected, the name of each subject is displayed beneath the
+symbol for that subject. The name can be changed using the pop-up menu;
+see below for details.
+<P>
+<STRONG>Show genotypes</STRONG>
+- allows you to display genotypes for the selected genetic model.  These
+are only for convenience when working out a pedigree. They are not saved
+nor are they used when PedEx solves the pedigree.
+<P>
+<A HREF="pelicanHelp.html">Back</a>
+<HR>
+<a name="model"></a>
+<h3>Select Model menu</h3>
+<p>
+This is for use when solving a pedigree yourself; it allows you to make notes
+of the possible genotyopes of the people in the pedigree as you work it out.
+Selecting a model from this list displays the genotypes of all the individuals
+for the model selected. It also shows a table of genotypes and phenotypes
+for this model.
+<hr>
+<a name="display"></a>
+<h3>Editing the display</h3>
+
+All editing of the graphical display is done by selecting an individual
+and performing an operation on it.
+<P>
+Left-click on an individual to select it.<BR>
+Right-click on an individual to show the menu of operations.
+
+<h3>Operations</h3>
+
+<STRONG>Add</STRONG> - this gives a sub-menu of valid relatives that
+can be added to this 
+individual (1 son, 1 daughter, 2 sons, 2 daughters, 3 sons, 3 daughters,
+Spouse+son, Spouse+daughter, Parents).  If the parents already exist,
+you cannot add them again.  If the individual has no spouse, a new
+spouse is created to add children.  If it has more than one, the most
+recently added spouse (probably) will be the other parent of new
+children.  It is usually best to add children to an individual with no
+more than one spouse.
+
+<p>
+<STRONG>Change->affection</STRONG> - this changes the affection status to one of the
+options "Affected" or "Unaffected".  This information is
+displayed as a filled-in symbol or a clear symbol, respectively.  
+
+<p>
+<STRONG>Change->sex</STRONG> - this changes the sex of a
+subject.  Males are displayed as squares and females as circles.  Note
+that there is no checking for invalid matings (male-male) at this
+point, although these are checked for when opening a pedigree file
+from disk.
+
+<P>
+<STRONG>Change->genotypes</STRONG>
+- allows you to edit the genotypes for this subject.  The genotype
+you set depends on the model selected; the genotype for each individual
+for each of the 4 possible models is saved while the program is open.
+
+<p>
+<STRONG>Merge with</STRONG>
+- This allows you to identify two people in the display
+as being the same individual.  This allows you to create loops.
+Select the "Merge with..." menu option and then Left-click on the
+subject to merge with.  You cannot merge two subjects of different sexes,
+two subjects who both have parents in the pedigree, or a
+subject with one of its own ancestors.
+<p>
+<STRONG>Delete</STRONG> - this allows you to delete an individual.
+Any individuals whose
+existence depends on the deleted individual will also be deleted.  You
+will be warned of this and given a chance to cancel this action if you
+do not want this to happen.  The dependent individuals deleted are
+usually the descendants and their spouses, sometimes one or both
+parents.  It is possible
+to delete an individual that linked two related families, leaving
+two different, unrelated families.  Saving this data may
+cause linkage programs to give errors or crash.
+It is up to you to edit the pedigree to delete the detached family or
+link the two familes together again. 
+<P>
+<A HREF="pelicanHelp.html">Back</a>
+<HR>
+<a name="layouts"></a>
+<h3>Different individual order gives different layouts</h3>
+
+Where possible, the new individuals are added to the top-most right
+position that is compatible with their generational level within the
+pedigree.  The available positions are constrained by the existing
+positions used to display individuals. 
+
+<p>
+The aesthetic quality of the graphical pedigree display is therefore
+dependent on the order in which the individuals are added to the
+display, or in which they occur in the input file. 
+
+<p>
+In general you should start at the top-left-most generation and work
+across to the right to fill in as much of the earlier generations as
+possible before filling in the later generations. This produces a
+better layout.
+
+<p>
+The layout can be changed by dragging individuals around the display.
+Two operations are allowed: changing the left-right order of full
+siblings in a sibship, and changing the left-right order of the "root"
+subjects (ie. orphans whose spouses are also orphans).  To move a
+subject, left-click on it
+and move the mouse around while keeping the button depressed.  This
+can also help in viewing complex pedigrees with multiple line crossings.
+<p>
+Note that the pedigree data file can hold individuals in any order -
+this does not affect the linkage programs, so the
+order in which individuals are added or laid out does not affect the way these
+programs will analyse the data, it will only affect the way that Pelican
+graphically displays the data. 
+<P>
+<A HREF="pelicanHelp.html">Back</a>
+<HR>
+<a name="spouses"></a>
+<h3>Multiple spouses</h3>
+
+To create a second spouse for an individual, Right-click on
+"Add->Spouse+son" or "Add->Spouse+daughter".  Repeat this
+if a third spouse and children are required. 
+<P>
+<A HREF="pelicanHelp.html">Back</a>
+<HR>
+<a name="loops"></a>
+<h3>Loops</h3>
+
+To create loops (first-cousin marriage etc) or other within-pedigree
+matings,create the family with
+a dummy individual and then use a Right-click on "Merge with..." to
+make the
+dummy individual and the correct spouse the same individual. 
+For example to mate individuals 6 and 8 with a daughter:
+<P>
+<IMG SRC="loop1.gif" width=198 height=138>
+<P>
+
+Add a dummy spouse and daughter for individual 6:
+<P>
+<IMG SRC="loop2.gif" width=198 height=195>
+<P>
+then Right-click on individual 9 and select "Merge with..." then click
+on individual 8:
+<P>
+<IMG SRC="loop3.gif" width=209 height=186>
+<P>
+The dummy individual is akin to a loop-breaker in linkage analysis.
+
+<P>
+<A HREF="pelicanHelp.html">Back</a>
+<HR>
+</BODY>
+</HTML>
