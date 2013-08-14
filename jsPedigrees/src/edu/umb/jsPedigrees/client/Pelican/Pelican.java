@@ -1,4 +1,4 @@
-package Pelican;
+package edu.umb.jsPedigrees.client.Pelican;
 /********************************************************************
  *
  *  This library is free software; you can redistribute it and/or
@@ -75,14 +75,8 @@ import javax.swing.ToolTipManager;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
-
-import PE.PedigreeExplorer;
-import PE.RandomPedigreeGenerator;
+import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
+import edu.umb.jsPedigrees.client.PE.RandomPedigreeGenerator;
 
 public class Pelican extends JPanel
 implements ActionListener {

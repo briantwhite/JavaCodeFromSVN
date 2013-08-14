@@ -1,15 +1,13 @@
-package PE;
+package edu.umb.jsPedigrees.client.PE;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
-import Pelican.PelicanPerson;
+import edu.umb.jsPedigrees.client.Pelican.PelicanPerson;
 
 public class PedigreeSolver {
 

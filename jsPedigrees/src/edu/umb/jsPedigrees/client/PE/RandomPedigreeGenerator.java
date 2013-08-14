@@ -1,11 +1,11 @@
-package PE;
+package edu.umb.jsPedigrees.client.PE;
 
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 
-import Pelican.Pelican;
-import Pelican.PelicanPerson;
+import edu.umb.jsPedigrees.client.Pelican.Pelican;
+import edu.umb.jsPedigrees.client.Pelican.PelicanPerson;
 
 public class RandomPedigreeGenerator {
 

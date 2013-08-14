@@ -1,11 +1,10 @@
-package PE;
+package edu.umb.jsPedigrees.client.PE;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -20,8 +19,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import Pelican.Pelican;
-import Pelican.PelicanPerson;
+import edu.umb.jsPedigrees.client.Pelican.Pelican;
+import edu.umb.jsPedigrees.client.Pelican.PelicanPerson;
 
 public class PedigreeExplorer extends JFrame {
 

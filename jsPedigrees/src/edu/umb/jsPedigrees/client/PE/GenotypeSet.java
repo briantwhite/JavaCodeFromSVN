@@ -1,4 +1,4 @@
-package PE;
+package edu.umb.jsPedigrees.client.PE;
 
 import java.util.ArrayList;
 

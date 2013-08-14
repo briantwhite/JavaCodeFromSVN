@@ -1,4 +1,4 @@
-package Pelican;
+package edu.umb.jsPedigrees.client.Pelican;
 /********************************************************************
  *
  *  This library is free software; you can redistribute it and/or
@@ -22,12 +22,16 @@ package Pelican;
 
 //package uk.ac.mrc.rfcgr;
 
-import javax.swing.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
-import PE.PedigreeExplorer;
+import javax.swing.JPanel;
 
-import java.awt.*;
-import java.util.*;
+import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
 
 public class PelicanLines extends JPanel
 {

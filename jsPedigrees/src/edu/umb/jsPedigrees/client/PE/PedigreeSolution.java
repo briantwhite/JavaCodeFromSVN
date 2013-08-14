@@ -1,6 +1,5 @@
-package PE;
+package edu.umb.jsPedigrees.client.PE;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class PedigreeSolution {
