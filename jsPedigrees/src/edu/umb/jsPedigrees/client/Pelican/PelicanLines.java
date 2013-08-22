@@ -29,11 +29,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-import javax.swing.JPanel;
+import com.google.gwt.canvas.client.Canvas;
 
 import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
 
-public class PelicanLines extends JPanel
+public class PelicanLines extends Canvas
 {
 	private Container panel;
 	private boolean showId;

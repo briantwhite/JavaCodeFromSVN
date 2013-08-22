@@ -1,0 +1,2 @@
+* need to check that pedigree doesn't have bad parents before solving
+	use checkIntegrity()

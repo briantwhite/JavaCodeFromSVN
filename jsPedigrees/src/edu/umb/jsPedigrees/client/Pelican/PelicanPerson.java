@@ -35,7 +35,9 @@ import javax.swing.JPanel;
 
 import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
 
-public class PelicanPerson extends JPanel
+import com.google.gwt.canvas.client.Canvas;
+
+public class PelicanPerson extends Canvas
 {
 	private Pelican pelican;
 	public static final int male=1;
