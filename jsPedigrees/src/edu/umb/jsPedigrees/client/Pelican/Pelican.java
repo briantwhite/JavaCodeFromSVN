@@ -25,17 +25,15 @@ package edu.umb.jsPedigrees.client.Pelican;
 
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
+import com.google.gwt.event.dom.client.ContextMenuEvent;
+import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -46,7 +44,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
 
-public class Pelican extends AbsolutePanel {
+public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 
 	private PedigreeExplorer pedEx;
 	public static MenuBar menuBar;
@@ -205,6 +203,13 @@ public class Pelican extends AbsolutePanel {
 		mainMenu.addItem("Edit", editMenu);
 		rootPanel.add(mainMenu);
 
+		/*
+		 * set up to catch contextMenu stuff 
+		 * https://confluence.clazzes.org/pages/viewpage.action?pageId=425996
+		 */
+		addDomHandler(this, ContextMenuEvent.getType());
+
+
 		history = new Vector<Vector<PelicanPerson>>();
 		historyPosition = 0;
 		matingList = new HashSet<String>();
@@ -285,8 +290,6 @@ public class Pelican extends AbsolutePanel {
 
 	private boolean areSpouses(PelicanPerson person1,PelicanPerson person2) {
 		if (person1==null || person2==null) return(false);
-		//gww	if (matingList.contains(new Dimension(person1.id,person2.id)) ||
-		//gww	    matingList.contains(new Dimension(person2.id,person1.id)))
 		// construct unique set entry from the id strings concatenated with a space
 		if (matingList.contains(person1.id+" "+person2.id) ||
 				matingList.contains(person2.id+" "+person1.id))
@@ -336,56 +339,6 @@ public class Pelican extends AbsolutePanel {
 	/* {{{ addParents */
 
 	private void addParents() {
-
-		// Nice idea to move connections to the edge of the sibships, but
-		// lots of potential complications.  For now, will live with
-		// messy node connections...
-		//  	// find the spouse of currentPerson (who will be an orphan)
-		//  	PelicanPerson spouse=null;
-		//  	int spouseIndex=0;
-		//  	for(int i=0;i<getComponentCount();i++)
-		//  	    if (getComponent(i) instanceof PelicanPerson) {
-		//  		if (areSpouses((PelicanPerson)getComponent(i),currentPerson)) {
-		//  		    spouseIndex=i;
-		//  		    spouse=(PelicanPerson)getComponent(i);
-		//  		}
-		//  	    }
-
-		//  	if (spouse!=null) {
-		//  	    // find out if sibs of the spouse have non-orphaned spouses
-		//  	    int nbranch=0; // number of non-orphaned spouses of sibs
-		//  	    int firstsib=-1; // index of first sib of the spouse
-		//  	    int lastsib=0; // index of last sib of the spouse
-		//  	    for(int i=0;i<getComponentCount();i++)
-		//  		if (getComponent(i) instanceof PelicanPerson) {
-		//  		    PelicanPerson person=(PelicanPerson)getComponent(i);
-		//  		    if (person.pid==spouse.pid && person.mid==spouse.mid) {
-		//  			// we have a sib, so check its spouses
-		//  			if (firstsib==-1) firstsib=i;
-		//  			lastsib=i;
-		//  			for(int j=0;j<getComponentCount();j++)
-		//  			    if (getComponent(j) instanceof PelicanPerson) {
-		//  				PelicanPerson sibSpouse=(PelicanPerson)getComponent(j);
-		//  				if (areSpouses(sibSpouse,person) && 
-		//  				    sibSpouse.pid!=PelicanPerson.unknown &&
-		//  				    sibSpouse.mid!=PelicanPerson.unknown)
-		//  				    nbranch++;
-		//  			    }
-		//  		    }
-		//  		}
-		//  	    System.out.println("nbranch "+String.valueOf(nbranch));
-		//  	    // if no other sibs, move sib to the left
-		//  	    if (nbranch==0) {
-		//  		remove(spouseIndex);
-		//  		add(spouse,firstsib);
-		//  	    }
-		//  	    // if one sib, move sib to the right
-		//  	    if (nbranch==1) {
-		//  		remove(spouseIndex);
-		//  		add(spouse,lastsib);
-		//  	    }
-		//  	}
-
 		// new father
 		currentPerson.father=new PelicanPerson(this, currentId++, PelicanPerson.male, currentPerson.generation-1);
 		add(currentPerson.father);
@@ -396,7 +349,6 @@ public class Pelican extends AbsolutePanel {
 		updateDisplay();
 	}
 
-	/* }}} */
 
 	/* {{{ addChildren */
 
@@ -769,7 +721,7 @@ public class Pelican extends AbsolutePanel {
 
 		// normalise x-y locations
 		for(int i=0;i<getWidgetCount();i++)
-			if (getWidget(i) instanceof PelicanLines) remove(i);
+			if (!(getWidget(i) instanceof PelicanPerson)) remove(i);
 		int minx=0;
 		int miny=0;
 		int maxx=0;
@@ -798,7 +750,7 @@ public class Pelican extends AbsolutePanel {
 		}
 
 		// draw the lines on the graph
-		insert(new PelicanLines(this, true ,false , false),0,0,1);
+		insert(PelicanLines.drawLines(this),0,0,1);
 
 		setSize(String.valueOf(maxx - minx + PelicanPerson.xSpace + PelicanPerson.symbolSize/2),
 				String.valueOf(maxy - miny + PelicanPerson.ySpace + PelicanPerson.symbolSize/2));
@@ -826,7 +778,9 @@ public class Pelican extends AbsolutePanel {
 	/* {{{ checkIntegrity */
 
 	// check that fathers are male, etc
-	private int checkIntegrity(Vector pedigree) {
+	private String checkIntegrity(Vector pedigree) {
+		StringBuffer b = new StringBuffer();
+
 		for(int i=0;i<pedigree.size();i++) {
 			PelicanPerson person=(PelicanPerson)pedigree.elementAt(i);
 			boolean fatherError=false;
@@ -840,110 +794,34 @@ public class Pelican extends AbsolutePanel {
 			}
 			// perhaps the pid/mid fields are swapped?
 			if (fatherError && motherError) {
-				//gww		int choice = JOptionPane.showConfirmDialog(this,"Subject "+String.valueOf(person.id)+" has a male mother and female father.  Choose YES to exchange the parental IDs.","Pelican: pedigree structure error",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
-				int choice = JOptionPane.showConfirmDialog(this,"Subject "+person.id+" has a male mother and female father.  Choose YES to exchange the parental IDs.","Pelican: pedigree structure error",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
-				if (choice==JOptionPane.CANCEL_OPTION)
-					return(choice);
-				if (choice==JOptionPane.YES_OPTION) {
-					PelicanPerson temp=person.father;
-					person.father=person.mother;
-					person.mother=temp;
-				}
-			}
-			// male mother...
-			else {
+				b.append("Subject "+person.id+" has a male mother and female father.\n");
+			} else {
 				if (fatherError) {
-					//gww		    int choice = JOptionPane.showConfirmDialog(this,"Subject "+String.valueOf(person.id)+" has a female father.","Pelican: pedigree structure error",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-					int choice = JOptionPane.showConfirmDialog(this,"Subject "+person.id+" has a female father.","Pelican: pedigree structure error",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-					if (choice==JOptionPane.CANCEL_OPTION)
-						return(choice);
+					b.append("Subject "+person.id+" has a female father.\n");
 				}
 				if (motherError) {
-					//gww		    int choice = JOptionPane.showConfirmDialog(this,"Subject "+String.valueOf(person.id)+" has a male mother.","Pelican: pedigree structure error",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-					int choice = JOptionPane.showConfirmDialog(this,"Subject "+person.id+" has a male mother.","Pelican: pedigree structure error",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-					if (choice==JOptionPane.CANCEL_OPTION)
-						return(choice);
+					b.append("Subject "+person.id+" has a male mother.\n");
 				}
 			}
 		}
-		return(JOptionPane.OK_OPTION);
+		return b.toString();
 	}
-
-	/* }}} */
-
-
-	/* {{{ popup menu listener */
 
 	/**
 	 *
 	 * Popup menu listener
 	 *
 	 */
-	class PopupListener extends MouseAdapter
-	{
-		public void mousePressed(MouseEvent e)
-		{
-			maybeShowPopup(e);
-		}
+	public void onContextMenu(ContextMenuEvent event) {
+		// stop the browser from opening the context menu
+		event.preventDefault();
+		event.stopPropagation();
 
-		public void mouseReleased(MouseEvent e)
-		{
-			if (!popup.isVisible() && autoLayout.isSelected()) {
-				reorderSelected();
-				pedHasChanged=true;
-				paint(getGraphics());
-			}
-			maybeShowPopup(e);
-		}
-
-		private void maybeShowPopup(MouseEvent e)  {
-
-			int x = e.getX();
-			int y = e.getY();
-
-			final Component c = getComponentAt(x,y);
-
-			if (c instanceof PelicanPerson) {
-				PelicanPerson p=(PelicanPerson)c;
-				if (e.isPopupTrigger()) {
-					if (p.isOrphan()) Parents.setEnabled(true);
-					else Parents.setEnabled(false);
-					popup.show(e.getComponent(),x,y);
-					currentPerson=(PelicanPerson)c;
-				}
-				else {
-					if (mergeEnabled) {
-						mergePerson((PelicanPerson)c);
-						updateDisplay();
-					}
-					else {
-						currentPerson=(PelicanPerson)c;
-					}
-				}
-			}
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			mergeEnabled=false;
-
-		}
+		popup.setPopupPosition(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY());
+		popup.show();
+		
 	}
 
-	/* }}} */
 
-	/* {{{ mouse drag listener */
-
-	class dragListener extends MouseMotionAdapter {
-		public void mouseDragged(MouseEvent e) {
-			if (!popup.isVisible() && currentPerson!=null) {
-				int x=e.getX();
-				int y=e.getY();
-				setVisible(false);
-				currentPerson.setLocation(x,y);
-				paint(getGraphics());
-				setVisible(true);
-			}
-		}
-	}
-
-	/* }}} */
 
 }

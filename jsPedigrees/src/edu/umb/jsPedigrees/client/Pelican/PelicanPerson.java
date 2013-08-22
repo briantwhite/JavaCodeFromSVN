@@ -24,21 +24,21 @@ package edu.umb.jsPedigrees.client.Pelican;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.swing.JPanel;
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
 
-import com.google.gwt.canvas.client.Canvas;
-
-public class PelicanPerson extends Canvas
-{
+public class PelicanPerson extends SimplePanel {
+	
+	private Canvas canvas;
+	
 	private Pelican pelican;
 	public static final int male=1;
 	public static final int female=2;
@@ -80,13 +80,6 @@ public class PelicanPerson extends Canvas
 	 */
 	public String[] genotype = new String[2];  
 
-	/*
-	 * the array of genotypes used by the student
-	 * as she is working through it
-	 * one allele pair for each possible model
-	 */
-	public String[][] workingGenotypes = new String[4][2]; 
-
 	public boolean laidOut=false;
 	public boolean root=false;
 	public int generation=0;
@@ -96,15 +89,11 @@ public class PelicanPerson extends Canvas
 	public PelicanPerson(Pelican pelican) {
 		super();
 		this.pelican = pelican;
-		setBackground(Color.white);
-		setOpaque(false);
-		setPreferredSize(new Dimension(xSize,ySize));
-		setSize(xSize,ySize);
-
-		for (int i = 0; i < 4; i++) {
-			workingGenotypes[i][0] = "?";
-			workingGenotypes[i][1] = "?";
-		}
+		canvas = Canvas.createIfSupported();
+		canvas.setCoordinateSpaceWidth(xSize);
+		canvas.setCoordinateSpaceHeight(ySize);
+		setWidget(canvas);
+		drawSymbol(canvas.getContext2d());
 	}
 
 	public PelicanPerson(Pelican pelican, 
@@ -249,17 +238,6 @@ public class PelicanPerson extends Canvas
 		genotype = newGeno;
 	}
 
-	public void setWorkingGenotype(int modelNumber, String[] newGeno) {
-		workingGenotypes[modelNumber][0] = newGeno[0];
-		workingGenotypes[modelNumber][1] = newGeno[1];
-	}
-
-	public String getWorkingGenotypeAsString() {
-		return workingGenotypes[pelican.getCurrentModelNumber()][0] 
-				+ " " 
-				+ workingGenotypes[pelican.getCurrentModelNumber()][1];
-	}
-
 	public String getGenotypeAsString() {
 		return genotype[0] + " " + genotype[1];
 	}
@@ -299,38 +277,12 @@ public class PelicanPerson extends Canvas
 		return b.toString();
 	}
 
-	public Element save() {
-		Element e = new Element("Person");
-		e.setAttribute("Id", String.valueOf(id));
-		e.setAttribute("Name", name);
-		e.setAttribute("Sex", String.valueOf(sex));
-		e.setAttribute("Affection", String.valueOf(affection));
-
-		if (father == null) {
-			e.setAttribute("Father", "0");
-		} else {
-			e.setAttribute("Father", String.valueOf(father.id));			
-		}
-
-		if (mother == null) {
-			e.setAttribute("Mother", "0");			
-		} else {
-			e.setAttribute("Mother", String.valueOf(mother.id));
-		}
-
-		e.setAttribute("ARgeno", workingGenotypes[0][0] + " " + workingGenotypes[0][1]);
-		e.setAttribute("ADgeno", workingGenotypes[1][0] + " " + workingGenotypes[1][1]);
-		e.setAttribute("SLRgeno", workingGenotypes[2][0] + " " + workingGenotypes[2][1]);
-		e.setAttribute("SLDgeno", workingGenotypes[3][0] + " " + workingGenotypes[3][1]);
-
-		return e;
-	}
 
 	public Pelican getPelican() {
 		return pelican;
 	}
 
-	public void paintComponent(Graphics g) {
+	private void drawSymbol(Context2d ctx) {
 		setSize(xSize,ySize);
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
