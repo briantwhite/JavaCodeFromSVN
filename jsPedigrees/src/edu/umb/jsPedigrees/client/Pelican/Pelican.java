@@ -23,71 +23,28 @@ package edu.umb.jsPedigrees.client.Pelican;
 
 //package uk.ac.mrc.rfcgr;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.awt.print.Book;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterJob;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 
-import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.JCheckBox;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.KeyStroke;
-import javax.swing.ToolTipManager;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 
-import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
-import edu.umb.jsPedigrees.client.PE.RandomPedigreeGenerator;
-
-import edu.umb.jsPedigrees.client.Pelican.PelicanPerson;
-
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
+
+import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
 
 public class Pelican extends AbsolutePanel {
 
@@ -544,7 +501,7 @@ public class Pelican extends AbsolutePanel {
 						PelicanPerson person2 = (PelicanPerson)getWidget(j);
 						if (person2.generation<person.generation ||
 								person2.generation==person.generation &&
-								person2.getAbsoluteLeft() <= person.getAbsoluteLeft())
+								getWidgetLeft(person2) <= getWidgetLeft(person))
 							thisId++;
 					}
 				if (person.id!=thisId) {
@@ -694,8 +651,8 @@ public class Pelican extends AbsolutePanel {
 				if ((person.father==null || !person.father.laidOut) &&
 						(person.mother==null || !person.mother.laidOut)) {
 					setWidgetPosition(person,
-							person.getAbsoluteLeft() + PelicanPerson.xSpace/2,
-							person.getAbsoluteTop());
+							getWidgetLeft(person) + PelicanPerson.xSpace/2,
+							getWidgetTop(person));
 				}
 			}
 			person.laidOut=true;
@@ -819,10 +776,10 @@ public class Pelican extends AbsolutePanel {
 		int maxy=0;
 		for(int i=0;i<getWidgetCount();i++) {
 			Widget c = getWidget(i);
-			if (i==0 || c.getAbsoluteLeft() < minx) minx = c.getAbsoluteLeft();
-			if (i==0 || c.getAbsoluteTop()<miny) miny=c.getAbsoluteTop();
-			if (i==0 || c.getAbsoluteLeft()>maxx) maxx=c.getAbsoluteLeft();
-			if (i==0 || c.getAbsoluteTop()>maxy) maxy=c.getAbsoluteTop();
+			if (i==0 || getWidgetLeft(c) < minx) minx = getWidgetLeft(c);
+			if (i==0 || getWidgetTop(c)<miny) miny=getWidgetTop(c);
+			if (i==0 || getWidgetLeft(c)>maxx) maxx=getWidgetLeft(c);
+			if (i==0 || getWidgetTop(c)>maxy) maxy=getWidgetTop(c);
 		}
 
 		for(int i=0;i<getWidgetCount();i++) {
@@ -831,39 +788,31 @@ public class Pelican extends AbsolutePanel {
 			// otherwise start it at (0,0)
 			if (maxx-minx+PelicanPerson.xSpace < pedEx.getPelicanWidth()) {
 				setWidgetPosition(c,
-						c.getAbsoluteLeft()-(maxx + minx - pedEx.getPelicanWidth() + PelicanPerson.symbolSize)/2,
-						c.getAbsoluteTop()-miny+PelicanPerson.symbolSize/2);
+						getWidgetLeft(c)-(maxx + minx - pedEx.getPelicanWidth() + PelicanPerson.symbolSize)/2,
+						getWidgetTop(c)-miny+PelicanPerson.symbolSize/2);
 			} else {
 				setWidgetPosition(c,
-						c.getAbsoluteLeft()-minx+PelicanPerson.symbolSize/2,
-						c.getAbsoluteTop()-miny+PelicanPerson.symbolSize/2);
+						getWidgetLeft(c)-minx+PelicanPerson.symbolSize/2,
+						getWidgetTop(c)-miny+PelicanPerson.symbolSize/2);
 			}
 		}
 
 		// draw the lines on the graph
-		add(new PelicanLines(this,showId.isSelected(),showName.isSelected(),displayGenotypes),-1);
+		insert(new PelicanLines(this, true ,false , false),0,0,1);
 
-		if (displayGenotypes) {
-			setPreferredSize(new Dimension(
-					maxx - minx + PelicanPerson.xSpace + PelicanPerson.symbolSize/2,
-					maxy-miny + PelicanPerson.ySpace + PelicanPerson.symbolSize/2 + fontAscent));			
-		} else {
-			setPreferredSize(new Dimension(
-					maxx - minx + PelicanPerson.xSpace + PelicanPerson.symbolSize/2,
-					maxy - miny + PelicanPerson.ySpace + PelicanPerson.symbolSize/2));
-		}
-
+		setSize(String.valueOf(maxx - minx + PelicanPerson.xSpace + PelicanPerson.symbolSize/2),
+				String.valueOf(maxy - miny + PelicanPerson.ySpace + PelicanPerson.symbolSize/2));
 
 		setVisible(true);
 
-		currentId=0;
+		currentId = 0;
 		// need to check if this is a valid integer ID 
-		for(int i=0;i<getComponentCount();i++)
-			if (getComponent(i) instanceof PelicanPerson) {
+		for(int i = 0; i < getWidgetCount(); i++)
+			if (getWidget(i) instanceof PelicanPerson) {
 				// if 'id' is a valid integer
-				int id = ((PelicanPerson)getComponent(i)).id;
+				int id = ((PelicanPerson)getWidget(i)).id;
 				if (id > 0)
-					currentId=Math.max(currentId,((PelicanPerson)getComponent(i)).id);
+					currentId=Math.max(currentId,((PelicanPerson)getWidget(i)).id);
 			}
 		currentId++;
 		currentPerson=null;

@@ -30,19 +30,19 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
 import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
 
-public class PelicanLines extends Canvas
-{
-	private Container panel;
+public class PelicanLines extends Canvas {
+	private AbsolutePanel panel;
 	private boolean showId;
 	private boolean showName;
 	private boolean displayGenotypes;
 
 	/* {{{ constructor */
 
-	public PelicanLines(Container panel,
+	public PelicanLines(AbsolutePanel panel,
 			boolean showId,
 			boolean showName,
 			boolean displayGenotypes) {
