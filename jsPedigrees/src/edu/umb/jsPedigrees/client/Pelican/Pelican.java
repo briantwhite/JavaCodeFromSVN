@@ -78,184 +78,184 @@ import javax.swing.event.HyperlinkListener;
 import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
 import edu.umb.jsPedigrees.client.PE.RandomPedigreeGenerator;
 
-public class Pelican extends JPanel
-implements ActionListener {
-	
-	/*
-	 * amount to scale up the picture when drawing it
-	 * bigger scaling reduces pixelation
-	 * - if you make it big, you don't need anti-alisaing
-	 */
-	public static int SCALE = 10;  
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
+public class Pelican extends AbsolutePanel {
 
-	public static int MODEL_AR = 0;  // autosomal recessive
-	public static int MODEL_AD = 1;  // autosomal dominant
-	public static int MODEL_SLR = 2; // sex-linked recessive
-	public static int MODEL_SLD = 3; // sex-linked dominant
-	
-	private static String[][] GENOTYPE_CHOICES = {
-		{"A A", "A a", "a a"},
-		{"B B", "B b", "b b"},
-		{"XD XD", "XD Xd", "Xd Xd", "XD Y", "Xd Y"},
-		{"XE XE", "XE Xe", "Xe Xe", "XE Y", "Xe Y"}
-	};
-	
-
-	private static String versionMessage = "Pelican 1.2.1 \251 2004-6 Frank Dudbridge";
 	private PedigreeExplorer pedEx;
-	public static JMenuBar menuBar;
-	private JPopupMenu popup;
+	public static MenuBar menuBar;
+	private PopupPanel popup;
 	private PelicanPerson currentPerson;
 	private int currentId;
 	private boolean pedHasChanged;
-	private String currentDirectory;
-	public JMenuItem openMenu; // public so applets can disable
-	public JMenuItem saveMenu;
-	public JMenuItem imageMenu;
-	public JMenuItem printMenu;
-	public JMenuItem fileMenuExit;
-	private JMenuItem undoMenu;
-	private JMenuItem redoMenu;
-	private JCheckBoxMenuItem autoLayout;
-	private JCheckBoxMenuItem showId;
-	private JCheckBoxMenuItem showName;
-	private JMenuItem Parents;
-	public JMenu currentModelMenu;
-	private int currentModelNumber;
+	private MenuItem Parents;
 	private boolean mergeEnabled;
 	private Vector<Vector<PelicanPerson>> history;
 	private int historyPosition;
-	private PrinterJob printerJob;
-	private String imageFormat;
-	private JCheckBox askFormat;
 	private int fontAscent;
 
 	private HashSet<String> matingList;
 
-	private boolean displayGenotypes;
-	
-	private RandomPedigreeGenerator rpg;
-
 	/* {{{ constructor (popup menu) */
 
-	public Pelican() {
-		super(new BorderLayout());
-		setBackground(Color.white);
-		
-		currentDirectory = System.getProperty("user.home")  
-				+ System.getProperty("file.separator") 
-				+ "Desktop"; 
-		
-		rpg = new RandomPedigreeGenerator(this);
+	public Pelican(RootPanel rootPanel) {
+		super();
 
-		// set up the popup menu
-		popup = new JPopupMenu();
-		JMenu addMenu = new JMenu("Add");
+		// set up the popup menu that appears when you click on a person
+		popup = new PopupPanel();
+		MenuBar popupMenu = new MenuBar(true);
 
-		JMenuItem Bro1 = new JMenuItem("1 son");
-		addMenu.add(Bro1);
-		Bro1.addActionListener(this);
-		JMenuItem Sis1 = new JMenuItem("1 daughter");
-		addMenu.add(Sis1);
-		Sis1.addActionListener(this);
-		JMenuItem Bro2 = new JMenuItem("2 sons");
-		addMenu.add(Bro2);
-		Bro2.addActionListener(this);
-		JMenuItem Sis2 = new JMenuItem("2 daughters");
-		popup.add(addMenu);
-		addMenu.add(Sis2);
-		Sis2.addActionListener(this);
-		JMenuItem Bro3 = new JMenuItem("3 sons");
-		addMenu.add(Bro3);
-		Bro3.addActionListener(this);
-		JMenuItem Sis3 = new JMenuItem("3 daughters");
-		addMenu.add(Sis3);
-		Sis3.addActionListener(this);
-		JMenuItem SpouseBro = new JMenuItem("Spouse+son");
-		addMenu.add(SpouseBro);
-		SpouseBro.addActionListener(this);
-		JMenuItem SpouseSis = new JMenuItem("Spouse+daughter");
-		addMenu.add(SpouseSis);
-		SpouseSis.addActionListener(this);
-		Parents = new JMenuItem("Parents");
-		addMenu.add(Parents);
-		Parents.addActionListener(this);
-		popup.add(addMenu);
+		MenuBar addMenu = new MenuBar(true);
+		addMenu.addItem("1 son", new Command() {
+			public void execute() {
+				addChildren("1 son");
+			}
+		});
+		addMenu.addItem("1 daughter", new Command() {
+			public void execute() {
+				addChildren("1 daughter");
+			}
+		});
+		addMenu.addItem("2 sons", new Command() {
+			public void execute() {
+				addChildren("2 sons");
+			}
+		});
+		addMenu.addItem("2 daughters", new Command() {
+			public void execute() {
+				addChildren("2 daughters");
+			}
+		});
+		addMenu.addItem("3 sons", new Command() {
+			public void execute() {
+				addChildren("3 sons");
+			}
+		});
+		addMenu.addItem("3 daughters", new Command() {
+			public void execute() {
+				addChildren("3 daughters");
+			}
+		});
+		addMenu.addItem("Spouse+son", new Command() {
+			public void execute() {
+				addSpouse("Spouse+son");
+			}
+		});
+		addMenu.addItem("Spouse+daughter", new Command() {
+			public void execute() {
+				addSpouse("Spouse+daughter");
+			}
+		});
+		Parents = new MenuItem("Parents", new Command() {
+			public void execute() {
+				addParents();
+			}
+		});
+		addMenu.addItem(Parents);
+		popupMenu.addItem("Add", addMenu);
 
+		MenuBar changeMenu = new MenuBar(true);
 
-		JMenu changeMenu=new JMenu("Change");
+		MenuBar changeAff = new MenuBar(true);
+		changeAff.addItem("Affected", new Command() {
+			public void execute() {
+				currentPerson.affection = PelicanPerson.affected;
+				updateDisplay();
+			}
+		});
+		changeAff.addItem("Unaffected", new Command() {
+			public void execute() {
+				currentPerson.affection = PelicanPerson.unaffected;
+				updateDisplay();
+			}
+		});
+		changeMenu.addItem("Affection", changeAff);
 
-		JMenu changeAff=new JMenu("affection");
-		JMenuItem Affected = new JMenuItem("Affected");
-		changeAff.add(Affected);
-		Affected.addActionListener(this);
-		JMenuItem Unaffected = new JMenuItem("Unaffected");
-		changeAff.add(Unaffected);
-		Unaffected.addActionListener(this);
-		changeMenu.add(changeAff);
+		MenuBar changeSex = new MenuBar(true);
+		changeSex.addItem("Male", new Command() {
+			public void execute() {
+				currentPerson.sex = PelicanPerson.male;
+				checkSex();
+				updateDisplay();
+			}
+		});
+		changeSex.addItem("Female", new Command() {
+			public void execute() {
+				currentPerson.sex = PelicanPerson.female;
+				checkSex();
+				updateDisplay();
+			}
+		});
+		changeMenu.addItem("Sex", changeSex);
 
-		JMenu changeSex=new JMenu("sex");
-		JMenuItem Male = new JMenuItem("Male");
-		changeSex.add(Male);
-		Male.addActionListener(this);
-		JMenuItem Female = new JMenuItem("Female");
-		changeSex.add(Female);
-		Female.addActionListener(this);
-		changeMenu.add(changeSex);
+		popupMenu.addItem("Change", changeMenu);
 
-		JMenuItem changeName=new JMenuItem("name...");
-		changeMenu.add(changeName);
-		changeName.addActionListener(this);
+		popupMenu.addItem("Merge with...", new Command() {
+			public void execute() {
+				mergePerson(currentPerson);
+			}
+		});
 
-		JMenuItem changeGeno=new JMenuItem("genotype...");
-		changeMenu.add(changeGeno);
-		changeGeno.addActionListener(this);
+		popupMenu.addItem("Delete", new Command() {
+			public void execute() {
+				deletePerson(currentPerson);
+			}
+		});
 
-		popup.add(changeMenu);
+		popup.add(popupMenu);
 
-		JMenuItem merge=new JMenuItem("Merge with...");
-		popup.add(merge);
-		merge.addActionListener(this);
+		// main menu
+		MenuBar mainMenu = new MenuBar(true);
 
-		JMenuItem delete=new JMenuItem("Delete");
-		popup.add(delete);
-		delete.addActionListener(this);
-
-		addMouseListener(new PopupListener());
-		addMouseMotionListener(new dragListener());
-
-		//registered with Swing's ToolTipManager
-		ToolTipManager.sharedInstance().registerComponent(this);
-
-		mergeEnabled=false;
-		history=new Vector<Vector<PelicanPerson>>();
-		historyPosition=0;
-		//      imageFormat="PNG";
-		autoLayout = new JCheckBoxMenuItem("Auto layout");
-		autoLayout.setMnemonic(KeyEvent.VK_A);
-		autoLayout.setSelected(true);
-		autoLayout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (autoLayout.isSelected()) {
-					pedHasChanged=true;
-					paint(getGraphics());
+		MenuBar editMenu = new MenuBar(true);
+		editMenu.addItem("New Pedigree", new Command() {
+			public void execute() {
+				newPedigree();
+				updateDisplay();
+			}
+		});
+		editMenu.addItem("Undo", new Command() {
+			public void execute() {
+				if (historyPosition > 1) {
+					historyPosition--;
+					Vector<PelicanPerson> savedPed = (Vector<PelicanPerson>)history.elementAt(historyPosition - 1);
+					loadPedigree(savedPed);
+					pedHasChanged = true;
+					updateDisplay();
 				}
 			}
 		});
-		showId = new JCheckBoxMenuItem("Display IDs");
-		showId.setMnemonic(KeyEvent.VK_I);
-		showId.setSelected(true);
-		showId.addActionListener(this);
-		showName = new JCheckBoxMenuItem("Display names");
-		showName.setMnemonic(KeyEvent.VK_N);
-		showName.setSelected(false);
-		showName.addActionListener(this);
+		editMenu.addItem("Redo", new Command() {
+			public void execute() {
+				if (historyPosition < history.size()) {
+					historyPosition++;
+					Vector<PelicanPerson> savedPed = (Vector<PelicanPerson>)history.elementAt(historyPosition - 1);
+					loadPedigree(savedPed);
+					pedHasChanged = true;
+					updateDisplay();
+				}
+			}
+		});
+		editMenu.addItem("Renumber", new Command() {
+			public void execute() {
+				renumberAll();
+				updateDisplay();
+			}
+		});
+		mainMenu.addItem("Edit", editMenu);
+		rootPanel.add(mainMenu);
 
-		imageFormat="PNG";
-		askFormat=null;
+		mergeEnabled = false;
+		history = new Vector<Vector<PelicanPerson>>();
+		historyPosition = 0;
 		matingList = new HashSet<String>();
-		displayGenotypes = false;
 		newPedigree();
 	}
 
@@ -263,331 +263,16 @@ implements ActionListener {
 		pedEx = pe;
 	}
 
-	/* }}} */
-
-	/* {{{ main menu bar */
-
-	/**
-	 *
-	 * Create the main menu bar for Pelican
-	 *
-	 */
-	public JMenuBar createMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-
-		JMenu fileMenu = new JMenu("File");
-		fileMenu.setMnemonic(KeyEvent.VK_F);
-		menuBar.add(fileMenu);
-
-		JMenuItem newMenu = new JMenuItem("New pedigree");
-		newMenu.setMnemonic(KeyEvent.VK_N);
-		newMenu.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				newPedigree();
-				paint(getGraphics());
-			}
-		});
-		fileMenu.add(newMenu);
-		
-		JMenuItem randomMenu = new JMenuItem("Random pedigree");
-		randomMenu.setMnemonic(KeyEvent.VK_R);
-		randomMenu.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				loadPedigree(rpg.generateRandomPedigree());
-				updateDisplay();
-			}
-		});
-		fileMenu.add(randomMenu);		
-
-		openMenu = new JMenuItem("Open...");
-		openMenu.setMnemonic(KeyEvent.VK_O);
-		openMenu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				openFile(null);
-			}
-		});
-		fileMenu.add(openMenu);
-
-		saveMenu = new JMenuItem("Save...");
-		saveMenu.setMnemonic(KeyEvent.VK_S);
-		saveMenu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveFile();
-			}
-		});
-		fileMenu.add(saveMenu);
-
-		printMenu = new JMenu("Print");
-		printMenu.setMnemonic(KeyEvent.VK_P);
-		imageMenu = new JMenuItem("file (PNG/JPEG)...");
-		printMenu.add(imageMenu);
-		imageMenu.setMnemonic(KeyEvent.VK_F);
-		imageMenu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveImage();
-			}
-		});
-
-		JMenuItem printerMenu = new JMenuItem("printer (PostScript)...");
-		printMenu.add(printerMenu);
-		printerMenu.setMnemonic(KeyEvent.VK_P);
-		printerMenu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				printImage();
-			}
-		});
-
-		fileMenu.add(printMenu);
-		fileMenu.add(new JSeparator());
-
-		fileMenuExit = new JMenuItem("Exit");
-		fileMenuExit.setMnemonic(KeyEvent.VK_X);
-		fileMenuExit.setAccelerator(KeyStroke.getKeyStroke('q'));
-		fileMenuExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		fileMenu.add(fileMenuExit);
-
-		// Edit menu
-		JMenu editMenu = new JMenu("Edit");
-		editMenu.setMnemonic(KeyEvent.VK_E);
-		menuBar.add(editMenu);
-		undoMenu = new JMenuItem("Undo");
-		undoMenu.setMnemonic(KeyEvent.VK_U);
-		undoMenu.setAccelerator(KeyStroke.getKeyStroke('u'));
-		undoMenu.addActionListener(this);
-		editMenu.add(undoMenu);
-		redoMenu = new JMenuItem("Redo");
-		redoMenu.setMnemonic(KeyEvent.VK_R);
-		redoMenu.setAccelerator(KeyStroke.getKeyStroke('r'));
-		redoMenu.addActionListener(this);
-		editMenu.add(redoMenu);
-		JMenuItem clearMenu = new JMenuItem("Clear history");
-		clearMenu.setMnemonic(KeyEvent.VK_C);
-		clearMenu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				history.removeAllElements();
-				historyPosition=0;
-				savePedigree();
-				pedHasChanged=true;
-			}
-		});
-		editMenu.add(clearMenu);
-		editMenu.add(new JSeparator());
-		JMenuItem renumberMenu = new JMenuItem("Renumber");
-		renumberMenu.setMnemonic(KeyEvent.VK_N);
-		renumberMenu.addActionListener(this);
-		editMenu.add(renumberMenu);
-
-		// View menu for different size symbols
-		JMenu viewMenu = new JMenu("View");
-		viewMenu.setMnemonic(KeyEvent.VK_V);
-		menuBar.add(viewMenu);
-		JMenuItem view75=new JMenuItem("75%");
-		view75.addActionListener(this);
-		viewMenu.add(view75);
-		JMenuItem view100=new JMenuItem("100%");
-		view100.addActionListener(this);
-		viewMenu.add(view100);
-		JMenuItem view150=new JMenuItem("150%");
-		view150.addActionListener(this);
-		viewMenu.add(view150);
-		JMenuItem zoomIn = new JMenuItem("Zoom in");
-		zoomIn.setMnemonic(KeyEvent.VK_I);
-		zoomIn.setAccelerator(KeyStroke.getKeyStroke('Z'));
-		zoomIn.addActionListener(this);
-		viewMenu.add(zoomIn);
-		JMenuItem zoomOut = new JMenuItem("Zoom out");
-		zoomOut.setMnemonic(KeyEvent.VK_O);
-		zoomOut.setAccelerator(KeyStroke.getKeyStroke('z'));
-		zoomOut.addActionListener(this);
-		viewMenu.add(zoomOut);
-		JMenuItem vertUp=new JMenuItem("Vert spacing +");
-		vertUp=new JMenuItem("Vertical spacing +");
-		vertUp.setMnemonic(KeyEvent.VK_V);
-		vertUp.setAccelerator(KeyStroke.getKeyStroke('v'));
-		vertUp.addActionListener(this);
-		viewMenu.add(vertUp);
-		JMenuItem vertDown=new JMenuItem("Vertical spacing -");
-		vertDown.setMnemonic(KeyEvent.VK_E);
-		vertDown.setAccelerator(KeyStroke.getKeyStroke('V'));
-		vertDown.addActionListener(this);
-		viewMenu.add(vertDown);
-		JMenuItem horizUp=new JMenuItem("Horizontal spacing +");
-		horizUp.setMnemonic(KeyEvent.VK_H);
-		horizUp.setAccelerator(KeyStroke.getKeyStroke('h'));
-		horizUp.addActionListener(this);
-		viewMenu.add(horizUp);
-		JMenuItem horizDown=new JMenuItem("Horizontal spacing -");
-		horizDown.setMnemonic(KeyEvent.VK_O);
-		horizDown.setAccelerator(KeyStroke.getKeyStroke('H'));
-		horizDown.addActionListener(this);
-		viewMenu.add(horizDown);
-		viewMenu.add(new JSeparator());
-		JMenuItem refresh=new JMenuItem("Refresh");
-		refresh.setMnemonic(KeyEvent.VK_R);
-		refresh.addActionListener(this);
-		viewMenu.add(refresh);
-
-		// Options menu
-		JMenu optionsMenu = new JMenu("Options");
-		optionsMenu.setMnemonic(KeyEvent.VK_O);
-		menuBar.add(optionsMenu);
-		optionsMenu.add(autoLayout);
-		optionsMenu.add(showId);
-		optionsMenu.add(showName);
-		
-		final JCheckBoxMenuItem showGenotypesItem = new JCheckBoxMenuItem("Show genotypes");
-		showGenotypesItem.setSelected(false);
-		showGenotypesItem.setMnemonic(KeyEvent.VK_G);
-		showGenotypesItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (showGenotypesItem.isSelected()) {
-					displayGenotypes = true;
-				} else {
-					displayGenotypes = false;
-				}
-				updateDisplay();
-			}
-		});
-		optionsMenu.add(showGenotypesItem);
-
-		final JCheckBoxMenuItem thickLinesItem = new JCheckBoxMenuItem("Thick Lines");
-		thickLinesItem.setSelected(false);
-		thickLinesItem.setMnemonic(KeyEvent.VK_T);
-		thickLinesItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (thickLinesItem.isSelected()) {
-					PedigreeExplorer.thickLines = true;
-				} else {
-					PedigreeExplorer.thickLines = false;
-				}
-				updateDisplay();
-			}		
-		});
-		optionsMenu.add(thickLinesItem);
-
-		// Help menu
-		JMenu helpMenu = new JMenu("Help");
-		menuBar.add(helpMenu);
-		helpMenu.setMnemonic(KeyEvent.VK_H);
-		JMenuItem helpPelican = new JMenuItem("Pelican help");
-		helpMenu.add(helpPelican);
-		helpPelican.setMnemonic(KeyEvent.VK_P);
-		helpPelican.addActionListener(this);
-		JMenuItem helpAbout = new JMenuItem("About...");
-		helpMenu.add(helpAbout);
-		helpAbout.setMnemonic(KeyEvent.VK_A);
-		helpAbout.addActionListener(this);
-
-		String javaVersion=System.getProperty("java.vm.version");
-		if (javaVersion.startsWith("1.") && javaVersion.charAt(2)<'4') {
-			imageMenu.setEnabled(false);
-		}
-
-		menuBar.add(Box.createHorizontalGlue());
-
-		String[] modelNames = {"Select Model",
-				"Autosomal Recessive",
-				"Autosomal Dominant",
-				"Sex-Linked Recessive",
-		"Sex-Linked Dominant" };
-		final JComboBox modelSelectionCB = new JComboBox(modelNames);
-		modelSelectionCB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				modelSelectionChanged(modelSelectionCB.getSelectedIndex());
-				pedEx.modelSelectionChanged(modelSelectionCB.getSelectedIndex());
-			}
-		});
-		menuBar.add(modelSelectionCB);
-
-		return menuBar;
-	}
-
-	/* }}} */
-
-	/* {{{ (tooltips) */
-
-	// Return Cell Label as a Tooltip
-	//    public String getToolTipText(MouseEvent e)
-	//    {
-	//      int x = e.getX();
-	//      int y = e.getY();
-	//      Component c = getComponentAt(x,y);
-
-	//      if(c != null)
-	//      {
-	//        if(c instanceof PelicanMale)
-	//          return "Display properties of this Male";
-	//        else if(c instanceof PelicanFemale)
-	//          return "Display properties of this Female";
-	//      }
-
-	//      return null;
-	//    }
-
-	/* }}} */
-	
-	private void modelSelectionChanged(int newChoiceNumber) {
-		if (newChoiceNumber == 0) {
-			displayGenotypes = false;
-			pedHasChanged = true;
-			updateDisplay();
-		} else {
-			currentModelNumber = newChoiceNumber - 1;
-			displayGenotypes = true;
-			pedHasChanged = true;
-			updateDisplay();
-		}
-	}
-
-	/* {{{ newPedigree */
-
 	private void newPedigree() {
 		// start out with a single female
-		removeAll();
-		currentId=1;
-		add(new PelicanPerson(this, currentId++, PelicanPerson.female,0));
+		clear();
+		currentId = 1;
+		add(new PelicanPerson(this, currentId++, PelicanPerson.female, 0));
 		savePedigree();
-		pedHasChanged=true;
+		pedHasChanged = true;
 	}
 
 	/* }}} */
-
-	/* {{{ savePedigree */
-
-	// save current pedigree in the history, and clear the future
-	private void savePedigree() {
-		Vector<PelicanPerson> savedPed = new Vector<PelicanPerson>();
-		HashMap<Integer, PelicanPerson> idMap = new HashMap<Integer, PelicanPerson>();
-		for(int i=0;i<getComponentCount();i++)
-			if (getComponent(i) instanceof PelicanPerson) {
-				PelicanPerson p=(PelicanPerson)getComponent(i);
-				savedPed.add(new PelicanPerson(p));
-				idMap.put(new Integer(p.id), (PelicanPerson)savedPed.lastElement());
-			}
-		for(int i=0;i<savedPed.size();i++) {
-			PelicanPerson p=(PelicanPerson)savedPed.elementAt(i);
-			if (p.father!=null)
-				p.father=(PelicanPerson)idMap.get(p.father.id);
-			if (p.mother!=null)
-				p.mother=(PelicanPerson)idMap.get(p.mother.id);
-		}
-		while(history.size()>historyPosition)
-			history.remove(history.lastElement());
-		history.add(savedPed);
-		historyPosition++;
-	}
-
-	/* }}} */
-
-	/* {{{ loadPedigree */
 
 	// load pedigree from the history
 	private void loadPedigree(Vector<PelicanPerson> savedPed) {
@@ -1339,7 +1024,7 @@ implements ActionListener {
 	}
 
 	/* }}} */
-	
+
 	/*
 	 * see if you've just made two male parents or two female parents
 	 * by changing the sex of the current person
@@ -1379,7 +1064,7 @@ implements ActionListener {
 		}
 		return null;
 	}
-	
+
 	/* {{{ layoutPerson */
 
 	// recursively lay out a person
@@ -1475,7 +1160,7 @@ implements ActionListener {
 	}
 
 	/* }}} */
-	
+
 	public int getCurrentModelNumber() {
 		return currentModelNumber;
 	}
@@ -1490,7 +1175,7 @@ implements ActionListener {
 		}
 		return result;
 	}
-	
+
 	public HashSet<String> getMatingList() {
 		return matingList;
 	}
@@ -1689,11 +1374,11 @@ implements ActionListener {
 			Vector<Integer> pidList=new Vector<Integer>();
 			Vector<Integer> midList=new Vector<Integer>();
 			HashMap<Integer, Integer> idMap=new HashMap<Integer, Integer>();
-			
+
 			SAXBuilder builder = new SAXBuilder();
 			Document doc = builder.build(infile);
 			infile.close();
-			
+
 			List<Element> people = doc.getRootElement().getChildren();
 			Iterator<Element> pIt = people.iterator();
 			while (pIt.hasNext()) {
@@ -1703,7 +1388,7 @@ implements ActionListener {
 					String name = e.getAttributeValue("Name");
 					int sex = Integer.parseInt(e.getAttributeValue("Sex"));
 					int affection = Integer.parseInt(e.getAttributeValue("Affection"));
-					
+
 					String[] genotype = new String[2];
 					genotype[0] = "?";
 					genotype[1] = "?";
@@ -1714,17 +1399,17 @@ implements ActionListener {
 					person.setWorkingGenotype(2, e.getAttributeValue("SLRgeno").split(" "));
 					person.setWorkingGenotype(3, e.getAttributeValue("SLDgeno").split(" "));
 					newPedigree.add(person);
-					
+
 					int father = Integer.parseInt(e.getAttributeValue("Father"));
 					pidList.add(new Integer(father));
 					int mother = Integer.parseInt(e.getAttributeValue("Mother"));
 					midList.add(new Integer(mother));
-					
+
 					idMap.put(new Integer(id),new Integer(pedSize++));
-					
+
 				}
 			}
-			
+
 
 			for(int i=0;i<newPedigree.size();i++) {
 				PelicanPerson person=(PelicanPerson)newPedigree.elementAt(i);
@@ -1819,7 +1504,7 @@ implements ActionListener {
 	}
 
 	/* }}} */
-	
+
 
 	/* {{{ saveFile */
 
@@ -1849,7 +1534,7 @@ implements ActionListener {
 	}
 
 	/* }}} */
-	
+
 	public Document getXMLDoc() {
 		Element root = new Element("PedEx");
 		Vector<PelicanPerson> people = getAllPeople();
@@ -1871,7 +1556,7 @@ implements ActionListener {
 		if (javaVersion.startsWith("1.") && javaVersion.charAt(2)<'4')
 			return;
 
-			BufferedImage image = new BufferedImage(
+		BufferedImage image = new BufferedImage(
 				getWidth() * SCALE, 
 				getHeight() * SCALE,
 				BufferedImage.TYPE_BYTE_GRAY);

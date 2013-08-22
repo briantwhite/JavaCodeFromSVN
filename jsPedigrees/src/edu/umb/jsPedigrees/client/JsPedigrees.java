@@ -1,15 +1,9 @@
 package edu.umb.jsPedigrees.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+
+import edu.umb.jsPedigrees.client.Pelican.Pelican;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -17,6 +11,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class JsPedigrees implements EntryPoint {
 
 	public void onModuleLoad() {
-
+		
+		setupUI();
+	}
+	
+	private void setupUI() {
+		RootPanel rootPanel = RootPanel.get("jsPedigreesContainer");
+		Pelican pelican = new Pelican(rootPanel);
+		rootPanel.add(pelican);
+		
 	}
 }
