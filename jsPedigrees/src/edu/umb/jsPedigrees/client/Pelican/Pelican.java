@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.user.client.Command;
@@ -84,8 +85,27 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 		 * https://confluence.clazzes.org/pages/viewpage.action?pageId=425996
 		 */
 		addDomHandler(this, ContextMenuEvent.getType());
+		
+		exportNewPedigree(this);
+		
+		Scheduler.get().scheduleDeferred(new Command() { 
+			public void execute() {
+		      notifyHostpage();
+		    }
+		});
+		
 
 	}
+	
+	public static native void notifyHostpage() /*-{
+	if (typeof $wnd.pedexIsReady === 'function') 
+		$wnd.pedexIsReady();
+	}-*/;
+	
+	private static native void exportNewPedigree(Pelican p) /*-{
+		$wnd.pedexNewPedigree = $entry(function() {return p.@edu.umb.jsPedigrees.client.Pelican.Pelican::newPedigree()();});
+    }-*/;
+
 	
 	private void makeMenus(RootPanel rootPanel) {
 		// set up the popup menu that appears when you click on a person
