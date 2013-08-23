@@ -8,6 +8,7 @@
     <script type="text/javascript" language="javascript" src="jspedigrees/jspedigrees.nocache.js"></script>
     <script type="text/javascript" language="javascript" src="start-pedigrees.js"></script>
     
+    
   </head>
 
   <body>
@@ -21,7 +22,64 @@
     </noscript>
 
     <h1>jsPedigrees</h1>
+    <b>Instructions</b><br>
+    <ol>
+    	<li>Right-click members of the pedigree to edit them</li>
+    	<li>The <b>Edit</b> menu allows un-doing and re-doing changes.</li>
+    	<li>Click "solve" to solve the pedigree (note that this can take a long time if the peidgree is large)</li>
+    </ol>
+    <b>Challenges</b>
+    <ul>
+    	<li>Build a pedigree and solve it yourself; then click "solve" and see if you got it right</li>
+    	<li>Try to build a pedigree that is consistent with a particular mode or modes of inheritance</li>
+    <ul>
+    <table>
+    	<tr>
+    		<td colspan=2 id="jsPedigreesContainer"> </td>
+    		<td colspan=2>
+				<button type="button" onClick="document.getElementById('solution').value=pedexSolvePedigree()">Solve</button><br>
+				<textarea id="solution" rows=20 cols=50></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>Autosomal Recessive
+				<table border=1>
+					<tr><th>Genotype</th><th>Phenotype</th></tr>
+					<tr><td>A A</td><td>Normal</td></tr>
+					<tr><td>A a</td><td>Normal</td></tr>
+					<tr><td>a a</td><td>Affected</td></tr>
+				</table>
+			</td>
+			<td>Autosomal Dominant
+				<table border=1>
+					<tr><th>Genotype</th><th>Phenotype</th></tr>
+					<tr><td>B B</td><td>Affected</td></tr>
+					<tr><td>B b</td><td>Affected</td></tr>
+					<tr><td>b b</td><td>Normal</td></tr>
+				</table>
+			</td>
+			<td>Sex-linked Recessive
+				<table border=1>
+					<tr><th>Genotype</th><th>Phenotype</th></tr>
+					<tr><td>XD XD</td><td>Normal Female</td></tr>
+					<tr><td>XD Xd</td><td>Normal Female</td></tr>
+					<tr><td>Xd Xd</td><td>Affected Female</td></tr>
+					<tr><td>XD Y</td><td>Normal Male</td></tr>
+					<tr><td>Xd Y</td><td>Affected Male</td></tr>
+				</table>
+			</td>
+			<td>Sex-linked Dominant
+				<table border=1>
+					<tr><th>Genotype</th><th>Phenotype</th></tr>
+					<tr><td>XE XE</td><td>Affected Female</td></tr>
+					<tr><td>XE Xe</td><td>Affected Female</td></tr>
+					<tr><td>Xe Xe</td><td>Normal Female</td></tr>
+					<tr><td>XE Y</td><td>Affected Male</td></tr>
+					<tr><td>Xe Y</td><td>Normal Male</td></tr>
+				</table>
+			</td>
 
-	<div id="jsPedigreesContainer"> </div>
+		</tr>
+	</table>
   </body>
 </html>

@@ -23,10 +23,16 @@ package edu.umb.jsPedigrees.client.Pelican;
 
 //package uk.ac.mrc.rfcgr;
 
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
+
+import javax.swing.JEditorPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
@@ -38,6 +44,9 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import edu.umb.jsPedigrees.client.PE.PedigreeSolution;
+import edu.umb.jsPedigrees.client.PE.PedigreeSolver;
 
 public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 	
@@ -87,6 +96,7 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 		addDomHandler(this, ContextMenuEvent.getType());
 		
 		exportNewPedigree(this);
+		exportSolvePedigree(this);
 		
 		Scheduler.get().scheduleDeferred(new Command() { 
 			public void execute() {
@@ -105,6 +115,10 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 	private static native void exportNewPedigree(Pelican p) /*-{
 		$wnd.pedexNewPedigree = $entry(function() {return p.@edu.umb.jsPedigrees.client.Pelican.Pelican::newPedigree()();});
     }-*/;
+	
+	private static native void exportSolvePedigree(Pelican p) /*-{
+		$wnd.pedexSolvePedigree = $entry(function() {return p.@edu.umb.jsPedigrees.client.Pelican.Pelican::solvePedigree()();});
+	}-*/;
 
 	
 	private void makeMenus(RootPanel rootPanel) {
@@ -271,7 +285,9 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 			}
 		});
 		mainMenu.addItem(new MenuItem("Edit", editMenu));
+		
 		rootPanel.add(mainMenu);
+		
 	}
 
 	private void newPedigree() {
@@ -895,6 +911,30 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 		} else {
 			popup.hide();
 		}
+	}
+	
+	public String solvePedigree() {
+		renumberAll();
+		updateDisplay();
+		
+		String integrity = checkIntegrity(history.lastElement());
+		if (integrity.equals("")) {
+			Vector<PelicanPerson> people = getAllPeople();
+			Iterator<PelicanPerson> it = people.iterator();
+			StringBuffer b = new StringBuffer();
+//			while (it.hasNext()) {
+//				PelicanPerson p = it.next();
+//				b.append(p.toString() + "\n");
+//			}
+			PedigreeSolver ps = new PedigreeSolver(getAllPeople(), getMatingList());
+			PedigreeSolution sol = ps.solve();
+			PedigreeSolution consolidatedSol = ps.consolidate(sol);
+			b.append(consolidatedSol + "\n");
+			return b.toString();
+		} else {
+			return integrity;
+		}
+		
 	}
 
 }
