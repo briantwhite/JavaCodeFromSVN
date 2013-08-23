@@ -22,15 +22,10 @@ package edu.umb.jsPedigrees.client.Pelican;
 
 //package uk.ac.mrc.rfcgr;
 
-import java.awt.BasicStroke;
-import java.awt.RenderingHints;
-
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-
-import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
 
 public class PelicanLines {
 

@@ -22,23 +22,20 @@ package edu.umb.jsPedigrees.client.Pelican;
 
 //package uk.ac.mrc.rfcgr;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.util.Iterator;
 import java.util.Vector;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.event.dom.client.ContextMenuEvent;
+import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
+public class PelicanPerson extends SimplePanel implements ContextMenuHandler {
 
-public class PelicanPerson extends SimplePanel {
-	
 	private Canvas canvas;
-	
+
 	private Pelican pelican;
 	public static final int male=1;
 	public static final int female=2;
@@ -93,7 +90,13 @@ public class PelicanPerson extends SimplePanel {
 		canvas.setCoordinateSpaceWidth(xSize);
 		canvas.setCoordinateSpaceHeight(ySize);
 		setWidget(canvas);
-		drawSymbol(canvas.getContext2d());
+				
+		/*
+		 * set up to catch contextMenu stuff 
+		 * https://confluence.clazzes.org/pages/viewpage.action?pageId=425996
+		 */
+		addDomHandler(this, ContextMenuEvent.getType());
+
 	}
 
 	public PelicanPerson(Pelican pelican, 
@@ -282,32 +285,29 @@ public class PelicanPerson extends SimplePanel {
 		return pelican;
 	}
 
-	private void drawSymbol(Context2d ctx) {
-
-		g2.setColor(Color.black);
-
+	public void drawSymbol() {
+		Context2d ctx = canvas.getContext2d();
+		
+		ctx.setStrokeStyle(CssColor.make("0,0,0"));
+		ctx.setLineWidth(1.0f);
 
 		if (sex==male) {
-			if (PedigreeExplorer.thickLines) {
-				g2.drawRect(1,1,symbolSize-2,symbolSize-2);	
-			} else {
-				g2.drawRect(0,0,symbolSize,symbolSize);
-			}
+			ctx.strokeRect(0,0,symbolSize,symbolSize);
 
 			if (affection==affected) {
-				g2.fillRect(0,0,symbolSize,symbolSize);
+				ctx.fillRect(0,0,symbolSize,symbolSize);
 			}
 		}
 
 		if (sex==female) {
-			if (PedigreeExplorer.thickLines) {
-				g2.drawArc(1,1,symbolSize-2,symbolSize-2,0,360);
-			} else {
-				g2.drawArc(0,0,symbolSize,symbolSize,0,360);
-			}
+			// g2.drawArc(0,0,symbolSize,symbolSize,0,360);
+			ctx.beginPath();
+			ctx.arc(symbolSize/2, symbolSize/2, symbolSize/2, 0, 360);
 
 			if (affection==affected) {
-				g2.fillArc(0,0,symbolSize,symbolSize,0,360);
+				ctx.fill();
+			} else {
+				ctx.stroke();
 			}
 		}
 	}
@@ -335,5 +335,20 @@ public class PelicanPerson extends SimplePanel {
 	public static void changeHspace(int s) {
 		if (xSpace+s>xSize) xSpace+=s;
 	}
+	
+	/**
+	 *
+	 * Popup menu listener
+	 *
+	 */
+	public void onContextMenu(ContextMenuEvent event) {
+		// stop the browser from opening the context menu
+		event.preventDefault();
+		event.stopPropagation();
+
+		pelican.popup.setPopupPosition(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY());
+		pelican.popup.show();
+	}
+
 }
 

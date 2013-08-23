@@ -23,17 +23,11 @@ package edu.umb.jsPedigrees.client.Pelican;
 
 //package uk.ac.mrc.rfcgr;
 
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
-import com.google.gwt.event.dom.client.ContextMenuEvent;
-import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -42,15 +36,12 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import edu.umb.jsPedigrees.client.PE.PedigreeExplorer;
+public class Pelican extends AbsolutePanel {
 
-public class Pelican extends AbsolutePanel implements ContextMenuHandler {
-
-	private PedigreeExplorer pedEx;
 	public static MenuBar menuBar;
 	private MenuItem undoItem;
 	private MenuItem redoItem;
-	private PopupPanel popup;
+	public PopupPanel popup;
 	private PelicanPerson currentPerson;
 	private int currentId;
 	private boolean pedHasChanged;
@@ -64,55 +55,65 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 
 	public Pelican(RootPanel rootPanel) {
 		super();
-
+		setSize("600px", "600px");
+		
 		// set up the popup menu that appears when you click on a person
 		popup = new PopupPanel();
-		MenuBar popupMenu = new MenuBar(true);
+		MenuBar popupMenu = new MenuBar();
 
 		MenuBar addMenu = new MenuBar(true);
 		addMenu.addItem("1 son", new Command() {
 			public void execute() {
 				addChildren("1 son");
+				popup.hide();
 			}
 		});
 		addMenu.addItem("1 daughter", new Command() {
 			public void execute() {
 				addChildren("1 daughter");
+				popup.hide();
 			}
 		});
 		addMenu.addItem("2 sons", new Command() {
 			public void execute() {
 				addChildren("2 sons");
+				popup.hide();
 			}
 		});
 		addMenu.addItem("2 daughters", new Command() {
 			public void execute() {
 				addChildren("2 daughters");
+				popup.hide();
 			}
 		});
 		addMenu.addItem("3 sons", new Command() {
 			public void execute() {
 				addChildren("3 sons");
+				popup.hide();
 			}
 		});
 		addMenu.addItem("3 daughters", new Command() {
 			public void execute() {
 				addChildren("3 daughters");
+				popup.hide();
 			}
 		});
 		addMenu.addItem("Spouse+son", new Command() {
 			public void execute() {
 				addSpouse("Spouse+son");
+				popup.hide();
 			}
 		});
 		addMenu.addItem("Spouse+daughter", new Command() {
 			public void execute() {
 				addSpouse("Spouse+daughter");
+				popup.hide();
 			}
 		});
 		Parents = new MenuItem("Parents", new Command() {
 			public void execute() {
 				addParents();
+				popup.hide();
 			}
 		});
 		addMenu.addItem(Parents);
@@ -125,12 +126,14 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 			public void execute() {
 				currentPerson.affection = PelicanPerson.affected;
 				updateDisplay();
+				popup.hide();
 			}
 		});
 		changeAff.addItem("Unaffected", new Command() {
 			public void execute() {
 				currentPerson.affection = PelicanPerson.unaffected;
 				updateDisplay();
+				popup.hide();
 			}
 		});
 		changeMenu.addItem("Affection", changeAff);
@@ -140,12 +143,14 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 			public void execute() {
 				currentPerson.sex = PelicanPerson.male;
 				updateDisplay();
+				popup.hide();
 			}
 		});
 		changeSex.addItem("Female", new Command() {
 			public void execute() {
 				currentPerson.sex = PelicanPerson.female;
 				updateDisplay();
+				popup.hide();
 			}
 		});
 		changeMenu.addItem("Sex", changeSex);
@@ -155,15 +160,26 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 		popupMenu.addItem("Delete", new Command() {
 			public void execute() {
 				deletePerson(currentPerson);
+				popup.hide();
+			}
+		});
+
+		popupMenu.addItem("Cancel", new Command() {
+			public void execute() {
+				popup.hide();
 			}
 		});
 
 		popup.add(popupMenu);
 
 		// main menu
-		MenuBar mainMenu = new MenuBar(true);
+		MenuBar mainMenu = new MenuBar();
+		mainMenu.setWidth("50px");
+		mainMenu.setAnimationEnabled(true);
 
 		MenuBar editMenu = new MenuBar(true);
+		editMenu.setAnimationEnabled(true);
+		
 		editMenu.addItem("New Pedigree", new Command() {
 			public void execute() {
 				newPedigree();
@@ -200,24 +216,12 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 				updateDisplay();
 			}
 		});
-		mainMenu.addItem("Edit", editMenu);
+		mainMenu.addItem(new MenuItem("Edit", editMenu));
 		rootPanel.add(mainMenu);
-
-		/*
-		 * set up to catch contextMenu stuff 
-		 * https://confluence.clazzes.org/pages/viewpage.action?pageId=425996
-		 */
-		addDomHandler(this, ContextMenuEvent.getType());
-
 
 		history = new Vector<Vector<PelicanPerson>>();
 		historyPosition = 0;
 		matingList = new HashSet<String>();
-		newPedigree();
-	}
-
-	public void setPedEx(PedigreeExplorer pe) {
-		pedEx = pe;
 	}
 
 	private void newPedigree() {
@@ -227,6 +231,7 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 		add(new PelicanPerson(this, currentId++, PelicanPerson.female, 0));
 		savePedigree();
 		pedHasChanged = true;
+		updateDisplay();
 	}
 
 	// save current pedigree in the history, and clear the future
@@ -738,14 +743,17 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 			Widget c = getWidget(i);
 			// if pedigree fits in the frame, then centre it
 			// otherwise start it at (0,0)
-			if (maxx-minx+PelicanPerson.xSpace < pedEx.getPelicanWidth()) {
+			if (maxx-minx+PelicanPerson.xSpace < getOffsetWidth()) {
 				setWidgetPosition(c,
-						getWidgetLeft(c)-(maxx + minx - pedEx.getPelicanWidth() + PelicanPerson.symbolSize)/2,
+						getWidgetLeft(c)-(maxx + minx - getOffsetWidth() + PelicanPerson.symbolSize)/2,
 						getWidgetTop(c)-miny+PelicanPerson.symbolSize/2);
 			} else {
 				setWidgetPosition(c,
 						getWidgetLeft(c)-minx+PelicanPerson.symbolSize/2,
 						getWidgetTop(c)-miny+PelicanPerson.symbolSize/2);
+			}
+			if (c instanceof PelicanPerson) {
+				((PelicanPerson)c).drawSymbol();
 			}
 		}
 
@@ -806,22 +814,4 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 		}
 		return b.toString();
 	}
-
-	/**
-	 *
-	 * Popup menu listener
-	 *
-	 */
-	public void onContextMenu(ContextMenuEvent event) {
-		// stop the browser from opening the context menu
-		event.preventDefault();
-		event.stopPropagation();
-
-		popup.setPopupPosition(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY());
-		popup.show();
-		
-	}
-
-
-
 }

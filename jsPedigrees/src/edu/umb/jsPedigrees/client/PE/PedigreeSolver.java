@@ -115,20 +115,20 @@ public class PedigreeSolver {
 
 		// some sanity checks to catch egregious errors that should never happen
 		if ((p.mother == null) && (p.father != null)) {
-			JOptionPane.showMessageDialog(null, 
-					"Error: Person #" + p.id + " has father but no mother!");
+//			JOptionPane.showMessageDialog(null, 
+//					"Error: Person #" + p.id + " has father but no mother!");
 			return false;
 		}
 
 		if ((p.mother != null) && (p.father == null)) {
-			JOptionPane.showMessageDialog(null, 
-					"Error: Person #" + p.id + " has mother but no father!");
+//			JOptionPane.showMessageDialog(null, 
+//					"Error: Person #" + p.id + " has mother but no father!");
 			return false;
 		}
 
 		if ((p.mother.genotype[0].equals("? ?")) || (p.father.genotype[0].equals("? ?"))) {
-			JOptionPane.showMessageDialog(null, 
-					"Error: Person #" + p.id + " parent(s) genotypes have not been set!");
+//			JOptionPane.showMessageDialog(null, 
+//					"Error: Person #" + p.id + " parent(s) genotypes have not been set!");
 			return false;
 		}
 
