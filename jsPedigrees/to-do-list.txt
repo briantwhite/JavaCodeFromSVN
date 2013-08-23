@@ -1,2 +1,10 @@
 * need to check that pedigree doesn't have bad parents before solving
 	use checkIntegrity()
+
+* to tell where clicked
+	make 600x 600 int array - see if new fills with 0's (it does)
+		as you place persons, fill coords with id#
+	only popup if in right place
+	know current person this way
+	
+* add loading callback like edx uses to get the new pedigree automatically

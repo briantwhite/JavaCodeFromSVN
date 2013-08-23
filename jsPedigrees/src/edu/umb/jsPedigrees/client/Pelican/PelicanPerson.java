@@ -32,7 +32,7 @@ import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class PelicanPerson extends SimplePanel implements ContextMenuHandler {
+public class PelicanPerson extends SimplePanel {
 
 	private Canvas canvas;
 
@@ -90,13 +90,6 @@ public class PelicanPerson extends SimplePanel implements ContextMenuHandler {
 		canvas.setCoordinateSpaceWidth(xSize);
 		canvas.setCoordinateSpaceHeight(ySize);
 		setWidget(canvas);
-				
-		/*
-		 * set up to catch contextMenu stuff 
-		 * https://confluence.clazzes.org/pages/viewpage.action?pageId=425996
-		 */
-		addDomHandler(this, ContextMenuEvent.getType());
-
 	}
 
 	public PelicanPerson(Pelican pelican, 
@@ -335,20 +328,5 @@ public class PelicanPerson extends SimplePanel implements ContextMenuHandler {
 	public static void changeHspace(int s) {
 		if (xSpace+s>xSize) xSpace+=s;
 	}
-	
-	/**
-	 *
-	 * Popup menu listener
-	 *
-	 */
-	public void onContextMenu(ContextMenuEvent event) {
-		// stop the browser from opening the context menu
-		event.preventDefault();
-		event.stopPropagation();
-
-		pelican.popup.setPopupPosition(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY());
-		pelican.popup.show();
-	}
-
 }
 

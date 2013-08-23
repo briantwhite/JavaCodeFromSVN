@@ -28,6 +28,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.google.gwt.event.dom.client.ContextMenuEvent;
+import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -36,12 +38,15 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Pelican extends AbsolutePanel {
+public class Pelican extends AbsolutePanel implements ContextMenuHandler {
+	
+	public static int PEDIGREE_SIZE = 600;
+	public static String PEDIGREE_SIZE_STR = String.valueOf(PEDIGREE_SIZE + "px");
 
 	public static MenuBar menuBar;
 	private MenuItem undoItem;
 	private MenuItem redoItem;
-	public PopupPanel popup;
+	private PopupPanel popup;
 	private PelicanPerson currentPerson;
 	private int currentId;
 	private boolean pedHasChanged;
@@ -50,16 +55,43 @@ public class Pelican extends AbsolutePanel {
 	private int historyPosition;
 
 	private HashSet<String> matingList;
+	
+	/*
+	 * array for determining where the user has activated the context menu
+	 * 	(right-clicked)
+	 * 
+	 * it is pixel-for-pixel the drawing canvas
+	 * 
+	 * background = 0
+	 * if a PelicanPerson is there, then the cells under that person have his/her id#
+	 */
+	private int[][] screen; 
 
 	/* {{{ constructor (popup menu) */
 
 	public Pelican(RootPanel rootPanel) {
 		super();
-		setSize("600px", "600px");
+		setSize(PEDIGREE_SIZE_STR, PEDIGREE_SIZE_STR);
 		
+		makeMenus(rootPanel);
+		
+		history = new Vector<Vector<PelicanPerson>>();
+		historyPosition = 0;
+		matingList = new HashSet<String>();
+		
+		/*
+		 * set up to catch contextMenu stuff 
+		 * https://confluence.clazzes.org/pages/viewpage.action?pageId=425996
+		 */
+		addDomHandler(this, ContextMenuEvent.getType());
+
+	}
+	
+	private void makeMenus(RootPanel rootPanel) {
 		// set up the popup menu that appears when you click on a person
 		popup = new PopupPanel();
-		MenuBar popupMenu = new MenuBar();
+		
+		MenuBar personMenu = new MenuBar(true);
 
 		MenuBar addMenu = new MenuBar(true);
 		addMenu.addItem("1 son", new Command() {
@@ -117,7 +149,7 @@ public class Pelican extends AbsolutePanel {
 			}
 		});
 		addMenu.addItem(Parents);
-		popupMenu.addItem("Add", addMenu);
+		personMenu.addItem("Add", addMenu);
 
 		MenuBar changeMenu = new MenuBar(true);
 
@@ -155,21 +187,23 @@ public class Pelican extends AbsolutePanel {
 		});
 		changeMenu.addItem("Sex", changeSex);
 
-		popupMenu.addItem("Change", changeMenu);
+		personMenu.addItem("Change", changeMenu);
 
-		popupMenu.addItem("Delete", new Command() {
+		personMenu.addItem("Delete", new Command() {
 			public void execute() {
 				deletePerson(currentPerson);
 				popup.hide();
 			}
 		});
 
-		popupMenu.addItem("Cancel", new Command() {
+		personMenu.addItem("Cancel", new Command() {
 			public void execute() {
 				popup.hide();
 			}
 		});
 
+		MenuBar popupMenu = new MenuBar();
+		popupMenu.addItem("Person", personMenu);
 		popup.add(popupMenu);
 
 		// main menu
@@ -218,10 +252,6 @@ public class Pelican extends AbsolutePanel {
 		});
 		mainMenu.addItem(new MenuItem("Edit", editMenu));
 		rootPanel.add(mainMenu);
-
-		history = new Vector<Vector<PelicanPerson>>();
-		historyPosition = 0;
-		matingList = new HashSet<String>();
 	}
 
 	private void newPedigree() {
@@ -687,7 +717,7 @@ public class Pelican extends AbsolutePanel {
 
 		undoItem.setEnabled(historyPosition>1);
 		redoItem.setEnabled(historyPosition!=history.size());
-
+		
 		// Initialise: nobody laid out, orphans are root subjects
 		for(int i=0;i<getWidgetCount();i++)
 			if (getWidget(i) instanceof PelicanPerson) {
@@ -739,21 +769,31 @@ public class Pelican extends AbsolutePanel {
 			if (i==0 || getWidgetTop(c)>maxy) maxy=getWidgetTop(c);
 		}
 
+		// set up array to tell where clicks land
+		screen = new int[PEDIGREE_SIZE][PEDIGREE_SIZE];		// initializes all to 0
+
 		for(int i=0;i<getWidgetCount();i++) {
 			Widget c = getWidget(i);
 			// if pedigree fits in the frame, then centre it
 			// otherwise start it at (0,0)
+			int px, py;
 			if (maxx-minx+PelicanPerson.xSpace < getOffsetWidth()) {
-				setWidgetPosition(c,
-						getWidgetLeft(c)-(maxx + minx - getOffsetWidth() + PelicanPerson.symbolSize)/2,
-						getWidgetTop(c)-miny+PelicanPerson.symbolSize/2);
+				px = getWidgetLeft(c)-(maxx + minx - getOffsetWidth() + PelicanPerson.symbolSize)/2;
+				py = getWidgetTop(c)-miny+PelicanPerson.symbolSize/2;
 			} else {
-				setWidgetPosition(c,
-						getWidgetLeft(c)-minx+PelicanPerson.symbolSize/2,
-						getWidgetTop(c)-miny+PelicanPerson.symbolSize/2);
+				px = getWidgetLeft(c)-minx+PelicanPerson.symbolSize/2;
+				py = getWidgetTop(c)-miny+PelicanPerson.symbolSize/2;
 			}
+			setWidgetPosition(c, px, py);
+			
 			if (c instanceof PelicanPerson) {
-				((PelicanPerson)c).drawSymbol();
+				PelicanPerson p = (PelicanPerson)c;
+				p.drawSymbol();
+				for (int x = px; x < (px + p.symbolSize); x++) {
+					for (int y = py; y < (py + p.symbolSize); y++) {
+						screen[x][y] = p.id;
+					}
+				}
 			}
 		}
 
@@ -814,4 +854,26 @@ public class Pelican extends AbsolutePanel {
 		}
 		return b.toString();
 	}
+	
+	/**
+	 *
+	 * Popup menu listener
+	 *
+	 */
+	public void onContextMenu(ContextMenuEvent event) {
+		// stop the browser from opening the context menu
+		event.preventDefault();
+		event.stopPropagation();
+		
+		int x = event.getNativeEvent().getClientX() - getAbsoluteLeft();
+		int y = event.getNativeEvent().getClientY() - getAbsoluteTop();
+		if (screen[x][y] != 0) {
+			popup.setPopupPosition(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY());
+			popup.show();
+			currentPerson = getPersonById(screen[x][y]);
+		} else {
+			popup.hide();
+		}
+	}
+
 }
