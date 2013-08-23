@@ -283,23 +283,9 @@ public class PelicanPerson extends SimplePanel {
 	}
 
 	private void drawSymbol(Context2d ctx) {
-		setSize(xSize,ySize);
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D)g;
 
-		if (PedigreeExplorer.thickLines) {
-			// turn this off so they don't look blurry when exported
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		} else {
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		}
 		g2.setColor(Color.black);
 
-		if (PedigreeExplorer.thickLines) {
-			g2.setStroke(new BasicStroke(2)); 
-		} else {
-			g2.setStroke(new BasicStroke(1)); 
-		}
 
 		if (sex==male) {
 			if (PedigreeExplorer.thickLines) {
