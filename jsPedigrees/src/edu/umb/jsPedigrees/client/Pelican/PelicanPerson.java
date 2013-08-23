@@ -279,14 +279,17 @@ public class PelicanPerson extends SimplePanel {
 	}
 
 	public void drawSymbol() {
+
 		Context2d ctx = canvas.getContext2d();
+		
+		// clear old symbol
+		ctx.clearRect(0, 0, symbolSize + 1, symbolSize + 1);
 		
 		ctx.setStrokeStyle(CssColor.make("0,0,0"));
 		ctx.setLineWidth(1.0f);
 
 		if (sex==male) {
 			ctx.strokeRect(0,0,symbolSize,symbolSize);
-
 			if (affection==affected) {
 				ctx.fillRect(0,0,symbolSize,symbolSize);
 			}
@@ -295,7 +298,7 @@ public class PelicanPerson extends SimplePanel {
 		if (sex==female) {
 			// g2.drawArc(0,0,symbolSize,symbolSize,0,360);
 			ctx.beginPath();
-			ctx.arc(symbolSize/2, symbolSize/2, symbolSize/2, 0, 360);
+			ctx.arc(symbolSize/2, symbolSize/2, (symbolSize/2) - 1, 0, 360);
 
 			if (affection==affected) {
 				ctx.fill();

@@ -307,6 +307,7 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 				//gww		p.mother=(PelicanPerson)idMap.get(new Integer(p.mother.id));
 				p.mother=(PelicanPerson)idMap.get(p.mother.id);
 		}
+		updateDisplay();
 	}
 
 	/* }}} */

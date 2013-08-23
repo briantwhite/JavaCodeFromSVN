@@ -146,7 +146,7 @@ public class PelicanLines {
 						// g2.drawLine(leftX,leftY,rightX,rightY);
 						ctx.beginPath();
 						ctx.moveTo(leftX,leftY);
-						ctx.moveTo(rightX,rightY);
+						ctx.lineTo(rightX,rightY);
 						ctx.closePath();
 						ctx.stroke();
 
