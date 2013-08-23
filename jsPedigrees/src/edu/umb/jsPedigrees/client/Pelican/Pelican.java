@@ -82,6 +82,7 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 	public Pelican(RootPanel rootPanel) {
 		super();
 		setSize(PEDIGREE_SIZE_STR, PEDIGREE_SIZE_STR);
+		setStyleName("jsPX-canvas");
 		
 		makeMenus(rootPanel);
 		
