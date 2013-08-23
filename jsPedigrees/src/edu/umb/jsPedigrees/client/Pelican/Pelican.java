@@ -902,8 +902,18 @@ public class Pelican extends AbsolutePanel implements ContextMenuHandler {
 		event.preventDefault();
 		event.stopPropagation();
 		
+		/*
+		 * clientX is the mouse x-position within the browser window's client area
+		 * AbsoluteLeft is the object's absolute left position in pixels, as measured from the browser window's client area
+		 */
 		int x = event.getNativeEvent().getClientX() - getAbsoluteLeft();
 		int y = event.getNativeEvent().getClientY() - getAbsoluteTop();
+//		System.out.println("cx=" + event.getNativeEvent().getClientX()
+//				+ " cy=" + event.getNativeEvent().getClientY()
+//				+ " al=" + getAbsoluteLeft()
+//				+ " at=" + getAbsoluteTop()
+//				+ " x=" + x
+//				+ " y=" + y);
 		if (screen[x][y] != 0) {
 			popup.setPopupPosition(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY());
 			popup.show();
