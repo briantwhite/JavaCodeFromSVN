@@ -1,4 +1,18 @@
+* change the "person" menu to a little image
+
+* include sanity checks from pedigree solver in Pelican (move them up)
+
+* credit the pelican guy on the page
+
 * right-click (hold touch) doesn't work on ipad - you get the regular context menu
 maybe use smartgwt
 http://jellebeuselinck.wordpress.com/2009/03/05/setting-up-smartgwt/
 http://www.smartclient.com/smartgwt/javadoc/com/smartgwt/client/docs/MobileDevelopment.html
+
+*performance tuning
+1) in drawing pedigree - make an array of all the PelicanPeople at the top and use it over an over
+	(not keep doing .getWidgetCount())
+2) add things to the DOM like the 3rd tip at http://blog.cruxframework.org/2010/10/performance-tuning-on-gwt-applications.html
+3) in pedigree solver, use regular arrays not collections and/or write it in javascript
+	http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
+
