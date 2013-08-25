@@ -1,3 +1,4 @@
-* need to check that pedigree doesn't have bad parents before solving
-	use checkIntegrity()
-
+* right-click (hold touch) doesn't work on ipad - you get the regular context menu
+maybe use smartgwt
+http://jellebeuselinck.wordpress.com/2009/03/05/setting-up-smartgwt/
+http://www.smartclient.com/smartgwt/javadoc/com/smartgwt/client/docs/MobileDevelopment.html
