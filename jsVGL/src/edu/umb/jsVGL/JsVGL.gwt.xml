@@ -28,4 +28,7 @@
   <source path='client'/>
   <source path='shared'/>
 
+  <!-- The following bypasses SOP, jsVGL can then be loaded cross domain -->
+  <add-linker name="xsiframe"/>
+
 </module>
