@@ -17,3 +17,7 @@ needed to edit war/WEB-INF/web.xml to remove all server crap
 
 almost working - need to get location of click on the canvas properly
 	once I added header stuff, it was off...
+
+8/27/13
+clicking wasn't working to get popup
+revised to sue single click

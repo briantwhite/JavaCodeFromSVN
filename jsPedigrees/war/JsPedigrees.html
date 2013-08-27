@@ -23,17 +23,40 @@
 
     <h1>jsPedigrees</h1>
     <font color="red">This works best (and maybe only) with the browser Google Chrome</font><br>
-    <b>Instructions</b><br>
+     <b>Instructions</b><br>
     <ol>
-    	<li>Right-click members of the pedigree to edit them</li>
+    	<li>Click members of the pedigree and an Edit menu will pop up that allows you to:</li>
+    		<ul>
+    			<li>Add members of the pedigree related to the selected person</li>
+    			<li>Change the sex or disease status of the selected person</li>
+    			<li>Delete the selected person</li>
+    		</ul>
     	<li>The <b>Edit</b> menu allows un-doing and re-doing changes.</li>
-    	<li>Click "solve" to solve the pedigree (note that this can take a long time if the peidgree is large)</li>
+    	<li>Click "solve" to solve the pedigree (note that this can take a long time if the peidgree is large). </li>
+    		<ol>
+    			<li>The solution will appear in the box below the "solve" button.</li>
+    			<li>The solution will list the 4 possible modes of inheritance<li>
+    				<ul>
+    					<li>If the mode is possible, it will list genotypes for each individual that are
+    						consistent with the pedigree and the mode. Symbols can be found in the tables
+    						below.</li>
+    					<li>If the mode is not possible, it will say "Not possible".</li>
+    				</ul>
+    		</ol>
     </ol>
     <b>Challenges</b>
     <ul>
     	<li>Build a pedigree and solve it yourself; then click "solve" and see if you got it right</li>
+    	<li>Have a friend make a pedigree; solve it yourself; check to see that you got it right</li>
     	<li>Try to build a pedigree that is consistent with a particular mode or modes of inheritance</li>
-    <ul>
+    	<li>Build a pedigree; solve it; check your work. Then make a change and predict the effect on which modes
+    		are possible and the genotypes of the people in the pedigree; check your work. Possible changes include:</li>
+    		<ul>
+    			<li>Add a new individual to the pedigree; for example: "Suppose 3 and 4 have another son and he is affected"</li>
+    			<li>Change someone from affected to unaffected; for example: "Suppose you re-examine individual 4 and find that
+    				he is really unaffected"</li>
+    		</ul>
+    </ul>
     <table>
     	<tr>
     		<td colspan=2 id="jsPedigreesContainer"> </td>
