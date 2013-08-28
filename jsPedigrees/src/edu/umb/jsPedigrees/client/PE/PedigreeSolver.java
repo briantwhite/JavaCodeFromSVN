@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
 import edu.umb.jsPedigrees.client.Pelican.PelicanPerson;
 
 public class PedigreeSolver {
@@ -21,10 +19,10 @@ public class PedigreeSolver {
 	private static String[] REPLACEMENT_GENOS = {"A _", "B _", "XD X_", "XE X_"};
 
 	private PelicanPerson[] people;
-	private Vector<PelicanPerson> pedigree;
+	private PelicanPerson[] pedigree;
 	private GenotypeSet[] successfulGenotypeSets; 	//index is model number
 
-	public PedigreeSolver(Vector<PelicanPerson> pedigree, HashSet<String> matingList) {
+	public PedigreeSolver(PelicanPerson[] pedigree, HashSet<String> matingList) {
 		successfulGenotypeSets = new GenotypeSet[4];
 		successfulGenotypeSets[0] = new GenotypeSet();
 		successfulGenotypeSets[1] = new GenotypeSet();
@@ -37,11 +35,9 @@ public class PedigreeSolver {
 		 * make array of individuals by id
 		 *   note that first person is 1
 		 */
-		people = new PelicanPerson[pedigree.size() + 1];
-		Iterator<PelicanPerson> pIt = pedigree.iterator();
-		while (pIt.hasNext()) {
-			PelicanPerson p = pIt.next();
-			people[p.id] = p;
+		people = new PelicanPerson[pedigree.length + 1];
+		for (int i = 0; i < pedigree.length; i++) {
+			people[pedigree[i].id] = pedigree[i];
 		}
 	}
 
@@ -149,8 +145,8 @@ public class PedigreeSolver {
 
 	private void logSuccessfulGenotypeSet(int modelNumber) {
 		StringBuffer b = new StringBuffer();
-		String[] genos = new String[pedigree.size()];
-		for (int i = 0; i < pedigree.size(); i++) {
+		String[] genos = new String[pedigree.length];
+		for (int i = 0; i < pedigree.length; i++) {
 			genos[i] = people[i + 1].getGenotypeAsString();
 			b.append((i + 1) + ":" + genos[i].toString() + ";");
 		}

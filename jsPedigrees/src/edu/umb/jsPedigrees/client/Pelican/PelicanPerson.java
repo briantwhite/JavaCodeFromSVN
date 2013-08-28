@@ -222,10 +222,9 @@ public class PelicanPerson extends SimplePanel {
 
 	public Vector<PelicanPerson> getChildren() {
 		Vector<PelicanPerson> result = new Vector<PelicanPerson>();
-		Iterator<PelicanPerson> allPersonIt = pelican.getAllPeople().iterator();
-		while (allPersonIt.hasNext()) {
-			PelicanPerson possibleChild = allPersonIt.next();
-			if ((possibleChild.father == this) || (possibleChild.mother == this)) result.add(possibleChild);
+		PelicanPerson[] allPeople = pelican.getAllPeople();
+		for (int i = 0; i < allPeople.length; i++) {
+			if ((allPeople[i].father == this) || (allPeople[i].mother == this)) result.add(allPeople[i]);
 		}
 		return result;
 	}

@@ -23,6 +23,7 @@ package edu.umb.jsPedigrees.client.Pelican;
 
 //package uk.ac.mrc.rfcgr;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -31,8 +32,6 @@ import java.util.Vector;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ContextMenuEvent;
-import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -614,11 +613,9 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 	}
 
 	private PelicanPerson getPersonById(int id) {
-		Vector<PelicanPerson> people = getAllPeople();
-		Iterator<PelicanPerson> pIt = people.iterator();
-		while (pIt.hasNext()) {
-			PelicanPerson p = pIt.next();
-			if (p.id == id) return p;
+		PelicanPerson[] people = getAllPeople();
+		for (int i = 0; i < people.length; i++) {
+			if(people[i].id == id) return people[i];
 		}
 		return null;
 	}
@@ -726,14 +723,14 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 	}
 
 
-	public Vector<PelicanPerson> getAllPeople() {
-		Vector<PelicanPerson> result = new Vector<PelicanPerson>();
+	public PelicanPerson[] getAllPeople() {
+		ArrayList<PelicanPerson> people = new ArrayList<PelicanPerson>();
 		for (int i = 0; i < getWidgetCount(); i++) {
 			if (getWidget(i) instanceof PelicanPerson) {
-				result.add((PelicanPerson)getWidget(i));
+				people.add((PelicanPerson)getWidget(i));
 			}
 		}
-		return result;
+		return people.toArray(new PelicanPerson[people.size()]);
 	}
 
 	public HashSet<String> getMatingList() {
@@ -750,45 +747,45 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 		undoItem.setEnabled(historyPosition>1);
 		redoItem.setEnabled(historyPosition!=history.size());
 
+		PelicanPerson[] people = getAllPeople();
+		int numPeople = people.length;
+
 		// Initialise: nobody laid out, orphans are root subjects
-		for(int i=0;i<getWidgetCount();i++)
-			if (getWidget(i) instanceof PelicanPerson) {
-				PelicanPerson person=(PelicanPerson)getWidget(i);
-				person.laidOut=false;
-				person.root=person.isOrphan();
-			}
+		for(int i=0;i<numPeople;i++) {
+			people[i].laidOut = false;
+			people[i].root = people[i].isOrphan();
+		}
 
 		// Make list of matings and ensure roots have orphan spouses
 		matingList.clear();
-		for(int i=0;i<getWidgetCount();i++)
-			if (getWidget(i) instanceof PelicanPerson) {
-				PelicanPerson person=(PelicanPerson)getWidget(i);
-				if (person.father!=null && person.mother!=null)
-					//gww                  matingList.add(new Dimension(person.father.id,person.mother.id));
-					matingList.add(person.father.id+" "+person.mother.id);
-				if (person.father!=null && !person.father.isOrphan())
-					if (person.mother!=null && person.mother.generation>=person.father.generation)
-						person.mother.root=false;
-				if (person.mother!=null && !person.mother.isOrphan())
-					if (person.father!=null && person.father.generation>=person.mother.generation)
-						person.father.root=false;
-			}
+		for(int i=0;i<numPeople;i++) {
+			PelicanPerson person = people[i];
+			if (person.father!=null && person.mother!=null)
+				//gww                  matingList.add(new Dimension(person.father.id,person.mother.id));
+				matingList.add(person.father.id+" "+person.mother.id);
+			if (person.father!=null && !person.father.isOrphan())
+				if (person.mother!=null && person.mother.generation>=person.father.generation)
+					person.mother.root=false;
+			if (person.mother!=null && !person.mother.isOrphan())
+				if (person.father!=null && person.father.generation>=person.mother.generation)
+					person.father.root=false;
+		}
 
 		// lay out the root subjects
 		// person is a root if it has spouses which are all orphans
 		int rootSpace=0;
-		for(int i=0;i<getWidgetCount();i++)
-			if (getWidget(i) instanceof PelicanPerson) {
-				PelicanPerson person=(PelicanPerson)getWidget(i);
-				if (!person.laidOut && person.isOrphan() &&
-						person.isRoot()) {
-					rootSpace+=layoutPerson(person,rootSpace);
-				}
+		for(int i=0;i<numPeople;i++) {
+			PelicanPerson person = people[i];
+			if (!person.laidOut && person.isOrphan() &&
+					person.isRoot()) {
+				rootSpace+=layoutPerson(person,rootSpace);
 			}
+		}
 
 		// normalise x-y locations
-		for(int i=0;i<getWidgetCount();i++)
+		for(int i=0;i<getWidgetCount();i++) {
 			if (!(getWidget(i) instanceof PelicanPerson)) remove(i);
+		}
 		int minx=0;
 		int miny=0;
 		int maxx=0;
@@ -895,7 +892,6 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 	public void onClick(ClickEvent event) {
 		int x = event.getX();
 		int y = event.getY();
-		System.out.println("x=" + x + " y=" + y);
 		if (screen[x][y] != 0) {
 			currentPerson = getPersonById(screen[x][y]);
 			popup.showRelativeTo(currentPerson);
@@ -913,13 +909,7 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 
 		String integrity = checkIntegrity(history.lastElement());
 		if (integrity.equals("")) {
-			Vector<PelicanPerson> people = getAllPeople();
-			Iterator<PelicanPerson> it = people.iterator();
 			StringBuffer b = new StringBuffer();
-			//			while (it.hasNext()) {
-			//				PelicanPerson p = it.next();
-			//				b.append(p.toString() + "\n");
-			//			}
 			PedigreeSolver ps = new PedigreeSolver(getAllPeople(), getMatingList());
 			PedigreeSolution sol = ps.solve();
 			PedigreeSolution consolidatedSol = ps.consolidate(sol);
