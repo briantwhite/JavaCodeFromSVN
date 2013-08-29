@@ -52,11 +52,12 @@ public class PedigreeSolver {
 	}
 
 	private void tryGenotypes(int modelNumber, int personId) {
-		if (personId >= people.length) {
-//			System.out.println("Finished checking all people");
-		} else {
-//			System.out.println("Checking person " + personId);
-		}
+		//	debug
+		//		if (personId >= people.length) {
+		//			System.out.println("Finished checking all people");
+		//		} else {
+		//			System.out.println("Checking person " + personId);
+		//		}
 
 		/*
 		 * first, see if you're done - if you've finished with last person
@@ -69,11 +70,15 @@ public class PedigreeSolver {
 
 		// if not, recursively set and check genos
 		PelicanPerson currentPerson = people[personId];
-		Vector<String[]> possibleGenos = getPossibleGenotypes(modelNumber, currentPerson);
-		Iterator<String[]> pgIt = possibleGenos.iterator();
-		while (pgIt.hasNext()) {
-			String[] currentGeno = pgIt.next();
-			currentPerson.genotype = currentGeno;
+//		System.out.println("\tGetting genos for person " + personId);
+		String[][] possibleGenos = getPossibleGenotypes(modelNumber, currentPerson);
+		for (int i = 0; i < possibleGenos.length; i++) {
+			/*
+			 * need to make new strings, otherwise strange things happen
+			 * because of various pointers
+			 */
+			currentPerson.genotype[0] = new String(possibleGenos[i][0]);
+			currentPerson.genotype[1] = new String(possibleGenos[i][1]);
 //			System.out.println("\tTrying genotype: " + currentPerson.getGenotypeAsString());
 			if (isPossible(currentPerson)) {
 //				System.out.println("\t\tPossible; continuing to next person");
@@ -111,20 +116,20 @@ public class PedigreeSolver {
 
 		// some sanity checks to catch egregious errors that should never happen
 		if ((p.mother == null) && (p.father != null)) {
-//			JOptionPane.showMessageDialog(null, 
-//					"Error: Person #" + p.id + " has father but no mother!");
+			//			JOptionPane.showMessageDialog(null, 
+			//					"Error: Person #" + p.id + " has father but no mother!");
 			return false;
 		}
 
 		if ((p.mother != null) && (p.father == null)) {
-//			JOptionPane.showMessageDialog(null, 
-//					"Error: Person #" + p.id + " has mother but no father!");
+			//			JOptionPane.showMessageDialog(null, 
+			//					"Error: Person #" + p.id + " has mother but no father!");
 			return false;
 		}
 
 		if ((p.mother.genotype[0].equals("? ?")) || (p.father.genotype[0].equals("? ?"))) {
-//			JOptionPane.showMessageDialog(null, 
-//					"Error: Person #" + p.id + " parent(s) genotypes have not been set!");
+			//			JOptionPane.showMessageDialog(null, 
+			//					"Error: Person #" + p.id + " parent(s) genotypes have not been set!");
 			return false;
 		}
 
@@ -151,70 +156,61 @@ public class PedigreeSolver {
 			b.append((i + 1) + ":" + genos[i].toString() + ";");
 		}
 		b.deleteCharAt(b.length() - 1);
-//		System.out.println(b.toString());
+		//		System.out.println(b.toString());
 		successfulGenotypeSets[modelNumber].add(genos);
 	}
 
 
 
-	private Vector<String[]> getPossibleGenotypes(int modelNumber, PelicanPerson person) {
-		Vector<String[]> possibleGenotypes = new Vector<String[]>();
+	private String[][] getPossibleGenotypes(int modelNumber, PelicanPerson person) {
 
 		switch (modelNumber) {
 
 		case 0:		// autosomal recessive
-			if (person.affection == 2) {	// affected
-				possibleGenotypes.add(new String[]{"a", "a"});
-			} else {						// unaffected
-				possibleGenotypes.add(new String[]{"A", "A"});
-				possibleGenotypes.add(new String[]{"A", "a"});				
+			if (person.affection == PelicanPerson.affected) {	
+				return Genetics.AR_A;
+			} else {						
+				return Genetics.AR_U;				
 			}
-			break;
 
 		case 1:		// autosomal dominant
-			if (person.affection == 2) {	// affected
-				possibleGenotypes.add(new String[]{"B", "B"});
-				possibleGenotypes.add(new String[]{"B", "b"});				
-			} else {						// unaffected
-				possibleGenotypes.add(new String[]{"b", "b"});
+			if (person.affection == PelicanPerson.affected) {	
+				return Genetics.AD_A;				
+			} else {						
+				return Genetics.AD_U;
 			}
-			break;
 
 		case 2:		// sex-linked recessive
-			if (person.affection == 2) {	
-				if (person.sex == 1) {		// affected male
-					possibleGenotypes.add(new String[]{"Xd", "Y"});
-				} else {					// affected female
-					possibleGenotypes.add(new String[]{"Xd", "Xd"});
+			if (person.affection == PelicanPerson.affected) {	
+				if (person.sex == PelicanPerson.male) {		
+					return Genetics.SLR_M_A;
+				} else {					
+					return Genetics.SLR_F_A;
 				}
 			} else {
-				if (person.sex == 1) {		// normal male
-					possibleGenotypes.add(new String[]{"XD", "Y"});
-				} else {					// normal female
-					possibleGenotypes.add(new String[]{"XD", "XD"});
-					possibleGenotypes.add(new String[]{"XD", "Xd"});
+				if (person.sex == PelicanPerson.male) {		
+					return Genetics.SLR_M_U;
+				} else {					
+					return Genetics.SLR_F_U;
 				}	
 			}
-			break;
 
 		case 3:		// sex-linked dominant
-			if (person.affection == 2) {	
-				if (person.sex == 1) {		// affected male
-					possibleGenotypes.add(new String[]{"XE", "Y"});
-				} else {					// affected female
-					possibleGenotypes.add(new String[]{"XE", "XE"});
-					possibleGenotypes.add(new String[]{"XE", "Xe"});
+			if (person.affection == PelicanPerson.affected) {	
+				if (person.sex == PelicanPerson.male) {		
+					return Genetics.SLD_M_A;
+				} else {					
+					return Genetics.SLD_F_A;
 				}
 			} else {
-				if (person.sex == 1) {		// normal male
-					possibleGenotypes.add(new String[]{"Xe", "Y"});
-				} else {					// normal female
-					possibleGenotypes.add(new String[]{"Xe", "Xe"});
+				if (person.sex == PelicanPerson.male) {		
+					return Genetics.SLD_M_U;
+				} else {					
+					return Genetics.SLD_F_U;
 				}	
 			}
-			break;			
 		}
-		return possibleGenotypes;
+		return null;
 	}
 
 
@@ -241,7 +237,7 @@ public class PedigreeSolver {
 				// loop over the set members looking for ones to consolidate
 				for (int i = 0; i < currentSet.size(); i++) {
 					for (int j = i; j < currentSet.size(); j++) {
-						
+
 						int numDiffs = 0;
 						int numRTOD = 0;
 						int RTODindex = 0;
@@ -266,7 +262,7 @@ public class PedigreeSolver {
 							currentSet.remove(i);
 							currentSet.add(i, workingSet);
 							consolidatedSets[modelNum].setAll(currentSet);
-							
+
 							// start loops over
 							i = 0;
 							j = 0;

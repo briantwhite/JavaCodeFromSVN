@@ -20,4 +20,40 @@ almost working - need to get location of click on the canvas properly
 
 8/27/13
 clicking wasn't working to get popup
-revised to sue single click
+revised to use single click
+
+8/29/13
+made it a little faster (maybe)
+by going to arrays of Strings in possibleGenotypes
+
+problem (always there but not noticed)
+when one grandparent must be carrier but don't know which, it should reduce to:
+	Aa A_ and A_ Aa
+in this case:
+raw sets are:
+Autosomal Recessive
+	Possible; geno sets are:
+		1:A A 2:A a 3:A A 4:A a 5:A a 6:A A 7:a a 
+		1:A A 2:A a 3:A A 4:A a 5:A a 6:A a 7:a a 
+		1:A A 2:A a 3:A a 4:A a 5:A a 6:A A 7:a a 
+		1:A A 2:A a 3:A a 4:A a 5:A a 6:A a 7:a a 
+		1:A a 2:A A 3:A A 4:A a 5:A a 6:A A 7:a a 
+		1:A a 2:A A 3:A A 4:A a 5:A a 6:A a 7:a a 
+		1:A a 2:A A 3:A a 4:A a 5:A a 6:A A 7:a a 
+		1:A a 2:A A 3:A a 4:A a 5:A a 6:A a 7:a a 
+		1:A a 2:A a 3:A A 4:A a 5:A a 6:A A 7:a a 
+		1:A a 2:A a 3:A A 4:A a 5:A a 6:A a 7:a a 
+		1:A a 2:A a 3:A a 4:A a 5:A a 6:A A 7:a a 
+		1:A a 2:A a 3:A a 4:A a 5:A a 6:A a 7:a a 
+
+consolidates to:
+Autosomal Recessive
+	Possible; geno sets are:
+		1:A _ 2:A a 3:A _ 4:A a 5:A a 6:A _ 7:a a 
+		1:A a 2:A A 3:A _ 4:A a 5:A a 6:A _ 7:a a 
+
+note that, in the second set, the 2: is AA not A_
+
+this is because there are 12 in the raw set not 16
+so, once you consolidate 2 x 4 you can't do the last set of 4
+hmmm...

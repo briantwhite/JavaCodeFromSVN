@@ -95,10 +95,6 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 				notifyHostpage();
 			}
 		});
-
-
-
-
 	}
 
 	public static native void notifyHostpage() /*-{
@@ -232,6 +228,7 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 
 		MenuBar popupMenu = new MenuBar();
 		popupMenu.addItem("Edit", personMenu);
+		popupMenu.setAutoOpen(true);
 		popup.add(popupMenu);
 
 		// main menu
@@ -912,6 +909,7 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 			StringBuffer b = new StringBuffer();
 			PedigreeSolver ps = new PedigreeSolver(getAllPeople(), getMatingList());
 			PedigreeSolution sol = ps.solve();
+			b.append(sol);
 			PedigreeSolution consolidatedSol = ps.consolidate(sol);
 			b.append(consolidatedSol + "\n");
 			return b.toString();
