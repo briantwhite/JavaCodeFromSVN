@@ -17,6 +17,7 @@ public class PedigreeSolver {
 	};
 
 	private static String[] REPLACEMENT_GENOS = {"A _", "B _", "XD X_", "XE X_"};
+	private static String[] GENOS_TO_REPLACE = {"A A", "B B", "XD XD", "XE XE"};
 
 	private PelicanPerson[] people;
 	private PelicanPerson[] pedigree;
@@ -266,6 +267,25 @@ public class PedigreeSolver {
 							// start loops over
 							i = 0;
 							j = 0;
+						}
+					}
+				}
+			}
+		}
+		
+		/*
+		 * because of 8/29/13 problem
+		 * replace all AA's with A_'s (and similar for other models)
+		 */
+		for (int modelNum = 0; modelNum < 4; modelNum++) {
+			ArrayList<String[]> currentSet = consolidatedSets[modelNum].getAll();
+			if (currentSet.size() != 0) {
+				Iterator<String[]> sIt = currentSet.iterator();
+				while (sIt.hasNext()) {
+					String[] workingSet = sIt.next();
+					for (int i = 0; i < workingSet.length; i++) {
+						if (workingSet[i].equals(GENOS_TO_REPLACE[modelNum])) {
+							workingSet[i] = REPLACEMENT_GENOS[modelNum];
 						}
 					}
 				}

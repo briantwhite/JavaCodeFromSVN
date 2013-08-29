@@ -57,3 +57,6 @@ note that, in the second set, the 2: is AA not A_
 this is because there are 12 in the raw set not 16
 so, once you consolidate 2 x 4 you can't do the last set of 4
 hmmm...
+
+the easiest solution is to never report AA becuase you can never be sure it's not Aa
+so convert all AA's to A_'s as last step

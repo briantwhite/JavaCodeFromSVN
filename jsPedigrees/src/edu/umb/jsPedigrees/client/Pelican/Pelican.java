@@ -909,7 +909,6 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 			StringBuffer b = new StringBuffer();
 			PedigreeSolver ps = new PedigreeSolver(getAllPeople(), getMatingList());
 			PedigreeSolution sol = ps.solve();
-			b.append(sol);
 			PedigreeSolution consolidatedSol = ps.consolidate(sol);
 			b.append(consolidatedSol + "\n");
 			return b.toString();

@@ -31,7 +31,7 @@ public class PedigreeSolution {
 					String[] s = it.next();
 					b.append("\t\t");
 					for (int x = 0; x < s.length; x++) {
-						b.append((x + 1) + ":" + s[x] + " ");
+						b.append((x + 1) + ":" + s[x] + "   ");
 					}
 					b.append("\n");
 				}
