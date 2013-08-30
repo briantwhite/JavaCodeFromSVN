@@ -60,3 +60,9 @@ hmmm...
 
 the easiest solution is to never report AA becuase you can never be sure it's not Aa
 so convert all AA's to A_'s as last step
+
+
+8/30/13
+- moved sanity checks from PedigreeSolver to Pelican
+- in consolidate - once numDiffs > 1 punt (you don't need to know how many if it's 2 or more)
+

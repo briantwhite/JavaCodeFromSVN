@@ -852,11 +852,26 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 	/* {{{ checkIntegrity */
 
 	// check that fathers are male, etc
-	private String checkIntegrity(Vector pedigree) {
+	private String checkIntegrity(Vector<PelicanPerson> pedigree) {
 		StringBuffer b = new StringBuffer();
 
 		for(int i=0;i<pedigree.size();i++) {
-			PelicanPerson person=(PelicanPerson)pedigree.elementAt(i);
+			PelicanPerson person = pedigree.elementAt(i);
+			// some sanity checks to catch egregious errors that should never happen
+			if ((person.mother == null) && (person.father != null)) {
+				b.append("Error: Person #" + person.id + " has father but no mother!");
+			}
+
+			if ((person.mother != null) && (person.father == null)) {
+				b.append("Error: Person #" + person.id + " has mother but no father!");
+			}
+
+			if (((person.mother != null) && (person.father != null))
+					&& ((person.mother.genotype[0].equals("? ?")) || (person.father.genotype[0].equals("? ?")))) {
+				b.append("Error: Person #" + person.id + " parent(s) genotypes have not been set!");
+			}
+
+			// tests from original Pelican
 			boolean fatherError=false;
 			boolean motherError=false;
 			for(int j=0;j<pedigree.size();j++) {

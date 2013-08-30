@@ -114,26 +114,6 @@ public class PedigreeSolver {
 		 */
 		if ((p.mother == null) && (p.father == null)) return true;
 
-
-		// some sanity checks to catch egregious errors that should never happen
-		if ((p.mother == null) && (p.father != null)) {
-			//			JOptionPane.showMessageDialog(null, 
-			//					"Error: Person #" + p.id + " has father but no mother!");
-			return false;
-		}
-
-		if ((p.mother != null) && (p.father == null)) {
-			//			JOptionPane.showMessageDialog(null, 
-			//					"Error: Person #" + p.id + " has mother but no father!");
-			return false;
-		}
-
-		if ((p.mother.genotype[0].equals("? ?")) || (p.father.genotype[0].equals("? ?"))) {
-			//			JOptionPane.showMessageDialog(null, 
-			//					"Error: Person #" + p.id + " parent(s) genotypes have not been set!");
-			return false;
-		}
-
 		// OK to proceed		
 		/*
 		 * if we get here, then person has parents who have been assigned
@@ -248,8 +228,12 @@ public class PedigreeSolver {
 						for (int x = 0; x < setI.length; x++) {
 							if (!setI[x].equals(setJ[x])) {
 								numDiffs++;
+								// if you find more than 1, you can't consolidate so stop checking
+								if (numDiffs > 1) break;
 								if (isRTOD(modelNum, setI[x], setJ[x])) {
 									numRTOD++;
+									// if you find more than 1, you can't consolidate so stop checking
+									if (numRTOD > 1) break;
 									RTODindex = x;
 								}
 							}
