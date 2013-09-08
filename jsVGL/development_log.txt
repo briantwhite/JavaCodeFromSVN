@@ -274,5 +274,11 @@ added ability to open saved files in practice mode and have model shown
 
 7/23/13 testing git
 			 
+9/8/13
+bug - the LinkagePanel settings were being saved but not re-loaded
+I'd forgotten to do it <sigh>
+implemented it
+version 1.1
+
 
 	

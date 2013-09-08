@@ -2,6 +2,7 @@ package edu.umb.jsVGL.client.ModelBuilder;
 
 import java.util.ArrayList;
 
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -11,6 +12,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
 import edu.umb.jsVGL.client.VGL.VGLII;
@@ -44,7 +46,7 @@ public class LinkagePanel extends SimplePanel {
 
 		this.chars = characters;
 
-	
+
 		g1g2Linked = new ListBox();
 		g2g3Linked = new ListBox();
 		g3g1Linked = new ListBox();
@@ -63,7 +65,7 @@ public class LinkagePanel extends SimplePanel {
 		}
 
 		VerticalPanel mainPanel = new VerticalPanel();
-		
+
 		VerticalPanel panelA = new VerticalPanel();
 		panelA.setStyleName("jsVGL_SubdividerPanel");
 		HorizontalPanel row1 = new HorizontalPanel();
@@ -83,7 +85,7 @@ public class LinkagePanel extends SimplePanel {
 		row2.add(g1g2LinkageRelevantCage);
 		panelA.add(row2);
 		mainPanel.add(panelA);
-		
+
 		if (chars.length == 3) {
 			VerticalPanel panelB = new VerticalPanel();
 			panelB.setStyleName("jsVGL_SubdividerPanel");
@@ -127,7 +129,7 @@ public class LinkagePanel extends SimplePanel {
 		}
 		setWidget(mainPanel);
 	}
-	
+
 	/*
 	 * for these, the encoding is:
 	 * 	unknown = -1.0f
@@ -143,7 +145,7 @@ public class LinkagePanel extends SimplePanel {
 	public double getG1G3LinkageChoice() {
 		return getSelectedRf(g3g1Linked);
 	}
-	
+
 	/*
 	 * Note for cage numbers vs IDs
 	 * 	cages have Ids that start with 0 (field pop)
@@ -170,7 +172,7 @@ public class LinkagePanel extends SimplePanel {
 		if (parts.length != 2) return -1;
 		return Integer.parseInt(parts[1].trim());
 	}
-	
+
 	private double getSelectedRf(ListBox listBox) {
 		String choice = (String)listBox.getItemText(listBox.getSelectedIndex());
 		if (choice.equals("Unknown")) return -1.0f;
@@ -182,32 +184,63 @@ public class LinkagePanel extends SimplePanel {
 
 
 	public void setStateFromFile(Element element) {
-//		List<Element> elements = element.getChildren();
-//		Iterator<Element> it = elements.iterator();
-//		while(it.hasNext()) {
-//			Element e = it.next();
-//			if (e.getName().equals("G1G2")) {
-//				g1g2Linked.setSelectedItem((String)e.getText());
-//			}
-//			if (e.getName().equals("G1G2Evidence")) {
-//				g1g2LinkageRelevantCage.setSelectedItem((String)e.getText());
-//			}
-//			
-//			if (e.getName().equals("G2G3")) {
-//				g2g3Linked.setSelectedItem((String)e.getText());
-//			}
-//			if (e.getName().equals("G2G3Evidence")) {
-//				g2g3LinkageRelevantCage.setSelectedItem((String)e.getText());
-//			}
-//
-//			if (e.getName().equals("G3G1")) {
-//				g3g1Linked.setSelectedItem((String)e.getText());
-//			}
-//			if (e.getName().equals("G3G1Evidence")) {
-//				g3g1LinkageRelevantCage.setSelectedItem((String)e.getText());
-//			}
-//
-//		}
+		NodeList elements = element.getChildNodes();
+		for (int i = 0; i < elements.getLength(); i++) {
+			Element e = (Element)elements.item(i);
+			if (e.getTagName().equals("G1G2")) {
+				g1g2Linked.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				/*
+				 * need to manually fire event to get box to update
+				 * 	note, need different Document
+				 */
+				DomEvent.fireNativeEvent(com.google.gwt.dom.client.Document.get().createChangeEvent(), g1g2Linked);
+			}
+
+			if (e.getTagName().equals("G1G2Evidence")) {
+				g1g2LinkageRelevantCage.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				/*
+				 * need to manually fire event to get box to update
+				 * 	note, need different Document
+				 */
+				DomEvent.fireNativeEvent(com.google.gwt.dom.client.Document.get().createChangeEvent(), g1g2LinkageRelevantCage);
+			}
+
+			if (e.getTagName().equals("G2G3")) {
+				g2g3Linked.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				/*
+				 * need to manually fire event to get box to update
+				 * 	note, need different Document
+				 */
+				DomEvent.fireNativeEvent(com.google.gwt.dom.client.Document.get().createChangeEvent(), g2g3Linked);
+			}
+
+			if (e.getTagName().equals("G2G3Evidence")) {
+				g2g3LinkageRelevantCage.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				/*
+				 * need to manually fire event to get box to update
+				 * 	note, need different Document
+				 */
+				DomEvent.fireNativeEvent(com.google.gwt.dom.client.Document.get().createChangeEvent(), g2g3LinkageRelevantCage);
+			}
+
+			if (e.getTagName().equals("G3G1")) {
+				g3g1Linked.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				/*
+				 * need to manually fire event to get box to update
+				 * 	note, need different Document
+				 */
+				DomEvent.fireNativeEvent(com.google.gwt.dom.client.Document.get().createChangeEvent(), g3g1Linked);
+			}
+
+			if (e.getTagName().equals("G3G1Evidence")) {
+				g3g1LinkageRelevantCage.setSelectedIndex(Integer.parseInt(e.getFirstChild().getNodeValue()));
+				/*
+				 * need to manually fire event to get box to update
+				 * 	note, need different Document
+				 */
+				DomEvent.fireNativeEvent(com.google.gwt.dom.client.Document.get().createChangeEvent(), g3g1LinkageRelevantCage);
+			}
+		}
 	}
 
 	public Element save() {
@@ -216,36 +249,36 @@ public class LinkagePanel extends SimplePanel {
 		Element lpe = d.createElement("LinkagePanel");
 
 		Element e = d.createElement("G1G2");
-		e.appendChild(d.createTextNode(((String)g1g2Linked.getItemText(g1g2Linked.getSelectedIndex()))));
+		e.appendChild(d.createTextNode(String.valueOf(g1g2Linked.getSelectedIndex())));
 		lpe.appendChild(e);	
 		e = d.createElement("G1G2Evidence");
-		e.appendChild(d.createTextNode(((String)g1g2LinkageRelevantCage.getItemText(g1g2LinkageRelevantCage.getSelectedIndex()))));
+		e.appendChild(d.createTextNode(String.valueOf(g1g2LinkageRelevantCage.getSelectedIndex())));
 		lpe.appendChild(e);
 
 		e = d.createElement("G2G3");
-		e.appendChild(d.createTextNode(((String)g2g3Linked.getItemText(g2g3Linked.getSelectedIndex()))));
+		e.appendChild(d.createTextNode(String.valueOf(g2g3Linked.getSelectedIndex())));
 		lpe.appendChild(e);
 		e = d.createElement("G2G3Evidence");
-		e.appendChild(d.createTextNode(((String)g2g3Linked.getItemText(g2g3LinkageRelevantCage.getSelectedIndex()))));
+		e.appendChild(d.createTextNode(String.valueOf(g2g3LinkageRelevantCage.getSelectedIndex())));
 		lpe.appendChild(e);
 
 		e = d.createElement("G3G1");
-		e.appendChild(d.createTextNode(((String)g3g1Linked.getItemText(g3g1Linked.getSelectedIndex()))));
+		e.appendChild(d.createTextNode(String.valueOf(g3g1Linked.getSelectedIndex())));
 		lpe.appendChild(e);
 		e = d.createElement("G3G1Evidence");
-		e.appendChild(d.createTextNode(((String)g3g1LinkageRelevantCage.getItemText(g3g1LinkageRelevantCage.getSelectedIndex()))));
+		e.appendChild(d.createTextNode(String.valueOf(g3g1LinkageRelevantCage.getSelectedIndex())));
 		lpe.appendChild(e);
 
 		return lpe;
 	}
 
-	
+
 	public void updateCageChoices(int nextCageId) {
 		g1g2LinkageRelevantCage.addItem("Cage " + nextCageId);
 		g2g3LinkageRelevantCage.addItem("Cage " + nextCageId);
 		g3g1LinkageRelevantCage.addItem("Cage " + nextCageId);
 	}
-	
+
 	public ArrayList<Integer> getRelevantCages() {
 		ArrayList<Integer> result = new ArrayList<Integer>();
 		result.add(g1g2LinkageRelevantCage.getSelectedIndex());

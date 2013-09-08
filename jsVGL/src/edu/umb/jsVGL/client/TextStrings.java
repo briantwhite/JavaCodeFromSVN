@@ -2,7 +2,7 @@ package edu.umb.jsVGL.client;
 
 public class TextStrings {
 
-	private final static String VERSION = "1.0";
+	private final static String VERSION = "1.1";
 
 	public static final String WELCOME_TEXT = "<html><body>"
 			+ "<h3>Welcome to js VGL version " + VERSION + "</h3>"
@@ -22,6 +22,7 @@ public class TextStrings {
 
 	public static final String ABOUT_jsVGL = 
 			"<h3>About jsVGL</h3>"
+					+ "Version " + VERSION + "<br>"
 					+ "jsVGL is a javascript version of the "
 					+ "<a href=\"http://vgl.umb.edu\"target=\"_blank\">Virtual Genetics Lab</a>. "
 					+ "Both are developed by <a href=\"mailto:brian.white@umb.edu\">Brian White</a> "
