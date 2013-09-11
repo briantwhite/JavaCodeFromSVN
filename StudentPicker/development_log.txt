@@ -107,3 +107,7 @@ version 2.6
 9/11/13
 testing
 again & again
+
+need to revise, since newest files don't use ID# but UMB e-mail username (brian.white001)
+	change integer keys to strings
+	(will actually be back compatable)

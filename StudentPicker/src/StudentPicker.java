@@ -179,7 +179,7 @@ public class StudentPicker extends JFrame {
 					+ System.getProperty("file.separator") 
 					+ "roster.txt");
 		}
-		TreeMap<String, Integer> namesAndsStudentIDs = FileLoader.getNamesAndStudentIDs(this, studentFile);
+		TreeMap<String, String> namesAndsStudentIDs = FileLoader.getNamesAndStudentIDs(this, studentFile);
 		if (namesAndsStudentIDs == null) {
 			resetWorkingDirName();
 			start();
@@ -218,13 +218,13 @@ public class StudentPicker extends JFrame {
 				+ SESSON_FILE_DIR_NAME 
 				+ System.getProperty("file.separator")
 				+ "RemoteID.csv");
-		HashMap<Integer, String> studentIDsAndClickerIDs = FileLoader.getStudentIDsAndClickerIDs(this, idFile);
+		HashMap<String, String> studentIDsAndClickerIDs = FileLoader.getStudentIDsAndClickerIDs(this, idFile);
 		if (studentIDsAndClickerIDs == null) {
 			resetWorkingDirName();
 			start();
 		}
 
-		Iterator<Integer> it = studentIDsAndClickerIDs.keySet().iterator();
+		Iterator<String> it = studentIDsAndClickerIDs.keySet().iterator();
 
 		/*
 		 * then look for matches between the two maps
@@ -236,7 +236,7 @@ public class StudentPicker extends JFrame {
 		Iterator<String> nameIt = namesAndsStudentIDs.keySet().iterator();
 		while (nameIt.hasNext()) {
 			String name = nameIt.next();
-			Integer studentId = namesAndsStudentIDs.get(name);
+			String studentId = namesAndsStudentIDs.get(name);
 			if (studentIDsAndClickerIDs.containsKey(studentId)) {
 				String iClickerID = studentIDsAndClickerIDs.get(studentId);
 				iClickerIDsAndNames.put(iClickerID, name);

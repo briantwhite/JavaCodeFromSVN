@@ -57,12 +57,12 @@ public class FileLoader {
 	 * 
 	 *     hash map is 
 	 *     	key = name
-	 *      value = student ID #
+	 *      value = student ID (# or username like "brian.white001")
 	 *      
 	 * return null if file not found
 	 */				
-	public static TreeMap<String, Integer> getNamesAndStudentIDs(JFrame masterFrame, File studentFile) {
-		TreeMap<String, Integer> namesAndsStudentIDs = new TreeMap<String, Integer>();
+	public static TreeMap<String, String> getNamesAndStudentIDs(JFrame masterFrame, File studentFile) {
+		TreeMap<String, String> namesAndsStudentIDs = new TreeMap<String, String>();
 		BufferedReader reader = null;
 		String text = null;
 		try {
@@ -73,7 +73,7 @@ public class FileLoader {
 					String[] parts = text.split(",");
 					String name = parts[0] + "," + parts[1];
 					if (parts.length == 3) {
-						namesAndsStudentIDs.put(name, Integer.parseInt(parts[2]));
+						namesAndsStudentIDs.put(name, parts[2]);
 						System.out.println(name);
 					}
 				}
@@ -103,13 +103,13 @@ public class FileLoader {
 	 * where lines are #iclickerNum,"id num"
 	 * 
 	 * hash map is:
-	 * 		key = student id #
+	 * 		key = student id (# or brian.white001)
 	 * 		value = iClicker ID
 	 * 
 	 * return null if file not found
 	 */
-	public static HashMap<Integer, String> getStudentIDsAndClickerIDs(JFrame masterFrame, File idFile) {
-		HashMap<Integer, String> studentIDsAndClickerIDs = new HashMap<Integer, String>();
+	public static HashMap<String, String> getStudentIDsAndClickerIDs(JFrame masterFrame, File idFile) {
+		HashMap<String, String> studentIDsAndClickerIDs = new HashMap<String, String>();
 		BufferedReader reader = null;
 		String text = null;
 		try {
@@ -118,9 +118,9 @@ public class FileLoader {
 				// lines are #iclickerNum,"id num"
 				if (text.startsWith("#")) {
 					String[] parts = text.split(",");
-					Integer idNum = Integer.parseInt(parts[1].replaceAll("\\\"", ""));
+					String id = parts[1].replaceAll("\\\"", "");
 					String iClickerNum = parts[0];
-					studentIDsAndClickerIDs.put(idNum, iClickerNum);
+					studentIDsAndClickerIDs.put(id, iClickerNum);
 				}
 			}
 		} catch (FileNotFoundException e) {
