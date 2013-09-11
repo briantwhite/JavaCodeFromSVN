@@ -1,0 +1,106 @@
+5/13/11
+set up
+needs files:
+
+1) in iClickerLogs (SessionFiles) 
+	scores.txt
+		"Name" \t 0
+	- will be updated as each score added
+
+2) in sp files
+	"do not call.txt"
+		name (no quotes) (one per line)
+	
+	"students.txt"
+		"name" \t iClickerID (leading #, leading 0's removed)
+
+5/17/11
+made sure resetting the settings clears out all the data
+version 1.1
+
+7/11/11
+moving to pc
+issues:
+- what about the line terminator char
+if you use od -tc on mac files, it's \n; on pc it's \r\n
+according to javadoc BufferedReader.readline()
+	Read a line of text. A line is considered to be terminate
+	by any one of a line feed ('\n'), a carriage return ('\r'), 
+	or a carriage return followed immediately by a linefeed.
+- so it should be OK
+
+
+need to revise some of the files
+there'll be a Bio111/Roster.txt file I had to make for the registration
+it's in format: <lastname>,<firstname and initial>,<id#>
+like:
+	Abelard,Christina A,1024868
+	Abreu,Maranjellie,1049407
+	Accilien,Cassandre,1114705
+
+
+and there's going to be Bio111/SessionData/RemoteID.csv
+in the format: #<iclicker#>,"<id #>"
+like:
+	#18C0D50D,"1049407"
+	
+use these instead of students.txt
+
+so, put everything in the Bio111 dir
+only one point required: "Directory where this course's files are stored"
+get Roster.txt from there
+get do not call.txt from there
+	use names formatted from scores.txt
+get SessionData/RemoteID.csv from there
+get/put scores.txt there
+
+set up some test files with windows line breaks
+
+now working
+
+9/7/11
+revised to use an Integer for the student ID 
+so it no longer worries about leading zeroes
+version 2.1
+
+9/9/11
+revised ScoreSacver so, if the class list grows in scores.txt
+(if students add class)
+it will create an entry before updating
+version 2.2
+
+found the preferences on windows xp (may not have been being deleted right)
+start menu -> Regedit
+HKEY_CURRENT_USER\Software\JavaSoft\Prefs\Student\Picker
+
+11/11/11
+need to prevent double-dipping (once you've got credit, you can't be called again)
+in two places:
+- on startup, remove those who have scores > 0
+- on giving points, remove name
+version 2.3
+
+1/11/12
+modified:
+- no points for pass
+- 2 points for answer
+- added new button "No reply" -1 point
+
+something isn't right with making scores.txt
+some names in class list aren't in the scores.txt
+
+1/13/12
+fixed score saver so scores.txtis made right
+tested
+version 2.4
+version 2.4
+
+1/25/12
+fixed bug on startup and made it so it really updates the prefs
+(it didn't save it in the past!)
+version 2.5
+
+1/26/12
+fixed "do not call.txt" bug (White,Brian T not White, Brian T - no extra space after the comma)
+version 2.6
+

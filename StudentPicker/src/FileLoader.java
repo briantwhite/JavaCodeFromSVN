@@ -1,0 +1,190 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeMap;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+
+public class FileLoader {
+	
+	/*
+	 * expects a file of names, one per line
+	 * makes ArrayList of them
+	 * 
+	 * returns null if file not found
+	 */
+	public static ArrayList<String> getDoNotCallList(JFrame masterFrame, File doNotCallFile) {
+		ArrayList<String> doNotCallList = new ArrayList<String>();
+		BufferedReader reader = null;
+		String text = null;
+		try {
+			reader = new BufferedReader(new FileReader(doNotCallFile));
+			while ((text = reader.readLine()) != null) {
+				if (!text.equals("")) {
+					System.out.println("DNC:" + text);
+					doNotCallList.add(text);
+				}
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(masterFrame, "<html>Can't find \"do not call.txt\", <br>"
+					+ "please RESET directories <br>and restart the program.</html>",
+					"File not found", JOptionPane.ERROR_MESSAGE);
+			doNotCallList = null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return doNotCallList;
+	}
+	
+	/*
+	 * next, the students & their ID #s
+	 * from file Roster.txt
+	 * where lines are lastName,firstName,ID
+	 * 
+	 *     hash map is 
+	 *     	key = name
+	 *      value = student ID #
+	 *      
+	 * return null if file not found
+	 */				
+	public static TreeMap<String, Integer> getNamesAndStudentIDs(JFrame masterFrame, File studentFile) {
+		TreeMap<String, Integer> namesAndsStudentIDs = new TreeMap<String, Integer>();
+		BufferedReader reader = null;
+		String text = null;
+		try {
+			reader = new BufferedReader(new FileReader(studentFile));
+			while ((text = reader.readLine()) != null) {
+				// lines are lastName,firstName,ID
+				if (text.contains(",")) {
+					String[] parts = text.split(",");
+					String name = parts[0] + "," + parts[1];
+					if (parts.length == 3) {
+						namesAndsStudentIDs.put(name, Integer.parseInt(parts[2]));
+						System.out.println(name);
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(masterFrame, "<html>Can't find \"Roster.txt\", <br>"
+					+ "please RESET working directory <br>and restart the program.</html>",
+					"File not found", JOptionPane.ERROR_MESSAGE);
+			namesAndsStudentIDs = null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return namesAndsStudentIDs;
+	}
+
+	/*
+	 * now read in list of ID#s and iClicker #s
+	 * from RemoteID.csv
+	 * where lines are #iclickerNum,"id num"
+	 * 
+	 * hash map is:
+	 * 		key = student id #
+	 * 		value = iClicker ID
+	 * 
+	 * return null if file not found
+	 */
+	public static HashMap<Integer, String> getStudentIDsAndClickerIDs(JFrame masterFrame, File idFile) {
+		HashMap<Integer, String> studentIDsAndClickerIDs = new HashMap<Integer, String>();
+		BufferedReader reader = null;
+		String text = null;
+		try {
+			reader = new BufferedReader(new FileReader(idFile));
+			while ((text = reader.readLine()) != null) {
+				// lines are #iclickerNum,"id num"
+				if (text.startsWith("#")) {
+					String[] parts = text.split(",");
+					Integer idNum = Integer.parseInt(parts[1].replaceAll("\\\"", ""));
+					String iClickerNum = parts[0];
+					studentIDsAndClickerIDs.put(idNum, iClickerNum);
+				}
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(masterFrame, "<html>Can't find \"RemoteID.csv\", <br>"
+					+ "please RESET working directory <br>and restart the program.</html>",
+					"File not found", JOptionPane.ERROR_MESSAGE);
+			studentIDsAndClickerIDs = null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return studentIDsAndClickerIDs;
+	}
+	
+	/*
+	 * read newest iClicker log file
+	 * to get list of clicker IDs of students present
+	 * 
+	 * use HashMap to look up names
+	 * 
+	 * return null if file not found
+	 */
+	public static ArrayList<String> getNamesOfPresentStudents(
+			JFrame masterFrame, 
+			File newestLogFile, 
+			HashMap<String, String> iClickerIDsAndNames) {
+		ArrayList<String> namesOfPresentStudents = new ArrayList<String>();
+		BufferedReader reader = null;
+		String text = null;
+		try {
+			reader = new BufferedReader(new FileReader(newestLogFile));
+			while ((text = reader.readLine()) != null) {
+				if (text.startsWith("#")) {
+					String[] parts = text.split(",");
+					String iClickerID = parts[0];
+					if (iClickerIDsAndNames.containsKey(iClickerID)) {
+						namesOfPresentStudents.add(iClickerIDsAndNames.get(iClickerID));
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(masterFrame, "<html>Can't find the iClicker logs, <br>"
+					+ "please RESET directories <br>and restart the program.</html>",
+					"File not found", JOptionPane.ERROR_MESSAGE);
+			namesOfPresentStudents = null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}		
+		return namesOfPresentStudents;
+	}
+
+}
