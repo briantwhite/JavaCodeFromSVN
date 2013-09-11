@@ -280,5 +280,7 @@ I'd forgotten to do it <sigh>
 implemented it
 version 1.1
 
+9/11/13
+re-commmitting after git screwup
 
 	
