@@ -111,3 +111,20 @@ again & again
 need to revise, since newest files don't use ID# but UMB e-mail username (brian.white001)
 	change integer keys to strings
 	(will actually be back compatable)
+	
+it expects in WORKING_DIR (usually Classes/Bio111)
+	"do not call.txt" 
+		format: <last name>,<first name>
+			eg	Trenholm,Melissa A
+			
+	"Roster.txt"
+		format: <last name>,<first name>,<ID>
+			eg: Abu-Rubieh,Noor,01006617 (ID can be # or string)
+	
+	"SessionData/RemoteID.csv"
+		format: <iClicker#>,"<ID>"
+			eg: #81F95820,"01194130"
+	
+	"SessionData/"
+		files from recent sessions
+			
