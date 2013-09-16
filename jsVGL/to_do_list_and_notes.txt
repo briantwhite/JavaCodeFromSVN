@@ -162,3 +162,9 @@ function ChiSq(x,n) {
     }
  
  testing
+ 
+ 9/15/13
+ to enable "just try it" as a success state
+ 	need to add parameter to "grade":
+ 		NumCrosses
+ 
