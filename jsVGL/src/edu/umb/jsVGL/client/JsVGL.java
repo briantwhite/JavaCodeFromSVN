@@ -134,7 +134,7 @@ public class JsVGL implements EntryPoint {
 		mainPanel.add(aboutPanel, "About jsVGL");
 
 		mainPanel.selectTab(0);
-		mainPanel.setSize("300px", "250px");
+		mainPanel.setSize("650px", "250px");
 		mainPanel.addStyleName("table-center");
 		RootPanel.get("mainPanelContainer").add(mainPanel);	
 

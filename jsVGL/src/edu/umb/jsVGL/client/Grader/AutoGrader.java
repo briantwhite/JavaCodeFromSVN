@@ -63,6 +63,10 @@ public class AutoGrader {
 		Element pModeEl = doc.createElement("PracticeMode");
 		pModeEl.appendChild(doc.createTextNode(String.valueOf(gm.isBeginnerMode())));
 		e.appendChild(pModeEl);
+		
+		Element numCageEl = doc.createElement("NumCages");
+		numCageEl.appendChild(doc.createTextNode(String.valueOf(cages.size())));
+		e.appendChild(numCageEl);
 
 		/*
 		 * Then, see if there's epistasis or complementation

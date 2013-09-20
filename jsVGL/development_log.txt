@@ -285,4 +285,10 @@ re-commmitting after git screwup
 testing
 9/12/13
 testing again
+
+9/20/13
+fixing misc
+- instructions text
+- width of instructions
+- pass grade param <NumCages>
 	
