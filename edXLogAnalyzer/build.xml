@@ -1,0 +1,21 @@
+<project name="edXLogAnalyzer" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/edXLogAnalyzer.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="EdXLogAnalyzer"/>
+	        </manifest>
+	    	    <fileset dir="bin/"/>
+	    </jar>
+        <move file="bin/edXLogAnalyzer.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run analyzer">
+		<java jar="edXLogAnalyzer.jar" fork="true"/>
+	</target>
+
+</project>
