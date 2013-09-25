@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 
 public class EdXLogAnalyzer {
 
@@ -68,7 +71,7 @@ public class EdXLogAnalyzer {
 							data.put(name, new int[columnHeaders.length]);
 						}
 						
-						
+						Gson gson = new GsonBuilder().create();					
 					}
 				}
 				br.close();
