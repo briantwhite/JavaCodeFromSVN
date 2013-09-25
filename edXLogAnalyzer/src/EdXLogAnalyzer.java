@@ -1,7 +1,11 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 
 public class EdXLogAnalyzer {
@@ -43,8 +47,35 @@ public class EdXLogAnalyzer {
 			}
 		});
 		
+		String[] columnHeaders = new String[inFiles.size()];
 		for (int i = 0; i < inFiles.size(); i++) {
-			System.out.println(inFiles.get(i).getName());
+			columnHeaders[i] = inFiles.get(i).getName().replaceAll(".csv", "");
+		}
+		
+		HashMap<String, int[]>data = new HashMap<String, int[]>();
+		for (int i = 0; i < columnHeaders.length; i++) {
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(inFiles.get(i)));
+				String line = null;
+				while ((line = br.readLine()) != null) {
+					if (line.contains("{")) {
+						line = line.replaceAll("\"\"", "\"");
+						String[] parts = line.split(",", 2);
+						String name = parts[0];
+						String json = parts[1];
+						
+						if (!data.containsKey(name)) {
+							data.put(name, new int[columnHeaders.length]);
+						}
+						
+						
+					}
+				}
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	
