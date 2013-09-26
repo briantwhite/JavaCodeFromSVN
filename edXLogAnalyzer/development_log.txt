@@ -1,4 +1,6 @@
 9/25/13
 started off
-got google-gson-2.2.4
+got google-gson-2.2.4 from http://code.google.com/p/google-gson/
 put contents in lib/
+
+info at http://stackoverflow.com/questions/5490789/json-parsing-using-gson-for-java
