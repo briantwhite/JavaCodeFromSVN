@@ -73,5 +73,5 @@ in the graders' answers.
 	- number of crosses after sufficient info
 	- for linkage, # of offspring in evidentiary cage
 
-
+16) Allow non integer expected values in chi-squared boxes
 
