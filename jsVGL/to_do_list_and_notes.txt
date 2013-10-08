@@ -168,3 +168,7 @@ function ChiSq(x,n) {
  	need to add parameter to "grade":
  		NumCrosses
  
+ 10/8/13
+ to do: make a way to hide useless crosses
+ 	checkbox to display or not?
+ 	shrink them to one line?
