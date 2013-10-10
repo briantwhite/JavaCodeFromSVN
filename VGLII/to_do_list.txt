@@ -73,5 +73,11 @@ in the graders' answers.
 	- number of crosses after sufficient info
 	- for linkage, # of offspring in evidentiary cage
 
-16) Allow non integer expected values in chi-squared boxes
+16) Allow non integer expected values in chi-squared boxes (Sophie J)
+
+17) In practice mode, have option to turn on/off showing genotypes so it's not a giveaway. (M.C. Cowlishaw)
+
+18) Allow very large numbers of offspring in super cross to allow looking at rare or complex events. (M.C. Cowlishaw)
+
+
 
