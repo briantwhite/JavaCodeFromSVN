@@ -1,0 +1,193 @@
+11/20/11
+may want to make stand-alone version that saves files and can load them
+use TBSApplet's .getTree() method to get the tree
+the param "Student" gives the input tree and makes a model.StudentModel of the input
+   (use that method to get file data into the program)
+   
+
+11/24/11
+needed to get build path working to add classes
+edited .properties file to add
+to buildSpec, added
+                <buildCommand>
+                        <name>org.eclipse.jdt.core.javabuilder</name>
+                        <arguments>
+                        </arguments>
+                </buildCommand>
+
+to natures, added
+                <nature>org.eclipse.jdt.core.javanature</nature>
+
+this initially hosed the folder structure until I "configured build path"
+now seems OK
+
+set up to build the application
+edited build.xml to make the main class of the applet be a new one TBSApplication
+
+11/25/11
+set up TBSApplication to build the GUI from scratch
+don't install an applet in the window (too hard & requires kludgey if-then's in the 
+applet code)
+
+note that TBSModel takes an applet as a param
+it only needs to get it's height and width
+so can substitute Container - it's a super class of JApplet
+
+problem:
+can get the applet to show if you create a ApplicationWindow
+with overridden paint that paints the TBSview
+but then the GUI fails
+so use an applet stub from 
+http://java.sun.com/developer/technicalArticles/Programming/TurningAnApplet/
+
+in this case, no need for separate build target
+just put a main() method in TBSApplet
+
+12/4/11
+got it to save and open tree files
+
+12/11/11
+working on score bar
+
+12/14/11
+trouble on svn
+got weird errors on commit 
+seemed to be missing some of the .svn folders
+- deleted project from workspace
+- load from svn
+- right-click -> team -> update to HEAD
+now OK
+
+12/18/11
+- fixed bug:
+	it'd never load a link to the bat (organism 0) because of dumb coding
+		in TBSModel.loadConnection
+			if the indices weren't > 0 it wouldn't add it!
+			so made the choice >= 0 and set the default (?) at top to -1
+				(to match the error return value from findIndexByID)
+
+- fixed so that it only saves with safe filenames
+- added method allOrgsConnected to Graph to allow scoring
+- added sample trees for grade testing
+- made a way to list all those connected to bat as an int
+	for use in the bipartition thing
+- existing Graph.containsCycles() fails to detect cycles..
+	will need to do the full set of bipartitions
+		if breaking one or more links still shows all linked
+			then a cycle
+
+12/19/11
+working on Robinson-Foulds
+current version seems to enter all the info
+but getAdjacentVertices(false) is returning none 
+	so it doesn't see them as connected...
+
+	
+12/29/11
+got R-F working
+- starting vertex must be part of set
+- clear out all neighbor lists, etc of all vertices for each run
+
+12/30/11
+added correct.tree
+but problem, it was tallying the 'empty nodes' (branch points) in the R-F analysis
+and these are not important
+fixed in Graph so now OK
+
+added check that all organisms at ends of branches
+
+got R-F scoring to work
+
+fixed the prompt text so it encourages them to do tree even if q's finished
+
+fixed the null pointer thing on launch
+	in Prompt.java
+	added default centerX, Y values if applet = null
+- still a strange perhaps infinite repaint loop in prompt...
+
+- got scoring of a directory of files to work
+
+1/11/12
+fixed it so if it opens an unreadable .tree file
+it doesn't die but puts "unreadable" in the scores file.
+version 1.1
+
+2/7/12
+want to make admin mode so you can load a directory of .tree files and look at them
+
+set it up so that it reads in all the tree files but the display doesn't work...
+
+need to pass in as student param a monster string of all data
+	but what to use as split character?
+		can't use newline because that appears in student's answers...
+		use a strange char sequence <###> called ApplicationFrame.CONCATENATION_SEQUENCE
+got it working!
+
+version 2.0
+
+2/15/12
+working on strange scoring
+083EboigbeHarrisontreetreetree.tree gives strange errors - see sample_tree_info.txt
+change TBSApplet openManyTreesForScoring 
+	to use numUnusedOrgs != 0
+still strange
+also, this tree can be loaded singly but crashes if you select it in "open many trees for viewing"
+YIKES
+
+2/16/12
+looking into the "extra and terminal branch points" issue in DeguenonJosianeHomeworkB.tree
+- find unconnected branch points
+
+got this going
+but in DeguenonJosianeHomeworkB.tree 
+	deleted all unconnected nodes to give "no unconnected nodes.tree"
+	this has other odd issue
+		if you delete node 40 (right above the link to the leech)
+		it does not delete the connector
+		but instead deletes the empty node one to the left of the croc and connected to croc (107)
+			it happens that the link from 43-40 which is not removed is model element # 107
+		ModelElement.equals uses id number for identity
+but in DeguenonJosianeHomeworkB.tree, deleting node 40 (same one as above) goes properly!
+	it isn't until you save the tree and re-open after deleting the unconnected nodes that 
+		this strange behavior happens.
+somehow, in save, there ends up with two elements with id 107
+	#E:107::902:299:true:(4,):(105,)  
+	#C:107:153:5
+	in DeguenonJosianeHomeworkB.tree, these are:
+	#E:107:crocodila:902:299:true:(4,):(105,)
+	#C:157:153:5 
+	
+	there's no #C:157 in "no unconnnected.tree"
+	in fact there's no C higher than 127
+	they're re-numbered starting at 67
+	that's why the duplicate - so what's up?
+in TBSModel.loadConnection, it sets the id # to getSerial()
+	so they're re-numbered starting with some strange # - probably a counter!
+		this will fuck up since the model elements aren't sequential
+	need to just carry them over - try anyway.
+	take DeguenonJosianeHomeworkB.tree
+		delete all unconnected nodes
+		saved as "new no unconnected nodes.tree"
+		in this one, you can delete node 40 and the croc is ok
+
+seems to work and has fixed that bug
+
+seems to detect terminal branch nodes and not report loops in this case
+
+
+also, on read-in of DeguenonJosianeHomeworkB.tree, the names of the blank nodes are lost..
+	this is because in TBSModel.loadEMptyNode it does not set the name of the node...
+		but if you do this, the size does not change with the name (so punt this)
+		
+still going to have to re-start numbering for new elements
+	as you read in have updateLastUsedIDNumber(int)
+		if this is higher than current value of lastUsedID, replace lastUsedID
+	getSerial() returns lastUsedID +1 and then increments lastUsedID
+	have getSerial
+
+2/17/12
+above bug seems to be fixed
+added to scores.csv the unconnected empty nodes and terminal empty nodes
+version 2.1
+
+	
