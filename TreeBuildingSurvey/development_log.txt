@@ -190,4 +190,16 @@ above bug seems to be fixed
 added to scores.csv the unconnected empty nodes and terminal empty nodes
 version 2.1
 
-	
+10/15/13
+needed to get into git
+from eclipse
+	hard reset to master
+	pull
+drag TBS stuff from CD to ~/git/JavaCodeFromSVN
+git add TreeBuildingSurvey
+git commit -m "adding TBS"
+git push origin master
+seems to be OK
+
+in eclipse
+	import project from git local
