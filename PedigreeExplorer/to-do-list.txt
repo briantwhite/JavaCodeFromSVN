@@ -3,3 +3,29 @@
 	otherwise, they draw and then can solve it
 
 - maybe do y-linked inheritance
+
+10/17/13
+idea for consilidating from Liam Revell
+
+"average" the data
+	for each column, count the number of times each genotype appears
+		probably will only be
+			all dd, all Dd => report dd or Dd as appropriate
+			50/50 Dd/DD => report D_
+only problem:
+	what if conditionals (eg parents of carrier: if one is DD, the other must be Dd)
+	may be ok to just report at D_
+	
+to do it right:
+average all genos
+any that aren't 0 or 1 are ambiguous
+for each ambiguity
+	for each possibility
+		fix that possible genotype for that person
+			average the remaining columns for that set 
+				(eg, what's the average for the others if grandpa is DD?)
+
+any time you find a non 50/50 split in the average, you have to report a new genotype set
+
+to do this, you need a good data structure that allows row and column sorting & searching & sub-setting
+core is routine that gives average of a submitted array with or without a set genotype
