@@ -28,5 +28,8 @@ for each ambiguity
 
 any time you find a non 50/50 split in the average, you have to report a new genotype set
 
+strictly speaking, you need to recursively do this on all ambiguitites
+	in case there are more sophisticated dependencies
+
 to do this, you need a good data structure that allows row and column sorting & searching & sub-setting
 core is routine that gives average of a submitted array with or without a set genotype
