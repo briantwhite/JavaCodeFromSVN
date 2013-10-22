@@ -1589,3 +1589,8 @@ version 2.5.5
 
 fixed ProteinPicture
 version 2.5.6
+
+10/22/13
+added to RandomProteinFitness to output more stats on each protein
+version 2.5.7
+

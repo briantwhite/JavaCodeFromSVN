@@ -28,7 +28,7 @@ public class RandomProteinFitness {
 		int numProteins = Integer.parseInt(args[1]);
 		Configuration config = new Configuration(args[2]);
 		
-		ProteinAndFitness[] results = new ProteinAndFitness[numProteins];
+		ProteinAndInfo[] results = new ProteinAndInfo[numProteins];
 
 		Socket s = null;
 
@@ -136,7 +136,7 @@ public class RandomProteinFitness {
 							 * see Square Evolution Log 06 page 25
 							 * 
 							 */
-							results[i] = new ProteinAndFitness(pieces[0], SquareEvolution.NO_STRUCTURE_FITNESS);
+							results[i] = new ProteinAndInfo(pieces[0], SquareEvolution.NO_STRUCTURE_FITNESS);
 							i++;
 						} else {
 							double bestBindingEnergy = Double.parseDouble(pieces[3]);
@@ -168,7 +168,14 @@ public class RandomProteinFitness {
 							 */
 							double fitness = config.getNeutrality() + (1 - config.getNeutrality()) * proteinFitness;
 
-							results[i] = new ProteinAndFitness(pieces[0], fitness);
+							results[i] = new ProteinAndInfo(pieces[0], 
+									proteinStructure,
+									Double.parseDouble(pieces[1]),
+									dGb,
+									Integer.parseInt(pieces[5]),
+									Integer.parseInt(pieces[6]),
+									Integer.parseInt(pieces[7]),
+									fitness);
 							i++;
 						}
 					}
@@ -185,7 +192,7 @@ public class RandomProteinFitness {
 		try {
 			outFile = new FileWriter("RandomProteinsAndFitnesses.txt");
 			PrintWriter out = new PrintWriter(outFile);
-			out.write("N,Protein,Fitness\n");
+			out.write("N,Protein,Conformation,dGf,dGb,Rotamer,X,Y,Fitness\n");
 			for (int i = 0; i < results.length; i++) {
 				out.write(String.valueOf(i) + "," + results[i].toString() + "\n");
 			}
