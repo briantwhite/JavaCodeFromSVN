@@ -1594,3 +1594,12 @@ version 2.5.6
 added to RandomProteinFitness to output more stats on each protein
 version 2.5.7
 
+10/23/13
+problem: if protein has no structure - conformation = None - it should have "no structure fitness"
+but it's calculating some bogus value see SquareEvolution Log 08 page 27+
+fixed in
+	SquareEvolution
+	GetFitness
+	RandomProteinFitness
+version 2.6.0
+

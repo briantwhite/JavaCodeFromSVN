@@ -70,12 +70,16 @@ public class GetFitness {
 			String[] pieces = responses[1].split(",");
 			System.out.println("got response:" + responses[1]);
 			if (pieces.length == 8) {
+				
+				// first, check for errors and flag them
+				boolean noStructureError = false;
+				boolean badEnergyError = false;
+
 				String proteinStructure = pieces[2];
 				if (proteinStructure.contains("Folding or Binding")) {
 					// log the error
 					FoldingErrorLog.getInstance().addError(proteinStructure);
-					// give it 'none' structure
-					proteinStructure = "None";
+					noStructureError = true;
 				}
 
 				/*
@@ -83,7 +87,6 @@ public class GetFitness {
 				 *    probably an overflow
 				 *    if so, log error and give no conformation
 				 */
-				boolean badEnergyError = false;
 				if (pieces[1].equals("inf") || pieces[1].equals("nan")) {
 					System.out.println("Infinite or Nan dGfolding");
 					badEnergyError = true;
@@ -98,13 +101,9 @@ public class GetFitness {
 				}
 
 				if(badEnergyError) {
-					/*
-					 * in that case, add a dummy entry
-					 * note that fitness is adjusted in constructor to account for neutrality
-					 * see Square Evolution Log 06 page 25
-					 * 
-					 */
 					System.out.println("Bad energy error");
+				} else if (noStructureError) {
+					System.out.println("No structure error");
 				} else {
 					double bestBindingEnergy = Double.parseDouble(pieces[3]);
 					double bindingPartitionSum = Double.parseDouble(pieces[4]);

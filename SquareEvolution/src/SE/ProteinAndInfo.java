@@ -5,13 +5,13 @@ package SE;
  */
 class ProteinAndInfo {
 	private String protein;
-	private String conformation = "none";
-	private double dGf = Double.MIN_VALUE;
-	private double dGb = Double.MIN_VALUE;
-	private int ligRot = -1;
-	private int ligX = Integer.MIN_VALUE;
-	private int ligY = Integer.MIN_VALUE;
-	private double fitness = Double.MIN_VALUE;
+	private String conformation = "None";
+	private double dGf = 0.0f;
+	private double dGb = 0.0f;
+	private int ligRot = 0;
+	private int ligX = 0;
+	private int ligY = 0;
+	private double fitness = 0.0f;
 
 	ProteinAndInfo(String protein, 
 			String conformation,

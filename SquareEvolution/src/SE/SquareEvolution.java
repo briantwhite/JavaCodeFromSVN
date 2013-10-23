@@ -25,7 +25,7 @@ import Logging.OutputLogEntry;
 
 public class SquareEvolution {
 
-	private static final String VERSION = "2.5.7";
+	private static final String VERSION = "2.6.0";
 
 	private static String[] bases = {"A","G","C","T"};
 
@@ -263,11 +263,11 @@ public class SquareEvolution {
 
 						if (g%config.getBigReportInterval() == 0) {
 							logWriter.addLogEntry(
-							new OutputLogEntry("Run: " + i
-									+ " Gen: " + g
-									+ " Av_fit: " + fr.getTotalFitness()/config.getPopulationSize() 
-									+ " Max_fit: " + fr.getMaxFitness()
-									+ " " + fr.getBestEntry().proteinSequence));
+									new OutputLogEntry("Run: " + i
+											+ " Gen: " + g
+											+ " Av_fit: " + fr.getTotalFitness()/config.getPopulationSize() 
+											+ " Max_fit: " + fr.getMaxFitness()
+											+ " " + fr.getBestEntry().proteinSequence));
 							logWriter.addLogEntry(
 									new OutputLogEntry(
 											config.getGeneticCode().prettyTranslate(fr.getBestDNA())));
@@ -277,14 +277,14 @@ public class SquareEvolution {
 											+ " F:" + fr.getMaxFitness() 
 											+ " P:" + fr.getBestEntry().proteinSequence + "\n" +
 											DisplayStructure.getStructure(
-											fr.getBestEntry().proteinSequence, 
-											fr.getBestEntry().proteinStructure, 
-											fr.getBestEntry().ligandSequence, 
-											fr.getBestEntry().ligandStructure, 
-											fr.getBestEntry().bestRotamer, 
-											fr.getBestEntry().bestLigX, 
-											fr.getBestEntry().bestLigY)
-											+ "EndStructure\n"));
+													fr.getBestEntry().proteinSequence, 
+													fr.getBestEntry().proteinStructure, 
+													fr.getBestEntry().ligandSequence, 
+													fr.getBestEntry().ligandStructure, 
+													fr.getBestEntry().bestRotamer, 
+													fr.getBestEntry().bestLigX, 
+													fr.getBestEntry().bestLigY)
+													+ "EndStructure\n"));
 						}
 
 						if (g%config.getFitnessReportInterval() == 0) {
@@ -372,7 +372,7 @@ public class SquareEvolution {
 					logWriter.addLogEntry(new OutputLogEntry("***********"));
 					logWriter.addLogEntry(new OutputLogEntry(""));
 				}
-				
+
 				// final log entries
 				Date end = new Date();
 				logWriter.addLogEntry(new OutputLogEntry("End: " + end.toString())); 
@@ -500,11 +500,11 @@ public class SquareEvolution {
 						}
 					}
 					foldProteins(proteinsToFold, in , out, false);
-					
+
 					// put the proper values in the results
 					double fitnessOfStartingProtein = proteinDatabase.getEntry(
 							startingProtein, config.getLigandSequence(), 
-								config.getLigandStructure()).fitness;
+							config.getLigandStructure()).fitness;
 					for (NeighborResult nr : results) {
 						double fitness = proteinDatabase.getEntry(
 								nr.protein, config.getLigandSequence(), 
@@ -512,11 +512,11 @@ public class SquareEvolution {
 						nr.rawFit = fitness;
 						nr.normFit = fitness/fitnessOfStartingProtein;
 					}
-					
+
 					// pool results from each sequence into monster
 					allResults.addAll(results);
 				}
-				
+
 				// output the results
 				for (NeighborResult nr : allResults) {
 					logWriter.addLogEntry(new FitnessLogEntry(nr.toString()));
@@ -602,19 +602,23 @@ public class SquareEvolution {
 				String[] pieces = responses[y].split(",");
 				if (pieces.length == 8) {
 					String proteinStructure = pieces[2];
+
+					// first, check for errors and flag them
+					boolean noStructureError = false;
+					boolean badEnergyError = false;
+
 					if (proteinStructure.contains("Folding or Binding")) {
 						// log the error
 						FoldingErrorLog.getInstance().addError(proteinStructure);
-						// give it 'none' structure
-						proteinStructure = "None";
-					}
+						noStructureError = true;
+					} 
 
 					/*
 					 * with some proteins, you get an infinite energy
 					 *    probably an overflow
 					 *    if so, log error and give no conformation
 					 */
-					boolean badEnergyError = false;
+
 					if (pieces[1].equals("inf") || pieces[1].equals("nan")) {
 						FoldingErrorLog.getInstance().addError("Infinite or Nan dGfolding");
 						badEnergyError = true;
@@ -634,9 +638,11 @@ public class SquareEvolution {
 										+ pieces[1] + "," 
 										+ pieces[3] + "," 
 										+ pieces[4]));
+					}
 
+					if (noStructureError || badEnergyError) {
 						/*
-						 * in that case, add a dummy entry
+						 * in either case, add a dummy entry
 						 * note that fitness is adjusted in constructor to account for neutrality
 						 * see Square Evolution Log 06 page 25
 						 * 
@@ -656,6 +662,8 @@ public class SquareEvolution {
 										NO_STRUCTURE_FITNESS));	// fitness
 
 					} else {
+						
+						// otherwise, calculate as appropriate
 						double bestBindingEnergy = Double.parseDouble(pieces[3]);
 						double bindingPartitionSum = Double.parseDouble(pieces[4]);
 						double z = bindingPartitionSum - Math.exp(-bestBindingEnergy);

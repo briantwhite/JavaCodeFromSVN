@@ -103,19 +103,22 @@ public class RandomProteinFitness {
 					String[] pieces = responses[y].split(",");
 					if (pieces.length == 8) {
 						String proteinStructure = pieces[2];
+
+						// first, check for errors and flag them
+						boolean noStructureError = false;
+						boolean badEnergyError = false;
+						
 						if (proteinStructure.contains("Folding or Binding")) {
 							// log the error
 							FoldingErrorLog.getInstance().addError(proteinStructure);
-							// give it 'none' structure
-							proteinStructure = "None";
+							noStructureError = true;
 						}
 
 						/*
 						 * with some proteins, you get an infinite energy
 						 *    probably an overflow
-						 *    if so, log error and give no conformation
+						 *    if so, give no conformation
 						 */
-						boolean badEnergyError = false;
 						if (pieces[1].equals("inf") || pieces[1].equals("nan")) {
 							FoldingErrorLog.getInstance().addError("Infinite or Nan dGfolding");
 							badEnergyError = true;
@@ -129,7 +132,7 @@ public class RandomProteinFitness {
 							badEnergyError = true;
 						}
 
-						if(badEnergyError) {
+						if (badEnergyError || noStructureError) {
 							/*
 							 * in that case, add a dummy entry
 							 * note that fitness is adjusted in constructor to account for neutrality
