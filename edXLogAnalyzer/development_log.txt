@@ -4,3 +4,54 @@ got google-gson-2.2.4 from http://code.google.com/p/google-gson/
 put contents in lib/
 
 info at http://stackoverflow.com/questions/5490789/json-parsing-using-gson-for-java
+
+for pretty printing json
+1) in TextWrangler, replace all "" with "
+2) copy json and paste into this command: echo '<json text>' | python -mjson.tool (single quotes only)
+
+typical time log response
+{
+    "attempts": 1, 
+    "correct_map": {
+        "i4x-MITx-7_00x_UMass-problem-ff91b3e76bb64e3e825fd4a2e09011a0_2_1": {
+            "correctness": "correct", 
+            "hint": "", 
+            "hintmode": null, 
+            "msg": "", 
+            "npoints": null, 
+            "queuestate": null
+        }
+    }, 
+    "done": true, 
+    "input_state": {
+        "i4x-MITx-7_00x_UMass-problem-ff91b3e76bb64e3e825fd4a2e09011a0_2_1": {}
+    }, 
+    "seed": 1, 
+    "student_answers": {
+        "i4x-MITx-7_00x_UMass-problem-ff91b3e76bb64e3e825fd4a2e09011a0_2_1": "3.5"
+    }
+}
+
+typical problem response:
+{
+    "attempts": 1, 
+    "correct_map": {
+        "i4x-MITx-7_00x_UMass-problem-PSet3_P3_Q2_2_1": {
+            "correctness": "correct", 
+            "hint": "", 
+            "hintmode": null, 
+            "msg": "", 
+            "npoints": 1, 
+            "queuestate": null
+        }
+    }, 
+    "done": true, 
+    "input_state": {
+        "i4x-MITx-7_00x_UMass-problem-PSet3_P3_Q2_2_1": {}
+    }, 
+    "seed": 1, 
+    "student_answers": {
+        "i4x-MITx-7_00x_UMass-problem-PSet3_P3_Q2_2_1": "[{\"0\":\"0\"},{\"0\":\"1\"},{\"0\":\"2\"},{\"1\":\"3\"}]"
+    }
+}
+
