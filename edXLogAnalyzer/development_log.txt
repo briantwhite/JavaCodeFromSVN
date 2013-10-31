@@ -55,3 +55,14 @@ typical problem response:
     }
 }
 
+10/31/13
+need to make more versatile - to get answers & # of attempts
+make first param be -aprs
+	a = include attepmts
+	p = points earned
+	r = response (student answer)
+	s = summarize response
+all are optional
+find which are present & set booleans
+also make int columnMultiplier = # of columns for each file
+ 
