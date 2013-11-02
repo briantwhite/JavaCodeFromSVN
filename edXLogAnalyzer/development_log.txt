@@ -59,7 +59,7 @@ typical problem response:
 need to make more versatile - to get answers & # of attempts
 make first param be -aprs
 	a = include attepmts
-	p = points earned
+	c = correct or not (Y or N)
 	r = response (student answer)
 	s = summarize response
 all are optional
