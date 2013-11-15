@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.internal.LinkedTreeMap;
 
 
@@ -79,8 +80,9 @@ public class EdXLogAnalyzer {
 		File[] possibleFiles = workingFolder.listFiles();
 		ArrayList<File>inFiles = new ArrayList<File>();
 		for (int i = 0; i < possibleFiles.length; i++) {
-			if (possibleFiles[i].getName().endsWith(".csv")) {
-				inFiles.add(possibleFiles[i]);
+			File file = possibleFiles[i];
+			if (file.getName().endsWith(".csv") && !file.getName().startsWith(".")) {
+				inFiles.add(file);
 			}
 		}
 		Collections.sort(inFiles, new Comparator<File>() {
@@ -125,7 +127,6 @@ public class EdXLogAnalyzer {
 						String[] parts = line.split(",", 2);
 						String name = parts[0];
 						String json = parts[1].substring(1, parts[1].length() - 1);		// remove leading and trailing quotes
-
 						// if new person, set up hashes for them
 						if (!attemptsData.containsKey(name)) {
 							int[] a = new int[numFiles];
@@ -146,7 +147,13 @@ public class EdXLogAnalyzer {
 							responseData.put(name, r);
 						}
 
-						Map<String, Object> jsonJavaRootObject = new Gson().fromJson(json, Map.class);	
+						Map<String, Object> jsonJavaRootObject = null;
+						try {
+							jsonJavaRootObject = new Gson().fromJson(json, Map.class);
+						} catch (JsonSyntaxException e) {
+							System.out.println("bad json");
+							System.out.println("\t" + json);
+						}	
 						Set<String> keys = jsonJavaRootObject.keySet();
 
 						if (showAttempts) {
