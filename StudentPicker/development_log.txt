@@ -128,3 +128,11 @@ it expects in WORKING_DIR (usually Classes/Bio111)
 	"SessionData/"
 		files from recent sessions
 			
+1/30/14
+problem - RemoteID.csv has many duplicates:
+	same student ID, different clicker #
+		(multiple registrations?)
+	no duplicate clicker #s (as far as I can tell)
+- modify FileLoader to have an array list of strings - multiple clicker #s
+works!
+version 2.7

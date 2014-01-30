@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 
 public class StudentPicker extends JFrame {
 
-	private static final String VERSION = "2.6";
+	private static final String VERSION = "2.7";
 
 	private static final String SESSON_FILE_DIR_NAME = "SessionData";
 
@@ -218,7 +218,7 @@ public class StudentPicker extends JFrame {
 				+ SESSON_FILE_DIR_NAME 
 				+ System.getProperty("file.separator")
 				+ "RemoteID.csv");
-		HashMap<String, String> studentIDsAndClickerIDs = FileLoader.getStudentIDsAndClickerIDs(this, idFile);
+		HashMap<String, ArrayList<String>> studentIDsAndClickerIDs = FileLoader.getStudentIDsAndClickerIDs(this, idFile);
 		if (studentIDsAndClickerIDs == null) {
 			resetWorkingDirName();
 			start();
@@ -231,6 +231,8 @@ public class StudentPicker extends JFrame {
 		 *  and make iClicker # to Name map
 		 *   key = iClicker #
 		 *    value = name
+		 *   note that a student may have more than one clicker number
+		 *     (multiple registrations)
 		 */
 		HashMap<String, String> iClickerIDsAndNames = new HashMap<String, String>();
 		Iterator<String> nameIt = namesAndsStudentIDs.keySet().iterator();
@@ -238,8 +240,10 @@ public class StudentPicker extends JFrame {
 			String name = nameIt.next();
 			String studentId = namesAndsStudentIDs.get(name);
 			if (studentIDsAndClickerIDs.containsKey(studentId)) {
-				String iClickerID = studentIDsAndClickerIDs.get(studentId);
-				iClickerIDsAndNames.put(iClickerID, name);
+				ArrayList<String> iClickerIDs = studentIDsAndClickerIDs.get(studentId);
+				for (int i = 0; i < iClickerIDs.size(); i++) {
+					iClickerIDsAndNames.put(iClickerIDs.get(i), name);
+				}
 			}
 		}
 

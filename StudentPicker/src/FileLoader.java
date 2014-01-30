@@ -104,12 +104,13 @@ public class FileLoader {
 	 * 
 	 * hash map is:
 	 * 		key = student id (# or brian.white001)
-	 * 		value = iClicker ID
+	 * 		value = ArrayList of iClicker IDs
+	 * 			sometimes, there are multiple registrations (!)
 	 * 
 	 * return null if file not found
 	 */
-	public static HashMap<String, String> getStudentIDsAndClickerIDs(JFrame masterFrame, File idFile) {
-		HashMap<String, String> studentIDsAndClickerIDs = new HashMap<String, String>();
+	public static HashMap<String, ArrayList<String>> getStudentIDsAndClickerIDs(JFrame masterFrame, File idFile) {
+		HashMap<String, ArrayList<String>> studentIDsAndClickerIDs = new HashMap<String, ArrayList<String>>();
 		BufferedReader reader = null;
 		String text = null;
 		try {
@@ -120,7 +121,13 @@ public class FileLoader {
 					String[] parts = text.split(",");
 					String id = parts[1].replaceAll("\\\"", "");
 					String iClickerNum = parts[0];
-					studentIDsAndClickerIDs.put(id, iClickerNum);
+					// if it's a new entry, create ArrayList for clicker #s
+					if (!studentIDsAndClickerIDs.containsKey(id)) {
+						studentIDsAndClickerIDs.put(id, new ArrayList<String>());
+					} 
+					ArrayList<String> workingSet = studentIDsAndClickerIDs.get(id);
+					workingSet.add(iClickerNum);
+					studentIDsAndClickerIDs.put(id, workingSet);
 				}
 			}
 		} catch (FileNotFoundException e) {
