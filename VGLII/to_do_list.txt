@@ -79,5 +79,7 @@ in the graders' answers.
 
 18) Allow very large numbers of offspring in super cross to allow looking at rare or complex events. (M.C. Cowlishaw)
 
+19) Allow non integer values for predictions in chi-squared (Sophie)
+
 
 
