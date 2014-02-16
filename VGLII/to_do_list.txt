@@ -81,5 +81,5 @@ in the graders' answers.
 
 19) Allow non integer values for predictions in chi-squared (Sophie)
 
-
+20) add Interactions03 04 p to Problems
 

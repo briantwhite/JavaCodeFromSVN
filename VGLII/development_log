@@ -2060,3 +2060,10 @@ eclipse working with github
 submitted xml was too long for edx
 simplified to just grade info
 version "3.3.1 2012-02-25 22:00"
+
+2/16/14
+added 4 new Interactions files to "Future"
+Interactions03 - Interactions01 with 100% chance of complementation
+Interactions03p - Interactions01p with 100% chance of complementation
+Interactions04 - Interactions02 with 100% chance of epistasis
+Interactions04p - Interactions02p with 100% chance of epistasis
