@@ -8,16 +8,14 @@ import java.util.TreeMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsVGL.client.GeneticModels.Cage;
@@ -68,6 +66,11 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 	 * summary chart
 	 */
 	private boolean isSelected;
+	
+	/**
+	 * indicates if minimized or maximized
+	 */
+	private boolean isMinimized;
 
 	/**
 	 * boolean to indicate if this is a superCross
@@ -211,6 +214,8 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 		super("Cage " + (cage.getId() + 1));
 		setStyleName("jsVGL_CageUI");
+		
+		isMinimized = false;
 
 		uiImageResource = GWT.create(UIImageResource.class);
 
@@ -283,7 +288,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 		superPanel = new DockPanel();
 		DockPanel detailsPanel = new DockPanel();
-		CaptionPanel captionedDetailsPanel = null;
+		final CaptionPanel captionedDetailsPanel;
 		if (id > 1) {
 			captionedDetailsPanel = new CaptionPanel("Offspring");
 			captionedDetailsPanel.add(detailsPanel);
@@ -351,15 +356,26 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 		detailsPanel.add(individualPanel, DockPanel.NORTH);
 
-		if (id > 1) {
-			superPanel.add(captionedDetailsPanel, DockPanel.SOUTH);
-		} else {
-			if (isBeginner) {
-				superPanel.add(captionedDetailsPanel, DockPanel.NORTH);
-			} else {
-				superPanel.add(captionedDetailsPanel, DockPanel.CENTER);
-			}
-		}
+		superPanel.add(captionedDetailsPanel, DockPanel.SOUTH);
+		
+		HorizontalPanel collapseExpandPanel = new HorizontalPanel();
+		collapseExpandPanel.setStyleName("jsVGL_CollapseExpandPanel");
+		final Anchor collapseExpandLink = new Anchor("Minimize");
+		collapseExpandLink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				if (isMinimized) {
+					collapseExpandLink.setText("Minimize");		
+					isMinimized = false;
+					superPanel.add(captionedDetailsPanel, DockPanel.SOUTH);
+				} else {
+					collapseExpandLink.setText("Maximize");
+					isMinimized = true;
+					superPanel.remove(captionedDetailsPanel);
+				}
+			}			
+		});
+		collapseExpandPanel.add(collapseExpandLink);
+		superPanel.add(collapseExpandPanel, DockPanel.NORTH);
 	}
 
 	/**
@@ -590,8 +606,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 	/**
 	 * This method sets up the Panel that display the information about the
-	 * parents or if the Cage id is 1 and beginner's mode is true then it
-	 * displays the details about the underlying genetics model
+	 * parents or if the Cage id is 1 then shows no parents
 	 */
 	private void setupParentInfoPanel() {
 		if (id > 1) {

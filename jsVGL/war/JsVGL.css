@@ -25,6 +25,9 @@
 }
 
 /** settings for Organisms and Cages */
+.jsVGL_CollapseExpandPanel {
+	background: #FFFFFF;	
+}
 .jsVGL_OrganismUI {
 	border: none;
 	width: 17px;

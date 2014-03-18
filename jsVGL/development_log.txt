@@ -291,4 +291,19 @@ fixing misc
 - instructions text
 - width of instructions
 - pass grade param <NumCages>
+
+3/18/14
+working on adding "collapse cage" option
+in CageUI - removed lines putting captionedDetailsPanel in different places depending on beginnerMode or not
+	(probably obsolete) - these are from the bottom of private void setupOrganismPanel()
+		if (id > 1) {
+			superPanel.add(captionedDetailsPanel, DockPanel.SOUTH);
+		} else {
+			if (isBeginner) {
+				superPanel.add(captionedDetailsPanel, DockPanel.NORTH);
+			} else {
+				superPanel.add(captionedDetailsPanel, DockPanel.CENTER);
+			}
+		}
+
 	
