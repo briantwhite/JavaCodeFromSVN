@@ -2,7 +2,7 @@ package edu.umb.jsVGL.client;
 
 public class TextStrings {
 
-	private final static String VERSION = "1.2";
+	private final static String VERSION = "1.3";
 
 	public static final String WELCOME_TEXT = "<html><body>"
 			+ "<h3>Welcome to js VGL version " + VERSION + "</h3>"

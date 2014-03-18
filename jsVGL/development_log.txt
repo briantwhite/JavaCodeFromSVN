@@ -306,4 +306,7 @@ in CageUI - removed lines putting captionedDetailsPanel in different places depe
 			}
 		}
 
+got it basically working
+made gwt-compiled version
+version 1.3
 	

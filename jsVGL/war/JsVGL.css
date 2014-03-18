@@ -28,6 +28,14 @@
 .jsVGL_CollapseExpandPanel {
 	background: #FFFFFF;	
 }
+
+.jsVGL_CollapseExpandButton {
+	border: none;
+	padding: 0px;
+	background-color: #FFFFFF;
+	font-size: xx-small;
+}
+
 .jsVGL_OrganismUI {
 	border: none;
 	width: 17px;

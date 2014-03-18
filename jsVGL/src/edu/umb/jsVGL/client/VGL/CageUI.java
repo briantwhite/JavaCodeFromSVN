@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -66,7 +66,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 	 * summary chart
 	 */
 	private boolean isSelected;
-	
+
 	/**
 	 * indicates if minimized or maximized
 	 */
@@ -214,7 +214,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 		super("Cage " + (cage.getId() + 1));
 		setStyleName("jsVGL_CageUI");
-		
+
 		isMinimized = false;
 
 		uiImageResource = GWT.create(UIImageResource.class);
@@ -276,7 +276,6 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 	 */
 	private void components() {
 		setupOrganismPanel();
-		setupParentInfoPanel();
 		setContentWidget(superPanel);
 	}
 
@@ -354,28 +353,39 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 
 		individualPanel.add(captionedCountsPanel);
 
+
+
 		detailsPanel.add(individualPanel, DockPanel.NORTH);
 
 		superPanel.add(captionedDetailsPanel, DockPanel.SOUTH);
-		
+
+		final CaptionPanel captionedParentInfoPanel = setupParentInfoPanel();
+
 		HorizontalPanel collapseExpandPanel = new HorizontalPanel();
 		collapseExpandPanel.setStyleName("jsVGL_CollapseExpandPanel");
-		final Anchor collapseExpandLink = new Anchor("Minimize");
-		collapseExpandLink.addClickHandler(new ClickHandler() {
+		final Button collapseExpandButton = new Button("Minimize");
+		collapseExpandButton.setStyleName("jsVGL_CollapseExpandButton");
+		collapseExpandButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (isMinimized) {
-					collapseExpandLink.setText("Minimize");		
+					collapseExpandButton.setText("Minimize");		
 					isMinimized = false;
 					superPanel.add(captionedDetailsPanel, DockPanel.SOUTH);
+					if (id > 1) superPanel.add(captionedParentInfoPanel, DockPanel.NORTH);
 				} else {
-					collapseExpandLink.setText("Maximize");
+					collapseExpandButton.setText("Maximize");
 					isMinimized = true;
 					superPanel.remove(captionedDetailsPanel);
+					if (id > 1) superPanel.remove(captionedParentInfoPanel);
 				}
 			}			
 		});
-		collapseExpandPanel.add(collapseExpandLink);
+		collapseExpandPanel.add(collapseExpandButton);
 		superPanel.add(collapseExpandPanel, DockPanel.NORTH);
+		if (captionedParentInfoPanel != null) {
+			superPanel.add(captionedParentInfoPanel, DockPanel.NORTH);
+		}
+
 	}
 
 	/**
@@ -608,7 +618,7 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 	 * This method sets up the Panel that display the information about the
 	 * parents or if the Cage id is 1 then shows no parents
 	 */
-	private void setupParentInfoPanel() {
+	private CaptionPanel setupParentInfoPanel() {
 		if (id > 1) {
 			CaptionPanel captionedParentInfoPanel = new CaptionPanel("Parents");
 			captionedParentInfoPanel.setStyleName("jsVGL_ParentInfoPanel");
@@ -630,8 +640,10 @@ public class CageUI extends CaptionPanel implements Comparable<CageUI> {
 			parentInfoPanel.add(parentOrganismUIs[1]);
 			parentInfoPanel.add(new Label("(Cage " + cageId + ") " + phenoName2));
 			captionedParentInfoPanel.add(parentInfoPanel);
-			superPanel.add(captionedParentInfoPanel, DockPanel.NORTH);
-		} 
+			return captionedParentInfoPanel;
+		} else {
+			return null;
+		}
 	}
 
 	public int getId() {
