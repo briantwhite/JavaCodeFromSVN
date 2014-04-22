@@ -6,3 +6,11 @@ I tried doing jsGenex, and the only issue I came across was the issue we also ha
 which it seems compiling with certain options fixed. So if you know how to recompile it that way, and have some place 
 to host it (your website?) just having <jsinput html=<your host>>, and then specifying the grading and saving functions, 
 should do it.
+
+
+- have "random mutation mode"
+	make lists of possible explanations for effect/no effect
+	make map of gene
+	make random mutation and see effect - choose right answer of explanation
+	choose random other explanations
+	have jsGenex present 5 total choices in multiple-choice format & then grade
