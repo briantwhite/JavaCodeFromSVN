@@ -2067,3 +2067,14 @@ Interactions03 - Interactions01 with 100% chance of complementation
 Interactions03p - Interactions01p with 100% chance of complementation
 Interactions04 - Interactions02 with 100% chance of epistasis
 Interactions04p - Interactions02p with 100% chance of epistasis
+
+4/22/14
+fixing some bugs/issues
+16) Allow non integer expected values in chi-squared boxes (Sophie J)
+	- work in SummaryChartUI
+
+7) change label in ModelBuilder for Linkage from “RF _%” to “_ map units” or “_ centiMorgans”
+
+19)  add Interactions03 04 p to Problems
+
+	

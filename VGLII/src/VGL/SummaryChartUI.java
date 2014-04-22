@@ -222,7 +222,12 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 			double[] expectedCounts = new double[data.length];
 			for (int i = 0; i < data.length; i++) {
 				observedCounts[i] = new Long((Integer)data[i][1]);
-				expectedCounts[i] = new Double((Integer)data[i][2]);				
+				try {
+					expectedCounts[i] = Double.parseDouble((String)data[i][2]);
+				} catch (NumberFormatException e) {
+					data[i][2] = "";
+					expectedCounts[i] = 0.0f;
+				}				
 			}
 
 			ChiSquareTest cst = new ChiSquareTest();
@@ -278,7 +283,6 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 		}
 
 		public Class getColumnClass(int c) {
-			if (c == 2) return Integer.class;
 			return String.class;
 		}
 

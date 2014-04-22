@@ -41,7 +41,7 @@ public class LinkagePanel extends JPanel {
 		choices[1] = Messages.getInstance().getString("VGLII.Unlinked");
 		for (int i = 2; i < 51; i++) {
 			choices[i] = Messages.getInstance().getString("VGLII.Linked") 
-			+ " & RF= " + (i - 1) + "%";
+			+ ": " + (i - 1) + " centiMorgans";
 		}
 		g1g2Linked = new JComboBox(choices);
 		g2g3Linked = new JComboBox(choices);
