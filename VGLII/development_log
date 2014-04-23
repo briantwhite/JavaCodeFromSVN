@@ -2077,4 +2077,10 @@ fixing some bugs/issues
 
 19)  add Interactions03 04 p to Problems
 
-	
+4/23/14
+working on
+	8) in practice mode, the baloon help for a cage is "shows evidence of ..."
+need to
+	- make CageScorer have static only methods
+	- move requirement for ModelBuilderUI out of it
+	- test with new version

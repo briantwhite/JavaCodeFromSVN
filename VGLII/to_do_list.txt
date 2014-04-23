@@ -21,9 +21,6 @@ To do list
 6) Evidentiary crosses for epistasis and complementation are crosses involving that pheno
 	that are conspicuous (kids ­ parents)
 
-
-8) in practice mode, the baloon help for a cage is "shows evidence of ..."
-
 9) bug - in linux, save work as tries to put file in root directory, not the selected one
 
 10) bug - in some linux, no title bar for the cage windows (?)
