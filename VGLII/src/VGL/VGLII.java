@@ -1323,9 +1323,8 @@ public class VGLII extends JFrame {
 		Element root = new Element("GraderInfo");
 
 		Element studentAnswer = new Element("StudentAnswer");
-		CageScorer cageScorer = new CageScorer(cages, modelBuilder);
 		studentAnswer.addContent(modelBuilder.getAsHtml(true)		
-				+ cageScorer.getCageScores());
+				+ CageScorer.getCageScores(cages, modelBuilder.getChosenRelevantCages(), modelBuilder.hasLinkagePanel()));
 		root.addContent(studentAnswer);
 
 		Element correctAnswer = new Element("CorrectAnswer");

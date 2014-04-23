@@ -36,8 +36,6 @@ public class AutoGrader {
 			Cage c = cui.getCage();
 			cages.add(c);
 		}
-		CageScorer cageScorer = new CageScorer(cages, mbui);
-
 
 		Element e = new Element("Grade");  // root element
 
@@ -96,7 +94,7 @@ public class AutoGrader {
 					Element slEl = new Element("SexLinkage");
 					slEl.addContent((new Element("Correct")).addContent(String.valueOf(sexLinkageCorrect)));
 
-					CageScoreResult slCsr = cageScorer.scoreCage(modelPane.getSexLinkageCageChoice());
+					CageScoreResult slCsr = CageScorer.scoreCage(cages.get(modelPane.getSexLinkageCageChoice()), mbui.hasLinkagePanel());
 					if (slCsr == null) {
 						slEl.addContent((
 								new Element("Justified")).addContent(
@@ -356,7 +354,7 @@ public class AutoGrader {
 				Element idEl = new Element("InteractionDetails");
 				idEl.addContent((new Element("Correct")).addContent(String.valueOf(detailsCorrect)));
 				int interactionCageChoice = modelPane.getInteractionCageChoice();
-				CageScoreResult inCsr = cageScorer.scoreCage(interactionCageChoice);
+				CageScoreResult inCsr = CageScorer.scoreCage(cages.get(interactionCageChoice), mbui.hasLinkagePanel());
 				if (inCsr == null) {
 					idEl.addContent((
 							new Element("Justified")).addContent(
@@ -393,7 +391,7 @@ public class AutoGrader {
 			}
 			Element itEl = new Element("InteractionType");
 			itEl.addContent((new Element("Correct")).addContent(String.valueOf(interactionTypeGrade)));
-			CageScoreResult inCsr = cageScorer.scoreCage(mp.getInteractionCageChoice());
+			CageScoreResult inCsr = CageScorer.scoreCage(cages.get(mp.getInteractionCageChoice()), mbui.hasLinkagePanel());
 			if (inCsr == null) {
 				itEl.addContent((
 						new Element("Justified")).addContent(
@@ -546,7 +544,7 @@ public class AutoGrader {
 			 * always do 1-2
 			 *   use a negative test - if any fail, then fail overall
 			 */
-			CageScoreResult g1g2LinkageCageChoiceResult = cageScorer.scoreCage(mbui.getLinkagePanel().getG1G2LinkageRelevantCage());
+			CageScoreResult g1g2LinkageCageChoiceResult = CageScorer.scoreCage(cages.get(mbui.getLinkagePanel().getG1G2LinkageRelevantCage()), mbui.hasLinkagePanel());
 			if (g1g2LinkageCageChoiceResult == null) {
 				linkageJustified = false;  // they selected "?"
 			} else {
@@ -556,7 +554,7 @@ public class AutoGrader {
 
 			// if needed, then do 2-3 and 1-3
 			if (gm.getNumberOfGeneModels() == 3) {
-				CageScoreResult g2g3LinkageCageChoiceResult = cageScorer.scoreCage(mbui.getLinkagePanel().getG2G3LinkageRelevantCage());
+				CageScoreResult g2g3LinkageCageChoiceResult = CageScorer.scoreCage(cages.get(mbui.getLinkagePanel().getG2G3LinkageRelevantCage()), mbui.hasLinkagePanel());
 				if (g2g3LinkageCageChoiceResult == null) {
 					linkageJustified = false;  // they selected "?"
 				} else {
@@ -564,7 +562,7 @@ public class AutoGrader {
 							!g2g3LinkageCageChoiceResult.getCageScoreForCharacter(2).capableOfShowingLinkage) linkageJustified = false;
 				}
 
-				CageScoreResult g1g3LinkageCageChoiceResult = cageScorer.scoreCage(mbui.getLinkagePanel().getG1G3LinkageRelevantCage());
+				CageScoreResult g1g3LinkageCageChoiceResult = CageScorer.scoreCage(cages.get(mbui.getLinkagePanel().getG1G3LinkageRelevantCage()), mbui.hasLinkagePanel());
 				if (g1g3LinkageCageChoiceResult == null) {
 					linkageJustified = false;  // they selected "?"
 				} else {

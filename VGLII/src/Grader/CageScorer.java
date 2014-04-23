@@ -30,18 +30,10 @@ import ModelBuilder.ModelBuilderUI;
  */
 public class CageScorer {
 
-	private ArrayList<Cage> cages;
-	private ModelBuilderUI mbui;
 
-	public CageScorer(ArrayList<Cage> cages, ModelBuilderUI mbui) {
-		this.cages = cages;
-		this.mbui = mbui;
-	}
 
-	public String getCageScores() {
+	public static String getCageScores(ArrayList<Cage> cages, TreeSet<Integer> selectedCages, boolean includesLinkage) {
 		StringBuffer b = new StringBuffer();
-		TreeSet<Integer> selectedCages = 
-				mbui.getChosenRelevantCages();
 		b.append("<hr>");
 		b.append("<b>Selected Cages:</b><br>");
 
@@ -51,7 +43,17 @@ public class CageScorer {
 			Iterator<Integer> cageNumIt = selectedCages.iterator();
 			while (cageNumIt.hasNext()) {
 				int cageNum = cageNumIt.next();
-				b.append(scoreCage(cages.get(cageNum - 1)).getHTML());
+				
+				/*
+				 * note that the cage number (the number the users see) starts with 1
+				 * the cage index starts with 0, so need to subtract 1 to get index
+				 * 
+				 * note that the methods that give a cage number give -1 as a flag for null result
+				 * also you can't get any info from the field pop (cage number 1)
+				 */
+				if (cageNum > 1) {		
+					b.append(scoreCage(cages.get(cageNum - 1), includesLinkage).getHTML());
+				}
 			}
 
 		}
@@ -60,21 +62,7 @@ public class CageScorer {
 		return b.toString();
 	}
 
-	/*
-	 * used by Auto Grader
-	 * 
-	 * note that the cage number (the number the users see) starts with 1
-	 * the cage index starts with 0, so need to subtract 1 to get index
-	 * 
-	 * note that the methods that give a cage number give -1 as a flag for null result
-	 * also you can't get any info from the field pop (cage number 1)
-	 */
-	public CageScoreResult scoreCage(int cageNum) {
-		if (cageNum <= 1) return null;
-		return scoreCage(cages.get(cageNum - 1));
-	}
-
-	private CageScoreResult scoreCage(Cage cage) {
+	public static CageScoreResult scoreCage(Cage cage, boolean includesLinkage) {
 
 		StringBuffer b = new StringBuffer();
 		b.append("<b>Cage ");
@@ -242,7 +230,7 @@ public class CageScorer {
 							(p1.getGenotypeForGene(i)[0].getTrait().equals(recessiveTrait)) || 
 							(p1.getGenotypeForGene(i)[1].getTrait().equals(recessiveTrait))
 							);
-					
+
 					boolean p2HasRecAllele = (
 							(p2.getGenotypeForGene(i)[0] == null) ||
 							(p2.getGenotypeForGene(i)[1] == null) ||
@@ -261,7 +249,7 @@ public class CageScorer {
 						// neither is null, only homozygous if both alleles the same
 						p1Homozygous = p1.getGenotypeForGene(i)[0].getTrait().equals(p1.getGenotypeForGene(i)[1].getTrait());
 					}
-					
+
 					boolean p2Homozygous;
 					if (p2.getGenotypeForGene(i)[0] == null) {
 						// first allele is null, homozygous if 2nd is recessive
@@ -273,7 +261,7 @@ public class CageScorer {
 						// neither is null, only homozygous if both alleles the same
 						p2Homozygous = p2.getGenotypeForGene(i)[0].getTrait().equals(p2.getGenotypeForGene(i)[1].getTrait());
 					}
-					
+
 					if ((!p1Homozygous && p2HasRecAllele) || (!p2Homozygous && p1HasRecAllele)) capableOfShowingLinkage = true;
 
 				} 
@@ -288,7 +276,7 @@ public class CageScorer {
 			 *  for now, just give the parent's genotypes
 			 * 		and leave it up to the instructor
 			 */
-			if (mbui.hasLinkagePanel()) {
+			if (includesLinkage) {
 				b.append("<li><b>Linkage:</b></li>");
 				b.append("<ul><li>Parent 1 Genotype:</li><ul>");
 				Organism p0 = cage.getParents().get(0);
@@ -313,7 +301,7 @@ public class CageScorer {
 		return result;
 	}
 
-	private String getHTMLforGenotype(Organism org, String chromosome) {
+	private static String getHTMLforGenotype(Organism org, String chromosome) {
 		if (chromosome.indexOf(";") == -1) {
 			return "";
 		} else {

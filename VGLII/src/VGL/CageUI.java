@@ -42,6 +42,7 @@ import GeneticModels.Cage;
 import GeneticModels.Organism;
 import GeneticModels.OrganismList;
 import GeneticModels.Phenotype;
+import Grader.CageScorer;
 import PhenotypeImages.PhenotypeImageBank;
 
 /**
@@ -364,6 +365,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			if (details != null)
 				this.details = details;
 		this.numberOfTraits = numberOfTraits;
+
 		setTitle(Messages.getInstance().getString("VGLII.Cage") + " " + (new Integer(id)).toString());
 		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		setupSubComponents();
@@ -402,9 +404,9 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 			phenotypeNames[i] = new String(it1.next());
 			childrenSortedByPhenotype[i] = children.get(phenotypeNames[i]);
 			showPhenotypeButtons[i] = 
-				new ShowPhenotypeButton(
-						childrenSortedByPhenotype[i].getPhenotypes(),
-						phenotypeNames[i]);
+					new ShowPhenotypeButton(
+							childrenSortedByPhenotype[i].getPhenotypes(),
+							phenotypeNames[i]);
 			showPhenotypeButtons[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					JFrame frame = new JFrame();
@@ -425,13 +427,13 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 					phenoString = phenoString.replaceAll("/", "<br>");
 					phenoString = "<html>" + phenoString + "</html>";
 					JLabel phenotypeLabel = 
-						new JLabel(phenoString);
+							new JLabel(phenoString);
 					phenotypeLabel.setHorizontalTextPosition(javax.swing.JLabel.CENTER);
 					phenotypeLabel.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 					details.add(phenotypeLabel, BorderLayout.NORTH);
 					ImageIcon pic = 
-						PhenotypeImageBank.getInstance().getImageForPhenotype(
-								button.getPhenotypes(), button.getPhenotypeString());
+							PhenotypeImageBank.getInstance().getImageForPhenotype(
+									button.getPhenotypes(), button.getPhenotypeString());
 					details.add(new JLabel(pic), BorderLayout.CENTER);
 					imageDlg.getContentPane().add(details);
 					imageDlg.setVisible(true);
@@ -453,6 +455,9 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		setupOrganismPanel();
 		setupParentInfoPanel();
 		setContentPane(superPanel);
+		if (isBeginner) {
+			superPanel.setToolTipText("<html>" + CageScorer.scoreCage(cage, false).getHTML() + "</html>");
+		}
 	}
 
 	/**
@@ -535,7 +540,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		// need to get the type of each trait
 		//  get one organism's pheno (it doesn't matter which one)
 		ArrayList<Phenotype> phenotypes = 
-			childrenSortedByPhenotype[0].get(0).getPhenotypes();
+				childrenSortedByPhenotype[0].get(0).getPhenotypes();
 		for (int i = 0; i < numberOfTraits; i++) {
 			traitPanels[i] = new JPanel();
 			traitPanels[i].setLayout(new GridLayout(numPhenosPresent, 1));
@@ -648,7 +653,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 								Messages.getInstance().getString("VGLII.Male"))) {}
 					} 
 					bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow] = 
-						new OrganismUI(o, false, isBeginner, vial);
+							new OrganismUI(o, false, isBeginner, vial);
 					bottomRowOfOrganismsPanel.add(
 							bottomRowOFOrganismUIs[i - absoluteMaxOrgsPerRow]);
 					i++;
@@ -702,14 +707,14 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 		URL maleLabelURL = CageUI.class.getResource("UIimages/maleblack.gif");
 		JLabel maleLabel = new JLabel(new ImageIcon(maleLabelURL));
 		URL femaleLabelURL = CageUI.class
-		.getResource("UIimages/femaleblack.gif");
+				.getResource("UIimages/femaleblack.gif");
 		JLabel femaleLabel = new JLabel(new ImageIcon(femaleLabelURL));
 		String mCount = (new Integer(childrenSortedByPhenotype[number].getNumberOfMales())).toString();
 		if (childrenSortedByPhenotype[number].getNumberOfMales() < 10)
 			mCount = "0" + mCount;
 		JLabel maleCountLabel = new JLabel(mCount);
 		String fCount = (new Integer(childrenSortedByPhenotype[number].getNumberOfFemales()))
-		.toString();
+				.toString();
 		if (childrenSortedByPhenotype[number].getNumberOfFemales() < 10)
 			fCount = "0" + fCount;
 		JLabel femaleCountLabel = new JLabel(fCount);
@@ -746,7 +751,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 
 		JPanel[] phenotypePanels = new JPanel[numberOfTraits];
 		ArrayList<Phenotype> phenoList = 
-			childrenSortedByPhenotype[number].get(0).getPhenotypes();
+				childrenSortedByPhenotype[number].get(0).getPhenotypes();
 		for (int k = 0; k < numberOfTraits; k++) {
 			phenotypePanels[k] = new JPanel();
 			phenotypePanels[k].setLayout(
@@ -915,11 +920,11 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	public void windowClosing(WindowEvent e) {
 		int ans = JOptionPane.showConfirmDialog(this,
 				Messages.getInstance().getString("VGLII.ClosingConfirmLine1") + "\n" 
-				+ Messages.getInstance().getString("VGLII.ClosingConfirmLine2") + " #" + id + "?\n"
-				+ "(" + Messages.getInstance().getString("VGLII.ClosingConfirmLine3") + "\n"
-				+ Messages.getInstance().getString("VGLII.ClosingConfirmLine4") + ")", 
-				Messages.getInstance().getString("VGLII.ClosingCage"),
-				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+						+ Messages.getInstance().getString("VGLII.ClosingConfirmLine2") + " #" + id + "?\n"
+						+ "(" + Messages.getInstance().getString("VGLII.ClosingConfirmLine3") + "\n"
+						+ Messages.getInstance().getString("VGLII.ClosingConfirmLine4") + ")", 
+						Messages.getInstance().getString("VGLII.ClosingCage"),
+						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 		if (ans == JOptionPane.YES_OPTION)
 			this.setVisible(false);
@@ -994,7 +999,7 @@ implements WindowListener, MouseListener, Comparable<CageUI> {
 	 * @return the OrganismUI of the organism
 	 */
 	public OrganismUI getOrganismUIFor(int id) {
-		
+
 		int orgsPerRow = maxOrgsInOneRow;
 		if (isSuperCross) orgsPerRow = absoluteMaxOrgsPerRow;
 
