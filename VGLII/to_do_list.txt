@@ -61,6 +61,8 @@ to know this), if choose "yes" then have to choose which of the three is in the 
 allele interaction pops up differently for simple dominance vs incomplete dominance.  The genetic model the 
 program is using clearly knows which one is in the middle, because only the two middle-to-end RFs are given 
 in the graders' answers.
+	- it might be better to treat this by having a "comments to grader" part of model builder
+		only OK if the grader info gives the gene order
 
 14) Change grading html to save the automatic grader output => easier to summarize
 
