@@ -63,6 +63,7 @@ program is using clearly knows which one is in the middle, because only the two 
 in the graders' answers.
 	- it might be better to treat this by having a "comments to grader" part of model builder
 		only OK if the grader info gives the gene order
+	- if you do comments, need to set character limit AND purify the string from any xml stuff by converting to hex ascii
 
 14) Change grading html to save the automatic grader output => easier to summarize
 
