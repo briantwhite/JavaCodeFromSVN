@@ -14,6 +14,8 @@ import javax.swing.JTabbedPane;
 
 import org.jdom.Element;
 
+import com.sun.tools.javac.parser.Scanner.CommentStyle;
+
 import GeneticModels.GeneModel;
 import GeneticModels.GeneticModel;
 import GeneticModels.PhenotypeProcessor;
@@ -30,6 +32,7 @@ public class ModelBuilderUI extends JPanel {
 	private GeneticModel geneticModel;
 	private LinkagePanel linkagePanel;
 	private ModelPane[] modelPanes;
+	private CommentToInstructorPanel commentsPanel;
 
 	private boolean desiredVisibility;
 	private int desiredXpos;
@@ -126,6 +129,9 @@ public class ModelBuilderUI extends JPanel {
 				setupLinkagePanel(geneModels, tabs);
 			}
 		}
+		
+		commentsPanel = new CommentToInstructorPanel();
+		tabs.add("Comments to instructor", commentsPanel);
 
 		masterPanel.add(tabs);
 		add(masterPanel);

@@ -2085,3 +2085,16 @@ need to
 	- move requirement for ModelBuilderUI out of it
 	- test with new version
 did all but testing the standard grading with a few problems
+
+5/7/14
+tested - OK
+
+adding a "comments to instructor" in the model builder
+	- limited to 200 characters
+	- need to "purify" string to prevent contamination of the xml
+		convert to hex ascii (like at http://jovialjava.blogspot.com/2010/05/hex-to-ascii-conversion-in-java.html)
+		but some characters are more than 1 byte... DO NOT USE
+		- some websites say that JDom makes it safe
+			so just try it
+textarea keeps changing size - http://stackoverflow.com/questions/2454501/how-to-keep-size-of-jtextarea-constant
+
