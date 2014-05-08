@@ -171,6 +171,9 @@ public class ModelBuilderUI extends JPanel {
 			if (e.getName().equals("LinkagePanel")) {
 				linkagePanel.setStateFromFile(e);
 			}
+			if (e.getName().equals("CommentToInstructor")) {
+				commentsPanel.setStateFromFile(e);
+			}
 		}
 
 		desiredVisibility = Boolean.parseBoolean(root.getAttributeValue("Visible"));
@@ -255,6 +258,7 @@ public class ModelBuilderUI extends JPanel {
 			mbuie.addContent(modelPanes[i].save());
 		}
 		if (linkagePanel != null) mbuie.addContent(linkagePanel.save());
+		mbuie.addContent(commentsPanel.save());
 		return mbuie;
 	}
 
@@ -265,7 +269,8 @@ public class ModelBuilderUI extends JPanel {
 			b.append("<hr>");
 		}
 		if (linkagePanel != null) b.append(linkagePanel.getAsHtml(isForGrader));
-
+		b.append("<b>Comments:</b><br>");
+		b.append(commentsPanel.getAsHtml());
 		return b.toString();
 	}
 

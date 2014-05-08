@@ -51,20 +51,6 @@ you don't have "save for grading" as an option?  move the VGLII program file bac
  = probably because the korean translation uses character codes not characters
  	so there's no match
  	
-
-13) also from Julie Noor
-I do have one VGLII wish list item.  It would be wonderful if the model builder for the three gene problems 
-asked which of the three loci was in  the middle of the chain.  It could be a third tab where  it started by 
-asking whether all 3 loci were on the same chromosome, if choose "no" then that's the end (although all the 3 
-gene problems are set up so that they are all on one chromosome, perhaps it isn't desirable for the students 
-to know this), if choose "yes" then have to choose which of the three is in the middle -- kind of how the 
-allele interaction pops up differently for simple dominance vs incomplete dominance.  The genetic model the 
-program is using clearly knows which one is in the middle, because only the two middle-to-end RFs are given 
-in the graders' answers.
-	- it might be better to treat this by having a "comments to grader" part of model builder
-		only OK if the grader info gives the gene order
-	- if you do comments, need to set character limit AND purify the string from any xml stuff by converting to hex ascii
-
 14) Change grading html to save the automatic grader output => easier to summarize
 
 15) Include in <Grade>

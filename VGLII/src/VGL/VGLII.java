@@ -104,7 +104,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.3.1 2012-02-25 22:00"; //$NON-NLS-1$
+	public final static String version = "3.2.0 2014-05-08 12:00"; //$NON-NLS-1$
 
 	/*
 	 * param name for determining edXMode - see under main()
@@ -1274,6 +1274,7 @@ public class VGLII extends JFrame {
 					}
 
 					Document doc = getXMLDoc(al); 
+
 					EncryptionTools.getInstance().saveXOREncrypted(doc, currentSavedFile);
 					changeSinceLastSave = false;
 				}

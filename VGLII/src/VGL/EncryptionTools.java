@@ -49,10 +49,10 @@ public class EncryptionTools {
 	 *   XORed with bytes of work file
 	 */
 	private final static byte[] KEY = 
-		(new String("The Virtual Genetics Lab is Awesome!")).getBytes();
+			(new String("The Virtual Genetics Lab is Awesome!")).getBytes();
 
 	private static EncryptionTools instance;
-	
+
 	// values used for progress bar for loading files to grade
 	private int numberOfEncryptedBlocks;
 	private int progress;
@@ -61,7 +61,7 @@ public class EncryptionTools {
 		numberOfEncryptedBlocks = 0;
 		progress = 0;
 	}
-	
+
 	public static EncryptionTools getInstance() {
 		if (instance == null) instance = new EncryptionTools();
 		return instance;
@@ -74,12 +74,14 @@ public class EncryptionTools {
 	public int getProgress() {
 		return progress;
 	}
-	
+
 	public void saveXOREncrypted(Document doc, File outFile) {
 		XMLOutputter outputter = 
-			new XMLOutputter(Format.getPrettyFormat());
+				new XMLOutputter(Format.getPrettyFormat());
 		String xmlString = outputter.outputString(doc);
 
+		//System.out.println(xmlString); DEBUG
+		
 		//encrypt it with XOR and zip it to prevent cheating
 		byte[] xmlBytes = null;
 		try {
@@ -95,7 +97,7 @@ public class EncryptionTools {
 		ZipOutputStream zipWriter = null;
 		try {
 			zipWriter = 
-				new ZipOutputStream(new FileOutputStream(outFile));
+					new ZipOutputStream(new FileOutputStream(outFile));
 			zipWriter.setLevel(Deflater.DEFAULT_COMPRESSION);
 			zipWriter.putNextEntry(new ZipEntry("encrypted.txt")); //$NON-NLS-1$
 			zipWriter.write(xmlBytes, 0, xmlBytes.length);
@@ -147,10 +149,10 @@ public class EncryptionTools {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
 					Messages.getInstance().getString("VGLII.ErrorOpeningFileLine1") + "\n"
-					+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine2") + "\n"
-					+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine3"), 
-					Messages.getInstance().getString("VGLII.ErrorOpeningFileHeadline"),
-					JOptionPane.ERROR_MESSAGE);
+							+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine2") + "\n"
+							+ Messages.getInstance().getString("VGLII.ErrorOpeningFileLine3"), 
+							Messages.getInstance().getString("VGLII.ErrorOpeningFileHeadline"),
+							JOptionPane.ERROR_MESSAGE);
 		} 
 
 		return doc;
@@ -159,7 +161,7 @@ public class EncryptionTools {
 	// used by Save For Grading
 	public void saveRSAEncrypted(Document doc, File outFile, PublicKey pubKey) {
 		XMLOutputter outputter = 
-			new XMLOutputter(Format.getPrettyFormat());
+				new XMLOutputter(Format.getPrettyFormat());
 		String xmlString = outputter.outputString(doc);
 
 		//get bytes ready for RSA
@@ -211,7 +213,7 @@ public class EncryptionTools {
 		String out = rsaByteBuffer.toString();
 		return out;
 	}
-	
+
 	/*
 	 * uses keys/private.key "private key" - use only to read grader.key
 	 * in VGLII (this key is made public)
@@ -265,7 +267,7 @@ public class EncryptionTools {
 		try {
 			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
 			cipher.init(Cipher.DECRYPT_MODE, privKey);
-			
+
 			for (int i = 0; i < base64RSABlocks.length; i++) {
 				xmlBuffer.append(
 						new String(
@@ -274,28 +276,28 @@ public class EncryptionTools {
 				progress++;
 			}
 		} catch (Exception e) {
-//			e.printStackTrace();
+			//			e.printStackTrace();
 			return null;
 		}
 
 		String xmlString = xmlBuffer.toString();
-		
+
 		// for debugging
 		// System.out.println(xmlString);
-		
+
 		try {
 			SAXBuilder builder = new SAXBuilder();
 			doc = builder.build(new StringReader(xmlString));
 
 
 		} catch (Exception e) {
-//			e.printStackTrace();
+			//			e.printStackTrace();
 			return null;
 		}
 
 		return doc;
 	}
-	
+
 
 	/**
 	 * get PrivateKey from a file in the jar
@@ -304,9 +306,9 @@ public class EncryptionTools {
 	 */
 	private PrivateKey readPrivateKeyFromJARFile(String keyFileName) throws IOException {
 		InputStream in =
-			EncryptionTools.class.getResourceAsStream(keyFileName);
+				EncryptionTools.class.getResourceAsStream(keyFileName);
 		ObjectInputStream oin =
-			new ObjectInputStream(new BufferedInputStream(in));
+				new ObjectInputStream(new BufferedInputStream(in));
 		try {
 			BigInteger m = (BigInteger) oin.readObject();
 			BigInteger e = (BigInteger) oin.readObject();
@@ -330,7 +332,7 @@ public class EncryptionTools {
 	 */
 	public PrivateKey readPrivateKeyFromFile(String keyFileName) throws IOException {
 		ObjectInputStream oin =
-			new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFileName)));
+				new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFileName)));
 		try {
 			BigInteger m = (BigInteger) oin.readObject();
 			m = m.subtract(new BigInteger(OFFSET));
@@ -353,7 +355,7 @@ public class EncryptionTools {
 	 */
 	public PublicKey readPublicKeyFromFile(String keyFileName) throws IOException {
 		ObjectInputStream oin =
-			new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFileName)));
+				new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFileName)));
 		try {
 			BigInteger m = (BigInteger) oin.readObject();
 			m = m.subtract(new BigInteger(OFFSET));
