@@ -17,6 +17,8 @@ import javax.swing.text.StyledDocument;
 
 import org.jdom.Element;
 
+import VGL.Messages;
+
 public class CommentToInstructorPanel extends JPanel implements DocumentListener {
 	
 	private static final int MAX_CHARS = 200;
@@ -28,7 +30,7 @@ public class CommentToInstructorPanel extends JPanel implements DocumentListener
 	
 	public CommentToInstructorPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		topLabel = new JLabel("Comments to instructor:");
+		topLabel = new JLabel(Messages.getInstance().getString("VGLII.CommentsForInstructor"));
 		add(topLabel);
 		
 		JPanel commentPanel = new JPanel();
@@ -45,7 +47,7 @@ public class CommentToInstructorPanel extends JPanel implements DocumentListener
 		commentPanel.add(Box.createRigidArea(new Dimension(1,100)));
 		add(commentPanel);
 		
-		characterCountLabel = new JLabel(MAX_CHARS + " characters remaining");
+		characterCountLabel = new JLabel(MAX_CHARS + " " + Messages.getInstance().getString("VGLII.CharactersRemaining"));
 		add(characterCountLabel);
 		
 		
@@ -65,7 +67,7 @@ public class CommentToInstructorPanel extends JPanel implements DocumentListener
 	
 	private void updateCharCountLabel() {
 		int charsLeft = 200 - comments.getLength();
-		characterCountLabel.setText(charsLeft + " characters remaining");
+		characterCountLabel.setText(charsLeft + " " + Messages.getInstance().getString("VGLII.CharactersRemaining"));
 	}
 
 	public String getAsHtml() {

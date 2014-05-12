@@ -131,7 +131,7 @@ public class ModelBuilderUI extends JPanel {
 		}
 		
 		commentsPanel = new CommentToInstructorPanel();
-		tabs.add("Comments to instructor", commentsPanel);
+		tabs.add(Messages.getInstance().getString("VGLII.CommentsForInstructor"), commentsPanel);
 
 		masterPanel.add(tabs);
 		add(masterPanel);
