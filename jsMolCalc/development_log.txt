@@ -64,3 +64,14 @@ works!
 working on version for web
 	nix the load and save molfile parts - have them only work if non-null
 	change html to be more friendly
+
+6/3/14
+stuff to do to make better edX integration and gamification:
+1) have methods for “getGrade” that will return a string something like:
+F=C2H6O(+);H=T; I=F; P=0.27
+F= formula
+H= T/F for “can it make H-bonds?”
+I = T/F for “can it make ionic-bonds?”
+P= <float> for hydrophobicity (<0 => phobic; otherwise ‘philic)
+
+2) for the edX part - use SMILES for saving state
