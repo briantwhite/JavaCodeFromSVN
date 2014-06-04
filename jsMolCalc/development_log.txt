@@ -82,3 +82,17 @@ had to upgrade eclipse and a lot of fucking headaches
 now still get motherfucking "Unable to find jsme.gwt.xml on your classpath"
 try compiling it
 this finally works!!
+
+6/4/14
+set up to make page for embedding in edx (http://ca.readthedocs.org/en/latest/exercises_tools/custom_javascript.html)
+	download the JSInput files
+name them all edXMolCalc.whatever
+edXMolCalc.css - copy in text from webGLDemo.css
+edXMolCalc.js - webGLDemo.js
+edXMolCalc.html - webGLDemo.html
+edit as needed
+
+almost working - but in JSConsole, the native methods "$doc" doesn't seem to work now?
+why?
+but if, in console, you do "document.JME.jmeFile()" it works AOK and returns the jme file
+hmm...

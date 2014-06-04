@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="edXMolCalc.css">
+    <script type="text/javascript" language="javascript" src="jsmolcalc/jsmolcalc.nocache.js"></script>
+    <script type="text/javascript" language="javascript" src="jsme/jsme.nocache.js"></script>
+    <script src="edXMolCalc.js" defer='defer'></script>
+    <script>	
+    //this function will be called after the JavaScriptApplet code has been loaded.
+	function jsmeOnLoad() {
+
+		//Instantiate a new JSME:
+		//arguments: HTML id, width, height (must be string not number!)
+
+		jsmeApplet = new JSApplet.JSME("container", "400px", "400px", {
+			//optional parameters
+			"options" : "query,hydrogens"
+		});
+
+		document.JME = jsmeApplet;
+	}
+    </script>
+</head>
+<body>
+    <div id="container"></div>
+    <div id="calculateButtonContainer"></div>
+    <div id="resultFieldContainer"></div>
+</body>
+</html>
