@@ -78,3 +78,7 @@ P= <float> for hydrophobicity (<0 => phobic; otherwise �philic)
 
 testing new setup
 
+had to upgrade eclipse and a lot of fucking headaches
+now still get motherfucking "Unable to find jsme.gwt.xml on your classpath"
+try compiling it
+this finally works!!
