@@ -67,11 +67,14 @@ working on version for web
 
 6/3/14
 stuff to do to make better edX integration and gamification:
-1) have methods for ÒgetGradeÓ that will return a string something like:
+1) have methods for ï¿½getGradeï¿½ that will return a string something like:
 F=C2H6O(+);H=T; I=F; P=0.27
 F= formula
-H= T/F for Òcan it make H-bonds?Ó
-I = T/F for Òcan it make ionic-bonds?Ó
-P= <float> for hydrophobicity (<0 => phobic; otherwise Ôphilic)
+H= T/F for ï¿½can it make H-bonds?ï¿½
+I = T/F for ï¿½can it make ionic-bonds?ï¿½
+P= <float> for hydrophobicity (<0 => phobic; otherwise ï¿½philic)
 
 2) for the edX part - use SMILES for saving state
+
+testing new setup
+
