@@ -21,19 +21,13 @@ var edXMolCalc = (function() {
 
     function init() {
         container = document.getElementById('container');
-        
        }
 
  
     init();
 
     function getGrade() {
-        // The following return value may or may not be used to grade
-        // server-side.
-        // If getState and setState are used, then the Python grader also gets
-        // access to the return value of getState and can choose it instead to
-        // grade.
-//        return JSON.stringify(state['selectedObjects']);
+    	return document.getElementById('gradeInfoContainer');
     }
 
     function getState() {

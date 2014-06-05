@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestBuilder.Method;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
@@ -41,7 +40,7 @@ public class JsMolCalc implements EntryPoint {
 		final HTML resultField = new HTML();
 		resultField.setHTML("Ready");
 		final HTML targetsField = new HTML();
-		final TextArea gradeField = new TextArea();
+		final HTML gradeField = new HTML();
 
 		// We can add style names to widgets
 		calculateButton.addStyleName("calculateButton");

@@ -131,3 +131,14 @@ add grade info - hidden div: gradeInfoContainer
 got the div working
 now need to get the edX communication working
 
+trying to get data out of grade field
+needs to be html (can't seem to figure out how to get text out of a text area in a div; 
+	and, using an html textarea, you can't change the text..)
+can get something close
+document.getElementById('gradeInfoContainer').innerHTML
+gives:
+"<div class="gwt-HTML">F=C3 H8 
+H=F
+I=F
+P=1.414</div>"
+
