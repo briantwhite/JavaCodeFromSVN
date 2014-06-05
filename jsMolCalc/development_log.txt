@@ -96,3 +96,13 @@ almost working - but in JSConsole, the native methods "$doc" doesn't seem to wor
 why?
 but if, in console, you do "document.JME.jmeFile()" it works AOK and returns the jme file
 hmm...
+
+it's not the $doc - this is how the JSNI methods work
+	http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
+
+once it's working
+	getState & setState can just call getJME() {or whatever} on the JSME
+		setState also sends a click message to the calculate button
+	getGrade 
+		when you calculate, it sends the grade info described above to a hidden div
+		getGrade scoops this up
