@@ -68,7 +68,11 @@ working on version for web
 6/3/14
 stuff to do to make better edX integration and gamification:
 1) have methods for �getGrade� that will return a string something like:
-F=C2H6O(+);H=T; I=F; P=0.27
+	F=C2H6O(+)
+	H=T
+	I=F
+	P=0.27
+where:
 F= formula
 H= T/F for �can it make H-bonds?�
 I = T/F for �can it make ionic-bonds?�
