@@ -110,3 +110,24 @@ once it's working
 	getGrade 
 		when you calculate, it sends the grade info described above to a hidden div
 		getGrade scoops this up
+		
+6/5/14
+weird - the trouble was in JsMolCalc.java
+		//now show it all
+		String moleculeInfo = "";
+		if (!errorString.equals("")) {
+			moleculeInfo = errorString;
+		} else {
+			moleculeInfo = "<html><body>" 
+					+ formulaString + "<br>"
+					+ logpString + "<br>"
+					+ bondString
+					+ "</body></html>";
+		}
+but no error - just edited it out and put it back and it's OK...
+
+add grade info - hidden div: gradeInfoContainer
+
+got the div working
+now need to get the edX communication working
+

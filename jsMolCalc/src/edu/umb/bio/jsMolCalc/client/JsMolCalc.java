@@ -23,14 +23,14 @@ import com.google.gwt.user.client.ui.TextArea;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class JsMolCalc implements EntryPoint {
-	
+
 	private ArrayList<String> moleculeSet = new ArrayList<String>();
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		
+
 		final Button calculateButton = new Button("Calculate");
 		final Button newMoleculeButton = new Button("New Molecule");
 		final Button loadMolFileButton = new Button("Load MolFile");
@@ -41,6 +41,7 @@ public class JsMolCalc implements EntryPoint {
 		final HTML resultField = new HTML();
 		resultField.setHTML("Ready");
 		final HTML targetsField = new HTML();
+		final TextArea gradeField = new TextArea();
 
 		// We can add style names to widgets
 		calculateButton.addStyleName("calculateButton");
@@ -49,12 +50,12 @@ public class JsMolCalc implements EntryPoint {
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("resultFieldContainer").add(resultField);
 		RootPanel.get("calculateButtonContainer").add(calculateButton);
-		RootPanel.get("newMoleculeButtonContainer").add(newMoleculeButton);
+		if (RootPanel.get("newMoleculeButtonContainer") != null) RootPanel.get("newMoleculeButtonContainer").add(newMoleculeButton);
 		if (RootPanel.get("loadMolFileButtonContainer") != null) RootPanel.get("loadMolFileButtonContainer").add(loadMolFileButton);
 		if (RootPanel.get("exportMolFileButtonContainer") != null) RootPanel.get("exportMolFileButtonContainer").add(exportMolFileButton);
 		if (RootPanel.get("molfileInput") != null) RootPanel.get("molfileInput").add(molFileTextArea);
 		if (RootPanel.get("targetsField") != null) RootPanel.get("targetsField").add(targetsField);
-
+		if (RootPanel.get("gradeInfoContainer") != null) RootPanel.get("gradeInfoContainer").add(gradeField);
 
 		// Create a handler for the calculateButton
 		class CalculateButtonHandler implements ClickHandler {
@@ -62,11 +63,12 @@ public class JsMolCalc implements EntryPoint {
 				InfoAndTargets result = computeAndDisplay(getJMEmol(), getJMESmiles(), getJMEjme());
 				resultField.setHTML(result.info);
 				targetsField.setHTML(result.targets);
+				gradeField.setText(result.grade);
 			}
 		}
 		CalculateButtonHandler cbHandler = new CalculateButtonHandler();
 		calculateButton.addClickHandler(cbHandler);
-		
+
 		// Create a handler for the newMoleculeButton
 		class NewMoleculeButtonHandler implements ClickHandler {
 			public void onClick(ClickEvent event) {
@@ -77,7 +79,7 @@ public class JsMolCalc implements EntryPoint {
 		}
 		NewMoleculeButtonHandler nmbHandler = new NewMoleculeButtonHandler();
 		newMoleculeButton.addClickHandler(nmbHandler);
-		
+
 		// Create a handler for the loadMolFileButton
 		class LoadMolFileButtonHandler implements ClickHandler {
 			public void onClick(ClickEvent event) {
@@ -86,11 +88,12 @@ public class JsMolCalc implements EntryPoint {
 				InfoAndTargets result = computeAndDisplay(getJMEmol(), getJMESmiles(), getJMEjme());
 				resultField.setHTML(result.info);
 				targetsField.setHTML(result.targets);
+				gradeField.setText(result.grade);
 			}
 		}
 		LoadMolFileButtonHandler lmbHandler = new LoadMolFileButtonHandler();
 		loadMolFileButton.addClickHandler(lmbHandler);
-	
+
 		// Create a handler for the exportMolFileButton
 		class ExportMolFileButtonHandler implements ClickHandler {
 			public void onClick(ClickEvent event) {
@@ -103,24 +106,24 @@ public class JsMolCalc implements EntryPoint {
 		// load the set of molecules, if present
 		try {
 			new RequestBuilder(RequestBuilder.GET, "molecules.txt").sendRequest("", new RequestCallback() {
-				  public void onResponseReceived(Request req, Response resp) {
-				    String text = resp.getText();
-				    String[] lines = text.split("\n");
-				    for (int i = 0; i < lines.length; i++) {
-				    	moleculeSet.add(lines[i]);
-				    }
-				  }
-				  public void onError(Request res, Throwable throwable) {
-				    // handle errors
-				  }
-				});
+				public void onResponseReceived(Request req, Response resp) {
+					String text = resp.getText();
+					String[] lines = text.split("\n");
+					for (int i = 0; i < lines.length; i++) {
+						moleculeSet.add(lines[i]);
+					}
+				}
+				public void onError(Request res, Throwable throwable) {
+					// handle errors
+				}
+			});
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	private native void setJMEmol(String mol) /*-{
 		var JME = $doc.JME;
 		JME.readMolFile(mol);
@@ -135,23 +138,23 @@ public class JsMolCalc implements EntryPoint {
 		var JME = $doc.JME;
 		return JME.jmeFile();
 	}-*/;
-	
+
 	private native String getJMEmol() /*-{
 		var JME = $doc.JME;
 		return JME.molFile();
 	}-*/;
-	
+
 
 	String getNewMolecule() {
 		if (moleculeSet.size() == 0) return null;
 		return moleculeSet.get(Random.nextInt(moleculeSet.size()));
 	}
-	
+
 	InfoAndTargets computeAndDisplay(String molString, String smileString,
 			String jmeString) {
 
 		if (molString.equals("") || smileString.equals("") || jmeString.equals("")) {
-			return new InfoAndTargets("","");
+			return new InfoAndTargets("","","");
 		}
 
 		StringBuffer atomDataLines = new StringBuffer(); //for output
@@ -204,7 +207,7 @@ public class JsMolCalc implements EntryPoint {
 		//read in the bond lines & fill the bondArray
 		for (int i = 1; (i < numBonds + 1); i++) {
 			String[] bondLineParts = molStringLines[i + numAtoms + 3]
-			                                        .split("[ ]+");
+					.split("[ ]+");
 			int firstAtom = Integer.parseInt(bondLineParts[1]);
 			int secondAtom = Integer.parseInt(bondLineParts[2]);
 			int bondIndex = Integer.parseInt(bondLineParts[3]);
@@ -234,7 +237,7 @@ public class JsMolCalc implements EntryPoint {
 			if ((firstAtom.getElement().equals("C") || firstAtom.getElement()
 					.equals("N"))
 					&& (firstAtom.getHybridization() == 2 || firstAtom
-							.getAromatic())) {
+					.getAromatic())) {
 				for (int j = 1; j < (numAtoms + 1); j++) {
 					Atom secondAtom = (Atom) atomList.get(j);
 					if ((bondArray[i][j] == 1
@@ -268,17 +271,17 @@ public class JsMolCalc implements EntryPoint {
 									// an
 									// aro
 									// atom
-							)
-							&& (thirdAtom.getElement().equals("C") || thirdAtom
-									.getElement().equals("N")) //must
-									// be C/N
-									&& (thirdAtom.getHybridization() == 2) //must
-									// be
-									// sp2
-									&& ((k != i) && (k != j)) //must not be any
-									// other atom so
-									// far
-							) { //in this chain (no backtracking)
+									)
+									&& (thirdAtom.getElement().equals("C") || thirdAtom
+											.getElement().equals("N")) //must
+											// be C/N
+											&& (thirdAtom.getHybridization() == 2) //must
+											// be
+											// sp2
+											&& ((k != i) && (k != j)) //must not be any
+											// other atom so
+											// far
+									) { //in this chain (no backtracking)
 								for (int l = 1; l < (numAtoms + 1); l++) {
 									Atom fourthAtom = (Atom) atomList.get(l);
 									if (((bondArray[k][l] == 1 && bondArray[j][k] == 2)
@@ -286,13 +289,13 @@ public class JsMolCalc implements EntryPoint {
 											|| (fourthAtom.getAromatic() && bondArray[k][l] != 0) || (thirdAtom
 													.getAromatic() && bondArray[k][l] != 0))
 													&& (fourthAtom.getElement().equals(
-													"C") || fourthAtom
-													.getElement().equals("N"))
-													&& (fourthAtom.getHybridization() == 2)
-													&& ((l != i) && (l != j) && (l != k))) {
+															"C") || fourthAtom
+															.getElement().equals("N"))
+															&& (fourthAtom.getHybridization() == 2)
+															&& ((l != i) && (l != j) && (l != k))) {
 										for (int m = 1; m < (numAtoms + 1); m++) {
 											Atom fifthAtom = (Atom) atomList
-											.get(m);
+													.get(m);
 											if (((bondArray[l][m] == 1 && bondArray[k][l] == 2)
 													|| (bondArray[l][m] == 2 && bondArray[k][l] == 1)
 													|| (fifthAtom.getAromatic() && bondArray[l][m] != 0) || (fourthAtom
@@ -307,7 +310,7 @@ public class JsMolCalc implements EntryPoint {
 																					&& (m != k) && (m != l))) {
 												for (int n = 1; n < (numAtoms + 1); n++) {
 													Atom sixthAtom = (Atom) atomList
-													.get(n);
+															.get(n);
 													if (((bondArray[m][n] == 1 && bondArray[l][m] == 2)
 															|| (bondArray[m][n] == 2 && bondArray[l][m] == 1)
 															|| (sixthAtom
@@ -487,17 +490,18 @@ public class JsMolCalc implements EntryPoint {
 		errorString = "";
 		if (illegalAtoms.length() != 0) {
 			errorString = "<html><body>It is not possible to calculate the properties<br>"
-				+ "of your molecule because it contains:<br>"
-				+ illegalAtoms.toString() + "</body></html>";
+					+ "of your molecule because it contains:<br>"
+					+ illegalAtoms.toString() + "</body></html>";
 		}
 
 		//compute total logp = sum of individual atom contributions.
 		double logp = 0.000;
 		boolean canMakeHbonds = false;
 		boolean canMakeIonicBonds = false;
-		
+
+		NumberFormat nf = NumberFormat.getFormat("0.000");
+
 		if (illegalAtoms.length() == 0) {
-			NumberFormat nf = NumberFormat.getFormat("0.000");
 
 			for (int i = 1; i < (numAtoms + 1); i++) {
 				Atom atom = (Atom) atomList.get(i);
@@ -522,18 +526,18 @@ public class JsMolCalc implements EntryPoint {
 			}
 			if (logp < 0) {
 				logpString = "<font color=green>Hydrophobicity index = " + nf.format(logp)
-				+ "</font>";
+						+ "</font>";
 			} else {
 				logpString = "<font color=red>Hydrophobicity index = " + nf.format(logp)
-				+ "</font>";
+						+ "</font>";
 			}
-			
+
 			if (canMakeHbonds) {
 				bondString = "<font color=green>Can Make Strong Hydrogen Bonds</font><br>";
 			} else {
 				bondString = "<font color=red>Can not Make Strong Hydrogen Bonds</font><br>";
 			}
-			
+
 			if (canMakeIonicBonds) {
 				bondString += "<font color=green>Can Make Ionic Bonds</font>";
 			} else {
@@ -639,61 +643,74 @@ public class JsMolCalc implements EntryPoint {
 			}
 			formula.append(")");
 		}
-		
+
 		formulaString = "Formula: " + formula.toString();
 
 		//now show it all
 		String moleculeInfo = "";
+		String grade = "";
 		if (!errorString.equals("")) {
-			 moleculeInfo = errorString;
+			moleculeInfo = errorString;
+			grade = "ERROR";
 		} else {
 			moleculeInfo = "<html><body>" 
-			+ formulaString + "<br>"
+					+ formulaString + "<br>"
 					+ logpString + "<br>"
 					+ bondString
 					+ "</body></html>";
+			grade = "F=" + formula.toString().replaceAll("<sub>", "").replaceAll("</sub>", "") + "\nH=";
+			if (canMakeHbonds) {
+				grade += "T";
+			} else {
+				grade += "F";
+			}
+			grade += "\nI=";
+			if (canMakeIonicBonds) {
+				grade += "T";
+			} else {
+				grade += "F";
+			}
+			grade += "\nP=" + nf.format(logp);
 		}
-		
+
+
 		/*
 		 * use the current specifications to generate modification targets
 		 *   eg, if it can make ionic bonds, a target is no ionic bonds, etc. 
 		 */
 		String targets = "";
 		if (errorString.equals("")) {
-			NumberFormat nf = NumberFormat.getFormat("0.000");
 
 			targets = "<html><body>Edit the molecule so that it:<br><ul>";
-			
+
 			targets += "<li>can ";
 			if (canMakeHbonds) {
 				targets += " not ";
 			} 
 			targets += "make Hydrogen bonds</li>";
-			
+
 			targets += "<li>can ";
 			if (canMakeIonicBonds) {
 				targets += " not ";
 			} 
 			targets += "make Ionic bonds</li>";
-			
+
 			targets += "<li>has a relative hydrophobicity between ";
 			targets += nf.format(logp - 1.5f);
 			targets += " and ";
 			targets += nf.format(logp - 0.5f);
 			targets += "</li>";
-			
+
 			targets += "<li>has a relative hydrophobicity between ";
 			targets += nf.format(logp + 0.5f);
 			targets += " and ";
 			targets += nf.format(logp + 1.5f);
 			targets += "</li>";
-			
+
 			targets += "</ul></body></html>";
 		} 
-		
-		
-		
-		return new InfoAndTargets(moleculeInfo, targets);
+
+		return new InfoAndTargets(moleculeInfo, targets, grade);
 	}
 
 	private void prettyPrint(String atomLabel, int number,
@@ -711,7 +728,7 @@ public class JsMolCalc implements EntryPoint {
 		outString.append("<sub>" + String.valueOf(number) + "</sub> ");
 
 	}
-	
+
 	private class Atom {
 
 		String element;
@@ -1464,14 +1481,14 @@ public class JsMolCalc implements EntryPoint {
 		} //done calculating logp contribution
 
 	}
-	
+
 	private class AtomSpec {
 
 		private String type;
 		private double logp;
 		private boolean canMakeHbonds;
 		private boolean canMakeIonicBonds;
-		
+
 
 		public AtomSpec(double logp, String type, boolean canMakeHbonds, boolean canMakeIonicBonds) {
 			this.type = type;
@@ -1487,17 +1504,17 @@ public class JsMolCalc implements EntryPoint {
 		public double getLogp() {
 			return logp;
 		}
-		
+
 		public boolean canMakeHbonds() {
 			return canMakeHbonds;
 		}
-		
+
 		public boolean canMakeIonicBonds() {
 			return canMakeIonicBonds;
 		}
 
 	}
-	
+
 	/*
 	 * this stores the result of the analysis
 	 * 	info is the specifications of the molecule in html
@@ -1506,10 +1523,12 @@ public class JsMolCalc implements EntryPoint {
 	private class InfoAndTargets {
 		public String info;
 		public String targets;
-		
-		public InfoAndTargets(String info, String targets) {
+		public String grade;
+
+		public InfoAndTargets(String info, String targets, String grade) {
 			this.info = info;
 			this.targets = targets;
+			this.grade = grade;
 		}	
 	}
 }
