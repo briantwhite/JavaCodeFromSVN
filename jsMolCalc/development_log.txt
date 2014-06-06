@@ -142,3 +142,6 @@ H=F
 I=F
 P=1.414</div>"
 
+6/6/14
+all working - now need to connect to edX!
+

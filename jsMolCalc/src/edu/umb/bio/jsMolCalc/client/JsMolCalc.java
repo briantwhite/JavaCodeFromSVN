@@ -657,7 +657,7 @@ public class JsMolCalc implements EntryPoint {
 					+ logpString + "<br>"
 					+ bondString
 					+ "</body></html>";
-			grade = "F=" + formula.toString().replaceAll("<sub>", "").replaceAll("</sub>", "") + "\nH=";
+			grade = "F=" + formula.toString() + "\nH=";
 			if (canMakeHbonds) {
 				grade += "T";
 			} else {
