@@ -19,5 +19,9 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>
+  
+  <!-- The following bypasses SOP, jsMolCalc can then be loaded cross domain -->
+  <add-linker name="xsiframe"/>
+  
 
 </module>

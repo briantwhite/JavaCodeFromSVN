@@ -145,3 +145,7 @@ P=1.414</div>"
 6/6/14
 all working - now need to connect to edX!
 
+6/13/14
+link to edX not working
+see "Setting up 111F14 SPOC notes.docx" page 3+
+
