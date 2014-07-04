@@ -149,3 +149,24 @@ all working - now need to connect to edX!
 link to edX not working
 see "Setting up 111F14 SPOC notes.docx" page 3+
 
+
+7/4/14
+try making a pure javascript (single file) pJsMolCalc.js
+take all text in JsMolCalc.java
+paste it into war/pJsMolCalc.js
+have it return an object with all the different data formats
+
+need JSDT - javascript development tools for eclipse
+	get them from http://download.eclipse.org/releases/kepler/
+	look under programming languages
+	
+new javascript source file
+but it's not fussing over things like "ArrayList"
+maybe need web tools platform
+	try from http://download.eclipse.org/webtools/repository/indigo/
+	lots of conflicts - didn't do
+
+hmmm, still no syntax checking...
+maybe don't do in eclipse?
+try aptana
+
