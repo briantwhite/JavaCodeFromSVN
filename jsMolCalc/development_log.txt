@@ -170,3 +170,14 @@ hmmm, still no syntax checking...
 maybe don't do in eclipse?
 try aptana
 
+try getting the aptana plugin from http://download.aptana.com/studio3/plugin/install
+still doesn't fuss about bad syntax...
+had to do this
+http://stackoverflow.com/questions/11599921/aptana-plugin-for-eclipse-javascript-error-identification-and-autocompletion
+now OK
+
+start pJsMolCalc.js over from scratch
+
+make pJsMolCalc.html as a test page
+
+adding classes one by one
