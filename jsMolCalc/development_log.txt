@@ -181,3 +181,13 @@ start pJsMolCalc.js over from scratch
 make pJsMolCalc.html as a test page
 
 adding classes one by one
+
+7/6/14
+had trouble resetting to master
+used info from http://stackoverflow.com/questions/6284809/how-to-pull-from-remote-git-repository-and-override-the-changes-in-my-local-repo
+command line in ~/git/JavaCodeFromSVN/
+git fetch origin
+git reset --hard origin/master
+
+worked!
+

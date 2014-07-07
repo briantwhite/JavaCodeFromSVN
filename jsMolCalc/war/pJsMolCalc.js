@@ -30,7 +30,7 @@ var MolCalc = ( function() {
 			var phobic = false;
 			var extra = 0.000;
 
-			var that = {
+			return {
 				setAromatic : function() {
 					aromatic = true;
 				},
@@ -638,26 +638,23 @@ var MolCalc = ( function() {
 					return atomSpec(0.000, "unknown atom", false, false);
 				}
 			};
-			return that;
 		};
 
 		var infoAndTargets = function(info, targets, grade) {
-			var that = {
+			return {
 				info : info,
 				targets : targets,
 				grade : grade
 			};
-			return that;
 		};
 
 		var atomSpec = function(logp, type, canMakeHbonds, canMakeIonicBonds) {
-			var that = {
+			return {
 				logp : logp,
 				type : type,
 				canMakeHbonds : canMakeHbonds,
 				canMakeIonicBonds : canMakeIonicBonds
 			};
-			return that;
 		};
 
 	}());
