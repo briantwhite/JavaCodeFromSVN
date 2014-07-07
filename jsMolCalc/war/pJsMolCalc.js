@@ -1,14 +1,21 @@
 var MolCalc = ( function() {
 
-		function calculate(molString, smile, jmeString) {
-			return infoAndTargets("hi", "there", "fred");
+		function prettyPrint(atomLabel, number, outString) {
+			result = "";
+			if (number == 0) {
+				return result;
+			}
+			result = result + atomLabel;
+
+			if (number == 1) {
+				result = result + " ";
+				return result;
+			}
+			result = result + "<sub>" + number + "</sub> ";
+			return result;
 		}
 
-		return {
-			calculate : calculate
-		};
-
-		var atom = function() {
+		var Atom = function() {
 			var element = "";
 			var charge = 0;
 			var aromatic = false;
@@ -640,7 +647,7 @@ var MolCalc = ( function() {
 			};
 		};
 
-		var infoAndTargets = function(info, targets, grade) {
+		var InfoAndTargets = function(info, targets, grade) {
 			return {
 				info : info,
 				targets : targets,
@@ -655,6 +662,90 @@ var MolCalc = ( function() {
 				canMakeHbonds : canMakeHbonds,
 				canMakeIonicBonds : canMakeIonicBonds
 			};
+		};
+
+		function calculate(molString, smileString, jmeString) {
+
+			if ((molString === "") || (smileString === "") || (jmeString === "")) {
+				return new InfoAndTargets("", "", "");
+			}
+
+			atomDataLines = "";
+			//for output
+			logpString = "";
+			bondString = "";
+			formulaString = "";
+			errorString = "";
+
+			atomList = [];
+			a = new Atom();
+			atomList.push(a);
+			// make atom[0] a blank
+
+			// get the molecule data from the molstring
+			molStringLines = molString.split("\n");
+
+			//get number of bonds & number of atoms
+			line3Parts = molStringLines[3].split(/[ ]+/);
+			numAtoms = parseInt(line3Parts[1]);
+			numBonds = parseInt(line3Parts[2]);
+
+			//read the atom lines & create appropriate atoms
+			for ( i = 1; i < (numAtoms + 1); i++) {
+				atomLineParts = molStringLines[i + 3].split(/[ ]+/);
+				element = atomLineParts[4];
+				atom = new Atom();
+				atom.setElement(element);
+				atomList.push(atom);
+			}
+
+			//read the charge lines & set atom charge
+			for ( i = 0; i < molStringLines.length; i++) {
+				if (molStringLines[i].indexOf("CHG") != -1) {
+					chargeLineParts = molStringLines[i].split(/[ ]+/);
+					atomNumber = parseInt(chargeLineParts[3]);
+					charge = parseInt(chargeLineParts[4]);
+					atomList[atomNumber].setCharge(charge);
+				}
+			}
+
+			// fill the bond array with 0's
+			bondArray = new Array();
+			for ( i = 1; i < (numAtoms + 1); i++) {
+				bondArray[i] = new Array();
+				for ( j = 1; j < (numAtoms + 1); j++) {
+					bondArray[i][j] = 0;
+				}
+			}
+
+			//read in the bond lines & fill the bondArray
+			for ( i = 1; (i < numBonds + 1); i++) {
+				bondLineParts = molStringLines[i + numAtoms + 3].split(/[ ]+/);
+				firstAtom = parseInt(bondLineParts[1]);
+				secondAtom = parseInt(bondLineParts[2]);
+				bondIndex = parseInt(bondLineParts[3]);
+				bondArray[firstAtom][secondAtom] = bondIndex;
+				bondArray[secondAtom][firstAtom] = bondIndex;
+			}
+
+			// go thru data & process each atom's bonds & neighbors
+			// round 1: get hybridization info
+			for ( i = 1; i < (numAtoms + 1); i++) {
+				// get the center of this
+				// group
+				for ( j = 1; j < (numAtoms + 1); j++) {
+					if (bondArray[i][j] != 0) {
+						atomList[i].updateHybridization(bondArray[i][j]);
+					}
+				}
+			}
+
+			return new InfoAndTargets(atomList[1].getElement(), "targets", "grade");
+
+		}
+
+		return {
+			calculate : calculate
 		};
 
 	}());
