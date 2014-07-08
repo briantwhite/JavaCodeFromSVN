@@ -116,7 +116,7 @@ var MolCalc = ( function() {
 					}
 
 					if (bondIndex === 2) {
-						if (doubleBondedNeighbor.equals("O")) {// if you already have a =O
+						if (doubleBondedNeighbor === "O") {// if you already have a =O
 							doubleBondedNeighbor = "O2";
 						} else {
 							doubleBondedNeighbor = element;
@@ -736,6 +736,94 @@ var MolCalc = ( function() {
 				for ( j = 1; j < (numAtoms + 1); j++) {
 					if (bondArray[i][j] != 0) {
 						atomList[i].updateHybridization(bondArray[i][j]);
+					}
+				}
+			}
+
+			//round 2: find if aromatic
+			// to be aromatic, it must be a 6-membered ring of sp2 carbons/nitrogens
+			// with alternating
+			// single & double bonds
+
+			for ( i = 1; i < (numAtoms + 1); i++) {
+				firstAtom = atomList[i];
+				if ((firstAtom.getElement() === "C" || firstAtom.getElement() === "N") && (firstAtom.getHybridization() === 2 || firstAtom.getAromatic())) {
+					for ( j = 1; j < (numAtoms + 1); j++) {
+						secondAtom = atomList[j];
+						if ((bondArray[i][j] === 1 || bondArray[i][j] === 2 || (secondAtom.getAromatic() && bondArray[i][j] !== 0) || (firstAtom.getAromatic() && bondArray[i][j] !== 0)) && (secondAtom.getElement() === "C" || secondAtom.getElement() === "N") && (secondAtom.getHybridization() === 2) && (i !== j)) {
+							for ( k = 1; k < (numAtoms + 1); k++) {
+								thirdAtom = atomList[k];
+								if (((bondArray[j][k] === 1 && bondArray[i][j] === 2)//these first 2 look for alternating
+								|| (bondArray[j][k] === 2 && bondArray[i][j] === 1)//single & double bonds
+								|| (thirdAtom.getAromatic() && bondArray[j][k] !== 0)// or a bond TO an aro atom
+								|| (secondAtom.getAromatic() && bondArray[j][k] !== 0) // or a bond FROM an aro atom
+								) && (thirdAtom.getElement() === "C" || thirdAtom.getElement() === "N")//must be C-N
+								&& (thirdAtom.getHybridization() === 2)//must be sp2
+								&& ((k !== i) && (k !== j)) //must not be any other atom so far in this chain (no backtracing)
+								) {
+									for ( l = 1; l < (numAtoms + 1); l++) {
+										fourthAtom = atomList[l];
+										if (((bondArray[k][l] === 1 && bondArray[j][k] === 2) || (bondArray[k][l] === 2 && bondArray[j][k] === 1) || (fourthAtom.getAromatic() && bondArray[k][l] !== 0) || (thirdAtom.getAromatic() && bondArray[k][l] !== 0)) && (fourthAtom.getElement() === "C" || fourthAtom.getElement() === "N") && (fourthAtom.getHybridization() === 2) && ((l !== i) && (l !== j) && (l !== k))) {
+											for ( m = 1; m < (numAtoms + 1); m++) {
+												fifthAtom = atomList[m];
+												if (((bondArray[l][m] === 1 && bondArray[k][l] === 2) || (bondArray[l][m] === 2 && bondArray[k][l] === 1) || (fifthAtom.getAromatic() && bondArray[l][m] !== 0) || (fourthAtom.getAromatic() && bondArray[l][m] !== 0)) && (fifthAtom.getElement() === "C" || fifthAtom.getElement() === "N") && (fifthAtom.getHybridization() === 2) && ((m !== i) && (m !== j) && (m !== k) && (m !== l))) {
+													for ( n = 1; n < (numAtoms + 1); n++) {
+														sixthAtom = atomList[n];
+														if (((bondArray[m][n] === 1 && bondArray[l][m] === 2) || (bondArray[m][n] === 2 && bondArray[l][m] === 1) || (sixthAtom.getAromatic() && bondArray[m][n] !== 0) || (fifthAtom.getAromatic() && bondArray[m][n] !== 0)) && (sixthAtom.getElement() === "C" || sixthAtom.getElement() === "N") && (sixthAtom.getHybridization() === 2) && ((n !== i) && (n !== j) && (n !== k) && (n !== l) && (n !== m))) {
+															//now we have 6 sp2 N/C connected by alternating single and double bonds
+															// if 1 connects to 6 properly, we have an aromatic ring
+															if ((bondArray[n][i] === 2 && bondArray[m][n] === 1) || (bondArray[n][i] === 1 && bondArray[m][n] === 2)) {
+																firstAtom.setAromatic();
+																secondAtom.setAromatic();
+																thirdAtom.setAromatic();
+																fourthAtom.setAromatic();
+																fifthAtom.setAromatic();
+																sixthAtom.setAromatic();
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			//round 3: neighbor counts
+			for ( i = 1; i < (numAtoms + 1); i++) {
+				currentAtom = atomList[i];
+				// get the center of this group
+				for ( j = 1; j < (numAtoms + 1); j++) {
+					if (bondArray[i][j] !== 0) {
+						currentNeighbor = atomList[j];
+						currentAtom.processNeighbor(currentNeighbor.getElement(), bondArray[i][j], currentNeighbor.getCharge(), currentNeighbor.getAromatic());
+					}
+				}
+			}
+
+			//round 4: check for pi-bonded neighbors
+			//be careful - the carbons in ethylene have no pi neighbors
+			//since the pi bond is between them
+			//to be a pi neighbor, it must be sp2/sp and double-bonded to
+			//a different atom than the center
+			//first, go atom-by-atom
+			for ( i = 1; i < (numAtoms + 1); i++) {
+				currentAtom = atomList[i];
+				//then check all of its neighbors
+				for ( j = 1; j < (numAtoms + 1); j++) {
+					if (bondArray[i][j] !== 0) {
+						currentNeighbor = atomList[j];
+						if (currentNeighbor.getHybridization() < 3) {//sp2 or sp neighbor; go thru neighbor's neighbors
+							for ( k = 1; k < (numAtoms + 1); k++) {
+								if ((bondArray[j][k] > 1) && (k !== i)) {
+									currentAtom.incNumNeighborPi();
+								}
+							}
+						}
 					}
 				}
 			}

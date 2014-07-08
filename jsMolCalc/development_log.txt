@@ -191,3 +191,5 @@ git reset --hard origin/master
 
 worked!
 
+7/8/14
+finished round 4 of processing
