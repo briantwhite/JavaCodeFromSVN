@@ -828,7 +828,226 @@ var MolCalc = ( function() {
 				}
 			}
 
-			return new InfoAndTargets(atomList[1].getElement(), "targets", "grade");
+			//round 5: calculate number of H neighbors for each atom and sum up charge
+			h = 0;
+			charge = 0;
+			for ( i = 1; i < (numAtoms + 1); i++) {
+				atom = atomList[i];
+				h = h + atom.getNumNeighborHs();
+				charge = charge + atom.charge;
+			}
+
+			//round 6: see if an amide (N with neighbor carbonyl)
+			for ( i = 1; i < (numAtoms + 1); i++) {
+				currentAtom = atomList[i];
+				// get the center of this group
+				for ( j = 1; j < (numAtoms + 1); j++) {
+					if (bondArray[i][j] != 0) {
+						currentNeighbor = atomList[j];
+						if (currentAtom.getElement() === "N" && currentNeighbor.isACarbonyl) {
+							currentAtom.setAmide();
+						}
+					}
+				}
+			}
+
+			//round 7: check for "illegal" atoms
+			illegalAtoms = "";
+			for ( i = 1; i < (numAtoms + 1); i++) {
+				atom = atomList[i];
+				if (atom.getElement() === "C") {
+					if (atom.getCharge() !== 0)
+						illegalAtoms += "A Charged C atom.<br>";
+				}
+				if (atom.getElement() === "N") {
+					if (atom.getCharge() > 1)
+						illegalAtoms += "An N atom with too high + charge.<br>";
+					if (atom.getCharge() < 0)
+						illegalAtoms += "An N atom with - charge.<br>";
+					if ((atom.getNumNeighborHs() < 0) && !(atom.doubleBondedNeighbor === "O2" && (atom.getNumNeighborHs() === -2) && (atom.getNumNeighborCs() === 1) && (atom.getNumNeighborXs() === 2) && (atom.getCharge() === 0))) {//don't worry if nitro
+						illegalAtoms += "An N atom making too many bonds.<br>";
+					}
+				}
+				if (atom.getElement() === "O") {
+					if (atom.getCharge() < -1)
+						illegalAtoms += "An O atom with too high - charge.<br>";
+					if (atom.getCharge() > 0)
+						illegalAtoms += "An O atom with + charge.<br>";
+				}
+				if (atom.getElement() === "S") {
+					if (atom.getCharge() > 0)
+						illegalAtoms += "An S atom with a + charge.<br>";
+					if ((atom.getNumNeighborHs() < 0) && (atom.getNumNeighborHs() !== -4) && (atom.getNumNeighborHs() !== -2)) {
+						illegalAtoms += "An S atom not making 2, 4, or 6 bonds.<br>";
+					}
+				}
+				if (atom.getElement() === "P") {
+					if (atom.getCharge() !== 0)
+						illegalAtoms += "A Charged P atom.<br>";
+					if (atom.numNeighborHs != -3) {
+						illegalAtoms += "A P atom not making 5 bonds.<br>";
+					}
+				}
+				if (atom.getElement() === "F" || atom.getElement() === "Cl" || atom.getElement() === "Br" || atom.getElement() === "I") {
+					if (atom.getCharge() != 0)
+						illegalAtoms += "A Charged " + atom.getElement() + " atom.<br>";
+				}
+				if (atom.getElement() === "X") {
+					illegalAtoms += "An X atom.<br>";
+				}
+			}
+			errorString = "";
+			if (illegalAtoms.length !== 0) {
+				errorString = "<html><body>It is not possible to calculate the properties<br>" + "of your molecule because it contains:<br>" + illegalAtoms + "</body></html>";
+			}
+
+			//compute total logp = sum of individual atom contributions.
+			logp = 0.000;
+			canMakeHbonds = false;
+			canMakeIonicBonds = false;
+
+			if (illegalAtoms.length === 0) {
+
+				for ( i = 1; i < (numAtoms + 1); i++) {
+					atom = atomList[i];
+					currentAtomSpec = atom.getAtomSpec();
+					logp = logp + currentAtomSpec.logp;
+					canMakeHbonds = canMakeHbonds || currentAtomSpec.canMakeHbonds;
+					canMakeIonicBonds = canMakeIonicBonds || currentAtomSpec.canMakeIonicBonds;
+
+					neighbors = "";
+					for ( j = 1; j < (numAtoms + 1); j++) {
+						if (bondArray[i][j] != 0) {
+							neighbors += j + " ";
+						}
+					}
+
+					atomDataLines += i + " " + currentAtomSpec.getType + "; bonded to: " + neighbors + "; logp= " + currentAtomSpec.logp.toFixed(3)+ "; H-bonds: " + currentAtomSpec.canMakeHbonds + "; ionic bonds: " + currentAtomSpec.canMakeIonicBonds + "\n";
+				}
+				if (logp < 0) {
+					logpString = "<font color=green>Hydrophobicity index = " + logp.toFixed(3) + "</font>";
+				} else {
+					logpString = "<font color=red>Hydrophobicity index = " + logp.toFixed(3) + "</font>";
+				}
+
+				if (canMakeHbonds) {
+					bondString = "<font color=green>Can Make Strong Hydrogen Bonds</font><br>";
+				} else {
+					bondString = "<font color=red>Can not Make Strong Hydrogen Bonds</font><br>";
+				}
+
+				if (canMakeIonicBonds) {
+					bondString += "<font color=green>Can Make Ionic Bonds</font>";
+				} else {
+					bondString += "<font color=red>Can not Make Ionic Bonds</font>";
+				}
+			}
+
+			//now compute the formula
+			// set the counters to zero
+			numBonds = 0;
+			numAromaticAtoms = 0;
+			c = 0;
+			n = 0;
+			o = 0;
+			s = 0;
+			p = 0;
+			cl = 0;
+			br = 0;
+			f = 0;
+			iodine = 0;
+
+			formula = "";
+
+			for ( i = 0; i < smileString.length; i++) {
+				switch (smileString[i]) {
+					case 'C':
+						c++;
+						break;
+					case 'N':
+						n++;
+						break;
+					case 'O':
+						o++;
+						break;
+					case 'S':
+						s++;
+						break;
+					case 'P':
+						p++;
+						break;
+					case 'l':
+						// the second letter of 'Cl' so the last C was really 'Cl'
+						c--;
+						cl++;
+						break;
+					case 'B':
+						br++;
+						break;
+					case 'F':
+						f++;
+						break;
+					case 'I':
+						iodine++;
+						break;
+					case 'c':
+						//aromatic C
+						c++;
+						numAromaticAtoms++;
+						break;
+					case 'n':
+						//aromatic N
+						n++;
+						numAromaticAtoms++;
+						break;
+					case 's':
+						//aromatic S
+						s++;
+						numAromaticAtoms++;
+						break;
+					case 'o':
+						// aromatic o
+						o++;
+						numAromaticAtoms++;
+						break;
+					case '#':
+						//triple bond
+						numBonds++;
+					case '=':
+						//double bond
+						numBonds++;
+						break;
+				}
+			}
+
+			prettyPrint("C", c, formula);
+			prettyPrint("H", h, formula);
+			prettyPrint("N", n, formula);
+			prettyPrint("O", o, formula);
+			prettyPrint("P", p, formula);
+			prettyPrint("S", s, formula);
+			prettyPrint("Cl", cl, formula);
+			prettyPrint("Br", br, formula);
+			prettyPrint("F", f, formula);
+			prettyPrint("I", iodine, formula);
+
+			if (charge !== 0) {
+				formula += "(";
+				if (charge === -1) {
+					formula += "-";
+				} else if (charge > 0) {
+					formula += "+";
+				}
+
+				if (Math.abs(charge) != 1) {
+					formula += charge;
+				}
+				formula += ")";
+			}
+
+			formulaString = "Formula: " + formula;
+
+			return new InfoAndTargets(formula, "targets", "grade");
 
 		}
 

@@ -193,3 +193,5 @@ worked!
 
 7/8/14
 finished round 4 of processing
+finished formula calc
+	but it gives "NaN"!
