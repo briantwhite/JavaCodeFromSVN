@@ -1,6 +1,6 @@
 var MolCalc = ( function() {
 
-		function prettyPrint(atomLabel, number, outString) {
+		function prettyPrint(atomLabel, number) {
 			result = "";
 			if (number == 0) {
 				return result;
@@ -834,7 +834,7 @@ var MolCalc = ( function() {
 			for ( i = 1; i < (numAtoms + 1); i++) {
 				atom = atomList[i];
 				h = h + atom.getNumNeighborHs();
-				charge = charge + atom.charge;
+				charge = charge + atom.getCharge();
 			}
 
 			//round 6: see if an amide (N with neighbor carbonyl)
@@ -1020,16 +1020,16 @@ var MolCalc = ( function() {
 				}
 			}
 
-			prettyPrint("C", c, formula);
-			prettyPrint("H", h, formula);
-			prettyPrint("N", n, formula);
-			prettyPrint("O", o, formula);
-			prettyPrint("P", p, formula);
-			prettyPrint("S", s, formula);
-			prettyPrint("Cl", cl, formula);
-			prettyPrint("Br", br, formula);
-			prettyPrint("F", f, formula);
-			prettyPrint("I", iodine, formula);
+			formula += prettyPrint("C", c);
+			formula += prettyPrint("H", h);
+			formula += prettyPrint("N", n);
+			formula += prettyPrint("O", o);
+			formula += prettyPrint("P", p);
+			formula += prettyPrint("S", s);
+			formula += prettyPrint("Cl", cl);
+			formula += prettyPrint("Br", br);
+			formula += prettyPrint("F", f);
+			formula += prettyPrint("I", iodine);
 
 			if (charge !== 0) {
 				formula += "(";
@@ -1047,7 +1047,71 @@ var MolCalc = ( function() {
 
 			formulaString = "Formula: " + formula;
 
-			return new InfoAndTargets(formula, "targets", "grade");
+		//now show it all
+		moleculeInfo = "";
+		grade = "";
+		if (!(errorString === "")) {
+			moleculeInfo = errorString;
+			grade = "ERROR";
+		} else {
+			moleculeInfo = "<html><body>" 
+					+ formulaString + "<br>"
+					+ logpString + "<br>"
+					+ bondString
+					+ "</body></html>";
+			grade = "F=" + formula + "\nH=";
+			if (canMakeHbonds) {
+				grade += "T";
+			} else {
+				grade += "F";
+			}
+			grade += "\nI=";
+			if (canMakeIonicBonds) {
+				grade += "T";
+			} else {
+				grade += "F";
+			}
+			grade += "\nP=" + logp.toFixed(3);
+		}
+
+
+		/*
+		 * use the current specifications to generate modification targets
+		 *   eg, if it can make ionic bonds, a target is no ionic bonds, etc. 
+		 */
+		targets = "";
+		if (errorString === "") {
+
+			targets = "<html><body>Edit the molecule so that it:<br><ul>";
+
+			targets += "<li>can ";
+			if (canMakeHbonds) {
+				targets += " not ";
+			} 
+			targets += "make Hydrogen bonds</li>";
+
+			targets += "<li>can ";
+			if (canMakeIonicBonds) {
+				targets += " not ";
+			} 
+			targets += "make Ionic bonds</li>";
+
+			targets += "<li>has a relative hydrophobicity between ";
+			targets += (logp - 1.5).toFixed(3);
+			targets += " and ";
+			targets += (logp - 0.5).toFixed(3);
+			targets += "</li>";
+
+			targets += "<li>has a relative hydrophobicity between ";
+			targets += (logp + 0.5).toFixed(3);
+			targets += " and ";
+			targets += (logp + 1.5).toFixed(3);
+			targets += "</li>";
+
+			targets += "</ul></body></html>";
+		} 
+
+			return new InfoAndTargets(moleculeInfo, targets, grade);
 
 		}
 

@@ -195,3 +195,7 @@ worked!
 finished round 4 of processing
 finished formula calc
 	but it gives "NaN"!
+
+7/9/14
+got it all working - need to work around SOP but so far, so good
+

@@ -18,12 +18,20 @@
 
 		document.JME = jsmeApplet;
 	}
+	
+	function calculate() {
+		result = MolCalc.calculate(document.JME.molFile(), document.JME.smiles(), document.JME.jmeFile());
+		document.getElementById('resultFieldContainer').innerHTML = result.info;
+		document.getElementById('challengesContainer').innerHTML = result.targets;
+		document.getElementById('gradeInfoContainer').innerHTML = result.grade;		
+	}
     </script>
 </head>
 <body>
     <div id="container"></div>
-    <button onClick="document.getElementById('resultFieldContainer').value = (MolCalc.calculate(JME.molFile(), JME.smiles(), JME.jmeFile())).info;">Calculate</button>
-    <textarea id="resultFieldContainer"></textarea>
-    <div id="gradeInfoContainer" style="display: none;"></div>
+    <button onClick="calculate();">Calculate</button>
+    <div id="resultFieldContainer"></div>
+    <div id="challengesContainer"></div>
+    <div id="gradeInfoContainer"></div>
 </body>
 </html>
