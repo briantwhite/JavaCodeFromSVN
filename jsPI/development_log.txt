@@ -85,3 +85,15 @@ looked on web
 deleted folder gwt-unitCache
 re-compiled & now works....
 who knew?
+
+8/1/14
+trying to make pure js PI
+	do like CUDA folder
+		list of conformations with contact sets
+		pre-load these with applet
+		then applet just finds best energy
+		
+use hexagonal coordinate stuff from "hexagonal coords.pdf"
+
+wrote "make contact sets.py" - works AOK to make the conformations recursively
+	now, need to make it find the contact sets
