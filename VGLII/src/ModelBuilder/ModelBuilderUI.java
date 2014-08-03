@@ -14,8 +14,6 @@ import javax.swing.JTabbedPane;
 
 import org.jdom.Element;
 
-import com.sun.tools.javac.parser.Scanner.CommentStyle;
-
 import GeneticModels.GeneModel;
 import GeneticModels.GeneticModel;
 import GeneticModels.PhenotypeProcessor;

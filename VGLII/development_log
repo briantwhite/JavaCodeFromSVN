@@ -2108,4 +2108,13 @@ sent for testing to
 5/12/14
 added spanish and french translations of Comments to Instructor
 
-need to replace korean fig0 with the one in Future
+need to replace korean fig0 with the one in Future - don't bother, Korean is a mess.
+
+8/3/14
+trying to make version 3.2.1 with new features
+chi sqaured lib was broken
+	added it as external jar
+
+it won't compile! 
+	BUILD FAILED ... Class not found: javac1.8
+	
