@@ -2073,7 +2073,7 @@ fixing some bugs/issues
 16) Allow non integer expected values in chi-squared boxes (Sophie J)
 	- work in SummaryChartUI
 
-7) change label in ModelBuilder for Linkage from ÒRF _%Ó to Ò_ map unitsÓ or Ò_ centiMorgansÓ
+7) change label in ModelBuilder for Linkage from ï¿½RF _%ï¿½ to ï¿½_ map unitsï¿½ or ï¿½_ centiMorgansï¿½
 
 19)  add Interactions03 04 p to Problems
 
@@ -2107,3 +2107,5 @@ sent for testing to
 
 5/12/14
 added spanish and french translations of Comments to Instructor
+
+need to replace korean fig0 with the one in Future
