@@ -116,8 +116,8 @@ public class VGLII extends JFrame {
 	 */
 	public final static LanguageSpecifierMenuItem[] supportedLanguageMenuItems = {
 		new LanguageSpecifierMenuItem("English", "en", "US"),
-		new LanguageSpecifierMenuItem("Español", "es", "ES"),
-		new LanguageSpecifierMenuItem("Français", "fr", "FR"),
+		new LanguageSpecifierMenuItem("Espa√±ol", "es", "ES"),
+		new LanguageSpecifierMenuItem("Fran√ßais", "fr", "FR"),
 		//		new LanguageSpecifierMenuItem("\uD55C\uAD6D\uC5B4", "ko", "KR")
 	};
 
@@ -273,7 +273,7 @@ public class VGLII extends JFrame {
 	private JMenuItem crossTwoItem = null;
 
 	/**
-	 * menu item for super cross - ≥1000 offspring
+	 * menu item for super cross - ÔøΩ1000 offspring
 	 */
 	private JMenuItem superCrossItem = null;
 

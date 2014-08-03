@@ -2117,4 +2117,5 @@ chi sqaured lib was broken
 
 it won't compile! 
 	BUILD FAILED ... Class not found: javac1.8
-	
+
+upgraded to new eclipse "luna" - but now the colors are all fucked up in eclipse
