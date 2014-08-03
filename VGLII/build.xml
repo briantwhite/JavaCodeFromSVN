@@ -1,5 +1,9 @@
 <project name="VGLII" default="run">
 	
+	<taskdef name="bundleapp"
+	             classname="com.oracle.appbundler.AppBundlerTask"   
+	             classpath="lib/appbundler-1.0.jar" />
+	
     <target name="compile" description="Compiles the code">
     	    <javac srcdir="src/" destdir="bin/"/>
     </target>
@@ -19,5 +23,18 @@
 	<target name="run" depends="jarfile" description="run VGLII">
 		<java jar="VGLII.jar" fork="true"/>
 	</target>
+	
+	<target name="app" depends="jarfile" description="make mac app">
+		<bundleapp outputdirectory="."
+			name="VGLII-3.2.1"
+			displayname="VGLII-3.2.1"
+			identifier="edu.umb.vgl"
+			icon="pc 32x32 icon.ico"
+			mainclassname="VGL.VGLII">
+			<classpath file="VGLII.jar" />
+			<option value="-Duser.dir=$APP_ROOT" />
+			</bundleapp>
+		</target>
+	
 
 </project>

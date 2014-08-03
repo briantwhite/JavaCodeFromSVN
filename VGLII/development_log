@@ -2119,3 +2119,18 @@ it won't compile!
 	BUILD FAILED ... Class not found: javac1.8
 
 upgraded to new eclipse "luna" - but now the colors are all fucked up in eclipse
+
+version 3.2.1 2014-08-03 14:28
+
+big problem making the app
+http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/packagingAppsForMac.html
+got appbundler.jar 1.0 and put in VGLII/lib
+makes a functional app but it defaults to the user's home dir
+need the parameter to pass - these are jvm options 
+	-Duser.dir=$APP_ROOT
+	seems to work
+signed it as above
+	actually, just did this:
+		codesign -s "Developer ID Application: Brian White" -vf VGLII-3.2.1.app/
+post on web and test
+
