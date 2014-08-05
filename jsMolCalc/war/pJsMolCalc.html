@@ -1,30 +1,43 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="edXMolCalc.css">
-    <script type="text/javascript" language="javascript" src="jsme/jsme.nocache.js"></script>
-    <script src="pJsMolCalc.js"></script>
-    <script>	
-    //this function will be called after the JavaScriptApplet code has been loaded.
+    <link rel="stylesheet" type="text/css" href="pJsMolCalc.css">
+    <script type="text/javascript" language="javascript" src="https://studio.edge.edx.org/static/js/capa/jsme/jsme.nocache.js"></script>
+    <script type="text/javascript" language="javascript" src="pJsMolCalc.js" defer="defer"></script>
+    <script>
+    // This function will be called after the JavaScriptApplet code has been loaded.
 	function jsmeOnLoad() {
-
-		//Instantiate a new JSME:
-		//arguments: HTML id, width, height (must be string not number!)
-
-		jsmeApplet = new JSApplet.JSME("container", "400px", "400px", {
-			//optional parameters
+        // Instantiate a new JSME.
+		// Arguments: HTML id, width, height (must be string not number!)
+        jsmeApplet = new JavaScriptApplet.JSME("container", "400px", "400px", {
+			// optional parameters
 			"options" : "query,hydrogens"
 		});
 
 		document.JME = jsmeApplet;
 	}
-	
+
 	function calculate() {
 		result = MolCalc.calculate(document.JME.molFile(), document.JME.smiles(), document.JME.jmeFile());
-		document.getElementById('resultFieldContainer').innerHTML = result.info;
-		document.getElementById('challengesContainer').innerHTML = result.targets;
-		document.getElementById('gradeInfoContainer').innerHTML = result.grade;		
+		document.getElementById("resultFieldContainer").innerHTML = result.info;
+		document.getElementById("challengesContainer").innerHTML = result.targets;
+		document.getElementById("gradeInfoContainer").innerHTML = result.grade;
 	}
+
+    function getGrade() {
+        console.log('Get grade returns: ' + document.getElementById('gradeInfoContainer').innerHTML);
+        return JSON.stringify(document.getElementById('gradeInfoContainer').innerHTML);
+    }
+
+    function getState() {
+        console.log('Get state returns: ' + document.JME.jmeFile());
+        return document.JME.jmeFile();
+    }
+
+    function setState(stateStr) {
+        console.log('Set state receives: ' + stateStr);
+        document.JME.readMolecule(stateStr);
+        document.getElementById("calculateButtonContainer").firstElementChild.click();
+    }
     </script>
 </head>
 <body>

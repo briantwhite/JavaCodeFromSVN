@@ -244,7 +244,7 @@ var MolCalc = ( function() {
 										} else {
 											switch (numNeighborPi) {
 												case 0:
-													return tomSpec(-0.205, "C: sp3; C C/X X H, no pi", false, false);
+													return atomSpec(-0.205, "C: sp3; C C/X X H, no pi", false, false);
 												case 1:
 													return atomSpec(-0.305, "C: sp3; C C/X X H, 1 pi", false, false);
 												default:

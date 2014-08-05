@@ -199,3 +199,30 @@ finished formula calc
 7/9/14
 got it all working - need to work around SOP but so far, so good
 
+8/4/14
+working on grading
+JMC got it intgrated into edX
+his getGrade() returns a JSON string like
+	"F=C<sub>2</sub> H<sub>6</sub> \nH=F\nI=F\nP=1.056"
+this code works to get a molecule that has C4
+<script type="loncapa/python">
+import json
+def vglcfn(e, ans):
+  par = json.loads(ans)
+  answer = json.loads(par["answer"])
+  return answer.startswith("F=C&lt;sub&gt;4")
+</script>
+
+this code works for molecule that can make H-bonds
+<script type="loncapa/python">
+import json
+def vglcfn(e, ans):
+  par = json.loads(ans)
+  answer = json.loads(par["answer"])
+  parts = answer.split("\n")
+  return parts[1].startswith("H=T")
+</script>
+
+bug in pjsMolCalc.js - line 247 
+	had "tomSpec" instead of "atomSpec"
+had JMC post it
