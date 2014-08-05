@@ -24,11 +24,13 @@
 	}
 
     function getGrade() {
+    	calculate();
         console.log('Get grade returns: ' + document.getElementById('gradeInfoContainer').innerHTML);
         return JSON.stringify(document.getElementById('gradeInfoContainer').innerHTML);
     }
 
     function getState() {
+    	calculate();
         console.log('Get state returns: ' + document.JME.jmeFile());
         return document.JME.jmeFile();
     }
@@ -36,15 +38,20 @@
     function setState(stateStr) {
         console.log('Set state receives: ' + stateStr);
         document.JME.readMolecule(stateStr);
-        document.getElementById("calculateButtonContainer").firstElementChild.click();
+		calculate();
     }
     </script>
 </head>
 <body>
     <div id="container"></div>
-    <button onClick="calculate();">Calculate</button>
-    <div id="resultFieldContainer"></div>
-    <div id="challengesContainer"></div>
-    <div id="gradeInfoContainer"></div>
+    <p></p>
+    <button onClick="calculate();">Evaluate Molecule</button>
+    &nbsp;&nbsp;(Clicking this button <u>does not</u> submit your answer)
+    <p></p>
+    <div id="resultFieldContainer" style="border: 1px solid;"></div>
+    <div id="challengesContainer" style="display: none;"></div>
+    <div id="gradeInfoContainer" style="display: none;"></div>
+    <p><a href="http://peter-ertl.com/jsme/2013_03/help.html">Chemical Drawing Program (JSME) Help Page</a></p>
+    
 </body>
 </html>

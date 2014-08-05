@@ -226,3 +226,8 @@ def vglcfn(e, ans):
 bug in pjsMolCalc.js - line 247 
 	had "tomSpec" instead of "atomSpec"
 had JMC post it
+
+8/5/14
+fixed pJsMolCalc.html 
+	- calculates when loaded and when checked
+	- fixed sizes
