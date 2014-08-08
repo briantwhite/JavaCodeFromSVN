@@ -309,4 +309,24 @@ in CageUI - removed lines putting captionedDetailsPanel in different places depe
 got it basically working
 made gwt-compiled version
 version 1.3
+
+8/8/14
+need to recompile with xsiframe flag to deal with SOP stuff
+first, have to get rid of red exclamation point in Eclipse
+
+in Properties, java build path, it says folder test is missing
+	just delete it
+
+gwt-user.jar is also missing
+	find it in Applications/eclipse/plugins/com.google.gwt.eclipsesdk.../gwt2.6.0/gwt-user.jar
+
+now ok to compile
+worked - it seems to be set with  <add-linker name="xsiframe"/> in src/edu.umb.jsVGL/JsVGL.gwt.xml
+try putting on server
+
+can't use json-converted version of xml
+	huge
+	not parsed properly
+so used JSON.stringify and had to replace escaped quotes with regular ones (in jsVGL.js)
+works!!
 	
