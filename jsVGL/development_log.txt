@@ -329,4 +329,9 @@ can't use json-converted version of xml
 	not parsed properly
 so used JSON.stringify and had to replace escaped quotes with regular ones (in jsVGL.js)
 works!!
+
+8/11/14
+parsing the grade when it's xml is a pain 
+put back the json code for GRADE only in jsVGL.js
+
 	
