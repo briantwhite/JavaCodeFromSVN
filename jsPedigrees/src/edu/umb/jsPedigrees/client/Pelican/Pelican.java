@@ -23,22 +23,34 @@ package edu.umb.jsPedigrees.client.Pelican;
 
 //package uk.ac.mrc.rfcgr;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
+import com.google.gwt.xml.client.NodeList;
 
 import edu.umb.jsPedigrees.client.PE.PedigreeSolution;
 import edu.umb.jsPedigrees.client.PE.PedigreeSolver;
@@ -280,6 +292,146 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 		rootPanel.add(mainMenu);
 
 	}
+
+	// get state for LMS in XML format as a string
+	public String getState() {
+		savePedigree();
+		return getXMLDoc().toString();
+	}
+
+	public void setState(String state) {
+		// read in this pedigree from the xml
+		Vector<PelicanPerson> newPedigree = new Vector<PelicanPerson>();
+		int pedSize=0;
+		Vector<Integer> pidList=new Vector<Integer>();
+		Vector<Integer> midList=new Vector<Integer>();
+		HashMap<Integer, Integer> idMap=new HashMap<Integer, Integer>();
+
+		Document doc = XMLParser.parse(state);
+		NodeList people = doc.getDocumentElement().getChildNodes();
+		for (int i = 0; i < people.getLength(); i++) {
+			Element e = (Element)people.item(i);
+			if (e.getTagName().equals("Person")) {
+				int id = Integer.parseInt(e.getAttribute("Id"));
+				int sex = Integer.parseInt(e.getAttribute("Sex"));
+				int affection = Integer.parseInt(e.getAttribute("Affection"));
+
+				String[] genotype = new String[2];
+				genotype[0] = "?";
+				genotype[1] = "?";
+
+				PelicanPerson person = new PelicanPerson(this, id, null, null, sex, affection, "", 0, genotype);
+				newPedigree.add(person);
+
+				int father = Integer.parseInt(e.getAttribute("Father"));
+				pidList.add(new Integer(father));
+				int mother = Integer.parseInt(e.getAttribute("Mother"));
+				midList.add(new Integer(mother));
+
+				idMap.put(new Integer(id),new Integer(pedSize++));
+
+			}
+		}
+
+
+		for(int i=0;i<newPedigree.size();i++) {
+			PelicanPerson person=(PelicanPerson)newPedigree.elementAt(i);
+			//gww	    if (((Integer)pidList.elementAt(i)).intValue()!=PelicanPerson.unknown) {
+			if ((Integer)pidList.elementAt(i) != PelicanPerson.unknownID) {
+				if (!idMap.containsKey(pidList.elementAt(i)))
+					//gww		    throw(new Error("Father of subject "+String.valueOf(person.id)+" is missing"));
+					throw(new Error("Father of subject "+person.id+" is missing"));
+				person.father=(PelicanPerson)newPedigree.elementAt(((Integer)idMap.get(pidList.elementAt(i))).intValue());
+			}
+			//gww	    if (((Integer)midList.elementAt(i)).intValue()!=PelicanPerson.unknown) {
+			if ((Integer)midList.elementAt(i) != PelicanPerson.unknownID) {
+				if (!idMap.containsKey(midList.elementAt(i)))
+					//gww		    throw(new Error("Mother of subject "+String.valueOf(person.id)+" is missing"));
+					throw(new Error("Mother of subject "+person.id+" is missing"));
+				person.mother=(PelicanPerson)newPedigree.elementAt(((Integer)idMap.get(midList.elementAt(i))).intValue());
+			}
+		}
+
+		// figure out the generations
+		((PelicanPerson)newPedigree.elementAt(0)).laidOut=true;
+		boolean someChange=true;
+		int nperson=newPedigree.size();
+		// repeatedly pass through the pedigree all subjects laid out
+		while (someChange) {
+			someChange=false;
+			for(int i=0;i<nperson;i++) {
+				PelicanPerson p=(PelicanPerson)newPedigree.elementAt(i);
+				if (!p.laidOut) {
+					// try to get it from the parents
+					for(int j=0;j<nperson;j++) {
+						PelicanPerson parent=(PelicanPerson)newPedigree.elementAt(j);
+						if (parent==p.father && parent.laidOut) {
+							p.generation=parent.generation+1;
+							p.laidOut=true;
+							someChange=true;
+						}
+						if (parent==p.mother && parent.laidOut) {
+							p.generation=parent.generation+1;
+							p.laidOut=true;
+							someChange=true;
+						}
+					}
+				}
+				if (p.laidOut) {
+					// assign parents generation
+					for(int j=0;j<nperson;j++) {
+						PelicanPerson parent=(PelicanPerson)newPedigree.elementAt(j);
+						if (parent==p.father && !parent.laidOut) {
+							parent.generation=p.generation-1;
+							parent.laidOut=true;
+							someChange=true;
+						}
+						if (parent==p.mother && !parent.laidOut) {
+							parent.generation=p.generation-1;
+							parent.laidOut=true;
+							someChange=true;
+						}
+					}
+				}
+			}
+		}
+
+		if (!checkIntegrity(newPedigree).equals("")) {
+			return;
+		}
+
+		// end
+		clear();
+		currentId=0;
+		for(int i=0;i<nperson;i++) {
+			PelicanPerson p=(PelicanPerson)newPedigree.elementAt(i);
+			add(p);
+			//gww need to add in check for valid integer ID else ignore updating of currentId
+			if (p.id > 0) {
+				//gww           if (i==0 || p.id>currentId) currentId=p.id;
+				if (i==0 || p.id > currentId) currentId = p.id;
+			}
+		}
+		currentId++;
+		newPedigree.removeAllElements();
+		updateDisplay();
+	}	
+
+	public String getGrade() {
+		return null;
+	}
+
+	private Element getXMLDoc() {
+		Document d = XMLParser.createDocument();
+		Element root = d.createElement("PedEx");
+		PelicanPerson[] people = getAllPeople();
+		for (int i = 0; i < people.length; i++) {
+			root.appendChild(people[i].save());
+		}
+		return root;
+	}
+
+
 
 	private void newPedigree() {
 		// start out with a single female
@@ -740,7 +892,6 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 	public void drawPedigree() {
 
 		if (!pedHasChanged) return;
-
 		undoItem.setEnabled(historyPosition>1);
 		redoItem.setEnabled(historyPosition!=history.size());
 

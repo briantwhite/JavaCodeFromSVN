@@ -25,6 +25,10 @@ package edu.umb.jsPedigrees.client.Pelican;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
@@ -237,10 +241,32 @@ public class PelicanPerson extends SimplePanel {
 		return genotype[0] + " " + genotype[1];
 	}
 
+	public Element save() {
+		Document d = XMLParser.createDocument();
+		Element e = d.createElement("Person");
+
+		e.setAttribute("Id", String.valueOf(id));
+		e.setAttribute("Sex", String.valueOf(sex));
+		e.setAttribute("Affection", String.valueOf(affection));
+
+		if (father == null) {
+			e.setAttribute("Father", "0");
+		} else {
+			e.setAttribute("Father", String.valueOf(father.id));			
+		}
+
+		if (mother == null) {
+			e.setAttribute("Mother", "0");			
+		} else {
+			e.setAttribute("Mother", String.valueOf(mother.id));
+		}
+		return e;
+	}
+
 	public String toString() {
 		StringBuffer b = new StringBuffer();
 		b.append("ID:" + id);
-		b.append("\tName:" + name);
+		b.append("\tGeneration:" + generation);
 		b.append("\tSex:" + sex + "\n");
 		b.append("\tAffected:" + affection + "\n");
 
