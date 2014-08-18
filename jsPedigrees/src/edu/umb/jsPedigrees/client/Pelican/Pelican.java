@@ -23,24 +23,15 @@ package edu.umb.jsPedigrees.client.Pelican;
 
 //package uk.ac.mrc.rfcgr;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -49,9 +40,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.XMLParser;
 import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
 
+import edu.umb.jsPedigrees.client.PE.GenotypeSet;
 import edu.umb.jsPedigrees.client.PE.PedigreeSolution;
 import edu.umb.jsPedigrees.client.PE.PedigreeSolver;
 
@@ -418,7 +410,96 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 	}	
 
 	public String getGrade() {
-		return null;
+		Document d = XMLParser.createDocument();
+		Element root = d.createElement("Grade");
+		
+		// first, some specifications of the pedigree
+		int numMales = 0;
+		int numFemales = 0;
+		int numAffectedMales = 0;
+		int numAffectedFemales = 0;
+		PelicanPerson[] people = getAllPeople();
+		for (int i = 0; i < people.length; i++) {
+			PelicanPerson p = people[i];
+			if (p.sex == PelicanPerson.male) {
+				numMales++;
+				if (p.affection == PelicanPerson.affected) {
+					numAffectedMales++;
+				}
+			} else {
+				numFemales++;
+				if (p.affection == PelicanPerson.affected) {
+					numAffectedFemales++;
+				}
+			}
+		}
+		Element e = d.createElement("Counts");
+		
+		Element M = d.createElement("M");
+		M.appendChild(d.createTextNode(String.valueOf(numMales)));
+		e.appendChild(M);
+		
+		Element F = d.createElement("F");
+		F.appendChild(d.createTextNode(String.valueOf(numFemales)));
+		e.appendChild(F);
+		
+		Element aM = d.createElement("aM");
+		aM.appendChild(d.createTextNode(String.valueOf(numAffectedMales)));
+		e.appendChild(aM);
+		
+		Element aF = d.createElement("aF");
+		aF.appendChild(d.createTextNode(String.valueOf(numAffectedFemales)));
+		e.appendChild(aF);
+		
+		root.appendChild(e);
+		
+		// now, the analysis results
+		renumberAll();
+		updateDisplay();
+
+		String integrity = checkIntegrity(history.lastElement());
+		if (integrity.equals("")) {
+			PedigreeSolver ps = new PedigreeSolver(getAllPeople(), getMatingList());
+			PedigreeSolution sol = ps.solve();
+			e = d.createElement("Analysis");
+			
+			GenotypeSet[] results = sol.getResults();
+			
+			Element AR = d.createElement("AR");
+			if (results[0].getAll().size() > 0) {
+				AR.appendChild(d.createTextNode("Y"));
+			} else {
+				AR.appendChild(d.createTextNode("N"));
+			}
+			e.appendChild(AR);
+			
+			Element AD = d.createElement("AD");
+			if (results[1].getAll().size() > 0) {
+				AD.appendChild(d.createTextNode("Y"));
+			} else {
+				AD.appendChild(d.createTextNode("N"));
+			}
+			e.appendChild(AD);
+						
+			Element SR = d.createElement("SR");
+			if (results[2].getAll().size() > 0) {
+				SR.appendChild(d.createTextNode("Y"));
+			} else {
+				SR.appendChild(d.createTextNode("N"));
+			}
+			e.appendChild(SR);
+						
+			Element SD = d.createElement("SD");
+			if (results[3].getAll().size() > 0) {
+				SD.appendChild(d.createTextNode("Y"));
+			} else {
+				SD.appendChild(d.createTextNode("N"));
+			}
+			e.appendChild(SD);
+		} 
+		root.appendChild(e);
+		
+		return root.toString();
 	}
 
 	private Element getXMLDoc() {

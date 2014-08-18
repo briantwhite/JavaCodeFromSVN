@@ -70,6 +70,23 @@ so convert all AA's to A_'s as last step
 working on state and grading for edX integration
 build the getGrade exported functions into jsPedigrees.java 
 	use JsVGL.java as model
-got it to export and import xml state
+got it to export and import xml state and grade
+grade looks like this
+<Grade>
+    <Counts>
+        <M>1</M>
+        <F>3</F>
+        <aM>0</aM>
+        <aF>1</aF>
+    </Counts>
+    <Analysis>
+        <AR>Y</AR>
+        <AD>N</AD>
+        <SR>N</SR>
+        <SD>N</SD>
+    </Analysis>
+</Grade>
 
+aM = affected males
+gwt compiled
 
