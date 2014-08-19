@@ -66,7 +66,7 @@ so convert all AA's to A_'s as last step
 - moved sanity checks from PedigreeSolver to Pelican
 - in consolidate - once numDiffs > 1 punt (you don't need to know how many if it's 2 or more)
 
-8/19/14
+8/18/14
 working on state and grading for edX integration
 build the getGrade exported functions into jsPedigrees.java 
 	use JsVGL.java as model
@@ -90,3 +90,7 @@ grade looks like this
 aM = affected males
 gwt compiled
 
+8/19/14
+move all exported methods to one place - Pelican
+gwt compiiled with xsiframe flag in jsPedigrees.gwt.xml
+fixed arrangement of html page

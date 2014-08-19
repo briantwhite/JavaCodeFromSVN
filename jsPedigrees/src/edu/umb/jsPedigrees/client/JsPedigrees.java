@@ -22,30 +22,8 @@ public class JsPedigrees implements EntryPoint {
 		RootPanel rootPanel = RootPanel.get("jsPedigreesContainer");
 		pelican = new Pelican(rootPanel);
 		rootPanel.add(pelican);
-		exportMethods(this);
 	}
 	
-	/*
-	 * methods for interfacing with LMS
-	 */
-	
-	public native void exportMethods(JsPedigrees jsped) /*-{
-		$wnd.getStateXML = $entry(function() {return jsped.@edu.umb.jsPedigrees.client.JsPedigrees::getStateXML()();});
-		$wnd.setStateXML = $entry(function(xmlString) {return jsped.@edu.umb.jsPedigrees.client.JsPedigrees::setStateXML(Ljava/lang/String;)(xmlString);});
-		$wnd.getGradeXML = $entry(function() {return jsped.@edu.umb.jsPedigrees.client.JsPedigrees::getGradeXML()();});
-	}-*/;
-	
-	public String getStateXML() {
-		return pelican.getState();
-	}
-	
-	public void setStateXML(String state) {
-		pelican.setState(state);
-	}
-	
-	public String getGradeXML() {
-		return pelican.getGrade();
-	}
 	
 
 }

@@ -43,6 +43,7 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
+import edu.umb.jsPedigrees.client.JsPedigrees;
 import edu.umb.jsPedigrees.client.PE.GenotypeSet;
 import edu.umb.jsPedigrees.client.PE.PedigreeSolution;
 import edu.umb.jsPedigrees.client.PE.PedigreeSolver;
@@ -91,8 +92,7 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 
 		addDomHandler(this, ClickEvent.getType());
 
-		exportNewPedigree(this);
-		exportSolvePedigree(this);
+		exportMethods(this);
 
 		Scheduler.get().scheduleDeferred(new Command() { 
 			public void execute() {
@@ -106,13 +106,31 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 		$wnd.pedexIsReady();
 	}-*/;
 
-	private static native void exportNewPedigree(Pelican p) /*-{
+	/*
+	 * methods for interfacing with js pages
+	 */
+	public static native void exportMethods(Pelican p) /*-{
+		// methods for page buttons
 		$wnd.pedexNewPedigree = $entry(function() {return p.@edu.umb.jsPedigrees.client.Pelican.Pelican::newPedigree()();});
-    }-*/;
-
-	private static native void exportSolvePedigree(Pelican p) /*-{
 		$wnd.pedexSolvePedigree = $entry(function() {return p.@edu.umb.jsPedigrees.client.Pelican.Pelican::solvePedigree()();});
+
+		// methods for LMS interfacing
+		$wnd.getStateXML = $entry(function() {return p.@edu.umb.jsPedigrees.client.Pelican.Pelican::getStateXML()();});
+		$wnd.setStateXML = $entry(function(xmlString) {return p.@edu.umb.jsPedigrees.client.Pelican.Pelican::setStateXML(Ljava/lang/String;)(xmlString);});
+		$wnd.getGradeXML = $entry(function() {return p.@edu.umb.jsPedigrees.client.Pelican.Pelican::getGradeXML()();});
 	}-*/;
+	
+	public String getStateXML() {
+		return getState();
+	}
+	
+	public void setStateXML(String state) {
+		setState(state);
+	}
+	
+	public String getGradeXML() {
+		return getGrade();
+	}
 
 
 	private void makeMenus(RootPanel rootPanel) {
