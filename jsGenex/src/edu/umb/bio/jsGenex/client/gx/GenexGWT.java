@@ -96,7 +96,6 @@ public class GenexGWT implements EntryPoint {
 	private Problem prob;
 
 	public void onModuleLoad() {
-
 		html = new HTML();
 		scrollPanel = new ScrollPanel(html);
 		scrollPanel.setSize("818px", "325px"); //Inside edX, 818px is the maximum content size in the edX platform

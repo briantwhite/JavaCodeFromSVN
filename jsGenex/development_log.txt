@@ -195,4 +195,20 @@ added textbox with state info for grading
 	optional - if left out, you don't get an error
 	otherwise, on "evaluate answer" it puts the GenexState.toString() in that box for grading
 
-	
+8/19/14
+need to build nicely for edX
+- add xsiframe tag to JsGenex.gwt.xml (to deal with SOP)
+
+it was badly kludged up to make a custom problem type in edX
+may be able to save it using semi-kludged parts in JsGenex.html
+
+when compiled with xsiframe, now the buttons are there but the main genex window is blank - not even a border
+it claims to be looking for genex/genex.css
+	but why? - there's genex.css in the same folder as JsGenex.html - the file that asks for it.
+	tried moving genex.css to genex/genex.css - lose error but still NG
+it's also failing in edit-a-gene.js's waitForGenex() method
+	genex doesn't have an onInjectionDone() method - why?
+	GenexGWT.java does have onInjectionDone()  but you can't see it from javacript
+weird - on pedex page, it looks for pedex.onInjectionDone() and start-pedigrees.js runs AOK but
+	from web page, pedex is undefined
+	but genex IS defined - could that be the problem?
