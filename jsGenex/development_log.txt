@@ -293,4 +293,9 @@ have to do some refactoring
 - underline base-by-base <u>A</u> etc
 FINALLY FIXED
 
+feature:
+	Problem 0 (make 5 aa protein - mostly for prokaryotes) - should not have polyA tail
+	in problem definition - just set polyATail = ""
+		may be OK maybe not...
+
 	

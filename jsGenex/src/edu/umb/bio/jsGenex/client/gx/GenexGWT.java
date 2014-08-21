@@ -613,6 +613,7 @@ public class GenexGWT implements EntryPoint {
 			r11.setLength(15);
 			r11.setFailureString("Your protein does not have 5 amino acids.");
 			prob.addRequirement(r11);
+			polyATail = "";
 		}
 		else if (problemNumber == 1) {
 			prob.setNumber(1);
