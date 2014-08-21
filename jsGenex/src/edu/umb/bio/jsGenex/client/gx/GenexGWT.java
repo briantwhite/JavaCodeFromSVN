@@ -40,6 +40,7 @@ public class GenexGWT implements EntryPoint {
 	String intronStartSequence;
 	String intronEndSequence;
 	String polyATail;
+	TextBox grade;
 
 	//length (as actually displayed) of the text 
 	// & labels before the start of the top DNA strand
@@ -71,7 +72,6 @@ public class GenexGWT implements EntryPoint {
 	Button newSequenceButton;
 	Label infoLabel;
 	HTML html;
-	TextBox state;
 
 	// components for "Enter new DNA sequence" dialog
 	DialogBox enterDNAdialogBox;
@@ -102,11 +102,9 @@ public class GenexGWT implements EntryPoint {
 		scrollPanel.setStyleName("genex-scrollpanel");
 		RootPanel.get("genex_container").add(scrollPanel);
 		
-		if (RootPanel.get("genex_state") != null) {
-			state = new TextBox();
-			RootPanel.get("genex_state").add(state);
-		}
-
+		grade = new TextBox();
+		RootPanel.get("grade_container").add(grade);
+		
 		// Create a DialogBox with a button to close it
 		enterDNAdialogBox = new DialogBox(false);
 		enterDNAdialogBox.addStyleName("genex-dialogbox");
@@ -179,9 +177,6 @@ public class GenexGWT implements EntryPoint {
 		evaluateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				GenexState currentState = getState();
-				if (state != null) {
-					state.setText(currentState.toString());
-				}
 				String result = prob.evaluate(currentState);
 				if (result.equals("OK")) {
 					result = "Your answer is correct!";
@@ -256,11 +251,6 @@ public class GenexGWT implements EntryPoint {
 	public static native void notifyHostpage() /*-{
 	if (typeof $wnd.genexIsReady === 'function') 
 		$wnd.genexIsReady();
-	}-*/;
-
-	public static native void storeAnswer(String str) /*-{
-	if (typeof $wnd.genexStoreAnswer === 'function')
-		$wnd.genexStoreAnswer(str);
 	}-*/;
 
 	public void setDefaultDNASequence(String dnaSequence) {
@@ -695,14 +685,14 @@ public class GenexGWT implements EntryPoint {
 	public void checkAnswer() {
 		GenexState state = getState();
 		if (state == null) {
-			storeAnswer("INCORRECT");
+			grade.setText("INCORRECT");
 			return;
 		}
 		String result = prob.evaluate(state);
 		if (result.equals("OK")) {
-			storeAnswer("CORRECT");
+			grade.setText("CORRECT");
 		} else {
-			storeAnswer("INCORRECT");
+			grade.setText("INCORRECT");
 		}
 	}
 

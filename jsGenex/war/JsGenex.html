@@ -7,6 +7,16 @@
     <title>jsGenex</title>
     <script type="text/javascript" language="javascript" src="genex/genex.nocache.js"></script>
     <script type="text/javascript" language="javascript" src="start-genex.js"></script>
+    <script type="text/javascript" language="javascript" src="jsGenex.js"></script>
+    <script type="text/javascript" language="javascript">
+    	// set these for specifoc problems
+    	var defaultDNASequence = "GGTATAACATGTAACCGGGGGT";
+    	var problemNumber = 0;
+    	function setupGenex() {
+     		genexSetDefaultDNASequence(defaultDNASequence);
+     		genexSetProblemNumber(problemNumber);
+    	}
+    </script> 
   </head>
 
   <body>
@@ -20,14 +30,7 @@
 <section class="problem">
     <h1>Gene Explorer</h1>
 	<div id="genex_container"></div>
-	<input type="hidden" name="genex_dna_sequence" id="genex_dna_sequence" value ="GGTATAACATGTAACCGGGGGT"></input>
-	<input type="hidden" name="genex_problem_number" id="genex_problem_number" value="0"></input>
-	<table border=1>
-		<tr>
-			<td>State Info:</td>
-			<td><div id="genex_state"></div></td>
-		</tr>
-	</table>
+	<div id="grade_container"></div>
 </section>
   </body>
 </html>

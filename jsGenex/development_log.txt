@@ -298,4 +298,6 @@ feature:
 	in problem definition - just set polyATail = ""
 		may be OK maybe not...
 
+set up jsGenex.js  to talk to edX
+
 	

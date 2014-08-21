@@ -13,9 +13,8 @@
     }
 
     genexIsReady = function() {
-     	genexSetDefaultDNASequence("GGTATAACATGTAACCGGGGGT");
-    	genexSetProblemNumber(0);
-    	genexSetDNASequence("GGTATAACATGTAACCGGGGGT");
+    	// setup params - usually this function is defined in JsGenex.html for custom problems
+     	setupGenex();
 
     	//Now load mouse and keyboard handlers
         genexSetClickEvent();
