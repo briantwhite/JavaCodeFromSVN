@@ -188,6 +188,7 @@ public class GenexGWT implements EntryPoint {
 
 		// dialog box that shows answer evaluation
 		answerEvaluationDialog = new DialogBox(false);
+		answerEvaluationDialog.setText("Answer check:");
 		answerEvaluationDialog.addStyleName("genex-dialogbox");
 		answerEvaluationContents = new VerticalPanel();
 		answerEvaluationMessage = new HTML("");
@@ -207,7 +208,7 @@ public class GenexGWT implements EntryPoint {
 
 		// create Dialog with keypad buttons and a button to show it
 		final DialogBox keyboardDialog = MakeKeyboardDialog.makeKeyboardDialog(this);
-		Button showKeyBoardButton = new Button("<img src='images/keyboard.png' />");
+		Button showKeyBoardButton = new Button("<img src='keyboard.png' />");
 		showKeyBoardButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				keyboardDialog.center();
