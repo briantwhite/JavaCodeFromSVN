@@ -251,5 +251,46 @@ works - IF you take out the wait for genex code
         }
     }
 
-	
+but this code works FINE in other jsWhatever's
+weird - in pedex, in JsPedigrees.gwt.xml , module rename-to="jspedigrees"
+	but in the waitForPedex, they use pedex (so where's it defined???)
+	- in genex, in JsGenex.gwt.xml, module rename-to="genex"
+		maybe a namespace thing?
+	- try in JsGenex.get.xml rename-to="jsgenex"
+get this error:
+	Unable to find 'genex.gwt.xml' on your classpath...
+
+if you put
+    console.log(typeof(genex));
+into start-genex.js; you get
+	function
+
+if you do the same to start-pedex.js (before waitForPedex();)
+	you get
+		undefined
+		(that's why it waits)
+
+so its a name thing.
+but there's nothing called pedex in the pedex page
+
+try "jsgenex" in the wait code
+WORKS - that's weird: it seems like you can call it ANYTHING!
+now go back and fix edit-a-gene.js to work OK and then use that one (for backward compatibility)
+	may have to add methods to getGrade, etc - FAILS
+	PUNT on that one
+
+make completely new
+first, fix some bugs:
+1) when protein is 1aa long, the underline is never cut off and spills over the page.
+
+8/21/14
+fixed (1)
+but if stop codon split by intron - underlining is all messed up
+
+have to do some refactoring
+- nuke out BWBuffer - no need for B&W text on web page
+	therefore, nuke HTMLContainer
+- underline base-by-base <u>A</u> etc
+FINALLY FIXED
+
 	

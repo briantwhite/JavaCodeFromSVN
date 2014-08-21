@@ -312,7 +312,7 @@ public class Gene {
 		return "N";
 	}
 
-	public HTMLContainer generateHTML(int selectedDNABase) {
+	public String generateHTML(int selectedDNABase) {
 		//mark the selected base (-1 means no base selected)
 		if (selectedDNABase != -1) {
 			Nucleotide nuc = (Nucleotide)_DNANucleotides.get(selectedDNABase);
@@ -321,36 +321,22 @@ public class Gene {
 
 		//the bufffer for the color html
 		StringBuffer colorHTMLbuffer = new StringBuffer();
+		colorHTMLbuffer.append(generateHTMLHeader());
 
-		//the buffer for the black & white HTML
-		StringBuffer bwHTMLbuffer = new StringBuffer();
+		String DNA_HTML = generateDNA_HTML(selectedDNABase);
+		colorHTMLbuffer.append(DNA_HTML);
+		_numCharsInDisplayBeforeFirstDNA_Base = calcCharsBeforeFirstDNA_Base(DNA_HTML);
 
-		HTMLContainer headerHTML = generateHTMLHeader();
-		colorHTMLbuffer.append(headerHTML.getColorHTML());
-		bwHTMLbuffer.append(headerHTML.getBwHTML());
+		colorHTMLbuffer.append(generatepremRNA_HTML(selectedDNABase));
 
-		HTMLContainer DNA_HTML = generateDNA_HTML(selectedDNABase);
-		colorHTMLbuffer.append(DNA_HTML.getColorHTML());
-		bwHTMLbuffer.append(DNA_HTML.getBwHTML());
-		_numCharsInDisplayBeforeFirstDNA_Base 
-		= calcCharsBeforeFirstDNA_Base(DNA_HTML.getColorHTML());
+		colorHTMLbuffer.append(generatemRNA_HTML(selectedDNABase));
 
-		HTMLContainer premRNA_HTML = generatepremRNA_HTML(selectedDNABase);
-		colorHTMLbuffer.append(premRNA_HTML.getColorHTML());
-		bwHTMLbuffer.append(premRNA_HTML.getBwHTML());
+		colorHTMLbuffer.append(generateProteinHTML(selectedDNABase));
 
-		HTMLContainer mRNA_HTML = generatemRNA_HTML(selectedDNABase);
-		colorHTMLbuffer.append(mRNA_HTML.getColorHTML());
-		bwHTMLbuffer.append(mRNA_HTML.getBwHTML());
-
-		HTMLContainer protein_HTML = generateProteinHTML(selectedDNABase);
-		colorHTMLbuffer.append(protein_HTML.getColorHTML());
-		bwHTMLbuffer.append(protein_HTML.getBwHTML());
-
-		return new HTMLContainer (colorHTMLbuffer.toString(), bwHTMLbuffer.toString());
+		return colorHTMLbuffer.toString();
 	}
 
-	public HTMLContainer generateHTMLHeader() {
+	public String generateHTMLHeader() {
 		//the html header that sets up the styles for display
 		StringBuffer headerBuffer = new StringBuffer();
 		headerBuffer.append("<html><head>");
@@ -362,11 +348,10 @@ public class Gene {
 		headerBuffer.append("EM.next {font-style: normal; background: #FF8C00; color: black}");
 		headerBuffer.append("EM.another {font-style: normal; background: #FFFF50; color: black}");
 		headerBuffer.append("</style></head><body>");
-		return new HTMLContainer(headerBuffer.toString(), "");
+		return headerBuffer.toString();
 	}
 
-	public HTMLContainer generateDNA_HTML(int selectedBase){
-		StringBuffer BW_Buffer = new StringBuffer();
+	public String generateDNA_HTML(int selectedBase){
 		StringBuffer ColorBuffer = new StringBuffer();
 		boolean highlighted = false;
 
@@ -375,11 +360,9 @@ public class Gene {
 		ColorBuffer.append("<html><h3>DNA: <EM class=promoter>Promoter</EM>");
 		ColorBuffer.append("<EM class=terminator>Terminator</EM></h3><pre>\n");
 
-		BW_Buffer.append("<h3>DNA: promoter, terminator</h3><pre>\n");
 		// then, set up the DNA numbering bars
 		//insert some blank spaces for the "5'-"
 		ColorBuffer.append(fivePrimeSpaces);
-		BW_Buffer.append(fivePrimeSpaces);
 
 		//first the numbers
 		for (int i = 0; i < _DNASequence.length(); i = i + 10) {
@@ -392,31 +375,23 @@ public class Gene {
 				numberLabel = "       " + i;
 			}
 			ColorBuffer.append(numberLabel);
-			BW_Buffer.append(numberLabel);
 		}
 		ColorBuffer.append("\n");
-		BW_Buffer.append("\n");
 
 		//then the tick marks
 		final String tickMarkString = "    .    |";
 		ColorBuffer.append(fivePrimeSpaces);
-		BW_Buffer.append(fivePrimeSpaces);	   
 		for (int i = 0; i < _DNASequence.length(); i = i + 10) {
 			if (i > 0) {
 				ColorBuffer.append(tickMarkString);
-				BW_Buffer.append(tickMarkString);
 			}
 		}
 		ColorBuffer.append("\n");
-		BW_Buffer.append("\n");
 
 		//do the three strands in color and B/W in parallel
 		StringBuffer ColorTopStrandBuffer = new StringBuffer();
 		StringBuffer ColorBasePairBuffer = new StringBuffer();
 		StringBuffer ColorBottomStrandBuffer = new StringBuffer();
-		StringBuffer BW_TopStrandBuffer = new StringBuffer();
-		StringBuffer BW_BasePairBuffer = new StringBuffer();
-		StringBuffer BW_BottomStrandBuffer = new StringBuffer();	
 
 		for (int i = 0; i < _DNASequence.length(); i++) {
 			Nucleotide n = (Nucleotide)_DNANucleotides.get(i);
@@ -433,32 +408,9 @@ public class Gene {
 				highlighted = false;
 			}
 
-			ColorTopStrandBuffer.append(
-					markUpNucleotideSymbol(
-							i, n.getBase(), n.getSelected(), highlighted)
-							.getColorHTML());
-			ColorBasePairBuffer.append(
-					markUpNucleotideSymbol(
-							i, "|", n.getSelected(), highlighted)
-							.getColorHTML());
-			ColorBottomStrandBuffer.append(
-					markUpNucleotideSymbol(
-							i, n.getComplementBase(), n.getSelected(), highlighted)
-							.getColorHTML());
-
-			BW_TopStrandBuffer.append(
-					markUpNucleotideSymbol(
-							i, n.getBase(), n.getSelected(), highlighted)
-							.getBwHTML());
-			BW_BasePairBuffer.append(
-					markUpNucleotideSymbol(
-							i, "|", n.getSelected(), highlighted)
-							.getBwHTML());
-			BW_BottomStrandBuffer.append(
-					markUpNucleotideSymbol(
-							i, n.getComplementBase(), n.getSelected(), highlighted)
-							.getBwHTML());
-
+			ColorTopStrandBuffer.append(markUpNucleotideSymbol(i, n.getBase(), n.getSelected(), highlighted));
+			ColorBasePairBuffer.append(markUpNucleotideSymbol(i, "|", n.getSelected(), highlighted));
+			ColorBottomStrandBuffer.append(markUpNucleotideSymbol(i, n.getComplementBase(), n.getSelected(), highlighted));
 		}
 
 		ColorBuffer.append("5\'-<span id='dna-strand'>"); //edx
@@ -468,17 +420,10 @@ public class Gene {
 		ColorBuffer.append("</EM>-5\'\n");     //the added </b> is if the last base 
 		//  is the end of the terminator
 
-		BW_Buffer.append("5\'-");
-		BW_Buffer.append(BW_TopStrandBuffer.toString() + "-3\'\n"
-				+ "   " + BW_BasePairBuffer.toString() + "\n"
-				+ "3\'-" + BW_BottomStrandBuffer.toString());
-		BW_Buffer.append("-5\'\n");
-
-		return new HTMLContainer(ColorBuffer.toString(), BW_Buffer.toString());
+		return ColorBuffer.toString();
 	}
 
-	public HTMLContainer generatepremRNA_HTML(int selectedDNABase){
-		StringBuffer BW_Buffer = new StringBuffer();
+	public String generatepremRNA_HTML(int selectedDNABase){
 		StringBuffer ColorBuffer = new StringBuffer();
 		boolean highlighted = false;
 		ColorSequencer exonColorSequencer = new ColorSequencer();
@@ -488,17 +433,14 @@ public class Gene {
 			//then the label for the pre-mRNA
 			ColorBuffer.append("</pre><h3>pre-mRNA: <EM class=exon>Ex</EM><EM class=next>o</EM>"
 					+ "<EM class=another>n</EM> Intron</h3><pre>");
-			BW_Buffer.append("</pre><h3>pre-mRNA: EXON intron</h3><pre>");
 
 			//then the pre mRNA
 			//first the leading spaces
 			if (!_premRNASequence.equals("")) {
 				for (int i = 0; i < _numSpacesBeforeRNA_Start; i++ ) {
 					ColorBuffer.append(" ");
-					BW_Buffer.append(" ");
 				}
 				ColorBuffer.append("5\'-");	 
-				BW_Buffer.append("5\'-");	 
 
 				//print out bases and mark exons as you go 
 				for (int i = 0; i < _DNASequence.length(); i++) {
@@ -530,62 +472,47 @@ public class Gene {
 							ColorBuffer.append("<EM class=selected>");
 							ColorBuffer.append(current.getRNABase());
 							ColorBuffer.append("</EM>");
-							if (highlighted){
-								BW_Buffer.append(current.getRNABase().toLowerCase());
-							} else {
-								BW_Buffer.append(current.getRNABase());
-							}                
 						} else {
 							ColorBuffer.append(current.getRNABase());
-							if (highlighted){
-								BW_Buffer.append(current.getRNABase());
-							} else {
-								BW_Buffer.append(current.getRNABase().toLowerCase());
-							}                
 						}
 					}
 				}
 				ColorBuffer.append("</EM>-3\'\n");    //needs the </em> for the end of the last exon
-				BW_Buffer.append("-3\'\n");
 			} else {
 				ColorBuffer.append("<font color=red>none</font>\n");
-				BW_Buffer.append("none\n");
 			}
 		}
-		return new HTMLContainer(ColorBuffer.toString(), BW_Buffer.toString());
+		return ColorBuffer.toString();
 	}
 
-	public HTMLContainer generatemRNA_HTML(int selectedDNABase){
-		StringBuffer BW_Buffer = new StringBuffer();
+	public String generatemRNA_HTML(int selectedDNABase){
 		StringBuffer ColorBuffer = new StringBuffer();
-		boolean highlighted = false;
+		boolean underlined = false;
 		boolean inPolyA = false;
 
 		ColorSequencer exonColorSequencer = new ColorSequencer();
 
 		//then the label for the mature mRNA & the protein
 		ColorBuffer.append("</pre><h3>");
-		BW_Buffer.append("</pre><h3>");
 		if (!(_intronStartSequence.equals("none") || _intronEndSequence.equals("none"))) {
 			ColorBuffer.append("mature-");
-			BW_Buffer.append("mature-");
 		}
 		ColorBuffer.append("mRNA and Protein (<font color=blue>previous</font>):</h3><pre>");
-		BW_Buffer.append("mRNA and Protein (previous on line below):</h3><pre>");
 
 		//if it's a prokaryote, add the leading spaces
 		if (_intronStartSequence.equals("none") || _intronEndSequence.equals("none")) {
 			for (int i = 0; i < _numSpacesBeforeRNA_Start; i++ ) {
 				ColorBuffer.append(" ");
-				BW_Buffer.append(" ");
 			}
 		}
 
+		underlined = false;
+		
 		//then the mature mRNA itself with exons, start, & stop codons marked
 		if (!_mRNASequence.equals("")) {
 			ColorBuffer.append("5\'-");
-			BW_Buffer.append("5\'-");
 			for (int i = 0; i < _DNANucleotides.size(); i++) {
+				
 				//get this & the previous nucleotide
 				Nucleotide current = (Nucleotide)_DNANucleotides.get(i);
 				Nucleotide prev;
@@ -604,13 +531,10 @@ public class Gene {
 
 				//see if it's in the mRNA and the pre mRNA (to avoid the poly A tail)
 				if (current.getInmRNA()) {
+
 					//see if start of exon
 					if (!prev.getInmRNA() && current.getInmRNA()) {
 						ColorBuffer.append("<EM class=" + exonColorSequencer.getNextColor() + ">");
-						if (highlighted) {
-							ColorBuffer.append("<u>");  // do this because sometimes the exon boundaries
-							// mess up the underlining
-						}
 					}
 
 					//see if end of last exon (start of poly A)
@@ -619,23 +543,10 @@ public class Gene {
 						inPolyA = true;
 					}
 
-					//see if start of start or stop codon
-					if (((current.getAANum() == 0) || (current.getAANum() == -2))
-							&& ((current.getCodonPosition() == 0) && (current.getInPremRNA()))) {
+					//underline of in start or stop codon - do base-by-base to be safe around introns
+					if((current.getAANum() == 0) || (current.getAANum() == -2)) {
 						ColorBuffer.append("<u>");
-						highlighted = true;
-					}
-
-					//see is end of start codon
-					if ((current.getAANum() == 1) && (current.getCodonPosition() == 0)) {
-						ColorBuffer.append("</u>");
-						highlighted = false;
-					}
-
-					//see if end of stop codon
-					if ((current.getAANum() == -1) && (prev.getAANum() == -2)) {
-						ColorBuffer.append("</u>");
-						highlighted = false;
+						underlined = true;
 					}
 
 					//see if selected (& in pre mRNA - to avoid selecting poly A tail)
@@ -643,38 +554,30 @@ public class Gene {
 						ColorBuffer.append("<EM class=selected>");
 						ColorBuffer.append(current.getRNABase());
 						ColorBuffer.append("</EM>");
-						if (highlighted){
-							BW_Buffer.append(current.getRNABase());
-						} else {
-							BW_Buffer.append(current.getRNABase().toLowerCase());
-						}
 					} else {
 						ColorBuffer.append(current.getRNABase());
-						if (highlighted){
-							BW_Buffer.append(current.getRNABase().toLowerCase());
-						} else {
-							BW_Buffer.append(current.getRNABase());
-						}
 					}
 
 					// see if its at the end of an exon
 					if (current.getInmRNA() && !next.getInmRNA()){
 						ColorBuffer.append("</EM>");
 					}
-
+					
+					// if it was underlined, end the underlining (go base-by-base)
+					if (underlined) {
+						ColorBuffer.append("</u>");
+						underlined = false;
+					}
 				}
 			}
 			ColorBuffer.append("-3\'\n");    
-			BW_Buffer.append("-3\'\n");
 		} else {
 			ColorBuffer.append("<font color=red>none</font>\n");
-			BW_Buffer.append("none\n");
 		}
-		return new HTMLContainer(ColorBuffer.toString(), BW_Buffer.toString());
+		return ColorBuffer.toString();
 	}
 
-	public HTMLContainer generateProteinHTML(int selectedDNABase){
-		StringBuffer BW_Buffer = new StringBuffer();
+	public String generateProteinHTML(int selectedDNABase){
 		StringBuffer ColorBuffer = new StringBuffer();
 		boolean highlighted = false;
 
@@ -684,7 +587,6 @@ public class Gene {
 		if (_intronStartSequence.equals("none") || _intronEndSequence.equals("none")) {
 			for (int i = 0; i < _numSpacesBeforeRNA_Start; i++ ) {
 				proteinStringBuffer.append(" ");
-				BW_Buffer.append(" ");
 			}
 		}
 
@@ -696,11 +598,9 @@ public class Gene {
 						break;
 					}
 					proteinStringBuffer.append(" ");
-					BW_Buffer.append(" ");
 				}
 			}
 			proteinStringBuffer.append(" N-");
-			BW_Buffer.append(" N-" + _proteinSequence + "-C\n");
 
 			if (selectedDNABase != -1) {
 				//mark the selected amino acid
@@ -725,18 +625,15 @@ public class Gene {
 			}
 		} else {
 			proteinStringBuffer.append("<font color=red>none</font>\n");
-			BW_Buffer.append("none\n");
-
 		}
 		_proteinString = proteinStringBuffer.toString();
 		ColorBuffer.append(_proteinString + "\n");
 
-		return new HTMLContainer(ColorBuffer.toString(), BW_Buffer.toString());
+		return ColorBuffer.toString();
 	}
 
-	public HTMLContainer markUpNucleotideSymbol(int nucleotideNum, String nucleotideSymbol,
+	public String markUpNucleotideSymbol(int nucleotideNum, String nucleotideSymbol,
 			boolean selected, boolean highlighted){
-		StringBuffer BW_Buffer = new StringBuffer();
 		StringBuffer ColorBuffer = new StringBuffer();
 
 		if (nucleotideNum == _promoterStart) {
@@ -756,20 +653,10 @@ public class Gene {
 			ColorBuffer.append("<EM class=selected>");
 			ColorBuffer.append(nucleotideSymbol);
 			ColorBuffer.append("</EM>");
-			if (highlighted){
-				BW_Buffer.append(nucleotideSymbol);
-			} else {
-				BW_Buffer.append(nucleotideSymbol.toLowerCase());
-			}
 		} else {
 			ColorBuffer.append(nucleotideSymbol);
-			if (highlighted){
-				BW_Buffer.append(nucleotideSymbol.toLowerCase());
-			} else {
-				BW_Buffer.append(nucleotideSymbol);
-			}
 		}	  
-		return new HTMLContainer(ColorBuffer.toString(), BW_Buffer.toString());
+		return ColorBuffer.toString();
 	}
 
 	public int calcCharsBeforeFirstDNA_Base(String HTMLstring){

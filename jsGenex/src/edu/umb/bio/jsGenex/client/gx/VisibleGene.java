@@ -6,24 +6,21 @@ package edu.umb.bio.jsGenex.client.gx;
 
 public class VisibleGene {
 
-  public HTMLContainer HTMLstrings;
+  public String HTML;
   public String currentDNA;
   public Gene theGene;
   
-  VisibleGene(HTMLContainer HTMLinput, Gene gene) {  // constructor
+  VisibleGene(String HTML, Gene gene) {  // constructor
       theGene = gene;
-      HTMLstrings = HTMLinput;
+      this.HTML = HTML;
       currentDNA = "";
   }
 
   public String getColorHTML() {
-      return HTMLstrings.getColorHTML();
+      return HTML;
   }
   
-  public String getBwHTML() {
-  	return HTMLstrings.getBwHTML();
-  }
-  
+   
   public Gene getGene() {
       return theGene;
   }
