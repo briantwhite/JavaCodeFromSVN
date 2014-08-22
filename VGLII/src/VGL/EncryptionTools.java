@@ -330,9 +330,9 @@ public class EncryptionTools {
 	 * - also subtracts offset from modulus
 	 * 
 	 */
-	public PrivateKey readPrivateKeyFromFile(String keyFileName) throws IOException {
+	public PrivateKey readPrivateKeyFromFile(File keyFile) throws IOException {
 		ObjectInputStream oin =
-				new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFileName)));
+				new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFile)));
 		try {
 			BigInteger m = (BigInteger) oin.readObject();
 			m = m.subtract(new BigInteger(OFFSET));
@@ -353,9 +353,9 @@ public class EncryptionTools {
 	 * subtracts "offset" - added security
 	 * 
 	 */
-	public PublicKey readPublicKeyFromFile(String keyFileName) throws IOException {
+	public PublicKey readPublicKeyFromFile(File keyFile) throws IOException {
 		ObjectInputStream oin =
-				new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFileName)));
+				new ObjectInputStream(new BufferedInputStream(new FileInputStream(keyFile)));
 		try {
 			BigInteger m = (BigInteger) oin.readObject();
 			m = m.subtract(new BigInteger(OFFSET));

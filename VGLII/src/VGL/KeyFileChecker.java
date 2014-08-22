@@ -111,6 +111,7 @@ public class KeyFileChecker {
 						} else {
 							// get the grading key "instructor.key"
 							File instructorKeyFile = new File("instructor.key");
+
 							if (!instructorKeyFile.exists()) {
 								JOptionPane.showMessageDialog(vglII, 
 										"Cannot find instructor.key; grading disabled.",
@@ -119,8 +120,7 @@ public class KeyFileChecker {
 								return null;
 							} else {
 								try {
-									return EncryptionTools.getInstance().readPrivateKeyFromFile(
-											"instructor.key");
+									return EncryptionTools.getInstance().readPrivateKeyFromFile(instructorKeyFile);
 								} catch (IOException e) {
 									e.printStackTrace();
 									return null;
@@ -138,7 +138,7 @@ public class KeyFileChecker {
 		File studentKeyFile = new File("student.key");
 		if (!studentKeyFile.exists()) return result;
 		try {
-			result = EncryptionTools.getInstance().readPublicKeyFromFile("student.key");
+			result = EncryptionTools.getInstance().readPublicKeyFromFile(studentKeyFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

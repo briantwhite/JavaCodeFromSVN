@@ -3,6 +3,7 @@
 	<taskdef name="bundleapp"
 	             classname="com.oracle.appbundler.AppBundlerTask"   
 	             classpath="lib/appbundler-1.0.jar" />
+		
 	
     <target name="compile" description="Compiles the code">
     	    <javac srcdir="src/" destdir="bin/"/>
@@ -30,10 +31,12 @@
 			displayname="VGLII-3.2.1"
 			identifier="edu.umb.vgl"
 			icon="pc 32x32 icon.ico"
-			mainclassname="VGL.VGLII">
+			mainclassname="VGL.VGLII"
+			workingdirectory="$APP_ROOT">
 			<classpath file="VGLII.jar" />
-			<option value="-Duser.dir=$APP_ROOT" />
-			</bundleapp>
+ 			<option value="-Duser.dir=$APP_ROOT" /> 
+			</bundleapp> 
+						
 		</target>
 	
 

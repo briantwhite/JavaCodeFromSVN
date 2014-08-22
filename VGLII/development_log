@@ -2134,3 +2134,47 @@ signed it as above
 		codesign -s "Developer ID Application: Brian White" -vf VGLII-3.2.1.app/
 post on web and test
 
+8/22/14
+sigh - apple is f**ing with java again
+the new jar bundler doesn't get paths right
+VGLII on mac can't find the key files.
+need to re-make with old jar bundler
+found it in
+/Volumes/TimeMachine2/Backups.backupdb/Brian White’s Home Office iMac/2011-07-31-095555/Macintosh HD/usr/share/java/Tools
+	Jar Bundler v 13.5.0
+try it now
+app won't run; gives error
+	LSOpenURLsWithRole() failed with error -10810
+
+try a newer Jar Bundler from
+/Volumes/TimeMachine2/Backups.backupdb/Brian White’s Home Office iMac/2013-08-18-094916/Macintosh HD/usr/share/java/Tools
+version 14.5.0
+same error
+
+even newer version? not available
+so this won't work.
+
+need to put key files where they'll be found
+tried putting student.key in every directory in the .app and launching and looking for "Save work for grading.." - never see it
+need to put in diagnostic
+
+weird
+if you use the 			<option value="-Duser.dir=$APP_ROOT" /> in build.xml for target jar
+it tries to look in VGLII-3.2.1.app/ for the file
+	but, even if it's there, file.exists() returns FALSE!
+somehow, changing the user.dir doesn't really work completley
+without that flag, it defaults to looking in Users/brian/
+
+works better if you change the KeyFileChecker and EncryptionTools to take files as arguments not filename strings
+	fixed for student.key and instructor.key
+
+the files are there but it claims they're not 
+
+there seems to be a new version of jarbundler http://informagen.com/JarBundler/
+	jarbundler-2.3.1.jar 
+		put in lib
+failed - app won't run
+nuke the jarbundler thing
+
+may have to go with jar file - but then can't put it in the dock.
+
