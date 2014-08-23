@@ -31,13 +31,11 @@
 			displayname="VGLII-3.2.1"
 			identifier="edu.umb.vgl"
 			icon="pc 32x32 icon.ico"
-			mainclassname="VGL.VGLII"
-			workingdirectory="$APP_ROOT">
+			mainclassname="VGL.VGLII" >
 			<classpath file="VGLII.jar" />
- 			<option value="-Duser.dir=$APP_ROOT" /> 
-			</bundleapp> 
-						
-		</target>
+ 			<argument value="-D$APP_ROOT" /> 
+		</bundleapp> 
+	</target>
 	
 
 </project>

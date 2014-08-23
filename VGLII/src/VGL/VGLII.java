@@ -404,9 +404,11 @@ public class VGLII extends JFrame {
 	private File currentSavedFile = null;
 
 	/**
+	 * the folder where the VGL application lives:
 	 * The default path for the problem file dialogs to open in
+	 * the place to look for key files
 	 */
-	private File defaultProblemDirectory = new File("."); //$NON-NLS-1$
+	public static File vglFolderDirectory; //$NON-NLS-1$
 
 	/**
 	 * the default path for saving work and html files to
@@ -430,24 +432,38 @@ public class VGLII extends JFrame {
 		addWindowListener(new ApplicationCloser());
 		this.args = args;
 		/*
+		 * check command line args (see under main())
 		 * find out if edX before constructing
 		 * 	so you can determine which menus to show
 		 *  - includes Save to Edx menu and button
 		 */
+		vglFolderDirectory = new File(System.getProperty("user.dir")); // for all but mac apps made by appbundler, this is the directory where VGL lives
 		boolean saveToEdXServerEnabled = false;
-		if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
-			saveToEdXServerEnabled = true;					// mode 3
-		} else if (args.length > 1) {
-			saveToEdXServerEnabled = true;					// mode 4
+		if ((args.length == 1) && args[0].startsWith("-D")) {
+			String appRootDir = args[0].replace("-D", "");		// mode 1a (mac only)
+			// need to chop off last directory /VGL-3.2.1.app to get to enclosing folder
+			StringBuffer appDirBuffer = new StringBuffer();
+			String[] parts = appRootDir.split("/");
+			for (int i = 0; i < (parts.length - 1); i++) {
+				appDirBuffer.append(parts[i]);
+				appDirBuffer.append("/");
+			}
+			appDirBuffer.deleteCharAt(appDirBuffer.length() - 1);
+			vglFolderDirectory = new File(appDirBuffer.toString());				
+		} else {
+			if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
+				saveToEdXServerEnabled = true;					// mode 3
+			} else if (args.length > 1) {
+				saveToEdXServerEnabled = true;					// mode 4
+			}
 		}
-
 		random = new Random();
 
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
 				+ System.getProperty("file.separator") //$NON-NLS-1$
 				+ "Desktop"); //$NON-NLS-1$
 		if (!desktopDirectory.exists()) {
-			desktopDirectory = defaultProblemDirectory;
+			desktopDirectory = vglFolderDirectory;
 		}
 
 		/**
@@ -486,6 +502,12 @@ public class VGLII extends JFrame {
 	 * 		- "Save to edX" - absent
 	 * 		- "new problem" - present
 	 * 
+	 * 1a) From mac app - need to deal with appbundler's user dir issue
+	 * 		- one param - the APP_ROOT - where to look for Problems and the key files
+	 * 			sent in as -D$APP_ROOT
+	 * 		- "Save to edX" - absent
+	 * 		- "new problem" - present
+	 * 
 	 * 2) Launch with work or problem file = opens with that problem started
 	 * 		- launch with 1 param = filename.pr2 or .wr2
 	 * 		- "save to edX" - absent
@@ -515,7 +537,7 @@ public class VGLII extends JFrame {
 			} else if (fileName.endsWith(".wr2")) { //$NON-NLS-1$
 				vgl2.openProblem(fileName);
 			}
-		} 
+		}
 	}
 
 	class ApplicationCloser extends WindowAdapter {
@@ -1089,10 +1111,11 @@ public class VGLII extends JFrame {
 
 		if (cageCollection == null) {
 			if (problemFileName == null) {
-				File problemsDirectory = new File(defaultProblemDirectory.toString()
+				File problemsDirectory = new File(vglFolderDirectory.toString()
 						+ System.getProperty("file.separator") + "Problems"); //$NON-NLS-1$ //$NON-NLS-2$
+
 				if (!problemsDirectory.exists()) {
-					problemsDirectory = defaultProblemDirectory;
+					problemsDirectory = vglFolderDirectory;
 				}
 				problemFile = selectFile(problemsDirectory,
 						Messages.getInstance().getString("VGLII.NewProbTypeSel"), 
@@ -1144,7 +1167,7 @@ public class VGLII extends JFrame {
 
 		default: return;
 		}
-		
+
 		startNewProblem();
 	}
 
@@ -1383,30 +1406,30 @@ public class VGLII extends JFrame {
 		} else {
 			System.out.println("edX strings:\n" + geneticModel.getProblemTypeSpecification().getEdXServerStrings().toString() + "\n********");
 
-//		nuked because xml is too long for edx server
-//			Iterator<CageUI> it = cageCollection.iterator();
-//			ArrayList<Cage> cages = new ArrayList<Cage>();
-//			while (it.hasNext()) {
-//				CageUI cui = it.next();
-//				Cage c = cui.getCage();
-//				cages.add(c);
-//			}
-//			Document doc = null;
-//			try {
-//				doc = getXMLDoc(cages);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			if (doc != null) {
-//
-//				Element root = doc.getRootElement();
-//				root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
-//				XMLOutputter outputter = 
-//						new XMLOutputter(Format.getPrettyFormat());
-//				String xmlString = outputter.outputString(doc);
-//				eMailAndPassword = EdXServerUtils.saveToEdXServer(this, geneticModel, eMailAndPassword, xmlString);
-//			}
-			
+			//		nuked because xml is too long for edx server
+			//			Iterator<CageUI> it = cageCollection.iterator();
+			//			ArrayList<Cage> cages = new ArrayList<Cage>();
+			//			while (it.hasNext()) {
+			//				CageUI cui = it.next();
+			//				Cage c = cui.getCage();
+			//				cages.add(c);
+			//			}
+			//			Document doc = null;
+			//			try {
+			//				doc = getXMLDoc(cages);
+			//			} catch (Exception e) {
+			//				e.printStackTrace();
+			//			}
+			//			if (doc != null) {
+			//
+			//				Element root = doc.getRootElement();
+			//				root.addContent(AutoGrader.grade(cageCollection, geneticModel, modelBuilder));
+			//				XMLOutputter outputter = 
+			//						new XMLOutputter(Format.getPrettyFormat());
+			//				String xmlString = outputter.outputString(doc);
+			//				eMailAndPassword = EdXServerUtils.saveToEdXServer(this, geneticModel, eMailAndPassword, xmlString);
+			//			}
+
 			// just the grading info for now
 			Element root = new Element("VglII");
 			Document doc = new Document(root);
@@ -1414,7 +1437,7 @@ public class VGLII extends JFrame {
 			XMLOutputter outputter = 
 					new XMLOutputter(Format.getPrettyFormat());
 			String xmlString = outputter.outputString(doc);
-//			System.out.println(xmlString);
+			//			System.out.println(xmlString);
 			eMailAndPassword = EdXServerUtils.saveToEdXServer(this, geneticModel, eMailAndPassword, xmlString);		
 		}
 	}
@@ -1942,10 +1965,10 @@ public class VGLII extends JFrame {
 	public void setChangeSinceLastSave() {
 		changeSinceLastSave = true;
 	}
-	
+
 	public GeneticModel getGeneticModel() {
 		return geneticModel;
 	}
-
+	
 }
 

@@ -2178,3 +2178,19 @@ nuke the jarbundler thing
 
 may have to go with jar file - but then can't put it in the dock.
 
+tried replacing the VGLII.jar file in the .app - no good (error -10810)
+
+8/23/14 probably, the best way is to pass in a command line parameter to VGL with the $app_root
+then set things right at the start
+
+try this
+documentation for command line stuff from the appbundler https://java.net/downloads/appbundler/appbundler.html
+use <argument value="-D$APP_ROOT" />
+	put the "-D" as a flag
+
+works!
+need to test on
+- os x as jar - OK
+- linux
+- windows - 
+

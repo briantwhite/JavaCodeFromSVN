@@ -25,7 +25,7 @@ import org.jdom.Element;
 public class KeyFileChecker {
 
 	public static PrivateKey checkGradingKeys(VGLII vglII) {
-		File graderTokenFile = new File("grader.key");
+		File graderTokenFile = new File(VGLII.vglFolderDirectory.getAbsolutePath() + "/grader.key");
 		if (!graderTokenFile.exists()) {
 			return null;
 		} else {
@@ -110,7 +110,7 @@ public class KeyFileChecker {
 							return null;
 						} else {
 							// get the grading key "instructor.key"
-							File instructorKeyFile = new File("instructor.key");
+							File instructorKeyFile = new File(VGLII.vglFolderDirectory.getAbsolutePath() + "/instructor.key");
 
 							if (!instructorKeyFile.exists()) {
 								JOptionPane.showMessageDialog(vglII, 
@@ -135,7 +135,7 @@ public class KeyFileChecker {
 
 	public static PublicKey checkSaveForGradingKey() {
 		PublicKey result = null;
-		File studentKeyFile = new File("student.key");
+		File studentKeyFile = new File(VGLII.vglFolderDirectory.getAbsolutePath() + "/student.key");
 		if (!studentKeyFile.exists()) return result;
 		try {
 			result = EncryptionTools.getInstance().readPublicKeyFromFile(studentKeyFile);
