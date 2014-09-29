@@ -1,0 +1,28 @@
+9/29/14
+downloaded the “full iclicker app” from 
+	https://www.dropbox.com/sh/lfr2m3gc86on8co/AADsebMILQmb1dg1kdDwaCeHa?dl=0
+
+put in eclipse (it has the .project etc files in it)
+•	Downloaded zip to desktop (it comes down as 1-iClickerGuiWindowsMac-2014-01-01/)
+•	It seems that the .project file specifies the name as 1-iClickerGuiWindowsMac-2014-01-01 (ugh)
+•	In eclipse, try Import -> General -> existing projects into workspace
+o	Check the box “Copy projects into workspace” - IMPORTANT
+•	Seemed to work
+
+Add to git
+•	Right-click the project -> Team-> Add to index
+•	Commit
+•	Push to upstream
+•	Check on github.com – all there!
+
+Now, need to build it.
+Make build.xml
+Error – ant didn’t like javac1.8
+Updated to newest ant a la http://stackoverflow.com/questions/23442621/ant-class-not-found-javac1-8
+
+Now get this runtime error from 
+Test.java line 204
+Exception in thread "main" java.lang.UnsatisfiedLinkError: Directory separator should not appear in library name: lib/hidapi-jni
+if you take out the lib/ - then it can't find it
+so need to make the lib/ a library?
+hmmm..

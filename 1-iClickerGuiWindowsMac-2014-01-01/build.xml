@@ -1,0 +1,25 @@
+<project name="iClickerUBC" default="run">
+			
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/UBCClicker.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="app.Test"/>
+	        </manifest>
+    	    <fileset dir="bin/"/>
+    	    <fileset dir="lib/"/>
+	    	<fileset dir="res/"/>
+ 	    </jar>
+        <move file="bin/UBCClicker.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run UBCClicker">
+		<java jar="UBCClicker.jar" fork="true"/>
+	</target>
+		
+
+</project>
