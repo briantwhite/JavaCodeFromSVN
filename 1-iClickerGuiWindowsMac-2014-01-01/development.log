@@ -22,7 +22,13 @@ Updated to newest ant a la http://stackoverflow.com/questions/23442621/ant-class
 
 Now get this runtime error from 
 Test.java line 204
+	originally 		System.loadLibrary("lib/hidapi-jni");
+	
 Exception in thread "main" java.lang.UnsatisfiedLinkError: Directory separator should not appear in library name: lib/hidapi-jni
 if you take out the lib/ - then it can't find it
 so need to make the lib/ a library?
 hmmm..
+
+no lib/hdapi-jni file
+try hidapi.jar (mac?)
+     [java] Exception in thread "main" java.lang.UnsatisfiedLinkError: no hidapi.jar in java.library.path
