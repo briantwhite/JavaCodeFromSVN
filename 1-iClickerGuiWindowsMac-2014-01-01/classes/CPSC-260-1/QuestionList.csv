@@ -1,0 +1,4 @@
+QLCSV
+0,Which of the following is not a province of Canada,,MULTIPLE,Alberta,British Columbia,Ontario,Yukon,Quebec,0,0,0,1,0,FALSE,NA,0,0,FALSE,1
+1,"x^2 + 2x + 1 = 0, what is x?",,MULTIPLE,-1,0,1,1/2,2,1,0,0,0,0,FALSE,A,0,0,FALSE,1
+2,"One of the following animal is not a mammal, which one is it?",,MULTIPLE,Cat,Dog,Crocodile,Monkey,Whale,0,0,2,0,0,FALSE,A,0,0,FALSE,1
