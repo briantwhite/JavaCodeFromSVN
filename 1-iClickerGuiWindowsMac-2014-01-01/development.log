@@ -77,3 +77,16 @@ to
     	    <fileset dir="." includes="lib/**"/>
 no good; same error
 put it back
+
+try to find out what java.library.path is
+add line to Test.java
+
+info on http://stackoverflow.com/questions/1403788/java-lang-unsatisfiedlinkerror-no-dll-in-java-library-path
+tried
+    	File f = new File("lib/libhidapi-jni.jnilib");
+		System.load(f.getAbsolutePath());
+works but new error 
+ [java] Exception in thread "AWT-EventQueue-0" java.lang.NoClassDefFoundError: org/jdesktop/layout/GroupLayout$Group
+googling suggests that this is in swing-layout-1.0.4.jar
+	tried the "native library" trick from above - no luck
+this appears to be NetBeans

@@ -1,6 +1,27 @@
 package app;
 
-import gui.*;
+import gui.About;
+import gui.AdHocQuestionEditor;
+import gui.ChoiceColor;
+import gui.DeleteCourse;
+import gui.EditCourse;
+import gui.HistogramInstructor;
+import gui.HistogramStudent;
+import gui.LabColor;
+import gui.MySettings;
+import gui.NewCourse;
+import gui.QuestionList;
+import gui.QuestionPanel;
+import gui.ResponseGrid;
+import gui.RunQuestionList;
+import gui.SelectCorrect;
+import gui.StartSession;
+import gui.ToolbarInstructor;
+import gui.ToolbarStudent;
+import gui.Welcome;
+
+import java.io.File;
+
 import content.Course;
 
 /**
@@ -201,7 +222,8 @@ public class Test {
     }
     
     public static void main(String args[]) {
-		System.loadLibrary("hidapi-jni");
+    	File f = new File("lib/libhidapi-jni.jnilib");
+		System.load(f.getAbsolutePath());
 		
         try {
             javax.swing.UIManager.LookAndFeelInfo[] installedLookAndFeels=javax.swing.UIManager.getInstalledLookAndFeels();
