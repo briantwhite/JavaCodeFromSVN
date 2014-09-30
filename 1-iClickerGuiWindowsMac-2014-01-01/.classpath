@@ -5,7 +5,11 @@
 	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/javacsv.jar"/>
 	<classpathentry kind="lib" path="lib/swing-layout-1.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/hidapi.jar"/>
+	<classpathentry kind="lib" path="lib/hidapi.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="1-iClickerGuiWindowsMac-2014-01-01/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/iClickerDriverWindowsMac.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

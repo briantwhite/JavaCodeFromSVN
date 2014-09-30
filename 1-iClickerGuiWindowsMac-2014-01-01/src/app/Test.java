@@ -201,7 +201,7 @@ public class Test {
     }
     
     public static void main(String args[]) {
-		System.loadLibrary("lib/hidapi-jni");
+		System.loadLibrary("hidapi-jni");
 		
         try {
             javax.swing.UIManager.LookAndFeelInfo[] installedLookAndFeels=javax.swing.UIManager.getInstalledLookAndFeels();

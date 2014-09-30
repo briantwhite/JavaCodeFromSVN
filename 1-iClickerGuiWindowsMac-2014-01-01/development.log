@@ -19,6 +19,7 @@ Now, need to build it.
 Make build.xml
 Error – ant didn’t like javac1.8
 Updated to newest ant a la http://stackoverflow.com/questions/23442621/ant-class-not-found-javac1-8
+	put apache ant in Applications/eclipse
 
 Now get this runtime error from 
 Test.java line 204
@@ -32,3 +33,47 @@ hmmm..
 no lib/hdapi-jni file
 try hidapi.jar (mac?)
      [java] Exception in thread "main" java.lang.UnsatisfiedLinkError: no hidapi.jar in java.library.path
+
+asked the author, Junhao Shi (99ellsworth@gmail.com) about putting the lib/ in the .jar
+he replied:
+no, it should be something like this:
+- src
+- bin
+- some other random folder
+- lib
+    \- iClickerDriver.jar (what I wrote)
+    |- hidapi.jar (java wrapper of native hidapi library)
+    |- hidapi.dll (native library for windows)
+    |- libhidapi-jni.jnilib (native library for Mac)
+
+{I'm not sure what he means..}
+
+asked him about the error above & he said:
+Hey Brian,
+
+I agree this part is always mysterious. I am pretty sure my colleague has tested this configuration on his 
+Mac and it worked. Somehow it does not work on my mac. I just tested :-(
+
+The following modification should work. You can have a try.
+1. change line 204 to System.loadLibrary("hidapi-jni"), which you already did;
+2. in your first attached image {Properties, java build path, libraries}, click hidapi.jar, it 
+	should show an item called native library location, 
+	double click it and set it to the .../1-iClickerGuiWindowsMac-2014-01-01/lib.
+
+I tested on my Mac and it works. You may need to change everything back when you actually run it on Windows.
+
+Junhao
+
+tried this - no go
+     [java] Exception in thread "main" java.lang.UnsatisfiedLinkError: no hidapi-jni in java.library.path
+
+in Test.java line 204, tried "hidapi" and "hidapi.jar" "libhidapi-jni" and "libhidapi-jni.jnilib" - no good
+
+maybe it's because the files in lib/ are in the root level of the jar, not in the lib/ folder
+see http://stackoverflow.com/questions/9348643/java-jar-ant-include-folder
+changed in build.xml
+    	    <fileset dir="lib/"/>
+to
+    	    <fileset dir="." includes="lib/**"/>
+no good; same error
+put it back
