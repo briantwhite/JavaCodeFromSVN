@@ -90,3 +90,28 @@ works but new error
 googling suggests that this is in swing-layout-1.0.4.jar
 	tried the "native library" trick from above - no luck
 this appears to be NetBeans
+
+10/1/14
+try taking out the swing-layout-1.0.4.jar from the libraries and putting it back (voodoo)
+	no good
+
+try putting in 
+	    	<zipfileset src="lib/swing-layout-1.0.4.jar" />
+this works 
+now it can't find the class  com/csvreader/CsvReader
+as well as others as I incrementally added <zipfileset
+try putting in
+			<zipfileset src="lib/javacsv.jar" />
+	    	<zipfileset src="lib/iClickerDriverWindowsMac.jar" />
+	    	<zipfileset src="lib/hidapi.jar" />
+ got it running
+ but if I start session, I get
+     [java] java.lang.Exception: Fail to receive Set Frequency Ack
+     [java] 	at iClickerDriver.IClickerDriverOld.startBaseStation(IClickerDriverOld.java:68)
+     [java] 	at content.ClickerControlStation.<init>(ClickerControlStation.java:38)
+     [java] 	at content.Session.<init>(Session.java:41)
+     [java] 	at content.Course.createSession(Course.java:543)
+     [java] 	at gui.StartSession.jButtonStartActionPerformed(StartSession.java:244)
+     [java] 	at gui.StartSession.access$1(StartSession.java:241)
+     [java] 	at gui.StartSession$2.actionPerformed(StartSession.java:83)
+ 

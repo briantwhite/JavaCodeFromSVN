@@ -13,6 +13,10 @@
     	    <fileset dir="bin/"/>
     	    <fileset dir="lib/"/>
 	    	<fileset dir="res/"/>
+	    	<zipfileset src="lib/swing-layout-1.0.4.jar" />
+	    	<zipfileset src="lib/javacsv.jar" />
+	    	<zipfileset src="lib/iClickerDriverWindowsMac.jar" />
+	    	<zipfileset src="lib/hidapi.jar" />
  	    </jar>
         <move file="bin/UBCClicker.jar" todir="."/>
     </target>
