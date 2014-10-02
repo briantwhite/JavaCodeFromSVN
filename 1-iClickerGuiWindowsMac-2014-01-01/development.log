@@ -80,6 +80,8 @@ put it back
 
 try to find out what java.library.path is
 add line to Test.java
+it gives
+/Users/brian/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.
 
 info on http://stackoverflow.com/questions/1403788/java-lang-unsatisfiedlinkerror-no-dll-in-java-library-path
 tried
@@ -115,3 +117,46 @@ try putting in
      [java] 	at gui.StartSession.access$1(StartSession.java:241)
      [java] 	at gui.StartSession$2.actionPerformed(StartSession.java:83)
  
+ I'll bet it's not loading the library properly
+ go back and look at java.library.path
+ /Users/brian/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.
+ it does include "." = the current directory
+ so, it should find the file if I use System.loadLibrary("lib/hidapi-jni")
+ get this error
+      [java] Exception in thread "main" java.lang.UnsatisfiedLinkError: Directory separator should not appear in library name: lib/hidapi-jni
+ try putting a copy of libhidapi-jni.jnilib in same directory as UBCClicker.jar and removing lib/
+ 
+ still no good
+ with white base, the program starts but when you start a question, many errors occur including:
+     [java] java.lang.Exception: Fail to receive reset counter Ack
+     [java] 	at iClickerDriver.IClickerDriverOld.startAcceptingVotes(IClickerDriverOld.java:152)
+     [java] 	at content.ClickerControlStation.startAcceptingVotes(ClickerControlStation.java:75)
+ 
+ so, it looks like this library change was not helpful
+ 	set it back to the way it was System.load(
+ 	
+ same errors - Junhao says:
+ This is really unfortunate. Re-produceable software is harder to achieve than I thought :-(
+
+For a quick fix, assume you will always use the white base station (actually the old black one is hard to find nowadays),
+ you can do the following:
+
+Remove the in the package explorer of eclipse, expand the menu "Referenced Libraries" for your project, select 
+iClickerDriverWindowsMac.jar, right click and select remove from Build Path.
+
+Attached is a .jar that I modified only works with the white base station. You can 
+1. copy that into your lib folder; 
+2. expand the lib menu in the package explorer of eclipse, select iClickerDriverWindowsMac2.jar; 
+3. right click and select Build Path -> add to build path.
+
+Basically we replaced the original driver with the new one. I don't have a base station with me so I am not 
+sure if it work perfectly, but I believe it will.
+
+Let me know if it does not work out well.
+
+Best,
+Junhao
+
+put his iClickerDriverWindowsMac2.jar in lib/
+followed his directions
+no good

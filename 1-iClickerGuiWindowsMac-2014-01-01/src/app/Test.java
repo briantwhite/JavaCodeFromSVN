@@ -224,6 +224,8 @@ public class Test {
     public static void main(String args[]) {
     	File f = new File("lib/libhidapi-jni.jnilib");
 		System.load(f.getAbsolutePath());
+//    	System.out.println(System.getProperty("java.library.path"));
+//   	System.loadLibrary("hidapi-jni");
 		
         try {
             javax.swing.UIManager.LookAndFeelInfo[] installedLookAndFeels=javax.swing.UIManager.getInstalledLookAndFeels();
