@@ -22,7 +22,8 @@ public class ClickerControlStation extends ClickerControl {
 												   this.session.getCourse().getInstructorID(),
 												   false);
 		
-		if (driver.getDriverType() == DriverType.OLD) {
+//		if (driver.getDriverType() == DriverType.OLD) {
+		if (false) {
 			this.driver = new IClickerDriverOld(this.session.getCourse().getFrequencyEnum1(), 
 												this.session.getCourse().getFrequencyEnum2(),
 												this.session.getCourse().getInstructorID(),

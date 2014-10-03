@@ -160,3 +160,43 @@ Junhao
 put his iClickerDriverWindowsMac2.jar in lib/
 followed his directions
 no good
+
+10/3/14
+Junhao says:
+Hey Brian,
+
+Sorry it does not work out. It suddenly occurred to me that my last email is really meaningless. 
+My mind got stuck after a whole day's work...
+
+Go to src->content->ClickerControlStation.java. On line 25,
+
+change
+
+if (driver.getDriverType() == DriverType.OLD) {
+
+to
+
+if (false) {
+
+Basically we are saying ignore all the driver test, we will use the new driver no matter what.
+
+Hope this helps. And if you got a chance, undo whatever I said in my previous email. 
+The driver itself does not need to be replaced.
+
+Best,
+Junhao
+
+1) in referenced libs, removed iClickerDriverWindowsMac2.jar
+2) deleted iClickerDriverWindowsMac2.jar from lib/
+3) added iClickerDriverWindowsMac.jar to libs by right-clicking it as above
+4) edited ClickerControlStation.java as above
+
+almost works -
+can start session
+can start logging votes
+the vote counter goes up
+but: clicking STOP freezes the program
+	and can't show histogram
+	and the display always reads "i>clicker System USB Base"
+getting close!
+
