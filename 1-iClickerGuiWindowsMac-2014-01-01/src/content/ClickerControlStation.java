@@ -33,6 +33,7 @@ public class ClickerControlStation extends ClickerControl {
 												this.session.getCourse().getFrequencyEnum2(),
 												this.session.getCourse().getInstructorID(),
 												false);
+//												true);		// show packets
 		}
 		
 		

@@ -119,7 +119,6 @@ public class Question {
 			this.votes.add(vote);
 			this.summaryList.add(vote);
 		}
-		
 		endTime = TimeProcess.getTime(TimeEnum.HMS);
 		
 		if (this.questionBody.getEnumQuestionType() == EnumQuestionType.LIST) {

@@ -231,6 +231,7 @@ public class Session {
 		}
 		
 		this.getQuestion(this.currentQuestionId).end();
+
 	}
 
 	/**

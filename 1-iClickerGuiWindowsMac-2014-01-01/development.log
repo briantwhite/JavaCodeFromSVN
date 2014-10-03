@@ -191,12 +191,30 @@ Junhao
 3) added iClickerDriverWindowsMac.jar to libs by right-clicking it as above
 4) edited ClickerControlStation.java as above
 
-almost works -
-can start session
-can start logging votes
-the vote counter goes up
-but: clicking STOP freezes the program
-	and can't show histogram
-	and the display always reads "i>clicker System USB Base"
-getting close!
 
+where is it dying?
+looked at Session.java's stopQuestion()
+it is OK up until 
+		this.getQuestion(this.currentQuestionId).end();
+but never gets back from that
+look at Question.java's end() method
+this is failing to return
+		ArrayList<Vote> array = this.session.getClickerControl().stopAccpetingVotes();
+that calls this:
+		ArrayList<Vote> arrayList = this.driver.stopAcceptingVotes();
+need to look in driver code - not part of this project
+
+driver is at 
+https://www.dropbox.com/sh/da527fp2ue4gpaz/AAC4MFLjrA61YCLSG-6HTwaaa?dl=0
+
+try setting the printPacket in the constructor for the driver
+	ClickerControlStation.java line 36 to true
+when you click stop, you get these packets
+     [java] 01 12 aa 96 c5 62 22 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+     [java] 01 16 aa 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+then an infinite loop of these
+     [java] 01 17 aa 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+     [java] 01 17 aa 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+ 
+these are the replies from the base
+asked Junhao...
