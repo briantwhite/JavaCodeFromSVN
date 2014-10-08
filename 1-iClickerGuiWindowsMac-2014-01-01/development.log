@@ -222,3 +222,17 @@ asked Junhao...
 the white base used above is running firmware 05.04
 
 tried it with my black base that's running 04.05 and it WORKS!
+
+asked Junhao if he's planning to make a version that's compatible with 5.04:
+It would be nice to have a new version of the driver, but I am afraid it is really beyond my current availability. 
+And I don't have a base station with me. As I mentioned above, this requires another reverse engineering process. 
+I have some description about that part of work in my thesis, mostly in Chapter 2. I'd happy to answer any 
+questions should you have.
+
+- don't bother. Use as is.
+
+Need to:
+1) fix histogram "bug?" - it looks like it counts EVERY vote; not just the final votes
+2) check to be sure that the .csv files are OK
+3) get it to beep
+
