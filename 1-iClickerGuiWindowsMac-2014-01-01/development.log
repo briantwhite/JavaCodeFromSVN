@@ -236,3 +236,19 @@ Need to:
 2) check to be sure that the .csv files are OK
 3) get it to beep
 
+10/9/14
+working on beep 
+use SoundUtils from http://stackoverflow.com/questions/3780406/how-to-play-a-sound-alert-in-a-java-application
+made class in gui
+no good - it beeps but you never get the GUI for clicker (!)
+need something else besides Toolkit.getDefaultToolkit().beep()
+
+maybe wrap the SoundUtils beeper in a thread
+works OK but multiple beeps sound terrible
+try putting a sleep for msec in each beep
+no good
+	get a beep followed by a nasty buzz
+
+maybe try having the beep always on in a thread and then turning the volume up/down
+
+need to get thread working right...
