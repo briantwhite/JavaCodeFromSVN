@@ -226,13 +226,6 @@ public class Test {
 	}
 
 	public static void main(String args[]) {
-		soundUtils = new SoundUtils(500, 1.0f);
-		Thread soundThread = new Thread(soundUtils);
-		soundThread.start();
-		
-		for (int i = 0; i < 10; i++) {
-			soundUtils.beep(100);
-		}
 		
 		File f = new File("lib/libhidapi-jni.jnilib");
 		System.load(f.getAbsolutePath());

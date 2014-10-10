@@ -278,3 +278,6 @@ test:
 		- then try a geiger counter run
 	- look at behavior and logs
 	
+SummaryList.increaseCount() - is the place to add the running total
+
+the class Timer is an one-second display updater - use it for looking at the running total
