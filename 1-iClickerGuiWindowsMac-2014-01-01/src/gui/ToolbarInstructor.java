@@ -51,6 +51,7 @@ public class ToolbarInstructor extends javax.swing.JFrame {
         jButtonHistogram = new javax.swing.JButton();
         jLabelTime = new javax.swing.JLabel();
         jLabelVotes = new javax.swing.JLabel();
+        jLabelVotesPerSecond = new javax.swing.JLabel();
         jButtonChangeCourse = new javax.swing.JButton();
 
         jPopupMenuHistogramOption.setLabel("");
@@ -149,6 +150,8 @@ public class ToolbarInstructor extends javax.swing.JFrame {
         jLabelTime.setText("Time");
 
         jLabelVotes.setText("Votes");
+        
+        jLabelVotesPerSecond.setText("Votes/sec");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -167,6 +170,8 @@ public class ToolbarInstructor extends javax.swing.JFrame {
                 .add(jLabelTime, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
                 .add(jLabelVotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(18, 18, 18)
+                .add(jLabelVotesPerSecond, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18))
         );
         layout.setVerticalGroup(
@@ -179,7 +184,8 @@ public class ToolbarInstructor extends javax.swing.JFrame {
                     .add(jButtonSetting, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jLabelTime)
                     .add(jButtonChangeCourse)
-                    .add(jLabelVotes))
+                    .add(jLabelVotes)
+                    .add(jLabelVotesPerSecond))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -341,6 +347,7 @@ public class ToolbarInstructor extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSetting;
     private javax.swing.JLabel jLabelTime;
     private javax.swing.JLabel jLabelVotes;
+    private javax.swing.JLabel jLabelVotesPerSecond;	// added by bw
     private javax.swing.JMenuItem jMenuItemHide;
     private javax.swing.JMenuItem jMenuItemLoadQuestionList;
     private javax.swing.JMenuItem jMenuItemMySettings;
