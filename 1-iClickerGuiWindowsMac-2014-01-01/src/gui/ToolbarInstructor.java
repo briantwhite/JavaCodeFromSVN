@@ -329,7 +329,7 @@ public class ToolbarInstructor extends javax.swing.JFrame {
     public void updateTime(String time) {
         this.jLabelTime.setText(time);
     }
-    
+        
     /**
      * Update total number of votes received.
      * @param amount amount of votes.
@@ -337,7 +337,16 @@ public class ToolbarInstructor extends javax.swing.JFrame {
     public void updateVotes(int amount) {
         this.jLabelVotes.setText(amount + "");
     }
-    
+
+    /**
+     * Update number of votes received since last report.
+     * Votes per second meter
+     * @param amount amount of votes.
+     */
+    public void updateVotesPerSecond(int amount) {
+        this.jLabelVotesPerSecond.setText(amount + "");
+    }
+
     private Test test;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

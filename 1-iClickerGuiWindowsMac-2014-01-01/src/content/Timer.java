@@ -30,6 +30,8 @@ public class Timer implements Runnable {
 			String time = hourStr + ":" + minuteStr + ":" + secondStr;
 			
 			this.test.getToolbarInstructor().updateTime(time);
+			this.test.getToolbarInstructor().updateVotesPerSecond(
+					this.test.getCourse().getSession().getCurrentQuestion().getSummaryList().getVotesThisInterval());
 			this.test.getToolbarStudent().updateTime(time);
 			
 			try {

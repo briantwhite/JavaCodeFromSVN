@@ -34,6 +34,12 @@ public abstract class SummaryList {
 	// How many different students have voted
 	protected int studentTotal;
 	
+	/**
+	 *  votes in this time interval - used by votes per second code
+	 *  reset on each read
+	 */
+	protected int votesThisInterval;
+	
 	protected LabInfoList labInfoList;
 
 	public SummaryList(Question question) {
@@ -111,6 +117,7 @@ public abstract class SummaryList {
 		}
 		
 		studentTotal++;
+		votesThisInterval++;
 	}
 	
 	/**
@@ -136,6 +143,8 @@ public abstract class SummaryList {
 		case D: responseD++;	break;
 		default:responseE++;
 		}
+		
+		votesThisInterval++;
 	}
 	
 	public Summary get(int index) {
@@ -196,5 +205,11 @@ public abstract class SummaryList {
 
 	public LabInfoList getLabInfoList() {
 		return labInfoList;
+	}
+	
+	public int getVotesThisInterval() {
+		int x = votesThisInterval;
+		votesThisInterval = 0;
+		return x;
 	}
 }

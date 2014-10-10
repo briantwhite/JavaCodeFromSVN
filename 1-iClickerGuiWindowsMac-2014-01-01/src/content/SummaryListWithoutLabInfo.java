@@ -40,6 +40,14 @@ public class SummaryListWithoutLabInfo extends SummaryList {
 	protected void addNewVote(Vote vote) throws ClassNotFoundException {
 		Summary summary = new Summary(vote, this.question.getSession().getCourse().getStudents());
 		
+		// added from SummaryListWithLabInfo
+		Student student = summary.getStudent();
+		
+		for (String clickerId : student.getClickerId()) {
+			this.clickerIdToSummary.put(clickerId, summary);
+		}
+		//
+
 		this.summaryList.add(summary);
 		
 		this.SummaryToIndex.put(summary, this.summaryList.size() - 1);
