@@ -306,3 +306,17 @@ it seems that the student is null (checked it and it's == null)
 		Student student = summary.getStudent();
 maybe they're not registered?
 
+the loop above is used instead of just
+	this.clickerIdToSummary.put(vote.getId(), summary)
+because a student may have more than one remote regstered
+	so this says that "all remotes registered to fred entered this vote"
+this is not necessary for us
+
+try just using
+	this.clickerIdToSummary.put(vote.getId(), summary)
+WORKS!!
+
+*** will need to check this****
+	what if a student's remote is not registered; will their vote make it into the .csv?
+- checked OK!
+

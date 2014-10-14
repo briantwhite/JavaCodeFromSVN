@@ -19,7 +19,7 @@ public abstract class SummaryList {
 	protected StudentList studentList;
 	protected HashMap<String, Summary> clickerIdToSummary;
 	protected HashMap<Summary, Integer> SummaryToIndex;
-	
+
 	protected int responseA;
 	protected int responseB;
 	protected int responseC;
@@ -30,16 +30,16 @@ public abstract class SummaryList {
 	protected double responseCPerc;
 	protected double responseDPerc;
 	protected double responseEPerc;
-	
+
 	// How many different students have voted
 	protected int studentTotal;
-	
+
 	/**
 	 *  votes in this time interval - used by votes per second code
 	 *  reset on each read
 	 */
 	protected int votesThisInterval;
-	
+
 	protected LabInfoList labInfoList;
 
 	public SummaryList(Question question) {
@@ -48,13 +48,13 @@ public abstract class SummaryList {
 		this.studentList = question.getSession().getCourse().getStudents();
 		this.clickerIdToSummary = new HashMap<String, Summary> ();
 		this.SummaryToIndex = new HashMap<Summary, Integer> ();
-		
+
 		responseA = 0;
 		responseB = 0;
 		responseC = 0;
 		responseD = 0;
 		responseE = 0;
-		
+
 		responseAPerc = 0;
 		responseBPerc = 0;
 		responseCPerc = 0;
@@ -79,22 +79,22 @@ public abstract class SummaryList {
 	 * @throws ClassNotFoundException
 	 */
 	abstract protected void addNewVote(Vote vote) throws ClassNotFoundException;
-	
+
 	/**
 	 * An old clicker votes again.
 	 * @param index index of this clicker in the summary.
 	 * @param vote vote.
 	 */
 	abstract protected void modifyExistingVote(Vote vote);
-	
+
 	/**
 	 * Update vote count on toolbar.
 	 */
 	protected void updateToolbar() {
-        this.question.getSession().getCourse().getTest().getToolbarInstructor().updateVotes(studentTotal);
-        this.question.getSession().getCourse().getTest().getToolbarStudent().updateVotes(studentTotal);
+		this.question.getSession().getCourse().getTest().getToolbarInstructor().updateVotes(studentTotal);
+		this.question.getSession().getCourse().getTest().getToolbarStudent().updateVotes(studentTotal);
 	}
-	
+
 	/**
 	 * Update histogram.
 	 */
@@ -102,7 +102,7 @@ public abstract class SummaryList {
 		this.question.getSession().getCourse().getTest().getHistogramInstructor().update();
 		this.question.getSession().getCourse().getTest().getHistogramStudent().update();
 	}
-	
+
 	/**
 	 * A new voter votes and we need to change the statistics.
 	 * @param button choice.
@@ -115,19 +115,22 @@ public abstract class SummaryList {
 		case D: responseD++;	break;
 		default:responseE++;
 		}
-		
+
 		studentTotal++;
 		votesThisInterval++;
 	}
-	
+
 	/**
 	 * A voter votes again and we need to change the statistics.
 	 * @param oldChoice previous choice.
 	 * @param newChoice current choice.
 	 */
 	protected void modifyCount(ButtonEnum oldChoice, ButtonEnum newChoice) {
-		if (oldChoice == newChoice) return;
 		
+		votesThisInterval++;
+
+		if (oldChoice == newChoice) return;
+
 		switch (oldChoice) {
 		case A: responseA--; break;
 		case B: responseB--; break;
@@ -135,7 +138,7 @@ public abstract class SummaryList {
 		case D: responseD--; break;
 		default:responseE--;
 		}
-		
+
 		switch (newChoice) {
 		case A:	responseA++;	break;
 		case B: responseB++;	break;
@@ -143,14 +146,12 @@ public abstract class SummaryList {
 		case D: responseD++;	break;
 		default:responseE++;
 		}
-		
-		votesThisInterval++;
 	}
-	
+
 	public Summary get(int index) {
 		return summaryList.get(index);
 	}
-	
+
 	public void remove(int index) {
 		summaryList.remove(index);
 	}
@@ -158,7 +159,7 @@ public abstract class SummaryList {
 	public int getSummaryAmount() {
 		return summaryList.size();
 	}
-	
+
 	public Question getQuestion() {
 		return question;
 	}
@@ -206,7 +207,7 @@ public abstract class SummaryList {
 	public LabInfoList getLabInfoList() {
 		return labInfoList;
 	}
-	
+
 	public int getVotesThisInterval() {
 		int x = votesThisInterval;
 		votesThisInterval = 0;

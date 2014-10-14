@@ -6,7 +6,7 @@ public class SummaryListWithoutLabInfo extends SummaryList {
 
 	public SummaryListWithoutLabInfo(Question question) {
 		super(question);
-		
+
 		this.labInfoList = null;
 	}
 
@@ -17,7 +17,7 @@ public class SummaryListWithoutLabInfo extends SummaryList {
 		} else {
 			this.modifyExistingVote(vote);
 		}
-		
+
 		if (studentTotal > 0){
 			responseAPerc = (double)responseA * 100 / studentTotal;
 			responseBPerc = (double)responseB * 100 / studentTotal;
@@ -31,44 +31,48 @@ public class SummaryListWithoutLabInfo extends SummaryList {
 			responseDPerc = 0;
 			responseEPerc = 0;
 		}
-		
-        updateToolbar();
-        updateHistogram();
+
+		updateToolbar();
+		updateHistogram();
 	}
-	
+
 	@Override
 	protected void addNewVote(Vote vote) throws ClassNotFoundException {
 		Summary summary = new Summary(vote, this.question.getSession().getCourse().getStudents());
-		
-		// added from SummaryListWithLabInfo
-		Student student = summary.getStudent();
 
-		for (String clickerId : student.getClickerId()) {
-			this.clickerIdToSummary.put(clickerId, summary);
-		}
+		// added from SummaryListWithLabInfo
+		//		Student student = summary.getStudent();
+		//		for (String clickerId : student.getClickerId()) {
+		//			this.clickerIdToSummary.put(clickerId, summary);
+		//		}
+		// this code is to deal with a student who has registered many remotes
+		//   but it requires all students to be registered or their votes won't count
 		//
+		// this is a tentative way to log the vote that may avoid the need for registration
+		//
+		this.clickerIdToSummary.put(vote.getId(), summary);
 
 		this.summaryList.add(summary);
-		
+
 		this.SummaryToIndex.put(summary, this.summaryList.size() - 1);
 
 		this.increaseCount(summary.getButtonFinal());
-		
+
 		// Update response grid.
 		this.question.getSession().getCourse().getTest().getResponseGrid().newVote(summary, this.studentTotal - 1);
 	}
-	
+
 	@Override
 	protected void modifyExistingVote(Vote vote) {
 		Summary summary = this.clickerIdToSummary.get(vote.getId());
-		
+
 		modifyCount(summary.getButtonFinal(), vote.getButton());
 
 		summary.setTimeStampFinal(vote.getTimeStamp());
 		summary.setButtonFinal(vote.getButton());
 		summary.increaseNumberOfAttempts();
-		
+
 		// Update response grid.
-        this.question.getSession().getCourse().getTest().getResponseGrid().modifyVote(summary, this.SummaryToIndex.get(summary));
+		this.question.getSession().getCourse().getTest().getResponseGrid().modifyVote(summary, this.SummaryToIndex.get(summary));
 	}
 }
