@@ -42,7 +42,7 @@ public class SummaryListWithoutLabInfo extends SummaryList {
 		
 		// added from SummaryListWithLabInfo
 		Student student = summary.getStudent();
-		
+
 		for (String clickerId : student.getClickerId()) {
 			this.clickerIdToSummary.put(clickerId, summary);
 		}

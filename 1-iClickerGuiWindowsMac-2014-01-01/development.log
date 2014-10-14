@@ -299,5 +299,10 @@ this code is in SummaryListWithLabInfo but not in SummaryListWithoutLabInfo
 maybe it should be
 added
 doesn't work
-null pointer to fix...
+when you click a clicker:
+null pointer to fix at line 46 in SummaryListWithoutLabInfo
+		for (String clickerId : student.getClickerId()) {
+it seems that the student is null (checked it and it's == null)
+		Student student = summary.getStudent();
+maybe they're not registered?
 
