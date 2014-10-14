@@ -320,3 +320,6 @@ WORKS!!
 	what if a student's remote is not registered; will their vote make it into the .csv?
 - checked OK!
 
+want to log clickerid, vote's timestamp, computer timestamp
+for now, have System.out.println() in SummaryListWithoutLabInfo line 17
+		System.out.println(vote.getId() + "," + vote.getTimeStamp() + "," + LocalTime.now());
