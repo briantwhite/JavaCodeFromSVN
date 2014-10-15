@@ -323,3 +323,13 @@ WORKS!!
 want to log clickerid, vote's timestamp, computer timestamp
 for now, have System.out.println() in SummaryListWithoutLabInfo line 17
 		System.out.println(vote.getId() + "," + vote.getTimeStamp() + "," + LocalTime.now());
+
+tried on windows - need to change library in Test.java line 231
+		File f = new File("lib/hidapi-jni-64.dll");		// windows
+//		File f = new File("lib/libhidapi-jni.jnilib");	// mac
+
+works!
+need java 8 for the LocalTime.now()
+
+need to get rid of the StudentToolbar
+	StartSession.java line 255 & 306 setVisible(false)

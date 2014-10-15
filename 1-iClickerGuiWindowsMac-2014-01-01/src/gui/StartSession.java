@@ -252,7 +252,7 @@ public class StartSession extends javax.swing.JFrame {
         	
         ToolbarStudent toolbarStudent = test.getToolbarStudent();
         SetLocation.setTopLeft(toolbarStudent, screenCount - 1, 10);
-        toolbarStudent.setVisible(true);
+        toolbarStudent.setVisible(false);
         
         this.test.getHistogramInstructor().setHistogramDisplayOption(HistogramDisplayOption.SHOWWITHCORRECTANSWER);
     }//GEN-LAST:event_jButtonStartActionPerformed
@@ -303,7 +303,7 @@ public class StartSession extends javax.swing.JFrame {
         	
         ToolbarStudent toolbarStudent = test.getToolbarStudent();
         SetLocation.setTopLeft(toolbarStudent, screenCount - 1, 10);
-        toolbarStudent.setVisible(true);
+        toolbarStudent.setVisible(false);
     }//GEN-LAST:event_jMenuSessionItemStartActionPerformed
 
     private void jMenuQuestionItemNewActionPerformed(java.awt.event.ActionEvent evt) {
