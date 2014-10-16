@@ -333,3 +333,19 @@ need java 8 for the LocalTime.now()
 
 need to get rid of the StudentToolbar
 	StartSession.java line 255 & 306 setVisible(false)
+
+did test
+	had students click in en masse - got votes/sec above 150 or so
+		seemed to have some latency, but maybe that was extra voting
+	
+	compare the time stamps - no difference
+		this is because, in Vote.java (in the driver code), it gets the time stamp from the system
+			when the vote comes in (not from the base station)
+        this.timeStamp = TimeProcess.getTime(TimeEnum.HMSM);
+        so you wouldn't expect any latency - since the vote is stamped after any base-station delay
+    
+    looked at log file - very few entries, but maybe I quit before stopping session?
+    
+CONCLUSION: probably OK to try the progress bar "geiger meter"
+	set max to 150 and cap out so it can't go higher
+

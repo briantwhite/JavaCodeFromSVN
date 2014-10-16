@@ -14,7 +14,7 @@ public class SummaryListWithoutLabInfo extends SummaryList {
 
 	@Override
 	public void add(Vote vote) throws ClassNotFoundException {
-		System.out.println(vote.getId() + "," + vote.getTimeStamp() + "," + LocalTime.now());
+
 		if (this.clickerIdToSummary.get(vote.getId()) == null) {
 			this.addNewVote(vote);
 		} else {

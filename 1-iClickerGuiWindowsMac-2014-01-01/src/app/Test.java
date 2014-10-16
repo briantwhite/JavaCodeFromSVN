@@ -227,8 +227,8 @@ public class Test {
 
 	public static void main(String args[]) {
 
-		File f = new File("lib/hidapi-jni-64.dll");		// windows
-//		File f = new File("lib/libhidapi-jni.jnilib");	// mac
+//		File f = new File("lib/hidapi-jni-64.dll");		// windows
+		File f = new File("lib/libhidapi-jni.jnilib");	// mac
 		System.load(f.getAbsolutePath());
 		//    	System.out.println(System.getProperty("java.library.path"));
 		//   	System.loadLibrary("hidapi-jni");
