@@ -346,6 +346,46 @@ did test
     
     looked at log file - very few entries, but maybe I quit before stopping session?
     
-CONCLUSION: probably OK to try the progress bar "geiger meter"
-	set max to 150 and cap out so it can't go higher
+    also, it seemed to start on it's own without clicking start
+    	it seems that, when you change frequency, you get a "bad button pressed" error and the question starts!
+    		- "Bad button pressed" is because it sends button F (check to be sure) when changing freq
+    	does this happen when ToolbarStudent is made visible?
+    		YES - so keep it invisible
+    
+CONCLUSIONS: 
+	1) need to fix the bad button starts question thing
+	2) probably OK to try the progress bar "geiger meter"
+		set max to 150 and cap out so it can't go higher
 
+Bad button:
+look in the driver code
+https://www.dropbox.com/sh/da527fp2ue4gpaz/AAC4MFLjrA61YCLSG-6HTwaaa?dl=0
+it's in ParseInstructionNew's static Vote getVote(byte[] buf) {
+			...
+            switch (voteButtonInt) {
+            case 129:  button = ButtonEnum.A; break;
+            case 130:  button = ButtonEnum.B; break;
+            case 131:  button = ButtonEnum.C; break;
+            case 132:  button = ButtonEnum.D; break;
+            case 133:  button = ButtonEnum.E; break;
+            default:   button = ButtonEnum.A; System.err.println("Bad button pressed");
+            }
+            ...
+            
+so why does it start the question - look for where this is called
+
+Session.startQuestion() is called when you click the "Start" button
+also in InstructorControl's checkInstructorButton(Vote vote)
+	if this sees an "A" (the default from above), it starts the question
+when is checkInstructorButton() called?
+in Session.java's processVote:
+	public void processVote(Vote vote) throws Exception {
+		String instructorIdString = this.getCourse().getInstructorID();
+
+		if (this.isVotingEnabled) {
+			if (vote.getId().equals(instructorIdString)) {
+				this.instructorControl.checkInstructorButton(vote);
+
+so, it should be checking if the id's match - but since nobody's registered, then it might be checking if
+	"" == ""
+look into this..
