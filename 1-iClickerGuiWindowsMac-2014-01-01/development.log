@@ -413,3 +413,6 @@ so need some test in this bottom part -
 	really, should modify the driver to return "F" for the button and have that ignored
 	second best - have it check that it's the instructor's remote
 	third best - disable the instructor remote
+
+ask Junhao which driver code version to use (the one that generates the iClickerDriverWindowsMac.jar used in this 
+	project)
