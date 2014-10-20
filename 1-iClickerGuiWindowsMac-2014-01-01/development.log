@@ -389,3 +389,29 @@ in Session.java's processVote:
 so, it should be checking if the id's match - but since nobody's registered, then it might be checking if
 	"" == ""
 look into this..
+		System.out.println("voteID=" + vote.getId() + ";instructorID=" + instructorIdString + ";");
+yields:
+		voteID=96C56231;instructorID=14A7F94A;Bad button pressed
+so they're not blank
+but we're looking at the wrong part of the if-then since voting is not enabled
+
+		if (this.isVotingEnabled) {
+			if (vote.getId().equals(instructorIdString)) {
+				this.instructorControl.checkInstructorButton(vote);
+			} else {
+				this.getQuestion(this.currentQuestionId).newVote(vote);
+			}
+		} else {
+			System.out.println("hi");
+			this.instructorControl.checkInstructorButton(vote);
+		}
+
+prints "Bad Button pressed"
+	   "hi"
+
+so need some test in this bottom part - 
+	really, should modify the driver to return "F" for the button and have that ignored
+	second best - disable the instructor remote
+ask Junhao which project to download for the proper driver
+
+if this is true, then have a test - if instructorIdString == "" then don't do the test
