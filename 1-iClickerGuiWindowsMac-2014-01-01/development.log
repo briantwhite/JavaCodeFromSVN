@@ -416,3 +416,12 @@ so need some test in this bottom part -
 
 ask Junhao which driver code version to use (the one that generates the iClickerDriverWindowsMac.jar used in this 
 	project)
+
+also, iclickerpoll.py reports a change of frequency as a vote of "F"
+their code is (line 65-66):
+        # Responses start with 0x81 for A and work their way up, so ascii-recode them
+        ret['response'] = chr(self.bytes[2] - 0x81 + 65)
+ascii "F" is 70 (decimal) - 65 = 5 
+	81h = 129d + 5 = 134
+so, should add to ParseInstructionNew's case statement:
+	case 134: {set it up to return nothing - as though no vote were cast}
