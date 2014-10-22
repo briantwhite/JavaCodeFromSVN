@@ -1,0 +1,41 @@
+10/22/14
+downloaded project from https://www.dropbox.com/sh/da527fp2ue4gpaz/AAC4MFLjrA61YCLSG-6HTwaaa?dl=0
+put in eclipse (it has the .project etc files in it)
+•	Downloaded zip to desktop (it comes down as 1-iClickerDriverCombinedWindowsMac/)
+•	In eclipse, Import -> General -> existing projects into workspace
+o	Check the box “Copy projects into workspace” - IMPORTANT
+•	Seemed to work
+
+Add to git
+•	Right-click the project -> Team-> Add to index
+•	Commit
+•	Push to upstream
+•	Check on github.com – all there!
+
+Now, need to build it.
+the driver file I use in the clicker app is iClickerDriverWindowsMac.jar
+	download it's lib/iClickerDriverWindowsMac.jar and use cmp to this project's lib/iClickerDriverWindowsMac.jar
+		they're the same
+	but how do you make the jar?
+what's in it?
+META-INF/MANIFEST.MF
+iClickerDriver/TimeProcess.class
+iClickerDriver/DriverType.class
+iClickerDriver/IClickerDriverNew.class
+iClickerDriver/ParseInstructionNew.class
+iClickerDriver/StringProcess.class
+iClickerDriver/ParseInstruction.class
+iClickerDriver/ButtonEnum.class
+iClickerDriver/BuildInstructionsOld.class
+iClickerDriver/BuildInstructions.class
+iClickerDriver/Vote.class
+iClickerDriver/IClickerDriver.class
+iClickerDriver/IClickerDriverOld.class
+iClickerDriver/FrequencyEnum.class
+iClickerDriver/TimeEnum.class
+iClickerDriver/ParseInstructionOld.class
+iClickerDriver/BuildInstructionsNew.class
+
+it's all that's in bin/iClickerDriver
+so, should be able to set up project in eclipse with a build.xml that builds this jar.
+
