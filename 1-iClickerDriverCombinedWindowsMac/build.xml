@@ -1,0 +1,20 @@
+<project name="iClickerDriver" default="jarfile">
+			
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/iClickerDriverWindowsMac.jar">
+    	    <fileset dir="bin/"/>
+ 	    </jar>
+ 	    <move file="bin/iClickerDriverWindowsMac.jar" todir="."/>
+    </target>
+	
+	<target name="move to clicker" depends="jarfile" description="move to UBCClicker">
+		<move file="iClickerDriverWindowsMac.jar" todir="../1-iClickerGuiWindowsMac-2014-01-01/lib/"/>
+	</target>
+		
+
+</project>

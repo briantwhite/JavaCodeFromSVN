@@ -39,3 +39,5 @@ iClickerDriver/BuildInstructionsNew.class
 it's all that's in bin/iClickerDriver
 so, should be able to set up project in eclipse with a build.xml that builds this jar.
 
+10/23/14
+made build.xml file
