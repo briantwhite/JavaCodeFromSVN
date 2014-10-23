@@ -41,3 +41,12 @@ so, should be able to set up project in eclipse with a build.xml that builds thi
 
 10/23/14
 made build.xml file
+it works!
+
+now, to fix it.
+ParstInstructionNew.getVote() can return null if it's a useless vote safely
+need to do carefully since 2 votes can come in at once
+	need to do in 2 places
+tested 
+	- change freq no longer gives "Bad Button Pressed" 
+	- change freq no longer starts 

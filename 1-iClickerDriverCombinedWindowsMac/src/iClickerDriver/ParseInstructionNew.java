@@ -9,7 +9,7 @@ package iClickerDriver;
 class ParseInstructionNew extends ParseInstruction {
 	// Length of the buffer size we are interested in.
 	private static final int BUFSIZE = 64;
-	
+
 	/**
 	 * Check if the packet only contains 64 zeros.  
 	 * @param buf
@@ -17,12 +17,12 @@ class ParseInstructionNew extends ParseInstruction {
 	 */
 	public static boolean isAllZero(byte[] buf) {
 		String allZeroStd = "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 " +
-				   			"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 " +
-				   			"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 " +
-				   			"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ";
-		
+				"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 " +
+				"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 " +
+				"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ";
+
 		String allZeroTest = StringProcess.byte2HexString(buf, 0, BUFSIZE - 1);
-		
+
 		if(allZeroStd.compareTo(allZeroTest) == 0) {
 			return true;
 		}
@@ -30,7 +30,7 @@ class ParseInstructionNew extends ParseInstruction {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Fetch a piece of vote from a given array of bytes.
 	 * @param buf source
@@ -41,72 +41,84 @@ class ParseInstructionNew extends ParseInstruction {
 		if (isAllZero(buf) == true) {
 			return null;
 		}
-		
+
 		boolean first = false;
 		boolean second = false;
 		Vote voteFirst = null;
 		Vote voteSecond = null;
 		int indexFirst = -1;
 		int indexSecond = -1;
-		
+
 		// If the first half contains vote.
 		if (StringProcess.byte2HexString(buf, 0, 1).compareTo("02 13 ") == 0 ) {
-			first = true;
-			
+
 			String voteButtonString = StringProcess.byte2HexString(buf, 2, 2);
 			voteButtonString = voteButtonString.replaceAll("\\s", "");
 			int voteButtonInt = Integer.parseInt(voteButtonString, 16);
-			
+
 			ButtonEnum button;
-			
+
 			switch (voteButtonInt) {
 			case 129:  button = ButtonEnum.A; break;
 			case 130:  button = ButtonEnum.B; break;
 			case 131:  button = ButtonEnum.C; break;
 			case 132:  button = ButtonEnum.D; break;
 			case 133:  button = ButtonEnum.E; break;
+			case 134:  button = null; break;		// Vote of "F" means they changed frequency
 			default:   button = ButtonEnum.A; System.err.println("Bad button pressed");
 			}
-			
-			String id = StringProcess.byte2HexString(buf, 3, 5);
-			id = id.replaceAll("\\s", "");
-			
-			voteFirst = new Vote(id, button);
-			
-			String indexFirstStr = StringProcess.byte2HexString(buf, 6, 6);
-			indexFirstStr = indexFirstStr.replaceAll("\\s", "");
-			indexFirst = Integer.parseInt(indexFirstStr, 16);
+
+			if (button != null) {
+				String id = StringProcess.byte2HexString(buf, 3, 5);
+				id = id.replaceAll("\\s", "");
+
+				voteFirst = new Vote(id, button);
+
+				String indexFirstStr = StringProcess.byte2HexString(buf, 6, 6);
+				indexFirstStr = indexFirstStr.replaceAll("\\s", "");
+				indexFirst = Integer.parseInt(indexFirstStr, 16);
+				first = true;
+			} else {
+				// a useless vote - so far, this is only if they change frequency
+				first = false;
+			}
 		}
-		
+
 		// If the second half contains vote.
 		if (StringProcess.byte2HexString(buf, 32, 33).compareTo("02 13 ") == 0 ) {
-			second = true;
-			
+
 			String voteButtonString = StringProcess.byte2HexString(buf, 34, 34);
 			voteButtonString = voteButtonString.replaceAll("\\s", "");
 			int voteButtonInt = Integer.parseInt(voteButtonString, 16);
-			
+
 			ButtonEnum button;
-			
+
 			switch (voteButtonInt) {
 			case 129:  button = ButtonEnum.A; break;
 			case 130:  button = ButtonEnum.B; break;
 			case 131:  button = ButtonEnum.C; break;
 			case 132:  button = ButtonEnum.D; break;
 			case 133:  button = ButtonEnum.E; break;
+			case 134:  button = null; break;		// Vote of "F" means they changed frequency
 			default:   button = ButtonEnum.A; System.err.println("Bad button pressed");
 			}
-			
-			String id = StringProcess.byte2HexString(buf, 35, 37);
-			id = id.replaceAll("\\s", "");
-			
-			voteSecond = new Vote(id, button);
-			
-			String indexSecondStr = StringProcess.byte2HexString(buf, 38, 38);
-			indexSecondStr = indexSecondStr.replaceAll("\\s", "");
-			indexSecond = Integer.parseInt(indexSecondStr, 16);
+
+			if (button != null) {
+				String id = StringProcess.byte2HexString(buf, 35, 37);
+				id = id.replaceAll("\\s", "");
+
+				voteSecond = new Vote(id, button);
+
+				String indexSecondStr = StringProcess.byte2HexString(buf, 38, 38);
+				indexSecondStr = indexSecondStr.replaceAll("\\s", "");
+				indexSecond = Integer.parseInt(indexSecondStr, 16);
+				second = true;
+			} else {
+				// a useless vote - so far, this is only if they change frequency
+				first = false;
+			}
 		}
-		
+
 		if (first == true && second == false) {					// Only first half contains vote.
 			return voteFirst;
 		}
@@ -138,7 +150,7 @@ class ParseInstructionNew extends ParseInstruction {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Check if the packet is a summary.
 	 * @param buf source.
@@ -148,7 +160,7 @@ class ParseInstructionNew extends ParseInstruction {
 		String headStd = "02 18 1a ";
 
 		String headTest = StringProcess.byte2HexString(buf, 0, 2);
-		
+
 		if(headStd.compareTo(headTest) == 0) {
 			return true;
 		}
@@ -164,9 +176,9 @@ class ParseInstructionNew extends ParseInstruction {
 	 */
 	static boolean isVote(byte[] buf) {
 		String headStd = "02 13 ";
-		
+
 		String headTest = StringProcess.byte2HexString(buf, 0, 1);
-		
+
 		if(headStd.compareTo(headTest) == 0) {
 			return true;
 		}
