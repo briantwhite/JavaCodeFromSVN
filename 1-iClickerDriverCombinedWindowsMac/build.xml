@@ -7,13 +7,15 @@
 
 	<target name="jarfile" depends="compile" description="makes jar file">
 	    <jar destfile="bin/iClickerDriverWindowsMac.jar">
-    	    <fileset dir="bin/"/>
+    	    <fileset dir="bin/">
+    	        <include name="iClickerDriver/*.class" />
+    	    </fileset>
  	    </jar>
  	    <move file="bin/iClickerDriverWindowsMac.jar" todir="."/>
     </target>
 	
-	<target name="move to clicker" depends="jarfile" description="move to UBCClicker">
-		<move file="iClickerDriverWindowsMac.jar" todir="../1-iClickerGuiWindowsMac-2014-01-01/lib/"/>
+	<target name="copy to clicker" depends="jarfile" description="copy to UBCClicker">
+		<copy file="iClickerDriverWindowsMac.jar" todir="../1-iClickerGuiWindowsMac-2014-01-01/lib/"/>
 	</target>
 		
 
