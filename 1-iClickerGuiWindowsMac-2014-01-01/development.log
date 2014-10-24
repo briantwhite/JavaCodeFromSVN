@@ -425,3 +425,7 @@ ascii "F" is 70 (decimal) - 65 = 5
 	81h = 129d + 5 = 134
 so, should add to ParseInstructionNew's case statement:
 	case 134: {set it up to return nothing - as though no vote were cast}
+
+10/24/14
+in gui/ToolbarInstructor.java
+	add cap so can't set geiger bar higher than max level (to protect from errors)

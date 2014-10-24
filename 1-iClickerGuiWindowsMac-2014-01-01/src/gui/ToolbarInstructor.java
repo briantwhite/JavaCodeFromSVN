@@ -345,6 +345,7 @@ public class ToolbarInstructor extends javax.swing.JFrame {
      * @param amount amount of votes.
      */
     public void updateVotesPerSecond(int amount) {
+    	if (amount > MAX_VOTES_PER_SECOND) amount = MAX_VOTES_PER_SECOND;
         this.VotesPerSecondBar.setValue(amount);
     }
 
