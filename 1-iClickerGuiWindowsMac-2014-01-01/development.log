@@ -429,3 +429,37 @@ so, should add to ParseInstructionNew's case statement:
 10/24/14
 in gui/ToolbarInstructor.java
 	add cap so can't set geiger bar higher than max level (to protect from errors)
+
+driver info from Junhao
+Hey Brian,
+
+Really sorry for the late reply. The F vote problem does exist. But it should not cause problem you 
+mentioned (when a student changes their frequency, this results in the question starting), because 
+the last else branch will be hit only when this.isVotingEnabled is false, while isVotingEnable is a 
+state variable that is controlled by instructor enabling and disabling voting. But anyway, you ARE 
+experiencing this problem, and I believe the solution you mentioned (comparing the id) should work.
+
+To fix the driver problem, here are a list of the driver I have:
+
+Old and new base station, Linux:
+https://www.dropbox.com/sh/ctnx49i4o8r4vhf/AABn88AtJJr1W3gjwwYx8Kjra?dl=0
+
+Old and new base station, Windows and Mac OS
+https://www.dropbox.com/sh/da527fp2ue4gpaz/AAC4MFLjrA61YCLSG-6HTwaaa?dl=0
+
+New, Linux:
+https://www.dropbox.com/sh/tom8uqmlc1d3atq/AAALUPZRRg4BIcnSHRFWaDDsa?dl=0
+
+New, Windows and Mac OS:
+https://www.dropbox.com/sh/40yyjn5kg4941fo/AACh7_ibQBX_BbNHZAVnIO-Da?dl=0
+
+Old, Linux:
+https://www.dropbox.com/sh/fagqz0lrqonmho6/AAAcZOpL_Ydh055ppBwgmdjYa?dl=0
+
+Old, Windows and Mac OS:
+https://www.dropbox.com/sh/wtu0xhuzm1e6u73/AABVZEY50FNTsPKq48pb16vAa?dl=0
+
+I believe you will use the last one.
+
+Best,
+Junhao
