@@ -19,7 +19,7 @@ To do list
 			copy pic to clipboard
 			
 6) Evidentiary crosses for epistasis and complementation are crosses involving that pheno
-	that are conspicuous (kids ­ parents)
+	that are conspicuous (kids ï¿½ parents)
 
 9) bug - in linux, save work as tries to put file in root directory, not the selected one
 
@@ -64,4 +64,12 @@ you don't have "save for grading" as an option?  move the VGLII program file bac
 18) Allow very large numbers of offspring in super cross to allow looking at rare or complex events. (M.C. Cowlishaw)
 
 19)  add Interactions03 04 p to Problems
+
+20) There's a likely bug in grading. If you have 2 traits, it can sometimes count the cage in the grader as though it rpvides evidence of 
+	dominance for both when it only shows for one. For example: 
+		1-leg purple body x 5-leg purple body gives
+			several leg lengths, but all purple
+	but the grader says that it provides evidence of dominance for BOTH leg number and body color
+		it should only do leg number
+		
 
