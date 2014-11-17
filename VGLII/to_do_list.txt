@@ -72,4 +72,7 @@ you don't have "save for grading" as an option?  move the VGLII program file bac
 	but the grader says that it provides evidence of dominance for BOTH leg number and body color
 		it should only do leg number
 		
+21) There may be a bug in ModelBuilder
+	when running VGL/Level10.pr2, if it gives you a 2-allele inc dom (3 phenos)
+		it may have given blanks as though it was 3-allele inc dom (6 phenos)
 
