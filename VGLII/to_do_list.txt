@@ -71,6 +71,8 @@ you don't have "save for grading" as an option?  move the VGLII program file bac
 			several leg lengths, but all purple
 	but the grader says that it provides evidence of dominance for BOTH leg number and body color
 		it should only do leg number
+	this may be because in AutoGrader.java line 54, it counts i by gene models
+		but in CageScorer, it counts i by phenotypes
 		
 21) There may be a bug in ModelBuilder
 	when running VGL/Level10.pr2, if it gives you a 2-allele inc dom (3 phenos)
