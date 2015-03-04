@@ -9,6 +9,42 @@
 /* according to either the haig & hurst shuffle method ('unrestricted') or the Taulor and Coates       */
 /* shuffle method ('restricted') as dictated by settings_ptr->variation_model (1 or 2 respectively)    */
 
+  /*
+   * array to map the internal amino acid numbers - numbered by slots in code table where the
+   * first is phe
+   * need to map to order in MS0-calculating Excel sheet
+   *  #in acid_array	amino acid 	# for excel sheet
+   *   #0 = ALL 	0										(some sort of debug thing)
+   *   #1 = PHE
+   *   #2 = SER
+   *   #3 = TYR
+   *   #4 = CYS
+   *   #5 = TRP
+   *   #6 = LEU
+   *   #7 = PRO
+   *   #8 = HIS
+   *   #9 = GLN
+   *   #10 = ARG
+   *   #11 = ILE
+   *   #12 = MET
+   *   #13 = THR
+   *   #14 = ASN
+   *   #15 = LYS
+   *   #16 = VAL
+   *   #17 = ALA
+   *   #18 = ASP
+   *   #19 = GLU
+   *   #20 = GLY
+   *   #21 = TER (who knows why)
+   *
+   *   want to read out in this order:
+   *   aa0 aa17 aa10 aa18 aa14 aa4 aa19 aa9 aa20 aa8 aa11 aa6 aa15 aa12 aa1 aa7 aa2 aa13 aa5 aa3 aa16 aa21
+   *   this array's index is the order in the list above (the desired print order)
+   *   the values are the lookup into the acid_array
+   *
+   */
+  int lookup[] = {0, 17, 10, 18, 14, 4, 19, 9, 20, 8, 11, 6, 15, 12, 1, 7, 2, 13, 5, 3, 16, 21};
+
 /* Function Calculate_Code_MS  forms the heart of the MS calculations for a particular     */
 /* genetic code's MS values. It accepts as arguments the codon matrix (representing the    */
 /* particular gentic code under consideration) and the amino acid array (determining the   */
@@ -16,7 +52,6 @@
 /* used to calculate the 4 MS values for the 64 codons in a given genetic code. the MS     */
 /* values are stored in the MS fields of varaible code_MS (struct ALL_MS) and then printed */
 /* to a temporary (binary) results file by function Print_MA_Values                        */
-
 void Calculate_Code_MS(MATRIX_TYPE* codon_matrix_ptr,
 		ACID_ELEMENT_TYPE* acid_array,
 		SETTINGS_TYPE* settings_ptr,
@@ -71,7 +106,7 @@ void Calculate_Code_MS(MATRIX_TYPE* codon_matrix_ptr,
   // save the code and params to the codeFile
   int x;
   for (x = 0; x < 22; x++) {
-	  fprintf(codeFile,"%s,", acid_array[x].name);
+	  fprintf(codeFile,"%s,", acid_array[lookup[x]].name);
   }
   fprintf(codeFile, "%3.5f,%3.5f\n",mean, variance);
 
@@ -92,7 +127,7 @@ void Produce_Single_Sample (void (*Shuffle_Code)(ACID_ELEMENT_TYPE*), MATRIX_TYP
  int x;
  // print the header
  for (x = 0; x < 22; x++) {
-	 fprintf(codeFile, "aa%d,",x);
+	 fprintf(codeFile, "aa%d,",lookup[x]);
  }
  fprintf(codeFile, "MS0,Var0\n");
 

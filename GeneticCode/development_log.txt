@@ -60,3 +60,7 @@ tested AOK
 
 3/4/15
 imported into eclipse as a C++ project 
+
+edited 1_sample.c to print out codon assignments in correct order for MS0 calculating 
+excel spreadsheet
+made gen_code_test that does this
