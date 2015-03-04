@@ -57,3 +57,6 @@ now seems to log all mutations properly and give correct values
 1/18/12
 fixed code in mut_calc.c so that it is unambiguous (see Square Evolution Log 03 page 33)
 tested AOK
+
+3/4/15
+imported into eclipse as a C++ project 
