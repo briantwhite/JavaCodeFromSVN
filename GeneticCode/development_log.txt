@@ -64,3 +64,40 @@ imported into eclipse as a C++ project
 edited 1_sample.c to print out codon assignments in correct order for MS0 calculating 
 excel spreadsheet
 made gen_code_test that does this
+
+need to calculate averagePR for each code and print it out
+do this in 1_sample.c
+
+tried this
+  int x;
+  float totalPR;
+  totalPR = 0.0f;
+  for (x = 1; x < 21; x++) {
+	  totalPR = totalPR + acid_array[x].parameter * numCodons[x];
+	  printf("x=%d %s %3.5f x %d\n", x, acid_array[x].name, acid_array[x].parameter, numCodons[x]);
+  }
+  float avgPR = totalPR/(float)61;
+
+  got this
+  x=2 SER 1.00000 x 6
+x=3 TYR 2.00000 x 2
+x=4 CYS 3.00000 x 2
+x=5 TRP 4.00000 x 1
+x=6 LEU 5.00000 x 6
+x=7 PRO 6.00000 x 4
+x=8 HIS 7.00000 x 2
+x=9 GLN 8.00000 x 2
+x=10 ARG 9.00000 x 6
+x=11 ILE 10.00000 x 3
+x=12 MET 11.00000 x 1
+x=13 THR 12.00000 x 4
+x=14 ASN 13.00000 x 2
+x=15 LYS 14.00000 x 2
+x=16 VAL 15.00000 x 4
+x=17 ALA 16.00000 x 4
+x=18 ASP 17.00000 x 2
+x=19 GLU 18.00000 x 2
+x=20 GLY 19.00000 x 4
+
+it's just using the index of the aa for the "parameter" not the PR
+need to figure out how to get this  - can either read a_acid_f.c as in in_out.c

@@ -45,6 +45,14 @@
    */
   int lookup[] = {0, 17, 10, 18, 14, 4, 19, 9, 20, 8, 11, 6, 15, 12, 1, 7, 2, 13, 5, 3, 16, 21};
 
+/*
+ * array with number of codons in each "slot" in the genetic code
+ * needed for averagePR calculations
+ * in order where 0 => All; 1 => PHE
+ * 				    ALL PHE SER TYR CYS TRP LEU PRO HIS GLN ARG ILE MET THR ASN LYS VAL ALA ASP GLU GLY TER
+ */
+  int numCodons[] = {0,  2,  6,  2,  2,  1,  6,  4,  2,  2,  6,  3,  1,  4,  2,  2,  4,  4,  2,  2,  4,  0};
+
 /* Function Calculate_Code_MS  forms the heart of the MS calculations for a particular     */
 /* genetic code's MS values. It accepts as arguments the codon matrix (representing the    */
 /* particular gentic code under consideration) and the amino acid array (determining the   */
@@ -103,12 +111,25 @@ void Calculate_Code_MS(MATRIX_TYPE* codon_matrix_ptr,
   }
   variance = variance/(code_MS.MS[0].num_obs);
 
-  // save the code and params to the codeFile
+  /*
+   * calculate average PR
+   * 	sum over all codons of PR divided by 61 total codons
+   * 	actually by slot * number of codons in that slot
+   */
   int x;
-  for (x = 0; x < 22; x++) {
+  float totalPR;
+  totalPR = 0.0f;
+  for (x = 1; x < 21; x++) {
+	  totalPR = totalPR + acid_array[x].parameter * numCodons[x];
+	  printf("x=%d %s %3.5f x %d\n", x, acid_array[x].name, acid_array[x].parameter, numCodons[x]);
+  }
+  float avgPR = totalPR/(float)61;
+
+  // save the code and params to the codeFile
+  for (x = 1; x < 21; x++) {
 	  fprintf(codeFile,"%s,", acid_array[lookup[x]].name);
   }
-  fprintf(codeFile, "%3.5f,%3.5f\n",mean, variance);
+  fprintf(codeFile, "%3.5f,%3.5f,%3.5f\n",mean, variance, avgPR);
 
 }/* End of Function */
 
@@ -126,10 +147,10 @@ void Produce_Single_Sample (void (*Shuffle_Code)(ACID_ELEMENT_TYPE*), MATRIX_TYP
  codeFile = fopen("codes.csv", "w");
  int x;
  // print the header
- for (x = 0; x < 22; x++) {
+ for (x = 1; x < 21; x++) {
 	 fprintf(codeFile, "aa%d,",lookup[x]);
  }
- fprintf(codeFile, "MS0,Var0\n");
+ fprintf(codeFile, "MS0,Var0,avgPR\n");
 
 
  for(count2 = 0; count2<22; count2 +=1)/* copies a reference copy of the amino acid array     */
