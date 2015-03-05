@@ -76,7 +76,8 @@ void Read_Acid_Parameters(SETTINGS_TYPE* settings_ptr, ACID_ELEMENT_TYPE*  acid_
  acid_name [3] = '\0';
  fscanf(file_ptr, "%f", &parameter);
  acid_number = Acid_to_Number(acid_name, acid_array);
- acid_array[acid_number].parameter = parameter;
+ acid_array[acid_number].parameter = parameter; // this starts off as PR but is changed to index # later
+ acid_array[acid_number].PR = parameter;	// this will stay at the PR for avgPR calcs in 1_sample.c
 }
 
  fclose(file_ptr);

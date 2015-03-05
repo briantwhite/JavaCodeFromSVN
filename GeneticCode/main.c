@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "codon.h"
 #include "gen_io.c"
@@ -32,6 +33,8 @@ void main()
  SETTINGS_TYPE	settings;      /* the three fundamental data structures */
  MATRIX_TYPE	codon_matrix;
  ACID_ARRAY	acid_array;
+
+ srand(time(NULL));	// start random number generator - modified from original code
 
  Initial_Set_Up(&codon_matrix, acid_array, &settings); /* Loads defaults */
 

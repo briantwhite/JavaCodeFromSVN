@@ -6,6 +6,7 @@ struct Acid_Struct
 {
  NAME  name;
  float parameter;
+ float PR;
 };
 typedef struct Acid_Struct ACID_ELEMENT_TYPE;
 typedef ACID_ELEMENT_TYPE ACID_ARRAY[22];

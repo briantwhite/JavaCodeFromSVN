@@ -101,3 +101,26 @@ x=20 GLY 19.00000 x 4
 
 it's just using the index of the aa for the "parameter" not the PR
 need to figure out how to get this  - can either read a_acid_f.c as in in_out.c
+
+in in_out.c - it first reads the PR into acid_array[x].parameter
+	but then, later changes it to just the index
+so, create another field in codon.h's Acid_Struct
+	float PR
+	read these in and don't change them in in_out.c
+	use them in 1_sample.c
+	need to copy the PR values properly in shuffle.c
+
+works - compared results to first few codes - but see note below!
+
+NOTE: the random number generator does not use a random seed so it always generates the same sequence of codes.
+the seed is in random.c - called "idum"
+to get Freeland's set of codes, use -317
+
+could set this manually each time or write the code to use time to set it pseudo-randomly or 
+http://stackoverflow.com/questions/822323/how-to-generate-a-random-number-in-c
+try to use the built-in randomizer.
+
+use the built in randomizer
+in main.c add the includes and the srand
+it's only used in one place in shuffle.c (line 37)
+works! (new codes each run)

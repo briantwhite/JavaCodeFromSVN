@@ -120,8 +120,7 @@ void Calculate_Code_MS(MATRIX_TYPE* codon_matrix_ptr,
   float totalPR;
   totalPR = 0.0f;
   for (x = 1; x < 21; x++) {
-	  totalPR = totalPR + acid_array[x].parameter * numCodons[x];
-	  printf("x=%d %s %3.5f x %d\n", x, acid_array[x].name, acid_array[x].parameter, numCodons[x]);
+	  totalPR = totalPR + acid_array[Acid_to_Number(acid_array[x].name, acid_array)].PR * numCodons[x];
   }
   float avgPR = totalPR/(float)61;
 

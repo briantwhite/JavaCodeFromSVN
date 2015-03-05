@@ -33,7 +33,8 @@ void Full_Code_Shuffle(ACID_ELEMENT_TYPE* acid_array)
   }
  for (counter = 0; counter <20; counter++)
   {
-   rand_num = (short) Random_Int(1, 20-counter);
+   //rand_num = (short) Random_Int(1, 20-counter); // original one - this gives same codes each run
+   rand_num = (short)rand()%(20 - counter) + 1; // uses random number gen that is seeded differently each run
    tail = head->next_element;
    for(count2 = 1; count2 < rand_num; count2+=1) tail = tail->next_element;
    (tail->next_element)->last_element = tail->last_element;
@@ -44,11 +45,13 @@ void Full_Code_Shuffle(ACID_ELEMENT_TYPE* acid_array)
   for(counter = 0; counter<22; counter+=1)
   {
    new_acid_array[counter].parameter=acid_array[new_array[counter]].parameter;
+   new_acid_array[counter].PR=acid_array[new_array[counter]].PR;
    strcpy(new_acid_array[counter].name, acid_array[new_array[counter]].name);
   }
   for(counter = 0; counter<22; counter+=1)
   {
    acid_array[counter].parameter=new_acid_array[counter].parameter;
+   acid_array[counter].PR=new_acid_array[counter].PR;
    strcpy(acid_array[counter].name, new_acid_array[counter].name);
   }
 }

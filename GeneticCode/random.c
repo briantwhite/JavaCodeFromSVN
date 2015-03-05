@@ -19,7 +19,8 @@
 #define EPS 1.2e-7
 #define RNMX (1.0-EPS)
 
-long idum = -317;
+// long idum = -317; generates original set of codes
+long idum = -1000;
 
 float URandom(void)
 /* Produces a random number between 0 and 1; call with 'idum', a negative no. */
