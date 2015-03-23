@@ -1607,7 +1607,7 @@ version 2.6.0
 working on SE.TestCode
 	two versions:
 	1) one parameter CodeName.xml - just test that code
-	2) two parameters CodeData.csv CodeDirectory
+	2) three parameters CodeData.csv CodeDirectory ResultFile
 		CodeData.csv has the code name and MS0 and avgPR to check against what TestCode finds
 			when read, check column headings to be sure you're reading the right fields
 		CodeDirectory has the code.xml files in is
@@ -1619,6 +1619,6 @@ working on SE.TestCode
 					1 met start codon
 					right # of valid mutations
 					right % of missense accessible
-		- outputs to CodeTables.txt
+		- outputs to ResultFile
 				the regular printout
 		* do this by calling TestCode on the set of code files specified in CodeData.csv
