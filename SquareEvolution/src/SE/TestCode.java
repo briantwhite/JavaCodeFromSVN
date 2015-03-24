@@ -92,6 +92,9 @@ public class TestCode {
 			String line = "";
 			BufferedReader in = null;
 			BufferedWriter out = null;
+			int totalCodesTested = 0;
+			int numBadCodes = 0;
+			
 			try {
 				out = new BufferedWriter(new FileWriter(resultFile));
 				in = new BufferedReader(new FileReader(codeDataFile));
@@ -137,7 +140,9 @@ public class TestCode {
 							System.out.println(codeFileName + " OK");
 						} else {
 							System.out.println(codeFileName + " Bad");
+							numBadCodes++;
 						}
+						totalCodesTested++;
 						
 						// print specs to result file
 						out.write("-----------------------------------------------------\n");
@@ -175,6 +180,8 @@ public class TestCode {
 					}
 				}
 			}
+			System.out.println("**************");
+			System.out.println("Tested " + totalCodesTested + " codes; found " + numBadCodes + " bad ones.");
 
 		} else if (args.length == 1) {
 			TestCode tc = new TestCode(args[0]);
