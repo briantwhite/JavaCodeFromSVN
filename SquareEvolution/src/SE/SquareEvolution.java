@@ -25,7 +25,7 @@ import Logging.OutputLogEntry;
 
 public class SquareEvolution {
 
-	private static final String VERSION = "2.6.0";
+	private static final String VERSION = "2.7.0";
 
 	private static String[] bases = {"A","G","C","T"};
 

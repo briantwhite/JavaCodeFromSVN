@@ -1622,3 +1622,6 @@ working on SE.TestCode
 		- outputs to ResultFile
 				the regular printout
 		* do this by calling TestCode on the set of code files specified in CodeData.csv
+
+got it going
+version 2.7.0

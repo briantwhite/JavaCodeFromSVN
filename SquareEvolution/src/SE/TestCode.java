@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,13 +90,14 @@ public class TestCode {
 
 			// read in the file and process the lines one by one
 			String line = "";
-			BufferedReader br = null;
+			BufferedReader in = null;
 			BufferedWriter out = null;
 			try {
-				br = new BufferedReader(new FileReader(codeDataFile));
+				out = new BufferedWriter(new FileWriter(resultFile));
+				in = new BufferedReader(new FileReader(codeDataFile));
 				int MS0columnIndex = -1;
 				int avgPRcolumnIndex = -1;
-				while ((line = br.readLine()) != null) {
+				while ((line = in.readLine()) != null) {
 					String[] parts = line.split(",");
 					/*
 					 * check for first line
@@ -136,17 +138,38 @@ public class TestCode {
 						} else {
 							System.out.println(codeFileName + " Bad");
 						}
+						
+						// print specs to result file
+						out.write("-----------------------------------------------------\n");
+						out.write(codeFileName + "\n");
+						out.write(tc.prettyPrint());
+						out.write("Number of valid mutants = " + r.numMuts + "\n");
+						out.write("MS(0) = " + r.MS0 + "\n");
+						out.write("var0 = " + r.var0 + "\n");
+						float percent = ((float)r.numMissense)/3.8f;
+						out.write("Achieves " + r.numMissense 
+								+ " out of 380 possible missense mutants = " 
+								+ percent + "%\n");
+						out.write("Average Polar Requirement = " + r.avPR 
+								+ " with " + r.numStartCodons + " start codons and " 
+								+ r.numNonStopCodons + " non-stop codons.\n");
 					}
-
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
-				if (br != null) {
+				if (in != null) {
 					try {
-						br.close();
+						in.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				if (out != null) {
+					try {
+						out.close();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -155,7 +178,7 @@ public class TestCode {
 
 		} else if (args.length == 1) {
 			TestCode tc = new TestCode(args[0]);
-			tc.prettyPrint();
+			System.out.println(tc.prettyPrint());
 			CodeStats r = tc.calculateStats();
 			System.out.println("Number of valid mutants = " + r.numMuts);
 			System.out.println("MS(0) = " + r.MS0);
@@ -172,9 +195,9 @@ public class TestCode {
 		}
 	}
 
-	private void prettyPrint() {
-		System.out.println("Amino acids in lower case are start codons; * = stop codon; ! = unassigned codon.");
-		System.out.println();
+	private String prettyPrint() {
+		StringBuffer r = new StringBuffer();
+		r.append("Amino acids in lower case are start codons; * = stop codon; ! = unassigned codon.\n\n");
 		for (String b1 : bases) {
 			for (String b3 : bases) {
 				StringBuffer b = new StringBuffer();
@@ -182,10 +205,11 @@ public class TestCode {
 					String codon = b1 + b2 + b3;
 					b.append(codon + " " + code.getAminoAcidByCodon(codon) + "\t");
 				}
-				System.out.println(b.toString());
+				r.append(b.toString() + "\n");
 			}
-			System.out.println();
+			r.append("\n");
 		}
+		return r.toString();
 	}
 
 	/* calculate MS0 and var0 using Freeland's algorithm
