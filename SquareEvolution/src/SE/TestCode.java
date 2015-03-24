@@ -131,8 +131,8 @@ public class TestCode {
 						double MS0diff = Math.abs(MS0 - r.MS0);
 						double avgPRdiff = Math.abs(avgPR - r.avPR);
 
-						if ((MS0diff < 1E-6) 
-								&& (avgPRdiff < 1E-6) 
+						if ((MS0diff < 1E-4) 
+								&& (avgPRdiff < 1E-4) 
 								&& (r.numNonStopCodons == 61) 
 								&& (r.numStartCodons == 1)
 								&& (r.numMuts == 526)
