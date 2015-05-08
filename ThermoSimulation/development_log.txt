@@ -2,3 +2,6 @@
 downloaded from http://itinerantgeekery.com/?p=312
 set up as js project in Eclipse
 trying to get it in git
+
+working
+
