@@ -191,6 +191,9 @@ public class GeneticModelFactory {
 		if (paramName.equals("Gene1_CircDom"))
 			origPS.setGene1_chCircDom(
 					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene1_isBloodType"))
+			origPS.setGene1_isBloodType(
+					Boolean.parseBoolean(paramValue));
 
 		if (paramName.equals("Gene2_Present"))
 			origPS.setGene2_chPresent(
@@ -213,6 +216,9 @@ public class GeneticModelFactory {
 		if (paramName.equals("Gene2_CircDom"))
 			origPS.setGene2_chCircDom(
 					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene2_isBloodType"))
+			origPS.setGene2_isBloodType(
+					Boolean.parseBoolean(paramValue));
 
 		if (paramName.equals("Gene3_Present"))
 			origPS.setGene3_chPresent(
@@ -235,6 +241,9 @@ public class GeneticModelFactory {
 		if (paramName.equals("Gene3_CircDom"))
 			origPS.setGene3_chCircDom(
 					Float.parseFloat(paramValue));
+		if (paramName.equals("Gene3_isBloodType"))
+			origPS.setGene3_isBloodType(
+					Boolean.parseBoolean(paramValue));
 
 		// params for epistasis & complementation
 		if (paramName.equals("PhenotypeInteraction"))
@@ -319,14 +328,15 @@ public class GeneticModelFactory {
 					/* 
 					 * the default is one simply dominant 2-allele model (for Complementation)
 					 * or a three allele hierarchical model for Epistasis
+					 * BloodType not allowed here!
 					 */
 					GeneModel gm;
 					if (r.nextFloat() < specs.getEpistasis()) {
 						// epistasis - 2 allele inc dom
-						gm = getRandomGeneModel(0, 0.0f, 1.0f, 0.0f);
+						gm = getRandomGeneModel(0, 0.0f, 1.0f, 0.0f, false);
 					} else {
 						// compl - 2 allele simple dom
-						gm = getRandomGeneModel(0, 0.0f, 0.0f, 0.0f);
+						gm = getRandomGeneModel(0, 0.0f, 0.0f, 0.0f, false);
 					}
 					if (r.nextFloat() < specs.getGene1_chSexLinked()) {
 						model.addFirstSexLinkedGeneModel(gm);
@@ -348,14 +358,16 @@ public class GeneticModelFactory {
 							0,
 							specs.getGene1_ch3Alleles(),
 							specs.getGene1_chIncDom(),
-							specs.getGene1_chCircDom()));
+							specs.getGene1_chCircDom(),
+							specs.isGene1_isBloodType()));
 					gene1SexLinked = true;
 				} else {
 					model.addFirstAutosomalGeneModel(getRandomGeneModel(
 							0,
 							specs.getGene1_ch3Alleles(),
 							specs.getGene1_chIncDom(),
-							specs.getGene1_chCircDom()));
+							specs.getGene1_chCircDom(),
+							specs.isGene1_isBloodType()));
 				}
 
 				// second gene (may be one)
@@ -364,7 +376,8 @@ public class GeneticModelFactory {
 							1,
 							specs.getGene2_ch3Alleles(), 
 							specs.getGene2_chIncDom(),
-							specs.getGene2_chCircDom());
+							specs.getGene2_chCircDom(),
+							specs.isGene2_isBloodType());
 					addGeneModelRandomly(
 							model, 
 							gene1SexLinked, 
@@ -384,7 +397,8 @@ public class GeneticModelFactory {
 						2,
 						specs.getGene3_ch3Alleles(), 
 						specs.getGene3_chIncDom(),
-						specs.getGene3_chCircDom());
+						specs.getGene3_chCircDom(),
+						specs.isGene3_isBloodType());
 
 				addGeneModelRandomly(
 						model, 
@@ -406,7 +420,12 @@ public class GeneticModelFactory {
 		return model;
 	}
 
-	private GeneModel getRandomGeneModel(int index, float ch3Alleles, float chIncDom, float chCircDom) {
+	private GeneModel getRandomGeneModel(int index, float ch3Alleles, float chIncDom, float chCircDom, boolean isBloodType) {
+		
+		// blood type is a choice without any alternatives
+		if (isBloodType) {
+			return new BloodTypeGeneModel(index);
+		}
 
 		GeneModel geneModel = null;
 

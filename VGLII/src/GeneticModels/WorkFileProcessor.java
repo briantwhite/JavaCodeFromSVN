@@ -197,6 +197,8 @@ public class WorkFileProcessor {
 					traitList, chromo, gene);						
 		} else if (type.equals("Interacting")){
 			return new InteractingGeneModel(traitList, chromo, gene);
+		} else if(type.equals("BloodType")) {
+			return new BloodTypeGeneModel(traitList, chromo, gene);
 		} else {
 			return null;
 		}

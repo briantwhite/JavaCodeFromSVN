@@ -62,21 +62,7 @@ you don't have "save for grading" as an option?  move the VGLII program file bac
 17) In practice mode, have option to turn on/off showing genotypes so it's not a giveaway. (M.C. Cowlishaw)
 
 18) Allow very large numbers of offspring in super cross to allow looking at rare or complex events. (M.C. Cowlishaw)
-
-19)  add Interactions03 04 p to Problems
-
-20) There's a likely bug in grading. If you have 2 traits, it can sometimes count the cage in the grader as though it rpvides evidence of 
-	dominance for both when it only shows for one. For example: 
-		1-leg purple body x 5-leg purple body gives
-			several leg lengths, but all purple
-	but the grader says that it provides evidence of dominance for BOTH leg number and body color
-		it should only do leg number
-	this may be because in AutoGrader.java line 54, it counts i by gene models
-		but in CageScorer, it counts i by phenotypes
 		
-21) There may be a bug in ModelBuilder
-	when running VGL/Level10.pr2, if it gives you a 2-allele inc dom (3 phenos)
-		it may have given blanks as though it was 3-allele inc dom (6 phenos)
 		
 22) From Cindy Passmore cpassmore@ucdavis.edu - add a "blood type" model. 3 alleles, 4 phenotypes with 2 dom and 1 codom
 	make as specific "BloodTypeGeneModel"

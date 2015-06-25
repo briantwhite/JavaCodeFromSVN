@@ -2197,3 +2197,63 @@ need to test on
 don't post all new versions - only mac and call it 3.2.1a
 notify user group
 
+6/25/15
+working on bugs/features
+
+20) There's a likely bug in grading. If you have 2 traits, it can sometimes count the cage in the grader as though it rpvides evidence of 
+	dominance for both when it only shows for one. For example: 
+		1-leg purple body x 5-leg purple body gives
+			several leg lengths, but all purple
+	but the grader says that it provides evidence of dominance for BOTH leg number and body color
+		it should only do leg number
+	this may be because in AutoGrader.java line 54, it counts i by gene models
+		but in CageScorer, it counts i by phenotypes
+
+- test to see if this is true
+
+- test in practice mode - the cages are scored right there
+- test in graded mode - can't replicate problem...
+CONCLUSION: user error
+
+--------------------
+21) There may be a bug in ModelBuilder
+	when running VGL/Level10.pr2, if it gives you a 2-allele inc dom (3 phenos)
+		it may have given blanks as though it was 3-allele inc dom (6 phenos)
+
+From the website, VGL/Level10.pr2 is:
+2- or 3- alleles; autosomal, XX/XY or ZZ/ZW sex-linked inheritance; simple-, incomplete-, circular-, or hierarchical- dominance.
+try with VGL/Level09 - should be same thing with practice mode
+keep pinging until you get a 2-allele inc dom
+
+- yes, you can choose 3-allele inc dom for this, but since it asks for 6 phenos, it's clearly not the right choice
+CONCLUSION: not a bug
+
+--------------
+22) From Cindy Passmore cpassmore@ucdavis.edu - add a "blood type" model. 3 alleles, 4 phenotypes with 2 dom and 1 codom
+	make as specific "BloodTypeGeneModel"
+		have specific option to get this type of problem (no need for an alternative)
+
+need 
+	a) GeneticModel
+	b) ModelBuilderPanel
+	c) WorkFileProcessor
+	d) GeneticModelFactory
+
+a) take ThreeAlleleCircularDominance and save as BloodTypeGeneModel
+
+b) need to fix ThreeAllelePanel to add Blood type is a choice
+	take ThreeCircPanel and save as BloodTypePanel
+	
+c) did it
+
+d) make it a boolean to specify BloodType - no alternatives
+	need to mess with ProblemTypeSpecification also
+	
+made problem files and put them in VGL/
+
+seems to start and save OK
+
+ModelBuilder isn't displaying right - need to fix
+
+
+

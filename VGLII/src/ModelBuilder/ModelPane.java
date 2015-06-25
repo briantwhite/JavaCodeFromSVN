@@ -73,10 +73,10 @@ public class ModelPane extends JPanel implements ItemListener {
 		this.traits = traits;
 		this.specs = specs;
 		this.modelBuilderUI = modelBuilderUI;
-		setupUI();
+		setupUI(index);
 	}
 
-	private void setupUI() {
+	private void setupUI(int index) {
 		JPanel masterPanel = new JPanel();
 		masterPanel.setLayout(new BoxLayout(masterPanel, BoxLayout.Y_AXIS));
 		masterPanel.add(Box.createRigidArea(new Dimension(300,1)));
@@ -92,7 +92,7 @@ public class ModelPane extends JPanel implements ItemListener {
 		if (specs.getGene1_chSexLinked() > 0.0) {
 			sexLinkageChoiceStrings.add(
 					Messages.getInstance().getString(
-					"VGLII.Unknown"));
+							"VGLII.Unknown"));
 			sexLinkageChoiceStrings.add(Messages.getInstance().getString("VGLII.NotSexLinked"));
 			sexLinkageChoiceStrings.add("XX " 
 					+ Messages.getInstance().getString("VGLII.Female")
@@ -125,23 +125,39 @@ public class ModelPane extends JPanel implements ItemListener {
 						Messages.getInstance().getString("VGLII.NumberOfAlleles")));
 		String[] alleleNumberStrings;
 		boolean isOnly2Alleles;
-		if ((specs.getGene1_ch3Alleles() > 0.0) ||
-				(specs.getGene2_ch3Alleles() > 0.0) ||
-				(specs.getGene3_ch3Alleles() > 0.0)) {
-			isOnly2Alleles = false;
-			alleleNumberStrings = new String[3];
-			alleleNumberStrings[0] = Messages.getInstance().getString("VGLII.Unknown");
-			alleleNumberStrings[1] = "2-" + Messages.getInstance().getString("VGLII.Allele");
-			alleleNumberStrings[2] = "3-" + Messages.getInstance().getString("VGLII.Allele");
-		} else {
-			isOnly2Alleles = true;
-			alleleNumberStrings = new String[1];
-			alleleNumberStrings[0] = "2-" + Messages.getInstance().getString("VGLII.Allele");
-		}
-		alleleNumberChoices = new JComboBox(alleleNumberStrings);
-		alleleNumberChoicePanel.add(alleleNumberChoices);
-		masterPanel.add(alleleNumberChoicePanel);
 
+		// blood type has no alternatives
+		// is special case
+		if (
+				((index == 0) && specs.isGene1_isBloodType()) ||
+				((index == 1) && specs.isGene2_isBloodType()) ||
+				((index == 2) && specs.isGene3_isBloodType())) {
+			alleleNumberStrings = new String[1];
+			alleleNumberStrings[0] = Messages.getInstance().getString("VGLII.BloodType");
+			alleleNumberChoices = new JComboBox(alleleNumberStrings);
+			alleleNumberChoicePanel.add(alleleNumberChoices);
+			masterPanel.add(alleleNumberChoicePanel);
+			isOnly2Alleles = false;
+
+			// everything else
+		} else {
+			if ((specs.getGene1_ch3Alleles() > 0.0) ||
+					(specs.getGene2_ch3Alleles() > 0.0) ||
+					(specs.getGene3_ch3Alleles() > 0.0)) {
+				isOnly2Alleles = false;
+				alleleNumberStrings = new String[3];
+				alleleNumberStrings[0] = Messages.getInstance().getString("VGLII.Unknown");
+				alleleNumberStrings[1] = "2-" + Messages.getInstance().getString("VGLII.Allele");
+				alleleNumberStrings[2] = "3-" + Messages.getInstance().getString("VGLII.Allele");
+			} else {
+				isOnly2Alleles = true;
+				alleleNumberStrings = new String[1];
+				alleleNumberStrings[0] = "2-" + Messages.getInstance().getString("VGLII.Allele");
+			}
+			alleleNumberChoices = new JComboBox(alleleNumberStrings);
+			alleleNumberChoicePanel.add(alleleNumberChoices);
+			masterPanel.add(alleleNumberChoicePanel);
+		}
 		// allele interaction type
 		circularPossible = false;
 		if ((specs.getGene1_chCircDom() != 0.0)
@@ -454,7 +470,7 @@ public class ModelPane extends JPanel implements ItemListener {
 			alleleNumberChoices.addItemListener(this);	
 		}
 	}
-	
+
 	/*
 	 * 	used for AutoGrader
 	 * returns null if the student didn't have a choice
@@ -465,7 +481,7 @@ public class ModelPane extends JPanel implements ItemListener {
 		if (sexLinkageChoices.getItemCount() == 1) return null;
 		return (String)sexLinkageChoices.getSelectedItem();
 	}
-	
+
 	/*
 	 * used for AutoGrader
 	 * returns 0 if the student didn't have a choice
@@ -481,7 +497,7 @@ public class ModelPane extends JPanel implements ItemListener {
 		String[] pieces = choice.split("-"); 
 		return Integer.parseInt(pieces[0]);
 	}
-	
+
 	/*
 	 * used for AutoGrader
 	 * this returns the string that was selected
@@ -499,11 +515,11 @@ public class ModelPane extends JPanel implements ItemListener {
 		if (interactionTypeChoices.getItemCount() == 1) return null;
 		return interactionTypeChoices.getSelectedItem().toString();
 	}
-	
+
 	public ModelDetailsPanel getModelDetailsPanel() {
 		return (ModelDetailsPanel)interactionDetailsPanel.getComponents()[0];
 	}
-	
+
 	/*
 	 * Note for cage numbers vs IDs
 	 * 	cages have Ids that start with 0 (field pop)

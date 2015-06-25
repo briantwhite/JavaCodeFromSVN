@@ -44,6 +44,7 @@ public class ProblemTypeSpecification {
 	private float gene1_ch3Alleles;
 	private float gene1_chIncDom;
 	private float gene1_chCircDom;
+	private boolean gene1_isBloodType;
 
 	private float gene2_chPresent;
 	private float gene2_chSameChrAsGene1;
@@ -52,6 +53,7 @@ public class ProblemTypeSpecification {
 	private float gene2_ch3Alleles;
 	private float gene2_chIncDom;
 	private float gene2_chCircDom;
+	private boolean gene2_isBloodType;
 
 	private float gene3_chPresent;
 	private float gene3_chSameChrAsGene1;
@@ -60,10 +62,11 @@ public class ProblemTypeSpecification {
 	private float gene3_ch3Alleles;
 	private float gene3_chIncDom;
 	private float gene3_chCircDom;
+	private boolean gene3_isBloodType;
 
 	private float phenotypeInteraction;
 	private float epistasis;
-
+	
 	// for edX
 	private EdXServerStrings edXServerStrings;
 
@@ -82,6 +85,7 @@ public class ProblemTypeSpecification {
 		gene1_ch3Alleles = 0.0f;
 		gene1_chIncDom = 0.0f;
 		gene1_chCircDom = 0.5f;
+		gene1_isBloodType = false;
 
 		gene2_chPresent = 0.0f;
 		gene2_chSameChrAsGene1 = 0.0f;
@@ -90,6 +94,7 @@ public class ProblemTypeSpecification {
 		gene2_ch3Alleles = 0.0f;
 		gene2_chIncDom = 0.0f;
 		gene2_chCircDom = 0.5f;
+		gene2_isBloodType = false;
 
 		gene3_chPresent = 0.0f;
 		gene3_chSameChrAsGene1 = 0.0f;
@@ -98,10 +103,11 @@ public class ProblemTypeSpecification {
 		gene3_ch3Alleles = 0.0f;
 		gene3_chIncDom = 0.0f;
 		gene3_chCircDom = 0.5f;
+		gene3_isBloodType = false;
 
 		phenotypeInteraction = 0.0f;
 		epistasis = 0.0f;
-
+		
 		// for edX server
 		edXServerStrings = new EdXServerStrings();
 	}
@@ -186,6 +192,14 @@ public class ProblemTypeSpecification {
 		gene1_chCircDom = gene1ChCircDom;
 	}
 
+	public boolean isGene1_isBloodType() {
+		return gene1_isBloodType;
+	}
+
+	public void setGene1_isBloodType(boolean gene1_isBloodType) {
+		this.gene1_isBloodType = gene1_isBloodType;
+	}
+
 	public float getGene2_chPresent() {
 		return gene2_chPresent;
 	}
@@ -240,6 +254,14 @@ public class ProblemTypeSpecification {
 
 	public void setGene2_chCircDom(float gene2ChCircDom) {
 		gene2_chCircDom = gene2ChCircDom;
+	}
+
+	public boolean isGene2_isBloodType() {
+		return gene2_isBloodType;
+	}
+
+	public void setGene2_isBloodType(boolean gene2_isBloodType) {
+		this.gene2_isBloodType = gene2_isBloodType;
 	}
 
 	public float getGene3_chPresent() {
@@ -298,6 +320,14 @@ public class ProblemTypeSpecification {
 		gene3_chCircDom = gene3ChCircDom;
 	}
 
+	public boolean isGene3_isBloodType() {
+		return gene3_isBloodType;
+	}
+
+	public void setGene3_isBloodType(boolean gene3_isBloodType) {
+		this.gene3_isBloodType = gene3_isBloodType;
+	}
+
 	public float getPhenotypeInteraction() {
 		return phenotypeInteraction;
 	}
@@ -313,6 +343,7 @@ public class ProblemTypeSpecification {
 	public void setEpistasis(float epistasis) {
 		this.epistasis = epistasis;
 	}
+	
 
 	public void setEdXCookieURL(String edXCookieURL) {
 		this.edXServerStrings.setEdXCookieURL(edXCookieURL);
@@ -381,6 +412,10 @@ public class ProblemTypeSpecification {
 		e = new Element("Gene1_CircDom");
 		e.setText(String.valueOf(gene1_chCircDom));
 		ptse.addContent(e);
+		
+		e = new Element("Gene1_isBloodType");
+		e.setText(String.valueOf(gene1_isBloodType));
+		ptse.addContent(e);
 
 		e = new Element("Gene2_Present");
 		e.setText(String.valueOf(gene2_chPresent));
@@ -410,6 +445,10 @@ public class ProblemTypeSpecification {
 		e.setText(String.valueOf(gene2_chCircDom));
 		ptse.addContent(e);
 
+		e = new Element("Gene2_isBloodType");
+		e.setText(String.valueOf(gene2_isBloodType));
+		ptse.addContent(e);
+
 		e = new Element("Gene3_Present");
 		e.setText(String.valueOf(gene3_chPresent));
 		ptse.addContent(e);
@@ -436,6 +475,10 @@ public class ProblemTypeSpecification {
 
 		e = new Element("Gene3_CircDom");
 		e.setText(String.valueOf(gene3_chCircDom));
+		ptse.addContent(e);
+
+		e = new Element("Gene3_isBloodType");
+		e.setText(String.valueOf(gene3_isBloodType));
 		ptse.addContent(e);
 
 		e = new Element("PhenotypeInteraction");
