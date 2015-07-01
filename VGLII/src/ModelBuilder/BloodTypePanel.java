@@ -37,19 +37,25 @@ public class BloodTypePanel extends ModelDetailsPanel implements ItemListener {
 		t4Choices.addItemListener(this);
 		this.mp = mp;
 
-		setLayout(new GridLayout(4,2));
-
-		add(t4Choices);
-		add(new JLabel("~ " + Messages.getInstance().getString("VGLII.Type") + " AB"));
-
-		add(t3Choices);
-		add(new JLabel("~ " + Messages.getInstance().getString("VGLII.Type") + " B"));
-
+		setLayout(new GridLayout(5,2));
+		
 		add(t2Choices);
-		add(new JLabel("~ " + Messages.getInstance().getString("VGLII.Type") + " A"));
-
+		add(new JLabel(""));
+		
+		add(new JLabel(
+				Messages.getInstance().getString("VGLII.CombineToGive"), 
+				combineArrow, 
+				JLabel.LEADING));
+		add(t4Choices);
+		
+		add(t3Choices);
+		add(new JLabel(""));
+		
+		add(new JLabel(""));
+		add(new JLabel(""));
+		
 		add(t1Choices);
-		add(new JLabel("~ " + Messages.getInstance().getString("VGLII.Type") + " O"));
+		add(new JLabel(Messages.getInstance().getString("VGLII.IsRecessiveToAll")));
 	}
 
 	public void updateT1Choices(int x) {

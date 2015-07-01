@@ -124,7 +124,8 @@ public class ModelPane extends JPanel implements ItemListener {
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.NumberOfAlleles")));
 		String[] alleleNumberStrings;
-		boolean isOnly2Alleles;
+		boolean isOnly2Alleles = false;
+		boolean isBloodType = false;
 
 		// blood type has no alternatives
 		// is special case
@@ -133,11 +134,12 @@ public class ModelPane extends JPanel implements ItemListener {
 				((index == 1) && specs.isGene2_isBloodType()) ||
 				((index == 2) && specs.isGene3_isBloodType())) {
 			alleleNumberStrings = new String[1];
-			alleleNumberStrings[0] = Messages.getInstance().getString("VGLII.BloodType");
+			alleleNumberStrings[0] = "3-" + Messages.getInstance().getString("VGLII.Allele");
 			alleleNumberChoices = new JComboBox(alleleNumberStrings);
 			alleleNumberChoicePanel.add(alleleNumberChoices);
 			masterPanel.add(alleleNumberChoicePanel);
 			isOnly2Alleles = false;
+			isBloodType = true;
 
 			// everything else
 		} else {
@@ -189,6 +191,12 @@ public class ModelPane extends JPanel implements ItemListener {
 			interactionTypeChoices.addItemListener(this);
 			interactionTypePanel.add(twap);
 			interactionTypePanel.revalidate();				
+		} else if (isBloodType) {
+			ThreeAllelePanel p = new ThreeAllelePanel(false, true);
+			interactionTypeChoices = p.getInteractionTypeChoices();
+			interactionTypeChoices.addItemListener(this);
+			interactionTypePanel.add(p);
+			interactionTypePanel.revalidate(); 
 		} else {
 			interactionTypePanel.add(new UnknownInteractionPanel());
 		}
@@ -200,7 +208,11 @@ public class ModelPane extends JPanel implements ItemListener {
 		interactionDetailsPanel.setBorder(
 				BorderFactory.createTitledBorder(
 						Messages.getInstance().getString("VGLII.SpecificAllelicInteractions")));
-		interactionDetailsPanel.add(new UnknownSpecificsPanel());
+		if (isBloodType) {
+			interactionDetailsPanel.add(new BloodTypePanel(traits, t1Choices, t2Choices, t3Choices, t4Choices, this));
+		} else{
+			interactionDetailsPanel.add(new UnknownSpecificsPanel());
+		}
 		masterPanel.add(interactionDetailsPanel);
 
 		// relevant crosses
@@ -319,7 +331,7 @@ public class ModelPane extends JPanel implements ItemListener {
 			if (e.getItem().toString().equals(
 					"3-" + Messages.getInstance().getString("VGLII.Allele"))) {
 				interactionTypePanel.removeAll();
-				ThreeAllelePanel thap = new ThreeAllelePanel(circularPossible);
+				ThreeAllelePanel thap = new ThreeAllelePanel(circularPossible, false);
 				interactionTypeChoices = thap.getInteractionTypeChoices();
 				interactionTypeChoices.addItemListener(this);
 				interactionTypePanel.add(thap);
