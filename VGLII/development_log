@@ -2308,3 +2308,27 @@ https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistrib
 went in and created all the identities
 still NG
 tried rebooting
+NG
+further info from http://stackoverflow.com/questions/16036571/codesign-gives-always-no-identity-found-error-via-terminal
+security find-identity -p codesigning
+
+Policy: Code Signing
+  Matching identities
+  1) F736D6D09627F9FE4979476C7BF888A7A8ED1610 "iPhone Developer: Brian White (Z2RL756Y85)"
+  2) 557CC66FC17A7B528B2D8FF7E6E7F50DE3062070 "iPhone Distribution: Brian White (RNA5B8HQ54)"
+  3) 920D3E24430BD4B3214A10B08ABE4D23467EB4FF "Mac Developer: Brian White (Z2RL756Y85)"
+  4) 4833052F96B053A2F446A6D83D6AB999F9E8CEFB "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)"
+     4 identities found
+
+  Valid identities only
+  1) F736D6D09627F9FE4979476C7BF888A7A8ED1610 "iPhone Developer: Brian White (Z2RL756Y85)"
+  2) 557CC66FC17A7B528B2D8FF7E6E7F50DE3062070 "iPhone Distribution: Brian White (RNA5B8HQ54)"
+  3) 920D3E24430BD4B3214A10B08ABE4D23467EB4FF "Mac Developer: Brian White (Z2RL756Y85)"
+  4) 4833052F96B053A2F446A6D83D6AB999F9E8CEFB "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)"
+     4 valid identities found
+
+tried:
+ codesign -f -v -s "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)" VGLII-3.3.0.app/
+VGLII-3.3.0.app/: signed bundle with Mach-O thin (x86_64) [edu.umb.vgl]
+
+perhaps it woorked!
