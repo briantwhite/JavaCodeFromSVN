@@ -2263,3 +2263,48 @@ got it working - send out for testing.
 finally got test results and it works
 make new version 3.3.0
 
+made linux version
+- steal VGL.sh and README.txt from version 3.2.1
+- edit as needed
+- chmod on VGL.sh and VGL.jar to execute
+- remove .DS_Store's
+- tar & gz the whole thing
+	tar -czvf VGLII.tar.gz VGLII-3.3.0
+- tried to test with virtualbox but couldn't get java to run at all - fail.
+
+made windows version:
+- use launch4j
+	specify the jar and the .exe
+	minimum java version 1.6.0
+- just use mac's compress to see if that works to make VGLII.pc.zip
+	it leaves in _MACOSX/ and .DS_Store
+	this page says how to nix these: http://stackoverflow.com/questions/10924236/mac-zip-compress-without-macosx-folder
+- try zip VGLII.pc.zip -x \*.DS_Store -r VGLII-3.3.0/
+- unzip on pc & see what happens
+- OK now
+
+made mac version:
+- use build.xml's "app" option
+- edit build.xml for new version
+- make app
+- seems OK
+- use apple-I to change icon
+- need to sign 
+	bash (won't work in tcsh)
+	export CODESIGN_ALLOCATE="/Applications/Xcode.app/Contents/Developer/usr/bin/codesign_allocate"
+	codesign -s "Developer ID Application: Brian White" -vf VGLII-3.3.0.app/
+		fails - "Developer ID Application: Brian White: no identity found"
+
+http://stackoverflow.com/questions/16036571/codesign-gives-always-no-identity-found-error-via-terminal
+went to apple developer site
+downloaded my certificate
+double-clicked cert file - it's there
+also 
+bash-3.2$ certtool y | grep Developer\ ID
+   Common Name     : Developer ID Certification Authority
+   Common Name     : Developer ID Application: Brian White
+so it looks OK...
+https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html
+went in and created all the identities
+still NG
+tried rebooting

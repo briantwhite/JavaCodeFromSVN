@@ -27,8 +27,8 @@
 	
 	<target name="app" depends="jarfile" description="make mac app">
 		<bundleapp outputdirectory="."
-			name="VGLII-3.2.1"
-			displayname="VGLII-3.2.1"
+			name="VGLII-3.3.0"
+			displayname="VGLII-3.3.0"
 			identifier="edu.umb.vgl"
 			icon="pc 32x32 icon.ico"
 			mainclassname="VGL.VGLII" >
