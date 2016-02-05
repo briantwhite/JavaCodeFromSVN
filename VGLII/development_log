@@ -2333,3 +2333,12 @@ VGLII-3.3.0.app/: signed bundle with Mach-O thin (x86_64) [edu.umb.vgl]
 
 perhaps it woorked!
 yes it did!
+
+2/5/16
+try to get Korean working
+- move messages_ko_KR.properties from Future/ to src/VGL
+- un-comment line 121 in VGLII.java - the line that adds Korean to the choices
+- move "Future/new fig0.gif" to src/VGL.Help_kr/fig0.gif
+
+seems to work - send it out for testing.
+
