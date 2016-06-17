@@ -2342,9 +2342,24 @@ try to get Korean working
 
 seems to work - send it out for testing.
 
-3/2/15
+3/2/16
 Annie Jiang finalizes fixes to Korean menu stuff and index.html in help
 
-3/3/15
+3/3/16
 need to test to be sure that grading is still OK in english
 works
+
+6/17/16
+looking into ExclesiorJet native compiler. But, the mac os x apps need xterm - which fusses and needs to be installed.
+"Certain Excelsior JET functionality involves running your natively compiled program in a terminal. On Linux, it 
+employs xterm for that purpose. For now Excelsior JET for OS X also falls back to xterm, but future versions will 
+either employ the standard OS X terminal emulator, Terminal.app, or will have the respective functionality 
+reimplemented without such external dependencies."
+- don't use it.
+
+there's something else: JWrapper http://www.jwrapper.com/excelsior-jet-alternative.html
+it includes a jre - so you won't need to install java
+but will it trip anti-java warnings/blockage?
+it is also not free.
+see if there's an educational discount.
+
