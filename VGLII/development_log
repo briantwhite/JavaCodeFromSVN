@@ -2363,3 +2363,70 @@ but will it trip anti-java warnings/blockage?
 it is also not free.
 see if there's an educational discount.
 
+6/20/16
+asked this:
+	I'm a professor at UMass Boston. I have written two java applications used exclusively for teaching biology that 
+	I distribute for free (http://vgl.umb.edu and http://aipotu.umb.edu). These are used around the world and one has 
+	won an international award for educational software. I make no money from these. My users are having more and more 
+	trouble with java installations etc so I'm looking to make native apps.
+	My budget is extremely limited. I looked on your website and was unable to find out what features are present/absent 
+	in the free version. Is there an educational discount or a discount for freeware that applies to your product?
+
+Antony (contact@jwrapper.com) replied:
+	Thanks for your interest in JWrapper.
+	JWrapper Standard can be used for free subject to our license terms.  The features available in JWrapper Standard are 
+	listed on the following page.  The features which are excluded are lower down the page under JWrapper Enterprise:
+		http://www.jwrapper.com/compare.html
+	I would imagine that JWrapper Standard would do everything you need to get native apps built and distributed.
+	Our terms are available here: http://www.jwrapper.com/jwrapper-license-details.html
+
+So it looks like it's worth a try.
+	need .png for all images or it fails
+	main class is VGL.VGLII
+
+seems to work!
+
+try building in the Problems/ folder
+	first run is slow - maybe it's installing stuff
+	it installs Problems/ into /Users/brian/Library/Application Support/JWrapper-VGLII/JWrapper-VGLII-00044609005-complete
+there's a lot of stuff there:
+ls -l
+total 19544
+-rwxr-xr-x  1 brian  staff       85 Jun 20 11:23 JWAppSpec-JWrapperJreCompatibilityApp
+-rwxr-xr-x  1 brian  staff       98 Jun 20 11:23 JWAppSpec-JWrapper_Service_Management_App
+-rwxr-xr-x  1 brian  staff    11437 Jun 20 11:23 JWAppSpec-VGLII
+-rwxr-xr-x  1 brian  staff        1 Jun 20 11:23 JWAuxiliaryArchive-VGLII_os_jwmac64
+-rw-r--r--  1 brian  staff      895 Jun 20 11:23 JWLaunchProperties-1466436187035-21
+-rw-r--r--  1 brian  staff      861 Jun 20 11:24 JWLaunchProperties-1466436280743-22
+-rw-r--r--  1 brian  staff      861 Jun 20 11:25 JWLaunchProperties-1466436350053-23
+-rwxr-xr-x  1 brian  staff     3028 Jun 20 11:23 JWrapper-VGLII-ICNS.icns
+-rwxr-xr-x  1 brian  staff    49390 Jun 20 11:23 JWrapper-VGLII-UninstallerICO.icopng
+-rwxr-xr-x  1 brian  staff    25489 Jun 20 11:23 JWrapper-VGLII-splash.png
+-rwxr-xr-x  1 brian  staff       11 Jun 20 11:23 JWrapper-VGLII-version.txt
+-rwxr-xr-x  1 brian  staff       98 Jun 20 11:23 JWrapperLaunch
+-rw-r--r--  1 brian  staff       12 Jun 20 11:23 JWrapperUseJRE
+drwxrwxrwx  8 brian  staff      272 Jun 20 11:23 Problems
+-rw-r--r--  1 brian  staff  8541337 Jun 20 11:23 VGLII.jar
+drwxrwxrwx  3 brian  staff      102 Jun 20 11:23 VGLIIMacLauncher64.app
+-rwxr-xr-x  1 brian  staff    46764 Jun 20 11:23 elev_mac
+-rwxr-xr-x  1 brian  staff       11 Jun 20 11:23 jwBuildVersion
+-rw-r--r--  1 brian  staff        0 Jun 20 11:23 jwFirstRun
+-rwxrwxrwx  1 brian  staff       13 Jun 20 11:25 jwLastRun
+-rwxr-xr-x  1 brian  staff      792 Jun 20 11:23 jwrapper_license
+-rw-r--r--  1 brian  staff  1200279 Jun 20 11:23 jwrapper_utils.jar
+-rwxr-xr-x  1 brian  staff    31556 Jun 20 11:23 libjwutils_macos32.jnilib
+-rwxr-xr-x  1 brian  staff    27648 Jun 20 11:23 libjwutils_macos64.jnilib
+
+hmmm, it may be working.
+
+need to test to see if the new version runs when java is absent/disabled
+	it looks like you have to delete the jre to do this test - dangerous!
+	
+but will it solve the problem: that people aren't allowed to install software on their computers...
+
+tested on windows
+	the first run is VERY slow - next are faster
+	it installs stuff in Users\brian.white\AppData\Roaming\JWrapper-VGLII\JWrapper-VGL-00044609005-complete
+	along with some other stuff
+
+see if you can find some testers.
