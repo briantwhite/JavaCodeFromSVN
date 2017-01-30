@@ -2441,5 +2441,29 @@ from julie.noor@duke.edu
 	"save work for grading" option and when starting a new problem, it doesn't default to opening the 
 	Problems folder.  One TA played around and figured out that MacOS is opening the application in 
 	a weird read-only temporary folder.  
+	
+for notes, see above 8/23/14
 
 it looks like the -D option may not be working anymore.
+
+from http://stackoverflow.com/questions/7838750/is-there-a-jvm-command-line-option-to-change-directory 
+it may be necessary to say -Duser.dir=$APP_ROOT
+	not -D$APP_ROOT
+
+FWIW, the directory being used is 
+	/private/var/folders/c9/781k1x753y545pmzpdr0s1l80000gp/T/AppTranslocation/74D6CE66-88E2-48A2-9F18-69E18542D541/d/
+
+looked up AppTranslation
+https://github.com/potionfactory/LetsMove/issues/56
+says 
+	As outlined at http://weblog.rogueamoeba.com/2016/06/29/sierra-and-gatekeeper-path-randomization/, macOS Sierra 
+	introduces a new security feature called "Gatekeeper Path Randomization" (or "app translocation", as it's called 
+	on the API level). The basic gist is that if you download and run a Gatekeeper app from the Downloads folder, 
+	the OS will copy the app into a read-only disk image and run it from there instead. See the link above for more details.
+
+	This applies until the user moves the app to any other location (not just the Applications folder), after which the 
+	OS will just run the app normally. However, the move is only recognized if performed using the Finder. If you move 
+	the app another way, e.g. using "mv" in the Terminal, the app will continue to be translocated when run, even if 
+	it's in /Applications.
+
+ask Julie to try moving the application folder 
