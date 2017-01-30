@@ -2348,3 +2348,15 @@ Annie Jiang finalizes fixes to Korean menu stuff and index.html in help
 3/3/15
 need to test to be sure that grading is still OK in english
 works
+
+1/30/17
+motherfuckers at apple zotted java again
+from julie.noor@duke.edu
+	My TAs just discovered that VGLII 3.3.0 has a glitch with MacOS Sierra (10.12.2).  Even when the 
+	application file is in the same folder as the Problems folder and student.key file, there is no 
+	"save work for grading" option and when starting a new problem, it doesn't default to opening the 
+	Problems folder.  One TA played around and figured out that MacOS is opening the application in 
+	a weird read-only temporary folder.  
+
+it looks like the -D option may not be working anymore.
+
