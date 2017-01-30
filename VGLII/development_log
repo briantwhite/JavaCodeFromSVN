@@ -2467,7 +2467,8 @@ says
 	it's in /Applications.
 
 some other ideas from https://eclecticlight.co/2016/06/16/macos-sierra-will-break-many-installers-and-updaters/
-	make a signed disk image
+	make a signed disk image?
+		https://developer.apple.com/library/content/technotes/tn2206/_index.html#//apple_ref/doc/uid/DTS40007919-CH1-TNTAG18
 
 more details at http://lapcatsoftware.com/articles/app-translocation.html
 
