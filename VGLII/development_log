@@ -2475,3 +2475,42 @@ more details at http://lapcatsoftware.com/articles/app-translocation.html
 ask Julie to try moving the /Application folder - didn't work
 
 also set up laptop to run Sierra
+
+1/31/17
+Options:
+1) Build VGL for mac with all files in the app (since that's translocated as a unit)
+	will need to have it detect mac/pc then
+		if PC - look in same dir as .jar for the files
+		if MAC - look in some dir higher up on tree (or search)
+	will need to tell users to put key files INSIDE the app
+	http://stackoverflow.com/questions/4032957/how-to-get-the-real-path-of-java-application-at-runtime
+	
+2) Sign a disk image of the whole set of stuff - maybe it'll translocate the whole package
+
+try #2
+make disk image https://support.apple.com/kb/ph5841?locale=en_US
+use VGL files in "ReadyToRun/"
+take the VGLII-3.3.0 folder
+	Disk Utility
+		File => new image from folder
+	selected VGLII-3.3.0 folder
+		read only format
+	saved to desktop
+
+sign it 
+cd Desktop
+codesign -f -v -s "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)" VGLII-3.3.0.dmg 
+VGLII-3.3.0.dmg: signed  []
+
+put it on website and test. http://vgl.umb.edu/VGLII/VGLII-3.3.0.dmg
+
+it got relocated...
+maybe the signing wasn't right 
+
+check with spctl a la https://developer.apple.com/library/content/technotes/tn2206/_index.html#//apple_ref/doc/uid/DTS40007919-CH1-TNTAG18
+
+spctl -a -t open --context context:primary-signature -v VGLII-3.3.0.dmg 
+VGLII-3.3.0.dmg: rejected
+source=Insufficient Context
+
+so maybe I didnt' sign it right. Try again.
