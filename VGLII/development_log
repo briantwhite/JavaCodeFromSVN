@@ -2677,4 +2677,83 @@ why failing?
 
 try doing it on laptop running 10.12
 	get keys etc into Xcode using .developerprofile from above
+
+first, on big mac, try signing a copy of the app
+codesign -f -v -s "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)" VGLII-3.3.0.app/
+VGLII-3.3.0.app/: signed app bundle with Mach-O thin (x86_64) [edu.umb.vgl]
+- that's better
+
+spctl -a -t open --context context:primary-signature -v VGLII-3.3.0.app/
+VGLII-3.3.0.app/: rejected
+source=Insufficient Context
+- odd.. maybe an incorrect command
+
+OK - look at codesign - maybe wrong options?
+
+or may be OK:
+- made fresh .dmg
+codesign -f -v -s "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)" VGLII-3.3.0a.dmg 
+VGLII-3.3.0a.dmg: signed  []
+
+codesign --display --verbose=4 VGLII-3.3.0a.dmg 
+Executable=/javastuff/ReadyToRun/VGL & VGLII/VGL II/Version 3.3.0a/VGLII-3.3.0a.dmg
+Identifier=VGLII-3.3.0a
+Format=disk image
+CodeDirectory v=20200 size=300 flags=0x0(none) hashes=1+6 location=embedded
+Hash type=sha256 size=32
+CandidateCDHash sha256=61121ac294bebd5301598bfa37c031c3df200801
+Hash choices=sha256
+CDHash=61121ac294bebd5301598bfa37c031c3df200801
+Signature size=4669
+Authority=3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)
+Authority=Apple Worldwide Developer Relations Certification Authority
+Authority=Apple Root CA
+Signed Time=Feb 1, 2017, 11:26:26 AM
+Info.plist=not bound
+TeamIdentifier=RNA5B8HQ54
+Sealed Resources=none
+Internal requirements count=1 size=192
+
+try downloading on laptop running 10.12.3
+	on mounting, OS claims it's from an unidentified developer
+	open anyway
+	copy to desktop
+	run
+	unidentified developer warning
+		it got translocated...
+
+last chance for this is to do the signing on the 10.12 mac
+	tried - same errors - it got translocated..
+	
+need to make it translocation-proof
+
+build all the stuff into the .app
+	put it all in the Java folder.
+first try - just make the app & move the stuff in there
+1) build app new
+2) copy to the "Mac Version/" folder from above
+3) drag Problems/ into VGL.app/Contents/Java
+
+NG - the program doesn't look there.
+
+need to build it properly.
+
+1) remove the  			<argument value="-D$APP_ROOT" />  line from build.xml
+	it was used as a mac-specific signal
+2) replace the code in VGLII.java near line 440 that checked for -D option
+	change 		
+	vglFolderDirectory = new File(System.getProperty("user.dir")); // for all but mac apps made by appbundler, this is the directory where VGL lives
+	to something that'll get where the .jar is	
+	http://stackoverflow.com/questions/4032957/how-to-get-the-real-path-of-java-application-at-runtime
+try
+	vglFolderDirectory = new File("."); // get directory where jar/exe is
+NG - it goes to user's home dir
+
+try 
+			JOptionPane.showMessageDialog(null, this.getClass().getProtectionDomain().getCodeSource().getLocation());
+	this gives a string: file:/Users/brian/git/JavaCodeFromSVN/VGLII/VGLII-3.3.0.app/Contents/Java/VGLII.jar
+	so need to strip it and use it as the right path!
+	
+
+
 	

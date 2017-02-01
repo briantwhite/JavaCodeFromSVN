@@ -33,7 +33,6 @@
 			icon="pc 32x32 icon.ico"
 			mainclassname="VGL.VGLII" >
 			<classpath file="VGLII.jar" />
- 			<argument value="-D$APP_ROOT" /> 
 		</bundleapp> 
 	</target>
 	

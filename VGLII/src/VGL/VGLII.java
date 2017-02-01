@@ -436,27 +436,20 @@ public class VGLII extends JFrame {
 		 * find out if edX before constructing
 		 * 	so you can determine which menus to show
 		 *  - includes Save to Edx menu and button
+		 *  
+		 *  first, get the directory where the .jar/.exe lives
 		 */
-		vglFolderDirectory = new File(System.getProperty("user.dir")); // for all but mac apps made by appbundler, this is the directory where VGL lives
+		StringBuffer jarPathBuffer = new StringBuffer(this.getClass().getProtectionDomain().getCodeSource().getLocation().toString());
+
+		vglFolderDirectory = new File("."); // get directory where jar/exe is
 		boolean saveToEdXServerEnabled = false;
-		if ((args.length == 1) && args[0].startsWith("-D")) {
-			String appRootDir = args[0].replace("-D", "");		// mode 1a (mac only)
-			// need to chop off last directory /VGL-3.2.1.app to get to enclosing folder
-			StringBuffer appDirBuffer = new StringBuffer();
-			String[] parts = appRootDir.split("/");
-			for (int i = 0; i < (parts.length - 1); i++) {
-				appDirBuffer.append(parts[i]);
-				appDirBuffer.append("/");
-			}
-			appDirBuffer.deleteCharAt(appDirBuffer.length() - 1);
-			vglFolderDirectory = new File(appDirBuffer.toString());				
-		} else {
-			if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
-				saveToEdXServerEnabled = true;					// mode 3
-			} else if (args.length > 1) {
-				saveToEdXServerEnabled = true;					// mode 4
-			}
+		
+		if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
+			saveToEdXServerEnabled = true;					// mode 3
+		} else if (args.length > 1) {
+			saveToEdXServerEnabled = true;					// mode 4
 		}
+		JOptionPane.showMessageDialog(null, vglFolderDirectory.getAbsolutePath());
 		random = new Random();
 
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
