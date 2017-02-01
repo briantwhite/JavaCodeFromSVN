@@ -2549,3 +2549,132 @@ still NG
 try rebooting - NG
 
 contacted developer support
+
+2/1/17
+In the long run, getting it in the app store is probably the best thing. You can build a JVM into the app also.
+
+Apple replied:
+
+Hello Brian, 
+
+Thank you for contacting Apple Developer Program Support regarding your certificates.
+I have a few resources to point you to regarding the certificate issue you’re experiencing. 
+Please see the "Maintaining Your Signing Identities and Certificates" section of the App Distribution Guide for detailed 
+instructions for replacing the certificate:
+https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html
+
+For troubleshooting assistance related to your certificates, you can see the “Troubleshooting” section of the App Distribution Guide:
+https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/Troubleshooting/Troubleshooting.html#//apple_ref/doc/uid/TP40012582-CH5-SW1
+
+Lastly, I have another link that can be of assistance:
+https://developer.apple.com/support/certificates/
+
+I hope you find this information helpful. Please let me know if you have any questions or need any further assistance. I'm happy to help.
+
+If you would like, give us a call: https://developer.apple.com/contact/phone.php 
+
+When contacting us, please reference case number 100125753737.
+
+Best regards,
+
+Deborah
+Apple Inc.
+
+tried first link
+	xcode => preferences
+		sign into account
+		need to create certs
+		exported as "2017-02-01 Profile.developerprofile" used "Vasel..." password
+		imported into Xcode
+
+security find-identity -p codesigning
+
+Policy: Code Signing
+  Matching identities
+  1) F736D6D09627F9FE4979476C7BF888A7A8ED1610 "iPhone Developer: Brian White (Z2RL756Y85)" (CSSMERR_TP_CERT_EXPIRED)
+  2) 557CC66FC17A7B528B2D8FF7E6E7F50DE3062070 "iPhone Distribution: Brian White (RNA5B8HQ54)" (CSSMERR_TP_CERT_EXPIRED)
+  3) 920D3E24430BD4B3214A10B08ABE4D23467EB4FF "Mac Developer: Brian White (Z2RL756Y85)" (CSSMERR_TP_CERT_EXPIRED)
+  4) 4833052F96B053A2F446A6D83D6AB999F9E8CEFB "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)" (CSSMERR_TP_CERT_EXPIRED)
+  5) F77554783F36E4F28D440935B74677870092238A "iPhone Distribution: Brian White (RNA5B8HQ54)"
+  6) FC50235377D94375B3E8C63E0BE1CC2C34332E5D "Mac Developer: Brian White (Z2RL756Y85)"
+  7) 27BBF90E3A9B1164E737673E99EE1D0D8BE5D97E "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)"
+     7 identities found
+
+  Valid identities only
+  1) F77554783F36E4F28D440935B74677870092238A "iPhone Distribution: Brian White (RNA5B8HQ54)"
+  2) FC50235377D94375B3E8C63E0BE1CC2C34332E5D "Mac Developer: Brian White (Z2RL756Y85)"
+  3) 27BBF90E3A9B1164E737673E99EE1D0D8BE5D97E "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)"
+     3 valid identities found
+
+looks good.
+
+try making disk image
+
+1) make new folder /javastuff/ReadyToRun/VGL & VGLII/VGL II/Version 3.3.0a/
+2) copy in "Mac Version/" from "Version 3.3.0/"
+	rename internal folder to "VGLII-3.3.0a/"
+	delete VGLII.app & VGLII.zip
+3) in eclipse, remake the VGLII.app (click the "app" target)
+	copy into the folder from (2)
+	added icon
+4) in disk utility
+	create image from folder
+		select "Mac Version/"
+			read-only
+		save as "VGLII-3.3.0a.dmg" in the "Version 3.3.0a/" folder
+5) in "Version 3.3.0a/" folder
+	codesign -f -v -s "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)" VGLII-3.3.0a.dmg 
+gives:
+3rd Party Mac Developer Application: Brian White (RNA5B8HQ54): ambiguous 
+	(matches "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)" 
+	and "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)" in /Users/brian/Library/Keychains/login.keychain)	
+
+looks like I need to nuke the expired one. Follow directions on first link above under "Removing Signing Identities from Your Keychain"
+	go to Keychain Access
+		deleted expired Keys
+		deleted expired Certificates
+
+security find-identity -p codesigning
+
+Policy: Code Signing
+  Matching identities
+  1) F77554783F36E4F28D440935B74677870092238A "iPhone Distribution: Brian White (RNA5B8HQ54)"
+  2) FC50235377D94375B3E8C63E0BE1CC2C34332E5D "Mac Developer: Brian White (Z2RL756Y85)"
+  3) 27BBF90E3A9B1164E737673E99EE1D0D8BE5D97E "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)"
+     3 identities found
+
+  Valid identities only
+  1) F77554783F36E4F28D440935B74677870092238A "iPhone Distribution: Brian White (RNA5B8HQ54)"
+  2) FC50235377D94375B3E8C63E0BE1CC2C34332E5D "Mac Developer: Brian White (Z2RL756Y85)"
+  3) 27BBF90E3A9B1164E737673E99EE1D0D8BE5D97E "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)"
+     3 valid identities found
+- looks OK
+
+try signing the .dmg
+
+codesign -f -v -s "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)" VGLII-3.3.0a.dmg
+VGLII-3.3.0a.dmg: signed  []
+- not looking good
+
+spctl -a -t open --context context:primary-signature -v VGLII-3.3.0a.dmg 
+VGLII-3.3.0a.dmg: rejected
+source=Insufficient Context
+- it failed...
+
+try remaking the .dmg as "compressed" - not "read only"
+
+same result - NG
+
+try the other identity (remake the .dmg as "compressed")
+codesign -f -v -s "Mac Developer: Brian White (Z2RL756Y85)" VGLII-3.3.0a.dmg 
+VGLII-3.3.0a.dmg: signed  []
+spctl -a -t open --context context:primary-signature -v VGLII-3.3.0a.dmg
+VGLII-3.3.0a.dmg: rejected
+source=Insufficient Context
+
+why failing?
+- could it be that I'm on 10.11.5 - not the most advanced OS?
+
+try doing it on laptop running 10.12
+	get keys etc into Xcode using .developerprofile from above
+	
