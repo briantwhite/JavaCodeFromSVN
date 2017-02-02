@@ -20,12 +20,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -104,7 +106,7 @@ public class VGLII extends JFrame {
 	/**
 	 * the version number
 	 */
-	public final static String version = "3.3.0 2016-01-26"; //$NON-NLS-1$
+	public final static String version = "3.3.1 2017-02-02"; //$NON-NLS-1$
 
 	/*
 	 * param name for determining edXMode - see under main()
@@ -439,17 +441,31 @@ public class VGLII extends JFrame {
 		 *  
 		 *  first, get the directory where the .jar/.exe lives
 		 */
-		StringBuffer jarPathBuffer = new StringBuffer(this.getClass().getProtectionDomain().getCodeSource().getLocation().toString());
+		StringBuffer jarPathBuffer;
+		try {
+			jarPathBuffer = new StringBuffer(URLDecoder.decode(
+					this.getClass().getProtectionDomain().getCodeSource().getLocation().toString(), "UTF-8"));
 
-		vglFolderDirectory = new File("."); // get directory where jar/exe is
-		boolean saveToEdXServerEnabled = false;
+			// strip off the leading "file:"
+			jarPathBuffer.delete(0, jarPathBuffer.indexOf(":") + 1);
+			// strip off the trailing "VGLII.jar" - everything after the last file.separator
+			jarPathBuffer.delete(jarPathBuffer.lastIndexOf(System.getProperty("file.separator")) + 1, jarPathBuffer.length());
+
+			vglFolderDirectory = new File(jarPathBuffer.toString()); // get directory where jar/exe is
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			vglFolderDirectory = new File(".");
+		}		
 		
+		boolean saveToEdXServerEnabled = false;
+
 		if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
 			saveToEdXServerEnabled = true;					// mode 3
 		} else if (args.length > 1) {
 			saveToEdXServerEnabled = true;					// mode 4
 		}
-		JOptionPane.showMessageDialog(null, vglFolderDirectory.getAbsolutePath());
+
 		random = new Random();
 
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
@@ -492,12 +508,6 @@ public class VGLII extends JFrame {
 	 * main method; 4 modes
 	 * 1) Standard = start with blank screen and open from there (the way it's always been)
 	 * 		- launch with no params
-	 * 		- "Save to edX" - absent
-	 * 		- "new problem" - present
-	 * 
-	 * 1a) From mac app - need to deal with appbundler's user dir issue
-	 * 		- one param - the APP_ROOT - where to look for Problems and the key files
-	 * 			sent in as -D$APP_ROOT
 	 * 		- "Save to edX" - absent
 	 * 		- "new problem" - present
 	 * 
@@ -1962,6 +1972,6 @@ public class VGLII extends JFrame {
 	public GeneticModel getGeneticModel() {
 		return geneticModel;
 	}
-	
+
 }
 

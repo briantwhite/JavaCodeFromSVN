@@ -2754,6 +2754,47 @@ try
 	this gives a string: file:/Users/brian/git/JavaCodeFromSVN/VGLII/VGLII-3.3.0.app/Contents/Java/VGLII.jar
 	so need to strip it and use it as the right path!
 	
-
-
+2/2/17
+when doing this path thing, be sure to check:
+1) it works on PC
+2) be VERY careful - don't replace "file:" with "" - if they have file in the filename etc
+	replace up through the first colon with ""
+	replace after the last file separator with ""
 	
+made this a new version: 3.3.1
+
+ugh - since getLocation() returns a URL, any spaces or strange char get turned to %20 etc..
+	use URLdecoder
+
+seems to work on mac
+try signing
+
+1) build app 3.3.1
+2) copy to version 3.3.1 folder
+3) show contents of app
+4) copy in Problems/ to .app/Contents/Java/
+5) sign
+
+[briansofficemac:VGL II/Version 3.3.1/Mac version] brian% codesign -f -v -s "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)" VGLII-3.3.1.app/
+VGLII-3.3.1.app/: signed app bundle with Mach-O thin (x86_64) [edu.umb.vgl]
+
+- looks OK
+
+zip it and post it and download it and test it
+it looks like it might be OK
+send to Julie Noor to test.
+
+test the .exe using jar
+- use launch4j
+	specify the jar and the .exe - save in 3.3.1/PC version
+	minimum java version 1.6.0
+
+NG - get error from launch4j - "registry refers to nonexistent java runtime environment..."
+try getting latest launch4j - version 3.9 - (had version 3.0.2)
+make new exe
+
+use this to make zip  zip VGLII.pc.zip -x \*.DS_Store -r VGLII-3.3.1/
+
+test on pc - no good. It opens into user's home.
+
+need to debug path stuff
