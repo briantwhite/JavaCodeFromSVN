@@ -2798,3 +2798,33 @@ use this to make zip  zip VGLII.pc.zip -x \*.DS_Store -r VGLII-3.3.1/
 test on pc - no good. It opens into user's home.
 
 need to debug path stuff
+
+2/3/17
+also - look into automating launch4j in eclipse http://launch4j.sourceforge.net/docs.html#Ant_task
+	make an exe button
+
+if you put this
+		JOptionPane.showMessageDialog(null, vglFolderDirectory.getAbsolutePath());
+in the VGL constructor, it gives the location of the .exe
+but, strangely, open new problem opens into the user's docs folder..
+
+try putting the dialog in the open prob file code to report problemsDirectory
+it's looking for C:\Problems - why??
+
+newProblemFromFile uses .toString() not .getAbsolutePath() - is that it? YES - fixed 
+removed dialogs
+
+test on mac - OK
+build app
+add back Problems/
+sign
+zip
+- mac is ready for deployment - need to change website docs.
+
+PC version use mac's zip command
+
+problem - once the app is modified by Julie adding the key file you can't web distribute it anymore since the signing
+is invalid
+
+the only solution to this is to have the user select the key file directory manually when they first want to save work for
+grading..

@@ -1114,9 +1114,10 @@ public class VGLII extends JFrame {
 
 		if (cageCollection == null) {
 			if (problemFileName == null) {
-				File problemsDirectory = new File(vglFolderDirectory.toString()
+				
+				File problemsDirectory = new File(vglFolderDirectory.getAbsolutePath() 
 						+ System.getProperty("file.separator") + "Problems"); //$NON-NLS-1$ //$NON-NLS-2$
-
+				
 				if (!problemsDirectory.exists()) {
 					problemsDirectory = vglFolderDirectory;
 				}
