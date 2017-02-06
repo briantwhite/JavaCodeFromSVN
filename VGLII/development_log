@@ -2828,3 +2828,77 @@ is invalid
 
 the only solution to this is to have the user select the key file directory manually when they first want to save work for
 grading..
+
+2/4/17
+weird - even though I’m a developer, when opening the app, you get the “unidentified developer” error
+https://github.com/electron-userland/electron-builder/issues/740
+says "macOS app must be not signed using Mac Developer: cert. Only Developer ID Application: is valid.”
+I’ve been using "3rd Party Mac Developer Application:” - is this wrong??
+
+if you go in XCode  and select “OS X” - you see that “Developer ID Application” is present
+
+on home mac,
+security find-identity -p codesigning
+
+Policy: Code Signing
+  Matching identities
+  1) 23E2F99F8CE497FFD37C1F088D0B7F639DA69ED8 "Developer ID Application: Brian White"
+  2) 8291FE9B1EC3A27D6ABA032223C243D29630F856 "iPhone Developer: Brian White (Z2RL756Y85)"
+     2 identities found
+
+  Valid identities only
+  1) 23E2F99F8CE497FFD37C1F088D0B7F639DA69ED8 "Developer ID Application: Brian White"
+  2) 8291FE9B1EC3A27D6ABA032223C243D29630F856 "iPhone Developer: Brian White (Z2RL756Y85)"
+     2 valid identities found
+
+try signing the old VGLII-3.3.0 app - to see if it gets translocated
+codesign -f -v -s "Developer ID Application: Brian White" VGLII-3.3.0.app/
+VGLII-3.3.0.app/: resource fork, Finder information, or similar detritus not allowed’
+
+WTF?
+https://developer.apple.com/library/content/qa/qa1940/_index.html
+
+xattr -lr VGLII-3.3.0.app/ - shows a lot of cruft
+xattr -cr VGLII-3.3.0.app/ - should nuke it
+xattr -lr VGLII-3.3.0.app/ - now clean
+
+try to sign
+codesign -f -v -s "Developer ID Application: Brian White" VGLII-3.3.0.app/
+VGLII-3.3.0.app/: signed app bundle with Mach-O thin (x86_64) [edu.umb.vgl]
+(took longer than usual)
+
+put in zip & send up to server
+download and test
+NG
+- still get unidentified developer and it is translocated
+
+try under more controlled conditions at work
+
+2/6/17
+probably the best plan
+
+1) check on why I'm getting the "unidentified developer"
+	try the different identity
+	contact tech support
+
+2) Build VGL for mac with the Problems in the .app
+	as for the key files
+		- have the 'save for grading" and "grade students' work" present all the time
+		- the first time you choose them, it looks for the key files in these places in this order
+			(look for a "VGL" "VGLII" "VGL-3.3.1" folder with the right .key file(s) in it)
+			(if it fails to find the appropriate .key file in one location, try the next, etc)
+			a folder specified in preferences
+			one of the following "canonical" locations
+				User.home/Desktop
+				User.home/Documents
+				User.home/Downloads
+				User.home/Applications
+				Applications
+				Program Files
+				Program Files (x86)
+			if not in any of these, pop up a dialog "VGL can't find necessary key files"
+				do you want to cancel or show VGL where they are
+					if "show where they are" - pop up file dialog for DIRECTORY
+						save this to preferences
+	this will be OK for windows too
+3) when you do this - don't use File.toString() but File.getAbsolutePath() 
