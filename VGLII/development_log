@@ -2906,7 +2906,5 @@ probably the best plan
 do with a "KeyFileLocator" class
 	has preferences reader & writer
 	keeps keyFileDirectory
-	static methods that
-		.getStudentKey() returns the key itself
-		.getInstructorKeys() returns object with the two keys
+	static methods that get key file paths
 	deals with dialog box
