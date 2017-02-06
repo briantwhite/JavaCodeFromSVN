@@ -2902,3 +2902,11 @@ probably the best plan
 						save this to preferences
 	this will be OK for windows too
 3) when you do this - don't use File.toString() but File.getAbsolutePath() 
+
+do with a "KeyFileLocator" class
+	has preferences reader & writer
+	keeps keyFileDirectory
+	static methods that
+		.getStudentKey() returns the key itself
+		.getInstructorKeys() returns object with the two keys
+	deals with dialog box
