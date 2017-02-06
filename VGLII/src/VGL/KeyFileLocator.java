@@ -76,6 +76,7 @@ public class KeyFileLocator {
 				}
 			}
 		}
+		// choice dialog here- locate files or punt
 		return null;
 	}
 	
