@@ -2894,8 +2894,6 @@ probably the best plan
 				User.home/Downloads
 				User.home/Applications
 				Applications
-				Program Files
-				Program Files (x86)
 			if not in any of these, pop up a dialog "VGL can't find necessary key files"
 				do you want to cancel or show VGL where they are
 					if "show where they are" - pop up file dialog for DIRECTORY
@@ -2908,3 +2906,21 @@ do with a "KeyFileLocator" class
 	keeps keyFileDirectory
 	static methods that get key file paths
 	deals with dialog box
+
+2/7/17
+revision
+have it do the search on startup in canonical places
+	- first look in directory with .jar or .exe
+	- then prefs, if set
+	- then canonical
+	- if found, add corresponding menu items
+	- if all not found, add File => Import Key Files
+		opens dialog for FOLDER where all keys are
+			reports what keys it found and what that means
+			saves folder to prefs
+build this into the startup key search
+
+so, go back and look in VGLII.java to see how to integrate it there.
+
+Nuke out KeyFileLocator code and put it in existing KeyFileChecker
+also, simplify and assume all 3 keys in same folder

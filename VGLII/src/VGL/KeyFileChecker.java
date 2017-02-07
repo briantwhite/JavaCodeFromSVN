@@ -24,6 +24,20 @@ import org.jdom.Element;
 
 public class KeyFileChecker {
 
+	private static String homeDirHeader = System.getProperty("user.home") + System.getProperty("file.separator");
+	private static String[] typicalPaths = 
+		{homeDirHeader + "Desktop" + System.getProperty("file.separator"),
+		homeDirHeader + "Documents" + System.getProperty("file.separator"),
+		homeDirHeader + "Downloads" + System.getProperty("file.separator"),
+		homeDirHeader + "Applications" + System.getProperty("file.separator"),
+		System.getProperty("file.separator") + "Applications" + System.getProperty("file.separator")};
+
+	private static String[] typicalFolders = {	
+		"",												// if not in folder
+		"VGL" + System.getProperty("file.separator"),
+		"VGLII" + System.getProperty("file.separator"),
+		"VGLII-" + VGLII.version + System.getProperty("file.separator")};
+
 	public static PrivateKey checkGradingKeys(VGLII vglII) {
 		File graderTokenFile = new File(VGLII.vglFolderDirectory.getAbsolutePath() + "/grader.key");
 		if (!graderTokenFile.exists()) {
@@ -59,11 +73,11 @@ public class KeyFileChecker {
 				if (today.compareTo(date) > 0) {
 					JOptionPane.showMessageDialog(vglII, 
 							"<html>Your grading token (grader.key) has expired<br>"
-							+ "on " + date.toString() + ".<br>"
-							+ "You will not be able to grade VGLII problems.<br>"
-							+ "You should contact Brian.White@umb.edu for a new one.",
-							"grader.key expired",
-							JOptionPane.WARNING_MESSAGE);
+									+ "on " + date.toString() + ".<br>"
+									+ "You will not be able to grade VGLII problems.<br>"
+									+ "You should contact Brian.White@umb.edu for a new one.",
+									"grader.key expired",
+									JOptionPane.WARNING_MESSAGE);
 					return null;
 				} else {
 					JPanel panel = new JPanel();
@@ -71,8 +85,8 @@ public class KeyFileChecker {
 					final JPasswordField pwf = new JPasswordField(15);
 					panel.add(new JLabel(
 							"<html>Your grading token is valid.<br>"
-							+ "It will expire on " + date.toString() + ".<br>"
-							+ "Enter your grading password below:"));
+									+ "It will expire on " + date.toString() + ".<br>"
+									+ "Enter your grading password below:"));
 					panel.add(pwf);
 					pwf.addAncestorListener(new AncestorListener() {
 						public void ancestorAdded(AncestorEvent event) {
