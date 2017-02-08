@@ -2924,3 +2924,11 @@ so, go back and look in VGLII.java to see how to integrate it there.
 
 Nuke out KeyFileLocator code and put it in existing KeyFileChecker
 also, simplify and assume all 3 keys in same folder
+
+2/8/17
+ALWAYS have "Import Key files..." - it just refreshes them.
+
+look into the "unidentified developer" thing - made username brian.white.umb.edu for developer forums
+	useless - other have this problem but not responses
+
+sent in an apple tech support request 658885076
