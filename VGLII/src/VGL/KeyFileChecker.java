@@ -27,26 +27,27 @@ public class KeyFileChecker {
 
 	private static File keyFileDirectory = null;
 	private static Preferences prefs;
-	
+
 	private static String homeDirHeader = System.getProperty("user.home") + System.getProperty("file.separator");
 	private static String[] typicalPaths = 
 		{homeDirHeader + "Desktop" + System.getProperty("file.separator"),
-		homeDirHeader + "Documents" + System.getProperty("file.separator"),
-		homeDirHeader + "Downloads" + System.getProperty("file.separator"),
-		homeDirHeader + "Applications" + System.getProperty("file.separator"),
-		System.getProperty("file.separator") + "Applications" + System.getProperty("file.separator")};
+				homeDirHeader + "Documents" + System.getProperty("file.separator"),
+				homeDirHeader + "Downloads" + System.getProperty("file.separator"),
+				homeDirHeader + "Applications" + System.getProperty("file.separator"),
+				System.getProperty("file.separator") + "Applications" + System.getProperty("file.separator")};
 
 	private static String[] typicalFolders = {	
-		"",												// if not in folder at all
-		"VGL" + System.getProperty("file.separator"),
-		"VGLII" + System.getProperty("file.separator"),
-		"VGLII-" + VGLII.version + System.getProperty("file.separator")};
+			"",												// if not in folder at all
+			"VGL" + System.getProperty("file.separator"),
+			"VGLII" + System.getProperty("file.separator"),
+			"VGLII-" + VGLII.version + System.getProperty("file.separator")};
 
-	public static PrivateKey checkGradingKeys(VGLII vglII) {
+	public static PrivateKey checkGradingKeys(VGLII vglII, boolean showFileDialogIfNeeded) {
 		// look for grader.key 
 		//  first, see if it's in the same folder as the .jar/.exe
 		File graderTokenFile = new File(
 				VGLII.vglFolderDirectory.getAbsolutePath() + System.getProperty("file.separator") + "grader.key");
+		System.out.println(graderTokenFile.getAbsolutePath());
 		if (!graderTokenFile.exists()) {
 			// try to see if we saved the key directory in the preferences
 			prefs = Preferences.userRoot().node(vglII.getClass().getName());
@@ -56,8 +57,32 @@ public class KeyFileChecker {
 						keyFolderNameFromPrefs + System.getProperty("file.separator") + "grader.key");
 				if (graderTokenFile.exists()) {
 					return getGradingKeys(graderTokenFile, vglII);
+				}
+			}
+			// try canonoical places
+			for (int p = 0; p < typicalPaths.length; p++) {
+				for (int f = 0; f < typicalFolders.length; f++) {
+					graderTokenFile = new File(typicalPaths[p] + typicalFolders[f] 
+							+ System.getProperty("file.separator") + "grader.key");
+					if (graderTokenFile.exists()) {
+						return getGradingKeys(graderTokenFile, vglII);
+					}
+				}
+			}
+			// not in any usual place, pop up a dialog to see if the
+			//   user wants to show where the files are
+			if (showFileDialogIfNeeded) {
+				int n = JOptionPane.showConfirmDialog(
+						vglII,
+						"VGLII can't find the grader.key or instructor.key files\n"
+								+ "in the usual places. Do you want to show VGLII the\n"
+								+ "FOLDER where those files are?",
+								"Trouble Finding Grading Key Files",
+								JOptionPane.YES_NO_OPTION);
+				if (n == JOptionPane.YES_OPTION) {
+					//****** need to put the file dialog here*****
 				} else {
-					// try canonoical places
+					return null;
 				}
 			}
 			return null;
@@ -77,7 +102,7 @@ public class KeyFileChecker {
 		}
 		return result;
 	}
-	
+
 	private static PrivateKey getGradingKeys(File graderTokenFile, VGLII vglII) {
 		Document doc = EncryptionTools.getInstance().readRSAEncrypted(graderTokenFile);
 		List<Element> elements = doc.getRootElement().getChildren(); 
@@ -159,8 +184,10 @@ public class KeyFileChecker {
 								JOptionPane.WARNING_MESSAGE);
 						return null;
 					} else {
-						// get the grading key "instructor.key"
-						File instructorKeyFile = new File(VGLII.vglFolderDirectory.getAbsolutePath() + "/instructor.key");
+						// get the grading key "instructor.key" - assume it's in the same directory
+						File instructorKeyFile = new File(graderTokenFile.getParent() 
+								+ System.getProperty("file.separator") 
+								+ "instructor.key");
 
 						if (!instructorKeyFile.exists()) {
 							JOptionPane.showMessageDialog(vglII, 

@@ -3030,3 +3030,4 @@ HAVE FIXED THE SIGNING THING!
 ------------
 
 now for the find file thing.
+have a boolean - showFileDialogIfNeeded - only set this when they choose File=>Import Key files

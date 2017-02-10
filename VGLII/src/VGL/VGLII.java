@@ -484,7 +484,7 @@ public class VGLII extends JFrame {
 		 */
 		boolean graderEnabled = false;
 		if (!saveToEdXServerEnabled) {
-			gradingKey = KeyFileChecker.checkGradingKeys(this);
+			gradingKey = KeyFileChecker.checkGradingKeys(this, true);
 			if (gradingKey != null) graderEnabled = true;
 		}
 
