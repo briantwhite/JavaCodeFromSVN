@@ -2932,3 +2932,101 @@ look into the "unidentified developer" thing - made username brian.white.umb.edu
 	useless - other have this problem but not responses
 
 sent in an apple tech support request 658885076
+
+2/10/17
+apple replied
+Based on your request Apple Developer Technical Support believes that your question is answered by the “Checking Gatekeeper Conformance” 
+section of the Technical Note TN2206 - “macOS Code Signing In Depth” linked here: 
+
+https://developer.apple.com/library/content/technotes/tn2206/_index.html#//apple_ref/doc/uid/DTS40007919-CH1-TNTAG211
+
+While a Technical Support Incident (TSI) was initially debited from your Apple Developer Program account for this request, 
+we have assigned a replacement incident back to your account. However, if after reviewing this information you have further 
+questions or persistent issues, please reply to this email and we will re-open this support inquiry, re-debiting a TSI accordingly.
+
+the link goes to a page that suggests "If you're told that only apps from the Mac App Store or registered developers can be 
+installed, your app isn't Developer ID-signed. Use the Xcode Organizer to export a Developer ID-signed copy of your app 
+and repeat the test. It may also be that the system doesn't think your bundle is an app bundle because its Info.plist 
+doesn't have its CFBundlePackageType property set to APPL."
+
+in XCode Window=>Organizer, there's nothing there - probably because this isn't an Xcode project
+the CFBundlePackageType is APPL
+- so, somehow, it's not signed.
+
+it goes on to say that the command below "mimics what Gatekeeper does to check your app"
+	codesign --verify --deep --strict --verbose=2 Foo.app
+
+theoretically, I signed VGLII-3.3.1.app; check it:
+[briansofficemac:VGL II/Version 3.3.1/Mac version] brian% codesign --verify --deep --strict --verbose=2 VGLII-3.3.1.app/
+VGLII-3.3.1.app/: valid on disk
+VGLII-3.3.1.app/: satisfies its Designated Requirement
+- so it should be OK
+- so, why the fuss by gatekeeper?
+
+got SignatureCheck from the apple developer site (link in the page above)
+	put it in "Version 3.3.1/Mac version"
+
+briansofficemac:VGL II/Version 3.3.1/Mac version] brian% ./check-signature VGLII-3.3.1.app
+(c) 2014 Apple Inc.  All rights reserved.
+test-requirement: code failed to satisfy specified code requirement(s)
+VGLII-3.3.1.app: The target is not signed with Developer ID or by the Mac App Store.
+NO
+- so this one fails - this is consistent with gatekeeper behavior
+so how to fix?
+
+this was signed with the "3rd party mac developer" identity
+try with the "Developer ID Application"
+1) go to developer.apple.com and certificated and then to "OS X" 
+2) download the "Developer ID Application" key & import into KeychainAccess
+	no effect on result of "security find-identity -p codesigning"
+
+try going to Xcode => preferences
+	next to Developer ID Application is "reset" - clicked that
+		it sent me to the developer web page for my account
+		add mac certificate - type = "Developer ID"
+		had to create a csr, used this info http://support.visiolink.com/hc/en-us/articles/200003861-How-to-Create-a-certificate-and-provisioning-for-signing-apps-iOS-
+		downloaded the new cert & double-clicked
+
+security find-identity -p codesigning
+
+Policy: Code Signing
+  Matching identities
+  1) F77554783F36E4F28D440935B74677870092238A "iPhone Distribution: Brian White (RNA5B8HQ54)"
+  2) FC50235377D94375B3E8C63E0BE1CC2C34332E5D "Mac Developer: Brian White (Z2RL756Y85)"
+  3) 27BBF90E3A9B1164E737673E99EE1D0D8BE5D97E "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)"
+  4) 9F2745D422E872D85C4695D77939C395A4CF6356 "Developer ID Application: Brian White (RNA5B8HQ54)"
+     4 identities found
+
+  Valid identities only
+  1) F77554783F36E4F28D440935B74677870092238A "iPhone Distribution: Brian White (RNA5B8HQ54)"
+  2) FC50235377D94375B3E8C63E0BE1CC2C34332E5D "Mac Developer: Brian White (Z2RL756Y85)"
+  3) 27BBF90E3A9B1164E737673E99EE1D0D8BE5D97E "3rd Party Mac Developer Application: Brian White (RNA5B8HQ54)"
+  4) 9F2745D422E872D85C4695D77939C395A4CF6356 "Developer ID Application: Brian White (RNA5B8HQ54)"
+     4 valid identities found
+- now seems OK
+try signing VGLII-3.3.1
+
+1) in "Version 3.3.1/Mac version"
+2) delete old .app and .zip
+3) copy .app from git to this folder
+4) add icon
+5) copy in Problems/ folder to Contents/Java/
+6) try to sign
+[briansofficemac:VGL II/Version 3.3.1/Mac version] brian% codesign -f -v -s "Developer ID Application: Brian White (RNA5B8HQ54)" VGLII-3.3.1.app
+VGLII-3.3.1.app: signed app bundle with Mach-O thin (x86_64) [edu.umb.vgl]
+7) test as above
+[briansofficemac:VGL II/Version 3.3.1/Mac version] brian% ./check-signature VGLII-3.3.1.app
+(c) 2014 Apple Inc.  All rights reserved.
+YES
+- looking good
+8) zip it and put up on web
+9) download to laptop (10.12) 
+	unzip in Downloads/
+	drag .app to Desktop
+	double-click - only get "downloaded from internet" warning - YAHOO
+	runs AOK (can't tell if translocated, though)
+
+HAVE FIXED THE SIGNING THING!
+------------
+
+now for the find file thing.
