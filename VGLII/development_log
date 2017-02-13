@@ -3031,3 +3031,13 @@ HAVE FIXED THE SIGNING THING!
 
 now for the find file thing.
 have a boolean - showFileDialogIfNeeded - only set this when they choose File=>Import Key files
+
+2/13/17
+actually, since it's not translocated, there's no need for all of this
+	you could actually go back to the last version
+
+but, to make it a little better, have it search for both Problems/ and the .key files in
+	user.dir - where the JVM is running (the .exe dir on PC and the app dir on mac)
+	this.getClass().getProtectionDomain().getCodeSource().getLocation() - where the jar is
+
+no need for preferences, the dialog, import key files, or the multi-directory search
