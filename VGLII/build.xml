@@ -4,6 +4,11 @@
 	             classname="com.oracle.appbundler.AppBundlerTask"   
 	             classpath="lib/appbundler-1.0.jar" />
 		
+	<property name="launch4j.dir" location="/Applications/launch4j" />
+	<taskdef name="launch4j"
+	    classname="net.sf.launch4j.ant.Launch4jTask"
+	    classpath="${launch4j.dir}/launch4j.jar
+	        :${launch4j.dir}/lib/xstream.jar" />
 	
     <target name="compile" description="Compiles the code">
     	    <javac srcdir="src/" destdir="bin/"/>
@@ -33,7 +38,12 @@
 			icon="pc 32x32 icon.ico"
 			mainclassname="VGL.VGLII" >
 			<classpath file="VGLII.jar" />
+			<argument value="-D$APP_ROOT" />
 		</bundleapp> 
+	</target>
+	
+	<target name="exe" depends="jarfile" description="use launch4j to make exe">
+		<launch4j configFile="launch4j.xml" />
 	</target>
 	
 

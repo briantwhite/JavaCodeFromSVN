@@ -2,6 +2,8 @@ package VGL;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -25,76 +27,72 @@ import org.jdom.Element;
 
 public class KeyFileChecker {
 
-	private static File keyFileDirectory = null;
-	private static Preferences prefs;
+	/**
+	 * the path to the folder where the .key files are
+	 * - if they're present
+	 */
+	public static File keyFileFolderPath = null;
 
-	private static String homeDirHeader = System.getProperty("user.home") + System.getProperty("file.separator");
-	private static String[] typicalPaths = 
-		{homeDirHeader + "Desktop" + System.getProperty("file.separator"),
-				homeDirHeader + "Documents" + System.getProperty("file.separator"),
-				homeDirHeader + "Downloads" + System.getProperty("file.separator"),
-				homeDirHeader + "Applications" + System.getProperty("file.separator"),
-				System.getProperty("file.separator") + "Applications" + System.getProperty("file.separator")};
-
-	private static String[] typicalFolders = {	
-			"",												// if not in folder at all
-			"VGL" + System.getProperty("file.separator"),
-			"VGLII" + System.getProperty("file.separator"),
-			"VGLII-" + VGLII.version + System.getProperty("file.separator")};
-
-	public static PrivateKey checkGradingKeys(VGLII vglII, boolean showFileDialogIfNeeded) {
+	public static PrivateKey checkGradingKeys(VGLII vglII) {
 		// look for grader.key 
 		//  first, see if it's in the same folder as the .jar/.exe
-		File graderTokenFile = new File(
-				VGLII.vglFolderDirectory.getAbsolutePath() + System.getProperty("file.separator") + "grader.key");
-		System.out.println(graderTokenFile.getAbsolutePath());
-		if (!graderTokenFile.exists()) {
-			// try to see if we saved the key directory in the preferences
-			prefs = Preferences.userRoot().node(vglII.getClass().getName());
-			String keyFolderNameFromPrefs = prefs.get("KEY_FILE_DIR", "");
-			if (keyFolderNameFromPrefs != "") {
-				graderTokenFile = new File(
-						keyFolderNameFromPrefs + System.getProperty("file.separator") + "grader.key");
-				if (graderTokenFile.exists()) {
-					return getGradingKeys(graderTokenFile, vglII);
-				}
-			}
-			// try canonoical places
-			for (int p = 0; p < typicalPaths.length; p++) {
-				for (int f = 0; f < typicalFolders.length; f++) {
-					graderTokenFile = new File(typicalPaths[p] + typicalFolders[f] 
-							+ System.getProperty("file.separator") + "grader.key");
+		File graderTokenFile = new File(vglII.jarPath + System.getProperty("file.separator") + "grader.key");
+		keyFileFolderPath = new File(vglII.jarPath + System.getProperty("file.separator"));
+		if (graderTokenFile.exists()) {
+			return getGradingKeys(graderTokenFile, vglII);
+		} else {
+			graderTokenFile = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "grader.key");
+			keyFileFolderPath = new File(System.getProperty("user.dir"));
+			if (graderTokenFile.exists()) {
+				return getGradingKeys(graderTokenFile, vglII);
+			} else {
+				// try in the directory where the app is - OS X only
+				if (vglII.appRootDirPath != null) {
+					graderTokenFile = new File(vglII.appRootDirPath + "grader.key");
+					keyFileFolderPath = new File(vglII.appRootDirPath);
 					if (graderTokenFile.exists()) {
 						return getGradingKeys(graderTokenFile, vglII);
+					} else {
+						// can't find it; give up
+						keyFileFolderPath = null;
+						return null;
 					}
-				}
-			}
-			// not in any usual place, pop up a dialog to see if the
-			//   user wants to show where the files are
-			if (showFileDialogIfNeeded) {
-				int n = JOptionPane.showConfirmDialog(
-						vglII,
-						"VGLII can't find the grader.key or instructor.key files\n"
-								+ "in the usual places. Do you want to show VGLII the\n"
-								+ "FOLDER where those files are?",
-								"Trouble Finding Grading Key Files",
-								JOptionPane.YES_NO_OPTION);
-				if (n == JOptionPane.YES_OPTION) {
-					//****** need to put the file dialog here*****
 				} else {
+					// can't find it; give up
+					keyFileFolderPath = null;
 					return null;
 				}
 			}
-			return null;
-		} else {
-			return getGradingKeys(graderTokenFile, vglII);
 		}
 	}
 
-	public static PublicKey checkSaveForGradingKey() {
+	public static PublicKey checkSaveForGradingKey(VGLII vglII) {
 		PublicKey result = null;
-		File studentKeyFile = new File(VGLII.vglFolderDirectory.getAbsolutePath() + "/student.key");
-		if (!studentKeyFile.exists()) return result;
+		File studentKeyFile = null;
+		// check directories
+		// first, see if haven't found the keys yet and need to look for them
+		if (keyFileFolderPath == null) {
+			//  first, see if it's in the same folder as the .jar/.exe
+			keyFileFolderPath = new File(vglII.jarPath + System.getProperty("file.separator"));
+		}
+		studentKeyFile = new File(keyFileFolderPath.getAbsolutePath() + System.getProperty("file.separator") + "student.key");
+		if (!studentKeyFile.exists()) {
+			// try user dir
+			studentKeyFile = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "student.key");
+			keyFileFolderPath = new File(System.getProperty("user.dir"));
+			if (!studentKeyFile.exists()) {
+				// try in directory where app is - OS X only
+				if (vglII.appRootDirPath == null) {
+					return null;
+				}
+				studentKeyFile = new File(vglII.appRootDirPath + "student.key");
+				keyFileFolderPath = new File(vglII.appRootDirPath);
+				if (!studentKeyFile.exists()) {
+					return null;
+				}
+			}
+		} 
+		// found one; open it
 		try {
 			result = EncryptionTools.getInstance().readPublicKeyFromFile(studentKeyFile);
 		} catch (IOException e) {

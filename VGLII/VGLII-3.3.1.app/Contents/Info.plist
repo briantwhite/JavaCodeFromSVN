@@ -33,6 +33,7 @@
 </array>
 <key>JVMArguments</key>
 <array>
+<string>-D$APP_ROOT</string>
 </array>
 </dict>
 </plist>

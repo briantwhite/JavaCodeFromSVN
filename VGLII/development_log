@@ -3036,8 +3036,48 @@ have a boolean - showFileDialogIfNeeded - only set this when they choose File=>I
 actually, since it's not translocated, there's no need for all of this
 	you could actually go back to the last version
 
+no need for preferences, the dialog, import key files, or the multi-directory search
+
 but, to make it a little better, have it search for both Problems/ and the .key files in
 	user.dir - where the JVM is running (the .exe dir on PC and the app dir on mac)
 	this.getClass().getProtectionDomain().getCodeSource().getLocation() - where the jar is
 
-no need for preferences, the dialog, import key files, or the multi-directory search
+did that and set up latest launch4j (v 3.9) exported fred.xml and try putting it into build.xml as "exe" task
+	error "launch4jconfig" is undefined
+ended up just making external launch4j.xml file
+
+make some keys and test on mac
+	user.dir doesn't work - it gives my home dir
+	-D$APP_ROOT is no help
+
+try "." instead of user.dir - NG
+	it used to work - what did I do?
+
+look on github and found it
+		vglFolderDirectory = new File(System.getProperty("user.dir")); // for all but mac apps made by appbundler, this is the directory where VGL lives
+		boolean saveToEdXServerEnabled = false;
+		if ((args.length == 1) && args[0].startsWith("-D")) {
+			String appRootDir = args[0].replace("-D", "");		// mode 1a (mac only)
+			// need to chop off last directory /VGL-3.2.1.app to get to enclosing folder
+			StringBuffer appDirBuffer = new StringBuffer();
+			String[] parts = appRootDir.split("/");
+			for (int i = 0; i < (parts.length - 1); i++) {
+				appDirBuffer.append(parts[i]);
+				appDirBuffer.append("/");
+			}
+			appDirBuffer.deleteCharAt(appDirBuffer.length() - 1);
+			vglFolderDirectory = new File(appDirBuffer.toString());				
+		} else {
+			if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
+				saveToEdXServerEnabled = true;					// mode 3
+			} else if (args.length > 1) {
+				saveToEdXServerEnabled = true;					// mode 4
+			}
+		}
+
+- this passes in the parameter APP_ROOT which VGL reads to then apply
+
+works on MAC
+
+need to test on windows.
+

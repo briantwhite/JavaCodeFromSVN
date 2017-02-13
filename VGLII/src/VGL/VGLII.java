@@ -117,10 +117,10 @@ public class VGLII extends JFrame {
 	 * the list of supported languages
 	 */
 	public final static LanguageSpecifierMenuItem[] supportedLanguageMenuItems = {
-		new LanguageSpecifierMenuItem("English", "en", "US"),
-		new LanguageSpecifierMenuItem("Español", "es", "ES"),
-		new LanguageSpecifierMenuItem("Français", "fr", "FR"),
-		new LanguageSpecifierMenuItem("\uD55C\uAD6D\uC5B4", "ko", "KR")
+			new LanguageSpecifierMenuItem("English", "en", "US"),
+			new LanguageSpecifierMenuItem("Español", "es", "ES"),
+			new LanguageSpecifierMenuItem("Français", "fr", "FR"),
+			new LanguageSpecifierMenuItem("\uD55C\uAD6D\uC5B4", "ko", "KR")
 	};
 
 	// used for java web start (edX) runs
@@ -406,11 +406,24 @@ public class VGLII extends JFrame {
 	private File currentSavedFile = null;
 
 	/**
-	 * the folder where the VGL application lives:
-	 * The default path for the problem file dialogs to open in
-	 * the place to look for key files
+	 * the path to the Problems/ folder
+	 * the app searches for this on launch
 	 */
-	public static File vglFolderDirectory; //$NON-NLS-1$
+	public static File problemFolderPath; //$NON-NLS-1$
+	
+	/**
+	 * MAC OS X ONLY
+	 * location of the app - passed in as argument -D$APP_ROOT
+	 * will be null if not present
+	 */
+	public static String appRootDirPath = null;
+	
+	/**
+	 * MAC and PC
+	 *   location of the .jar or .exe
+	 * will only be null if monster error
+	 */
+	public static String jarPath = null;
 
 	/**
 	 * the default path for saving work and html files to
@@ -439,9 +452,37 @@ public class VGLII extends JFrame {
 		 * 	so you can determine which menus to show
 		 *  - includes Save to Edx menu and button
 		 *  
-		 *  first, get the directory where the .jar/.exe lives
+		 *  also, need to look for relevant files (Problems/ and .key files)
+		 *   in two places
+		 *   - the directory where the program is running "user.dir"
+		 *   - the directory where the .jar/.exe is 
+		 *   this is to deal with possible app translocation by OS X
+		 *    (see 2/2017 entries in log)
 		 */
-		StringBuffer jarPathBuffer;
+		// first, check the args to see if we passed in a useful directory
+		//  this checks args and looks if we passed in -D with a directory
+		//  this is for mac only
+		boolean saveToEdXServerEnabled = false;
+		if ((args.length == 1) && args[0].startsWith("-D")) {
+			String appRootDir = args[0].replace("-D", "");		// mode 1a (mac only)
+			// need to chop off last directory /VGL-3.2.2.app to get to enclosing folder
+			StringBuffer appDirBuffer = new StringBuffer();
+			String[] parts = appRootDir.split("/");
+			for (int i = 0; i < (parts.length - 1); i++) {
+				appDirBuffer.append(parts[i]);
+				appDirBuffer.append("/");
+			}
+			appRootDirPath = appDirBuffer.toString();
+		} else {
+			if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
+				saveToEdXServerEnabled = true;					// mode 3
+			} else if (args.length > 1) {
+				saveToEdXServerEnabled = true;					// mode 4
+			}
+		}
+
+		// then, try where the .jar/.exe file is
+		StringBuffer jarPathBuffer = null;
 		try {
 			jarPathBuffer = new StringBuffer(URLDecoder.decode(
 					this.getClass().getProtectionDomain().getCodeSource().getLocation().toString(), "UTF-8"));
@@ -450,20 +491,32 @@ public class VGLII extends JFrame {
 			jarPathBuffer.delete(0, jarPathBuffer.indexOf(":") + 1);
 			// strip off the trailing "VGLII.jar" - everything after the last file.separator
 			jarPathBuffer.delete(jarPathBuffer.lastIndexOf(System.getProperty("file.separator")) + 1, jarPathBuffer.length());
-
-			vglFolderDirectory = new File(jarPathBuffer.toString()); // get directory where jar/exe is
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			jarPathBuffer = null;
 			e.printStackTrace();
-			vglFolderDirectory = new File(".");
-		}		
-		
-		boolean saveToEdXServerEnabled = false;
+		}
+		jarPath = jarPathBuffer.toString();
 
-		if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
-			saveToEdXServerEnabled = true;					// mode 3
-		} else if (args.length > 1) {
-			saveToEdXServerEnabled = true;					// mode 4
+
+		// look for Problems/ folder
+		// first right by jar/exe
+		problemFolderPath = new File(jarPath + "Problems");
+		if (!problemFolderPath.exists()) {
+			// if not there, try the dir where VGL is running
+			problemFolderPath = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "Problems");
+			if (!problemFolderPath.exists()) {
+				// if not there, try where the app is running
+				if (appRootDirPath != null) {
+					problemFolderPath = new File(appRootDirPath + "Problems");
+					if (!problemFolderPath.exists())  {
+						// can't find it; set a reasonable default
+						problemFolderPath = new File(System.getProperty("user.home"));
+					} 
+				} else {
+					// can't find it; set a reasonable default
+					problemFolderPath = new File(System.getProperty("user.home"));
+				}
+			} 
 		}
 
 		random = new Random();
@@ -472,7 +525,7 @@ public class VGLII extends JFrame {
 				+ System.getProperty("file.separator") //$NON-NLS-1$
 				+ "Desktop"); //$NON-NLS-1$
 		if (!desktopDirectory.exists()) {
-			desktopDirectory = vglFolderDirectory;
+			desktopDirectory = new File(System.getProperty("user.home"));
 		}
 
 		/**
@@ -484,7 +537,7 @@ public class VGLII extends JFrame {
 		 */
 		boolean graderEnabled = false;
 		if (!saveToEdXServerEnabled) {
-			gradingKey = KeyFileChecker.checkGradingKeys(this, true);
+			gradingKey = KeyFileChecker.checkGradingKeys(this);
 			if (gradingKey != null) graderEnabled = true;
 		}
 
@@ -495,7 +548,7 @@ public class VGLII extends JFrame {
 		 */
 		boolean saveForGradingEnabled = false;
 		if (!saveToEdXServerEnabled) {
-			saveForGradingKey = KeyFileChecker.checkSaveForGradingKey();
+			saveForGradingKey = KeyFileChecker.checkSaveForGradingKey(this);
 			if (saveForGradingKey != null) saveForGradingEnabled = true;
 		}
 
@@ -1113,15 +1166,8 @@ public class VGLII extends JFrame {
 		problemFile = null;
 
 		if (cageCollection == null) {
-			if (problemFileName == null) {
-				
-				File problemsDirectory = new File(vglFolderDirectory.getAbsolutePath() 
-						+ System.getProperty("file.separator") + "Problems"); //$NON-NLS-1$ //$NON-NLS-2$
-				
-				if (!problemsDirectory.exists()) {
-					problemsDirectory = vglFolderDirectory;
-				}
-				problemFile = selectFile(problemsDirectory,
+			if (problemFileName == null) {				
+				problemFile = selectFile(problemFolderPath,
 						Messages.getInstance().getString("VGLII.NewProbTypeSel"), 
 						Messages.getInstance().getString("VGLII.SelProbType"), false, //$NON-NLS-1$ //$NON-NLS-2$
 						prbFilterString, Messages.getInstance().getString("VGLII.ProTypeFiles"), //$NON-NLS-1$
@@ -1609,13 +1655,13 @@ public class VGLII extends JFrame {
 						JOptionPane.PLAIN_MESSAGE,
 						null,
 						new Object[] {
-					new Integer(100),
-					new Integer(200),
-					new Integer(500),
-					new Integer(1000),
-					new Integer(2000)
+								new Integer(100),
+								new Integer(200),
+								new Integer(500),
+								new Integer(1000),
+								new Integer(2000)
 				},
-				new Integer(100));
+						new Integer(100));
 				if (numSelected == null) return;
 				numOffspring = numSelected.intValue();
 			} else {
@@ -1838,19 +1884,19 @@ public class VGLII extends JFrame {
 								+ c.getId());
 						if (originalOUI1 == null)
 							System.out.println(Messages.getInstance().getString("VGLII.OrgFor") + ": " + o1.getId() //$NON-NLS-1$
-									+ " " + o1.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+							+ " " + o1.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 						if (originalOUI2 == null)
 							System.out.println(Messages.getInstance().getString("VGLII.OrgFor") + ": " + o2.getId() //$NON-NLS-1$
-									+ " " + o2.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+							+ " " + o2.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 				} else {
 					System.out.println(Messages.getInstance().getString("VGLII.ForParentsOfCage") + "#: " + c.getId()); //$NON-NLS-1$
 					if (cage1 == null)
 						System.out.println(Messages.getInstance().getString("VGLII.CageForOrg") + o1.getId() //$NON-NLS-1$
-								+ " " + o1.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+						+ " " + o1.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 					if (cage2 == null)
 						System.out.println(Messages.getInstance().getString("VGLII.CageForOrg") + o2.getId() //$NON-NLS-1$
-								+ " " + o2.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
+						+ " " + o2.getCageId() + " " + Messages.getInstance().getString("VGLII.NotFound") + " !"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 		}
