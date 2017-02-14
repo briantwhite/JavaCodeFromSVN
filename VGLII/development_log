@@ -3079,5 +3079,25 @@ look on github and found it
 
 works on MAC
 
-need to test on windows.
+need to test on windows - AOK
+
+2/14/17
+make version 3.3.1
+- mac version:
+- copy app to folder in ReadyToRun
+- add icon
+- sign
+in /javastuff/ReadyToRun/VGL & VGLII/VGL II/Version 3.3.1/Mac Version/VGLII-3.3.1
+codesign -f -v -s "Developer ID Application: Brian White (RNA5B8HQ54)" VGLII-3.3.1.app
+VGLII-3.3.1.app: signed app bundle with Mach-O thin (x86_64) [edu.umb.vgl]
+
+put check-signature one level up
+cd ../
+./check-signature VGLII-3.3.1/VGLII-3.3.1.app
+(c) 2014 Apple Inc.  All rights reserved.
+YES
+- looks OK
+- use "compress" to make the archive 
+- rename it to VGLII.mac.zip
+
 
