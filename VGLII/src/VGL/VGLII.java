@@ -406,24 +406,15 @@ public class VGLII extends JFrame {
 	private File currentSavedFile = null;
 
 	/**
-	 * the path to the Problems/ folder
+	 * the path to where the Problems/ folder
+	 * and the .key files will be
+	 *
 	 * the app searches for this on launch
+	 * 
+	 * this is only an issue on OSX which translocates the app
+	 *   as a security measure to a random location
 	 */
-	public static File problemFolderPath; //$NON-NLS-1$
-	
-	/**
-	 * MAC OS X ONLY
-	 * location of the app - passed in as argument -D$APP_ROOT
-	 * will be null if not present
-	 */
-	public static String appRootDirPath = null;
-	
-	/**
-	 * MAC and PC
-	 *   location of the .jar or .exe
-	 * will only be null if monster error
-	 */
-	public static String jarPath = null;
+	public static File vglFolderPath; //$NON-NLS-1$
 
 	/**
 	 * the default path for saving work and html files to
@@ -459,6 +450,11 @@ public class VGLII extends JFrame {
 		 *   this is to deal with possible app translocation by OS X
 		 *    (see 2/2017 entries in log)
 		 */
+
+		// create a list of directories to search for the Problems/ folder
+		// all end with the trailing /
+		ArrayList<String> dirsToTry = new ArrayList<String>();
+
 		// first, check the args to see if we passed in a useful directory
 		//  this checks args and looks if we passed in -D with a directory
 		//  this is for mac only
@@ -472,7 +468,7 @@ public class VGLII extends JFrame {
 				appDirBuffer.append(parts[i]);
 				appDirBuffer.append("/");
 			}
-			appRootDirPath = appDirBuffer.toString();
+			dirsToTry.add(appDirBuffer.toString());
 		} else {
 			if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
 				saveToEdXServerEnabled = true;					// mode 3
@@ -495,30 +491,35 @@ public class VGLII extends JFrame {
 			jarPathBuffer = null;
 			e.printStackTrace();
 		}
-		jarPath = jarPathBuffer.toString();
-
-
-		// look for Problems/ folder
-		// first right by jar/exe
-		problemFolderPath = new File(jarPath + "Problems");
-		if (!problemFolderPath.exists()) {
-			// if not there, try the dir where VGL is running
-			problemFolderPath = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "Problems");
-			if (!problemFolderPath.exists()) {
-				// if not there, try where the app is running
-				if (appRootDirPath != null) {
-					problemFolderPath = new File(appRootDirPath + "Problems");
-					if (!problemFolderPath.exists())  {
-						// can't find it; set a reasonable default
-						problemFolderPath = new File(System.getProperty("user.home"));
-					} 
-				} else {
-					// can't find it; set a reasonable default
-					problemFolderPath = new File(System.getProperty("user.home"));
-				}
-			} 
+		if (jarPathBuffer != null) {
+			dirsToTry.add(jarPathBuffer.toString());
 		}
 
+		// add a set of canonical directories & folders
+		String homeDirHeader = System.getProperty("user.home") + System.getProperty("file.separator");
+		String[] typicalPaths = 
+			{homeDirHeader + "Desktop" + System.getProperty("file.separator"),
+					homeDirHeader + "Documents" + System.getProperty("file.separator"),
+					homeDirHeader + "Downloads" + System.getProperty("file.separator"),
+					homeDirHeader + "Applications" + System.getProperty("file.separator"),
+					System.getProperty("file.separator") + "Applications" + System.getProperty("file.separator")};
+
+		String[] typicalFolders = {	
+				"",												// if not in folder
+				"VGL" + System.getProperty("file.separator"),
+				"VGLII" + System.getProperty("file.separator"),
+				"VGLII-" + VGLII.version + System.getProperty("file.separator")};
+		
+		for (int p = 0; p < typicalPaths.length; p++) {
+			for (int f = 0; f < typicalFolders.length; f++) {
+				dirsToTry.add(typicalPaths[p] + typicalFolders[f]);
+			}
+		}
+
+		// now look for them
+		vglFolderPath = new File(System.getProperty("user.home"));		// a fall-back
+		// loop over all possibilities until you find it
+		
 		random = new Random();
 
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
@@ -1167,7 +1168,7 @@ public class VGLII extends JFrame {
 
 		if (cageCollection == null) {
 			if (problemFileName == null) {				
-				problemFile = selectFile(problemFolderPath,
+				problemFile = selectFile(vglFolderPath,
 						Messages.getInstance().getString("VGLII.NewProbTypeSel"), 
 						Messages.getInstance().getString("VGLII.SelProbType"), false, //$NON-NLS-1$ //$NON-NLS-2$
 						prbFilterString, Messages.getInstance().getString("VGLII.ProTypeFiles"), //$NON-NLS-1$

@@ -3100,4 +3100,21 @@ YES
 - use "compress" to make the archive 
 - rename it to VGLII.mac.zip
 
+2/15/17
+post to http://vgl.umb.edu/VGLII/testing/VGLII.mac.zip
+doesn't work on 10.12 - need to see why.
+get it to pop up a dialog with appRootDirPath + "\n" + jarPath
+need to sign the .app (check with check-signature) and then .zip it (do on Desktop)
+then put on web and download (VGLII/testing/VGLII-3.3.1.zip)
+- the app alone is not being translocated
 
+try making the signed app in a folder with Problems/
+	zip; post; download (VGLII/testing/VGL.zip)
+- it is translocated
+
+hmm.. unless the WHOLE thing is signed, it gets translocated?
+
+therefore, will need to deal with translocation sensibly
+
+just have it try all the directories above until it finds Problems/
+	then have it use that one for all the other files too
