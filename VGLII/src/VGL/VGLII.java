@@ -519,6 +519,7 @@ public class VGLII extends JFrame {
 		// now look for them
 		vglFolderPath = new File(System.getProperty("user.home"));		// a fall-back
 		// loop over all possibilities until you find it
+		//  just in case they have a random Problems/ folder, check for a .pr2 file in the right place 
 		
 		random = new Random();
 
