@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -112,6 +113,9 @@ public class VGLII extends JFrame {
 	 * param name for determining edXMode - see under main()
 	 */
 	private final static String ED_X_MODE_NAME = "-edXMode";
+
+	// parameter name for saving location of VGL folder
+	private static final String VGL_DIR_PREF_NAME = "VGLDir";
 
 	/**
 	 * the list of supported languages
@@ -454,8 +458,12 @@ public class VGLII extends JFrame {
 		// create a list of directories to search for the Problems/ folder
 		// all end with the trailing /
 		ArrayList<String> dirsToTry = new ArrayList<String>();
-
-		// first, check the args to see if we passed in a useful directory
+		// first, see if we saved a dir in the preferences
+		Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+		if (!prefs.get(VGL_DIR_PREF_NAME, "").equals("")) {
+			dirsToTry.add(prefs.get(VGL_DIR_PREF_NAME, ""));
+		}
+		// then, check the args to see if we passed in a useful directory
 		//  this checks args and looks if we passed in -D with a directory
 		//  this is for mac only
 		boolean saveToEdXServerEnabled = false;
@@ -476,7 +484,6 @@ public class VGLII extends JFrame {
 				saveToEdXServerEnabled = true;					// mode 4
 			}
 		}
-
 		// then, try where the .jar/.exe file is
 		StringBuffer jarPathBuffer = null;
 		try {
@@ -494,7 +501,6 @@ public class VGLII extends JFrame {
 		if (jarPathBuffer != null) {
 			dirsToTry.add(jarPathBuffer.toString());
 		}
-
 		// add a set of canonical directories & folders
 		String homeDirHeader = System.getProperty("user.home") + System.getProperty("file.separator");
 		String[] typicalPaths = 
@@ -503,19 +509,16 @@ public class VGLII extends JFrame {
 					homeDirHeader + "Downloads" + System.getProperty("file.separator"),
 					homeDirHeader + "Applications" + System.getProperty("file.separator"),
 					System.getProperty("file.separator") + "Applications" + System.getProperty("file.separator")};
-
 		String[] typicalFolders = {	
 				"",												// if not in folder
 				"VGL" + System.getProperty("file.separator"),
 				"VGLII" + System.getProperty("file.separator"),
 				"VGLII-" + VGLII.version + System.getProperty("file.separator")};
-
 		for (int p = 0; p < typicalPaths.length; p++) {
 			for (int f = 0; f < typicalFolders.length; f++) {
 				dirsToTry.add(typicalPaths[p] + typicalFolders[f]);
 			}
 		}
-
 		// loop over all possibilities until you find Problems/VGL/Level01.pr2
 		//  look for a particular file just in case they have a random
 		//  non-VGL-related Problems/ folder
@@ -556,6 +559,8 @@ public class VGLII extends JFrame {
 			}
 			vglFolderPath = fileChooser.getSelectedFile();
 			// need to test to see if this is a correct Problems folder
+			// if not ok - just pop up dialog and quit
+			//  if OK, set dir and save to prefs
 		}
 		random = new Random();
 
