@@ -414,7 +414,7 @@ public class VGLII extends JFrame {
 	 * this is only an issue on OSX which translocates the app
 	 *   as a security measure to a random location
 	 */
-	public static File vglFolderPath; //$NON-NLS-1$
+	public static File vglFolderPath = null; //$NON-NLS-1$
 
 	/**
 	 * the default path for saving work and html files to
@@ -509,18 +509,45 @@ public class VGLII extends JFrame {
 				"VGL" + System.getProperty("file.separator"),
 				"VGLII" + System.getProperty("file.separator"),
 				"VGLII-" + VGLII.version + System.getProperty("file.separator")};
-		
+
 		for (int p = 0; p < typicalPaths.length; p++) {
 			for (int f = 0; f < typicalFolders.length; f++) {
 				dirsToTry.add(typicalPaths[p] + typicalFolders[f]);
 			}
 		}
 
-		// now look for them
-		vglFolderPath = new File(System.getProperty("user.home"));		// a fall-back
-		// loop over all possibilities until you find it
-		//  just in case they have a random Problems/ folder, check for a .pr2 file in the right place 
-		
+		// loop over all possibilities until you find Problems/VGL/Level01.pr2
+		//  look for a particular file just in case they have a random
+		//  non-VGL-related Problems/ folder
+		Iterator<String> locationIt = dirsToTry.iterator();
+		while (locationIt.hasNext()) {
+			String dirString = locationIt.next();
+			File testFile = new File(dirString 
+					+ "Problems" + System.getProperty("file.separator") 
+					+ "VGL" + System.getProperty("file.separator")
+					+ "Level01.pr2");
+			if (testFile.exists()) {
+				vglFolderPath = new File(dirString);
+				break;
+			}
+		}
+		// if still null, pop up dialog
+		if (vglFolderPath == null) {
+			Object[] options = {"Show VGL where the folder is",
+			"Quit VGL"};
+			int n = JOptionPane.showOptionDialog(this,
+					"Would you like some green eggs to go "
+							+ "with that ham?",
+							"A Silly Question",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.WARNING_MESSAGE,
+							null,
+							options,
+							options[1]);
+			if (n == JOptionPane.NO_OPTION) {
+				System.exit(0);
+			}
+		}
 		random = new Random();
 
 		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
