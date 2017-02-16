@@ -3118,3 +3118,47 @@ therefore, will need to deal with translocation sensibly
 
 just have it try all the directories above until it finds Problems/
 	then have it use that one for all the other files too
+	if it can't - have it ask if they want to point to folder or quit and move files
+	if want to find - set preferences via file dialog
+
+should post 2 Mac versions
+	- one as one single .app with Problems/ built in - for most people
+	- one for grading with Problems/ in the folder with the app
+		add a README.txt
+			where you should put this folder in order for grading stuff to be found
+
+will need to update website
+	- no change to windows version
+	- 2 mac versions
+	- revised grading instructions
+	- on mac - no need to warn them about security warning
+	
+*********************
+Web-based grading for VGL
+	- no keys at all
+	- I only need to set up & maintain instructor accounts
+	- students need web access to submit for grading
+	
+workflow:
+- student
+	- start VGL
+	- choose "Submit work for grading"
+	- it will pop up list of non-expired schools/classes
+	- student chooses one
+	- student enters name, ID#, password assigned by prof (same for all students in this class)
+	- hit submit - it is saved to mysql server
+- instructor
+	- log in to website with password and username (set up by me based on their e-mail)
+	- select course from their list
+	- see web page of results sorted by name
+	- delete results
+
+on server:
+- database of courses
+	- instructor name
+	- instructor password
+	- student password
+	- expiration date
+**********************
+- database of grade results
+	
