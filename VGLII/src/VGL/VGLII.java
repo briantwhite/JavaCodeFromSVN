@@ -536,9 +536,9 @@ public class VGLII extends JFrame {
 			Object[] options = {"Show VGL where the folder is",
 			"Quit VGL"};
 			int n = JOptionPane.showOptionDialog(this,
-					"Would you like some green eggs to go "
-							+ "with that ham?",
-							"A Silly Question",
+					"VGLII cannot find the Problems folder.\n"
+							+ "(see the README.txt file for details)",
+							"Problems Folder not Found",
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.WARNING_MESSAGE,
 							null,
@@ -547,6 +547,15 @@ public class VGLII extends JFrame {
 			if (n == JOptionPane.NO_OPTION) {
 				System.exit(0);
 			}
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fileChooser.setDialogTitle("Choose the DIRECTORY where the Problem folder can be found");
+			int val = fileChooser.showOpenDialog(this);
+			if (val == JFileChooser.CANCEL_OPTION) {
+				System.exit(0);
+			}
+			vglFolderPath = fileChooser.getSelectedFile();
+			// need to test to see if this is a correct Problems folder
 		}
 		random = new Random();
 
