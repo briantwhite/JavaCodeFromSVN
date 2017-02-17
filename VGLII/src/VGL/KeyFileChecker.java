@@ -27,76 +27,26 @@ import org.jdom.Element;
 
 public class KeyFileChecker {
 
-	/**
-	 * the path to the folder where the .key files are
-	 * - if they're present
-	 */
-	public static File keyFileFolderPath = null;
-
 	public static PrivateKey checkGradingKeys(VGLII vglII) {
 		// look for grader.key 
 		//  first, see if it's in the same folder as the .jar/.exe
-		File graderTokenFile = new File(vglII.jarPath + System.getProperty("file.separator") + "grader.key");
-		keyFileFolderPath = new File(vglII.jarPath + System.getProperty("file.separator"));
+		File graderTokenFile = new File(vglII.vglFolderPath + System.getProperty("file.separator") + "grader.key");
 		if (graderTokenFile.exists()) {
 			return getGradingKeys(graderTokenFile, vglII);
 		} else {
-			graderTokenFile = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "grader.key");
-			keyFileFolderPath = new File(System.getProperty("user.dir"));
-			if (graderTokenFile.exists()) {
-				return getGradingKeys(graderTokenFile, vglII);
-			} else {
-				// try in the directory where the app is - OS X only
-				if (vglII.appRootDirPath != null) {
-					graderTokenFile = new File(vglII.appRootDirPath + "grader.key");
-					keyFileFolderPath = new File(vglII.appRootDirPath);
-					if (graderTokenFile.exists()) {
-						return getGradingKeys(graderTokenFile, vglII);
-					} else {
-						// can't find it; give up
-						keyFileFolderPath = null;
-						return null;
-					}
-				} else {
-					// can't find it; give up
-					keyFileFolderPath = null;
-					return null;
-				}
-			}
+			return null;
 		}
 	}
 
 	public static PublicKey checkSaveForGradingKey(VGLII vglII) {
 		PublicKey result = null;
-		File studentKeyFile = null;
-		// check directories
-		// first, see if haven't found the keys yet and need to look for them
-		if (keyFileFolderPath == null) {
-			//  first, see if it's in the same folder as the .jar/.exe
-			keyFileFolderPath = new File(vglII.jarPath + System.getProperty("file.separator"));
-		}
-		studentKeyFile = new File(keyFileFolderPath.getAbsolutePath() + System.getProperty("file.separator") + "student.key");
-		if (!studentKeyFile.exists()) {
-			// try user dir
-			studentKeyFile = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "student.key");
-			keyFileFolderPath = new File(System.getProperty("user.dir"));
-			if (!studentKeyFile.exists()) {
-				// try in directory where app is - OS X only
-				if (vglII.appRootDirPath == null) {
-					return null;
-				}
-				studentKeyFile = new File(vglII.appRootDirPath + "student.key");
-				keyFileFolderPath = new File(vglII.appRootDirPath);
-				if (!studentKeyFile.exists()) {
-					return null;
-				}
+		File studentKeyFile = new File(vglII.vglFolderPath + System.getProperty("file.separator") + "student.key");
+		if (studentKeyFile.exists()) {
+			try {
+				result = EncryptionTools.getInstance().readPublicKeyFromFile(studentKeyFile);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} 
-		// found one; open it
-		try {
-			result = EncryptionTools.getInstance().readPublicKeyFromFile(studentKeyFile);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		return result;
 	}

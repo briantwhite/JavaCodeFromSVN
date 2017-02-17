@@ -3159,6 +3159,14 @@ on server:
 	- instructor password
 	- student password
 	- expiration date
-**********************
 - database of grade results
+****************
+
+2/17/16
+working on Problems/ folder finder
+needed to move all that code to main() since you need a visible UI present before you can pop up a file dialog
+can't get the file dialog to show (even though all the other dialogs show)
+maybe a thread thing...
+need to do this carefully
+
 	

@@ -425,7 +425,7 @@ public class VGLII extends JFrame {
 	 * aka the desktop
 	 * - this requires some code, so runs in VGLII's constructor
 	 */
-	private File desktopDirectory = null;
+	private static File desktopDirectory = null;
 
 	/**
 	 * Stores the value of the next position on the screen where a cage should
@@ -447,129 +447,15 @@ public class VGLII extends JFrame {
 		 * 	so you can determine which menus to show
 		 *  - includes Save to Edx menu and button
 		 *  
-		 *  also, need to look for relevant files (Problems/ and .key files)
-		 *   in two places
-		 *   - the directory where the program is running "user.dir"
-		 *   - the directory where the .jar/.exe is 
-		 *   this is to deal with possible app translocation by OS X
-		 *    (see 2/2017 entries in log)
 		 */
-
-		// create a list of directories to search for the Problems/ folder
-		// all end with the trailing /
-		ArrayList<String> dirsToTry = new ArrayList<String>();
-		// first, see if we saved a dir in the preferences
-		Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
-		if (!prefs.get(VGL_DIR_PREF_NAME, "").equals("")) {
-			dirsToTry.add(prefs.get(VGL_DIR_PREF_NAME, ""));
-		}
-		// then, check the args to see if we passed in a useful directory
-		//  this checks args and looks if we passed in -D with a directory
-		//  this is for mac only
 		boolean saveToEdXServerEnabled = false;
-		if ((args.length == 1) && args[0].startsWith("-D")) {
-			String appRootDir = args[0].replace("-D", "");		// mode 1a (mac only)
-			// need to chop off last directory /VGL-3.2.2.app to get to enclosing folder
-			StringBuffer appDirBuffer = new StringBuffer();
-			String[] parts = appRootDir.split("/");
-			for (int i = 0; i < (parts.length - 1); i++) {
-				appDirBuffer.append(parts[i]);
-				appDirBuffer.append("/");
-			}
-			dirsToTry.add(appDirBuffer.toString());
-		} else {
-			if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
-				saveToEdXServerEnabled = true;					// mode 3
-			} else if (args.length > 1) {
-				saveToEdXServerEnabled = true;					// mode 4
-			}
+		if ((args.length == 1) && args[0].equals(ED_X_MODE_NAME)) {	
+			saveToEdXServerEnabled = true;					// mode 3
+		} else if (args.length > 1) {
+			saveToEdXServerEnabled = true;					// mode 4
 		}
-		// then, try where the .jar/.exe file is
-		StringBuffer jarPathBuffer = null;
-		try {
-			jarPathBuffer = new StringBuffer(URLDecoder.decode(
-					this.getClass().getProtectionDomain().getCodeSource().getLocation().toString(), "UTF-8"));
 
-			// strip off the leading "file:"
-			jarPathBuffer.delete(0, jarPathBuffer.indexOf(":") + 1);
-			// strip off the trailing "VGLII.jar" - everything after the last file.separator
-			jarPathBuffer.delete(jarPathBuffer.lastIndexOf(System.getProperty("file.separator")) + 1, jarPathBuffer.length());
-		} catch (UnsupportedEncodingException e) {
-			jarPathBuffer = null;
-			e.printStackTrace();
-		}
-		if (jarPathBuffer != null) {
-			dirsToTry.add(jarPathBuffer.toString());
-		}
-		// add a set of canonical directories & folders
-		String homeDirHeader = System.getProperty("user.home") + System.getProperty("file.separator");
-		String[] typicalPaths = 
-			{homeDirHeader + "Desktop" + System.getProperty("file.separator"),
-					homeDirHeader + "Documents" + System.getProperty("file.separator"),
-					homeDirHeader + "Downloads" + System.getProperty("file.separator"),
-					homeDirHeader + "Applications" + System.getProperty("file.separator"),
-					System.getProperty("file.separator") + "Applications" + System.getProperty("file.separator")};
-		String[] typicalFolders = {	
-				"",												// if not in folder
-				"VGL" + System.getProperty("file.separator"),
-				"VGLII" + System.getProperty("file.separator"),
-				"VGLII-" + VGLII.version + System.getProperty("file.separator")};
-		for (int p = 0; p < typicalPaths.length; p++) {
-			for (int f = 0; f < typicalFolders.length; f++) {
-				dirsToTry.add(typicalPaths[p] + typicalFolders[f]);
-			}
-		}
-		// loop over all possibilities until you find Problems/VGL/Level01.pr2
-		//  look for a particular file just in case they have a random
-		//  non-VGL-related Problems/ folder
-		Iterator<String> locationIt = dirsToTry.iterator();
-		while (locationIt.hasNext()) {
-			String dirString = locationIt.next();
-			File testFile = new File(dirString 
-					+ "Problems" + System.getProperty("file.separator") 
-					+ "VGL" + System.getProperty("file.separator")
-					+ "Level01.pr2");
-			if (testFile.exists()) {
-				vglFolderPath = new File(dirString);
-				break;
-			}
-		}
-		// if still null, pop up dialog
-		if (vglFolderPath == null) {
-			Object[] options = {"Show VGL where the folder is",
-			"Quit VGL"};
-			int n = JOptionPane.showOptionDialog(this,
-					"VGLII cannot find the Problems folder.\n"
-							+ "(see the README.txt file for details)",
-							"Problems Folder not Found",
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.WARNING_MESSAGE,
-							null,
-							options,
-							options[1]);
-			if (n == JOptionPane.NO_OPTION) {
-				System.exit(0);
-			}
-			JFileChooser fileChooser = new JFileChooser();
-			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			fileChooser.setDialogTitle("Choose the DIRECTORY where the Problem folder can be found");
-			int val = fileChooser.showOpenDialog(this);
-			if (val == JFileChooser.CANCEL_OPTION) {
-				System.exit(0);
-			}
-			vglFolderPath = fileChooser.getSelectedFile();
-			// need to test to see if this is a correct Problems folder
-			// if not ok - just pop up dialog and quit
-			//  if OK, set dir and save to prefs
-		}
 		random = new Random();
-
-		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
-				+ System.getProperty("file.separator") //$NON-NLS-1$
-				+ "Desktop"); //$NON-NLS-1$
-		if (!desktopDirectory.exists()) {
-			desktopDirectory = new File(System.getProperty("user.home"));
-		}
 
 		/**
 		 * boolean for whether grading will work
@@ -636,6 +522,135 @@ public class VGLII extends JFrame {
 			} else if (fileName.endsWith(".wr2")) { //$NON-NLS-1$
 				vgl2.openProblem(fileName);
 			}
+		}
+
+		/*
+		 *  need to look for relevant files (Problems/ and .key files)
+		 *   in two places
+		 *   - the directory where the program is running "user.dir"
+		 *   - the directory where the .jar/.exe is 
+		 *   this is to deal with possible app translocation by OS X
+		 *    (see 2/2017 entries in log)
+		 */
+		// create a list of directories to search for the Problems/ folder
+		// all end with the trailing /
+		ArrayList<String> dirsToTry = new ArrayList<String>();
+		// first, see if we saved a dir in the preferences
+		Preferences prefs = Preferences.userRoot().node(vgl2.getClass().getName());
+		if (!prefs.get(VGL_DIR_PREF_NAME, "").equals("")) {
+			dirsToTry.add(prefs.get(VGL_DIR_PREF_NAME, ""));
+		}
+		// then, check the args to see if we passed in a useful directory
+		//  this checks args and looks if we passed in -D with a directory
+		//  this is for mac only
+		if ((args.length == 1) && args[0].startsWith("-D")) {
+			String appRootDir = args[0].replace("-D", "");		// mode 1a (mac only)
+			// need to chop off last directory /VGL-3.2.2.app to get to enclosing folder
+			StringBuffer appDirBuffer = new StringBuffer();
+			String[] parts = appRootDir.split("/");
+			for (int i = 0; i < (parts.length - 1); i++) {
+				appDirBuffer.append(parts[i]);
+				appDirBuffer.append("/");
+			}
+			dirsToTry.add(appDirBuffer.toString());
+		}
+		// then, try where the .jar/.exe file is
+		StringBuffer jarPathBuffer = null;
+		try {
+			jarPathBuffer = new StringBuffer(URLDecoder.decode(
+					vgl2.getClass().getProtectionDomain().getCodeSource().getLocation().toString(), "UTF-8"));
+
+			// strip off the leading "file:"
+			jarPathBuffer.delete(0, jarPathBuffer.indexOf(":") + 1);
+			// strip off the trailing "VGLII.jar" - everything after the last file.separator
+			jarPathBuffer.delete(jarPathBuffer.lastIndexOf(System.getProperty("file.separator")) + 1, jarPathBuffer.length());
+		} catch (UnsupportedEncodingException e) {
+			jarPathBuffer = null;
+			e.printStackTrace();
+		}
+		if (jarPathBuffer != null) {
+			dirsToTry.add(jarPathBuffer.toString());
+		}
+		// add a set of canonical directories & folders
+		String homeDirHeader = System.getProperty("user.home") + System.getProperty("file.separator");
+		String[] typicalPaths = 
+			{homeDirHeader + "Desktop" + System.getProperty("file.separator"),
+					homeDirHeader + "Documents" + System.getProperty("file.separator"),
+					homeDirHeader + "Downloads" + System.getProperty("file.separator"),
+					homeDirHeader + "Applications" + System.getProperty("file.separator"),
+					System.getProperty("file.separator") + "Applications" + System.getProperty("file.separator")};
+		String[] typicalFolders = {	
+				"",												// if not in folder
+				"VGL" + System.getProperty("file.separator"),
+				"VGLII" + System.getProperty("file.separator"),
+				"VGLII-" + VGLII.version + System.getProperty("file.separator")};
+		for (int p = 0; p < typicalPaths.length; p++) {
+			for (int f = 0; f < typicalFolders.length; f++) {
+				dirsToTry.add(typicalPaths[p] + typicalFolders[f]);
+			}
+		}
+		// loop over all possibilities until you find Problems/VGL/Level01.pr2
+		//  look for a particular file just in case they have a random
+		//  non-VGL-related Problems/ folder
+		Iterator<String> locationIt = dirsToTry.iterator();
+		while (locationIt.hasNext()) {
+			String dirString = locationIt.next();
+			File testFile = new File(dirString 
+					+ "Problems" + System.getProperty("file.separator") 
+					+ "VGL" + System.getProperty("file.separator")
+					+ "Level01.pr2");
+			System.out.println("trying " + testFile.getAbsolutePath());
+			if (testFile.exists()) {
+				vglFolderPath = new File(dirString);
+				break;
+			}
+		}
+		// if still null, pop up dialog
+		if (vglFolderPath == null) {
+			Object[] options = {"Show VGL where the folder is",
+			"Quit VGL"};
+			int n = JOptionPane.showOptionDialog(vgl2,
+					"VGLII cannot find the Problems folder.\n"
+							+ "You can tell VGLII where to find this folder\n"
+							+ "and VGLII will remember this location.\n"
+							+ "(see the README.txt file for details)",
+							"Problems Folder not Found",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.WARNING_MESSAGE,
+							null,
+							options,
+							options[1]);
+			if (n == JOptionPane.NO_OPTION) {
+				System.exit(0);
+			}
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fileChooser.setDialogTitle("Choose the DIRECTORY where the Problems folder can be found");
+			int val = fileChooser.showOpenDialog(vgl2);
+			if (val != JFileChooser.APPROVE_OPTION) {
+				System.exit(0);
+			}
+			vglFolderPath = fileChooser.getSelectedFile();
+			// is this a correct Problems folder?
+			File testFile = new File(vglFolderPath.getAbsolutePath()
+					+ System.getProperty("file.separator") 
+					+ "Problems" + System.getProperty("file.separator") 
+					+ "VGL" + System.getProperty("file.separator") 
+					+ "Level01.pr2");
+			if (!testFile.exists()) {
+				JOptionPane.showMessageDialog(vgl2, "That folder does not contain VGLII problems; exiting.");
+				System.exit(0);
+			}
+			//  if OK, set dir and save to prefs
+			prefs.put(VGL_DIR_PREF_NAME, vglFolderPath.getAbsolutePath() + System.getProperty("file.separator"));
+		}
+		System.out.println(vglFolderPath.getAbsolutePath());
+
+		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
+				+ System.getProperty("file.separator") //$NON-NLS-1$
+				+ "Desktop"); //$NON-NLS-1$
+		if (!desktopDirectory.exists()) {
+			desktopDirectory = new File(System.getProperty("user.home"));
 		}
 	}
 
