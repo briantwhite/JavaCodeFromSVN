@@ -3169,4 +3169,6 @@ can't get the file dialog to show (even though all the other dialogs show)
 maybe a thread thing...
 need to do this carefully
 
+first, move the code to a separate class ProblemFolderFinder
+
 	
