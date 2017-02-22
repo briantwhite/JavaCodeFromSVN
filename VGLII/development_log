@@ -3191,3 +3191,48 @@ seems to be working - very hard to clear out the prefs..
 	but it does remember them well
 
 need to try with .app and translocation.
+make "mac grader" (in a folder) and "pc" versions
+sign the mac app
+[briansofficemac:Version 3.3.1/Mac Grader Version/VGLII-3.3.1] brian% codesign -f -v -s "Developer ID Application: Brian White (RNA5B8HQ54)" VGLII-3.3.1.app
+VGLII-3.3.1.app: signed app bundle with Mach-O thin (x86_64) [edu.umb.vgl]
+[briansofficemac:Version 3.3.1/Mac Grader Version/VGLII-3.3.1] brian% 
+[briansofficemac:Version 3.3.1/Mac Grader Version/VGLII-3.3.1] brian% cd ../
+[briansofficemac:VGL II/Version 3.3.1/Mac Grader Version] brian% ls
+VGLII-3.3.1	check-signature
+[briansofficemac:VGL II/Version 3.3.1/Mac Grader Version] brian% ./check-signature VGLII-3.3.1/VGLII-3.3.1.app
+(c) 2014 Apple Inc.  All rights reserved.
+YES
+
+zip the folder to VGLII-3.3.1.mac.zip
+	post on http://vgl.umb.edu/VGLII/testing/VGLII-3.3.1.mac.zip
+download to laptop with 10.12
+drag zip to desktop from downloads
+double-click
+	it found Problems on its own
+move VGL folder to Desktop/fred/
+	it pops up file dialog to find problems - quit
+put VGLII-3.3.1 back on Desktop/
+changed folder to VGLII - AOK
+put VGLII-3.3.1 into Documents/ - OK
+put VGLII-3.3.1 into user/Applications - OK
+put VGLII-3.3.1 into /Applications - 
+put VGLII-3.3.1 back on Desktop
+	changed name to VGL
+
+to do
+1) test with key files
+2) test on PC
+3) test on PC with key files
+4) remove the System.out.println stuff in ProblemsFolderFinder
+5) test putting in weird folder and preferences setting
+	then move the folder and see what happens
+
+did
+4)
+1) didn't work with student.key - no "Save Work for Grading..." option.
+that's because you put finding Problems/ in the main() - after the constructor (when it looks for the keys)
+move it back to constructor
+- seems OK
+remake and sign app & post as before
+test with VGLII-3.3.1/ on desktop
+it finds the keys but doesn't open the gr2 properly??

@@ -455,6 +455,15 @@ public class VGLII extends JFrame {
 			saveToEdXServerEnabled = true;					// mode 4
 		}
 
+		vglFolderPath = ProblemsFolderFinder.findProblemsFolder(this, args);
+		
+		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
+				+ System.getProperty("file.separator") //$NON-NLS-1$
+				+ "Desktop"); //$NON-NLS-1$
+		if (!desktopDirectory.exists()) {
+			desktopDirectory = new File(System.getProperty("user.home"));
+		}
+
 		random = new Random();
 
 		/**
@@ -522,15 +531,6 @@ public class VGLII extends JFrame {
 			} else if (fileName.endsWith(".wr2")) { //$NON-NLS-1$
 				vgl2.openProblem(fileName);
 			}
-		}
-
-		vglFolderPath = ProblemsFolderFinder.findProblemsFolder(vgl2, args);
-		
-		desktopDirectory = new File(System.getProperty("user.home")  //$NON-NLS-1$
-				+ System.getProperty("file.separator") //$NON-NLS-1$
-				+ "Desktop"); //$NON-NLS-1$
-		if (!desktopDirectory.exists()) {
-			desktopDirectory = new File(System.getProperty("user.home"));
 		}
 	}
 

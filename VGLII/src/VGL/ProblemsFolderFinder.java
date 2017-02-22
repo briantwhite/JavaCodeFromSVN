@@ -91,7 +91,7 @@ public class ProblemsFolderFinder {
 					+ "Problems" + System.getProperty("file.separator") 
 					+ "VGL" + System.getProperty("file.separator")
 					+ "Level01.pr2");
-			System.out.println("trying " + testFile.getAbsolutePath());
+//			System.out.println("trying " + testFile.getAbsolutePath());
 			if (testFile.exists()) {
 				vglFolderPath = new File(dirString);
 				break;
@@ -139,7 +139,7 @@ public class ProblemsFolderFinder {
 			//  if OK, set dir and save to prefs
 			prefs.put(VGLII.VGL_DIR_PREF_NAME, vglFolderPath.getAbsolutePath() + System.getProperty("file.separator"));
 		}
-		System.out.println(vglFolderPath.getAbsolutePath());
+//		System.out.println(vglFolderPath.getAbsolutePath());
 		return vglFolderPath;
 	}
 }
