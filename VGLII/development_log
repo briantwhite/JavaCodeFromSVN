@@ -3162,7 +3162,7 @@ on server:
 - database of grade results
 ****************
 
-2/17/16
+2/17/17
 working on Problems/ folder finder
 needed to move all that code to main() since you need a visible UI present before you can pop up a file dialog
 can't get the file dialog to show (even though all the other dialogs show)
@@ -3171,4 +3171,23 @@ need to do this carefully
 
 first, move the code to a separate class ProblemFolderFinder
 
-	
+
+2/22/17
+
+will need to revise web site
+- Ethan Bolker is post tense at UMB
+- for mac, there are 2 versions
+	- single file no-grading
+	- folder for grading
+- for grading, things are special for mac
+
+working on FileChooser not showing up 
+	http://stackoverflow.com/questions/33599014/jfilechooser-not-showing
+need to wrap in Runnable - try that
+	unclear how to get the data out of the runnable...
+	make a class ProblemFolderFileChooser
+
+seems to be working - very hard to clear out the prefs.. 
+	but it does remember them well
+
+need to try with .app and translocation.

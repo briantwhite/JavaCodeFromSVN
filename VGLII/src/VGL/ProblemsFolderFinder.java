@@ -1,7 +1,9 @@
 package VGL;
 
+import java.awt.EventQueue;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,7 +32,7 @@ public class ProblemsFolderFinder {
 		if (!prefs.get(VGLII.VGL_DIR_PREF_NAME, "").equals("")) {
 			dirsToTry.add(prefs.get(VGLII.VGL_DIR_PREF_NAME, ""));
 		}
-		// then, check the args to see if we passed in a useful directory
+		// first, check the args to see if we passed in a useful directory
 		//  this checks args and looks if we passed in -D with a directory
 		//  this is for mac only
 		if ((args.length == 1) && args[0].startsWith("-D")) {
@@ -109,18 +111,21 @@ public class ProblemsFolderFinder {
 							JOptionPane.WARNING_MESSAGE,
 							null,
 							options,
-							options[1]);
+							options[0]);
 			if (n == JOptionPane.NO_OPTION) {
 				System.exit(0);
 			}
-			JFileChooser fileChooser = new JFileChooser();
-			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			fileChooser.setDialogTitle("Choose the DIRECTORY where the Problems folder can be found");
-			int val = fileChooser.showOpenDialog(vglII);
-			if (val != JFileChooser.APPROVE_OPTION) {
+			ProblemFolderFileChooser pffc = new ProblemFolderFileChooser();
+			try {
+				EventQueue.invokeAndWait(pffc);
+			} catch (InvocationTargetException | InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			vglFolderPath = pffc.getProblemFolderDirectory();
+			if (vglFolderPath == null) {
 				System.exit(0);
 			}
-			vglFolderPath = fileChooser.getSelectedFile();
 			// is this a correct Problems folder?
 			File testFile = new File(vglFolderPath.getAbsolutePath()
 					+ System.getProperty("file.separator") 
