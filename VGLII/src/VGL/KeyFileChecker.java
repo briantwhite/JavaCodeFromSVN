@@ -30,7 +30,7 @@ public class KeyFileChecker {
 	public static PrivateKey checkGradingKeys(VGLII vglII) {
 		// look for grader.key 
 		//  first, see if it's in the same folder as the .jar/.exe
-		File graderTokenFile = new File(vglII.vglFolderPath + System.getProperty("file.separator") + "grader.key");
+		File graderTokenFile = new File(VGLII.vglFolderPath.getAbsolutePath() + System.getProperty("file.separator") + "grader.key");
 		if (graderTokenFile.exists()) {
 			return getGradingKeys(graderTokenFile, vglII);
 		} else {
@@ -40,7 +40,7 @@ public class KeyFileChecker {
 
 	public static PublicKey checkSaveForGradingKey(VGLII vglII) {
 		PublicKey result = null;
-		File studentKeyFile = new File(vglII.vglFolderPath + System.getProperty("file.separator") + "student.key");
+		File studentKeyFile = new File(VGLII.vglFolderPath.getAbsolutePath() + System.getProperty("file.separator") + "student.key");
 		if (studentKeyFile.exists()) {
 			try {
 				result = EncryptionTools.getInstance().readPublicKeyFromFile(studentKeyFile);

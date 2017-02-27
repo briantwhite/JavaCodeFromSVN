@@ -3236,3 +3236,36 @@ move it back to constructor
 remake and sign app & post as before
 test with VGLII-3.3.1/ on desktop
 it finds the keys but doesn't open the gr2 properly??
+
+2/27/17
+working on (1) - AOK now (must have been a goof-up with the keys)
+do (5)
+  on Desktop/ in xxx/ (lower case)
+  - I had to point it to the folder
+  - I quit and the prference was saved
+  - could save for grading and grade
+  - tried renaming folder to yyy/ and it can't find it (asks to be shown where)
+  - rename folder to VGLII-3.3.1 - now it finds it AOK (doesn't ask to be shown where)
+ SO - AOK on mac now
+ - ask Julie Noor to check it out.
+ 
+ need to do (2) and (3) on PC
+ - first, make a PC version:
+   - make the .exe
+   - copy to the PC version folder
+   - zip it zip VGLII.pc.zip -x \*.DS_Store -r VGLII-3.3.1/
+   - posted as http://vgl.umb.edu/VGLII/testing/VGLII.pc.zip
+  it finds the Problems/ folder but not student.key???
+
+  hmmm...
+  in KeyFileChecker, it treated VGLII.vglFolderPath as a String, not a File
+  	did VGLII.vglFolderPath.getAbsolutePath() instead
+  
+  - need to re-make app and test on mac...
+    - re-make app 
+    - copy to ReadyToRun folder
+    - add icon
+    - sign & test signature as above
+    - re-zip and post as http://vgl.umb.edu/VGLII/VGLII-3.3.1.mac.zip
+    - download and test
+    	- 
