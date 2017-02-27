@@ -3266,6 +3266,28 @@ do (5)
     - copy to ReadyToRun folder
     - add icon
     - sign & test signature as above
-    - re-zip and post as http://vgl.umb.edu/VGLII/VGLII-3.3.1.mac.zip
+    - re-zip and post as http://vgl.umb.edu/VGLII/testing/VGLII-3.3.1.mac.zip
     - download and test
     	- 
+  
+  - also re-made the PC version
+  	- as above, posted as http://vgl.umb.edu/VGLII/testing/VGLII.pc.zip
+  	- tested with all 3 keys - AOK
+  
+  - set up to make Mac No-grader version
+    - make folder MacNoGraderVersion
+    - copy in .app
+    - add icon
+    - put Problems/ in .app/Content/Java/
+    - sign that
+    - zip it
+    - post as http://vgl.umb.edu/VGLII/testing/VGL-3.3.1.NG.mac.zip
+    - test on mac - OK
+  
+  set up new web site in temporary place "website/vgl 2017 revisions for OS X/" folder
+  	grading.html
+  	download.html
+  	VGLII/getVGLII.html
+    studentGrading.html
+    instructorGrading.html
+    
