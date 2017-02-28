@@ -3290,4 +3290,14 @@ do (5)
   	VGLII/getVGLII.html
     studentGrading.html
     instructorGrading.html
-    
+  
+2/28/17
+made linux version - post as http://vgl.umb.edu/VGLII/testing/VGLII.tar.gz
+test on ubuntu
+  	had to install java using these directions http://www.wikihow.com/Install-Oracle-Java-JRE-on-Ubuntu-Linux
+  	- AOK (didn't test grading)
+
+need to add a README.txt to the mac grader version
+re-zipped to VGLII-3.3.1.mac.zip & posted to testing/
+ 
+ 
