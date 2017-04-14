@@ -388,10 +388,8 @@ public class MolGenExp extends JFrame {
 		//   $APP_ROOT is where the .jar is - it's in the Aipotu.app/Contents/Java/ folder
 		//   that's where we put Greenhouse/ in the single-file version
 		if ((args.length == 1) && args[0].startsWith("-D")) {
-			String appRootDir = args[0].replace("-D", "");		
-			StringBuffer appDirBuffer = new StringBuffer(appRootDir);
-			appDirBuffer.append("/Contents/Java/" + GlobalDefaults.greenhouseDirName);
-			greenhouseDirectory = new File(appDirBuffer.toString());
+			String appRootDir = args[0].replace("-D", "");
+			greenhouseDirectory = new File(appRootDir + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName);
 		} else {
 			greenhouseDirectory = new File(GlobalDefaults.greenhouseDirName);
 		}
