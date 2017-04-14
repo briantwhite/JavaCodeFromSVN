@@ -130,14 +130,14 @@ public class MolGenExp extends JFrame {
 
 	private PreferencesDialog preferencesDialog;
 
-	public MolGenExp() {
+	public MolGenExp(String[] args) {
 		super("Aipotu " + GlobalDefaults.version);
-		setupUI();
+		setupUI(args);
 		addWindowListener(new ApplicationCloser());
 	}
 
 	public static void main(String[] args) {
-		MolGenExp mge = new MolGenExp();
+		MolGenExp mge = new MolGenExp(args);
 		mge.pack();
 		mge.setVisible(true);
 	}
@@ -149,7 +149,7 @@ public class MolGenExp extends JFrame {
 		}
 	}
 
-	private void setupUI() {
+	private void setupUI(String[] args) {
 
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
@@ -381,6 +381,10 @@ public class MolGenExp extends JFrame {
 		//make a greenhouse directory if one doesn't exist
 		//  if one exists, load contents
 		greenhouseLoaderTimer = new Timer(100, new GrenhouseLoaderTimerListener());	//timer for greenhouse loading progress bar
+		// first, need to see if we're on a Mac (which has new security stuff as of 4/13/17)
+		//  if we are, we passed in a java command line param -D$APP_ROOT
+		//  if it's here, we need to use it to find the Greenouse/ 
+		//   which will be in the .app itself - not in a separate folder
 		greenhouseDirectory = new File(GlobalDefaults.greenhouseDirName);
 		if(!greenhouseDirectory.exists() 
 				|| !greenhouseDirectory.isDirectory()) {
