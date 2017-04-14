@@ -34,10 +34,14 @@
 			name="Aipotu-1.3.3"
 			displayname="Aipotu-1.3.3"
 			identifier="edu.umb.aipotu"
+			icon="big mac icon.png"
 			mainclassname="molGenExp.MolGenExp" >
 			<classpath file="MGX.jar" />
 			<argument value="-D$APP_ROOT" />
 		</bundleapp> 
+		<copy todir="Aipotu-1.3.3.app/Contents/Java/Greenhouse">
+			<fileset dir="Greenhouse"/>
+		</copy>
 	</target>
 
 </project>

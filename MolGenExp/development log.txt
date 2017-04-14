@@ -1578,3 +1578,16 @@ need to make a single .app bundle with Greenhouse/ inside it
  - add lib/ to the java build path (properties) as a "Class folder"
  now builds app aok
  
+ works
+ see if you can copy in Greenhouse/ when you make the .app using Ant
+ 		<copy todir="Aipotu-1.3.3.app/Contents/Java/Greenhouse">
+			<fileset dir="Greenhouse"/>
+		</copy>
+ works AOK
+version 1.3.3 - only for mac
+
+add icon and put in Javastuff/ReadyToRun/MolGenExp-Aipotu/Aipotu/Version 1.3.3/
+	can't seem to get icon to work - won't change the image..
+	maybe it has cached it??
+
+ 
