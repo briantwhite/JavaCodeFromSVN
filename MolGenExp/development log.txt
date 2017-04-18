@@ -1623,6 +1623,22 @@ YES
 - zip from mouse (not command)
 - now, put them in the ReadyToRun folder
 - try putting on web
-	
+
+it runs OK and can find Greenhouse but when you save strains to the Greenhouse, they appear in Greenhouse list
+  but are not saved in Aipotu-1.3.3.app/Contents/Resources/Greenhouse
+
+4/18/17
+two alternatives:
+- in both cases, on startup, if Greenhouse isn't in the appropriate spot, create it and fill it from the
+	Greenhouse/ folder in the .app
+1) Put it in ~/Library/Application Support/Aipotu
+	- advantages = automatic, canonical, out of the way
+	- disadvantages = people won't know where it is
+2) Use preferences to have the user choose - on startup "Save" is grayed out but "save as..." is available
+	they choose the folder and it gets populated - then pref is saved
+	- advantages = easy, user-friendly
+	- disadvantages = the user might put it somewhere strange..
+
+probably the best is (2)
 
  
