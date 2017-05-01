@@ -10,6 +10,11 @@ import biochem.StandardTable;
 
 public class GlobalDefaults {
 	
+	// if we're on mac or not
+	public static boolean onMac;
+	
+	public final static String GREENHOUSE_DIR_PREF_NAME = "AipotuGreenhouseDir";
+	
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;
 	

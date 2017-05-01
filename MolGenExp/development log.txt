@@ -1641,4 +1641,16 @@ two alternatives:
 
 probably the best is (2)
 
+5/1/17
+made GlobalDefaults.onMac boolean to flag if on mac or not
+	if not, then the save greenhouse etc is as is it has been
+	if on mac, 
+		if no directory in preferences
+			save greenhouse is grayed out until they specify a directory
+
+NEED TO SAVE THE FOLDED PROTEIN ARCHIVE when you save the greenhouse
+
+BE CAREFUL - some places do the saving to File(GlobalDefaults.GlobalDefaults.greenhouseDirName)
+	but they should always use the greenhouseDirectory - make that a global??
+
  
