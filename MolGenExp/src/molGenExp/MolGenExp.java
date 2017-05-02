@@ -105,7 +105,6 @@ public class MolGenExp extends JFrame {
 
 	private JPanel innerPanel;
 
-	private File greenhouseDirectory;
 	private GreenhouseLoader greenhouseLoader;
 	private Timer greenhouseLoaderTimer;
 	private Greenhouse greenhouse;
@@ -178,17 +177,17 @@ public class MolGenExp extends JFrame {
 
 		editMenu = new JMenu("Edit");
 		copyUpperSequenceToClipboardItem = 
-			new JMenuItem("Copy Upper Sequence to Clipboard");
+				new JMenuItem("Copy Upper Sequence to Clipboard");
 		editMenu.add(copyUpperSequenceToClipboardItem);
 		copyLowerSequenceToClipboardItem = 
-			new JMenuItem("Copy Lower Sequence to Clipboard");
+				new JMenuItem("Copy Lower Sequence to Clipboard");
 		editMenu.add(copyLowerSequenceToClipboardItem);
 		editMenu.addSeparator();
 		copyUpperImageToClipboardItem = 
-			new JMenuItem("Copy Image of Upper Panel to Clipboard");
+				new JMenuItem("Copy Image of Upper Panel to Clipboard");
 		editMenu.add(copyUpperImageToClipboardItem);
 		copyLowerImageToClipboardItem = 
-			new JMenuItem("Copy Image of Lower Panel to Clipboard");
+				new JMenuItem("Copy Image of Lower Panel to Clipboard");
 		editMenu.add(copyLowerImageToClipboardItem);
 		menuBar.add(editMenu);
 		turnOffSequenceClipboardItems();
@@ -218,7 +217,7 @@ public class MolGenExp extends JFrame {
 		greenhouseMenu.add(saveAsGreenhouseMenuItem);
 		greenhouseMenu.addSeparator();
 		deleteSelectedOrganismMenuItem = 
-			new JMenuItem("Delete Selected Organism");
+				new JMenuItem("Delete Selected Organism");
 		greenhouseMenu.add(deleteSelectedOrganismMenuItem);
 		menuBar.add(greenhouseMenu);
 		mainPanel.add(menuBar, BorderLayout.NORTH);
@@ -305,7 +304,7 @@ public class MolGenExp extends JFrame {
 					savePicOfUpperPanelItem.setText("Save Image of Upper Panel...");
 					copyLowerImageToClipboardItem.setEnabled(true);
 					copyUpperImageToClipboardItem.setText(
-					"Copy Image of Upper Panel to Clipboard");
+							"Copy Image of Upper Panel to Clipboard");
 					addToGreenhouseButton.setEnabled(false);
 					dumpWorldItem.setEnabled(false);
 					loadWorldItem.setEnabled(false);
@@ -319,7 +318,7 @@ public class MolGenExp extends JFrame {
 					savePicOfUpperPanelItem.setText("Save Image of Upper Panel...");
 					copyLowerImageToClipboardItem.setEnabled(true);
 					copyUpperImageToClipboardItem.setText(
-					"Copy Image of Upper Panel to Clipboard");
+							"Copy Image of Upper Panel to Clipboard");
 					addToGreenhouseButton.setEnabled(false);
 					dumpWorldItem.setEnabled(false);
 					loadWorldItem.setEnabled(false);
@@ -333,7 +332,7 @@ public class MolGenExp extends JFrame {
 					savePicOfUpperPanelItem.setText("Save Image of Upper Panel...");
 					copyLowerImageToClipboardItem.setEnabled(true);
 					copyUpperImageToClipboardItem.setText(
-					"Copy Image of Upper Panel to Clipboard");
+							"Copy Image of Upper Panel to Clipboard");
 					addToGreenhouseButton.setEnabled(true);
 					dumpWorldItem.setEnabled(false);
 					loadWorldItem.setEnabled(false);
@@ -347,7 +346,7 @@ public class MolGenExp extends JFrame {
 					savePicOfLowerPanelItem.setEnabled(false);
 					savePicOfUpperPanelItem.setText("Save Image of Panel...");
 					copyUpperImageToClipboardItem.setText(
-					"Copy Image of Panel to Clipboard");
+							"Copy Image of Panel to Clipboard");
 					copyLowerImageToClipboardItem.setEnabled(false);
 					addToGreenhouseButton.setEnabled(true);
 					dumpWorldItem.setEnabled(true);
@@ -399,28 +398,33 @@ public class MolGenExp extends JFrame {
 		 *					- save the whole greenhouse there
 		 *					- save the new directory to OSX's prefs
 		 *		if yes - this is a re-run so you use the greenhouse dir from the OS X prefs.   
-		**/ 
+		 **/ 
+		Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+		MGEPreferences MGEprefs = MGEPreferences.getInstance();
 		if ((args.length == 1) && args[0].startsWith("-D")) {
-			GlobalDefaults.onMac = true;
+			// on mac
 			// see if they've saved a Greenhouse location in the OS X preferences
-			Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
 			if (prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "").equals("")) {
 				// nothing saved, so this is a "first run"
 				String appRootDir = args[0].replace("-D", "");
-				greenhouseDirectory = new File(appRootDir + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName);
+				MGEprefs.setGreenhouseDirectory(new File(appRootDir + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName));
 				saveGreenhouseMenuItem.setEnabled(false);
 			} else {
 				// it was saved, so this is a re-run - use the saved directory in prefs
-				greenhouseDirectory = new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "."));
+				MGEprefs.setGreenhouseDirectory(new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, ".")));
 			}
 		} else {
-			GlobalDefaults.onMac = false;
-			greenhouseDirectory = new File(GlobalDefaults.greenhouseDirName);
+			// on PC - see if they've saved a different location
+			if (prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "").equals("")) {
+				MGEprefs.setGreenhouseDirectory(new File(GlobalDefaults.greenhouseDirName));
+			} else {
+				MGEprefs.setGreenhouseDirectory(new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, ".")));
+			}
 		}
 
-		if(!greenhouseDirectory.exists() 
-				|| !greenhouseDirectory.isDirectory()) {
-			boolean success = greenhouseDirectory.mkdir();
+		if(!MGEprefs.getGreenhouseDirectory().exists() 
+				|| !MGEprefs.getGreenhouseDirectory().isDirectory()) {
+			boolean success = MGEprefs.getGreenhouseDirectory().mkdir();
 			if (!success) {
 				JOptionPane.showMessageDialog(
 						this, 
@@ -431,7 +435,7 @@ public class MolGenExp extends JFrame {
 			}
 		} else {
 			try {
-				loadGreenhouse(greenhouseDirectory);
+				loadGreenhouse();
 			} catch (FoldingException e1) {
 				JOptionPane.showMessageDialog(null, 
 						GlobalDefaults.paintedInACornerNotice,
@@ -467,21 +471,21 @@ public class MolGenExp extends JFrame {
 		copyUpperSequenceToClipboardItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String selectedPane = 
-					explorerPane.getSelectedComponent().getClass().toString();
+						explorerPane.getSelectedComponent().getClass().toString();
 				if (selectedPane.equals("class molBiol.MolBiolWorkbench")) {
 					Clipboard c = 
-						Toolkit.getDefaultToolkit().getSystemClipboard();
+							Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
-						new StringSelection(((MolBiolWorkpanel)molBiolWorkbench.getUpperPanel()).getDNA());
+							new StringSelection(((MolBiolWorkpanel)molBiolWorkbench.getUpperPanel()).getDNA());
 					c.setContents(s, null);
 					return;
 				}
 				if (selectedPane.equals("class biochem.BiochemistryWorkbench")) {
 					Clipboard c = 
-						Toolkit.getDefaultToolkit().getSystemClipboard();
+							Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
-						new StringSelection(
-								((BiochemistryWorkpanel)(biochemistryWorkbench.getUpperPanel())).getAaSeq());
+							new StringSelection(
+									((BiochemistryWorkpanel)(biochemistryWorkbench.getUpperPanel())).getAaSeq());
 					c.setContents(s, null);
 					return;
 				}
@@ -491,22 +495,22 @@ public class MolGenExp extends JFrame {
 		copyLowerSequenceToClipboardItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String selectedPane = 
-					explorerPane.getSelectedComponent().getClass().toString();
+						explorerPane.getSelectedComponent().getClass().toString();
 				if (selectedPane.equals("class molBiol.MolBiolWorkbench")) {
 					Clipboard c = 
-						Toolkit.getDefaultToolkit().getSystemClipboard();
+							Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
-						new StringSelection(((MolBiolWorkpanel)molBiolWorkbench.getLowerPanel()).getDNA());
+							new StringSelection(((MolBiolWorkpanel)molBiolWorkbench.getLowerPanel()).getDNA());
 					c.setContents(s, null);
 					return;
 				}
 				if (selectedPane.equals("class biochem.BiochemistryWorkbench")) {
 					Clipboard c = 
-						Toolkit.getDefaultToolkit().getSystemClipboard();
+							Toolkit.getDefaultToolkit().getSystemClipboard();
 					StringSelection s = 
-						new StringSelection(
-								((BiochemistryWorkpanel)(biochemistryWorkbench
-										.getLowerPanel())).getAaSeq());
+							new StringSelection(
+									((BiochemistryWorkpanel)(biochemistryWorkbench
+											.getLowerPanel())).getAaSeq());
 					c.setContents(s, null);
 					return;
 				}
@@ -522,7 +526,7 @@ public class MolGenExp extends JFrame {
 					ifc = new ImageForClipboard(
 							((Workbench)explorerPane
 									.getSelectedComponent())
-									.getUpperPanel().takeSnapshot());
+							.getUpperPanel().takeSnapshot());
 				}
 				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ifc, null);
 			}
@@ -588,7 +592,7 @@ public class MolGenExp extends JFrame {
 				}
 
 				//save it
-				if (greenhouseDirectory != null) {
+				if (MGEPreferences.getInstance().getGreenhouseDirectory() != null) {
 					saveToFolder(all);
 				} else {
 					saveToChosenFolder(all);
@@ -621,7 +625,7 @@ public class MolGenExp extends JFrame {
 				Object[] all = greenhouse.getAll();
 				if (all.length == 0) return;
 
-				if (greenhouseDirectory != null) {
+				if (MGEPreferences.getInstance().getGreenhouseDirectory() != null) {
 					saveToFolder(all);
 				} else {
 					saveToChosenFolder(all);
@@ -637,7 +641,7 @@ public class MolGenExp extends JFrame {
 					Object[] all = greenhouse.getAll();
 					if (all.length == 0) return;
 
-					if (greenhouseDirectory != null) {
+					if (MGEPreferences.getInstance().getGreenhouseDirectory() != null) {
 						saveToFolder(all);
 					} else {
 						saveToChosenFolder(all);
@@ -705,11 +709,11 @@ public class MolGenExp extends JFrame {
 				convert3LetterTo1Letter(
 						((BiochemistryWorkpanel)
 								(biochemistryWorkbench.getUpperPanel())).getAaSeq()),
-								convert3LetterTo1Letter(
-										((BiochemistryWorkpanel)
-												(biochemistryWorkbench.getLowerPanel())).getAaSeq()),
-												GlobalDefaults.sampleProtein,
-												clipSeq);
+				convert3LetterTo1Letter(
+						((BiochemistryWorkpanel)
+								(biochemistryWorkbench.getLowerPanel())).getAaSeq()),
+				GlobalDefaults.sampleProtein,
+				clipSeq);
 
 	}
 
@@ -727,7 +731,7 @@ public class MolGenExp extends JFrame {
 		}
 		return abAASeq.toString();
 	}
-
+	
 	public MolBiolWorkbench getMolBiolWorkbench() {
 		return molBiolWorkbench;
 	}
@@ -761,9 +765,9 @@ public class MolGenExp extends JFrame {
 	}
 
 	public void loadOrganismIntoActivePanel(Organism o) 
-	throws PaintedInACornerFoldingException {
+			throws PaintedInACornerFoldingException {
 		String selectedPane = 
-			explorerPane.getSelectedComponent().getClass().toString();
+				explorerPane.getSelectedComponent().getClass().toString();
 
 		if (selectedPane.equals("class molBiol.MolBiolWorkbench")) {
 			molBiolWorkbench.loadOrganism(o);
@@ -818,9 +822,9 @@ public class MolGenExp extends JFrame {
 			Organism o = (Organism)all[i];
 			String name = o.getName();
 			String fileName = greenhouseDirectory.toString() 
-			+ System.getProperty("file.separator") 
-			+ name
-			+ ".organism";
+					+ System.getProperty("file.separator") 
+					+ name
+					+ ".organism";
 			Writer output = null;
 			try {
 				output = new BufferedWriter(new FileWriter(fileName) );
@@ -844,11 +848,11 @@ public class MolGenExp extends JFrame {
 		}
 	}
 
-	public void loadGreenhouse(File greenhouseDir) throws FoldingException {
+	public void loadGreenhouse() throws FoldingException {
 		clearSelectedOrganisms();
 		greenhouse.clearList();
 
-		greenhouseLoader = new GreenhouseLoader(greenhouseDir, greenhouse);
+		greenhouseLoader = new GreenhouseLoader(MGEPreferences.getInstance().getGreenhouseDirectory(), greenhouse);
 
 		Thread t = new Thread(greenhouseLoader);
 		t.start();
@@ -935,12 +939,12 @@ public class MolGenExp extends JFrame {
 
 			if(greenhouse.nameExistsAlready(name)) {
 				warning = "<html><font color=red>"
-					+ "The name you entered exists already,"
-					+ " please cancel or try again.</font>\n";
+						+ "The name you entered exists already,"
+						+ " please cancel or try again.</font>\n";
 			} else {
 				warning = "<html><font color=red>"
-					+ "The name you entered was not allowed," 
-					+ " please cancel or try again.</font>\n";
+						+ "The name you entered was not allowed," 
+						+ " please cancel or try again.</font>\n";
 			}
 		}
 		saveToGreenhouse(organismFactory.createOrganism(name,o));

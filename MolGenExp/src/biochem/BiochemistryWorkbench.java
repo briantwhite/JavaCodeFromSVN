@@ -86,8 +86,8 @@ public class BiochemistryWorkbench extends Workbench {
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		upperWorkPanel = new BiochemistryWorkpanel("Upper Folding Window", this);
-		lowerWorkPanel = new BiochemistryWorkpanel("Lower Folding Window", this);
+		upperWorkPanel = new BiochemistryWorkpanel("Upper Folding Window", new File(mge.getGreenhouseDirectory()), this);
+		lowerWorkPanel = new BiochemistryWorkpanel("Lower Folding Window", new File(mge.getGreenhouseDirectory()), this);
 		rightPanel.add(upperWorkPanel);
 		combinedColorPanel = new CombinedColorPanel();
 		rightPanel.add(combinedColorPanel);

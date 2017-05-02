@@ -6,6 +6,8 @@ public class MGEPreferences {
 	
 	private static MGEPreferences instance;
 	
+	private File greenhouseDirectory = new File(GlobalDefaults.greenhouseDirName);
+	
 	//world info
 	private int worldSize;
 	protected static int DEFAULT_WORLD_SIZE = 10;
@@ -59,6 +61,14 @@ public class MGEPreferences {
 		} 
 				
 		showColorNameText = DEFAULT_SHOW_COLOR_NAME_TEXT;
+	}
+	
+	public File getGreenhouseDirectory() {
+		return greenhouseDirectory;
+	}
+	
+	public void setGreenhouseDirectory(File f) {
+		greenhouseDirectory = f;
 	}
 	
 	public int getWorldSize() {

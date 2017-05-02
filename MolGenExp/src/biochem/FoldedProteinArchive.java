@@ -17,6 +17,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import preferences.GlobalDefaults;
+import preferences.MGEPreferences;
 
 
 
@@ -95,7 +96,7 @@ public class FoldedProteinArchive {
 		try {
 			archiveWriter = 
 				new ZipOutputStream(new FileOutputStream(
-						GlobalDefaults.greenhouseDirName + 
+						MGEPreferences.getInstance().getGreenhouseDirectory().getAbsolutePath() + 
 						System.getProperty("file.separator") +
 						archiveFileName + ".zip"));
 			archiveWriter.setLevel(Deflater.DEFAULT_COMPRESSION);
@@ -118,7 +119,8 @@ public class FoldedProteinArchive {
 
 	private synchronized void loadArchiveFromFile() {
 		String fullArchiveFileName = 
-			GlobalDefaults.greenhouseDirName + 
+				MGEPreferences.getInstance().getGreenhouseDirectory().getAbsolutePath() + 
+				System.getProperty("file.separator") + 
 			System.getProperty("file.separator") +
 			archiveFileName + ".zip";
 

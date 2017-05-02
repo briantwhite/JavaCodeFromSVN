@@ -1,6 +1,7 @@
 package evolution;
 
 import java.awt.Color;
+import java.io.File;
 
 import preferences.GlobalDefaults;
 
@@ -16,9 +17,9 @@ public class ThinOrganismFactory {
 	private GeneExpresser geneExpresser;
 	private FoldingManager foldingManager;
 
-	public ThinOrganismFactory() {
+	public ThinOrganismFactory(File greenhouseDirectory) {
 		geneExpresser = new GeneExpresser();
-		foldingManager = new FoldingManager();
+		foldingManager = new FoldingManager(greenhouseDirectory);
 	}
 
 	public synchronized ThinOrganism createThinOrganism(

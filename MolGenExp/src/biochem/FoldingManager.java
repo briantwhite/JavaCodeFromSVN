@@ -42,6 +42,7 @@ package biochem;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -56,16 +57,17 @@ import javax.swing.ImageIcon;
 public class FoldingManager {
 
 	private BiochemAttributes attributes;
-
+	private File greenhouseDirectory;
 
 	/**
 	 *  constructor.
 	 *  
 	 */
-	public FoldingManager() {
+	public FoldingManager(File greenhouseDirectory) {
 		factory = PolypeptideFactory.getInstance();
 		resetCurrent(); // provides initialization
 		attributes = new BiochemAttributes();
+		this.greenhouseDirectory = greenhouseDirectory;
 	}
 
 	/**
@@ -287,7 +289,7 @@ public class FoldingManager {
 		
 		//see if it's in the archive
 		FoldedProteinArchive foldedProteinArchive = 
-			FoldedProteinArchive.getInstance();
+			FoldedProteinArchive.getInstance(greenhouseDirectory);
 		if (foldedProteinArchive.isInArchive(aaSeq)) {
 			return foldedProteinArchive.getEntry(aaSeq);
 		}
@@ -326,7 +328,7 @@ public class FoldingManager {
 		
 		// see if it's in the archive
 		FoldedProteinArchive foldedProteinArchive = 
-			FoldedProteinArchive.getInstance();
+			FoldedProteinArchive.getInstance(greenhouseDirectory);
 		
 		if (foldedProteinArchive.isInArchive(aaSeq)) {
 			// need to create pix, but don't have to actually fold it

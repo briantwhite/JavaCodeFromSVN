@@ -173,7 +173,7 @@ public class EvolutionWorkArea extends WorkPanel implements ChangeListener {
 		rightPanel.setBorder(BorderFactory.createTitledBorder("World"));
 
 		rightPanel.add(Box.createRigidArea(new Dimension(500,1)));
-		world = new World();
+		world = new World(new File(mge.getGreenhouseDirectory()));
 		rightPanel.add(world);
 		generationLabel = new JLabel("Generation 0");
 		rightPanel.add(generationLabel);

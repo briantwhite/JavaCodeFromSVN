@@ -1650,7 +1650,14 @@ made GlobalDefaults.onMac boolean to flag if on mac or not
 
 NEED TO SAVE THE FOLDED PROTEIN ARCHIVE when you save the greenhouse
 
-BE CAREFUL - some places do the saving to File(GlobalDefaults.GlobalDefaults.greenhouseDirName)
+BE CAREFUL - some places do the saving/loading to File(GlobalDefaults.GlobalDefaults.greenhouseDirName)
 	but they should always use the greenhouseDirectory - make that a global??
+	- pass in the greenhouseDirectory as a parameter
+		this is too nasty - need to make it a "preference"
 
+Need to be careful about what happens on windows. Do not need "onMac" - remove
+	it should be OK - if they do a "save as", it will remember their choice
+	
+oh crap - all the save to greenhouse etc check to see if the directory exists and if so, save there
+	need to make them pick a directory on mac somehow...
  

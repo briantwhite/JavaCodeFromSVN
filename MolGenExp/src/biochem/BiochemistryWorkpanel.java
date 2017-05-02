@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -55,6 +56,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	Action foldProteinAction;
 
 	public BiochemistryWorkpanel(String title, 
+			File greenhouseDirectory,
 			final BiochemistryWorkbench protex) {
 		super();
 		this.setLayout(new BorderLayout());
@@ -113,7 +115,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		this.add(proteinPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		manager = new FoldingManager();
+		manager = new FoldingManager(greenhouseDirectory);
 
 		table = new StandardTable();
 

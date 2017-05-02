@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
@@ -31,9 +32,9 @@ public class World extends JPanel implements MouseListener {
 	private int selectedCelli = -1;
 	private int selectedCellj = -1;
 
-	public World() {
+	public World(File greenhouseDirectory) {
 		preferences = MGEPreferences.getInstance();
-		thinOrganismFactory = new ThinOrganismFactory();
+		thinOrganismFactory = new ThinOrganismFactory(greenhouseDirectory);
 		organismFactory = new OrganismFactory();
 		colorCountsRecorder = ColorCountsRecorder.getInstance();
 		resizeWorld();
