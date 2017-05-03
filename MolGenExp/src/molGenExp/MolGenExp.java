@@ -381,45 +381,10 @@ public class MolGenExp extends JFrame {
 		//make a greenhouse directory if one doesn't exist
 		//  if one exists, load contents
 		greenhouseLoaderTimer = new Timer(100, new GrenhouseLoaderTimerListener());	//timer for greenhouse loading progress bar
-		/**
-		 * first, need to see if we're on a Mac (which has new security stuff as of 4/13/17)
-		 *  if we are, we passed in a java command line param -D$APP_ROOT
-		 *  if it's here, we need to use it to find the Greenouse/ 
-		 *   which will be in the .app itself - not in a separate folder
-		 *   $APP_ROOT is where the .jar is - it's in the Aipotu.app/Contents/Java/ folder
-		 *   that's where we put Greenhouse/ in the single-file version
-		 *	
-		 *	BUT - what happens next depends on whether they've saved a greenhouse location in MacOS's preferences
-		 *		if no - this is a first run and you must:
-		 *			- gray out "Save greenhouse"
-		 *			- use the greenhouse in the app until they "save greenhouse as"
-		 *				then:
-		 *					- update the greenhouseDirectory
-		 *					- save the whole greenhouse there
-		 *					- save the new directory to OSX's prefs
-		 *		if yes - this is a re-run so you use the greenhouse dir from the OS X prefs.   
-		 **/ 
-		Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
 		MGEPreferences MGEprefs = MGEPreferences.getInstance();
 		if ((args.length == 1) && args[0].startsWith("-D")) {
 			// on mac
-			// see if they've saved a Greenhouse location in the OS X preferences
-			if (prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "").equals("")) {
-				// nothing saved, so this is a "first run"
-				String appRootDir = args[0].replace("-D", "");
-				MGEprefs.setGreenhouseDirectory(new File(appRootDir + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName));
-				saveGreenhouseMenuItem.setEnabled(false);
-			} else {
-				// it was saved, so this is a re-run - use the saved directory in prefs
-				MGEprefs.setGreenhouseDirectory(new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, ".")));
-			}
-		} else {
-			// on PC - see if they've saved a different location
-			if (prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "").equals("")) {
-				MGEprefs.setGreenhouseDirectory(new File(GlobalDefaults.greenhouseDirName));
-			} else {
-				MGEprefs.setGreenhouseDirectory(new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, ".")));
-			}
+			MGEprefs.setosXappRootDir(args[0].replace("-D", ""));
 		}
 
 		if(!MGEprefs.getGreenhouseDirectory().exists() 

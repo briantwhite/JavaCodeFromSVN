@@ -1660,4 +1660,8 @@ Need to be careful about what happens on windows. Do not need "onMac" - remove
 	
 oh crap - all the save to greenhouse etc check to see if the directory exists and if so, save there
 	need to make them pick a directory on mac somehow...
+
+5/3/17
+best to build it into MGEPrefs - the first time you look for the directory, you deal with setting it etc
+	have a String in prefs - osXappRootDir - starts NULL, if non-NULL we're on mac and must act accordingly
  
