@@ -1664,4 +1664,19 @@ oh crap - all the save to greenhouse etc check to see if the directory exists an
 5/3/17
 best to build it into MGEPrefs - the first time you look for the directory, you deal with setting it etc
 	have a String in prefs - osXappRootDir - starts NULL, if non-NULL we're on mac and must act accordingly
+
+5/4/17
+don't figure out the directory thing when you construct the prefs - it's too early (you haven't even got the args[])
+	do it when you first are asked for the greenhouseDirectory
+	BUT this is a problem - the first access on mac will probably be to load the GH - you can use the GH in the app
+		you only need to have a new directory when you need to save to the GH
+		how to deal with this?? It shouldn't bug them unless you have to.
+in setupUI() - the first load of the GH should 
+	on mac - get it from in .app
+	on PC - get if from same dir as .exe 
+	and set the directory in MGEPrefs to what you just used
+	and grey out save greenhouse on mac
+then, in any further GH write/read, use the one in MGEPrefs
+	BUT if on mac and prefs has the .app's dir, you need to ask them to find another
+maybe can do this by looking at why the OS refuses to write to the app's dir - what's the error?
  
