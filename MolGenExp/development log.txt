@@ -1695,4 +1695,10 @@ this gives .app/Contents/Resources/Greenhouse TRUE - so you should be able to wr
 			JOptionPane.showMessageDialog(null, test.getAbsolutePath() + " ok");
 
 gives the "NOT OK" dialog - so this may be the way to do the test when we do the loading/saving.
+
+so - make a "GreenhouseFileManager" singelton class that handles all load/save requests and manages the directory
+	if it ever has trouble writing, it asks for a new dir.
+	be careful - FoldedProteinArchive loads & saves there
+	the GFM has saveGreenhouse() and saveFileToGreenhouse() as well as loadGreenhouse() and loadFileFromGreenhouse()
+	
  
