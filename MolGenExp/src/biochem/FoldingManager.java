@@ -57,17 +57,15 @@ import javax.swing.ImageIcon;
 public class FoldingManager {
 
 	private BiochemAttributes attributes;
-	private File greenhouseDirectory;
 
 	/**
 	 *  constructor.
 	 *  
 	 */
-	public FoldingManager(File greenhouseDirectory) {
+	public FoldingManager() {
 		factory = PolypeptideFactory.getInstance();
 		resetCurrent(); // provides initialization
 		attributes = new BiochemAttributes();
-		this.greenhouseDirectory = greenhouseDirectory;
 	}
 
 	/**
@@ -289,7 +287,7 @@ public class FoldingManager {
 		
 		//see if it's in the archive
 		FoldedProteinArchive foldedProteinArchive = 
-			FoldedProteinArchive.getInstance(greenhouseDirectory);
+			FoldedProteinArchive.getInstance();
 		if (foldedProteinArchive.isInArchive(aaSeq)) {
 			return foldedProteinArchive.getEntry(aaSeq);
 		}
@@ -328,7 +326,7 @@ public class FoldingManager {
 		
 		// see if it's in the archive
 		FoldedProteinArchive foldedProteinArchive = 
-			FoldedProteinArchive.getInstance(greenhouseDirectory);
+			FoldedProteinArchive.getInstance();
 		
 		if (foldedProteinArchive.isInArchive(aaSeq)) {
 			// need to create pix, but don't have to actually fold it

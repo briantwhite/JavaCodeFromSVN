@@ -6,7 +6,7 @@ public class MGEPreferences {
 	
 	private static MGEPreferences instance;
 	
-	private File greenhouseDirectory = null;
+	private File greenhouseDirectory = new File(GlobalDefaults.greenhouseDirName);
 	
 	// to deal with Mac OSX security
 	//  this is null on a PC but has a value on a Mac
@@ -86,27 +86,27 @@ public class MGEPreferences {
 		 *					- save the new directory to OSX's prefs
 		 *		if yes - this is a re-run so you use the greenhouse dir from the OS X prefs.   
 		 **/ 
-		// old code
-		if ((args.length == 1) && args[0].startsWith("-D")) {
-			// on mac
-			// see if they've saved a Greenhouse location in the OS X preferences
-			if (prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "").equals("")) {
-				// nothing saved, so this is a "first run"
-				String appRootDir = args[0].replace("-D", "");
-				MGEprefs.setGreenhouseDirectory(new File(appRootDir + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName));
-				saveGreenhouseMenuItem.setEnabled(false);
-			} else {
-				// it was saved, so this is a re-run - use the saved directory in prefs
-				MGEprefs.setGreenhouseDirectory(new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, ".")));
-			}
-		} else {
-			// on PC - see if they've saved a different location
-			if (prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "").equals("")) {
-				MGEprefs.setGreenhouseDirectory(new File(GlobalDefaults.greenhouseDirName));
-			} else {
-				MGEprefs.setGreenhouseDirectory(new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, ".")));
-			}
-		}
+//		// old code
+//		if ((args.length == 1) && args[0].startsWith("-D")) {
+//			// on mac
+//			// see if they've saved a Greenhouse location in the OS X preferences
+//			if (prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "").equals("")) {
+//				// nothing saved, so this is a "first run"
+//				String appRootDir = args[0].replace("-D", "");
+//				MGEprefs.setGreenhouseDirectory(new File(appRootDir + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName));
+//				saveGreenhouseMenuItem.setEnabled(false);
+//			} else {
+//				// it was saved, so this is a re-run - use the saved directory in prefs
+//				MGEprefs.setGreenhouseDirectory(new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, ".")));
+//			}
+//		} else {
+//			// on PC - see if they've saved a different location
+//			if (prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "").equals("")) {
+//				MGEprefs.setGreenhouseDirectory(new File(GlobalDefaults.greenhouseDirName));
+//			} else {
+//				MGEprefs.setGreenhouseDirectory(new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, ".")));
+//			}
+//		}
 
 		if (osXappRootDir == null) {
 			// we're on PC

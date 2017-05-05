@@ -52,7 +52,7 @@ public class Evolver implements Runnable {
 		preferences = MGEPreferences.getInstance();
 		mutator = Mutator.getInstance();
 		expresser = new GeneExpresser();
-		foldingManager = new FoldingManager(new File(mge.getGreenhouseDirectory()));
+		foldingManager = new FoldingManager();
 	}
 
 	public void run() {
@@ -200,7 +200,7 @@ public class Evolver implements Runnable {
 		mge.getProgressBar().setMaximum(lengthOfTask);
 		progress = 0;
 
-		foldingManager = new FoldingManager(new File(mge.getGreenhouseDirectory()));
+		foldingManager = new FoldingManager();
 		Iterator<String> aaSeqIt = sequencesToBeFolded.iterator();
 		while (aaSeqIt.hasNext()) {
 			foldingManager.foldAndColor(aaSeqIt.next());

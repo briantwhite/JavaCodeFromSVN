@@ -19,9 +19,12 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FilePermission;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.security.AccessControlException;
+import java.security.AccessController;
 import java.util.StringTokenizer;
 import java.util.prefs.Preferences;
 import java.util.regex.Pattern;
@@ -385,6 +388,13 @@ public class MolGenExp extends JFrame {
 		if ((args.length == 1) && args[0].startsWith("-D")) {
 			// on mac
 			MGEprefs.setosXappRootDir(args[0].replace("-D", ""));
+			File test = new File(args[0].replace("-D", "") + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName);
+			try {
+				AccessController.checkPermission(new FilePermission(test.getAbsolutePath(),"read,write"));
+			} catch (AccessControlException e1) {
+				JOptionPane.showMessageDialog(null, test.getAbsolutePath() + " NOT OK");
+			}
+			JOptionPane.showMessageDialog(null, test.getAbsolutePath() + " ok");
 		}
 
 		if(!MGEprefs.getGreenhouseDirectory().exists() 
@@ -722,7 +732,7 @@ public class MolGenExp extends JFrame {
 	}
 
 	public String getGreenhouseDirectory() {
-		return greenhouseDirectory.toString();
+		return MGEPreferences.getInstance().getGreenhouseDirectory().toString();
 	}
 
 	public EvolutionWorkArea getEvolutionWorkArea() {
@@ -749,8 +759,8 @@ public class MolGenExp extends JFrame {
 		inFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int returnVal = inFolderChooser.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			greenhouseDirectory = inFolderChooser.getSelectedFile();
-			loadGreenhouse(greenhouseDirectory);
+			MGEPreferences.getInstance().setGreenhouseDirectory(inFolderChooser.getSelectedFile());
+			loadGreenhouse();
 		}
 	}
 
@@ -759,25 +769,23 @@ public class MolGenExp extends JFrame {
 		outFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int returnVal = outFolderChooser.showSaveDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			greenhouseDirectory = outFolderChooser.getSelectedFile();
-			if (!greenhouseDirectory.exists()) {
-				greenhouseDirectory.mkdirs();
-			}
+			MGEPreferences.getInstance().setGreenhouseDirectory(outFolderChooser.getSelectedFile());
 			saveToFolder(all);
 			// save the choice to preferences
 			Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
-			prefs.put(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, greenhouseDirectory.getAbsolutePath());
+			prefs.put(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, 
+					MGEPreferences.getInstance().getGreenhouseDirectory().getAbsolutePath());
 		}
 	}
 
 	public void saveToFolder(Object[] all) {
 		//first, clear out all the old organims
-		String[] oldOrganisms = greenhouseDirectory.list();
+		String[] oldOrganisms = MGEPreferences.getInstance().getGreenhouseDirectory().list();
 		if (oldOrganisms  != null) {
 			for (int i = 0; i < oldOrganisms.length; i++) {
 				String name = oldOrganisms[i];
 				if (name.indexOf(".organism") != -1) {
-					File f = new File(greenhouseDirectory, name);
+					File f = new File(MGEPreferences.getInstance().getGreenhouseDirectory(), name);
 					f.delete();
 				}
 			}
@@ -786,7 +794,7 @@ public class MolGenExp extends JFrame {
 		for (int i = 0; i < all.length; i++) {
 			Organism o = (Organism)all[i];
 			String name = o.getName();
-			String fileName = greenhouseDirectory.toString() 
+			String fileName = MGEPreferences.getInstance().getGreenhouseDirectory().toString() 
 					+ System.getProperty("file.separator") 
 					+ name
 					+ ".organism";

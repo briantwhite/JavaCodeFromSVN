@@ -1679,4 +1679,20 @@ in setupUI() - the first load of the GH should
 then, in any further GH write/read, use the one in MGEPrefs
 	BUT if on mac and prefs has the .app's dir, you need to ask them to find another
 maybe can do this by looking at why the OS refuses to write to the app's dir - what's the error?
+
+5/5/17
+see if you can find the error that happens when you try to write to the GH
+			File test = new File(args[0].replace("-D", "") + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName);
+			JOptionPane.showMessageDialog(null, test.getAbsolutePath() + " " + test.canWrite());
+this gives .app/Contents/Resources/Greenhouse TRUE - so you should be able to write...
+
+			File test = new File(args[0].replace("-D", "") + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName);
+			try {
+				AccessController.checkPermission(new FilePermission(test.getAbsolutePath(),"read,write"));
+			} catch (AccessControlException e1) {
+				JOptionPane.showMessageDialog(null, test.getAbsolutePath() + " NOT OK");
+			}
+			JOptionPane.showMessageDialog(null, test.getAbsolutePath() + " ok");
+
+gives the "NOT OK" dialog - so this may be the way to do the test when we do the loading/saving.
  

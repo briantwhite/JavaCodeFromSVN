@@ -19,7 +19,7 @@ public class ThinOrganismFactory {
 
 	public ThinOrganismFactory(File greenhouseDirectory) {
 		geneExpresser = new GeneExpresser();
-		foldingManager = new FoldingManager(greenhouseDirectory);
+		foldingManager = new FoldingManager();
 	}
 
 	public synchronized ThinOrganism createThinOrganism(

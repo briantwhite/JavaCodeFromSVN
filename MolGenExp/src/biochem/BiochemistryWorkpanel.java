@@ -115,7 +115,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		this.add(proteinPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		manager = new FoldingManager(greenhouseDirectory);
+		manager = new FoldingManager();
 
 		table = new StandardTable();
 
