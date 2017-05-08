@@ -37,7 +37,7 @@
 			icon="big mac icon.png"
 			mainclassname="molGenExp.MolGenExp" >
 			<classpath file="MGX.jar" />
-			<argument value="-D$APP_ROOT" />
+			<argument value="-D$APP_ROOT" /> <!-- necessary for working with os x security -->
 		</bundleapp> 
 		<copy todir="Aipotu-1.3.3.app/Contents/Resources/Greenhouse">
 			<fileset dir="Greenhouse"/>

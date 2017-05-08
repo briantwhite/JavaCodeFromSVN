@@ -1700,5 +1700,14 @@ so - make a "GreenhouseFileManager" singelton class that handles all load/save r
 	if it ever has trouble writing, it asks for a new dir.
 	be careful - FoldedProteinArchive loads & saves there
 	the GFM has saveGreenhouse() and saveFileToGreenhouse() as well as loadGreenhouse() and loadFileFromGreenhouse()
-	
+
+5/8/17
+on construction - use the default directories (windows: same dir as usual; mac - the app root /Contents/ etc)
+on any future save/load file
+	test if can read/write
+	if can't - ask them for a directory where Greenhouse/ will go (default to Desktop)
+		maybe check permissions on this also (make a loop)
+actually, better to just do this always - at main() call setGHdir() depending on mac/pc
+	then, when called - check specifically read/write as needed as well as existence
+	be sure it's OK if there's no greenhouse - opens with empty one (as opposed to crashing)
  
