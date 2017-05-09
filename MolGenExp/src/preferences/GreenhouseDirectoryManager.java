@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilePermission;
 import java.security.AccessControlException;
 import java.security.AccessController;
+import java.util.prefs.Preferences;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -98,6 +99,8 @@ public class GreenhouseDirectoryManager {
 									+ System.getProperty("file.separator") 
 									+ GlobalDefaults.greenhouseDirName);
 					if (testGreenhouseDirectory(true)) {
+//						Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+//						prefs.put(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, greenhouseDirectory.getAbsolutePath());
 						return true;
 					} else {
 						return false;
