@@ -1724,4 +1724,9 @@ No need for Greenhouse menu - since saves are automatic.
 
 need to check that the permission check is for the file in the GH/ folder?
 	how to do that?
+	what if the file doesn't exist? 
+	https://docs.oracle.com/javase/7/docs/api/java/security/AccessController.html
+	https://docs.oracle.com/javase/7/docs/api/java/io/FilePermission.html
+	
+	
  
