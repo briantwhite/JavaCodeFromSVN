@@ -1718,5 +1718,10 @@ it was there and got the warning, so it's OK
 
 NEED TO BE CARFUL ABOUT WHAT WE SAVE IN PREFS - is it the folder where the GH folder lives or is it the GH itself
 	does it include the final "/Greenhouse"?
-	
+	- IT DOES NOT include the final "Greenhouse".
+
+No need for Greenhouse menu - since saves are automatic.
+
+need to check that the permission check is for the file in the GH/ folder?
+	how to do that?
  

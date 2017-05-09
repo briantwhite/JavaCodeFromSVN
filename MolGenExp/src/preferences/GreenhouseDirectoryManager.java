@@ -23,6 +23,7 @@ public class GreenhouseDirectoryManager {
 	
 	private static GreenhouseDirectoryManager instance;
 	
+	// note that this does not include the final "Greenhouse" 
 	private static File greenhouseDirectory;
 	
 	private GreenhouseDirectoryManager() {
@@ -48,17 +49,18 @@ public class GreenhouseDirectoryManager {
 		}
 	}
 
-	public File getFileFromGreenhouse(String filename) {
+	public File getReadableFileFromGreenhouse(String filename) {
 		if (testGreenhouseDirectory(false)) {
-			return new File(greenhouseDirectory.getAbsolutePath() + System.getProperty("file.separator") + filename);
+			return new File(greenhouseDirectory.getAbsolutePath() 
+					+ System.getProperty("file.separator") 
+					+ GlobalDefaults.greenhouseDirName
+					+ System.getProperty("file.separator") + filename);
 		} else {
 			return null;
 		}
 	}
 	
-	// returns true if it can save; false if cancelled
-	//  returns a file you can save to
-	public File saveFileToGreenhouse(String filename) {
+	public File getWritableFileFromGreenhouse(String filename) {
 		if (testGreenhouseDirectory(true)) {
 			return new File(greenhouseDirectory.getAbsolutePath() + System.getProperty("file.separator") + filename);
 		} else {
@@ -74,7 +76,11 @@ public class GreenhouseDirectoryManager {
 		Object[] options = {"Cancel", "Select where to put the Greenhouse"};
 		if (testWriteToo) {
 			try {
-				AccessController.checkPermission(new FilePermission(greenhouseDirectory.getAbsolutePath(),"read,write"));
+				AccessController.checkPermission(
+						new FilePermission(
+								greenhouseDirectory.getAbsolutePath() 
+								+ System.getProperty("file.separator") 
+								+ GlobalDefaults.greenhouseDirName,"read,write"));
 			} catch (AccessControlException e1) {
 				int n = JOptionPane.showOptionDialog(null, "Aipotu can't save to the Greenhouse in its "
 						+ "current location.\n"
@@ -96,8 +102,7 @@ public class GreenhouseDirectoryManager {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					greenhouseDirectory = 
 							new File(fc.getSelectedFile().getAbsolutePath() 
-									+ System.getProperty("file.separator") 
-									+ GlobalDefaults.greenhouseDirName);
+									+ System.getProperty("file.separator"));
 					if (testGreenhouseDirectory(true)) {
 //						Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
 //						prefs.put(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, greenhouseDirectory.getAbsolutePath());
@@ -111,7 +116,11 @@ public class GreenhouseDirectoryManager {
 			}		
 		} else {
 			try {
-				AccessController.checkPermission(new FilePermission(greenhouseDirectory.getAbsolutePath(),"read"));
+				AccessController.checkPermission(
+						new FilePermission(
+								greenhouseDirectory.getAbsolutePath() 
+								+ System.getProperty("file.separator") 
+								+ GlobalDefaults.greenhouseDirName,"read"));
 			} catch (AccessControlException e1) {
 				int n = JOptionPane.showOptionDialog(null, "Aipotu can't open or find the Greenhouse in its "
 						+ "current location.\n"
@@ -132,7 +141,8 @@ public class GreenhouseDirectoryManager {
 				int returnVal = fc.showSaveDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					greenhouseDirectory = 
-							new File(fc.getSelectedFile().getAbsolutePath());
+							new File(fc.getSelectedFile().getAbsolutePath() 
+									+ System.getProperty("file.separator"));
 					if (testGreenhouseDirectory(true)) {
 						return true;
 					} else {

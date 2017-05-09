@@ -100,13 +100,6 @@ public class MolGenExp extends JFrame {
 	JMenuItem u_cbMenuItem;
 	JMenuItem l_cbMenuItem;
 
-
-	JMenu greenhouseMenu;
-	JMenuItem loadGreenhouseMenuItem;
-	JMenuItem saveGreenhouseMenuItem;
-	JMenuItem saveAsGreenhouseMenuItem;
-	JMenuItem deleteSelectedOrganismMenuItem;
-
 	private JPanel innerPanel;
 
 	private GreenhouseLoader greenhouseLoader;
@@ -212,18 +205,6 @@ public class MolGenExp extends JFrame {
 		menuBar.add(compareMenu);
 		compareMenu.setEnabled(false);
 
-		greenhouseMenu = new JMenu("Greenhouse");
-		loadGreenhouseMenuItem = new JMenuItem("Load Greenhouse...");
-		greenhouseMenu.add(loadGreenhouseMenuItem);
-		saveGreenhouseMenuItem = new JMenuItem("Save Greenhouse");
-		greenhouseMenu.add(saveGreenhouseMenuItem);
-		saveAsGreenhouseMenuItem = new JMenuItem("Save Greenhouse As...");
-		greenhouseMenu.add(saveAsGreenhouseMenuItem);
-		greenhouseMenu.addSeparator();
-		deleteSelectedOrganismMenuItem = 
-				new JMenuItem("Delete Selected Organism");
-		greenhouseMenu.add(deleteSelectedOrganismMenuItem);
-		menuBar.add(greenhouseMenu);
 		mainPanel.add(menuBar, BorderLayout.NORTH);
 
 		innerPanel = new JPanel();
@@ -393,11 +374,11 @@ public class MolGenExp extends JFrame {
 			if ((args.length == 1) && args[0].startsWith("-D")) {
 				// on mac
 				GreenhouseDirectoryManager.getInstance().setGreenhouseDirectory(
-						new File(args[0].replace("-D", "") + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName));	
+						new File(args[0].replace("-D", "") + "/Contents/Resources/"));	
 			} else {
 				// on pc
 				GreenhouseDirectoryManager.getInstance().setGreenhouseDirectory(
-						new File(GlobalDefaults.greenhouseDirName));
+						new File("." + System.getProperty("file.separator")));
 			}
 		} else {
 			// use saved location
@@ -538,72 +519,6 @@ public class MolGenExp extends JFrame {
 				SequenceComparator.LOWER,
 				SequenceComparator.CLIPBOARD));
 
-		loadGreenhouseMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					loadGreenhouseFromChosenFolder();
-				} catch (FoldingException e1) {
-					JOptionPane.showMessageDialog(null, 
-							GlobalDefaults.paintedInACornerNotice,
-							"Folding Error", JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-
-		saveGreenhouseMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Object[] all = greenhouse.getAll();
-				if (all.length == 0) {
-					JOptionPane.showMessageDialog(
-							null, 
-							"No Organisms in Greenhouse to Save",
-							"Empty Greenhouse", 
-							JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-
-				//save it
-				if (MGEPreferences.getInstance().getGreenhouseDirectory() != null) {
-					saveToFolder(all);
-				} else {
-					saveToChosenFolder(all);
-				}
-			}
-		});
-
-		saveAsGreenhouseMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Object[] all = greenhouse.getAll();
-				if (all.length == 0) {
-					JOptionPane.showMessageDialog(
-							null, 
-							"No Organisms in Greenhouse to Save",
-							"Empty Greenhouse", 
-							JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				saveToChosenFolder(all)	;
-				saveGreenhouseMenuItem.setEnabled(true);
-			}
-		});
-
-		deleteSelectedOrganismMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				greenhouse.deleteSelected();
-				clearSelectedOrganisms();
-
-				//save changes to disk
-				Object[] all = greenhouse.getAll();
-				if (all.length == 0) return;
-
-				if (MGEPreferences.getInstance().getGreenhouseDirectory() != null) {
-					saveToFolder(all);
-				} else {
-					saveToChosenFolder(all);
-				}
-			}
-		});
-
 		addToGreenhouseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -611,12 +526,7 @@ public class MolGenExp extends JFrame {
 					//save changes to disk
 					Object[] all = greenhouse.getAll();
 					if (all.length == 0) return;
-
-					if (MGEPreferences.getInstance().getGreenhouseDirectory() != null) {
-						saveToFolder(all);
-					} else {
-						saveToChosenFolder(all);
-					}
+					saveToFolder(all);
 				} catch (FoldingException e) {
 					JOptionPane.showMessageDialog(null, 
 							GlobalDefaults.paintedInACornerNotice,
@@ -727,10 +637,6 @@ public class MolGenExp extends JFrame {
 		greenhouse.add(o);
 	}
 
-	public String getGreenhouseDirectory() {
-		return MGEPreferences.getInstance().getGreenhouseDirectory().toString();
-	}
-
 	public EvolutionWorkArea getEvolutionWorkArea() {
 		return evolutionWorkArea;
 	}
@@ -749,34 +655,10 @@ public class MolGenExp extends JFrame {
 		}
 	}
 
-	public void loadGreenhouseFromChosenFolder() throws FoldingException {
-		clearSelectedOrganisms();
-		JFileChooser inFolderChooser = new JFileChooser();
-		inFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnVal = inFolderChooser.showOpenDialog(this);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			MGEPreferences.getInstance().setGreenhouseDirectory(inFolderChooser.getSelectedFile());
-			loadGreenhouse();
-		}
-	}
-
-	public void saveToChosenFolder(Object[] all) {
-		JFileChooser outFolderChooser = new JFileChooser();
-		outFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnVal = outFolderChooser.showSaveDialog(this);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			MGEPreferences.getInstance().setGreenhouseDirectory(outFolderChooser.getSelectedFile());
-			saveToFolder(all);
-			// save the choice to preferences
-			Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
-			prefs.put(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, 
-					MGEPreferences.getInstance().getGreenhouseDirectory().getAbsolutePath());
-		}
-	}
-
+	// save the greenhouse
 	public void saveToFolder(Object[] all) {
 		//first, clear out all the old organims
-		String[] oldOrganisms = MGEPreferences.getInstance().getGreenhouseDirectory().list();
+		String[] oldOrganisms = GreenhouseDirectoryManager.getInstance().listGreenhouseFiles();
 		if (oldOrganisms  != null) {
 			for (int i = 0; i < oldOrganisms.length; i++) {
 				String name = oldOrganisms[i];
@@ -1133,14 +1015,12 @@ public class MolGenExp extends JFrame {
 	public void setButtonStatusWhileEvolving() {
 		addToGreenhouseButton.setEnabled(false);
 		fileMenu.setEnabled(false);
-		greenhouseMenu.setEnabled(false);
 		explorerPane.setEnabled(false);
 	}
 
 	public void restoreButtonStatusWhenDoneEvolving() {
 		addToGreenhouseButton.setEnabled(true);
 		fileMenu.setEnabled(true);
-		greenhouseMenu.setEnabled(true);
 		explorerPane.setEnabled(true);		
 	}
 
