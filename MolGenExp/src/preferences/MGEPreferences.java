@@ -6,13 +6,6 @@ public class MGEPreferences {
 	
 	private static MGEPreferences instance;
 	
-	private File greenhouseDirectory = new File(GlobalDefaults.greenhouseDirName);
-	
-	// to deal with Mac OSX security
-	//  this is null on a PC but has a value on a Mac
-	//  see MGE's main() method and 5/2017 notes
-	private String osXappRootDir = null;
-	
 	//world info
 	private int worldSize;
 	protected static int DEFAULT_WORLD_SIZE = 10;
@@ -108,24 +101,8 @@ public class MGEPreferences {
 //			}
 //		}
 
-		if (osXappRootDir == null) {
-			// we're on PC
-		} else {
-			// we're on Mac
-		}
 	}
 	
-	public void setosXappRootDir(String x) {
-		osXappRootDir = x;
-	}
-	
-	public File getGreenhouseDirectory() {
-		return greenhouseDirectory;
-	}
-	
-	public void setGreenhouseDirectory(File f) {
-		greenhouseDirectory = f;
-	}
 	
 	public int getWorldSize() {
 		return worldSize;

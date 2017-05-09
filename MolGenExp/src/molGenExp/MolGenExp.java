@@ -55,6 +55,7 @@ import javax.swing.event.ChangeListener;
 import molBiol.MolBiolWorkbench;
 import molBiol.MolBiolWorkpanel;
 import preferences.GlobalDefaults;
+import preferences.GreenhouseDirectoryManager;
 import preferences.MGEPreferences;
 import preferences.PreferencesDialog;
 import biochem.AminoAcid;
@@ -384,39 +385,34 @@ public class MolGenExp extends JFrame {
 		//make a greenhouse directory if one doesn't exist
 		//  if one exists, load contents
 		greenhouseLoaderTimer = new Timer(100, new GrenhouseLoaderTimerListener());	//timer for greenhouse loading progress bar
-		MGEPreferences MGEprefs = MGEPreferences.getInstance();
-		if ((args.length == 1) && args[0].startsWith("-D")) {
-			// on mac
-			MGEprefs.setosXappRootDir(args[0].replace("-D", ""));
-			File test = new File(args[0].replace("-D", "") + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName);
-			try {
-				AccessController.checkPermission(new FilePermission(test.getAbsolutePath(),"read,write"));
-			} catch (AccessControlException e1) {
-				JOptionPane.showMessageDialog(null, test.getAbsolutePath() + " NOT OK");
-			}
-			JOptionPane.showMessageDialog(null, test.getAbsolutePath() + " ok");
-		}
 
-		if(!MGEprefs.getGreenhouseDirectory().exists() 
-				|| !MGEprefs.getGreenhouseDirectory().isDirectory()) {
-			boolean success = MGEprefs.getGreenhouseDirectory().mkdir();
-			if (!success) {
-				JOptionPane.showMessageDialog(
-						this, 
-						"Cannot create Greenhouse Folder",
-						"File System Error", 
-						JOptionPane.WARNING_MESSAGE);
-				System.exit(0);
+		// first, see if we've saved a Greenhouse location in preferences
+		Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+		if (prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "").equals("")) {
+			// not in prefs, so need to use defaults
+			if ((args.length == 1) && args[0].startsWith("-D")) {
+				// on mac
+				GreenhouseDirectoryManager.getInstance().setGreenhouseDirectory(
+						new File(args[0].replace("-D", "") + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName));	
+			} else {
+				// on pc
+				GreenhouseDirectoryManager.getInstance().setGreenhouseDirectory(
+						new File(GlobalDefaults.greenhouseDirName));
 			}
 		} else {
-			try {
-				loadGreenhouse();
-			} catch (FoldingException e1) {
-				JOptionPane.showMessageDialog(null, 
-						GlobalDefaults.paintedInACornerNotice,
-						"Folding Error", JOptionPane.WARNING_MESSAGE);
-			}
+			// use saved location
+			GreenhouseDirectoryManager.getInstance().setGreenhouseDirectory(
+					new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, ".")));
 		}
+
+		try {
+			loadGreenhouse();
+		} catch (FoldingException e1) {
+			JOptionPane.showMessageDialog(null, 
+					GlobalDefaults.paintedInACornerNotice,
+					"Folding Error", JOptionPane.WARNING_MESSAGE);
+		}
+
 
 		quitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -706,7 +702,7 @@ public class MolGenExp extends JFrame {
 		}
 		return abAASeq.toString();
 	}
-	
+
 	public MolBiolWorkbench getMolBiolWorkbench() {
 		return molBiolWorkbench;
 	}

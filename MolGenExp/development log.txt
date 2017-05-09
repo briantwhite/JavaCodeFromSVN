@@ -1710,4 +1710,13 @@ on any future save/load file
 actually, better to just do this always - at main() call setGHdir() depending on mac/pc
 	then, when called - check specifically read/write as needed as well as existence
 	be sure it's OK if there's no greenhouse - opens with empty one (as opposed to crashing)
+	
+5/9/17
+need to test carefully the AccessController thingy - the directory probably didn't exist then
+	see what happens when it exists
+it was there and got the warning, so it's OK
+
+NEED TO BE CARFUL ABOUT WHAT WE SAVE IN PREFS - is it the folder where the GH folder lives or is it the GH itself
+	does it include the final "/Greenhouse"?
+	
  
