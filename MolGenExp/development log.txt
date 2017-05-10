@@ -1728,5 +1728,18 @@ need to check that the permission check is for the file in the GH/ folder?
 	https://docs.oracle.com/javase/7/docs/api/java/security/AccessController.html
 	https://docs.oracle.com/javase/7/docs/api/java/io/FilePermission.html
 	
+5/10/17
+this is getting too much of a pain (dealing with folded protein archive etc)
+on mac, just use ~/Library/Application Support/Aipotu/Greenhouse
+	on startup, check to see if ~/Library/App support exists
+		if yes, load GH & FPA from there
+		if no, load GH & FPA from inside .app and immediately save both to ~/Library
+no need for the GreenhouseDirectoryManager - it's simple enough to build into MGX
+	just put the greenhouseDirectory in MGEPreferences
+put a notice in the help that that's where the GH is.
+
+Almost working - it doesn't seem to save (always) to the new GH?
+	
+	
 	
  

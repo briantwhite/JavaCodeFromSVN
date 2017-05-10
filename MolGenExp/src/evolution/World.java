@@ -32,9 +32,9 @@ public class World extends JPanel implements MouseListener {
 	private int selectedCelli = -1;
 	private int selectedCellj = -1;
 
-	public World(File greenhouseDirectory) {
+	public World() {
 		preferences = MGEPreferences.getInstance();
-		thinOrganismFactory = new ThinOrganismFactory(greenhouseDirectory);
+		thinOrganismFactory = new ThinOrganismFactory();
 		organismFactory = new OrganismFactory();
 		colorCountsRecorder = ColorCountsRecorder.getInstance();
 		resizeWorld();

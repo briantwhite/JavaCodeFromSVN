@@ -9,9 +9,7 @@ import biochem.ColorModel;
 import biochem.StandardTable;
 
 public class GlobalDefaults {
-	
-	public final static String GREENHOUSE_DIR_PREF_NAME = "AipotuGreenhouseDir";
-	
+		
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;
 	

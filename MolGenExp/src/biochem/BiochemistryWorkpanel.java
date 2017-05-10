@@ -55,9 +55,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 
 	Action foldProteinAction;
 
-	public BiochemistryWorkpanel(String title, 
-			File greenhouseDirectory,
-			final BiochemistryWorkbench protex) {
+	public BiochemistryWorkpanel(String title, final BiochemistryWorkbench protex) {
 		super();
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createTitledBorder(title));

@@ -55,7 +55,6 @@ import javax.swing.event.ChangeListener;
 import molBiol.MolBiolWorkbench;
 import molBiol.MolBiolWorkpanel;
 import preferences.GlobalDefaults;
-import preferences.GreenhouseDirectoryManager;
 import preferences.MGEPreferences;
 import preferences.PreferencesDialog;
 import biochem.AminoAcid;
@@ -363,27 +362,54 @@ public class MolGenExp extends JFrame {
 		});
 
 
-		//make a greenhouse directory if one doesn't exist
-		//  if one exists, load contents
+		/*
+		 * set up the greenhouse - this is a bit of a pain (see notes in May 2017)
+		 * 	on PC - there's no issue
+		 * 	on Mac - there's a problem. If you put the Greenhouse/ folder outside of Aipotu.app
+		 * 		osx will translocate the .app somewhere random so it can't find the Greenhouse/
+		 * 		But, if you put the Greenhouse in the .app, you can't write to it!
+		 * 
+		 * 		So, on mac, pass in a parameter so you know it's mac and you know where the app is
+		 * 			and put the working Greenhouse in ~/Library/Application Support/Aipotu/
+		 * 		- on first run, if there's nothing in ~/Library, read from the app
+		 * 			otherwise, use the ~/Library version
+		 */
 		greenhouseLoaderTimer = new Timer(100, new GrenhouseLoaderTimerListener());	//timer for greenhouse loading progress bar
 
-		// first, see if we've saved a Greenhouse location in preferences
-		Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
-		if (prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, "").equals("")) {
-			// not in prefs, so need to use defaults
-			if ((args.length == 1) && args[0].startsWith("-D")) {
-				// on mac
-				GreenhouseDirectoryManager.getInstance().setGreenhouseDirectory(
-						new File(args[0].replace("-D", "") + "/Contents/Resources/"));	
+		// first, see if we're on mac or PC
+		if ((args.length == 1) && args[0].startsWith("-D")) {
+			// on mac - see if we've already made a writable GH
+			File testGHDir = new File(System.getProperty("user.home") 
+					+ "/Library/Application Support/Aipotu/"
+					+ GlobalDefaults.greenhouseDirName);
+			if (testGHDir.exists() && testGHDir.isDirectory() && testGHDir.canWrite()) {
+				MGEPreferences.getInstance().setGreenhouseDirectory(testGHDir);
 			} else {
-				// on pc
-				GreenhouseDirectoryManager.getInstance().setGreenhouseDirectory(
-						new File("." + System.getProperty("file.separator")));
+				// use the one in the .app 
+				MGEPreferences.getInstance().setGreenhouseDirectory(
+						new File(args[0].replace("-D", "") + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName));
+				// load it and save it in writable directory
+				try {
+					loadGreenhouse();
+				} catch (FoldingException e1) {
+					JOptionPane.showMessageDialog(null, 
+							GlobalDefaults.paintedInACornerNotice,
+							"Folding Error", JOptionPane.WARNING_MESSAGE);
+				}
+				MGEPreferences.getInstance().setGreenhouseDirectory(new File(System.getProperty("user.home") 
+						+ "/Library/Application Support/Aipotu/"
+						+ GlobalDefaults.greenhouseDirName));
+				// make directory
+				MGEPreferences.getInstance().getGreenhouseDirectory().mkdirs();
+				Object[] all = greenhouse.getAll();
+				if (all.length != 0) {
+					saveToFolder(all);
+				}
+				FoldedProteinArchive.getInstance().saveArchiveToZipFile();		// this loads and saves it
 			}
 		} else {
-			// use saved location
-			GreenhouseDirectoryManager.getInstance().setGreenhouseDirectory(
-					new File(prefs.get(GlobalDefaults.GREENHOUSE_DIR_PREF_NAME, ".")));
+			// on pc
+			MGEPreferences.getInstance().setGreenhouseDirectory(new File(GlobalDefaults.greenhouseDirName));
 		}
 
 		try {
@@ -393,7 +419,6 @@ public class MolGenExp extends JFrame {
 					GlobalDefaults.paintedInACornerNotice,
 					"Folding Error", JOptionPane.WARNING_MESSAGE);
 		}
-
 
 		quitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -658,7 +683,7 @@ public class MolGenExp extends JFrame {
 	// save the greenhouse
 	public void saveToFolder(Object[] all) {
 		//first, clear out all the old organims
-		String[] oldOrganisms = GreenhouseDirectoryManager.getInstance().listGreenhouseFiles();
+		String[] oldOrganisms = MGEPreferences.getInstance().getGreenhouseDirectory().list();
 		if (oldOrganisms  != null) {
 			for (int i = 0; i < oldOrganisms.length; i++) {
 				String name = oldOrganisms[i];
