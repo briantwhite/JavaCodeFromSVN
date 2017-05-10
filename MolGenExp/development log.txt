@@ -1739,6 +1739,8 @@ no need for the GreenhouseDirectoryManager - it's simple enough to build into MG
 put a notice in the help that that's where the GH is.
 
 Almost working - it doesn't seem to save (always) to the new GH?
+may be a thread thing - need to wait for loading to complete before you can save
+	added code to wait for the greenhouseLoader to finish - then it hangs...
 	
 	
 	

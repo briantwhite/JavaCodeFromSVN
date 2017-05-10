@@ -396,6 +396,7 @@ public class MolGenExp extends JFrame {
 							GlobalDefaults.paintedInACornerNotice,
 							"Folding Error", JOptionPane.WARNING_MESSAGE);
 				}
+				while (!greenhouseLoader.done()){}
 				MGEPreferences.getInstance().setGreenhouseDirectory(new File(System.getProperty("user.home") 
 						+ "/Library/Application Support/Aipotu/"
 						+ GlobalDefaults.greenhouseDirName));
