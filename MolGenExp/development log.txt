@@ -1742,6 +1742,7 @@ Almost working - it doesn't seem to save (always) to the new GH?
 may be a thread thing - need to wait for loading to complete before you can save
 	added code to wait for the greenhouseLoader to finish - then it hangs...
 	
-	
+5/11/17
+testing git from home
 	
  
