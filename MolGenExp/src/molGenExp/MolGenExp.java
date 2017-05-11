@@ -52,6 +52,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.apple.eawt.Application;
+import com.apple.eawt.QuitStrategy;
+
 import molBiol.MolBiolWorkbench;
 import molBiol.MolBiolWorkpanel;
 import preferences.GlobalDefaults;
@@ -130,6 +133,7 @@ public class MolGenExp extends JFrame {
 		super("Aipotu " + GlobalDefaults.version);
 		setupUI(args);
 		addWindowListener(new ApplicationCloser());
+		Application.getApplication().setQuitStrategy(QuitStrategy.CLOSE_ALL_WINDOWS);
 	}
 
 	public static void main(String[] args) {
@@ -140,13 +144,14 @@ public class MolGenExp extends JFrame {
 
 	class ApplicationCloser extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
+			saveToFolder(greenhouse.getAll());
 			FoldedProteinArchive.getInstance().saveArchiveToZipFile();
 			System.exit(0);
 		}
 	}
 
 	private void setupUI(String[] args) {
-
+		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 
@@ -384,11 +389,6 @@ public class MolGenExp extends JFrame {
 					+ GlobalDefaults.greenhouseDirName);
 			if (testGHDir.exists() && testGHDir.isDirectory() && testGHDir.canWrite()) {
 				MGEPreferences.getInstance().setGreenhouseDirectory(testGHDir);
-			} else {
-				// use the one in the .app 
-				MGEPreferences.getInstance().setGreenhouseDirectory(
-						new File(args[0].replace("-D", "") + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName));
-				// load it and save it in writable directory
 				try {
 					loadGreenhouse();
 				} catch (FoldingException e1) {
@@ -396,33 +396,41 @@ public class MolGenExp extends JFrame {
 							GlobalDefaults.paintedInACornerNotice,
 							"Folding Error", JOptionPane.WARNING_MESSAGE);
 				}
-				while (!greenhouseLoader.done()){}
+			} else {
+				// use the one in the .app 
+				MGEPreferences.getInstance().setGreenhouseDirectory(
+						new File(args[0].replace("-D", "") + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName));
+				// load it and then set up to use a writable directory
+				try {
+					loadGreenhouse();
+				} catch (FoldingException e1) {
+					JOptionPane.showMessageDialog(null, 
+							GlobalDefaults.paintedInACornerNotice,
+							"Folding Error", JOptionPane.WARNING_MESSAGE);
+				}
 				MGEPreferences.getInstance().setGreenhouseDirectory(new File(System.getProperty("user.home") 
 						+ "/Library/Application Support/Aipotu/"
 						+ GlobalDefaults.greenhouseDirName));
 				// make directory
 				MGEPreferences.getInstance().getGreenhouseDirectory().mkdirs();
-				Object[] all = greenhouse.getAll();
-				if (all.length != 0) {
-					saveToFolder(all);
-				}
 				FoldedProteinArchive.getInstance().saveArchiveToZipFile();		// this loads and saves it
 			}
 		} else {
 			// on pc
 			MGEPreferences.getInstance().setGreenhouseDirectory(new File(GlobalDefaults.greenhouseDirName));
+			try {
+				loadGreenhouse();
+			} catch (FoldingException e1) {
+				JOptionPane.showMessageDialog(null, 
+						GlobalDefaults.paintedInACornerNotice,
+						"Folding Error", JOptionPane.WARNING_MESSAGE);
+			}
 		}
 
-		try {
-			loadGreenhouse();
-		} catch (FoldingException e1) {
-			JOptionPane.showMessageDialog(null, 
-					GlobalDefaults.paintedInACornerNotice,
-					"Folding Error", JOptionPane.WARNING_MESSAGE);
-		}
 
 		quitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				saveToFolder(greenhouse.getAll());
 				FoldedProteinArchive.getInstance().saveArchiveToZipFile();
 				System.exit(0);
 			}

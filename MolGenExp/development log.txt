@@ -1744,5 +1744,10 @@ may be a thread thing - need to wait for loading to complete before you can save
 	
 5/11/17
 testing git from home
-	
- 
+
+wait to save until needed - that avoids thread issue (it wasn't finished loading before we were trying to save it)
+and, if you open but don't save any to GH, the GH isn't being saved
+	try putting in quit code - all works except apple-Q
+	http://stackoverflow.com/questions/2061194/swing-on-osx-how-to-trap-command-q
+	added 		Application.getApplication().setQuitStrategy(QuitStrategy.CLOSE_ALL_WINDOWS);
+	seems OK

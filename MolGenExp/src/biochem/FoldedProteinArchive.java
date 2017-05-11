@@ -16,6 +16,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import javax.swing.JOptionPane;
+
 import preferences.GlobalDefaults;
 import preferences.MGEPreferences;
 
@@ -121,7 +123,6 @@ public class FoldedProteinArchive {
 		String fullArchiveFileName = 
 				MGEPreferences.getInstance().getGreenhouseDirectory().getAbsolutePath() + 
 				System.getProperty("file.separator") + 
-			System.getProperty("file.separator") +
 			archiveFileName + ".zip";
 
 		File archiveFile = new File(fullArchiveFileName);
