@@ -1751,3 +1751,6 @@ and, if you open but don't save any to GH, the GH isn't being saved
 	http://stackoverflow.com/questions/2061194/swing-on-osx-how-to-trap-command-q
 	added 		Application.getApplication().setQuitStrategy(QuitStrategy.CLOSE_ALL_WINDOWS);
 	seems OK
+
+5/17/17
+testing from new laptop
