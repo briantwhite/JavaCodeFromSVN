@@ -1753,4 +1753,4 @@ and, if you open but don't save any to GH, the GH isn't being saved
 	seems OK
 
 5/17/17
-testing from new laptop - some problems
+testing from new laptop - some problems - still trying
