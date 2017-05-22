@@ -1795,3 +1795,25 @@ add icon manually - still NG
 
 have been getting (on home mac) "periodic save errors" from Eclipse - maybe the files are hosed
 try from office mac (home mac's working directory is /Users/brian/git/JavaCodeFromSVN/
+
+on home mac - put back the copy code to move the GH into the app
+	it still can codesign
+so it's just the icons
+this may help
+	https://stackoverflow.com/questions/646671/how-do-i-set-the-icon-for-my-applications-mac-os-x-app-bundle
+
+try using GraphicConverter to make the .ico into .icns
+then in build.xml
+				icon="big mac icon.icns"
+works and can be signed
+
+last check is to use SignatureCheck from this page
+https://developer.apple.com/library/content/technotes/tn2206/_index.html#//apple_ref/doc/uid/DTS40007919-CH1-TNTAG211
+tried it
+[Brian-Whites-Home-Office-iMac:~/Desktop] brian% /Volumes/Signature\ Check/check-signature Aipotu-1.3.3.app/
+(c) 2014 Apple Inc.  All rights reserved.
+YES
+
+it works!!!
+need to put on server and see how it behaves!
+
