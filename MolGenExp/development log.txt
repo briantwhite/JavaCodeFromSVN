@@ -1793,3 +1793,5 @@ original below:
 	</target>
 add icon manually - still NG
 
+have been getting (on home mac) "periodic save errors" from Eclipse - maybe the files are hosed
+try from office mac (home mac's working directory is /Users/brian/git/JavaCodeFromSVN/
