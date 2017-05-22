@@ -39,9 +39,9 @@
 			<classpath file="MGX.jar" />
 			<argument value="-D$APP_ROOT" /> <!-- necessary for working with os x security -->
 		</bundleapp> 
-		<copy todir="Aipotu-1.3.3.app/Contents/Resources/Greenhouse">
-			<fileset dir="Greenhouse"/>
-		</copy>
+<!--		<copy todir="Aipotu-1.3.3.app/Contents/Resources/Greenhouse">
+			<fileset dir="Greenhouse"/> 
+		</copy> -->
 	</target>
 
 </project>

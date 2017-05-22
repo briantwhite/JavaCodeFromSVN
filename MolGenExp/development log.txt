@@ -1754,3 +1754,24 @@ and, if you open but don't save any to GH, the GH isn't being saved
 
 5/17/17
 testing from new laptop - some problems - still trying
+
+5/22/17
+working at home to get it set up
+the app runs - can I sign it?
+drag out of the git folder to Desktop
+add icon
+
+try to sign it
+[Brian-Whites-Home-Office-iMac:~/Desktop] brian% codesign -f -v -s "Developer ID Application: Brian White" Aipotu-1.3.3.app
+Aipotu-1.3.3.app: 
+
+from VGLII similar issues - it may be adding the Greenhouse from within Eclipse
+	comment that out
+	re-make app
+	manually put in the icon and Greenhouse
+	try to sign - NG
+
+sign the bare app - no GH, no icon - OK
+app + GH - OK
+
+
