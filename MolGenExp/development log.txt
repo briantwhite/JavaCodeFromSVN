@@ -1834,6 +1834,12 @@ need to
 1) make and test PC and linux versions
 2) update website
 3) post new versions
+
+(1) - set up build.xml to make the .exe
+	stole code from VGLII's build.exe
+	also copied in and edited launch4j.xml from VGLII
+	it now builds
+	- need to test on PC
 zip with Finder
 put on aipotu.umb.edu/downloads/Aipotu-Mac-Test.zip
 
