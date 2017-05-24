@@ -1865,5 +1865,14 @@ re-make Mac .app and post
 test - AOK
 
 back to PC version
+zip it
+	[Brian-Whites-Home-Office-iMac:Aipotu/version 1.3.3/PC version] brian% zip Aipotu-PC.zip -x\*.DS_Store -r Aipotu-1.3.3/
+post and test - AOK
+
+make linux version
+
+fix website - use the "frame version"
+
+all set
 
 
