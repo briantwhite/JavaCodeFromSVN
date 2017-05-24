@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class GreenhouseLoader implements Runnable {
-	
+
 	private File greenhouseDir;
 	private ArrayList<String> organismFiles;
 	private Greenhouse greenhouse;
 	private int i;
 	private OrganismFactory organismFactory;
-	
+
 	public GreenhouseLoader(File greenhouseDir, Greenhouse greenhouse) {
 		this.greenhouseDir = greenhouseDir;
 		this.greenhouse = greenhouse;
@@ -28,19 +28,19 @@ public class GreenhouseLoader implements Runnable {
 		}
 		organismFactory = new OrganismFactory();
 	}
-	
+
 	public int getLengthOfTask() {
 		return organismFiles.size();
 	}
-	
+
 	public int getCurrent() {
 		return i;
 	}
-	
+
 	public void stop() {
 		i = organismFiles.size();
 	}
-	
+
 	boolean done() {
 		if (i >= organismFiles.size()) {
 			return true;
@@ -48,20 +48,20 @@ public class GreenhouseLoader implements Runnable {
 			return false;
 		}
 	}
-	
-	
+
+
 	public void run() {
 		for (i = 0; i < organismFiles.size(); i++){
 			String fileString = (String)organismFiles.get(i);
-			
+
 			ArrayList<String> geneSequences = new ArrayList<String>();
-			
+
 			String organismName = 
-				fileString.replaceAll(".organism", "");
+					fileString.replaceAll(".organism", "");
 			String orgFileName = greenhouseDir.toString() 
-			+ System.getProperty("file.separator") 
-			+ fileString;
-			
+					+ System.getProperty("file.separator") 
+					+ fileString;
+
 			BufferedReader input = null;
 			try {
 				input = new BufferedReader(new FileReader(orgFileName));
@@ -72,7 +72,7 @@ public class GreenhouseLoader implements Runnable {
 						geneSequences.add(line);
 					} 
 				}
-								
+
 				// be sure there are only 2 DNA sequences in the organism
 				if (geneSequences.size() == 2) {
 					greenhouse.add(
@@ -98,5 +98,5 @@ public class GreenhouseLoader implements Runnable {
 			}
 		}
 	}
-		
+
 }

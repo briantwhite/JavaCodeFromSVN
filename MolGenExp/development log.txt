@@ -1828,6 +1828,9 @@ Aipotu-1.3.3.app/: signed app bundle with Mach-O thin (x86_64) [edu.umb.aipotu]
 (c) 2014 Apple Inc.  All rights reserved.
 YES
 
+zip with Finder
+put on aipotu.umb.edu/downloads/Aipotu-Mac-Test.zip
+
 test on macbook running OS X 10.12.3 - works AOK
 
 need to
@@ -1840,6 +1843,27 @@ need to
 	also copied in and edited launch4j.xml from VGLII
 	it now builds
 	- need to test on PC
-zip with Finder
-put on aipotu.umb.edu/downloads/Aipotu-Mac-Test.zip
+	
+5/24/17
+set up versions in ReadyToRun
+- set up mac - tested OK
+- PC is NG - no errors but it doesn't display the UI
+
+at least one bug - if there's no GH dir, you get a null pointer error from GreenhouseLoader
+	if there's no GH dir, then create one in default location
+	fixed
+
+now, it dies on pc - running the .exe gives nothing
+if you run the .jar from the command line, you get NoClassDefFoundError: com/apple/eawt/Application
+from this line
+		Application.getApplication().setQuitStrategy(QuitStrategy.CLOSE_ALL_WINDOWS);
+- that code works only on mac...
+	do you need it on PC? - no
+
+so, need to have it only included if on Mac
+re-make Mac .app and post
+test - AOK
+
+back to PC version
+
 
