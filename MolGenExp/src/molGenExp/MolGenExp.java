@@ -133,7 +133,11 @@ public class MolGenExp extends JFrame {
 		super("Aipotu " + GlobalDefaults.version);
 		setupUI(args);
 		addWindowListener(new ApplicationCloser());
-		Application.getApplication().setQuitStrategy(QuitStrategy.CLOSE_ALL_WINDOWS);
+		// on mac, need to catch apple-Q to save on quit
+		// but this doesn't work on PC
+		if (args.length > 0) {
+			Application.getApplication().setQuitStrategy(QuitStrategy.CLOSE_ALL_WINDOWS);
+		}
 	}
 
 	public static void main(String[] args) {
@@ -151,7 +155,7 @@ public class MolGenExp extends JFrame {
 	}
 
 	private void setupUI(String[] args) {
-		
+
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 
@@ -426,7 +430,6 @@ public class MolGenExp extends JFrame {
 						"Folding Error", JOptionPane.WARNING_MESSAGE);
 			}
 		}
-
 
 		quitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -734,6 +737,12 @@ public class MolGenExp extends JFrame {
 	}
 
 	public void loadGreenhouse() throws FoldingException {
+
+		// if there's no GH dir, make one
+		if (!MGEPreferences.getInstance().getGreenhouseDirectory().exists()) {
+			MGEPreferences.getInstance().getGreenhouseDirectory().mkdirs();
+		}
+
 		clearSelectedOrganisms();
 		greenhouse.clearList();
 
