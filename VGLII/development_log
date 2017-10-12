@@ -3309,8 +3309,31 @@ got launch4j from https://sourceforge.net/projects/launch4j/files/latest/downloa
 launch4j-3.11-macosx-x86.tgz
 unzipped and put in /Applications
 
-won't build - needs org.jdom stuff
+won't build - needs linrary stuff (red exclamation mark on the project)
 can't get commit working either
 keep trying
 
 had to reset a couple of times but it seems to be working now
+
+need to get libraries working
+in Properties/Java Build Path/Libraries 
+   it couldn't find commons-math3-3.0
+   	double-clicked the link and pointed it to the jar in VGLII/
+now builds OK
+try to get launch4j working
+BUILD FAILED
+/Users/brianwhite/git/JavaCodeFromSVN/VGLII/build.xml:46: net.sf.launch4j.BuilderException: Application jar doesn't exist.
+but it is there - if I double-click it, I get a warning about unidentified developer
+	if I ok that, it tries to run but dies with a StringOutOfBoundsException
+googled that and got https://sourceforge.net/p/launch4j/bugs/172/
+	it seems to be a Java9 problem that hasn't been fixed since July.
+	aparrently, launch4j is not java9 compatible - fuck
+probably have to go back to java8 for now - hopefully, that won't kill anything else
+
+plan:
+	- add to super cross # of progeny box a checkbox (default checked) "automatically open summary chart"
+		- if checked:
+			- deselect all cages
+			- select super cross cage only
+			- display summary chart for the super cross
+			
