@@ -3310,4 +3310,4 @@ launch4j-3.11-macosx-x86.tgz
 unzipped and put in /Applications
 
 won't build - needs org.jdom stuff
- 
+can't get commit working either
