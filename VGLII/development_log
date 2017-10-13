@@ -3330,10 +3330,42 @@ googled that and got https://sourceforge.net/p/launch4j/bugs/172/
 	aparrently, launch4j is not java9 compatible - fuck
 probably have to go back to java8 for now - hopefully, that won't kill anything else
 
+many techniques at https://stackoverflow.com/questions/21964709/how-to-set-or-change-the-default-java-jdk-version-on-os-x
+	but most seem to change it just for the current shell
+	only the last one really seems to do it globally but carelessly
+	a better one https://www.howtogeek.com/230145/how-to-uninstall-java-on-mac-os-x/
+
 plan:
 	- add to super cross # of progeny box a checkbox (default checked) "automatically open summary chart"
 		- if checked:
 			- deselect all cages
 			- select super cross cage only
 			- display summary chart for the super cross
-			
+
+10/13/17
+go back to java 8
+	go into /Library/Java/JavaVirtualMachines/
+	moved jdk-9.jdk/ to desktop
+	sudo rm -fr /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin
+	sudo rm -fr /Library/PreferencePanes/JavaControlPanel.prefpane
+rebooted
+can run launch4j from command line
+
+BUT
+BUILD FAILED
+/Users/brianwhite/git/JavaCodeFromSVN/VGLII/build.xml:46: net.sf.launch4j.BuilderException: Application jar doesn't exist.
+line 46 is "<launch4j configFile="launch4j.xml" />"
+
+could try a different install of launch4j
+	http://macappstore.org/launch4j/
+1) ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2> /dev/null
+2) brew install launch4j
+restart eclipse
+
+which launch4j
+/usr/local/bin/launch4j
+
+it wasn't that it couldn't find launch4j
+it was that it couldn't find VGLII.jar because I was using the full path in launch4j.xml 
+	and I'm user brianwhite here and brian on my old mac
+changed them to relative paths and it's now OK!
