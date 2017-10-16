@@ -12,39 +12,27 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
-import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -54,12 +42,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
-import javax.swing.SpringLayout;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.text.html.HTMLDocument;
 
@@ -1589,22 +1574,31 @@ public class VGLII extends JFrame {
 			Organism o2 = organismUI2.getOrganism();
 
 			int numOffspring = 0;
+			boolean automaticallyShowSummaryChart = false;	// super cross only
 			if (isSuperCross) {
-				Integer numSelected = (Integer)JOptionPane.showInputDialog(null, 
-						Messages.getInstance().getString("VGLII.SuperCrossMessage"),
+				JPanel superCrossDialogPanel = new JPanel();
+				superCrossDialogPanel.setLayout(new BoxLayout(superCrossDialogPanel, BoxLayout.Y_AXIS));
+				superCrossDialogPanel.add(new JLabel(Messages.getInstance().getString("VGLII.SuperCrossMessage")));
+				Integer[] sizeChoices = new Integer[] {
+						new Integer(100),
+						new Integer(200),
+						new Integer(500),
+						new Integer(1000),
+						new Integer(2000)
+				};
+				JComboBox<Integer> superCrossSizeChoices = new JComboBox<Integer>(sizeChoices);
+				superCrossDialogPanel.add(superCrossSizeChoices);
+				JCheckBox automaticSummaryChartCheckBox = new JCheckBox("Automatically create summary chart", true);
+				superCrossDialogPanel.add(automaticSummaryChartCheckBox);
+				int response = JOptionPane.showConfirmDialog(null, 
+						superCrossDialogPanel,
 						Messages.getInstance().getString("VGLII.SuperCross"),
+						JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.PLAIN_MESSAGE,
-						null,
-						new Object[] {
-								new Integer(100),
-								new Integer(200),
-								new Integer(500),
-								new Integer(1000),
-								new Integer(2000)
-				},
-						new Integer(100));
-				if (numSelected == null) return;
-				numOffspring = numSelected.intValue();
+						null);
+				if (response == JOptionPane.CANCEL_OPTION) return;
+				numOffspring = ((Integer)superCrossSizeChoices.getSelectedItem()).intValue();
+				automaticallyShowSummaryChart = automaticSummaryChartCheckBox.isSelected();
 			} else {
 				numOffspring = random.nextInt(geneticModel.getMaxOffspring() - geneticModel.getMinOffspring())
 						+ geneticModel.getMinOffspring();
@@ -1631,6 +1625,14 @@ public class VGLII extends JFrame {
 			}
 			modelBuilder.updateCageChoices(nextCageId);
 			changeSinceLastSave = true;
+			
+			// an option in SuperCross is to have the summary chart pop up
+			//  automatically. See development log around 10/17/2017
+			if (automaticallyShowSummaryChart) {
+				SummaryChartManager.getInstance().clearSelectedSet();
+				SummaryChartManager.getInstance().addToSelected(cageUI);
+				SummaryChartManager.getInstance().showSummaryChart(this);
+			}
 		} else {
 			JOptionPane.showMessageDialog(this, Messages.getInstance().getString("VGLII.VGLII") //$NON-NLS-1$
 					+ "\n"

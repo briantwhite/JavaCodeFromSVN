@@ -3369,3 +3369,19 @@ it wasn't that it couldn't find launch4j
 it was that it couldn't find VGLII.jar because I was using the full path in launch4j.xml 
 	and I'm user brianwhite here and brian on my old mac
 changed them to relative paths and it's now OK!
+
+10/16/17
+now on to changing superCross
+look at classes
+there are methods in SummaryChartManager to do the summary chart thingy automatically
+	clearSelectedSet()
+	addToSelected(CageUI)
+
+got it working
+tested on mac
+- can make super cross with and without automatic summary chart OK
+- can select several cages and then do a super cross with auto summary chart OK
+- can save with super cross and re-open OK
+- can do crosses after a super cross with auto summary chart OK
+- can do crossed after a super cross without auto summary chart OK
+- can do crosses in work saved after auto summary chart OK
