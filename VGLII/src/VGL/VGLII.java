@@ -1588,7 +1588,8 @@ public class VGLII extends JFrame {
 				};
 				JComboBox<Integer> superCrossSizeChoices = new JComboBox<Integer>(sizeChoices);
 				superCrossDialogPanel.add(superCrossSizeChoices);
-				JCheckBox automaticSummaryChartCheckBox = new JCheckBox("Automatically create summary chart", true);
+				JCheckBox automaticSummaryChartCheckBox = new JCheckBox(
+						Messages.getInstance().getString("VGLII.AutomaticSummaryChart"), true);
 				superCrossDialogPanel.add(automaticSummaryChartCheckBox);
 				int response = JOptionPane.showConfirmDialog(null, 
 						superCrossDialogPanel,

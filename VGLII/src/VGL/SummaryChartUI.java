@@ -47,7 +47,7 @@ import GeneticModels.Trait;
 
 public class SummaryChartUI extends JDialog implements ActionListener, TableModelListener {
 
-	private static String CHI_SQUARE_DEFAULT = "<html>\u03C7<sup>2</sup>= <br><i>p</i>=</html>";
+	private static String CHI_SQUARE_DEFAULT = "<html>&nbsp;\u03C7<sup>2</sup>&nbsp;= <br>&nbsp;<i>p</i>&nbsp;=</html>";
 
 	protected String[] columnToolTips = {
 			null, // "phenotype" assumed obvious
@@ -248,9 +248,9 @@ public class SummaryChartUI extends JDialog implements ActionListener, TableMode
 			} 
 
 			chiSquaredLabel.setText(
-					"<html>\u03C7<sup>2</sup>= " 
+					"<html>&nbsp;\u03C7<sup>2</sup>&nbsp;=&nbsp;" 
 					+ String.format("%7.3g", chiSq)
-					+ " <br><i>p</i>= " 
+					+ " <br>&nbsp;<i>p</i>&nbsp;=&nbsp;" 
 					+ String.format("%7.3g", pVal)
 					+ "</html>");
 

@@ -3385,3 +3385,13 @@ tested on mac
 - can do crosses after a super cross with auto summary chart OK
 - can do crossed after a super cross without auto summary chart OK
 - can do crosses in work saved after auto summary chart OK
+
+10/18/17
+fixed text spacing in SummaryChartUI when displaying chi2 and p values (added &nbsp;)
+added French & Spanish translation of "Create summary chart" for the checkbox in VGLII line 1591
+	tested english, spanish & french
+	for Korean, for now, just used english
+tested multiple summary charts in one problem and saving etc
+	can have several functional summary charts at the same time - all OK
+
+ready to make mac and PC versions (3.3.2)
