@@ -3395,3 +3395,5 @@ tested multiple summary charts in one problem and saving etc
 	can have several functional summary charts at the same time - all OK
 
 ready to make mac and PC versions (3.3.2)
+edited launch4j.xml to make the name of the .exe be "VGLII.exe" (no version #) to make it 
+	so I don't have to edit it every time

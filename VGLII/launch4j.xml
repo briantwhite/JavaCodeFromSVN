@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>VGLII.jar</jar>
-  <outfile>VGLII-3.3.1.exe</outfile>
+  <outfile>VGLII.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
