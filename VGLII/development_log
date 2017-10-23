@@ -3397,3 +3397,10 @@ tested multiple summary charts in one problem and saving etc
 ready to make mac and PC versions (3.3.2)
 edited launch4j.xml to make the name of the .exe be "VGLII.exe" (no version #) to make it 
 	so I don't have to edit it every time
+
+10/23/17
+one more change to the french translation
+old:	VGLII.OpenWork=Ouvrir une Analyse...
+new:	VGLII.OpenWork=Exercise en cours...
+
+	
