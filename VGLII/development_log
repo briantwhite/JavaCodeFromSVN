@@ -3468,4 +3468,63 @@ so it's there! try signing... see line 3264
 	got Brians-MacBook-Pro:MacNoGrader Version brianwhite$ codesign -f -v -s "Developer ID Application: Brian White (RNA5B8HQ54)" VGLII-3.3.2.app/
 		VGLII-3.3.2.app/: resource fork, Finder information, or similar detritus not allowed
 crap.
-	
+see where the problem is
+- remake app & copy to desktop for testing
+	signs AOK
+- remake app, paste in icon
+	will not sign
+- remake app, copy in /Problems
+	signs OK
+so it's the icon
+https://stackoverflow.com/questions/39652867/code-sign-error-in-macos-sierra-xcode-8-3-3-resource-fork-finder-information
+suggests
+	- rebuild .app
+	- copy to desktop
+	- paste in icon to "get info" window
+	- xattr -cr VGLII-3.3.2.app/
+	Signs OK!
+but the icon is gone...
+try taking the icon line out of the app task in build.xml
+
+this https://forums.developer.apple.com/thread/48905
+has other suggestions
+Brians-MacBook-Pro:Desktop brianwhite$ cd VGLII-3.3.2.app/
+Brians-MacBook-Pro:VGLII-3.3.2.app brianwhite$ ls -al@
+total 16
+drwxr-xr-x@  4 brianwhite  staff  136 Oct 25 13:24 .
+	com.apple.FinderInfo	 32 
+drwx------+ 17 brianwhite  staff  578 Oct 25 13:24 ..
+drwxr-xr-x   8 brianwhite  staff  272 Oct 25 13:23 Contents
+-rw-r--r--@  1 brianwhite  staff    0 Oct 25 13:24 Icon?
+	com.apple.FinderInfo	 32 
+	com.apple.ResourceFork	6337 
+Brians-MacBook-Pro:VGLII-3.3.2.app brianwhite$ ls -la
+total 16
+drwxr-xr-x@  4 brianwhite  staff  136 Oct 25 13:24 .
+drwx------+ 17 brianwhite  staff  578 Oct 25 13:24 ..
+drwxr-xr-x   8 brianwhite  staff  272 Oct 25 13:23 Contents
+-rw-r--r--@  1 brianwhite  staff    0 Oct 25 13:24 Icon?
+
+so there's an "Icon?" file with finder info
+and also the VGLII-3.3.2 folder as well
+fix them with xattr -c <filename>
+will sign but now the icon is gone.
+but need to clean them both to get it to sign
+
+try the app CleanDetritus https://itunes.apple.com/us/app/cleandetritus/id1161108431?ls=1&mt=12
+	useless - it cleans projects not apps
+
+try https://stackoverflow.com/questions/646671/how-do-i-set-the-icon-for-my-applications-mac-os-x-app-bundle
+	put the <icon back into build.xml
+	this puts the "pc 32x32 icon.ico" into VGLII-3.3.2.app/Contents/Resources folder
+	add to info.plist
+		<key>CFBundleIconFile</key>
+		<string>pc 32x32 icon.ico</string>
+you don't see the icon...
+but it will get signed ok...
+
+try making the .app with the icon built in (using build.xml)
+	note that info.plist had the icon entry now
+paste in the icon
+	try to sign - NG
+have to try to put in a request with Apple Tech support
