@@ -3403,4 +3403,69 @@ one more change to the french translation
 old:	VGLII.OpenWork=Ouvrir une Analyse...
 new:	VGLII.OpenWork=Exercise en cours...
 
+10/25/17
+set up to make all the versions of 3.3.2
+- OS X
+edit build.xml to make app version 3.3.2
+built app
+tried to run "unable to load jre"
+but double-clicking the jar in the .app works
+according to https://stackoverflow.com/questions/17546355/java-appbundler-application-pointing-to-jre-defined-by-java-home
+it may be because I nuked the /Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home
+need to put that back - but java 8
+from https://java.com/en/download/mac_download.jsp
+  got "jre-8u151-macosx-x64.dmg" & installed
+  rebooted
+
+now VGL3.3.2.app runs - be sure that launch4j still does - OK
+need to get signing working on the laptop - info near line 2983 in log
+went to developer.apple.com
+ mac os certificates
+ get the "Developer ID Application" that expires on July 07, 2022 (there is another that expires 2/11/22)
+ download, double-click, import into keychain "login"
+try security find-identity -p codesigning
+
+Policy: Code Signing
+  Matching identities
+     0 identities found
+
+  Valid identities only
+     0 valid identities found
+NG
+looks like I need Xcode (sigh) - got it
+try going to Xcode => preferences
+    added my developer account
+    went into Accounts/Manage Certificates
+    there were ones listed as Developer ID Application but they were listed as "not in keychain"
+    clicked the "+" at the bottom and selected "Developer ID Application"
+      it created one 10/27/17
+now:
+Brians-MacBook-Pro:~ brianwhite$ security find-identity -p codesigning
+
+Policy: Code Signing
+  Matching identities
+  1) 22D8783F3FC1A7CF422EF392467D24CB3B253DA9 "Developer ID Application: Brian White (RNA5B8HQ54)"
+     1 identities found
+
+  Valid identities only
+  1) 22D8783F3FC1A7CF422EF392467D24CB3B253DA9 "Developer ID Application: Brian White (RNA5B8HQ54)"
+     1 valid identities found
+
+so it's there! try signing... see line 3264
+- Mac No Grader (/Problems built in)
+	1) build app 
+	2) make folder javastuff/ReadyToRun/VGL & VGLII/VGLII/Version 3.3.2
+		put in files for MacNoGrader, MacGerader, Linux, and PC versions
+	3) copy app to mac no grader version
+	4) put /Problems in .app/Content/Java/
+	5) added icon
+		back to .app
+		get info
+		paste "pc 32x32 icon.ico" onto the get info window
+	6) sign it 
+		got signature-check from https://developer.apple.com/download/more/?=SignatureCheck
+		put in /Applications
+	got Brians-MacBook-Pro:MacNoGrader Version brianwhite$ codesign -f -v -s "Developer ID Application: Brian White (RNA5B8HQ54)" VGLII-3.3.2.app/
+		VGLII-3.3.2.app/: resource fork, Finder information, or similar detritus not allowed
+crap.
 	
