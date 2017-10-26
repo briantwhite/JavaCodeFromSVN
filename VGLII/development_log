@@ -3528,3 +3528,48 @@ try making the .app with the icon built in (using build.xml)
 paste in the icon
 	try to sign - NG
 have to try to put in a request with Apple Tech support
+
+10/26/17
+got a reply from Apple
+Please include the line below in follow-up emails for this request.
+
+Follow-up: 676443255
+
+Hello Brian,
+
+I'm responding to your question about signing your Mac Java app.
+
+Oracle has documentation on packaging a Java 8 SE app for distribution on a Mac in the Java Platform, 
+Standard Edition Deployment Guide (https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/packaging.html). 
+This document references the javapackager (https://docs.oracle.com/javase/8/docs/technotes/tools/unix/javapackager.html)
+tool, which can create signed standalone apps and installer packages from JAR files that Application Loader 
+can submit to the Mac App Store.
+
+javapackager is supported by Oracle, so if you have questions about it please contact them. I have 
+done some testing with it to the extent that I was able to submit an app successfully. Here's the 
+command invocation I used:
+
+$ javapackager 
+	-deploy 
+	-native mac.appStore 
+	-Bmac.CFBundleVersion="1.0.0" 
+	-Bmac.CFBundleIdentifier="com.example.apple-samplecode.dts.HelloJavaWorld" 
+	-Bruntime="../jre1.8.0_121.jre" 
+	-outfile JavaHelloWorld.pkg 
+	-name JavaHelloWorld 
+	-appclass HelloWorld 
+	-srcdir dist 
+	-srcfiles HelloWorld.jar 
+	-outdir . 
+	-Bmac.signing-key-app="3rd Party Mac Developer Application:" 
+	-Bmac.signing-key-pkg="3rd Party Mac Developer Installer:" 
+	-Bmac.app-store-entitlements="JavaHelloWorld.entitlements" 
+	-Bmac.category="public.app-category.developer-tools"
+
+Best regards,
+--gc
+____________
+Garth Cummings
+Apple Developer Technical Support
+
+went to the website and it looks quite good
