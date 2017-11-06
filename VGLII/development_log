@@ -3573,3 +3573,10 @@ Garth Cummings
 Apple Developer Technical Support
 
 went to the website and it looks quite good
+
+11/6/17
+ideas
+- maybe try turning the "32 x 32 PC icon.ico" file to a more usual file for a mac icon
+	it's an .icns file (graphic converter can make these)
+- if you have to use javapackager, 
+	- set it up so if you double-click on a .wr2 or .pr2 file it works
