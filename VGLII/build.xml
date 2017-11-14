@@ -35,7 +35,7 @@
 			name="VGLII-3.3.2"
 			displayname="VGLII-3.3.2"
 			identifier="edu.umb.vgl"
-			icon="pc 32x32 icon.ico"
+			icon="MacIcon.icns"
 			mainclassname="VGL.VGLII" >
 			<classpath file="VGLII.jar" />
 			<argument value="-D$APP_ROOT" />

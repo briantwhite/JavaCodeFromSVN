@@ -3580,3 +3580,17 @@ ideas
 	it's an .icns file (graphic converter can make these)
 - if you have to use javapackager, 
 	- set it up so if you double-click on a .wr2 or .pr2 file it works
+
+11/14/17
+try making MacIcon.icns file with GraphicConverter
+changed the build.xml to use the MacIcon.icns file
+can sign and test
+Brians-MacBook-Pro:Desktop brianwhite$ codesign -f -v -s "Developer ID Application: Brian White (RNA5B8HQ54)" VGLII-3.3.2.app/
+VGLII-3.3.2.app/: signed app bundle with Mach-O thin (x86_64) [edu.umb.vgl]
+Brians-MacBook-Pro:Desktop brianwhite$ /Applications/check-signature VGLII-3.3.2.app/
+(c) 2014 Apple Inc.  All rights reserved.
+YES
+
+but the icon is really tiny - need to make a new one: try 128 x 128
+all better now
+can build all the things we need without the javapackager!
