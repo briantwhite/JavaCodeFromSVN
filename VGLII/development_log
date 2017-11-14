@@ -3594,3 +3594,23 @@ YES
 but the icon is really tiny - need to make a new one: try 128 x 128
 all better now
 can build all the things we need without the javapackager!
+
+make various versions
+
+*Linux
+  - setup folder VGLII-3.3.2/
+    - copy in Problems/ from VGLII project
+    - copy in README.txt and update from V 3.3.1
+    - copy in VGLII.sh from v 3.3.1
+    - copy in new VGL.jar from VGLII project
+  - zip it 
+  		tar -czvf VGLII.tar.gz VGLII-3.3.2
+
+*PC
+  - setup folder VGLII-3.3.2/
+    - copy in Problems/ folder from VGLII project
+    - copy in VGLII.exe from VGLII project
+  - zip it so there are no .DS_store crap files 
+  		zip VGLII.pc.zip -x \*.DS_Store -r VGLII-3.3.2/
+
+*Mac No Grader
