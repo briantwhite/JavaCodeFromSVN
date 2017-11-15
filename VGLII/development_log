@@ -3603,6 +3603,7 @@ make various versions
     - copy in README.txt and update from V 3.3.1
     - copy in VGLII.sh from v 3.3.1
     - copy in new VGL.jar from VGLII project
+    - chmod a+x VGLII.sh
   - zip it 
   		tar -czvf VGLII.tar.gz VGLII-3.3.2
 
@@ -3614,3 +3615,55 @@ make various versions
   		zip VGLII.pc.zip -x \*.DS_Store -r VGLII-3.3.2/
 
 *Mac No Grader
+  - build .app (now includes icon)
+  - copy to ReadyToRun
+  - copy Problems from VGLII project to .app/Contents/Java
+  - sign it
+  		Brians-MacBook-Pro:MacNoGrader Version brianwhite$ codesign -f -v -s "Developer ID Application: Brian White (RNA5B8HQ54)" VGLII-3.3.2.app/
+		VGLII-3.3.2.app/: signed app bundle with Mach-O thin (x86_64) [edu.umb.vgl]
+  - test signature
+  		Brians-MacBook-Pro:MacNoGrader Version brianwhite$ /Applications/check-signature VGLII-3.3.2.app/
+		(c) 2014 Apple Inc.  All rights reserved.
+		YES
+  - zip it: right-click and choose compress
+  - rename to VGL-3.3.2.NG.zip
+
+*Mac Grader version
+  - make folder VGLII-3.3.2/
+  - copy in Problems/ from VGLII project
+  - copy in .app from VGLII project
+  - copy in README.txt from version 3.3.1 and edited to update date at bottom
+  - sign the .app
+  		Brians-MacBook-Pro:VGLII-3.3.2 brianwhite$ codesign -f -v -s "Developer ID Application: Brian White (RNA5B8HQ54)" VGLII-3.3.2.app/
+		VGLII-3.3.2.app/: signed app bundle with Mach-O thin (x86_64) [edu.umb.vgl]
+  - check the signature
+  		Brians-MacBook-Pro:VGLII-3.3.2 brianwhite$ /Applications/check-signature VGLII-3.3.2.app/
+		(c) 2014 Apple Inc.  All rights reserved.
+		YES
+  - zip with right-click and rename to VGLII-3.3.2.mac.zip
+  
+Updated web site files
+	button.htm
+  	download.htm
+  	getVGLII.html
+  	
+put all on web
+tested
+*Linux
+  - download to mac desktop, unzip, ./VGLII.sh => OK
+
+*MacNoGrader
+  - download to mac desktop, unzip, double-click => OK
+  
+*MacGrader
+  - download to mac desktop, unzip, double-click => OK
+ 
+*PC
+  - download to Win10, unzip, double-click => OK
+
+e-mail the users group to announce it.
+  		
+  
+
+  		
+  	
