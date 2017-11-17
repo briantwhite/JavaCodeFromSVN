@@ -3664,6 +3664,16 @@ tested
 e-mail the users group to announce it.
   		
   
-
+11/17/17
+windows fussed on downloading that it's not from a recognized developer
+may need to sign for windows:
+	https://stackoverflow.com/questions/252226/signing-a-windows-exe-file
+it looks like you can't use an apple cert
+but you may be able to get a free one if it's open source software
+	https://www.certum.eu/certum/cert,offer_en_open_source_cs.xml
+	they require utility bill and other address verification
+it looks like the certs from certum work
+	https://stackoverflow.com/questions/41474100/code-signing-with-a-certum-certificate
+	
   		
   	
