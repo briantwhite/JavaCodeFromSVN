@@ -3675,5 +3675,10 @@ but you may be able to get a free one if it's open source software
 it looks like the certs from certum work
 	https://stackoverflow.com/questions/41474100/code-signing-with-a-certum-certificate
 	
-  		
+11/21/17
+try getting a certum certificate - but it only lasts a year and need to get new one each time
+maybe look into a cheap one https://stackoverflow.com/questions/1177552/code-signing-certificate-for-open-source-projects
+they cost at least $65/yr
+asked if UMB has a certificate
+
   	
