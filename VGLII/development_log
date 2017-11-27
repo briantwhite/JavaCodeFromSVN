@@ -3681,4 +3681,38 @@ maybe look into a cheap one https://stackoverflow.com/questions/1177552/code-sig
 they cost at least $65/yr
 asked if UMB has a certificate
 
-  	
+11/27/17
+Alison.Murray@umb.edu set me up with one
+To generate your private key and create a certificate request for your InCommon Code Signing certificate:
+
+Click the following link to validate your email address 
+https://cert-manager.com/customer/InCommon/cs?action=invite&requestCode=ixeqDWry5XK4fSlkHW7ErBhA8&email=brian%2ewhite%40umb%2eedu
+
+If this link doesn't work, please copy the request code below and paste it into the corresponding field in the 
+validation form.
+Your request code: ixeqDWry5XK4fSlkHW7ErBhA8
+
+- didn't work in Chrome
+- worked in Safari & key will be e-mailed
+
+got this e-mail:
+The InCommon code signing certificate for Brian White <brian.white@umb.edu> has been issued.
+
+Certificate Details:
+   Name:         Brian White
+   Email:        brian.white@umb.edu
+   Order Number: 106643485
+   Term:         3 Year(s)
+   Requested:    11/27/2017 10:12 GMT
+   Collected:    11/27/2017 10:25 GMT
+   Expires:      11/26/2020 23:59 GMT
+
+Click the following link to download and install the certificate via the browser of your choice: 
+  https://cert-manager.com/customer/InCommon/cs?action=installcert&id=5022
+
+saved "user.crt" in VGLII/
+
+website says "Please ensure that you are collecting your Certificate on the same computer that you requested it from."
+so maybe only will work on this computer.
+
+need to test.
