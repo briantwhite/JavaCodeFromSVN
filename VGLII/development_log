@@ -3721,3 +3721,31 @@ need to test.
 don't put the certiicate on github!
 moved to javastuff/ReadyToRun/WindowsSigning/
 
+this looks like a way to sign on mac
+https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Signing_an_executable_with_Authenticode
+but you need to do some stuff on PC first and VMware fusion is dead...
+
+but may be able to export the certificate on the mac
+https://www.digicert.com/code-signing/mac-exporting-code-signing-certificate.htm
+on mac
+	opened keychain access
+	imported the user.crt
+		it added an entry to the login keychain in the "my certificates" list "University of Massachusetts Boston"
+	need to get a .pfx or .p12 file
+	select the key above and export as .p12
+		used password v-sandwich
+	do commands from here https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Signing_an_executable_with_Authenticode
+		openssl pkcs12 -in Certificates.p12 -nocerts -nodes -out key.pem
+		openssl rsa -in key.pem -outform PVK -pvk-strong -out authenticode.pvk
+			PEM passphrase v-sandwich
+		openssl pkcs12 -in Certificates.p12 -nokeys -nodes -out cert.pem
+		openssl crl2pkcs7 -nocrl -certfile cert.pem -outform DER -out authenticode.spc
+	
+	installed mono from http://www.mono-project.com/download/
+	
+	copy in VGL.exe from ReadyToRun version 3.3.2
+	signcode -spc authenticode.spc -v authenticode.pvk -a sha1 -$ individual -n "Virtual Genetics Lab" -i http://vgl.umb.edu -t http://timestamp.verisign.com/scripts/timstamp.dll -tr 10 VGLII.exe
+	it reported success....
+
+try putting on web and testing.
+should be at http://vgl.umb.edu/Testing/VGLII.exe or VGLII.exe.zip

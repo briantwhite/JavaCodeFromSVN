@@ -63,8 +63,4 @@ you don't have "save for grading" as an option?  move the VGLII program file bac
 
 18) Allow very large numbers of offspring in super cross to allow looking at rare or complex events. (M.C. Cowlishaw)
 		
-		
-22) From Cindy Passmore cpassmore@ucdavis.edu - add a "blood type" model. 3 alleles, 4 phenotypes with 2 dom and 1 codom
-	make as specific "BloodTypeGeneModel"
-		have specific option to get this type of problem (no need for an alternative)
-
+23) add lethal phenotypes (sex-limited lethal also?)
