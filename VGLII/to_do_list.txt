@@ -64,3 +64,5 @@ you don't have "save for grading" as an option?  move the VGLII program file bac
 18) Allow very large numbers of offspring in super cross to allow looking at rare or complex events. (M.C. Cowlishaw)
 		
 23) add lethal phenotypes (sex-limited lethal also?)
+
+
