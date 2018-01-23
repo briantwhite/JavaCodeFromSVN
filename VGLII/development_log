@@ -3762,3 +3762,13 @@ try using http://icoconvert.com/ to make .ico file from MacIcon.png
 	with sizes from https://www.creativefreedom.co.uk/icon-designers-blog/windows-7-icon-sizes/
 	256 x 256, 48 x 48, 32 x 32
 	call it "new pc icon.ico"
+
+try rebuilding and posting - no new version for this one.
+1) build .exe
+2) in javastuff/ReadyToRun/VGL & VGLII/VGLII/Version 3.3.2/PC Version/
+	delete the .zip file
+	put new .exe in VGLII-3.3.2
+	make new zip
+		zip VGLII.pc.zip -x \*.DS_Store -r VGLII-3.3.2/
+3) post on web and test
+	looks better; check with Liz
