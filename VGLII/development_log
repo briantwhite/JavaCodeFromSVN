@@ -3752,3 +3752,13 @@ should be at http://vgl.umb.edu/Testing/VGLII.exe or VGLII.exe.zip
 
 no good; still get warning...
 (maybe try with Apple cert?)
+
+1/23/18
+Liz Ryder says the windows icon can be a little small. On web, it looks like the .ico can (and should)
+include icons of many sizes. 
+
+save MacIcon.icns as MacIcon.png (1024 x 1024)
+try using http://icoconvert.com/ to make .ico file from MacIcon.png
+	with sizes from https://www.creativefreedom.co.uk/icon-designers-blog/windows-7-icon-sizes/
+	256 x 256, 48 x 48, 32 x 32
+	call it "new pc icon.ico"
