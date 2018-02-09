@@ -5,13 +5,29 @@ public class Enzyme {
 	private Molecule product;
 	private boolean active;
 	
-	public Enzyme(int number, Molecule substrate, Molecule product) {
+	public Enzyme(int number) {
 		this.number = number;
-		this.substrate = substrate;
-		this.product = product;
 		this.active = true;
+		this.substrate = null;
+		this.product = null;
 	}
 	
+	public void setSubstrate(Molecule substrate) {
+		this.substrate = substrate;
+	}
+	
+	public void setProduct(Molecule product) {
+		this.product = product;
+	}
+	
+	public void activate() {
+		active = true;
+	}
+	
+	public void inactivate() {
+		active = false;
+	}
+
 	public int getNumber() {
 		return number;
 	}
@@ -28,13 +44,6 @@ public class Enzyme {
 		return active;
 	}
 	
-	public void activate() {
-		active = true;
-	}
-	
-	public void inactivate() {
-		active = false;
-	}
 	
 	
 
