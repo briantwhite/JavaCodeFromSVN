@@ -1,0 +1,8 @@
+2/9/18
+started developing with the genotype-phenotype map
+start that with a pathway
+
+							|--(enz 2)--> C --(enz 3)--> D
+	molec A --(enz 1)--> B -|
+	        				|--(enz 4)--> E --(enz 5)--> F --(enz 6)--> G
+	        				
