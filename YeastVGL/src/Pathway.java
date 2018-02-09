@@ -47,8 +47,6 @@ public class Pathway {
 		enzymes[5].setSubstrate(molecules[5]);
 		enzymes[5].setProduct(molecules[6]);
 		
-		enzymes[4].inactivate();
-		
 		checkPathwayIntegrity();
 	}
 	
@@ -60,6 +58,10 @@ public class Pathway {
 	
 	public void inactivateEnzyme(int number) {
 		enzymes[number].inactivate();
+	}
+	
+	public int getNumberOfEnzymes() {
+		return enzymes.length;
 	}
 	
 	// given the pathway as it is, figure out which molecules get made
@@ -85,14 +87,17 @@ public class Pathway {
 		}
 		for (int i = 0; i < nextEnzymeList.size(); i++) {
 			Enzyme e = nextEnzymeList.get(i);
-			tracePathway(e.getProduct(), result);
+			// only continue if enzyme is working
+			if (e.isActive()) {
+				tracePathway(e.getProduct(), result);;
+			}
 		}
 	}
 	
 	
 	private void checkPathwayIntegrity() {
 		// make sure everything is connected OK
-		
+		boolean OK = true;
 		// all molecules have at least one enzyme 
 		// 	if not, then they're terminal 
 		for (int i = 0; i < molecules.length; i++) {
@@ -106,20 +111,24 @@ public class Pathway {
 		for (int i = 0; i < enzymes.length; i++) {
 			if (enzymes[i].getSubstrate() == null) {
 				System.out.println("Enzyme " + i + " lacks a substrate!");
+				OK = false;
 			}
 			if (enzymes[i].getProduct() == null) {
 				System.out.println("Enzyme " + i + " lacks a product!");
+				OK = false;
 			}
 		}
 		
 		// need to be sure that all intermediates get produced if all enzymes present
 		boolean[] outputs = getOutputs();
 		for (int i = 0; i < outputs.length; i++) {
-			if (outputs[i]) {
-				System.out.println("Molecule " + i + " is produced.");
-			} else {
-				System.out.println("Molecule " + i + " is NOT produced.");
+			if (!outputs[i]) {
+				System.out.println("Molecule " + i + " is NOT produced!");
+				OK = false;
 			}
+		}
+		if (OK) {
+			System.out.println("Pathway is OK");
 		}
 	}
 }
