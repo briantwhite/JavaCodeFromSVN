@@ -47,6 +47,8 @@ public class Pathway {
 		enzymes[5].setSubstrate(molecules[5]);
 		enzymes[5].setProduct(molecules[6]);
 		
+		enzymes[4].inactivate();
+		
 		checkPathwayIntegrity();
 	}
 	
@@ -61,15 +63,32 @@ public class Pathway {
 	}
 	
 	// given the pathway as it is, figure out which molecules get made
+	// right now, it's hard-coded to start with molecules[0] as single input
 	public boolean[] getOutputs() {
 		boolean[] result = new boolean[molecules.length];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = false;
 		}
-		
-		
+		tracePathway(molecules[0], result);				
 		return result;
 	}
+	
+	// recursive tracing function
+	private void tracePathway(Molecule startingMolecule, boolean[] result) {
+		// tag the starting molecule as present - since we got here somehow
+		result[startingMolecule.getNumber()] = true;
+		
+		ArrayList<Enzyme> nextEnzymeList = startingMolecule.getNextEnzymeList();
+		// see if you've reached a terminal molecule
+		if (nextEnzymeList.size() == 0) {
+			return;
+		}
+		for (int i = 0; i < nextEnzymeList.size(); i++) {
+			Enzyme e = nextEnzymeList.get(i);
+			tracePathway(e.getProduct(), result);
+		}
+	}
+	
 	
 	private void checkPathwayIntegrity() {
 		// make sure everything is connected OK
@@ -94,6 +113,13 @@ public class Pathway {
 		}
 		
 		// need to be sure that all intermediates get produced if all enzymes present
-		
+		boolean[] outputs = getOutputs();
+		for (int i = 0; i < outputs.length; i++) {
+			if (outputs[i]) {
+				System.out.println("Molecule " + i + " is produced.");
+			} else {
+				System.out.println("Molecule " + i + " is NOT produced.");
+			}
+		}
 	}
 }
