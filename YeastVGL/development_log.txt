@@ -7,4 +7,6 @@ start that with a pathway
 	        				|--(enz 3)--> 4 --(enz 4)--> 5 --(enz 5)--> 6
 	        				
 recursive tracing seems to be working
-but need to build in how the enzyme inactivity is modeled.
+
+2/10/18
+made simple GUI for playing

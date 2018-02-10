@@ -64,14 +64,58 @@ public class Pathway {
 		return enzymes.length;
 	}
 	
+	public int getNumberOfMolecules() {
+		return molecules.length;
+	}
+	
+	// test if a given strain will grow under these conditions:
+	//  - specific set of mutations in genotype (array of booleans for enzyme function)
+	//  - specific starting molecule(s)
+	// it tests to see if all terminal molecules (assumed to be the only essential ones) are made
+	public boolean willItGrow(boolean[] genotype, ArrayList<Integer>startingMolecules) {
+		// set up the pathway with the particular set of mutants (false entries in genotype)
+		activateAllEnzymes();
+		for (int i = 0; i < genotype.length; i++) {
+			if (!genotype[i]) {
+				inactivateEnzyme(i);
+			}
+		}
+		// collect the resulting products for each of the starting molecules
+		//  initialize result array
+		boolean[] moleculesProduced = new boolean[molecules.length];
+		for (int i = 0; i < moleculesProduced.length; i++) {
+			moleculesProduced[i] = false;
+		}
+		// iterate over the different substrates provided
+		for (int i = 0; i < startingMolecules.size(); i++) {
+			boolean[] outputs = getOutputs(startingMolecules.get(i).intValue());
+			// add to results
+			for (int j = 0; j < outputs.length; j++) {
+				if (outputs[j]) {
+					moleculesProduced[j] = true;
+				}
+			}
+		}
+		
+		// check on the terminal molecules
+		//  if any missing, it won't grow.
+		boolean result = true;
+		for (int i = 0; i < moleculesProduced.length; i++) {
+			if (!moleculesProduced[i] && molecules[i].isTerminal()) {
+				result = false;
+			}
+		}
+		return result;
+	}
+	
 	// given the pathway as it is, figure out which molecules get made
-	// right now, it's hard-coded to start with molecules[0] as single input
-	public boolean[] getOutputs() {
+	// start with molecule m as the input
+	public boolean[] getOutputs(int m) {
 		boolean[] result = new boolean[molecules.length];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = false;
 		}
-		tracePathway(molecules[0], result);				
+		tracePathway(molecules[m], result);				
 		return result;
 	}
 	
@@ -120,7 +164,7 @@ public class Pathway {
 		}
 		
 		// need to be sure that all intermediates get produced if all enzymes present
-		boolean[] outputs = getOutputs();
+		boolean[] outputs = getOutputs(0);
 		for (int i = 0; i < outputs.length; i++) {
 			if (!outputs[i]) {
 				System.out.println("Molecule " + i + " is NOT produced!");
