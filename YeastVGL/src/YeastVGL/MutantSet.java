@@ -42,5 +42,9 @@ public class MutantSet {
 	public MutantStrain[] getMutantStrains() {
 		return mutantStrains;
 	}
+	
+	public int getNumberOfMutants() {
+		return mutantStrains.length;
+	}
 
 }

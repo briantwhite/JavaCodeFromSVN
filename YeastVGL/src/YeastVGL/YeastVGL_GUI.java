@@ -16,6 +16,7 @@ public class YeastVGL_GUI extends JFrame {
 
 	YeastVGL yeastVGL;
 	Pathway pathway;
+	MutantSet mutantSet;
 	int numEnzymes;
 	int numMolecules;
 	
@@ -31,6 +32,7 @@ public class YeastVGL_GUI extends JFrame {
 		this.pathway = yeastVGL.getPathway();
 		this.numEnzymes = pathway.getNumberOfEnzymes();
 		this.numMolecules = pathway.getNumberOfMolecules();
+		this.mutantSet = yeastVGL.getMutantSet();
 		setupUI();
 	}
 	
@@ -42,7 +44,7 @@ public class YeastVGL_GUI extends JFrame {
 	
 	public void setupUI() {
 		
-		this.setLayout(new GridLayout(3,1));
+		this.setLayout(new FlowLayout());
 		
 		JPanel genoPanel = new JPanel();
 		genoPanel.setLayout(new FlowLayout());
@@ -74,6 +76,9 @@ public class YeastVGL_GUI extends JFrame {
 		willItGrowLabel = new JLabel();
 		willItGrowPanel.add(willItGrowLabel);
 		this.add(willItGrowPanel);
+		
+		ComplementationTestPanel ctp = new ComplementationTestPanel(mutantSet);
+		this.add(ctp);
 		
 		this.pack();
 		updateDisplay();
