@@ -34,3 +34,7 @@ works in phases
 	where the mutants in the working set are the choices
 	
 5) mapping?
+
+
+2/12/18
+started working on MutantSet and mutant generation.
