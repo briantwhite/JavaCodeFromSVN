@@ -7,7 +7,7 @@
 	<target name="jarfile" depends="compile" description="makes jar file">
 	    <jar destfile="bin/YeastVGL.jar">
 	        <manifest>
-	        	    <attribute name="Main-Class" value="YeastVGL"/>
+	        	    <attribute name="Main-Class" value="YeastVGL.YeastVGL"/>
 	        </manifest>
     	    <fileset dir="bin/"/>
 	    </jar>

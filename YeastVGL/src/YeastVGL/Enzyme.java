@@ -1,3 +1,4 @@
+package YeastVGL;
 
 public class Enzyme {
 	private int number;

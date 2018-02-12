@@ -1,3 +1,4 @@
+package YeastVGL;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
@@ -13,16 +14,23 @@ import javax.swing.JPanel;
 
 public class YeastVGL_GUI extends JFrame {
 
+	YeastVGL yeastVGL;
 	Pathway pathway;
+	int numEnzymes;
+	int numMolecules;
+	
 	JCheckBox[] genotypeCheckboxes;
 	JCheckBox[] substrateCheckboxes;
 	JLabel willItGrowLabel;
 	
 
-	public YeastVGL_GUI(Pathway pathway) {
+	public YeastVGL_GUI(YeastVGL yeastVGL) {
 		super("Yeast VGL 0.1");
 		addWindowListener(new ApplicationCloser());
-		this.pathway = pathway;
+		this.yeastVGL = yeastVGL;
+		this.pathway = yeastVGL.getPathway();
+		this.numEnzymes = pathway.getNumberOfEnzymes();
+		this.numMolecules = pathway.getNumberOfMolecules();
 		setupUI();
 	}
 	
@@ -40,8 +48,8 @@ public class YeastVGL_GUI extends JFrame {
 		genoPanel.setLayout(new FlowLayout());
 		JLabel genotypeLabel = new JLabel("Genotype (check all active enzymes present):");
 		genoPanel.add(genotypeLabel);		
-		genotypeCheckboxes = new JCheckBox[pathway.getNumberOfEnzymes()];
-		for (int i = 0; i < pathway.getNumberOfEnzymes(); i++) {
+		genotypeCheckboxes = new JCheckBox[numEnzymes];
+		for (int i = 0; i < numEnzymes; i++) {
 			genotypeCheckboxes[i] = new JCheckBox("Enzyme: " + i);
 			genoPanel.add(genotypeCheckboxes[i]);
 			genotypeCheckboxes[i].setSelected(true);
@@ -53,8 +61,8 @@ public class YeastVGL_GUI extends JFrame {
 		substrPanel.setLayout(new FlowLayout());
 		JLabel substrateLabel = new JLabel("Which molecules are in the medium?");
 		substrPanel.add(substrateLabel);				
-		substrateCheckboxes = new JCheckBox[pathway.getNumberOfMolecules()];
-		for (int i = 1; i < pathway.getNumberOfMolecules(); i++) {
+		substrateCheckboxes = new JCheckBox[numMolecules];
+		for (int i = 1; i < numMolecules; i++) {
 			substrateCheckboxes[i] = new JCheckBox("Molecule: " + i);
 			substrPanel.add(substrateCheckboxes[i]);
 			substrateCheckboxes[i].setSelected(false);
@@ -78,36 +86,20 @@ public class YeastVGL_GUI extends JFrame {
 	}
 	
 	private void updateDisplay() {
-		boolean[] genotype = new boolean[pathway.getNumberOfEnzymes()];
-		for (int i = 0; i < pathway.getNumberOfEnzymes(); i++) {
+		boolean[] genotype = new boolean[numEnzymes];
+		for (int i = 0; i < numEnzymes; i++) {
 			genotype[i] = genotypeCheckboxes[i].isSelected();
 		}
 		
 		// minimal medium is assumed to contain molecule 0
 		ArrayList<Integer> startingMolecules = new ArrayList<Integer>();
 		startingMolecules.add(new Integer(0));
-		for (int i = 1; i < pathway.getNumberOfMolecules(); i++) {
+		for (int i = 1; i < numMolecules; i++) {
 			if (substrateCheckboxes[i].isSelected()) {
 				startingMolecules.add(new Integer(i));
 			}
 		}
-		
-//		String info = new String("Testing pathway:");
-//		for (int i = 0; i < pathway.getNumberOfEnzymes(); i++) {
-//			info = info + " enzyme " + i;
-//			if (genotype[i]) {
-//				info = info + " active;";
-//			} else {
-//				info = info + " inactive;";
-//			}
-//		}
-//		info = info + " it is eating: ";
-//		for (int i = 0; i < startingMolecules.size(); i++) {
-//			info = info + startingMolecules.get(i).toString() + " ";
-//		}
-//		
-//		System.out.println(info);
-		
+				
 		if (pathway.willItGrow(genotype, startingMolecules)) {
 			willItGrowLabel.setText("<html><font color=\"green\">It Will grow!</html>");
 		} else {
