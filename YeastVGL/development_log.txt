@@ -10,3 +10,27 @@ recursive tracing seems to be working
 
 2/10/18
 made simple GUI for playing
+
+----------------------------
+BIG PICTURE
+
+works in phases
+
+1) it generates ~20 mutants randomly in the genes - single mutants
+	make sure that all are hit at least once
+
+2) presents them in complementation test table 20x20
+	user selects medium for complementation test and it shows table of +, -
+	user can drag columns of table to make nice groups (it looks like this is built into tables)
+	https://docs.oracle.com/javase/7/docs/api/javax/swing/JTable.html says "By default, 
+	columns may be rearranged in the JTable so that the view's columns appear in a different 
+	order to the columns in the model."
+
+3) user selects certain mutants to put in "working set"
+	can edit this set
+
+4) go to pathway where you can make a multiple mutant and see which media is grows on
+	(like the current toy version) 
+	where the mutants in the working set are the choices
+	
+5) mapping?
