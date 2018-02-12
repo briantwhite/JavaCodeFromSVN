@@ -77,7 +77,7 @@ public class YeastVGL_GUI extends JFrame {
 		willItGrowPanel.add(willItGrowLabel);
 		this.add(willItGrowPanel);
 		
-		ComplementationTestPanel ctp = new ComplementationTestPanel(mutantSet);
+		ComplementationTestPanel ctp = new ComplementationTestPanel(yeastVGL);
 		this.add(ctp);
 		
 		this.pack();
