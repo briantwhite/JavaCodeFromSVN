@@ -54,4 +54,4 @@ the problem is that moveRow() exists only in DefaultTableModel and I don't want 
 	since I don't want the contents to be editable.
 now can drag the columns and no errors with moveRow but the rows don't actually move...
 
-may have to make a method that changes the data in the table -
+may have to make a method that changes the data in the table - now it works.
