@@ -1,5 +1,6 @@
 package YeastVGL;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -48,11 +49,15 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 			}
 		}
 
-//		complementationTable = new JTable(data, columnHeadings);
 		complementationTable = new JTable(new ComTabModel());
-		JScrollPane tablePane = new JScrollPane(complementationTable);
 		complementationTable.setFillsViewportHeight(true);
 		complementationTable.getColumnModel().addColumnModelListener(this);
+		for (int i = 0; i < columnHeadings.length; i++) {
+			complementationTable.getColumnModel().getColumn(i).setPreferredWidth(30);
+		}
+		complementationTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane tablePane = new JScrollPane(complementationTable);
+		tablePane.setPreferredSize(new Dimension(500,500));
 		this.add(tablePane);
 		
 	}
@@ -90,7 +95,11 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 			return false;
 		}
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			return data[rowIndex][columnIndex];
+			if (rowIndex == 0) {
+				return checkboxes[columnIndex];
+			} else {
+				return data[rowIndex - 1][columnIndex];
+			}
 		}
 	}
 	
