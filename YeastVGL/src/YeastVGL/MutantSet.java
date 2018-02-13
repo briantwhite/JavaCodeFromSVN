@@ -21,8 +21,9 @@ public class MutantSet {
 			}
 			mutantStrains = new MutantStrain[numMutants];
 			for (int i = 0; i < numMutants; i++) {
+				ArrayList<Integer>mutantGenes = new ArrayList<Integer>();
 				int mutantGeneNumber = r.nextInt(numEnzymes);
-				ArrayList<Integer>mutantGenes = new ArrayList<Integer>(new Integer(mutantGeneNumber));
+				mutantGenes.add(new Integer(mutantGeneNumber));
 				mutantStrains[i] = new MutantStrain(numEnzymes, mutantGenes);
 				// tally it
 				mutatedGeneTallies[mutantGeneNumber]++;
@@ -36,7 +37,7 @@ public class MutantSet {
 				}
 			}
 		}
-		
+		System.out.println(this.toString());
 	}
 	
 	public MutantStrain[] getMutantStrains() {
@@ -45,6 +46,16 @@ public class MutantSet {
 	
 	public int getNumberOfMutants() {
 		return mutantStrains.length;
+	}
+	
+	public String toString() {
+		StringBuffer b = new StringBuffer();
+		for (int i = 0; i < mutantStrains.length; i++) {
+			b.append("M:" + i + "  ");
+			b.append(mutantStrains[i].toString());
+			b.append("\n");
+		}
+		return b.toString();
 	}
 
 }

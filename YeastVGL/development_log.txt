@@ -40,3 +40,10 @@ works in phases
 started working on MutantSet and mutant generation.
 
 working on complementation test table - not working yet..
+
+2/13/18
+the problem was that new ArrayList<Integer>(new Integer(1)) makes an ArrayList of LENGTH 1
+	not a list that starts with one member...
+
+now seems to be working
+it'd be nice, when you reorder the columns, that you also re-order the rows the same.

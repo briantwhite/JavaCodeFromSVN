@@ -24,4 +24,16 @@ public class MutantStrain {
 		return genotype;
 	}
 
+	public String toString() {
+		StringBuffer b = new StringBuffer();
+		for (int i = 0; i < genotype.length; i++) {
+			b.append("E" + i);
+			if (genotype[i]) {
+				b.append("+ ");
+			} else {
+				b.append("- ");
+			}
+		}
+		return b.toString();
+	}
 }

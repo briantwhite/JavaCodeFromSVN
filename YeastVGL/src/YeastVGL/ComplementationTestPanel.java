@@ -28,13 +28,15 @@ public class ComplementationTestPanel extends JPanel {
 			columnHeadings[i + 1] = new String("M" + i);
 		}
 		
+		ArrayList<Integer>startingMaterials = new ArrayList<Integer>();
+		startingMaterials.add(new Integer(0));
 		Object[][] data = new Object[numMutants][numMutants + 1];
 		for (int row = 0; row < numMutants; row++) {
 			for (int col = 0; col < (numMutants + 1); col++) {
 				if (col == 0) {
 					data[row][col] = new String(mutantNames[row]);
 				} else {
-					data[row][col] = willDiploidGrow(row, col - 1, new ArrayList<Integer>(new Integer(0)));
+					data[row][col] = willDiploidGrow(row, col - 1, startingMaterials);
 				}
 			}
 		}
