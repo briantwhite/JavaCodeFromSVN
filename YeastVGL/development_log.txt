@@ -53,3 +53,5 @@ need to find out which colum moved.
 the problem is that moveRow() exists only in DefaultTableModel and I don't want a Default
 	since I don't want the contents to be editable.
 now can drag the columns and no errors with moveRow but the rows don't actually move...
+
+may have to make a method that changes the data in the table -

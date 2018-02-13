@@ -45,7 +45,7 @@ public class YeastVGL_GUI extends JFrame {
 	public void setupUI() {
 		
 		this.setLayout(new FlowLayout());
-		
+
 		JPanel genoPanel = new JPanel();
 		genoPanel.setLayout(new FlowLayout());
 		JLabel genotypeLabel = new JLabel("Genotype (check all active enzymes present):");
