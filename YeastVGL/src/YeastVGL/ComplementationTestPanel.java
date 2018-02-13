@@ -102,7 +102,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 	public void columnMoved(TableColumnModelEvent e) {
 		DefaultTableModel tm = (DefaultTableModel)complementationTable.getModel();
 		tm.moveRow(e.getFromIndex(), (e.getFromIndex() + 1), e.getToIndex());
-		complementationTable.updateUI();
+		complementationTable.revalidate();
 		if (e.getFromIndex() != e.getToIndex()) {
 			System.out.println("from " + e.getFromIndex() + " to " + e.getToIndex());
 		}
