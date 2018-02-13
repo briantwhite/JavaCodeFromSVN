@@ -47,3 +47,5 @@ the problem was that new ArrayList<Integer>(new Integer(1)) makes an ArrayList o
 
 now seems to be working
 it'd be nice, when you reorder the columns, that you also re-order the rows the same.
+DefaultTableModel (which you gan get with getModel() from the table) has a moveRow() method
+need to find out which colum moved.

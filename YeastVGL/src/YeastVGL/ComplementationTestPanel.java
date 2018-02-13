@@ -5,8 +5,14 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
-public class ComplementationTestPanel extends JPanel {
+public class ComplementationTestPanel extends JPanel implements TableColumnModelListener {
 	
 	private JTable complementationTable;
 	private Pathway pathway;
@@ -40,10 +46,13 @@ public class ComplementationTestPanel extends JPanel {
 				}
 			}
 		}
+
 		complementationTable = new JTable(data, columnHeadings);
 		JScrollPane tablePane = new JScrollPane(complementationTable);
 		complementationTable.setFillsViewportHeight(true);
+		complementationTable.getColumnModel().addColumnModelListener(this);
 		this.add(tablePane);
+		
 	}
 
 	private String willDiploidGrow(int m1num, int m2num, ArrayList<Integer>startingMolecules) {
@@ -64,4 +73,18 @@ public class ComplementationTestPanel extends JPanel {
 			return "-";
 		}
 	}
+	
+	// detect dragged columns and update rows accordingly
+	public void columnAdded(TableColumnModelEvent e) {}
+	public void columnRemoved(TableColumnModelEvent e) {}
+	public void columnMarginChanged(ChangeEvent e) {}
+	public void columnSelectionChanged(ListSelectionEvent e) {}
+	public void columnMoved(TableColumnModelEvent e) {
+//		DefaultTableModel tm = (DefaultTableModel)complementationTable.getModel();
+//		tm.moveRow(e.getFromIndex(), (e.getFromIndex() + 1), e.getToIndex());
+		if (e.getFromIndex() != e.getToIndex()) {
+			System.out.println("from " + e.getFromIndex() + " to " + e.getToIndex());
+		}
+	}
+
 }
