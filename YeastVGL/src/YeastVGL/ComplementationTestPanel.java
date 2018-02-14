@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
 public class ComplementationTestPanel extends JPanel implements TableColumnModelListener {
@@ -55,7 +56,16 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		for (int i = 1; i < columnHeadings.length; i++) {
 			checkboxes[i] = new JCheckBox();
 		}
-		complementationTable = new JTable(new ComTabModel());
+		complementationTable = new JTable();
+		complementationTable.setColumnModel(new DefaultTableColumnModel() {
+			public void moveColumn(int columnIndex, int newIndex) {
+				if ((columnIndex == 0) || (newIndex == 0)) {
+					return;
+				}
+				super.moveColumn(columnIndex, newIndex);
+			}
+		});
+		complementationTable.setModel(new ComTabModel());
 		complementationTable.setFillsViewportHeight(true);
 		complementationTable.getColumnModel().addColumnModelListener(this);
 		for (int i = 0; i < columnHeadings.length; i++) {

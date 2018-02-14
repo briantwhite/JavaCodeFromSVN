@@ -95,3 +95,8 @@ went back to complex class ComplementationTestPanel - punt for now
 
 put things in tabs
 
+found a solution to the dragging column thing
+	https://coderanch.com/t/346302/java/Restrict-User-Move-Column-JTable
+need to put this right after constructor and right before setting the table model or it's all messed up
+
+made sketch of what the Complementation table panel should look like in "notes/Comp test panel notes - 0.png"
