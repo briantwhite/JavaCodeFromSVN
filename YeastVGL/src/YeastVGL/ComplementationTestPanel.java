@@ -1,9 +1,11 @@
 package YeastVGL;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -12,9 +14,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 public class ComplementationTestPanel extends JPanel implements TableColumnModelListener {
-	
+
 	private JTable complementationTable;
 	private Pathway pathway;
 	private MutantSet mutantSet;
@@ -23,13 +26,13 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 	private String[] columnHeadings;
 	private JCheckBox[] checkboxes;
 	private Object[][] data;
-	
+
 	public ComplementationTestPanel(YeastVGL yeastVGL) {
 		pathway = yeastVGL.getPathway();
 		mutantSet = yeastVGL.getMutantSet();
 		numMutants = mutantSet.getNumberOfMutants();
 		numEnzymes = yeastVGL.getPathway().getNumberOfEnzymes();
-		
+
 		String[] mutantNames = new String[numMutants];
 		columnHeadings = new String[numMutants + 1];
 		columnHeadings[0] = new String("");
@@ -37,7 +40,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 			mutantNames[i] = new String("M" + i);
 			columnHeadings[i + 1] = new String("M" + i);
 		}
-		
+
 		ArrayList<Integer>startingMaterials = new ArrayList<Integer>();
 		startingMaterials.add(new Integer(0));
 		data = new Object[numMutants][numMutants + 1];
@@ -65,7 +68,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		JScrollPane tablePane = new JScrollPane(complementationTable);
 		tablePane.setPreferredSize(new Dimension(500,500));
 		this.add(tablePane);
-		
+
 	}
 
 	private String willDiploidGrow(int m1num, int m2num, ArrayList<Integer>startingMolecules) {
@@ -76,7 +79,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		}
 		for (int i = 0; i < numEnzymes; i++) {
 			if ((mutantSet.getMutantStrains()[m1num].getGenotype()[i]) 
-				|| (mutantSet.getMutantStrains()[m2num].getGenotype()[i])) {
+					|| (mutantSet.getMutantStrains()[m2num].getGenotype()[i])) {
 				diploidEffectiveGenotype[i] = true;
 			}
 		}
@@ -86,7 +89,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 			return "-";
 		}
 	}
-	
+
 	class ComTabModel extends DefaultTableModel {
 		public int getRowCount() { 
 			return data.length;
@@ -101,11 +104,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 			return false;
 		}
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			if (rowIndex == 0) {
-				return checkboxes[columnIndex];
-			} else {
-				return data[rowIndex - 1][columnIndex];
-			}
+			return data[rowIndex][columnIndex];
 		}
 	}
 	

@@ -55,3 +55,36 @@ the problem is that moveRow() exists only in DefaultTableModel and I don't want 
 now can drag the columns and no errors with moveRow but the rows don't actually move...
 
 may have to make a method that changes the data in the table - now it works.
+
+2/14/18
+try custom header renderer http://www.codejava.net/java-se/swing/jtable-column-header-custom-renderer-examples
+
+		complementationTable.getTableHeader().setDefaultRenderer(new CheckBoxHeaderRenderer());
+AND
+
+	class CheckBoxHeaderRenderer extends JPanel implements TableCellRenderer {
+		JLabel label;
+		public CheckBoxHeaderRenderer () {
+			label = new JLabel();
+		}
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			if (column == 0) {
+				label.setText(" ");
+				add(label);
+			} else {
+				label.setText("M" + (column - 1));
+				add(label);
+//				add(checkboxes[column]);
+			}
+			return this;
+		}
+	}
+
+but that fails since, when you drag, it renumbers the columns in order 0-15 not in revised order.
+
+hmmm....
+
+would also like to prevent the first column from being dragged to or from
+https://stackoverflow.com/questions/1155137/how-to-keep-a-single-column-from-being-reordered-in-a-jtable/1155277#1155277
+the last solution there might work...
