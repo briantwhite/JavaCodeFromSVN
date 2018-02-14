@@ -88,3 +88,10 @@ hmmm....
 would also like to prevent the first column from being dragged to or from
 https://stackoverflow.com/questions/1155137/how-to-keep-a-single-column-from-being-reordered-in-a-jtable/1155277#1155277
 the last solution there might work...
+
+tried moving the ComplementationTable to a separate class that extends JTable and it didn't work
+	the drag only dragged the column headers...
+went back to complex class ComplementationTestPanel - punt for now
+
+put things in tabs
+

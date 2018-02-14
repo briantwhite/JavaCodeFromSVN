@@ -1,11 +1,9 @@
 package YeastVGL;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -14,7 +12,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 public class ComplementationTestPanel extends JPanel implements TableColumnModelListener {
 
@@ -66,9 +63,10 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		}
 		complementationTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane tablePane = new JScrollPane(complementationTable);
-		tablePane.setPreferredSize(new Dimension(500,500));
+		tablePane.setPreferredSize(new Dimension(complementationTable.getPreferredSize().width + 30, 
+				complementationTable.getRowHeight() * (columnHeadings.length + 1)));
 		this.add(tablePane);
-
+		this.revalidate();
 	}
 
 	private String willDiploidGrow(int m1num, int m2num, ArrayList<Integer>startingMolecules) {
