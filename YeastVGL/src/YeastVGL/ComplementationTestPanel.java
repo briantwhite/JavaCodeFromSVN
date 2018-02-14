@@ -3,6 +3,7 @@ package YeastVGL;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,6 +21,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 	private int numMutants;
 	private int numEnzymes;
 	private String[] columnHeadings;
+	private JCheckBox[] checkboxes;
 	private Object[][] data;
 	
 	public ComplementationTestPanel(YeastVGL yeastVGL) {
@@ -49,6 +51,10 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 			}
 		}
 
+		checkboxes = new JCheckBox[columnHeadings.length];
+		for (int i = 1; i < columnHeadings.length; i++) {
+			checkboxes[i] = new JCheckBox();
+		}
 		complementationTable = new JTable(new ComTabModel());
 		complementationTable.setFillsViewportHeight(true);
 		complementationTable.getColumnModel().addColumnModelListener(this);
