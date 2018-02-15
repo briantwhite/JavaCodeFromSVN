@@ -125,7 +125,6 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		mainPanel.add(rightPanel);
 		
 		this.add(mainPanel);
-		
 		this.revalidate();
 	}
 
@@ -191,5 +190,6 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 			}			
 		}
 	}
+	
 
 }

@@ -122,3 +122,9 @@ try one last time - NG
 		it doesn't move when you drag a column
 REALLY PUNT - and use user-entered text for complementation group name
 
+works now with text input
+
+need to figure out how to save the state - xml is a pain with the added libraries, maybe there's an easier way?
+it looks like json may be better http://www.oracle.com/technetwork/articles/java/json-1973242.html 
+but it's not built-in <sigh>
+
