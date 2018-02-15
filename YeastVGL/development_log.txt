@@ -100,3 +100,25 @@ found a solution to the dragging column thing
 need to put this right after constructor and right before setting the table model or it's all messed up
 
 made sketch of what the Complementation table panel should look like in "notes/Comp test panel notes - 0.png"
+
+2/15/18
+working on putting a JComboBox for selecting the complementation group into the last column
+can get a combobox in there but it won't hold the value...
+
+go back and do it carefully like the official page says:
+https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#data
+
+put the JComboBox in the column and then set a custom renderer.
+can get the JComboBox in there but it doesn't respond to clicking
+seem to need to set up a custom editor.
+	try having the ComplementationGroupComboBox be an editor
+PUNT - just make the last cells editable so students can type in their own group.
+
+hmmm - to make a cell editable, you need to add to the TableModel the setValueAt() method
+maybe that was what was needed for the combo boxes...
+try one last time - NG
+	you can edit one once but
+		you can't edit any others
+		it doesn't move when you drag a column
+REALLY PUNT - and use user-entered text for complementation group name
+
