@@ -1,16 +1,17 @@
 package YeastVGL;
-import java.awt.FlowLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.border.BevelBorder;
 
 public class YeastVGL_GUI extends JFrame {
 
@@ -40,18 +41,63 @@ public class YeastVGL_GUI extends JFrame {
 	
 	public void setupUI() {
 		
-		JTabbedPane mainPane = new JTabbedPane();
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBorder(new BevelBorder(BevelBorder.RAISED));
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem newProblemItem = new JMenuItem("New Problem");
+		fileMenu.add(newProblemItem);
+		JMenuItem openWorkItem = new JMenuItem("Open Work...");
+		fileMenu.add(openWorkItem);
+		JMenuItem saveWorkItem = new JMenuItem("Save Work");
+		fileMenu.add(saveWorkItem);
+		JMenuItem saveWorkAsItem = new JMenuItem("Save Work As...");
+		fileMenu.add(saveWorkAsItem);
+		JMenuItem quitItem = new JMenuItem("Quit");
+		fileMenu.add(quitItem);
+		menuBar.add(fileMenu);
+		mainPanel.add(menuBar, BorderLayout.NORTH);
 
+		
+		JTabbedPane innerPanel = new JTabbedPane();
 		ComplementationTestPanel ctp = new ComplementationTestPanel(yeastVGL);
-		mainPane.addTab("Complementation Test", ctp);
-		
+		innerPanel.addTab("Complementation Test", ctp);
 		PathwayPanel pp = new PathwayPanel(pathway);
-		mainPane.addTab("Pathway Analysis", pp);
+		innerPanel.addTab("Pathway Analysis", pp);
 		pp.updateDisplay();
+		mainPanel.add(innerPanel, BorderLayout.CENTER);
 		
-		this.add(mainPane);
+		this.add(mainPanel);
 		this.pack();
 		
+		// menu listeners
+		newProblemItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		openWorkItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		saveWorkItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(ctp.getJsonString());
+			}
+		});
+		saveWorkAsItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		quitItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 	}
 	
 

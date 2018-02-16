@@ -17,6 +17,8 @@ import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
+import com.google.gson.Gson;
+
 public class ComplementationTestPanel extends JPanel implements TableColumnModelListener {
 
 	private JTable complementationTable;
@@ -191,5 +193,10 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		}
 	}
 	
-
+	public String getJsonString() {
+		Gson gson = new Gson();
+		return gson.toJson(data);
+	}
+	
+	
 }

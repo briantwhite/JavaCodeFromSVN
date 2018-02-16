@@ -10,6 +10,7 @@
 	        	    <attribute name="Main-Class" value="YeastVGL.YeastVGL"/>
 	        </manifest>
     	    <fileset dir="bin/"/>
+	    	<zipfileset src="lib/gson-2.8.2.jar"/>
 	    </jar>
         <move file="bin/YeastVGL.jar" todir="."/>
     </target>

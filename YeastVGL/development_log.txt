@@ -128,3 +128,27 @@ need to figure out how to save the state - xml is a pain with the added librarie
 it looks like json may be better http://www.oracle.com/technetwork/articles/java/json-1973242.html 
 but it's not built-in <sigh>
 
+2/16/18
+try using gson - google's json library
+try installing it like https://medium.com/programmers-blockchain/importing-gson-into-eclipse-ec8cf678ad52
+from http://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.2/
+	got gson-2.8.2.jar and put in YeastVGL/lib/
+	in Eclipse=> prefs (not the prefs for this project)
+		java build path => user libraries
+		new "gson_lib"
+		add the jar as an external jar
+	in prefs for this project
+		build path => add libraries => user library => choose "gson_lib"
+but it has an error flag that says the jar is missing...
+	did a refresh and it's OK.
+	
+had to add line to build.xml to include the jar
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/YeastVGL.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="YeastVGL.YeastVGL"/>
+	        </manifest>
+    	    <fileset dir="bin/"/>
+	    	<zipfileset src="lib/gson-2.8.2.jar"/>
+	    </jar>
+
