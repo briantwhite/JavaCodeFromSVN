@@ -20,6 +20,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 public class YeastVGL_GUI extends JFrame {
 
@@ -28,7 +29,10 @@ public class YeastVGL_GUI extends JFrame {
 	MutantSet mutantSet;
 	int numEnzymes;
 	int numMolecules;
-		
+
+	JTabbedPane innerPanel;
+	ComplementationTestPanel ctp;
+
 
 	public YeastVGL_GUI(YeastVGL yeastVGL) {
 		super("Yeast VGL 0.1");
@@ -40,18 +44,18 @@ public class YeastVGL_GUI extends JFrame {
 		this.mutantSet = yeastVGL.getMutantSet();
 		setupUI();
 	}
-	
+
 	class ApplicationCloser extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			System.exit(0);
 		}
 	}
-	
+
 	public void setupUI() {
-		
+
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBorder(new BevelBorder(BevelBorder.RAISED));
 		JMenu fileMenu = new JMenu("File");
@@ -68,50 +72,32 @@ public class YeastVGL_GUI extends JFrame {
 		menuBar.add(fileMenu);
 		mainPanel.add(menuBar, BorderLayout.NORTH);
 
-		
-		JTabbedPane innerPanel = new JTabbedPane();
-		ComplementationTestPanel ctp = new ComplementationTestPanel(yeastVGL);
+
+		innerPanel = new JTabbedPane();
+		WelcomePanel wp = new WelcomePanel(this);
+		innerPanel.addTab("Welcome", wp);
+		ctp = new ComplementationTestPanel(yeastVGL);
 		innerPanel.addTab("Complementation Test", ctp);
 		PathwayPanel pp = new PathwayPanel(pathway);
 		innerPanel.addTab("Pathway Analysis", pp);
 		pp.updateDisplay();
+		// start with other tabs disabled for now
+		innerPanel.setEnabledAt(1, false);
+		innerPanel.setEnabledAt(2, false);
 		mainPanel.add(innerPanel, BorderLayout.CENTER);
-		
+
 		this.add(mainPanel);
 		this.pack();
-		
+
 		// menu listeners
 		newProblemItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		openWorkItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BufferedReader reader = null;
-				try {
-					reader = new BufferedReader(new FileReader(System.getProperty("user.home") + "/Desktop/text.txt"));
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				StringBuffer buf = new StringBuffer();
-				String line;
-				try {
-					line = reader.readLine();
-					while (line != null) {
-						buf.append(line);
-						buf.append(System.lineSeparator());
-						line = reader.readLine();
-					}
-					reader.close();
-					Gson gson = new Gson();
-					State state = gson.fromJson(buf.toString(), State.class);
-					ctp.updateState(state);
-			} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				openWork();
 			}
 		});
 		saveWorkItem.addActionListener(new ActionListener() {
@@ -128,7 +114,7 @@ public class YeastVGL_GUI extends JFrame {
 		});
 		saveWorkAsItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		quitItem.addActionListener(new ActionListener() {
@@ -137,6 +123,37 @@ public class YeastVGL_GUI extends JFrame {
 			}
 		});
 	}
-	
+
+	public void enableTabs() {
+		innerPanel.setEnabledAt(1, true);
+		innerPanel.setEnabledAt(2, true);
+	}
+
+	public void openWork() {
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(System.getProperty("user.home") + "/Desktop/text.txt"));
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		StringBuffer buf = new StringBuffer();
+		String line;
+		try {
+			line = reader.readLine();
+			while (line != null) {
+				buf.append(line);
+				buf.append(System.lineSeparator());
+				line = reader.readLine();
+			}
+			reader.close();
+			Gson gson = new Gson();
+			State state = gson.fromJson(buf.toString(), State.class);
+			ctp.updateState(state);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 
 }

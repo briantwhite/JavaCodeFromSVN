@@ -168,3 +168,6 @@ may need to, when moving columns, actually change the underlying column data
 	that's NG - then the column never gets swapped...
 	
 try swapping the columns when you go to save it.
+that was a pain, but it now works.
+
+made WelcomePane to start a new problem or load a saved one
