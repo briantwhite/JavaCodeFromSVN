@@ -152,3 +152,16 @@ had to add line to build.xml to include the jar
 	    	<zipfileset src="lib/gson-2.8.2.jar"/>
 	    </jar>
 
+2/26/18
+working on saving and restoring the complementation table - including the results of rearranging it
+it seems that 
+	public String getJsonString() {
+		Gson gson = new Gson();
+		return gson.toJson(data);
+	}
+works to get out the revised table - now see if you can save it and read it back in
+reading it in is AOK - EXCEPT: the column headings are in order.
+
+hmmm - actually, the saving isn't quite right - the rows are in the right order but the columns aren't...
+may need to, when moving columns, actually change the underlying column data
+	that's NG - then the column never gets swapped...

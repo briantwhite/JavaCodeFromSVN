@@ -183,20 +183,53 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 	public void columnSelectionChanged(ListSelectionEvent e) {}
 	public void columnMoved(TableColumnModelEvent e) {
 		if (e.getFromIndex() != e.getToIndex()) {
+			// first, swap the column data
+			int oldCol = e.getFromIndex();
+			int newCol = e.getToIndex();
+			for (int i = 0; i < data.length; i++) {
+				Object temp = data[i][newCol];
+				data[i][newCol] = data[i][oldCol];
+				data[i][oldCol] = temp;
+			}
+			
+			// then the row
 			int oldRow = e.getFromIndex() - 1;
 			int newRow = e.getToIndex() - 1;
 			for (int i = 0; i < columnHeadings.length; i++) {
 				Object temp = data[newRow][i];
 				data[newRow][i] = data[oldRow][i];
 				data[oldRow][i] = temp;
-			}			
+			}	
 		}
 	}
 	
 	public String getJsonString() {
+		boolean[] workingSet = new boolean[workingSetCheckboxes.length];
+		for (int i = 0; i < workingSet.length; i++) {
+			workingSet[i] = workingSetCheckboxes[i].isSelected();
+		}
+		State state = new State(mutantSet, data, workingSet);
 		Gson gson = new Gson();
-		return gson.toJson(data);
+		return gson.toJson(state);
 	}
 	
+	public void updateState(State state) {
+		mutantSet = state.getMutantSet();
+		System.out.println("--------------");
+		System.out.println("CTP line 209; new mutant set from file");
+		System.out.println(mutantSet.toString());
+		data = state.getComplementationTableData();
+		// need to fix column headings
+		for (int i = 0; i < data.length; i++) {
+			complementationTable.getColumnModel().getColumn(i + 1).setHeaderValue(data[i][0].toString());
+		}
+		complementationTable.getTableHeader().repaint();
+		complementationTable.revalidate();
+		complementationTable.repaint();
+		
+		for (int i = 0; i < state.getWorkingSetChoices().length; i++) {
+			workingSetCheckboxes[i].setSelected(state.getWorkingSetChoices()[i]);
+		}
+	}
 	
 }
