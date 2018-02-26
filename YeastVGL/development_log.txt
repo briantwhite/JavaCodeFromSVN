@@ -160,8 +160,11 @@ it seems that
 		return gson.toJson(data);
 	}
 works to get out the revised table - now see if you can save it and read it back in
-reading it in is AOK - EXCEPT: the column headings are in order.
+reading it in is AOK - EXCEPT: the column headings are in original order
+	it seems that moving columns changes the DISPLAY not the underlying table
 
 hmmm - actually, the saving isn't quite right - the rows are in the right order but the columns aren't...
 may need to, when moving columns, actually change the underlying column data
 	that's NG - then the column never gets swapped...
+	
+try swapping the columns when you go to save it.

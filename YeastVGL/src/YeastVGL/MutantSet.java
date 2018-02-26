@@ -6,10 +6,9 @@ import java.util.Random;
 public class MutantSet {
 	
 	private MutantStrain[] mutantStrains;
-	private Random r;
 	
 	public MutantSet(int numMutants, int numEnzymes) {
-		r = new Random();
+		Random r = new Random();
 		// keep rolling the dice until you get at least one mutant in each gene in the set
 		boolean allEnzymesHitAtLeastOnce = false;
 		while (!allEnzymesHitAtLeastOnce) {

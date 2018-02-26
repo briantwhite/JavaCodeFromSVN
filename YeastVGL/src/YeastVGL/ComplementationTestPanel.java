@@ -183,16 +183,6 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 	public void columnSelectionChanged(ListSelectionEvent e) {}
 	public void columnMoved(TableColumnModelEvent e) {
 		if (e.getFromIndex() != e.getToIndex()) {
-			// first, swap the column data
-			int oldCol = e.getFromIndex();
-			int newCol = e.getToIndex();
-			for (int i = 0; i < data.length; i++) {
-				Object temp = data[i][newCol];
-				data[i][newCol] = data[i][oldCol];
-				data[i][oldCol] = temp;
-			}
-			
-			// then the row
 			int oldRow = e.getFromIndex() - 1;
 			int newRow = e.getToIndex() - 1;
 			for (int i = 0; i < columnHeadings.length; i++) {
