@@ -180,6 +180,7 @@ public class YeastVGL_GUI extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			currentSaveWorkFile = fc.getSelectedFile();
 			StringBuffer buf = new StringBuffer();
 			String line;
 			try {
