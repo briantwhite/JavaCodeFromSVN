@@ -205,9 +205,6 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 	
 	public void updateState(State state) {
 		mutantSet = state.getMutantSet();
-		System.out.println("--------------");
-		System.out.println("CTP line 209; new mutant set from file");
-		System.out.println(mutantSet.toString());
 		data = state.getComplementationTableData();
 		// need to fix column headings
 		for (int i = 0; i < data.length; i++) {

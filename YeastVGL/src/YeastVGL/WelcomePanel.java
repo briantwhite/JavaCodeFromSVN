@@ -31,13 +31,13 @@ public class WelcomePanel extends JPanel {
 		newProblemButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				yeastVGLgui.enableTabs();
+				yeastVGLgui.goToComplementationTestPane();
 			}			
 		});
 		
 		openWorkButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				yeastVGLgui.openWork();
-				yeastVGLgui.enableTabs();
 			}			
 		});
 		

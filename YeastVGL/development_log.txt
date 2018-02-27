@@ -171,3 +171,6 @@ try swapping the columns when you go to save it.
 that was a pain, but it now works.
 
 made WelcomePane to start a new problem or load a saved one
+
+2/27/18
+getting open and save working

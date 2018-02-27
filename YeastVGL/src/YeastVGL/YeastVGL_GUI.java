@@ -6,11 +6,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -18,9 +20,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 public class YeastVGL_GUI extends JFrame {
 
@@ -32,6 +34,8 @@ public class YeastVGL_GUI extends JFrame {
 
 	JTabbedPane innerPanel;
 	ComplementationTestPanel ctp;
+	
+	File currentSaveWorkFile;
 
 
 	public YeastVGL_GUI(YeastVGL yeastVGL) {
@@ -42,6 +46,7 @@ public class YeastVGL_GUI extends JFrame {
 		this.numEnzymes = pathway.getNumberOfEnzymes();
 		this.numMolecules = pathway.getNumberOfMolecules();
 		this.mutantSet = yeastVGL.getMutantSet();
+		currentSaveWorkFile = null;
 		setupUI();
 	}
 
@@ -102,19 +107,12 @@ public class YeastVGL_GUI extends JFrame {
 		});
 		saveWorkItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BufferedWriter writer;
-				try {
-					writer = new BufferedWriter(new FileWriter(System.getProperty("user.home") + "/Desktop/text.txt"));
-					writer.write(ctp.getJsonString());
-					writer.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				saveWork();
 			}
 		});
 		saveWorkAsItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				saveWorkAs();
 			}
 		});
 		quitItem.addActionListener(new ActionListener() {
@@ -128,31 +126,79 @@ public class YeastVGL_GUI extends JFrame {
 		innerPanel.setEnabledAt(1, true);
 		innerPanel.setEnabledAt(2, true);
 	}
-
-	public void openWork() {
-		BufferedReader reader = null;
+	
+	public void goToComplementationTestPane() {
+		innerPanel.setSelectedIndex(1);
+	}
+	
+	public void saveWorkAs() {
+		final JFileChooser fc = new JFileChooser(
+				System.getProperty("user.home") 
+				+ System.getProperty("file.separator") 
+				+ "Desktop" 
+				+ System.getProperty("file.separator"));
+		fc.setFileFilter(new FileNameExtensionFilter("Yeast VGL files", "yvgl"));
+		int retVal = fc.showSaveDialog(this);
+		if (retVal == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
+			if (!file.getName().endsWith(".yvgl")) {
+				file = new File(file.getAbsolutePath() + ".yvgl");
+			}
+			currentSaveWorkFile = file;
+			saveWork();
+		}
+	}
+	
+	public void saveWork() {
+		if (currentSaveWorkFile == null) {
+			saveWorkAs();
+			return;
+		}
+		BufferedWriter writer;
 		try {
-			reader = new BufferedReader(new FileReader(System.getProperty("user.home") + "/Desktop/text.txt"));
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
+			writer = new BufferedWriter(new FileWriter(currentSaveWorkFile));
+			writer.write(ctp.getJsonString());
+			writer.close();
+		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		StringBuffer buf = new StringBuffer();
-		String line;
-		try {
-			line = reader.readLine();
-			while (line != null) {
-				buf.append(line);
-				buf.append(System.lineSeparator());
-				line = reader.readLine();
+	}
+
+	public void openWork() {
+		final JFileChooser fc = new JFileChooser(
+				System.getProperty("user.home") 
+				+ System.getProperty("file.separator") 
+				+ "Desktop" 
+				+ System.getProperty("file.separator"));
+		fc.setFileFilter(new FileNameExtensionFilter("Yeast VGL files", "yvgl"));
+		int retVal = fc.showOpenDialog(this);
+		if (retVal == JFileChooser.APPROVE_OPTION) {
+			BufferedReader reader = null;
+			try {
+				reader = new BufferedReader(new FileReader(fc.getSelectedFile()));
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			reader.close();
-			Gson gson = new Gson();
-			State state = gson.fromJson(buf.toString(), State.class);
-			ctp.updateState(state);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			StringBuffer buf = new StringBuffer();
+			String line;
+			try {
+				line = reader.readLine();
+				while (line != null) {
+					buf.append(line);
+					buf.append(System.lineSeparator());
+					line = reader.readLine();
+				}
+				reader.close();
+				Gson gson = new Gson();
+				State state = gson.fromJson(buf.toString(), State.class);
+				ctp.updateState(state);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			enableTabs();
+			goToComplementationTestPane();
 		}
 	}
 
