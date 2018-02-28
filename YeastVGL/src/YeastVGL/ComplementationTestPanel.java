@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -67,14 +68,37 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 
 		// set up the UI
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(Box.createRigidArea(new Dimension(700,10)));
+		this.add(Box.createRigidArea(new Dimension(900,10)));
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.add(Box.createRigidArea(new Dimension(600,1)));
+		leftPanel.add(Box.createRigidArea(new Dimension(150,1)));
+		
+		JPanel instructionPanel = new JPanel();
+		instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
+		instructionPanel.setBorder(BorderFactory.createTitledBorder("Instructions"));
+		instructionPanel.add(Box.createRigidArea(new Dimension(150,1)));
+		instructionPanel.add(new JLabel("<html>"
+				+ "<ol>"
+				+ "<li>Determine your complementation groups using the data at the left</li>"
+				+ "<ul>"
+				+ "<li>You can drag the data columns to the left or right to make it easier to see the groups.</li>"
+				+ "<li>You can enter a name for each of the complementation groups if you find it useful.</li>"
+				+ "<li>You can save your work along the way.</li>"
+				+ "</ul>"
+				+ "<li>Choose one member of each group for your working set by checking the box at the right.</li>"
+				+ "<li>Save your work before continuing to the Pathway pane.</li>"
+				+ "</ol>"
+				+ "</html>"));
+		leftPanel.add(instructionPanel);
+		mainPanel.add(leftPanel);
+		
+		JPanel middlePanel = new JPanel();
+		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
+		middlePanel.add(Box.createRigidArea(new Dimension(600,1)));
 		
 		JPanel ctp = new JPanel();
 		ctp.setBorder(BorderFactory.createTitledBorder("Complementation Table"));
@@ -107,17 +131,17 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		tablePane.setPreferredSize(new Dimension(complementationTable.getPreferredSize().width + 30, 
 				complementationTable.getRowHeight() * (columnHeadings.length + 1)));
 		ctp.add(tablePane);
-		leftPanel.add(ctp);
-		mainPanel.add(leftPanel);
+		middlePanel.add(ctp);
+		mainPanel.add(middlePanel);
 		
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		rightPanel.add(Box.createRigidArea(new Dimension(100,1)));
+		rightPanel.add(Box.createRigidArea(new Dimension(200,1)));
 		
 		JPanel wsp = new JPanel();
 		wsp.setLayout(new BoxLayout(wsp, BoxLayout.Y_AXIS));
 		wsp.setBorder(BorderFactory.createTitledBorder("Working Set"));
-		wsp.add(Box.createRigidArea(new Dimension(100,1)));
+		wsp.add(Box.createRigidArea(new Dimension(200,1)));
 		// now the working set of mutants
 		workingSetCheckboxes = new JCheckBox[numMutants];
 		for (int i = 0; i < numMutants; i++) {
