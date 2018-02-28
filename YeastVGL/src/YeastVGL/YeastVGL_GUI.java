@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
@@ -34,9 +35,10 @@ public class YeastVGL_GUI extends JFrame {
 
 	JTabbedPane innerPanel;
 	ComplementationTestPanel ctp;
-	
+
 	File currentSaveWorkFile;
 
+	private boolean haveSomethingToSave;
 
 	public YeastVGL_GUI(YeastVGL yeastVGL) {
 		super("Yeast VGL 0.1");
@@ -47,6 +49,9 @@ public class YeastVGL_GUI extends JFrame {
 		this.numMolecules = pathway.getNumberOfMolecules();
 		this.mutantSet = yeastVGL.getMutantSet();
 		currentSaveWorkFile = null;
+
+		haveSomethingToSave = false;
+
 		setupUI();
 	}
 
@@ -97,7 +102,7 @@ public class YeastVGL_GUI extends JFrame {
 		// menu listeners
 		newProblemItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				newProblem();
 			}
 		});
 		openWorkItem.addActionListener(new ActionListener() {
@@ -117,7 +122,7 @@ public class YeastVGL_GUI extends JFrame {
 		});
 		quitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				quit();
 			}
 		});
 	}
@@ -126,11 +131,21 @@ public class YeastVGL_GUI extends JFrame {
 		innerPanel.setEnabledAt(1, true);
 		innerPanel.setEnabledAt(2, true);
 	}
-	
+
 	public void goToComplementationTestPane() {
 		innerPanel.setSelectedIndex(1);
 	}
-	
+
+	public void haveSomethingToSave() {
+		haveSomethingToSave = true;
+	}
+
+	public void newProblem() {
+		enableTabs();
+		goToComplementationTestPane();
+		haveSomethingToSave = true;
+	}
+
 	public void saveWorkAs() {
 		final JFileChooser fc = new JFileChooser(
 				System.getProperty("user.home") 
@@ -148,7 +163,7 @@ public class YeastVGL_GUI extends JFrame {
 			saveWork();
 		}
 	}
-	
+
 	public void saveWork() {
 		if (currentSaveWorkFile == null) {
 			saveWorkAs();
@@ -162,6 +177,7 @@ public class YeastVGL_GUI extends JFrame {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		haveSomethingToSave = false;
 	}
 
 	public void openWork() {
@@ -177,7 +193,6 @@ public class YeastVGL_GUI extends JFrame {
 			try {
 				reader = new BufferedReader(new FileReader(fc.getSelectedFile()));
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			currentSaveWorkFile = fc.getSelectedFile();
@@ -195,11 +210,35 @@ public class YeastVGL_GUI extends JFrame {
 				State state = gson.fromJson(buf.toString(), State.class);
 				ctp.updateState(state);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			enableTabs();
 			goToComplementationTestPane();
+			haveSomethingToSave = true;
+		}
+	}
+
+	public void quit() {
+		if (haveSomethingToSave) {
+			Object[] options = {"Quit without saving", "Save your work", "Cancel"};
+			int n = JOptionPane.showOptionDialog(
+					this, 
+					"You have unsaved work, do you want to save before quitting?", 
+					"Unsaved work", 
+					JOptionPane.YES_NO_CANCEL_OPTION, 
+					JOptionPane.QUESTION_MESSAGE, 
+					null, 
+					options, 
+					options[2]);
+			if (n == 0) {
+				System.exit(0);
+			} else if (n == 1) {
+				saveWork();
+			} else {
+				return;
+			}
+		} else {
+			System.exit(0);
 		}
 	}
 

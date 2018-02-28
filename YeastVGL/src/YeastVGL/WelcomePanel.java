@@ -30,8 +30,7 @@ public class WelcomePanel extends JPanel {
 		
 		newProblemButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				yeastVGLgui.enableTabs();
-				yeastVGLgui.goToComplementationTestPane();
+				yeastVGLgui.newProblem();
 			}			
 		});
 		
@@ -43,7 +42,7 @@ public class WelcomePanel extends JPanel {
 		
 		quitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				yeastVGLgui.quit();
 			}			
 		});
 

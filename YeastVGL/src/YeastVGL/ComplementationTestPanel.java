@@ -1,6 +1,8 @@
 package YeastVGL;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -86,6 +88,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 					return;
 				}
 				super.moveColumn(columnIndex, newIndex);
+				yeastVGL.getGUI().haveSomethingToSave();
 			}
 		});
 		complementationTable.setModel(new ComTabModel());
@@ -119,6 +122,11 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		workingSetCheckboxes = new JCheckBox[numMutants];
 		for (int i = 0; i < numMutants; i++) {
 			workingSetCheckboxes[i] = new JCheckBox("M" + i);
+			workingSetCheckboxes[i].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					yeastVGL.getGUI().haveSomethingToSave();
+				}
+			});
 		}
 		for (int i = 0; i < workingSetCheckboxes.length; i++) {
 			wsp.add(workingSetCheckboxes[i]);
@@ -190,6 +198,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 				data[newRow][i] = data[oldRow][i];
 				data[oldRow][i] = temp;
 			}	
+			
 		}
 	}
 	
