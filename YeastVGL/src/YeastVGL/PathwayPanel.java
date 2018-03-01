@@ -22,6 +22,8 @@ public class PathwayPanel extends JPanel {
 	int numEnzymes;
 	int numMolecules;
 	
+	JPanel genoPanel;
+	
 	public PathwayPanel(Pathway pathway) {
 		this.pathway = pathway;
 		numEnzymes = pathway.getNumberOfEnzymes();
@@ -51,10 +53,11 @@ public class PathwayPanel extends JPanel {
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
 		middlePanel.add(Box.createRigidArea(new Dimension(600,1)));
 
-		JPanel genoPanel = new JPanel();
+		genoPanel = new JPanel();
 		genoPanel.setLayout(new BoxLayout(genoPanel, BoxLayout.Y_AXIS));
 		genoPanel.add(Box.createRigidArea(new Dimension(100,1)));
-		JLabel genotypeLabel = new JLabel("Genotype (check all active enzymes present):");
+		JLabel genotypeLabel = new JLabel(
+				"Genotype (check boxes for mutations to be included in your test strain):");
 		genoPanel.add(genotypeLabel);		
 		genotypeCheckboxes = new JCheckBox[numEnzymes];
 		for (int i = 0; i < numEnzymes; i++) {
@@ -91,6 +94,10 @@ public class PathwayPanel extends JPanel {
 		public void itemStateChanged(ItemEvent e) {
 			updateDisplay();
 		}
+	}
+	
+	public void updateWorkingSet(ArrayList<MutantStrain> workingSet) {
+		
 	}
 	
 	public void updateDisplay() {

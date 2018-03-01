@@ -186,3 +186,8 @@ to do
 	do an aggregate genotype
 		the reverse of the complementation test
 			if any is false, make it false
+
+got complementation group labeling to save (and cg is now part of each MutantStrain)
+working on getting the working set to show in the PathwayPanel.
+	need, if nothing in working set, to display message in panel "none selected"
+	

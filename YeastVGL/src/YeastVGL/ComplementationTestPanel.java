@@ -240,6 +240,16 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		}
 	}
 	
+	public ArrayList<MutantStrain> getWorkingSet() {
+		ArrayList<MutantStrain> workingSet = new ArrayList<MutantStrain>();
+		for (int i = 0; i < workingSetCheckboxes.length; i++) {
+			if (workingSetCheckboxes[i].isSelected()) {
+				workingSet.add(mutantSet.getMutantStrains()[i]);
+			}
+		}
+		return workingSet;
+	}
+	
 	public String getJsonString() {
 		boolean[] workingSet = new boolean[workingSetCheckboxes.length];
 		for (int i = 0; i < workingSet.length; i++) {
