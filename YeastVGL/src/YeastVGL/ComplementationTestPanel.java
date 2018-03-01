@@ -17,6 +17,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -59,7 +61,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 				if (col == 0) {
 					data[row][col] = new String(mutantNames[row]);
 				} else if (col == (numMutants + 1)){
-					data[row][col] = new String("-enter name-");
+					data[row][col] = mutantSet.getMutantStrains()[row].getComplementationGroup();
 				} else {
 					data[row][col] = willDiploidGrow(row, col - 1, startingMaterials);
 				}
@@ -115,7 +117,19 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 				yeastVGL.getGUI().haveSomethingToSave();
 			}
 		});
-		complementationTable.setModel(new ComTabModel());
+		ComTabModel ctModel = new ComTabModel();
+		// need to update the mutant's complementation group if you changed it
+		ctModel.addTableModelListener(new TableModelListener() {
+			public void tableChanged(TableModelEvent e) {
+				if (e.getType() == TableModelEvent.UPDATE) {
+					int alteredMutantNumber = Integer.valueOf(
+							data[e.getFirstRow()][0].toString().substring(1));
+					mutantSet.getMutantStrains()[alteredMutantNumber].setComplementationGroup(
+							data[e.getFirstRow()][e.getColumn()].toString());
+				}
+			}			
+		});
+		complementationTable.setModel(ctModel);
 		complementationTable.setFillsViewportHeight(true);
 		complementationTable.getColumnModel().addColumnModelListener(this);
 		for (int i = 0; i < columnHeadings.length; i++) {

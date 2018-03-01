@@ -1,10 +1,14 @@
 package YeastVGL;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,10 +27,33 @@ public class PathwayPanel extends JPanel {
 		numEnzymes = pathway.getNumberOfEnzymes();
 		numMolecules = pathway.getNumberOfMolecules();
 		
-		this.setLayout(new FlowLayout());
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.add(Box.createRigidArea(new Dimension(900,10)));
+		
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+		
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		leftPanel.add(Box.createRigidArea(new Dimension(150,1)));
+		
+		JPanel instructionPanel = new JPanel();
+		instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
+		instructionPanel.setBorder(BorderFactory.createTitledBorder("Instructions"));
+		instructionPanel.add(Box.createRigidArea(new Dimension(150,1)));
+		instructionPanel.add(new JLabel("<html>"
+				+ "bla"
+				+ "</html>"));
+		leftPanel.add(instructionPanel);
+		mainPanel.add(leftPanel);
+		
+		JPanel middlePanel = new JPanel();
+		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
+		middlePanel.add(Box.createRigidArea(new Dimension(600,1)));
 
 		JPanel genoPanel = new JPanel();
-		genoPanel.setLayout(new FlowLayout());
+		genoPanel.setLayout(new BoxLayout(genoPanel, BoxLayout.Y_AXIS));
+		genoPanel.add(Box.createRigidArea(new Dimension(100,1)));
 		JLabel genotypeLabel = new JLabel("Genotype (check all active enzymes present):");
 		genoPanel.add(genotypeLabel);		
 		genotypeCheckboxes = new JCheckBox[numEnzymes];
@@ -36,7 +63,7 @@ public class PathwayPanel extends JPanel {
 			genotypeCheckboxes[i].setSelected(true);
 			genotypeCheckboxes[i].addItemListener(new checkBoxListener());
 		}
-		this.add(genoPanel);
+		middlePanel.add(genoPanel);
 
 		JPanel substrPanel = new JPanel();
 		substrPanel.setLayout(new FlowLayout());
@@ -49,12 +76,15 @@ public class PathwayPanel extends JPanel {
 			substrateCheckboxes[i].setSelected(false);
 			substrateCheckboxes[i].addItemListener(new checkBoxListener());
 		}
-		this.add(substrPanel);
+		middlePanel.add(substrPanel);
 
 		JPanel willItGrowPanel = new JPanel();
 		willItGrowLabel = new JLabel();
 		willItGrowPanel.add(willItGrowLabel);
-		this.add(willItGrowPanel);
+		middlePanel.add(willItGrowPanel);
+		mainPanel.add(middlePanel);
+		
+		this.add(mainPanel);
 	}
 	
 	private class checkBoxListener implements ItemListener {

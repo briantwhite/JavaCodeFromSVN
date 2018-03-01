@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class MutantStrain {
 	
 	private boolean[] genotype;
+	private String complementationGroup;
 	
 	public MutantStrain(int numEnzymes, ArrayList<Integer>mutatedGenes) {
 		// starts off as wild-type
@@ -18,10 +19,19 @@ public class MutantStrain {
 				genotype[mutatedGenes.get(i).intValue()] = false;
 			}
 		}
+		complementationGroup = "";
 	}
 	
 	public boolean[] getGenotype() {
 		return genotype;
+	}
+	
+	public String getComplementationGroup() {
+		return complementationGroup;
+	}
+	
+	public void setComplementationGroup(String cg) {
+		complementationGroup = cg;
 	}
 
 	public String toString() {
@@ -34,6 +44,8 @@ public class MutantStrain {
 				b.append("- ");
 			}
 		}
+		b.append(" CG:");
+		b.append(complementationGroup);
 		return b.toString();
 	}
 }
