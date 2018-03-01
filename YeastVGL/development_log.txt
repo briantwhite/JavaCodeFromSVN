@@ -174,3 +174,15 @@ made WelcomePane to start a new problem or load a saved one
 
 2/27/18
 getting open and save working
+
+3/1/18
+to do
+- instructions pane for pathway panel
+- work out working set details
+	have them displayed on the left of the pathway panel in vertical column
+		"check boxes for mutations to be included in your strain"
+			"no checked boxes = wild type"
+			[] mutation in strain m3 - complementation group fred (don't print it if it's the default text)
+	do an aggregate genotype
+		the reverse of the complementation test
+			if any is false, make it false
