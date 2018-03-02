@@ -190,4 +190,7 @@ to do
 got complementation group labeling to save (and cg is now part of each MutantStrain)
 working on getting the working set to show in the PathwayPanel.
 	need, if nothing in working set, to display message in panel "none selected"
-	
+
+3/2/18
+working on pathway panel to use the working set
+something's strange about the "will it grow" - maybe the composite genotype is wrong?

@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.google.gson.Gson;
@@ -34,7 +36,6 @@ public class YeastVGL_GUI extends JFrame {
 	int numMolecules;
 
 	JTabbedPane innerPanel;
-	ComplementationTestPanel ctp;
 
 	File currentSaveWorkFile;
 
@@ -86,14 +87,21 @@ public class YeastVGL_GUI extends JFrame {
 		innerPanel = new JTabbedPane();
 		WelcomePanel wp = new WelcomePanel(this);
 		innerPanel.addTab("Welcome", wp);
-		ctp = new ComplementationTestPanel(yeastVGL);
-		innerPanel.addTab("Complementation Test", ctp);
-		PathwayPanel pp = new PathwayPanel(yeastVGL);
-		innerPanel.addTab("Pathway Analysis", pp);
-		pp.updateDisplay();
+		innerPanel.addTab("Complementation Test", yeastVGL.getComplementationTestPanel());
+		innerPanel.addTab("Pathway Analysis", yeastVGL.getPathwayPanel());
+
 		// start with other tabs disabled for now
 		innerPanel.setEnabledAt(1, false);
 		innerPanel.setEnabledAt(2, false);
+		
+		// update the working set choices when you go to the PathwayPanel
+		innerPanel.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				yeastVGL.getPathwayPanel().updateWorkingSet(
+						yeastVGL.getComplementationTestPanel().getWorkingSet());
+			}			
+		});
+		
 		mainPanel.add(innerPanel, BorderLayout.CENTER);
 
 		this.add(mainPanel);
@@ -140,10 +148,6 @@ public class YeastVGL_GUI extends JFrame {
 		haveSomethingToSave = true;
 	}
 	
-	public ComplementationTestPanel getComplementationTestPanel() {
-		return ctp;
-	}
-
 	public void newProblem() {
 		enableTabs();
 		goToComplementationTestPane();
@@ -176,7 +180,7 @@ public class YeastVGL_GUI extends JFrame {
 		BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new FileWriter(currentSaveWorkFile));
-			writer.write(ctp.getJsonString());
+			writer.write(yeastVGL.getComplementationTestPanel().getJsonString());
 			writer.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -212,7 +216,7 @@ public class YeastVGL_GUI extends JFrame {
 				reader.close();
 				Gson gson = new Gson();
 				State state = gson.fromJson(buf.toString(), State.class);
-				ctp.updateState(state);
+				yeastVGL.getComplementationTestPanel().updateState(state);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

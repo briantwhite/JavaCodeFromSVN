@@ -6,6 +6,8 @@ public class YeastVGL {
 	private static YeastVGL yeastVGL;
 	private MutantSet mutantSet;
 	private static YeastVGL_GUI gui;
+	private ComplementationTestPanel ctp;
+	private PathwayPanel pp;
 	
 	public static final int NUM_MUTANTS = 15;
 
@@ -18,7 +20,8 @@ public class YeastVGL {
 	private YeastVGL() {
 		pathway = new Pathway();
 		mutantSet = new MutantSet(NUM_MUTANTS, pathway.getNumberOfEnzymes());
-		
+		ctp = new ComplementationTestPanel(this);
+		pp = new PathwayPanel(this);
 	}
 	
 	public Pathway getPathway() {
@@ -31,6 +34,14 @@ public class YeastVGL {
 	
 	public YeastVGL_GUI getGUI() {
 		return gui;
+	}
+	
+	public ComplementationTestPanel getComplementationTestPanel() {
+		return ctp;
+	}
+	
+	public PathwayPanel getPathwayPanel() {
+		return pp;
 	}
 
 }

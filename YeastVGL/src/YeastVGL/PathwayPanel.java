@@ -17,32 +17,37 @@ public class PathwayPanel extends JPanel {
 
 	private YeastVGL yeastVGL;
 	
+	private ArrayList<MutantStrain> workingSet;
+
 	JCheckBox[] genotypeCheckboxes;
 	JCheckBox[] substrateCheckboxes;
 	JLabel willItGrowLabel;
 	Pathway pathway;
 	int numEnzymes;
 	int numMolecules;
-	
+
 	JPanel genoPanel;
-	JLabel noWorkingSetWarningLabel;
-	
+	JLabel noWorkingSetWarningLabel = new JLabel("<html>"
+			+ "<font color='red'>There are no mutants selected in your working set.\n"
+			+ "Please go back and select a Working Set on the Complementation Test Panel."
+			+ "</font></html>");
+
 	public PathwayPanel(YeastVGL yeastVGL) {
 		this.yeastVGL = yeastVGL;
 		this.pathway = yeastVGL.getPathway();
 		numEnzymes = pathway.getNumberOfEnzymes();
 		numMolecules = pathway.getNumberOfMolecules();
-		
+
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(Box.createRigidArea(new Dimension(900,10)));
-		
+
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
-		
+
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(Box.createRigidArea(new Dimension(150,1)));
-		
+
 		JPanel instructionPanel = new JPanel();
 		instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
 		instructionPanel.setBorder(BorderFactory.createTitledBorder("Instructions"));
@@ -52,7 +57,7 @@ public class PathwayPanel extends JPanel {
 				+ "</html>"));
 		leftPanel.add(instructionPanel);
 		mainPanel.add(leftPanel);
-		
+
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
 		middlePanel.add(Box.createRigidArea(new Dimension(600,1)));
@@ -60,30 +65,18 @@ public class PathwayPanel extends JPanel {
 		genoPanel = new JPanel();
 		genoPanel.setLayout(new BoxLayout(genoPanel, BoxLayout.Y_AXIS));
 		genoPanel.add(Box.createRigidArea(new Dimension(100,1)));
+		genoPanel.setBorder(BorderFactory.createTitledBorder("Genotype"));
 		JLabel genotypeLabel = new JLabel(
 				"Genotype (check boxes for mutations to be included in your test strain):");
 		genoPanel.add(genotypeLabel);
-		noWorkingSetWarningLabel = new JLabel("There are no mutants selected in your working set.\n"
-				+ "Please go back and select a Working Set on the Complementation Test Panel.");
-		ArrayList<MutantStrain> workingSet = yeastVGL.getGUI().getComplementationTestPanel().getWorkingSet();
-		if (workingSet.size() == 0) {
-			add(noWorkingSetWarningLabel);
-		} else {
-			remove(noWorkingSetWarningLabel);
-			genotypeCheckboxes = new JCheckBox[workingSet.size()];
-			for (int i = 0; i < workingSet.size(); i++) {
-				genotypeCheckboxes[i] = new JCheckBox("Mutation: " 
-						+ workingSet.get(i).getIndex() 
-						+ " Complementation Group: " + workingSet.get(i).getComplementationGroup());
-				genoPanel.add(genotypeCheckboxes[i]);
-				genotypeCheckboxes[i].setSelected(false);
-				genotypeCheckboxes[i].addItemListener(new checkBoxListener());
-			}	
-		}
+
+		genoPanel.add(noWorkingSetWarningLabel);
 		middlePanel.add(genoPanel);
 
 		JPanel substrPanel = new JPanel();
-		substrPanel.setLayout(new FlowLayout());
+		substrPanel.setLayout(new BoxLayout(substrPanel, BoxLayout.Y_AXIS));
+		substrPanel.add(Box.createRigidArea(new Dimension(100,1)));
+		substrPanel.setBorder(BorderFactory.createTitledBorder("Growth Medium"));
 		JLabel substrateLabel = new JLabel("Which molecules are in the medium?");
 		substrPanel.add(substrateLabel);				
 		substrateCheckboxes = new JCheckBox[numMolecules];
@@ -100,26 +93,50 @@ public class PathwayPanel extends JPanel {
 		willItGrowPanel.add(willItGrowLabel);
 		middlePanel.add(willItGrowPanel);
 		mainPanel.add(middlePanel);
-		
+
 		this.add(mainPanel);
 	}
-	
+
 	private class checkBoxListener implements ItemListener {
 		public void itemStateChanged(ItemEvent e) {
 			updateDisplay();
 		}
 	}
-	
+
 	public void updateWorkingSet(ArrayList<MutantStrain> workingSet) {
-		
-	}
-	
-	public void updateDisplay() {
-		boolean[] genotype = new boolean[numEnzymes];
-		for (int i = 0; i < numEnzymes; i++) {
-			genotype[i] = genotypeCheckboxes[i].isSelected();
+		this.workingSet = workingSet;
+		genoPanel.removeAll();
+		if (workingSet.isEmpty()) {
+			genoPanel.add(noWorkingSetWarningLabel);
 		}
-		
+		genotypeCheckboxes = new MutantStrainCheckbox[workingSet.size()];
+		for (int i = 0; i < workingSet.size(); i++) {
+			genotypeCheckboxes[i] = new MutantStrainCheckbox(workingSet.get(i));
+			genoPanel.add(genotypeCheckboxes[i]);
+			genotypeCheckboxes[i].setSelected(false);
+			genotypeCheckboxes[i].addItemListener(new checkBoxListener());
+		}
+	}
+
+	public void updateDisplay() {
+		boolean[] compositeGenotype = new boolean[numEnzymes];
+		for (int i = 0; i < numEnzymes; i++) {
+			compositeGenotype[i] = true;
+		}
+		/*
+		 * combine genotypes of the mutants selected in the working set
+		 *  collect ALL mutations = if an enzyme is false (inactive) in any
+		 *  of the working set, then it's inactive in the overall genotype
+		 */
+		for (int i = 0; i < workingSet.size(); i++) {
+			MutantStrain ms = workingSet.get(i);
+			for (int j = 0; j < numEnzymes; j++) {
+				if (!ms.getGenotype()[j]) {
+					compositeGenotype[j] = false;
+				}
+			}
+		}
+
 		// minimal medium is assumed to contain molecule 0
 		ArrayList<Integer> startingMolecules = new ArrayList<Integer>();
 		startingMolecules.add(new Integer(0));
@@ -128,8 +145,8 @@ public class PathwayPanel extends JPanel {
 				startingMolecules.add(new Integer(i));
 			}
 		}
-				
-		if (pathway.willItGrow(genotype, startingMolecules)) {
+
+		if (pathway.willItGrow(compositeGenotype, startingMolecules)) {
 			willItGrowLabel.setText("<html><font color=\"green\">It Will grow!</html>");
 		} else {
 			willItGrowLabel.setText("<html><font color=\"red\">It Won't grow!</html>");
