@@ -23,7 +23,7 @@ public class MutantSet {
 				ArrayList<Integer>mutantGenes = new ArrayList<Integer>();
 				int mutantGeneNumber = r.nextInt(numEnzymes);
 				mutantGenes.add(new Integer(mutantGeneNumber));
-				mutantStrains[i] = new MutantStrain(numEnzymes, mutantGenes);
+				mutantStrains[i] = new MutantStrain(i, numEnzymes, mutantGenes);
 				// tally it
 				mutatedGeneTallies[mutantGeneNumber]++;
 			}

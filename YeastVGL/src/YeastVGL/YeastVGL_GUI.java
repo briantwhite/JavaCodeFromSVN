@@ -88,7 +88,7 @@ public class YeastVGL_GUI extends JFrame {
 		innerPanel.addTab("Welcome", wp);
 		ctp = new ComplementationTestPanel(yeastVGL);
 		innerPanel.addTab("Complementation Test", ctp);
-		PathwayPanel pp = new PathwayPanel(pathway);
+		PathwayPanel pp = new PathwayPanel(yeastVGL);
 		innerPanel.addTab("Pathway Analysis", pp);
 		pp.updateDisplay();
 		// start with other tabs disabled for now
@@ -138,6 +138,10 @@ public class YeastVGL_GUI extends JFrame {
 
 	public void haveSomethingToSave() {
 		haveSomethingToSave = true;
+	}
+	
+	public ComplementationTestPanel getComplementationTestPanel() {
+		return ctp;
 	}
 
 	public void newProblem() {

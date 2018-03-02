@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 public class MutantStrain {
 	
+	private int index;
 	private boolean[] genotype;
 	private String complementationGroup;
 	
-	public MutantStrain(int numEnzymes, ArrayList<Integer>mutatedGenes) {
+	public MutantStrain(int index, int numEnzymes, ArrayList<Integer>mutatedGenes) {
+		
+		this.index = index;
+		
 		// starts off as wild-type
 		genotype = new boolean[numEnzymes];
 		for (int i = 0; i < numEnzymes; i++) {
@@ -20,6 +24,10 @@ public class MutantStrain {
 			}
 		}
 		complementationGroup = "";
+	}
+	
+	public int getIndex() {
+		return index;
 	}
 	
 	public boolean[] getGenotype() {

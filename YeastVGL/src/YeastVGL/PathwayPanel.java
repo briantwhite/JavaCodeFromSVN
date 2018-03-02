@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 
 public class PathwayPanel extends JPanel {
 
+	private YeastVGL yeastVGL;
+	
 	JCheckBox[] genotypeCheckboxes;
 	JCheckBox[] substrateCheckboxes;
 	JLabel willItGrowLabel;
@@ -23,9 +25,11 @@ public class PathwayPanel extends JPanel {
 	int numMolecules;
 	
 	JPanel genoPanel;
+	JLabel noWorkingSetWarningLabel;
 	
-	public PathwayPanel(Pathway pathway) {
-		this.pathway = pathway;
+	public PathwayPanel(YeastVGL yeastVGL) {
+		this.yeastVGL = yeastVGL;
+		this.pathway = yeastVGL.getPathway();
 		numEnzymes = pathway.getNumberOfEnzymes();
 		numMolecules = pathway.getNumberOfMolecules();
 		
@@ -58,13 +62,23 @@ public class PathwayPanel extends JPanel {
 		genoPanel.add(Box.createRigidArea(new Dimension(100,1)));
 		JLabel genotypeLabel = new JLabel(
 				"Genotype (check boxes for mutations to be included in your test strain):");
-		genoPanel.add(genotypeLabel);		
-		genotypeCheckboxes = new JCheckBox[numEnzymes];
-		for (int i = 0; i < numEnzymes; i++) {
-			genotypeCheckboxes[i] = new JCheckBox("Enzyme: " + i);
-			genoPanel.add(genotypeCheckboxes[i]);
-			genotypeCheckboxes[i].setSelected(true);
-			genotypeCheckboxes[i].addItemListener(new checkBoxListener());
+		genoPanel.add(genotypeLabel);
+		noWorkingSetWarningLabel = new JLabel("There are no mutants selected in your working set.\n"
+				+ "Please go back and select a Working Set on the Complementation Test Panel.");
+		ArrayList<MutantStrain> workingSet = yeastVGL.getGUI().getComplementationTestPanel().getWorkingSet();
+		if (workingSet.size() == 0) {
+			add(noWorkingSetWarningLabel);
+		} else {
+			remove(noWorkingSetWarningLabel);
+			genotypeCheckboxes = new JCheckBox[workingSet.size()];
+			for (int i = 0; i < workingSet.size(); i++) {
+				genotypeCheckboxes[i] = new JCheckBox("Mutation: " 
+						+ workingSet.get(i).getIndex() 
+						+ " Complementation Group: " + workingSet.get(i).getComplementationGroup());
+				genoPanel.add(genotypeCheckboxes[i]);
+				genotypeCheckboxes[i].setSelected(false);
+				genotypeCheckboxes[i].addItemListener(new checkBoxListener());
+			}	
 		}
 		middlePanel.add(genoPanel);
 
