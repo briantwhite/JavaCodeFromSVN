@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 public class PathwayPanel extends JPanel {
 
 	private YeastVGL yeastVGL;
-	
+
 	private ArrayList<MutantStrain> workingSet;
 
 	JCheckBox[] genotypeCheckboxes;
@@ -128,12 +128,23 @@ public class PathwayPanel extends JPanel {
 		 *  collect ALL mutations = if an enzyme is false (inactive) in any
 		 *  of the working set, then it's inactive in the overall genotype
 		 */
-		for (int i = 0; i < workingSet.size(); i++) {
-			MutantStrain ms = workingSet.get(i);
-			for (int j = 0; j < numEnzymes; j++) {
-				if (!ms.getGenotype()[j]) {
-					compositeGenotype[j] = false;
+		for (int i = 0; i < genotypeCheckboxes.length; i++) {
+			if (genotypeCheckboxes[i].isSelected()) {
+				MutantStrain ms = workingSet.get(i);
+				for (int j = 0; j < numEnzymes; j++) {
+					if (!ms.getGenotype()[j]) {
+						compositeGenotype[j] = false;
+						System.out.println("M" + ms.getIndex() + " told me to inactivate E" + j);
+					}
 				}
+			}
+		}
+		System.out.println("PP line 139: updating composite genotype");
+		for (int i = 0; i < numEnzymes; i++) {
+			if (compositeGenotype[i]) {		
+				System.out.println("E" + i + " ACTIVE");
+			} else {
+				System.out.println("E" + i + " inactive");			
 			}
 		}
 

@@ -194,3 +194,6 @@ working on getting the working set to show in the PathwayPanel.
 3/2/18
 working on pathway panel to use the working set
 something's strange about the "will it grow" - maybe the composite genotype is wrong?
+
+it may be working - need to check carefully
+lots of printing in PathwayPanel to clean out when it's going.
