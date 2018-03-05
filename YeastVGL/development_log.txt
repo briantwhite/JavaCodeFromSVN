@@ -197,3 +197,53 @@ something's strange about the "will it grow" - maybe the composite genotype is w
 
 it may be working - need to check carefully
 lots of printing in PathwayPanel to clean out when it's going.
+
+3/5/18
+need to build a tool to have them enter their answer for the pathway
+	not a tool to help them figure it out - too complicated and idiosyncratic
+see the sketch "/YeastVGL/notes/tool for drawing pathways - 0.png"
+use a grid of little panels with a popup menu like in Pelican.java line 2066 (Pelican extends JPanel)
+		private void maybeShowPopup(MouseEvent e)  {
+
+			int x = e.getX();
+			int y = e.getY();
+
+			final Component c = getComponentAt(x,y);
+
+			if (c instanceof PelicanPerson) {
+				PelicanPerson p=(PelicanPerson)c;
+				if (e.isPopupTrigger()) {
+					if (p.isOrphan()) Parents.setEnabled(true);
+					else Parents.setEnabled(false);
+					popup.show(e.getComponent(),x,y);
+					currentPerson=(PelicanPerson)c;
+				}
+				else {
+					if (mergeEnabled) {
+						mergePerson((PelicanPerson)c);
+						updateDisplay();
+					}
+					else {
+						currentPerson=(PelicanPerson)c;
+					}
+				}
+			}
+			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			mergeEnabled=false;
+
+		}
+
+- indicate the essential terminal products with green letters.
+have light pastel colored columns to indicate type
+	molecule
+	link
+	enzyme
+- have the tile images share the background color
+
+for scoring
+	convert to pathway as used in the program
+	walk recursively thru both while comparing
+		like the pedigree solver
+		if you exhaust all possibilities in the "correct" one without a match - it's wrong
+		
+as they draw, can use the check pedigree code and have a little text window with "problems"
