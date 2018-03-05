@@ -1,8 +1,11 @@
 package YeastVGL;
 
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -10,7 +13,9 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
@@ -24,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.google.gson.Gson;
 
-public class ComplementationTestPanel extends JPanel implements TableColumnModelListener {
+public class ComplementationTestPanel extends JPanel implements ActionListener, TableColumnModelListener {
 
 	private JTable complementationTable;
 	private Pathway pathway;
@@ -33,6 +38,8 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 	private int numEnzymes;
 	private String[] columnHeadings;
 	private JCheckBox[] workingSetCheckboxes;
+	private JPopupMenu cgChoicePopup;
+	private int cgTableRowforCGediting;
 
 	private Object[][] data;
 
@@ -41,7 +48,16 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		mutantSet = yeastVGL.getMutantSet();
 		numMutants = mutantSet.getNumberOfMutants();
 		numEnzymes = yeastVGL.getPathway().getNumberOfEnzymes();
-
+		
+		// set up the complementation group popup menu
+		cgChoicePopup = new JPopupMenu();
+		JMenuItem[] cgChoices = new JMenuItem[numEnzymes + 2];
+		for (int i = 0; i < cgChoices.length; i++) {
+			cgChoices[i] = new JMenuItem(String.valueOf((char)(i + 0x41)));
+			cgChoices[i].addActionListener(this);
+			cgChoicePopup.add(cgChoices[i]);
+		}
+	
 		// set up the column names
 		String[] mutantNames = new String[numMutants];
 		columnHeadings = new String[numMutants + 2];
@@ -88,9 +104,10 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 				+ "<li>Determine your complementation groups using the data at the left</li>"
 				+ "<ul>"
 				+ "<li>You can drag the data columns to the left or right to make it easier to see the groups.</li>"
-				+ "<li>You can enter a name for each of the complementation groups if you find it useful.</li>"
 				+ "<li>You can save your work along the way.</li>"
 				+ "</ul>"
+				+ "<li>You should then assign a complementation group letter to each group by clicking in the corresponding cell"
+				+ " and choosing from the list that pops up.</li>"
 				+ "<li>Choose one member of each group for your working set by checking the box at the right.</li>"
 				+ "<li>Save your work before continuing to the Pathway pane.</li>"
 				+ "</ol>"
@@ -141,6 +158,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 		}
 		//		complementationTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		complementationTable.setRowHeight(30);
+		complementationTable.addMouseListener(new ComGrpEditorListener());
 		JScrollPane tablePane = new JScrollPane(complementationTable);
 		tablePane.setPreferredSize(new Dimension(complementationTable.getPreferredSize().width + 30, 
 				complementationTable.getRowHeight() * (columnHeadings.length + 1)));
@@ -207,11 +225,7 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 			return columnHeadings[col];
 		}
 		public boolean isCellEditable(int r, int c) {
-			if (c == (columnHeadings.length - 1)) {
-				return true;
-			} else {
 				return false;
-			}
 		}
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			return data[rowIndex][columnIndex];
@@ -239,6 +253,25 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 			
 		}
 	}
+	
+	// the popup that lets you edit the complementation group
+	class ComGrpEditorListener extends MouseAdapter {
+		public void mousePressed(MouseEvent e) {
+			int row = complementationTable.rowAtPoint(e.getPoint());
+			int col = complementationTable.columnAtPoint(e.getPoint());
+			if (col == (numMutants + 1)) {
+				Rectangle targetCell = complementationTable.getCellRect(row, col, false);
+				cgChoicePopup.show(complementationTable, targetCell.x + (targetCell.width/2), targetCell.y + (targetCell.height/2));
+				cgTableRowforCGediting = row;
+			}
+		}
+	}
+	// this will be fired when a choice is made in the cgChoicePopup
+	public void actionPerformed(ActionEvent e) {
+		String choice = ((JMenuItem)e.getSource()).getText();
+		data[cgTableRowforCGediting][numMutants + 1] = choice;
+	}
+
 	
 	public ArrayList<MutantStrain> getWorkingSet() {
 		ArrayList<MutantStrain> workingSet = new ArrayList<MutantStrain>();
@@ -275,5 +308,6 @@ public class ComplementationTestPanel extends JPanel implements TableColumnModel
 			workingSetCheckboxes[i].setSelected(state.getWorkingSetChoices()[i]);
 		}
 	}
+
 	
 }

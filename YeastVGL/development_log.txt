@@ -247,3 +247,9 @@ for scoring
 		if you exhaust all possibilities in the "correct" one without a match - it's wrong
 		
 as they draw, can use the check pedigree code and have a little text window with "problems"
+
+first, to make this work, they can't have arbitrarily long names for the complementation groups
+	since they'll be in the labels
+but the JMenu didn't work
+	how about a JPopupMenu like in the PedigreeExplorer?
+got that working.
