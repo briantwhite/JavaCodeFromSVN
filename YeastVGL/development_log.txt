@@ -253,3 +253,6 @@ first, to make this work, they can't have arbitrarily long names for the complem
 but the JMenu didn't work
 	how about a JPopupMenu like in the PedigreeExplorer?
 got that working.
+
+did some refactoring of the complementation test panel - it was getting a little busy
+got all the errors fixed but a null pointer thingy that doesn't make sense...

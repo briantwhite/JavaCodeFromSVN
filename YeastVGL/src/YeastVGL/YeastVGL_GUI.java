@@ -27,6 +27,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.google.gson.Gson;
 
+import Biochemistry.MutantSet;
+import Biochemistry.Pathway;
+
 public class YeastVGL_GUI extends JFrame {
 
 	YeastVGL yeastVGL;

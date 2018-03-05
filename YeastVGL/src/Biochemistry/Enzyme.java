@@ -1,4 +1,4 @@
-package YeastVGL;
+package Biochemistry;
 
 public class Enzyme {
 	private int number;

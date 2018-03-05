@@ -1,5 +1,10 @@
 package YeastVGL;
 
+import Biochemistry.MutantSet;
+import Biochemistry.Pathway;
+import ComplementationTestPanel.ComplementationTestPanel;
+import PathwayPanel.PathwayPanel;
+
 public class YeastVGL {
 	
 	private Pathway pathway;
@@ -30,6 +35,14 @@ public class YeastVGL {
 	
 	public MutantSet getMutantSet() {
 		return mutantSet;
+	}
+	
+	public void setMutantSet(MutantSet ms) {
+		mutantSet = ms;
+	}
+	
+	public int getNumMutants() {
+		return NUM_MUTANTS;
 	}
 	
 	public YeastVGL_GUI getGUI() {

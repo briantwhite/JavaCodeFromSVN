@@ -1,5 +1,7 @@
 package YeastVGL;
 
+import Biochemistry.MutantSet;
+
 public class State {
 	private MutantSet mutantSet;
 	private Object[][] complementationTableData;

@@ -1,4 +1,4 @@
-package YeastVGL;
+package Biochemistry;
 import java.util.ArrayList;
 
 public class Molecule {

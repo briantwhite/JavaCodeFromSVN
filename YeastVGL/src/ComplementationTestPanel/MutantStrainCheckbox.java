@@ -1,6 +1,8 @@
-package YeastVGL;
+package ComplementationTestPanel;
 
 import javax.swing.JCheckBox;
+
+import Biochemistry.MutantStrain;
 
 public class MutantStrainCheckbox extends JCheckBox {
 	

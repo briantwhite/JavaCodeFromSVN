@@ -1,4 +1,4 @@
-package YeastVGL;
+package Biochemistry;
 
 import java.util.ArrayList;
 import java.util.Random;
