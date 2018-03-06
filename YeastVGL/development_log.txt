@@ -256,3 +256,14 @@ got that working.
 
 did some refactoring of the complementation test panel - it was getting a little busy
 got all the errors fixed but a null pointer thingy that doesn't make sense...
+
+3/6/18
+for the panels in the pathway drawing thingy
+	have each type of panel be concrete subclass of an abstract master class
+	
+first, get the refactoring back on track...
+got the null pointer issue fixed but now the column headings drag but nothing else moves...
+maybe it's because ComplementationTable.java extends JTable instead of including a JTable?
+
+crap, now it's really hosed - maybe go back to old code...
+

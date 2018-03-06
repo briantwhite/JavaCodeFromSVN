@@ -7,8 +7,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.JCheckBox;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
@@ -16,12 +16,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import Biochemistry.MutantSet;
 import Biochemistry.Pathway;
 import YeastVGL.YeastVGL;
 
-public class ComplementationTable extends JTable implements ActionListener, TableColumnModelListener {
+public class ComplementationTable extends JPanel implements ActionListener, TableColumnModelListener {
 	
 	private YeastVGL yeastVGL;
 	
@@ -40,7 +43,7 @@ public class ComplementationTable extends JTable implements ActionListener, Tabl
 	public ComplementationTable(YeastVGL yeastVGL) {
 		
 		super();
-		table = this;		// need this reference for locating the popup menu
+		table = new JTable();		
 		this.yeastVGL = yeastVGL;
 		pathway = yeastVGL.getPathway();
 		mutantSet = yeastVGL.getMutantSet();
@@ -83,7 +86,7 @@ public class ComplementationTable extends JTable implements ActionListener, Tabl
 		}
 
 		// make sure you can't drag the first or last columns
-		setColumnModel(new DefaultTableColumnModel() {
+		table.setColumnModel(new DefaultTableColumnModel() {
 			public void moveColumn(int columnIndex, int newIndex) {
 				if ((columnIndex == 0) || (newIndex == 0) 
 						|| (columnIndex == (columnHeadings.length - 1))
@@ -95,19 +98,24 @@ public class ComplementationTable extends JTable implements ActionListener, Tabl
 			}
 		});
 
-		ComplementationTableModel ctModel = new ComplementationTableModel(data, columnHeadings);
-		setModel(ctModel);
-		setFillsViewportHeight(true);
-		getColumnModel().addColumnModelListener(this);
+		ComplementationTableModel ctModel = new ComplementationTableModel();
+		table.setModel(ctModel);
+		table.setFillsViewportHeight(true);
+		table.getColumnModel().addColumnModelListener(this);
 		for (int i = 0; i < columnHeadings.length; i++) {
 			if (i == (columnHeadings.length - 1)) {
-				getColumnModel().getColumn(i).setPreferredWidth(100);
+				table.getColumnModel().getColumn(i).setPreferredWidth(100);
 			} else {
-				getColumnModel().getColumn(i).setPreferredWidth(30);
+				table.getColumnModel().getColumn(i).setPreferredWidth(30);
 			}
 		}
-		setRowHeight(30);
-		addMouseListener(new ComGrpEditorListener());
+		table.setRowHeight(30);
+		table.addMouseListener(new ComGrpEditorListener());
+		this.add(table);
+	}
+	
+	public int getRowHeight() {
+		return table.getRowHeight();
 	}
 	
 	public String[] getColumnHeadings() {
@@ -120,6 +128,14 @@ public class ComplementationTable extends JTable implements ActionListener, Tabl
 	
 	public void setData(Object[][] d) {
 		data = d;
+	}
+	
+	public JTableHeader getTableHeader() {
+		return table.getTableHeader();
+	}
+	
+	public TableColumnModel getColumnModel() {
+		return table.getColumnModel();
 	}
 	
 	private String willDiploidGrow(int m1num, int m2num, ArrayList<Integer>startingMolecules) {
@@ -141,6 +157,29 @@ public class ComplementationTable extends JTable implements ActionListener, Tabl
 		}
 	}
 
+	class ComplementationTableModel extends DefaultTableModel {
+		
+		public int getRowCount() { 
+			return data.length;
+		}
+		public int getColumnCount() {
+			return columnHeadings.length;
+		}
+		public String getColumnName(int col) {
+			return columnHeadings[col];
+		}
+		public boolean isCellEditable(int r, int c) {
+			return false;
+		}
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			return data[rowIndex][columnIndex];
+		}
+		public void setValueAt(Object value, int row, int col) {
+			data[row][col] = value;
+			fireTableCellUpdated(row, col);
+		}
+	}
+	
 	// detect dragged columns and update rows accordingly
 	public void columnAdded(TableColumnModelEvent e) {}
 	public void columnRemoved(TableColumnModelEvent e) {}
@@ -162,10 +201,10 @@ public class ComplementationTable extends JTable implements ActionListener, Tabl
 	// the popup that lets you edit the complementation group
 	class ComGrpEditorListener extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
-			int row = rowAtPoint(e.getPoint());
-			int col = columnAtPoint(e.getPoint());
+			int row = table.rowAtPoint(e.getPoint());
+			int col = table.columnAtPoint(e.getPoint());
 			if (col == (numMutants + 1)) {
-				Rectangle targetCell = getCellRect(row, col, false);
+				Rectangle targetCell = table.getCellRect(row, col, false);
 				cgChoicePopup.show(table, targetCell.x + (targetCell.width/2), targetCell.y + (targetCell.height/2));
 				cgTableRowforCGediting = row;
 			}
