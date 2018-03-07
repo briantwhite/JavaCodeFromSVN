@@ -284,3 +284,5 @@ maybe merge?
 	nope
 try deleting the local master branch - NG
 try a hard reset after committing this
+it warns about "detached HEAD"
+so followed this http://learnwebtutorials.com/you-are-in-detached-head-state-how-fix
