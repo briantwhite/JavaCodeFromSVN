@@ -286,3 +286,27 @@ try deleting the local master branch - NG
 try a hard reset after committing this
 it warns about "detached HEAD"
 so followed this http://learnwebtutorials.com/you-are-in-detached-head-state-how-fix
+
+Brians-MacBook-Pro:JavaCodeFromSVN brianwhite$ git status
+HEAD detached from 0f28d462
+...
+Brians-MacBook-Pro:JavaCodeFromSVN brianwhite$ git branch temp
+Brians-MacBook-Pro:JavaCodeFromSVN brianwhite$ git checkout temp
+...
+Brians-MacBook-Pro:JavaCodeFromSVN brianwhite$ git status
+On branch temp
+....
+Brians-MacBook-Pro:JavaCodeFromSVN brianwhite$ git checkout master
+M	OrgoGame/bin/AllDoneState.class
+M	OrgoGame/bin/Utilities.class
+M	OrgoGame/bin/WrongAnswerState.class
+Branch master set up to track remote branch master from origin.
+Switched to a new branch 'master'
+Brians-MacBook-Pro:JavaCodeFromSVN brianwhite$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+....
+Brians-MacBook-Pro:JavaCodeFromSVN brianwhite$ git branch -d temp
+Deleted branch temp (was 373d0faf).
+	
+finally OK - no more fussing when I try to commit...
