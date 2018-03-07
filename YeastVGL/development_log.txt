@@ -272,4 +272,5 @@ can't seem to go back easily in git...
 3/7/18
 go back to old ugly code for ComplementationPanel - rebuild until it works, then maybe refactor more carefully..
 got it going
+only major change is to make the instrucion panel it's own class
 
