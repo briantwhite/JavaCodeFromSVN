@@ -282,4 +282,5 @@ let's see
 not quite...
 maybe merge?
 	nope
-try deleting the local master branch
+try deleting the local master branch - NG
+try a hard reset after committing this
