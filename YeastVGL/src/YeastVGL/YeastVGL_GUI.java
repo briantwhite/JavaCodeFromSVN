@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 
 import Biochemistry.MutantSet;
 import Biochemistry.Pathway;
+import PathwayPanel.PathwayDrawingPanel;
 
 public class YeastVGL_GUI extends JFrame {
 
@@ -88,6 +89,11 @@ public class YeastVGL_GUI extends JFrame {
 
 
 		innerPanel = new JTabbedPane();
+		
+		JPanel testPanel = new JPanel();
+		testPanel.add(new PathwayDrawingPanel(yeastVGL));
+		innerPanel.addTab("Test", testPanel);
+		
 		WelcomePanel wp = new WelcomePanel(this);
 		innerPanel.addTab("Welcome", wp);
 		innerPanel.addTab("Complementation Test", yeastVGL.getComplementationTestPanel());

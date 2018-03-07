@@ -310,3 +310,6 @@ Brians-MacBook-Pro:JavaCodeFromSVN brianwhite$ git branch -d temp
 Deleted branch temp (was 373d0faf).
 	
 finally OK - no more fussing when I try to commit...
+
+try getting the pathway panel to work
+make a first test tab to make it come up quickly.
