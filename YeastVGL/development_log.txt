@@ -274,3 +274,7 @@ go back to old ugly code for ComplementationPanel - rebuild until it works, then
 got it going
 only major change is to make the instrucion panel it's own class
 
+but now, it keeps asking me for the branch (I enter "master") each time I commit
+	how to nuke the other branches?
+	try instructions from here https://stackoverflow.com/questions/8625406/how-to-delete-a-branch-in-the-remote-repository-using-egit/8625647
+let's see
