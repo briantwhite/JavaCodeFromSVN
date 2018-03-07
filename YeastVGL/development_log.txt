@@ -269,3 +269,7 @@ crap, now it's really hosed - maybe go back to old code...
 
 can't seem to go back easily in git...
 
+3/7/18
+go back to old ugly code for ComplementationPanel - rebuild until it works, then maybe refactor more carefully..
+got it going
+
