@@ -69,6 +69,10 @@ public class Pathway {
 		return molecules.length;
 	}
 	
+	public Molecule[] getMolecules() {
+		return molecules;
+	}
+	
 	// test if a given strain will grow under these conditions:
 	//  - specific set of mutations in genotype (array of booleans for enzyme function)
 	//  - specific starting molecule(s)

@@ -11,8 +11,8 @@ import YeastVGL.YeastVGL;
 
 public abstract class DrawingPanelTile extends JPanel {
 	
-	public final static int TILE_WIDTH = 50;
-	public final static int TILE_HEIGHT = 50;
+	public final static int TILE_WIDTH = 30;
+	public final static int TILE_HEIGHT = 30;
 	
 	public static Color BLANK_BACKGROUND_COLOR = null;
 	public static Color ACTIVE_BACKGROUND_COLOR = null;
