@@ -14,8 +14,8 @@ public abstract class DrawingPanelTile extends JPanel {
 	public final static int TILE_WIDTH = 50;
 	public final static int TILE_HEIGHT = 50;
 	
-	public static Color BLANK_BACKGROUND_COLOR;
-	public static Color ACTIVE_BACKGROUND_COLOR;
+	public Color BLANK_BACKGROUND_COLOR;
+	public Color ACTIVE_BACKGROUND_COLOR;
 	
 	public final int row, col;
 	

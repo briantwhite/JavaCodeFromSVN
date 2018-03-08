@@ -21,7 +21,7 @@ public class MoleculeTile extends DrawingPanelTile {
 		ACTIVE_BACKGROUND_COLOR = new Color(220, 220, 255);
 		setBackground(BLANK_BACKGROUND_COLOR);
 		setOpaque(true);
-		JLabel text = new JLabel("M:r" + row + " c" + col);
+		JLabel text = new JLabel();
 		add(text);
 
 		popupMenu.add(new JMenuItem("-"));

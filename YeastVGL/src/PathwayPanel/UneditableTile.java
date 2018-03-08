@@ -14,8 +14,6 @@ public class UneditableTile extends DrawingPanelTile {
 		ACTIVE_BACKGROUND_COLOR = Color.WHITE;
 		setBackground(BLANK_BACKGROUND_COLOR);
 		setOpaque(true);
-		add(new JLabel("U:r" + row + " c" + col));
-
 	}
 
 }
