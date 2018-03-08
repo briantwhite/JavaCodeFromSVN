@@ -313,3 +313,10 @@ finally OK - no more fussing when I try to commit...
 
 try getting the pathway panel to work
 make a first test tab to make it come up quickly.
+
+3/8/18
+make the pathway drawing panel be 3 tiles tall and long enough to fit a purely linear pathway - 
+	it takes 5 tiles for one step, so need 30 tiles
+have the left-most column have all fixed tiles
+	top & bottom = blank
+	middle = non-changable "precursor"
