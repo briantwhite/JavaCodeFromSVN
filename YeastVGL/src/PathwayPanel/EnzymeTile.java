@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
@@ -17,7 +18,7 @@ public class EnzymeTile extends DrawingPanelTile {
 	public EnzymeTile(YeastVGL yeastVGL, int row, int col) {
 		super(yeastVGL, row, col);
 		BLANK_BACKGROUND_COLOR = new Color(240, 255, 240);
-		ACTIVE_BACKGROUND_COLOR = new Color(220, 255, 220);
+		ACTIVE_BACKGROUND_COLOR = new Color(200, 255, 200);
 		setBackground(BLANK_BACKGROUND_COLOR);
 		setOpaque(true);
 		JLabel text = new JLabel();
@@ -32,12 +33,17 @@ public class EnzymeTile extends DrawingPanelTile {
 					if (choice.equals("-")) {
 						setBackground(BLANK_BACKGROUND_COLOR);
 						selectedEnzyme = -1;
+						setBorder(BorderFactory.createEmptyBorder());
 					} else {
 						setBackground(ACTIVE_BACKGROUND_COLOR);
 						selectedEnzyme = Integer.parseInt(choice);
 						text.setText("<html><align='center'>Enz<br>CG:<br><b>" + selectedEnzyme + "</b></align></html>");
 						text.setHorizontalAlignment(SwingConstants.CENTER);
 						text.setVerticalAlignment(SwingConstants.CENTER);
+						setBorder(
+								BorderFactory.createCompoundBorder(
+										BorderFactory.createRaisedBevelBorder(), 
+										BorderFactory.createLoweredBevelBorder()));
 					}		
 				}				
 			});

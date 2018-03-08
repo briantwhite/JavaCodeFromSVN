@@ -28,7 +28,7 @@ public abstract class DrawingPanelTile extends JPanel {
 		this.col = col;
 		this.yeastVGL = yeastVGL;
 		this.setPreferredSize(new Dimension(TILE_WIDTH, TILE_HEIGHT));
-		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		popupMenu = new JPopupMenu();
 	}
