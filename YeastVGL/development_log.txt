@@ -320,3 +320,5 @@ make the pathway drawing panel be 3 tiles tall and long enough to fit a purely l
 have the left-most column have all fixed tiles
 	top & bottom = blank
 	middle = non-changable "precursor"
+	
+for processing, put references to all tiles in DrawingPanelTile[][] so you can iterate over them and find neighbors

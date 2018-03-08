@@ -16,9 +16,12 @@ public class PathwayDrawingPanel extends JPanel {
 	public static final int NUM_COLS = 30;
 	public static final int CELL_SPACING = 1;
 
+	private DrawingPanelTile[][] tileArray;
+
 	public PathwayDrawingPanel(YeastVGL yeastVGL) {
 		this.yeastVGL = yeastVGL;
 
+		tileArray = new DrawingPanelTile[NUM_ROWS][NUM_COLS];
 		JPanel innerPanel = new JPanel();
 		innerPanel.setLayout(new GridLayout(NUM_ROWS, NUM_COLS, CELL_SPACING, CELL_SPACING));
 		for (int i = 0; i < (NUM_ROWS * NUM_COLS); i++) {
@@ -27,16 +30,21 @@ public class PathwayDrawingPanel extends JPanel {
 			// first column
 			if ((i % NUM_COLS) == 0) {
 				if (i == (NUM_COLS)) {
-					innerPanel.add(new PrecursorTile(yeastVGL, row, col));
+					tileArray[row][col] = new PrecursorTile(yeastVGL, row, col);
+					innerPanel.add(tileArray[row][col]);
 				} else {
-					innerPanel.add(new UneditableTile(yeastVGL, row, col));
+					tileArray[row][col] = new UneditableTile(yeastVGL, row, col);
+					innerPanel.add(tileArray[row][col]);
 				}
 			} else if ((((i % NUM_COLS) % 5) == 1) || (((i % NUM_COLS) % 5) == 3)) {
-					innerPanel.add(new ArrowTile(yeastVGL, row, col));
+				tileArray[row][col] = new ArrowTile(yeastVGL, row, col);
+				innerPanel.add(tileArray[row][col]);
 			} else if (((i % NUM_COLS) % 5) == 2) {
-				innerPanel.add(new EnzymeTile(yeastVGL, row, col));
+				tileArray[row][col] = new EnzymeTile(yeastVGL, row, col);
+				innerPanel.add(tileArray[row][col]);
 			} else if (((i % NUM_COLS) % 5) == 4) {
-				innerPanel.add(new MoleculeTile(yeastVGL, row, col));
+				tileArray[row][col] = new MoleculeTile(yeastVGL, row, col);
+				innerPanel.add(tileArray[row][col]);
 			}
 		}
 		innerPanel.setPreferredSize(new Dimension(
