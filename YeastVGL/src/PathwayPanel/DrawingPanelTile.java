@@ -5,6 +5,7 @@ import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 import YeastVGL.YeastVGL;
 
@@ -13,13 +14,22 @@ public abstract class DrawingPanelTile extends JPanel {
 	public final static int TILE_WIDTH = 50;
 	public final static int TILE_HEIGHT = 50;
 	
-	public static Color BACKGROUND_COLOR = null;
+	public static Color BLANK_BACKGROUND_COLOR = null;
+	public static Color ACTIVE_BACKGROUND_COLOR = null;
+	
+	public final int row, col;
 	
 	private YeastVGL yeastVGL;
 	
-	public DrawingPanelTile(YeastVGL yeastVGL) {
+	public JPopupMenu popupMenu;
+	
+	public DrawingPanelTile(YeastVGL yeastVGL, int row, int col) {
+		this.row = row;
+		this.col = col;
 		this.yeastVGL = yeastVGL;
 		this.setPreferredSize(new Dimension(TILE_WIDTH, TILE_HEIGHT));
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		popupMenu = new JPopupMenu();
 	}
 }
