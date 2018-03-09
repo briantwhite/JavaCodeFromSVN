@@ -13,3 +13,7 @@ h1 {
 .jsPX-canvas {
 	background-color: #FFFFFF;
 }
+
+.dropDownMenuStyle {
+	position: Relative;
+}

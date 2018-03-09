@@ -104,3 +104,106 @@ if you run it from chrome from the file in git/JavaCodeFromSVN/jsPedigrees/war/J
 maybe need to look into stuff.
 first need to get it running - installed the GWt stuff a la http://gwt-plugins.github.io/documentation/gwt-eclipse-plugin/Download.html
 then in project settings => GWT => general settings - enable GWT
+can't get it to malfunction...
+
+there's some stuff here https://stackoverflow.com/questions/9907108/change-gwt-submenu-popup-location
+	in Pelican.java, every time you make a MenuBar, add this code (except for Edit menu)
+		personMenu.addStyleName("dropDownMenuStyle");
+	in JsPedigrees.css, add this:
+		.dropDownMenuStyle {
+		position: Absolute;
+		right: 0px;
+		}
+experiment with parameters.
+this seems to be the best
+.dropDownMenuStyle {
+	position: Relative;
+}
+
+uploaded and replaced - seems OK
+in omega's website/MOOC/jsPedigrees
+
+still not right - sometimes doesn't work = no response to click
+added print to console code
+	public static native void console(String text)
+	/*-{
+	    console.log(text);
+	}-*/;
+
+found some of the problem
+	screen[x][y] is a map of the screen from 0,0 to PEDIGREE_SIZE ,PEDIGREE_SIZE (600,600)
+		if = 0, nothing there; otherwise, the id of the person there
+		when pedigree drawn, this is filled in
+	the click handler uses the event x,y to map into screen(x,y)
+		BUT on chrome, the x,y's are
+			0,123		600, 122
+			
+			0,1236		600, 1200 (and you get an error here probably because of index out of range)
+	
+	WTF - not only is y offset by ~120, the y scale seems to be wrong too...
+Pelican extends AbsolutePanel
+	try FocusPanel - ng: breaks all the widget stuff
+
+several different getX and getY methods
+	result depends on the event's source
+try
+		console("getY=" + event.getY() + " getScreenY=" + event.getScreenX() + " getClientY=" + event.getClientY() + " getRelativeY=" + event.getRelativeY(event.getRelativeElement()));
+
+upper left corner:
+	getY=0 getScreenY=70 getClientY=442 getRelativeY=0
+but if I scroll, the upper left corner is:
+	getY=436 getScreenY=71 getClientY=8 getRelativeY=436
+
+so getY = getRelativeY (for the event's target) - and these depend on where the y scrolling is 
+	- that explains the intermittency!
+but none of them are all that good.
+try event.getRelativeY(this.getElement())); (this = pelican)
+	no help
+need it relative to the drawing canvas - whatever that is.
+	try rootPanel - still NG
+nothing seems to be constant when scrolled!
+
+try finding something you can subtract to get constant values..
+		console("EVENT: getY=" + event.getY() + " getScreenY=" + event.getScreenY() + " getClientY=" + event.getClientY() + " getRelativeY=" + event.getRelativeY(this.getElement()));
+		console("THIS: getAbsTop=" + this.getElement().getAbsoluteTop() + " getScrollTop=" + this.getElement().getScrollTop() + " getOfsetTop=" + this.getElement().getOffsetTop());
+
+EVENT: getY=364 getScreenY=214 getClientY=82 getRelativeY=364
+THIS: getAbsTop=80 getScrollTop=0 getOfsetTop=442
+scroll
+EVENT: getY=3 getScreenY=577 getClientY=445 getRelativeY=3
+THIS: getAbsTop=442 getScrollTop=0 getOfsetTop=442
+
+absTop is the only one that changes with scrolling
+	try screenY - absTop
+		first = 134
+		second = 135
+	could be OK!
+
+Pelican line 1162
+	public void onClick(ClickEvent event) {
+		int x = event.getScreenX() - this.getElement().getAbsoluteLeft();
+		int y = event.getScreenY() - this.getElement().getAbsoluteTop();
+		console("EVENT: x=" + x + " y=" + y + " contents=" + screen[x][y]);
+		if (screen[x][y] != 0) {
+			currentPerson = getPersonById(screen[x][y]);
+			popup.showRelativeTo(currentPerson);
+			popup.show();
+		} else {
+			popup.hide();
+		}
+
+	}
+
+upper left is now a constant 58,132 or so
+maybe that's the button size??
+maybe use the bottom right and subtract the screen size
+		int x = event.getScreenX() - this.getElement().getAbsoluteRight() + PEDIGREE_SIZE;
+		int y = event.getScreenY() - this.getElement().getAbsoluteBottom() + PEDIGREE_SIZE;
+no effect; get same values for upper left corner but it is "scroll-proof"
+
+actually, clientY is probably better
+		int x = event.getClientX() - this.getElement().getAbsoluteLeft();
+		int y = event.getClientY() - this.getElement().getAbsoluteTop();
+seems fixed
+try again
+

@@ -43,7 +43,6 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
-import edu.umb.jsPedigrees.client.JsPedigrees;
 import edu.umb.jsPedigrees.client.PE.GenotypeSet;
 import edu.umb.jsPedigrees.client.PE.PedigreeSolution;
 import edu.umb.jsPedigrees.client.PE.PedigreeSolver;
@@ -52,6 +51,8 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 
 	public static int PEDIGREE_SIZE = 600;
 	public static String PEDIGREE_SIZE_STR = String.valueOf(PEDIGREE_SIZE + "px");
+	
+	private RootPanel rootPanel;
 
 	public static MenuBar menuBar;
 	private MenuItem undoItem;
@@ -81,6 +82,7 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 
 	public Pelican(RootPanel rootPanel) {
 		super();
+		this.rootPanel = rootPanel;
 		setSize(PEDIGREE_SIZE_STR, PEDIGREE_SIZE_STR);
 		setStyleName("jsPX-canvas");
 
@@ -138,6 +140,7 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 		popup = new PopupPanel();
 
 		MenuBar personMenu = new MenuBar(true);
+		personMenu.addStyleName("dropDownMenuStyle");
 
 		MenuBar addMenu = new MenuBar(true);
 		addMenu.addItem("1 son", new Command() {
@@ -198,8 +201,10 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 		personMenu.addItem("Add", addMenu);
 
 		MenuBar changeMenu = new MenuBar(true);
+		changeMenu.addStyleName("dropDownMenuStyle");
 
 		MenuBar changeAff = new MenuBar(true);
+		changeAff.addStyleName("dropDownMenuStyle");
 		changeAff.addItem("Affected", new Command() {
 			public void execute() {
 				currentPerson.affection = PelicanPerson.affected;
@@ -217,6 +222,7 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 		changeMenu.addItem("Affection", changeAff);
 
 		MenuBar changeSex = new MenuBar(true);
+		changeSex.addStyleName("dropDownMenuStyle");
 		changeSex.addItem("Male", new Command() {
 			public void execute() {
 				currentPerson.sex = PelicanPerson.male;
@@ -249,6 +255,7 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 		});
 
 		MenuBar popupMenu = new MenuBar();
+		popupMenu.addStyleName("dropDownMenuStyle");
 		popupMenu.addItem("Edit", personMenu);
 		popupMenu.setAutoOpen(true);
 		popup.add(popupMenu);
@@ -1152,8 +1159,8 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 	 *
 	 */
 	public void onClick(ClickEvent event) {
-		int x = event.getX();
-		int y = event.getY();
+		int x = event.getClientX() - this.getElement().getAbsoluteLeft();
+		int y = event.getClientY() - this.getElement().getAbsoluteTop();
 		if (screen[x][y] != 0) {
 			currentPerson = getPersonById(screen[x][y]);
 			popup.showRelativeTo(currentPerson);
@@ -1182,4 +1189,9 @@ public class Pelican extends AbsolutePanel implements ClickHandler {
 		}
 
 	}
+	
+	public static native void console(String text)
+	/*-{
+	    console.log(text);
+	}-*/;
 }
