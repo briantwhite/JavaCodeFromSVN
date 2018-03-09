@@ -206,4 +206,7 @@ actually, clientY is probably better
 		int y = event.getClientY() - this.getElement().getAbsoluteTop();
 seems fixed
 try again
-
+it is fixed!
+	the first time you click on person 1, it puts the menus in a weird place but after that, it's OK
+	don't worry about that
+	
