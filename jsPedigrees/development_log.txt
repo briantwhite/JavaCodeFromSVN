@@ -94,3 +94,13 @@ gwt compiled
 move all exported methods to one place - Pelican
 gwt compiiled with xsiframe flag in jsPedigrees.gwt.xml
 fixed arrangement of html page
+
+3/9/18
+weird error - if you access jsPedigrees from http://intro.bio.umb.edu/MOOC/jsPedigrees/JsPedigrees.html
+the edit menus appear way up on the page - not right above the person like they're supposed to
+this happens on chrome
+it doesn't happen as much on the SPOC but it sometimes happens
+if you run it from chrome from the file in git/JavaCodeFromSVN/jsPedigrees/war/JsPedigrees.html it is OK.
+maybe need to look into stuff.
+first need to get it running - installed the GWt stuff a la http://gwt-plugins.github.io/documentation/gwt-eclipse-plugin/Download.html
+then in project settings => GWT => general settings - enable GWT
