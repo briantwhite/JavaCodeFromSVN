@@ -322,3 +322,23 @@ have the left-most column have all fixed tiles
 	middle = non-changable "precursor"
 	
 for processing, put references to all tiles in DrawingPanelTile[][] so you can iterate over them and find neighbors
+
+3/12/18
+need to fix it a little - if you set an enzyme or molecule to a molecule and then try to set it back to blank,
+	it won't clear.
+forgot to add a listener to the "-" menu item.
+
+new problem - when the display is scrolled, you have to fight with the pop-up menus
+	maybe don't use the setComponentPopupMenu since it requires a double-finger click
+		control-click works OK
+but a single click is more intuitive.
+better to build it like http://www.zentut.com/java-swing/how-to-create-popup-menu-in-java-swing/
+	but don't even test to see if the mouse event is a popup trigger (that limits it to control-click)
+fix all to this.
+
+much better.
+
+need to
+1) get it to save and re-load
+	don't just serialize - use the array of tiles and get their indices
+2) convert to pathway for analysis and scoring

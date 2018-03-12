@@ -3,6 +3,8 @@ package PathwayPanel;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -12,13 +14,13 @@ import javax.swing.JMenuItem;
 import YeastVGL.YeastVGL;
 
 public class ArrowTile extends DrawingPanelTile {
-	
+
 	public int type;
 	public static final int BLANK_ARROW = 0;
 	public static final int STRAIGHT_ARROW = 1;
 	public static final int FORKED_ARROW = 2;
 	public static final int BENT_ARROW = 3;
-	
+
 	private URL bfaImageURL = YeastVGL.class.getResource("images/BigForkedArrow.png");
 	private ImageIcon bigForkedArrow = new ImageIcon(bfaImageURL);
 	private URL sfaImageURL = YeastVGL.class.getResource("images/SmallForkedArrow.png");
@@ -35,16 +37,16 @@ public class ArrowTile extends DrawingPanelTile {
 	private ImageIcon bigEmpty = new ImageIcon(beImageURL);
 	private URL seImageURL = YeastVGL.class.getResource("images/SmallEmpty.png");
 	private ImageIcon smallEmpty = new ImageIcon(seImageURL);
-	
+
 	public ArrowTile(YeastVGL yeastVGL, int row, int col) {
 		super(yeastVGL, row, col);
 		BLANK_BACKGROUND_COLOR = new Color(255,255,240);
 		ACTIVE_BACKGROUND_COLOR = new Color(255,255,220);
 		setBackground(ACTIVE_BACKGROUND_COLOR);
 		setOpaque(true);
-		
+
 		type = BLANK_ARROW;
-				
+
 		JMenuItem emptyItem = new JMenuItem(smallEmpty);
 		emptyItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -81,8 +83,17 @@ public class ArrowTile extends DrawingPanelTile {
 			}		
 		});
 		popupMenu.add(bentItem);
-		setComponentPopupMenu(popupMenu);
-
+		addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				showPopup(e);
+			}
+			public void mouseReleased(MouseEvent e) {
+				showPopup(e);
+			}
+			private void showPopup(MouseEvent e) {
+				popupMenu.show(e.getComponent(),
+						e.getX(), e.getY());
+			}
+		});
 	}
-
 }
