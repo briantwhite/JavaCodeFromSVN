@@ -273,14 +273,16 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		return workingSet;
 	}
 	
-	public String getJsonString() {
+	public Object[][] getData() {
+		return data;
+	}
+	
+	public boolean[] getWorkingSetChoices() {
 		boolean[] workingSet = new boolean[workingSetCheckboxes.length];
 		for (int i = 0; i < workingSet.length; i++) {
 			workingSet[i] = workingSetCheckboxes[i].isSelected();
 		}
-		State state = new State(mutantSet, data, workingSet);
-		Gson gson = new Gson();
-		return gson.toJson(state);
+		return workingSet;
 	}
 	
 	public void updateState(State state) {

@@ -1,11 +1,13 @@
 package YeastVGL;
 
 import Biochemistry.MutantSet;
+import PathwayPanel.SavedPathwayDrawingState;
 
 public class State {
 	private MutantSet mutantSet;
 	private Object[][] complementationTableData;
 	private boolean[] workingSetChoices;
+	private SavedPathwayDrawingState pathwayDrawingState;
 
 
 	/*
@@ -15,9 +17,13 @@ public class State {
 	 * For this, use the column 1 headings to get a table of scrambled columns and save the data in the
 	 * form as displayed - that way, when you load, it will look fine.
 	 */
-	public State(MutantSet mutantSet, Object[][] rawTableData, boolean[] workingSetChoices) {
+	public State(MutantSet mutantSet, 
+			Object[][] rawTableData, 
+			boolean[] workingSetChoices, 
+			SavedPathwayDrawingState pathwayDrawingState) {
 		this.mutantSet = mutantSet;
 		this.workingSetChoices = workingSetChoices;
+		this.pathwayDrawingState = pathwayDrawingState;
 
 		complementationTableData = new Object[rawTableData.length][rawTableData[0].length];
 		for (int r = 0; r < rawTableData.length; r++) {

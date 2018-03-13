@@ -1,5 +1,7 @@
 package YeastVGL;
 
+import com.google.gson.Gson;
+
 import Biochemistry.MutantSet;
 import Biochemistry.Pathway;
 import ComplementationTestPanel.ComplementationTestPanel;
@@ -57,4 +59,11 @@ public class YeastVGL {
 		return pp;
 	}
 
+	public String getJsonString() {
+		State state = new State(mutantSet, ctp.getData(), ctp.getWorkingSetChoices(), pp.get);
+		State state = new State(mutantSet, data, workingSet);
+		Gson gson = new Gson();
+		return gson.toJson(state);
+
+	}
 }

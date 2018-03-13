@@ -59,4 +59,14 @@ public class PathwayDrawingPanel extends JPanel {
 		add(scroller);
 	}
 
+	public SavedPathwayDrawingState getState() {
+		SavedTile[][] tiles = new SavedTile[NUM_ROWS][NUM_COLS];
+		for (int row = 0; row < NUM_ROWS; row++) {
+			for (int col = 0; col < NUM_COLS; col++) {
+				tiles[row][col] = new SavedTile(tileArray[row][col]);
+			}
+		}
+		return new SavedPathwayDrawingState(NUM_ROWS, NUM_COLS, tiles);
+	}
+
 }

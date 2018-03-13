@@ -1,7 +1,6 @@
 package PathwayPanel;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -12,6 +11,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.google.gson.Gson;
 
 import Biochemistry.MutantStrain;
 import Biochemistry.Pathway;
