@@ -14,24 +14,26 @@ import YeastVGL.YeastVGL;
 
 public class MoleculeTile extends DrawingPanelTile {
 
-	public int selectedMolecule = -1;
+	private YeastVGL yeastVGL;
+	private int selectedMolecule = -1;
 	public static final Color TERMINAL_MOLECULE_COLOR = new Color(200, 0, 0);
+	private JLabel text;
 
 	public MoleculeTile(YeastVGL yeastVGL, int row, int col) {
 		super(yeastVGL, row, col);
+		this.yeastVGL = yeastVGL;
 		BLANK_BACKGROUND_COLOR = new Color(240, 240, 255);
 		ACTIVE_BACKGROUND_COLOR = new Color(220, 220, 255);
 		setBackground(BLANK_BACKGROUND_COLOR);
 		setOpaque(true);
-		JLabel text = new JLabel();
+		text = new JLabel();
 		add(text);
 
 		JMenuItem blankItem = new JMenuItem("-");
 		blankItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setBackground(BLANK_BACKGROUND_COLOR);
 				selectedMolecule = -1;
-				text.setText("");
+				updateSelectedTile();
 			}			
 		});
 		popupMenu.add(blankItem);
@@ -44,16 +46,8 @@ public class MoleculeTile extends DrawingPanelTile {
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String choice = ((JMenuItem)e.getSource()).getText();
-					setBackground(ACTIVE_BACKGROUND_COLOR);
 					selectedMolecule = Integer.parseInt(choice);
-					text.setText("<html><align='center'>Mol<br><b>" + selectedMolecule + "</b></align></html>");
-					if (yeastVGL.getPathway().getMolecules()[selectedMolecule].isTerminal()) {
-						text.setForeground(TERMINAL_MOLECULE_COLOR);
-					} else {
-						text.setForeground(Color.BLACK);
-					}
-					text.setHorizontalAlignment(SwingConstants.CENTER);
-					text.setVerticalAlignment(SwingConstants.CENTER);
+					updateSelectedTile();
 				}				
 			});
 			popupMenu.add(item);
@@ -71,4 +65,31 @@ public class MoleculeTile extends DrawingPanelTile {
 			}
 		});
 	}
+	
+	private void updateSelectedTile() {
+		if (selectedMolecule == -1) {
+			setBackground(BLANK_BACKGROUND_COLOR);
+			text.setText("");
+		} else {
+			setBackground(ACTIVE_BACKGROUND_COLOR);
+			text.setText("<html><align='center'>Mol<br><b>" + selectedMolecule + "</b></align></html>");
+			if (yeastVGL.getPathway().getMolecules()[selectedMolecule].isTerminal()) {
+				text.setForeground(TERMINAL_MOLECULE_COLOR);
+			} else {
+				text.setForeground(Color.BLACK);
+			}
+			text.setHorizontalAlignment(SwingConstants.CENTER);
+			text.setVerticalAlignment(SwingConstants.CENTER);
+		}
+	}
+	
+	public int getSelection() {
+		return selectedMolecule;
+	}
+	
+	public void setSelection(int s) {
+		selectedMolecule = s;
+		updateSelectedTile();
+	}
+	
 }

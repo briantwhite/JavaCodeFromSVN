@@ -15,7 +15,7 @@ import YeastVGL.YeastVGL;
 
 public class ArrowTile extends DrawingPanelTile {
 
-	public int type;
+	private int type;
 	public static final int BLANK_ARROW = 0;
 	public static final int STRAIGHT_ARROW = 1;
 	public static final int FORKED_ARROW = 2;
@@ -50,36 +50,32 @@ public class ArrowTile extends DrawingPanelTile {
 		JMenuItem emptyItem = new JMenuItem(smallEmpty);
 		emptyItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeAll();
-				add(new JLabel(bigEmpty));
 				type = BLANK_ARROW;
+				updateSelectedTile();
 			}		
 		});
 		popupMenu.add(emptyItem);
 		JMenuItem straightItem = new JMenuItem(smallStraightArrow);
 		straightItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeAll();
-				add(new JLabel(bigStraightArrow));
 				type = STRAIGHT_ARROW;
+				updateSelectedTile();
 			}		
 		});
 		popupMenu.add(straightItem);
 		JMenuItem forkedItem = new JMenuItem(smallForkedArrow);
 		forkedItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeAll();
-				add(new JLabel(bigForkedArrow));
 				type = FORKED_ARROW;
+				updateSelectedTile();
 			}		
 		});
 		popupMenu.add(forkedItem);
 		JMenuItem bentItem = new JMenuItem(smallBentArrow);
 		bentItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeAll();
-				add(new JLabel(bigBentArrow));
 				type = BENT_ARROW;
+				updateSelectedTile();
 			}		
 		});
 		popupMenu.add(bentItem);
@@ -95,5 +91,27 @@ public class ArrowTile extends DrawingPanelTile {
 						e.getX(), e.getY());
 			}
 		});
+	}
+	
+	private void updateSelectedTile() {
+		removeAll();
+		if (type == BLANK_ARROW) {
+			add(new JLabel(bigEmpty));
+		} else if (type == STRAIGHT_ARROW) {
+			add(new JLabel(bigStraightArrow));
+		} else if (type == FORKED_ARROW) {
+			add(new JLabel(bigForkedArrow));
+		} else {
+			add(new JLabel(bigBentArrow));
+		}
+	}
+	
+	public int getSelection() {
+		return type;
+	}
+	
+	public void setSelection(int s) {
+		type = s;
+		updateSelectedTile();
 	}
 }

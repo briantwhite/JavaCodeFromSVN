@@ -16,4 +16,10 @@ public class UneditableTile extends DrawingPanelTile {
 		setOpaque(true);
 	}
 
+	public int getSelection() {
+		return -1;
+	}
+	
+	public void setSelection(int s) {}
+
 }

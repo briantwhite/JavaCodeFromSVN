@@ -342,3 +342,8 @@ need to
 1) get it to save and re-load
 	don't just serialize - use the array of tiles and get their indices
 2) convert to pathway for analysis and scoring
+
+3/13/18
+set up nice regular getSelection() and setSelection() methods for the tiles to make it small to save them.
+	when saving them, use a letter for type and an int for the selection
+	make a SavedTile class that is constructed from a submitted tile.

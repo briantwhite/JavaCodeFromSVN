@@ -32,4 +32,7 @@ public abstract class DrawingPanelTile extends JPanel {
 		
 		popupMenu = new JPopupMenu();
 	}
+	
+	public abstract int getSelection();
+	public abstract void setSelection(int s);
 }

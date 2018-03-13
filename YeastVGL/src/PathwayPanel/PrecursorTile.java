@@ -15,4 +15,10 @@ public class PrecursorTile extends DrawingPanelTile {
 		setOpaque(true);
 		add(new JLabel("P"));
 	}
+	
+	public int getSelection() {
+		return -1;
+	}
+	
+	public void setSelection(int s) {}
 }
