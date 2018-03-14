@@ -33,7 +33,7 @@ public class MoleculeTile extends DrawingPanelTile {
 		blankItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectedMolecule = -1;
-				updateSelectedTile();
+				updateSelectedTile(selectedMolecule);
 			}			
 		});
 		popupMenu.add(blankItem);
@@ -47,7 +47,7 @@ public class MoleculeTile extends DrawingPanelTile {
 				public void actionPerformed(ActionEvent e) {
 					String choice = ((JMenuItem)e.getSource()).getText();
 					selectedMolecule = Integer.parseInt(choice);
-					updateSelectedTile();
+					updateSelectedTile(selectedMolecule);
 				}				
 			});
 			popupMenu.add(item);
@@ -66,7 +66,7 @@ public class MoleculeTile extends DrawingPanelTile {
 		});
 	}
 	
-	private void updateSelectedTile() {
+	public void updateSelectedTile(int selectedMolecule) {
 		if (selectedMolecule == -1) {
 			setBackground(BLANK_BACKGROUND_COLOR);
 			text.setText("");
@@ -89,7 +89,7 @@ public class MoleculeTile extends DrawingPanelTile {
 	
 	public void setSelection(int s) {
 		selectedMolecule = s;
-		updateSelectedTile();
+		updateSelectedTile(selectedMolecule);
 	}
 	
 }

@@ -31,7 +31,7 @@ public class EnzymeTile extends DrawingPanelTile {
 		blankItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectedEnzyme = -1;
-				updateSelectedTile();
+				updateSelectedTile(selectedEnzyme);
 			}			
 		});
 		popupMenu.add(blankItem);
@@ -41,7 +41,7 @@ public class EnzymeTile extends DrawingPanelTile {
 				public void actionPerformed(ActionEvent e) {
 					String choice = ((JMenuItem)e.getSource()).getText();
 					selectedEnzyme = Integer.parseInt(choice);
-					updateSelectedTile();
+					updateSelectedTile(selectedEnzyme);
 				}						
 			});
 			popupMenu.add(item);
@@ -60,7 +60,7 @@ public class EnzymeTile extends DrawingPanelTile {
 		});
 	}
 
-	private void updateSelectedTile() {
+	public void updateSelectedTile(int selectedEnzyme) {
 		if (selectedEnzyme == -1) {
 			setBackground(BLANK_BACKGROUND_COLOR);
 			setBorder(BorderFactory.createEmptyBorder());
@@ -83,6 +83,6 @@ public class EnzymeTile extends DrawingPanelTile {
 
 	public void setSelection(int s) {
 		selectedEnzyme = s;
-		updateSelectedTile();
+		updateSelectedTile(selectedEnzyme);
 	}
 }

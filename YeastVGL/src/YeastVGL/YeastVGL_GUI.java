@@ -221,7 +221,7 @@ public class YeastVGL_GUI extends JFrame {
 				reader.close();
 				Gson gson = new Gson();
 				State state = gson.fromJson(buf.toString(), State.class);
-				yeastVGL.getComplementationTestPanel().updateState(state);
+				yeastVGL.restoreSavedState(state);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

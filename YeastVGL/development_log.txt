@@ -348,3 +348,11 @@ set up nice regular getSelection() and setSelection() methods for the tiles to m
 	when saving them, use a letter for type and an int for the selection
 	make a SavedTile class that is constructed from a submitted tile.
 had to stop in the middle of moving the getJsonString() method to YeastVGL where it belongs.
+
+3/14/18
+got saving working
+it turned out the assembly of blocks into the PathwayDrawingPanel left a null every 5 <sigh>
+	fixed that
+working on restoring saved state of PathwayDrawingPanel
+	got it working!
+	

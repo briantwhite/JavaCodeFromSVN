@@ -64,4 +64,9 @@ public class YeastVGL {
 		Gson gson = new Gson();
 		return gson.toJson(state);
 	}
+	
+	public void restoreSavedState(State state) {
+		ctp.restoreSavedState(state);
+		pp.getPathwayDrawingPanel().restoreSavedState(state);
+	}
 }

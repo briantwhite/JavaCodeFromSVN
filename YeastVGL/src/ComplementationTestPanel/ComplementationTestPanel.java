@@ -285,7 +285,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		return workingSet;
 	}
 	
-	public void updateState(State state) {
+	public void restoreSavedState(State state) {
 		mutantSet = state.getMutantSet();
 		data = state.getComplementationTableData();
 		// need to fix column headings

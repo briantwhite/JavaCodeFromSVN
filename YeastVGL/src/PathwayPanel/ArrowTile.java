@@ -51,7 +51,7 @@ public class ArrowTile extends DrawingPanelTile {
 		emptyItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				type = BLANK_ARROW;
-				updateSelectedTile();
+				updateSelectedTile(type);
 			}		
 		});
 		popupMenu.add(emptyItem);
@@ -59,7 +59,7 @@ public class ArrowTile extends DrawingPanelTile {
 		straightItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				type = STRAIGHT_ARROW;
-				updateSelectedTile();
+				updateSelectedTile(type);
 			}		
 		});
 		popupMenu.add(straightItem);
@@ -67,7 +67,7 @@ public class ArrowTile extends DrawingPanelTile {
 		forkedItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				type = FORKED_ARROW;
-				updateSelectedTile();
+				updateSelectedTile(type);
 			}		
 		});
 		popupMenu.add(forkedItem);
@@ -75,7 +75,7 @@ public class ArrowTile extends DrawingPanelTile {
 		bentItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				type = BENT_ARROW;
-				updateSelectedTile();
+				updateSelectedTile(type);
 			}		
 		});
 		popupMenu.add(bentItem);
@@ -93,7 +93,7 @@ public class ArrowTile extends DrawingPanelTile {
 		});
 	}
 	
-	private void updateSelectedTile() {
+	public void updateSelectedTile(int type) {
 		removeAll();
 		if (type == BLANK_ARROW) {
 			add(new JLabel(bigEmpty));
@@ -114,6 +114,6 @@ public class ArrowTile extends DrawingPanelTile {
 	
 	public void setSelection(int s) {
 		type = s;
-		updateSelectedTile();
+		updateSelectedTile(type);
 	}
 }

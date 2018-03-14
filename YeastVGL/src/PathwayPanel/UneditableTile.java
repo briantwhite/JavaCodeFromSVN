@@ -21,5 +21,7 @@ public class UneditableTile extends DrawingPanelTile {
 	}
 	
 	public void setSelection(int s) {}
+	
+	public void updateSelectedTile(int x) {}
 
 }

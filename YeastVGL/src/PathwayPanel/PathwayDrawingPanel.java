@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import YeastVGL.State;
 import YeastVGL.YeastVGL;
 
 public class PathwayDrawingPanel extends JPanel {
@@ -17,12 +18,13 @@ public class PathwayDrawingPanel extends JPanel {
 	public static final int CELL_SPACING = 1;
 
 	private DrawingPanelTile[][] tileArray;
+	private JPanel innerPanel;
 
 	public PathwayDrawingPanel(YeastVGL yeastVGL) {
 		this.yeastVGL = yeastVGL;
 
 		tileArray = new DrawingPanelTile[NUM_ROWS][NUM_COLS];
-		JPanel innerPanel = new JPanel();
+		innerPanel = new JPanel();
 		innerPanel.setLayout(new GridLayout(NUM_ROWS, NUM_COLS, CELL_SPACING, CELL_SPACING));
 		for (int i = 0; i < (NUM_ROWS * NUM_COLS); i++) {
 			int row = i/NUM_COLS;
@@ -67,6 +69,46 @@ public class PathwayDrawingPanel extends JPanel {
 			}
 		}
 		return new SavedPathwayDrawingState(NUM_ROWS, NUM_COLS, tiles);
+	}
+	
+	public void restoreSavedState(State state) {
+		innerPanel.removeAll();
+		SavedPathwayDrawingState spds = state.getSavedPathwayDrawingState();
+		int numRows = spds.getNumRows();
+		int numCols = spds.getNumCols();
+		SavedTile[][] savedTiles = spds.getTiles();
+		tileArray = new DrawingPanelTile[numRows][numCols];
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numCols; col++) {
+				int type = savedTiles[row][col].type;
+				int selection = savedTiles[row][col].selection;
+				if (type == SavedTile.ARROW) {
+					tileArray[row][col] = new ArrowTile(yeastVGL, row, col);
+					tileArray[row][col].updateSelectedTile(selection);
+					innerPanel.add(tileArray[row][col]);
+				}
+				if (type == SavedTile.ENZYME) {
+					tileArray[row][col] = new EnzymeTile(yeastVGL, row, col);
+					tileArray[row][col].updateSelectedTile(selection);
+					innerPanel.add(tileArray[row][col]);
+				}
+				if (type == SavedTile.MOLECULE) {
+					tileArray[row][col] = new MoleculeTile(yeastVGL, row, col);
+					tileArray[row][col].updateSelectedTile(selection);
+					innerPanel.add(tileArray[row][col]);
+				}
+				if (type == SavedTile.PRECURSOR) {
+					tileArray[row][col] = new PrecursorTile(yeastVGL, row, col);
+					innerPanel.add(tileArray[row][col]);
+				}
+				if (type == SavedTile.UNEDITABLE) {
+					tileArray[row][col] = new UneditableTile(yeastVGL, row, col);
+					innerPanel.add(tileArray[row][col]);
+				}
+			}
+		}
+		innerPanel.revalidate();
+		innerPanel.repaint();
 	}
 
 }

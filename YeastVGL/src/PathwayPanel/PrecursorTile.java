@@ -21,4 +21,6 @@ public class PrecursorTile extends DrawingPanelTile {
 	}
 	
 	public void setSelection(int s) {}
+	
+	public void updateSelectedTile(int x) {}
 }

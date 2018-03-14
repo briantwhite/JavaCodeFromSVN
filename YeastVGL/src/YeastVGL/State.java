@@ -54,5 +54,9 @@ public class State {
 	public boolean[] getWorkingSetChoices() {
 		return workingSetChoices;
 	}
+	
+	public SavedPathwayDrawingState getSavedPathwayDrawingState() {
+		return pathwayDrawingState;
+	}
 
 }
