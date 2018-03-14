@@ -1,6 +1,8 @@
 package PathwayPanel;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -8,11 +10,10 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import com.google.gson.Gson;
 
 import Biochemistry.MutantStrain;
 import Biochemistry.Pathway;
@@ -106,6 +107,14 @@ public class PathwayPanel extends JPanel {
 		
 		pathwayDrawingPanel = new PathwayDrawingPanel(yeastVGL);
 		this.add(pathwayDrawingPanel);
+		
+		JButton b = new JButton("convert");
+		b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pathwayDrawingPanel.convertToPathway();
+			}
+		});
+		this.add(b);
 
 	}
 

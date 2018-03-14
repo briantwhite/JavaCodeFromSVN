@@ -356,3 +356,16 @@ it turned out the assembly of blocks into the PathwayDrawingPanel left a null ev
 working on restoring saved state of PathwayDrawingPanel
 	got it working!
 	
+now need to turn it into a pathway.
+one tricky thing - the enzymes in the original pathway are numbered in order of creation 
+	roughly in pathway order
+but the ones in the figure might not have the same order...
+	but at least, you can build a pathway...
+but also - the numbers in the original pathway are compact (use all the numbers from 0 to numEnzymes etc)
+	but the drawn one may have gaps...
+maybe it doesn't matter since you can just connect them
+	so use a serial number when creating them and give them a field "label" for what they're called in the 
+		drawn pathway.
+got it to find the precursor - that's the starting point.
+
+	

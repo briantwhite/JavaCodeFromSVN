@@ -5,12 +5,14 @@ public class Enzyme {
 	private Molecule substrate;
 	private Molecule product;
 	private boolean active;
+	private String name;		// what it's called in the student-drawn pathway
 	
 	public Enzyme(int number) {
 		this.number = number;
 		this.active = true;
 		this.substrate = null;
 		this.product = null;
+		this.name = "";
 	}
 	
 	public void setSubstrate(Molecule substrate) {
@@ -43,6 +45,14 @@ public class Enzyme {
 	
 	public boolean isActive() {
 		return active;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	

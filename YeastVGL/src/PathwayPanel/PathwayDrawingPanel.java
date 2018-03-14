@@ -2,10 +2,14 @@ package PathwayPanel;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import Biochemistry.Enzyme;
+import Biochemistry.Molecule;
+import Biochemistry.Pathway;
 import YeastVGL.State;
 import YeastVGL.YeastVGL;
 
@@ -109,6 +113,35 @@ public class PathwayDrawingPanel extends JPanel {
 		}
 		innerPanel.revalidate();
 		innerPanel.repaint();
+	}
+	
+	public Pathway convertToPathway() {
+		ArrayList<Enzyme> enzymeList = new ArrayList<Enzyme>();
+		ArrayList<Molecule> moleculeList = new ArrayList<Molecule>();
+		int enzymeIndex = 0;
+		int moleculeIndex = 0;
+		// follow the pathway starting at the precursor
+		//  first, find the precursor; then do a recursive exploration
+		int col = 0;
+		int row = 0;
+		boolean foundPrecursor = false;
+		for (col = 0; col < NUM_COLS; col++) {
+			for (row = 0; row < NUM_ROWS; row++) {
+				if (tileArray[row][col] instanceof PrecursorTile) {
+					foundPrecursor = true;
+					break;
+				}
+			}
+			if (foundPrecursor) {
+				break;
+			}
+		}
+		if (!foundPrecursor) {
+			System.out.println("No precursor in pathway; aborting!");
+			return null;
+		}
+		System.out.println("found P at r:" + row + " col:" + col);
+		return null;
 	}
 
 }

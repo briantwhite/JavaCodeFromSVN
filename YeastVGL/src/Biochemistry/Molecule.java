@@ -5,6 +5,7 @@ public class Molecule {
 	private int number;
 	private ArrayList<Enzyme> nextEnzymeList;
 	private boolean terminal;
+	private String name;		// what it's called in the student-drawn pathway
 	
 	public Molecule(int number) {
 		this.number = number;
@@ -30,5 +31,13 @@ public class Molecule {
 
 	public boolean isTerminal() {
 		return terminal;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 }
