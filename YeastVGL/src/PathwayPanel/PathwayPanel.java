@@ -31,6 +31,8 @@ public class PathwayPanel extends JPanel {
 	Pathway pathway;
 	int numEnzymes;
 	int numMolecules;
+	
+	PathwayDrawingPanel pathwayDrawingPanel;
 
 	JPanel genoPanel;
 	JLabel noWorkingSetWarningLabel = new JLabel("<html>"
@@ -99,8 +101,12 @@ public class PathwayPanel extends JPanel {
 		willItGrowPanel.add(willItGrowLabel);
 		middlePanel.add(willItGrowPanel);
 		mainPanel.add(middlePanel);
-
+		
 		this.add(mainPanel);
+		
+		pathwayDrawingPanel = new PathwayDrawingPanel(yeastVGL);
+		this.add(pathwayDrawingPanel);
+
 	}
 
 	private class checkBoxListener implements ItemListener {
@@ -168,6 +174,10 @@ public class PathwayPanel extends JPanel {
 		} else {
 			willItGrowLabel.setText("<html><font color=\"red\">It Won't grow!</html>");
 		}
+	}
+	
+	public PathwayDrawingPanel getPathwayDrawingPanel() {
+		return pathwayDrawingPanel;
 	}
 
 }

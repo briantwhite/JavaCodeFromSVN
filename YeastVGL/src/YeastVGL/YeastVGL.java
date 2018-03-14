@@ -60,10 +60,8 @@ public class YeastVGL {
 	}
 
 	public String getJsonString() {
-		State state = new State(mutantSet, ctp.getData(), ctp.getWorkingSetChoices(), pp.get);
-		State state = new State(mutantSet, data, workingSet);
+		State state = new State(mutantSet, ctp.getData(), ctp.getWorkingSetChoices(), pp.getPathwayDrawingPanel().getState());
 		Gson gson = new Gson();
 		return gson.toJson(state);
-
 	}
 }

@@ -13,7 +13,7 @@ public class PathwayDrawingPanel extends JPanel {
 	private YeastVGL yeastVGL;
 
 	public static final int NUM_ROWS = 3;
-	public static final int NUM_COLS = 30;
+	public static final int NUM_COLS = 25;
 	public static final int CELL_SPACING = 1;
 
 	private DrawingPanelTile[][] tileArray;
@@ -28,21 +28,21 @@ public class PathwayDrawingPanel extends JPanel {
 			int row = i/NUM_COLS;
 			int col = i % NUM_COLS;
 			// first column
-			if ((i % NUM_COLS) == 0) {
-				if (i == (NUM_COLS)) {
+			if (col == 0) {
+				if (row == 1) {
 					tileArray[row][col] = new PrecursorTile(yeastVGL, row, col);
 					innerPanel.add(tileArray[row][col]);
 				} else {
 					tileArray[row][col] = new UneditableTile(yeastVGL, row, col);
 					innerPanel.add(tileArray[row][col]);
 				}
-			} else if ((((i % NUM_COLS) % 5) == 1) || (((i % NUM_COLS) % 5) == 3)) {
+			} else if (((col % 4) == 1) || ((col % 4) == 3)) {
 				tileArray[row][col] = new ArrowTile(yeastVGL, row, col);
 				innerPanel.add(tileArray[row][col]);
-			} else if (((i % NUM_COLS) % 5) == 2) {
+			} else if ((col % 4) == 2) {
 				tileArray[row][col] = new EnzymeTile(yeastVGL, row, col);
 				innerPanel.add(tileArray[row][col]);
-			} else if (((i % NUM_COLS) % 5) == 4) {
+			} else if ((col % 4) == 0) {
 				tileArray[row][col] = new MoleculeTile(yeastVGL, row, col);
 				innerPanel.add(tileArray[row][col]);
 			}

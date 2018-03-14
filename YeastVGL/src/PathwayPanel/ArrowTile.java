@@ -104,6 +104,8 @@ public class ArrowTile extends DrawingPanelTile {
 		} else {
 			add(new JLabel(bigBentArrow));
 		}
+		revalidate();
+		repaint();
 	}
 	
 	public int getSelection() {

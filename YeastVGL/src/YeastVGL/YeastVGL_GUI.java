@@ -90,10 +90,6 @@ public class YeastVGL_GUI extends JFrame {
 
 		innerPanel = new JTabbedPane();
 		
-		JPanel testPanel = new JPanel();
-		testPanel.add(new PathwayDrawingPanel(yeastVGL));
-		innerPanel.addTab("Test", testPanel);
-		
 		WelcomePanel wp = new WelcomePanel(this);
 		innerPanel.addTab("Welcome", wp);
 		innerPanel.addTab("Complementation Test", yeastVGL.getComplementationTestPanel());
@@ -189,7 +185,7 @@ public class YeastVGL_GUI extends JFrame {
 		BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new FileWriter(currentSaveWorkFile));
-			writer.write(yeastVGL.getComplementationTestPanel().getJsonString());
+			writer.write(yeastVGL.getJsonString());
 			writer.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
