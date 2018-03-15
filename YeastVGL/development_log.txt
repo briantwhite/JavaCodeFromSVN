@@ -368,4 +368,25 @@ maybe it doesn't matter since you can just connect them
 		drawn pathway.
 got it to find the precursor - that's the starting point.
 
-	
+3/15/18
+to do the proper comparison, you'll need to use the actual mutant numbers
+	start from the CG they give and use that to look up the enzyme number
+for this to work, the CG assignments must be right as well as the working set
+	before you can proceed
+
+so:
+1) check CG assignments
+	2 warnings (red text under the CG table):
+		- not all the mutant strains have been assigned to a CG
+		- assignments are incorrect
+			make an array of enzymeLabels (String[]) indexed by enzyme number
+			go mutantStrain by mutantStrain
+				using it's enzyme number, enter into the enzymeLabels[] the CG it was assigned to
+					if enzymeLabels[] is blank - add in the CG
+					if it contains a label - if it matches the current mutantStrain's one - OK
+						if not, throw an error
+		
+2) check that all CGs have at one and only one member in working set
+	2 warnings (red text under working set selection)
+		- not all CGs represented in your set
+		- at least one CG represented more than once
