@@ -448,3 +448,29 @@ need to make another for test purposes - also call it "correctCGs.yvgl"
 works now
 
 NEXT - be sure the working set contains one from each CG
+
+got this going but had to make new file - also called "correctCGs-noWS.yvgl"
+and then set a correct working set to test restoration of state "correctCGs-full.yvgl"
+     [java] M:0  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:1  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:2  E0+ E1- E2+ E3+ E4+ E5+  mutatedGeneIndex:1 CG:
+     [java] M:3  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:4  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:5  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:6  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:7  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:8  E0- E1+ E2+ E3+ E4+ E5+  mutatedGeneIndex:0 CG:
+     [java] M:9  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:10  E0+ E1- E2+ E3+ E4+ E5+  mutatedGeneIndex:1 CG:
+     [java] M:11  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:12  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:13  E0+ E1+ E2+ E3+ E4- E5+  mutatedGeneIndex:4 CG:
+     [java] M:14  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+
+the problem was that it wasn't saving the CG when it saved a SingleMutantStrain
+	needed to add a constructor that takes a complementationGroup as an argument
+	then the JSON will do it right
+
+now scores and saves right.
+
+put the test files in testFiles/

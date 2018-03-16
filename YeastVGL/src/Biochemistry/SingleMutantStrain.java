@@ -24,6 +24,20 @@ public class SingleMutantStrain {
 		complementationGroup = "";
 	}
 	
+	public SingleMutantStrain(int index, int numEnzymes, int mutatedGeneIndex, String complementationGroup) {
+		this.index = index;
+		this.mutatedGeneIndex = mutatedGeneIndex;
+		
+		// starts off as wild-type
+		genotype = new boolean[numEnzymes];
+		for (int i = 0; i < numEnzymes; i++) {
+			genotype[i] = true;
+		}
+		// mutate as needed
+		genotype[mutatedGeneIndex] = false;
+		this.complementationGroup = complementationGroup;
+	}
+	
 	public int getIndex() {
 		return index;
 	}

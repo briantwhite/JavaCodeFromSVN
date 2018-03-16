@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -39,6 +41,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 
 	private JTable complementationTable;
 	private JPanel ctp;
+	private JPanel wsp;
 	private Pathway pathway;
 	private MutantSet mutantSet;
 	private int numMutants;
@@ -48,9 +51,10 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 	private JPopupMenu cgChoicePopup;
 	private int cgTableRowforCGediting;
 	private JLabel tableStatusLabel;
+	private JLabel workingSetStatusLabel;
 
 	private Object[][] data;
-	
+
 	private final TitledBorder comTestPanelGreenBorder = 
 			BorderFactory.createTitledBorder(
 					BorderFactory.createLineBorder(Color.GREEN), 
@@ -60,12 +64,21 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 					BorderFactory.createLineBorder(Color.RED), 
 					"Complementation Test");
 
+	private final TitledBorder workingSetPanelGreenBorder = 
+			BorderFactory.createTitledBorder(
+					BorderFactory.createLineBorder(Color.GREEN), 
+					"Working Set");
+	private final TitledBorder workingSetPanelRedBorder = 
+			BorderFactory.createTitledBorder(
+					BorderFactory.createLineBorder(Color.RED), 
+					"Working Set");
+
 	public ComplementationTestPanel(YeastVGL yeastVGL) {
 		pathway = yeastVGL.getPathway();
 		mutantSet = yeastVGL.getMutantSet();
 		numMutants = mutantSet.getNumberOfMutants();
 		numEnzymes = yeastVGL.getPathway().getNumberOfEnzymes();
-		
+
 		// set up the complementation group popup menu
 		cgChoicePopup = new JPopupMenu();
 		JMenuItem[] cgChoices = new JMenuItem[numEnzymes + 3];
@@ -78,7 +91,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 			cgChoices[i].addActionListener(this);
 			cgChoicePopup.add(cgChoices[i]);
 		}
-	
+
 		// set up the column names
 		String[] mutantNames = new String[numMutants];
 		columnHeadings = new String[numMutants + 2];
@@ -108,22 +121,22 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		// set up the UI
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(Box.createRigidArea(new Dimension(900,10)));
-		
+
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
-		
+
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(Box.createRigidArea(new Dimension(150,1)));
-		
+
 		JPanel instructionPanel = new CTPInstructionPanel();
 		leftPanel.add(instructionPanel);
 		mainPanel.add(leftPanel);
-		
+
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
 		middlePanel.add(Box.createRigidArea(new Dimension(600,1)));
-		
+
 		ctp = new JPanel();
 		ctp.setBorder(BorderFactory.createTitledBorder("Complementation Table"));
 		complementationTable = new JTable();
@@ -170,17 +183,17 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 
 		tableStatusLabel = new JLabel();
 		tablePanel.add(tableStatusLabel, BorderLayout.SOUTH);
-		
+
 		ctp.add(tablePanel);
 		middlePanel.add(ctp);
-			
+
 		mainPanel.add(middlePanel);
-		
+
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		rightPanel.add(Box.createRigidArea(new Dimension(200,1)));
-		
-		JPanel wsp = new JPanel();
+
+		wsp = new JPanel();
 		wsp.setLayout(new BoxLayout(wsp, BoxLayout.Y_AXIS));
 		wsp.setBorder(BorderFactory.createTitledBorder("Working Set"));
 		wsp.add(Box.createRigidArea(new Dimension(200,1)));
@@ -191,19 +204,24 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 			workingSetCheckboxes[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					yeastVGL.getGUI().haveSomethingToSave();
+					updateWorkingSetStatusLabel();
 				}
 			});
 		}
 		for (int i = 0; i < workingSetCheckboxes.length; i++) {
 			wsp.add(workingSetCheckboxes[i]);
 		}
+		workingSetStatusLabel = new JLabel();
+		wsp.add(workingSetStatusLabel);
 		rightPanel.add(wsp);
 		mainPanel.add(rightPanel);
-		
+
 		this.add(mainPanel);
 		this.revalidate();
-		
+
 		updateTableStatusLabel();
+		updateWorkingSetCheckboxLabels();
+		updateWorkingSetStatusLabel();
 	}
 
 	private String willDiploidGrow(int m1num, int m2num, ArrayList<Integer>startingMolecules) {
@@ -237,7 +255,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 			return columnHeadings[col];
 		}
 		public boolean isCellEditable(int r, int c) {
-				return false;
+			return false;
 		}
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			return data[rowIndex][columnIndex];
@@ -262,10 +280,10 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 				data[newRow][i] = data[oldRow][i];
 				data[oldRow][i] = temp;
 			}	
-			
+
 		}
 	}
-	
+
 	// the popup that lets you edit the complementation group
 	class ComGrpEditorListener extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
@@ -273,7 +291,9 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 			int col = complementationTable.columnAtPoint(e.getPoint());
 			if (col == (numMutants + 1)) {
 				Rectangle targetCell = complementationTable.getCellRect(row, col, false);
-				cgChoicePopup.show(complementationTable, targetCell.x + (targetCell.width/2), targetCell.y + (targetCell.height/2));
+				cgChoicePopup.show(complementationTable, 
+						targetCell.x + (targetCell.width/2), 
+						targetCell.y + (targetCell.height/2));
 				cgTableRowforCGediting = row;
 			}
 		}
@@ -292,7 +312,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 
 	public void updateTableStatusLabel() {
 		StringBuffer tableStatusTextBuffer = new StringBuffer();
-		
+
 		// see if all the mutant strains have a CG
 		boolean cgAssignmentsIncomplete = false;
 		for (int row = 0; row < numMutants; row++) {
@@ -304,7 +324,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		if (cgAssignmentsIncomplete) {
 			tableStatusTextBuffer.append("<font color='red'>WARNING: not all mutant strains have been assigned a cg.</font><br>");
 		} 
-		
+
 		// now, be sure that all mutant strains mutated in each gene have the same cg
 		boolean cgAssignmentsIncorrect = false;
 		String[] mutantCGs = new String[numEnzymes];
@@ -343,7 +363,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		if (cgAssignmentsIncorrect || onlyOneCGused) {
 			tableStatusTextBuffer.append("<font color='red'>WARNING: not all cgs assigned correctly.</font>");
 		}
-		
+
 		if (tableStatusTextBuffer.length() != 0) {
 			tableStatusLabel.setText("<html>" + tableStatusTextBuffer.toString() + "</html>");
 			ctp.setBorder(comTestPanelRedBorder);
@@ -352,7 +372,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 			ctp.setBorder(comTestPanelGreenBorder);
 		}
 	}
-	
+
 	public void updateWorkingSetCheckboxLabels() {
 		for (int row = 0; row < numMutants; row++) {
 			int mutantStrainNumber = Integer.parseInt(((String)data[row][0]).substring(1));
@@ -360,7 +380,58 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 			workingSetCheckboxes[mutantStrainNumber].setText("M" + mutantStrainNumber + " CG: " + cg);
 		}
 	}
-	
+
+	public void updateWorkingSetStatusLabel() {
+		// be sure each of the cgs is represented once and only once in the working set
+		HashMap<String, Integer> tallyMap = new HashMap<String, Integer>();
+		// first, find all the CG names they used and create the hash keys with them
+		for (int row = 0; row < numMutants; row++) {
+			String cgName = (String)data[row][numMutants + 1];
+			if (!tallyMap.containsKey(cgName)) {
+				tallyMap.put(cgName, new Integer(0));
+			}
+		}
+		
+		// now, go thru the working set checkboxes and see how many times each CG is represented
+		for (int i = 0; i < workingSetCheckboxes.length; i++) {
+			if (workingSetCheckboxes[i].isSelected()) {
+				String cg = mutantSet.getMutantStrains()[i].getComplementationGroup();
+				int oldCount = tallyMap.get(cg).intValue();
+				tallyMap.replace(cg, oldCount + 1);
+			}
+		}
+		
+		// now, check the tally for problems
+		boolean workingSetIncomplete = false;	// not all cgs represented
+		boolean workingSetIncorrect = false;	// one or more cgs with > 1 representative
+		Iterator<String> cgIt = tallyMap.keySet().iterator();
+		while (cgIt.hasNext()) {
+			String cg = cgIt.next();
+			int count = tallyMap.get(cg);
+			if (count == 0) {
+				workingSetIncomplete = true;
+			}
+			if (count > 1) {
+				workingSetIncorrect = true;
+			}
+		}
+		
+		StringBuffer workingSetStatusBuffer = new StringBuffer();
+		if (workingSetIncomplete) {
+			workingSetStatusBuffer.append("<font color='red'>WARNING: not all cgs represented in working set.</font><br>");
+		}
+		if (workingSetIncorrect) {
+			workingSetStatusBuffer.append("<font color='red'>WARNING: some cgs represented more than once in working set.</font>");
+		}
+		if (workingSetStatusBuffer.length() != 0) {
+			workingSetStatusLabel.setText("<html>" + workingSetStatusBuffer.toString() + "</html>");
+			wsp.setBorder(workingSetPanelRedBorder);
+		} else {
+			workingSetStatusLabel.setText("<html><font color='green'>AOK</font></html>");
+			wsp.setBorder(workingSetPanelGreenBorder);
+		}
+	}
+
 	public ArrayList<SingleMutantStrain> getWorkingSet() {
 		ArrayList<SingleMutantStrain> workingSet = new ArrayList<SingleMutantStrain>();
 		for (int i = 0; i < workingSetCheckboxes.length; i++) {
@@ -370,11 +441,11 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		}
 		return workingSet;
 	}
-	
+
 	public Object[][] getData() {
 		return data;
 	}
-	
+
 	public boolean[] getWorkingSetChoices() {
 		boolean[] workingSet = new boolean[workingSetCheckboxes.length];
 		for (int i = 0; i < workingSet.length; i++) {
@@ -382,7 +453,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		}
 		return workingSet;
 	}
-	
+
 	public void restoreSavedState(State state) {
 		mutantSet = state.getMutantSet();
 		data = state.getComplementationTableData();
@@ -393,11 +464,12 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		complementationTable.getTableHeader().repaint();
 		complementationTable.revalidate();
 		complementationTable.repaint();
-		
+
 		for (int i = 0; i < state.getWorkingSetChoices().length; i++) {
 			workingSetCheckboxes[i].setSelected(state.getWorkingSetChoices()[i]);
 		}
 		updateTableStatusLabel();
 		updateWorkingSetCheckboxLabels();
+		updateWorkingSetStatusLabel();
 	}
 }
