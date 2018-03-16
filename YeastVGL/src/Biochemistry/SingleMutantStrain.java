@@ -2,15 +2,17 @@ package Biochemistry;
 
 import java.util.ArrayList;
 
-public class MutantStrain {
+public class SingleMutantStrain {
 	
 	private int index;
 	private boolean[] genotype;
 	private String complementationGroup;
+	private int mutatedGeneIndex;
 	
-	public MutantStrain(int index, int numEnzymes, ArrayList<Integer>mutatedGenes) {
+	public SingleMutantStrain(int index, int numEnzymes, int mutatedGeneIndex) {
 		
 		this.index = index;
+		this.mutatedGeneIndex = mutatedGeneIndex;
 		
 		// starts off as wild-type
 		genotype = new boolean[numEnzymes];
@@ -18,11 +20,7 @@ public class MutantStrain {
 			genotype[i] = true;
 		}
 		// mutate as needed
-		if (!mutatedGenes.isEmpty()) {
-			for (int i = 0; i < mutatedGenes.size(); i++) {
-				genotype[mutatedGenes.get(i).intValue()] = false;
-			}
-		}
+		genotype[mutatedGeneIndex] = false;
 		complementationGroup = "";
 	}
 	
@@ -41,6 +39,10 @@ public class MutantStrain {
 	public void setComplementationGroup(String cg) {
 		complementationGroup = cg;
 	}
+	
+	public int getMutatedGeneIndex() {
+		return mutatedGeneIndex;
+	}
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
@@ -52,6 +54,7 @@ public class MutantStrain {
 				b.append("- ");
 			}
 		}
+		b.append(" mutatedGeneIndex:" + mutatedGeneIndex);
 		b.append(" CG:");
 		b.append(complementationGroup);
 		return b.toString();

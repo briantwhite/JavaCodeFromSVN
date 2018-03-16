@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
 import com.google.gson.Gson;
 
 import Biochemistry.MutantSet;
-import Biochemistry.MutantStrain;
+import Biochemistry.SingleMutantStrain;
 import Biochemistry.Pathway;
 import YeastVGL.State;
 import YeastVGL.YeastVGL;
@@ -272,10 +272,16 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		String choice = ((JMenuItem)e.getSource()).getText();
 		data[cgTableRowforCGediting][numMutants + 1] = choice;
 		updateTableStatusLabel();
+		// update label on checkboxes
+		int mutantStrainNumber = Integer.parseInt(((String)data[cgTableRowforCGediting][0]).substring(1));
+		workingSetCheckboxes[mutantStrainNumber].setText("M" + mutantStrainNumber + " CG: " + choice);
+		// update mutantStrain's cg
+		mutantSet.getMutantStrains()[mutantStrainNumber].setComplementationGroup(choice);
 	}
 
 	public void updateTableStatusLabel() {
-		String tableStatusText = null;
+		StringBuffer tableStatusTextBuffer = new StringBuffer();
+		
 		// see if all the mutant strains have a CG
 		boolean cgAssignmentsIncomplete = false;
 		for (int row = 0; row < numMutants; row++) {
@@ -284,20 +290,66 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 				break;
 			}
 		}
-		
 		if (cgAssignmentsIncomplete) {
-			tableStatusText = "<font color='red'>WARNING: not all mutant strains have been assigned a cg.</font>";
+			tableStatusTextBuffer.append("<font color='red'>WARNING: not all mutant strains have been assigned a cg.</font><br>");
 		} 
 		
-		if (tableStatusText != null) {
-			tableStatusLabel.setText("<html>" + tableStatusText + "</html>");
+		// now, be sure that all mutant strains mutated in each gene have the same cg
+		boolean cgAssignmentsIncorrect = false;
+		String[] mutantCGs = new String[numEnzymes];
+		for (int row = 0; row < numMutants; row++) {
+			int mutantStrainNumber = Integer.parseInt(((String)data[row][0]).substring(1));
+			int indexOfMutatedGene = mutantSet.getMutantStrains()[mutantStrainNumber].getMutatedGeneIndex();
+			if (mutantCGs[indexOfMutatedGene] == null) {
+				// unassigned, so assign it
+				mutantCGs[indexOfMutatedGene] = (String)data[row][numMutants + 1];
+			} else {
+				// assigned, so check it - do all the mutantStrains that have same mutation have same cg?
+				if (!mutantCGs[indexOfMutatedGene].equals((String)data[row][numMutants + 1])) {
+					cgAssignmentsIncorrect = true;
+					break;
+				}
+			}
+		}
+		/*
+		 * the test above "passes" if all have the same cg (like at the start)
+		 * so need to be sure that there are at least 2 different cgs in the set.
+		 */
+		boolean onlyOneCGused = true;
+		String cg = null;
+		for (int i = 0; i < mutantCGs.length; i++) {
+			if (cg == null) {
+				// save the first one you find
+				cg = mutantCGs[i];
+			} else {
+				// see if you find another
+				if ((mutantCGs[i] != null) && (!mutantCGs[i].equals(cg))) {
+					onlyOneCGused = false;
+					break;
+				}
+			}
+		}
+		if (cgAssignmentsIncorrect || onlyOneCGused) {
+			tableStatusTextBuffer.append("<font color='red'>WARNING: not all cgs assigned correctly.</font>");
+		}
+		
+		if (tableStatusTextBuffer.length() != 0) {
+			tableStatusLabel.setText("<html>" + tableStatusTextBuffer.toString() + "</html>");
 		} else {
 			tableStatusLabel.setText("<html><font color='green'>AOK</font></html>");
 		}
 	}
 	
-	public ArrayList<MutantStrain> getWorkingSet() {
-		ArrayList<MutantStrain> workingSet = new ArrayList<MutantStrain>();
+	public void updateWorkingSetCheckboxLabels() {
+		for (int row = 0; row < numMutants; row++) {
+			int mutantStrainNumber = Integer.parseInt(((String)data[row][0]).substring(1));
+			String cg = mutantSet.getMutantStrains()[mutantStrainNumber].getComplementationGroup();
+			workingSetCheckboxes[mutantStrainNumber].setText("M" + mutantStrainNumber + " CG: " + cg);
+		}
+	}
+	
+	public ArrayList<SingleMutantStrain> getWorkingSet() {
+		ArrayList<SingleMutantStrain> workingSet = new ArrayList<SingleMutantStrain>();
 		for (int i = 0; i < workingSetCheckboxes.length; i++) {
 			if (workingSetCheckboxes[i].isSelected()) {
 				workingSet.add(mutantSet.getMutantStrains()[i]);
@@ -332,7 +384,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		for (int i = 0; i < state.getWorkingSetChoices().length; i++) {
 			workingSetCheckboxes[i].setSelected(state.getWorkingSetChoices()[i]);
 		}
-		
 		updateTableStatusLabel();
+		updateWorkingSetCheckboxLabels();
 	}
 }

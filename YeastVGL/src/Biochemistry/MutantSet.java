@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class MutantSet {
 	
-	private MutantStrain[] mutantStrains;
+	private SingleMutantStrain[] mutantStrains;
 	
 	public MutantSet(int numMutants, int numEnzymes) {
 		Random r = new Random();
@@ -18,12 +18,10 @@ public class MutantSet {
 			for (int i = 0; i < numEnzymes; i++) {
 				mutatedGeneTallies[i] = 0;
 			}
-			mutantStrains = new MutantStrain[numMutants];
+			mutantStrains = new SingleMutantStrain[numMutants];
 			for (int i = 0; i < numMutants; i++) {
-				ArrayList<Integer>mutantGenes = new ArrayList<Integer>();
 				int mutantGeneNumber = r.nextInt(numEnzymes);
-				mutantGenes.add(new Integer(mutantGeneNumber));
-				mutantStrains[i] = new MutantStrain(i, numEnzymes, mutantGenes);
+				mutantStrains[i] = new SingleMutantStrain(i, numEnzymes, mutantGeneNumber);
 				// tally it
 				mutatedGeneTallies[mutantGeneNumber]++;
 			}
@@ -39,7 +37,7 @@ public class MutantSet {
 		System.out.println(this.toString());
 	}
 	
-	public MutantStrain[] getMutantStrains() {
+	public SingleMutantStrain[] getMutantStrains() {
 		return mutantStrains;
 	}
 	

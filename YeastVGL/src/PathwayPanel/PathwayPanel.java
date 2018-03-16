@@ -15,7 +15,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Biochemistry.MutantStrain;
+import Biochemistry.SingleMutantStrain;
 import Biochemistry.Pathway;
 import ComplementationTestPanel.MutantStrainCheckbox;
 import YeastVGL.YeastVGL;
@@ -24,7 +24,7 @@ public class PathwayPanel extends JPanel {
 
 	private YeastVGL yeastVGL;
 
-	private ArrayList<MutantStrain> workingSet;
+	private ArrayList<SingleMutantStrain> workingSet;
 
 	JCheckBox[] genotypeCheckboxes;
 	JCheckBox[] substrateCheckboxes;
@@ -124,7 +124,7 @@ public class PathwayPanel extends JPanel {
 		}
 	}
 
-	public void updateWorkingSet(ArrayList<MutantStrain> workingSet) {
+	public void updateWorkingSet(ArrayList<SingleMutantStrain> workingSet) {
 		this.workingSet = workingSet;
 		genoPanel.removeAll();
 		if (workingSet.isEmpty()) {
@@ -151,7 +151,7 @@ public class PathwayPanel extends JPanel {
 		 */
 		for (int i = 0; i < genotypeCheckboxes.length; i++) {
 			if (genotypeCheckboxes[i].isSelected()) {
-				MutantStrain ms = workingSet.get(i);
+				SingleMutantStrain ms = workingSet.get(i);
 				for (int j = 0; j < numEnzymes; j++) {
 					if (!ms.getGenotype()[j]) {
 						compositeGenotype[j] = false;

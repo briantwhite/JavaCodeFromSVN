@@ -392,3 +392,59 @@ so:
 		- at least one CG represented more than once
 
 3/16/18
+working on scoring the complementation table
+save one with hopefully correct assignments to test
+here's the mutant data:
+     [java] Pathway is OK
+     [java] M:0  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:1  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:2  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:3  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:4  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:5  E0+ E1+ E2+ E3+ E4- E5+  mutatedGeneIndex:4 CG:
+     [java] M:6  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:7  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:8  E0- E1+ E2+ E3+ E4+ E5+  mutatedGeneIndex:0 CG:
+     [java] M:9  E0+ E1- E2+ E3+ E4+ E5+  mutatedGeneIndex:1 CG:
+     [java] M:10  E0+ E1- E2+ E3+ E4+ E5+  mutatedGeneIndex:1 CG:
+     [java] M:11  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:12  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:13  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:14  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+
+this matches the table
+	CG A (enzyme 3): M0, M13
+	CG B (enzyme 2): M1, M2, M4, M6, M11
+	CG C (enzyme 5): M3, M7, M12, M14
+	CG D (enzyme 4): M5
+	CG E (enzyme 1): M9, M10
+	CG F (enzyme 0): M8
+
+saved as "correctCGs.yvgl"
+but it generates the warning "not all cgs assigned correctly"
+use debugger to look at arrays
+
+the problem is, we're using the row index as equal to the mutant number and they're not in order anymore...
+	need to find the actual mutantStrain number at that row in (now scrambled) table
+fixed
+
+need to make another for test purposes - also call it "correctCGs.yvgl"
+     [java] M:0  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:1  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:2  E0+ E1- E2+ E3+ E4+ E5+  mutatedGeneIndex:1 CG:
+     [java] M:3  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:4  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:5  E0+ E1- E2+ E3+ E4+ E5+  mutatedGeneIndex:1 CG:
+     [java] M:6  E0- E1+ E2+ E3+ E4+ E5+  mutatedGeneIndex:0 CG:
+     [java] M:7  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:8  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:9  E0+ E1+ E2+ E3+ E4- E5+  mutatedGeneIndex:4 CG:
+     [java] M:10  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:11  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:12  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:13  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:14  E0+ E1+ E2+ E3+ E4- E5+  mutatedGeneIndex:4 CG:
+
+works now
+
+NEXT - be sure the working set contains one from each CG
