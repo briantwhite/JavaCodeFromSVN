@@ -390,3 +390,5 @@ so:
 	2 warnings (red text under working set selection)
 		- not all CGs represented in your set
 		- at least one CG represented more than once
+
+3/16/18

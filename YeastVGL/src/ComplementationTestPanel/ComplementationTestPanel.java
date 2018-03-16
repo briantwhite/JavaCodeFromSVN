@@ -46,6 +46,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 	private JCheckBox[] workingSetCheckboxes;
 	private JPopupMenu cgChoicePopup;
 	private int cgTableRowforCGediting;
+	private JLabel tableStatusLabel;
 
 	private Object[][] data;
 
@@ -57,9 +58,13 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		
 		// set up the complementation group popup menu
 		cgChoicePopup = new JPopupMenu();
-		JMenuItem[] cgChoices = new JMenuItem[numEnzymes + 2];
-		for (int i = 0; i < cgChoices.length; i++) {
-			cgChoices[i] = new JMenuItem(String.valueOf((char)(i + 0x41)));
+		JMenuItem[] cgChoices = new JMenuItem[numEnzymes + 3];
+		// first a blank one
+		cgChoices[0] = new JMenuItem("");
+		cgChoices[0].addActionListener(this);
+		cgChoicePopup.add(cgChoices[0]);
+		for (int i = 1; i < cgChoices.length; i++) {
+			cgChoices[i] = new JMenuItem(String.valueOf((char)(i + 0x40)));
 			cgChoices[i].addActionListener(this);
 			cgChoicePopup.add(cgChoices[i]);
 		}
@@ -154,6 +159,10 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 				complementationTable.getRowHeight() * (columnHeadings.length + 1)));
 		ctp.add(tablePane);
 		middlePanel.add(ctp);
+		
+		tableStatusLabel = new JLabel();
+		middlePanel.add(tableStatusLabel);
+	
 		mainPanel.add(middlePanel);
 		
 		JPanel rightPanel = new JPanel();
@@ -182,6 +191,8 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		
 		this.add(mainPanel);
 		this.revalidate();
+		
+		updateTableStatusLabel();
 	}
 
 	private String willDiploidGrow(int m1num, int m2num, ArrayList<Integer>startingMolecules) {
@@ -260,8 +271,30 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 	public void actionPerformed(ActionEvent e) {
 		String choice = ((JMenuItem)e.getSource()).getText();
 		data[cgTableRowforCGediting][numMutants + 1] = choice;
+		updateTableStatusLabel();
 	}
 
+	public void updateTableStatusLabel() {
+		String tableStatusText = null;
+		// see if all the mutant strains have a CG
+		boolean cgAssignmentsIncomplete = false;
+		for (int row = 0; row < numMutants; row++) {
+			if (data[row][numMutants + 1].equals("")) {
+				cgAssignmentsIncomplete = true;
+				break;
+			}
+		}
+		
+		if (cgAssignmentsIncomplete) {
+			tableStatusText = "<font color='red'>WARNING: not all mutant strains have been assigned a cg.</font>";
+		} 
+		
+		if (tableStatusText != null) {
+			tableStatusLabel.setText("<html>" + tableStatusText + "</html>");
+		} else {
+			tableStatusLabel.setText("<html><font color='green'>AOK</font></html>");
+		}
+	}
 	
 	public ArrayList<MutantStrain> getWorkingSet() {
 		ArrayList<MutantStrain> workingSet = new ArrayList<MutantStrain>();
@@ -299,5 +332,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		for (int i = 0; i < state.getWorkingSetChoices().length; i++) {
 			workingSetCheckboxes[i].setSelected(state.getWorkingSetChoices()[i]);
 		}
+		
+		updateTableStatusLabel();
 	}
 }
