@@ -1,5 +1,7 @@
 package ComplementationTestPanel;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -16,8 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
@@ -27,17 +29,16 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
-import com.google.gson.Gson;
-
 import Biochemistry.MutantSet;
-import Biochemistry.SingleMutantStrain;
 import Biochemistry.Pathway;
+import Biochemistry.SingleMutantStrain;
 import YeastVGL.State;
 import YeastVGL.YeastVGL;
 
 public class ComplementationTestPanel extends JPanel implements ActionListener, TableColumnModelListener {
 
 	private JTable complementationTable;
+	private JPanel ctp;
 	private Pathway pathway;
 	private MutantSet mutantSet;
 	private int numMutants;
@@ -49,6 +50,15 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 	private JLabel tableStatusLabel;
 
 	private Object[][] data;
+	
+	private final TitledBorder comTestPanelGreenBorder = 
+			BorderFactory.createTitledBorder(
+					BorderFactory.createLineBorder(Color.GREEN), 
+					"Complementation Test");
+	private final TitledBorder comTestPanelRedBorder = 
+			BorderFactory.createTitledBorder(
+					BorderFactory.createLineBorder(Color.RED), 
+					"Complementation Test");
 
 	public ComplementationTestPanel(YeastVGL yeastVGL) {
 		pathway = yeastVGL.getPathway();
@@ -114,7 +124,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
 		middlePanel.add(Box.createRigidArea(new Dimension(600,1)));
 		
-		JPanel ctp = new JPanel();
+		ctp = new JPanel();
 		ctp.setBorder(BorderFactory.createTitledBorder("Complementation Table"));
 		complementationTable = new JTable();
 		// make sure you can't drag the first or last columns
@@ -154,15 +164,16 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		//		complementationTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		complementationTable.setRowHeight(30);
 		complementationTable.addMouseListener(new ComGrpEditorListener());
-		JScrollPane tablePane = new JScrollPane(complementationTable);
-		tablePane.setPreferredSize(new Dimension(complementationTable.getPreferredSize().width + 30, 
-				complementationTable.getRowHeight() * (columnHeadings.length + 1)));
-		ctp.add(tablePane);
-		middlePanel.add(ctp);
-		
+		JPanel tablePanel = new JPanel(new BorderLayout());
+		tablePanel.add(complementationTable, BorderLayout.CENTER);
+		tablePanel.add(complementationTable.getTableHeader(), BorderLayout.NORTH);
+
 		tableStatusLabel = new JLabel();
-		middlePanel.add(tableStatusLabel);
-	
+		tablePanel.add(tableStatusLabel, BorderLayout.SOUTH);
+		
+		ctp.add(tablePanel);
+		middlePanel.add(ctp);
+			
 		mainPanel.add(middlePanel);
 		
 		JPanel rightPanel = new JPanel();
@@ -335,8 +346,10 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		
 		if (tableStatusTextBuffer.length() != 0) {
 			tableStatusLabel.setText("<html>" + tableStatusTextBuffer.toString() + "</html>");
+			ctp.setBorder(comTestPanelRedBorder);
 		} else {
 			tableStatusLabel.setText("<html><font color='green'>AOK</font></html>");
+			ctp.setBorder(comTestPanelGreenBorder);
 		}
 	}
 	
