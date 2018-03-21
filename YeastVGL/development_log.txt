@@ -474,3 +474,22 @@ the problem was that it wasn't saving the CG when it saved a SingleMutantStrain
 now scores and saves right.
 
 put the test files in testFiles/
+
+3/21/18
+working on converting a pathway drawing into a pathway
+save previous work with a pathway drawn "correctCGs-pathway.yvgl"
+ugh - it's based on "correctCGs-full.yvgl" which opens just fine 
+	but this one, where I only changed the drawn pathway, gives a null pointer ...
+somehow, I changed something so that the complementationGroup of each mutantStrain is not being saved...
+	maybe delete the constructor that doesn't take a complementation group
+		still NG - WTF? it was working fine before...
+put back the constructor that assigns default CG = "" for now
+the docs say you need a no args constructor in the class
+	add one to SingleMutantStrain
+		still NG
+or, maybe the CGs aren't there when it gets saved when loaded from a file
+	check that
+weird, when it gets saved, when it makes the State object, the CGs are missing from the mutantSet
+	both in the State and the program
+what nuked them - they're in the table??
+
