@@ -74,7 +74,7 @@ public class PathwayDrawingPanel extends JPanel {
 		}
 		return new SavedPathwayDrawingState(NUM_ROWS, NUM_COLS, tiles);
 	}
-	
+
 	public void restoreSavedState(State state) {
 		innerPanel.removeAll();
 		SavedPathwayDrawingState spds = state.getSavedPathwayDrawingState();
@@ -114,7 +114,7 @@ public class PathwayDrawingPanel extends JPanel {
 		innerPanel.revalidate();
 		innerPanel.repaint();
 	}
-	
+
 	public Pathway convertToPathway() {
 		ArrayList<Enzyme> enzymeList = new ArrayList<Enzyme>();
 		ArrayList<Molecule> moleculeList = new ArrayList<Molecule>();
@@ -141,7 +141,29 @@ public class PathwayDrawingPanel extends JPanel {
 			return null;
 		}
 		System.out.println("found P at r:" + row + " col:" + col);
+		explorePathwayStartingAt(row, col);
 		return null;
+	}
+
+	// recursive function to walk the drawn pathway
+	//  and process along the way
+	private void explorePathwayStartingAt(int row, int col) {
+		System.out.println("found a " + tileArray[row][col].getClass().toString() + " at row:" + row + " col:" + col);
+		// look for arrow to right
+		if (col == NUM_COLS) {
+			return;
+		}
+		if (tileArray[row][col + 1] instanceof ArrowTile) {
+			if (tileArray[row][col + 1].getSelection() != ArrowTile.BLANK_ARROW) {
+				System.out.println("Found an arrow at row:" + row + " col:" + Integer.toString(col + 1));
+				explorePathwayStartingAt(row, col + 2);
+			} else {
+				return;
+			}
+		} else {
+			return;
+		}
+
 	}
 
 }

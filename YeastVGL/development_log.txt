@@ -505,3 +505,4 @@ now make a version with a drawn pathway based on "correctCGs-full.yvgl" called "
                                           |
 P --> enz 0 --> mol 1 --> enz 1 --> mol 2 +-> enz 3 --> mol 4 --> enz 4 --> mol 5 --> enz 5 --> mol 6
 
+started working on recursive search..
