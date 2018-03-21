@@ -492,4 +492,16 @@ or, maybe the CGs aren't there when it gets saved when loaded from a file
 weird, when it gets saved, when it makes the State object, the CGs are missing from the mutantSet
 	both in the State and the program
 what nuked them - they're in the table??
+	probably, that wasn't what "fixed" things before
+		delete the SingleMutantStrain constructor that takes a cg as an argument
+		figure out what's doing this..
+the problem is that there are multiple versions of the mutantSet - need to have all refer back to the one in YeastVGL
+take the private mutantSet out of ComplementationTestPanel and replace with yeastVGL.getMutantSet() and setMutantSet()
+now it works - it must've been an issue with the local version of mutantSet in ComplementationTestPanel
+
+now make a version with a drawn pathway based on "correctCGs-full.yvgl" called "correctCGs-pathway.yvgl"
+  
+                                          +-> enz 2 --> mol 3
+                                          |
+P --> enz 0 --> mol 1 --> enz 1 --> mol 2 +-> enz 3 --> mol 4 --> enz 4 --> mol 5 --> enz 5 --> mol 6
 

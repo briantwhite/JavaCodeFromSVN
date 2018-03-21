@@ -39,11 +39,11 @@ import YeastVGL.YeastVGL;
 
 public class ComplementationTestPanel extends JPanel implements ActionListener, TableColumnModelListener {
 
+	private YeastVGL yeastVGL;
 	private JTable complementationTable;
 	private JPanel ctp;
 	private JPanel wsp;
 	private Pathway pathway;
-	private MutantSet mutantSet;
 	private int numMutants;
 	private int numEnzymes;
 	private String[] columnHeadings;
@@ -74,9 +74,9 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 					"Working Set");
 
 	public ComplementationTestPanel(YeastVGL yeastVGL) {
+		this.yeastVGL = yeastVGL;
 		pathway = yeastVGL.getPathway();
-		mutantSet = yeastVGL.getMutantSet();
-		numMutants = mutantSet.getNumberOfMutants();
+		numMutants = yeastVGL.getMutantSet().getNumberOfMutants();
 		numEnzymes = yeastVGL.getPathway().getNumberOfEnzymes();
 
 		// set up the complementation group popup menu
@@ -111,7 +111,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 				if (col == 0) {
 					data[row][col] = new String(mutantNames[row]);
 				} else if (col == (numMutants + 1)){
-					data[row][col] = mutantSet.getMutantStrains()[row].getComplementationGroup();
+					data[row][col] = yeastVGL.getMutantSet().getMutantStrains()[row].getComplementationGroup();
 				} else {
 					data[row][col] = willDiploidGrow(row, col - 1, startingMaterials);
 				}
@@ -159,7 +159,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 				if (e.getType() == TableModelEvent.UPDATE) {
 					int alteredMutantNumber = Integer.valueOf(
 							data[e.getFirstRow()][0].toString().substring(1));
-					mutantSet.getMutantStrains()[alteredMutantNumber].setComplementationGroup(
+					yeastVGL.getMutantSet().getMutantStrains()[alteredMutantNumber].setComplementationGroup(
 							data[e.getFirstRow()][e.getColumn()].toString());
 				}
 			}			
@@ -231,8 +231,8 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 			diploidEffectiveGenotype[i] = false;
 		}
 		for (int i = 0; i < numEnzymes; i++) {
-			if ((mutantSet.getMutantStrains()[m1num].getGenotype()[i]) 
-					|| (mutantSet.getMutantStrains()[m2num].getGenotype()[i])) {
+			if ((yeastVGL.getMutantSet().getMutantStrains()[m1num].getGenotype()[i]) 
+					|| (yeastVGL.getMutantSet().getMutantStrains()[m2num].getGenotype()[i])) {
 				diploidEffectiveGenotype[i] = true;
 			}
 		}
@@ -307,7 +307,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		int mutantStrainNumber = Integer.parseInt(((String)data[cgTableRowforCGediting][0]).substring(1));
 		workingSetCheckboxes[mutantStrainNumber].setText("M" + mutantStrainNumber + " CG: " + choice);
 		// update mutantStrain's cg
-		mutantSet.getMutantStrains()[mutantStrainNumber].setComplementationGroup(choice);
+		yeastVGL.getMutantSet().getMutantStrains()[mutantStrainNumber].setComplementationGroup(choice);
 	}
 
 	public void updateTableStatusLabel() {
@@ -330,7 +330,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		String[] mutantCGs = new String[numEnzymes];
 		for (int row = 0; row < numMutants; row++) {
 			int mutantStrainNumber = Integer.parseInt(((String)data[row][0]).substring(1));
-			int indexOfMutatedGene = mutantSet.getMutantStrains()[mutantStrainNumber].getMutatedGeneIndex();
+			int indexOfMutatedGene = yeastVGL.getMutantSet().getMutantStrains()[mutantStrainNumber].getMutatedGeneIndex();
 			if (mutantCGs[indexOfMutatedGene] == null) {
 				// unassigned, so assign it
 				mutantCGs[indexOfMutatedGene] = (String)data[row][numMutants + 1];
@@ -376,7 +376,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 	public void updateWorkingSetCheckboxLabels() {
 		for (int row = 0; row < numMutants; row++) {
 			int mutantStrainNumber = Integer.parseInt(((String)data[row][0]).substring(1));
-			String cg = mutantSet.getMutantStrains()[mutantStrainNumber].getComplementationGroup();
+			String cg = yeastVGL.getMutantSet().getMutantStrains()[mutantStrainNumber].getComplementationGroup();
 			workingSetCheckboxes[mutantStrainNumber].setText("M" + mutantStrainNumber + " CG: " + cg);
 		}
 	}
@@ -395,7 +395,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		// now, go thru the working set checkboxes and see how many times each CG is represented
 		for (int i = 0; i < workingSetCheckboxes.length; i++) {
 			if (workingSetCheckboxes[i].isSelected()) {
-				String cg = mutantSet.getMutantStrains()[i].getComplementationGroup();
+				String cg = yeastVGL.getMutantSet().getMutantStrains()[i].getComplementationGroup();
 				int oldCount = tallyMap.get(cg).intValue();
 				tallyMap.replace(cg, oldCount + 1);
 			}
@@ -436,7 +436,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		ArrayList<SingleMutantStrain> workingSet = new ArrayList<SingleMutantStrain>();
 		for (int i = 0; i < workingSetCheckboxes.length; i++) {
 			if (workingSetCheckboxes[i].isSelected()) {
-				workingSet.add(mutantSet.getMutantStrains()[i]);
+				workingSet.add(yeastVGL.getMutantSet().getMutantStrains()[i]);
 			}
 		}
 		return workingSet;
@@ -455,7 +455,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 	}
 
 	public void restoreSavedState(State state) {
-		mutantSet = state.getMutantSet();
+		yeastVGL.setMutantSet(state.getMutantSet());
 		data = state.getComplementationTableData();
 		// need to fix column headings
 		for (int i = 0; i < data.length; i++) {
