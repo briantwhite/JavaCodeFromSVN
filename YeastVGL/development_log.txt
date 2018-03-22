@@ -517,3 +517,5 @@ it looks like the type of the drawingTiles is not being restored.
 	need to fix the updateSelectedTile() method in each kind of Tile
 
 it walks the tree down branches now
+
+added PathwayDrawingException to flag when they draw strange things

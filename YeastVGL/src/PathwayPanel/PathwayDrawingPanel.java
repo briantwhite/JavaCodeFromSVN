@@ -141,37 +141,59 @@ public class PathwayDrawingPanel extends JPanel {
 			return null;
 		}
 		System.out.println("found P at r:" + row + " col:" + col);
-		explorePathwayStartingAt(row, col);
+		try {
+			explorePathwayStartingAt(row, col, -1, 0);
+		} catch (PathwayDrawingException e) {
+			System.out.println(e.getMessage());;
+		}
 		return null;
 	}
 
 	// recursive function to walk the drawn pathway
 	//  and process along the way
-	private void explorePathwayStartingAt(int row, int col) {
-		System.out.println("found a " + tileArray[row][col].getClass().toString() + " at row:" + row + " col:" + col);
+	private void explorePathwayStartingAt(int row, int col, int lastEnzymeIndex, int lastMoleculeIndex) throws PathwayDrawingException {
+		int enzymeIndex = lastEnzymeIndex;
+		int moleculeIndex = lastMoleculeIndex;
+		
+		StringBuffer b = new StringBuffer();
+		b.append("Looking at r" + row + " c" + col);
+		DrawingPanelTile tile = tileArray[row][col];
+		if (tile instanceof MoleculeTile) {
+			b.append(" molecule #" + tile.getSelection());
+			moleculeIndex = tile.getSelection();
+			b.append("\n\tsetting the product of enzyme " + enzymeIndex + " to molecule " + moleculeIndex);
+		}
+		if (tile instanceof EnzymeTile) {
+			b.append(" enzyme #" + tile.getSelection());
+			enzymeIndex = tile.getSelection();
+			b.append("\n\tcreating enzyme number " + tile.getSelection() + "\n");
+			b.append("\tsetting it's substrate to " + moleculeIndex);
+		}
+		System.out.println(b.toString());
 		// look for arrow to right
 		if (col == NUM_COLS) {
-			return;
+			throw new PathwayDrawingException("You have an arrow leading off the page; you should shorten your pathway.");
 		}
 		if (tileArray[row][col + 1] instanceof ArrowTile) {
 			if (tileArray[row][col + 1].getSelection() != ArrowTile.BLANK_ARROW) {
-				System.out.println("Found an arrow at row:" + row + " col:" + Integer.toString(col + 1));
 				if (tileArray[row][col + 1].getSelection() == ArrowTile.STRAIGHT_ARROW) {
 					// keep going straight on
-					explorePathwayStartingAt(row, col + 2);
+					explorePathwayStartingAt(row, col + 2, enzymeIndex, moleculeIndex);
 				} 
 				if (tileArray[row][col + 1].getSelection() == ArrowTile.FORKED_ARROW) {
 					// hit a branch
 					//  first, be sure they did it right
 					if (row == 0) {
 						// you can't branch up in the top row
-						return;
+						throw new PathwayDrawingException("You have an arrow branching off the page; you should move your pathway down.");
 					}
 					if (tileArray[row - 1][col + 1].getSelection() == ArrowTile.BENT_ARROW) {
 						// keep going straight on
-						explorePathwayStartingAt(row, col + 2);
+						explorePathwayStartingAt(row, col + 2, enzymeIndex, moleculeIndex);
 						// and take the branch
-						explorePathwayStartingAt(row - 1, col + 2);
+						explorePathwayStartingAt(row - 1, col + 2, enzymeIndex, moleculeIndex);
+					} else {
+						throw new PathwayDrawingException("You have a forked arrow leading nowhere; you should connect it to a bent arrow.");
 					}
 				}
 			} else {
