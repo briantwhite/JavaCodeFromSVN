@@ -506,3 +506,8 @@ now make a version with a drawn pathway based on "correctCGs-full.yvgl" called "
 P --> enz 0 --> mol 1 --> enz 1 --> mol 2 +-> enz 3 --> mol 4 --> enz 4 --> mol 5 --> enz 5 --> mol 6
 
 started working on recursive search..
+
+3/22/18
+notes:
+	- need to use arrays of enzymes and molecules since you'll need to refer to them by number
+	- need to think carefully about keeping references as you walk the tree (pass them in as the growing pathway?)
