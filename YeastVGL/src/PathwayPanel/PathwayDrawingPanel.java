@@ -156,7 +156,24 @@ public class PathwayDrawingPanel extends JPanel {
 		if (tileArray[row][col + 1] instanceof ArrowTile) {
 			if (tileArray[row][col + 1].getSelection() != ArrowTile.BLANK_ARROW) {
 				System.out.println("Found an arrow at row:" + row + " col:" + Integer.toString(col + 1));
-				explorePathwayStartingAt(row, col + 2);
+				if (tileArray[row][col + 1].getSelection() == ArrowTile.STRAIGHT_ARROW) {
+					// keep going straight on
+					explorePathwayStartingAt(row, col + 2);
+				} 
+				if (tileArray[row][col + 1].getSelection() == ArrowTile.FORKED_ARROW) {
+					// hit a branch
+					//  first, be sure they did it right
+					if (row == 0) {
+						// you can't branch up in the top row
+						return;
+					}
+					if (tileArray[row - 1][col + 1].getSelection() == ArrowTile.BENT_ARROW) {
+						// keep going straight on
+						explorePathwayStartingAt(row, col + 2);
+						// and take the branch
+						explorePathwayStartingAt(row - 1, col + 2);
+					}
+				}
 			} else {
 				return;
 			}

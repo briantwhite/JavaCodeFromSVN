@@ -94,6 +94,7 @@ public class ArrowTile extends DrawingPanelTile {
 	}
 	
 	public void updateSelectedTile(int type) {
+		this.type = type;
 		removeAll();
 		if (type == BLANK_ARROW) {
 			add(new JLabel(bigEmpty));

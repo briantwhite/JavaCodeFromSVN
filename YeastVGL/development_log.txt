@@ -500,14 +500,20 @@ take the private mutantSet out of ComplementationTestPanel and replace with yeas
 now it works - it must've been an issue with the local version of mutantSet in ComplementationTestPanel
 
 now make a version with a drawn pathway based on "correctCGs-full.yvgl" called "correctCGs-pathway.yvgl"
-  
-                                          +-> enz 2 --> mol 3
-                                          |
-P --> enz 0 --> mol 1 --> enz 1 --> mol 2 +-> enz 3 --> mol 4 --> enz 4 --> mol 5 --> enz 5 --> mol 6
+  C:0  1   2    3    4    5    6    7    8    9    10   11   12   13   14   15  16   17   18   19   20
+R0	                                          +-> enz 2 --> mol 3
+                                   	          |
+R1	P --> enz 0 --> mol 1 --> enz 1 --> mol 2 +-> enz 3 --> mol 4 --> enz 4 --> mol 5 --> enz 5 --> mol 6
 
+R2
 started working on recursive search..
 
 3/22/18
 notes:
 	- need to use arrays of enzymes and molecules since you'll need to refer to them by number
 	- need to think carefully about keeping references as you walk the tree (pass them in as the growing pathway?)
+it looks like the type of the drawingTiles is not being restored.
+	is it being saved in the file? YES
+	need to fix the updateSelectedTile() method in each kind of Tile
+
+it walks the tree down branches now

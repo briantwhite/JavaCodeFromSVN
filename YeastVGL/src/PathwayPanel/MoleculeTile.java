@@ -67,6 +67,7 @@ public class MoleculeTile extends DrawingPanelTile {
 	}
 	
 	public void updateSelectedTile(int selectedMolecule) {
+		this.selectedMolecule = selectedMolecule;
 		if (selectedMolecule == -1) {
 			setBackground(BLANK_BACKGROUND_COLOR);
 			text.setText("");

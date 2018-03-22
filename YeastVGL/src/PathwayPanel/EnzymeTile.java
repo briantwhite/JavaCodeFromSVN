@@ -61,6 +61,7 @@ public class EnzymeTile extends DrawingPanelTile {
 	}
 
 	public void updateSelectedTile(int selectedEnzyme) {
+		this.selectedEnzyme = selectedEnzyme;
 		if (selectedEnzyme == -1) {
 			setBackground(BLANK_BACKGROUND_COLOR);
 			setBorder(BorderFactory.createEmptyBorder());
