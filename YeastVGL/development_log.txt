@@ -522,3 +522,15 @@ added PathwayDrawingException to flag when they draw strange things
 
 got it to make a valid pathway from the above saved file
 now, need to deal with weird pathways
+
+while building pathway
+	- when saving a new molecule or enzyme, fail if there's already one at that #
+		"enzyme 2 appears in 2 places"
+	- all branches must end with a molecule
+	- all branches must trace back to molecule 0
+	
+don't test integrity if it fails any of the above
+
+at start of testing
+	- be sure no nulls in the enzymes[] and molecules[]
+		"you did not include enzyme 5 in the pathway"
