@@ -37,7 +37,8 @@ public class MoleculeTile extends DrawingPanelTile {
 			}			
 		});
 		popupMenu.add(blankItem);
-		for (int i = 0; i < yeastVGL.getPathway().getNumberOfMolecules(); i++) {
+		//no molecule 0 - that's the precursor
+		for (int i = 1; i < yeastVGL.getPathway().getNumberOfMolecules(); i++) {
 			JMenuItem item = new JMenuItem(String.valueOf(i));
 			// shade the terminal molecules green
 			if (yeastVGL.getPathway().getMolecules()[i].isTerminal()) {

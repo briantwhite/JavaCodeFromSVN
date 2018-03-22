@@ -115,7 +115,7 @@ public class PathwayDrawingPanel extends JPanel {
 		innerPanel.repaint();
 	}
 
-	public Pathway convertToPathway() {
+	public Pathway convertToPathway() throws PathwayDrawingException {
 		Enzyme[] enzymes = new Enzyme[yeastVGL.getPathway().getNumberOfEnzymes()];
 		Molecule[] molecules = new Molecule[yeastVGL.getPathway().getNumberOfMolecules()];
 		molecules[0] = new Molecule(0);	// precursor always 0
@@ -140,12 +140,10 @@ public class PathwayDrawingPanel extends JPanel {
 			return null;
 		}
 		System.out.println("found P at r:" + row + " col:" + col);
-		try {
-			explorePathwayStartingAt(enzymes, molecules, row, col, -1, 0);
-		} catch (PathwayDrawingException e) {
-			System.out.println(e.getMessage());;
-		}
-		return new Pathway(enzymes, molecules);
+		explorePathwayStartingAt(enzymes, molecules, row, col, -1, 0);
+		Pathway p = new Pathway(enzymes, molecules);
+		p.checkPathwayIntegrity();
+		return p;
 	}
 
 	// recursive function to walk the drawn pathway
@@ -159,36 +157,63 @@ public class PathwayDrawingPanel extends JPanel {
 			int lastMoleculeIndex) throws PathwayDrawingException {
 		int enzymeIndex = lastEnzymeIndex;
 		int moleculeIndex = lastMoleculeIndex;
-		
+
 		StringBuffer b = new StringBuffer();
 		b.append("Looking at r" + row + " c" + col);
 		DrawingPanelTile tile = tileArray[row][col];
 		if (tile instanceof MoleculeTile) {
 			b.append(" molecule #" + tile.getSelection() + "\n");
 			moleculeIndex = tile.getSelection();
-			b.append("\tcreating molecule " + moleculeIndex + "\n");
-			b.append("\tsetting the product of enzyme " + enzymeIndex + " to molecule " + moleculeIndex);
-			molecules[moleculeIndex] = new Molecule(moleculeIndex);
-			enzymes[enzymeIndex].setProduct(molecules[moleculeIndex]);
+			if (tile.getSelection() == -1) {
+				throw new PathwayDrawingException("You have an arrow that doesn't connect to any molecule; "
+						+ "you should delete it or connect it to a molecule");
+			} else {
+				if (molecules[moleculeIndex] == null) {
+					b.append("\tcreating molecule " + moleculeIndex + "\n");
+					b.append("\tsetting the product of enzyme " + enzymeIndex + " to molecule " + moleculeIndex);
+					molecules[moleculeIndex] = new Molecule(moleculeIndex);
+					enzymes[enzymeIndex].setProduct(molecules[moleculeIndex]);
+				} else {
+					throw new PathwayDrawingException("You used molecule " + moleculeIndex + " more than once; "
+							+ "you should check your pathway carefully.");
+				}
+			}
 		}
 		if (tile instanceof EnzymeTile) {
 			b.append(" enzyme #" + tile.getSelection());
 			enzymeIndex = tile.getSelection();
-			b.append("\n\tcreating enzyme number " + tile.getSelection() + "\n");
-			b.append("\tsetting it's substrate to " + moleculeIndex + "\n");
-			b.append("\ttelling molecule " + moleculeIndex + " that one of it's next enzymes is " + tile.getSelection());
-			Enzyme e = new Enzyme(tile.getSelection());
-			e.setSubstrate(molecules[moleculeIndex]);
-			enzymes[tile.getSelection()] = e;
-			molecules[moleculeIndex].addNextEnzyme(e);
+			if (tile.getSelection() == -1) {
+				throw new PathwayDrawingException("You have an arrow that doesn't connect to any enzyme; "
+						+ "you should delete it or connect it to an enzyme");
+			} else {
+				if (enzymes[tile.getSelection()] == null) {
+					b.append("\n\tcreating enzyme number " + tile.getSelection() + "\n");
+					b.append("\tsetting it's substrate to " + moleculeIndex + "\n");
+					b.append("\ttelling molecule " + moleculeIndex + " that one of it's next enzymes is " + tile.getSelection());
+					Enzyme e = new Enzyme(tile.getSelection());
+					e.setSubstrate(molecules[moleculeIndex]);
+					enzymes[tile.getSelection()] = e;
+					molecules[moleculeIndex].addNextEnzyme(e);
+				} else {
+					throw new PathwayDrawingException("You used enzyme " + tile.getSelection() + " more than once; "
+							+ "you should check your pathway carefully.");
+				}
+			}
 		}
 		System.out.println(b.toString());
+
 		// look for arrow to right
 		if (col == NUM_COLS) {
-			throw new PathwayDrawingException("You have an arrow leading off the page; you should shorten your pathway.");
+			throw new PathwayDrawingException("You have an arrow leading off the page; "
+					+ "you should shorten your pathway.");
 		}
 		if (tileArray[row][col + 1] instanceof ArrowTile) {
 			if (tileArray[row][col + 1].getSelection() != ArrowTile.BLANK_ARROW) {
+				// you can't have a bent arrow after a molecule or enzyme
+				if (tileArray[row][col + 1].getSelection() == ArrowTile.BENT_ARROW) {
+					throw new PathwayDrawingException("Enzyme " + enzymeIndex + " is followed by a bent arrow; "
+							+ "you should replace it with a straight or forked arrow.");
+				}
 				if (tileArray[row][col + 1].getSelection() == ArrowTile.STRAIGHT_ARROW) {
 					// keep going straight on
 					explorePathwayStartingAt(enzymes, molecules, row, col + 2, enzymeIndex, moleculeIndex);
@@ -198,7 +223,8 @@ public class PathwayDrawingPanel extends JPanel {
 					//  first, be sure they did it right
 					if (row == 0) {
 						// you can't branch up in the top row
-						throw new PathwayDrawingException("You have an arrow branching off the page; you should move your pathway down.");
+						throw new PathwayDrawingException("You have an arrow branching off the page; "
+								+ "you should move your pathway down.");
 					}
 					if (tileArray[row - 1][col + 1].getSelection() == ArrowTile.BENT_ARROW) {
 						// keep going straight on
@@ -206,16 +232,16 @@ public class PathwayDrawingPanel extends JPanel {
 						// and take the branch
 						explorePathwayStartingAt(enzymes, molecules, row - 1, col + 2, enzymeIndex, moleculeIndex);
 					} else {
-						throw new PathwayDrawingException("You have a forked arrow leading nowhere; you should connect it to a bent arrow.");
+						throw new PathwayDrawingException("You have a forked arrow leading nowhere; "
+								+ "you should connect it to a bent arrow.");
 					}
 				}
 			} else {
 				return;
-			}
+			} 
 		} else {
 			return;
 		}
-
 	}
 
 }

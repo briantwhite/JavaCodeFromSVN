@@ -1,6 +1,8 @@
 package Biochemistry;
 import java.util.ArrayList;
 
+import PathwayPanel.PathwayDrawingException;
+
 public class Pathway {
 	private Molecule[] molecules;
 	private Enzyme[] enzymes;
@@ -11,10 +13,10 @@ public class Pathway {
 		 * 
 		 *							|--(enz 1)--> 2 --(enz 2)--> 3
 		 *	molec 0 --(enz 0)--> 1 -|
-	     *   						|--(enz 3)--> 4 --(enz 4)--> 5 --(enz 5)--> 6
-	     *
+		 *   						|--(enz 3)--> 4 --(enz 4)--> 5 --(enz 5)--> 6
+		 *
 		 */
-		
+
 		// first, the molecules and enzymes
 		molecules = new Molecule[7];
 		for (int i = 0; i < 7; i++) {
@@ -28,57 +30,60 @@ public class Pathway {
 		molecules[0].addNextEnzyme(enzymes[0]);
 		enzymes[0].setSubstrate(molecules[0]);
 		enzymes[0].setProduct(molecules[1]);
-		
+
 		molecules[1].addNextEnzyme(enzymes[1]);
 		molecules[1].addNextEnzyme(enzymes[3]);
 		enzymes[1].setSubstrate(molecules[1]);
 		enzymes[1].setProduct(molecules[2]);
 		enzymes[3].setSubstrate(molecules[1]);
 		enzymes[3].setProduct(molecules[4]);
-		
+
 		molecules[2].addNextEnzyme(enzymes[2]);
 		enzymes[2].setSubstrate(molecules[2]);
 		enzymes[2].setProduct(molecules[3]);
-		
+
 		molecules[4].addNextEnzyme(enzymes[4]);
 		enzymes[4].setSubstrate(molecules[4]);
 		enzymes[4].setProduct(molecules[5]);
-		
+
 		molecules[5].addNextEnzyme(enzymes[5]);
 		enzymes[5].setSubstrate(molecules[5]);
 		enzymes[5].setProduct(molecules[6]);
-		
-		checkPathwayIntegrity();
+
+		try {
+			checkPathwayIntegrity();
+		} catch (PathwayDrawingException e) {
+			System.out.println(e.getMessage());;
+		}
 	}
-	
+
 	public Pathway(Enzyme[] enzymes, Molecule[] molecules) {
 		this.enzymes = enzymes;
 		this.molecules = molecules;
-		checkPathwayIntegrity();
 	}
-	
+
 	public void activateAllEnzymes() {
 		for (int i = 0; i < enzymes.length; i++) {
 			enzymes[i].activate();
 		}
 	}
-	
+
 	public void inactivateEnzyme(int number) {
 		enzymes[number].inactivate();
 	}
-	
+
 	public int getNumberOfEnzymes() {
 		return enzymes.length;
 	}
-	
+
 	public int getNumberOfMolecules() {
 		return molecules.length;
 	}
-	
+
 	public Molecule[] getMolecules() {
 		return molecules;
 	}
-	
+
 	// test if a given strain will grow under these conditions:
 	//  - specific set of mutations in genotype (array of booleans for enzyme function)
 	//  - specific starting molecule(s)
@@ -107,7 +112,7 @@ public class Pathway {
 				}
 			}
 		}
-		
+
 		// check on the terminal molecules
 		//  if any missing, it won't grow.
 		boolean result = true;
@@ -118,7 +123,7 @@ public class Pathway {
 		}
 		return result;
 	}
-	
+
 	// given the pathway as it is, figure out which molecules get made
 	// start with molecule m as the input
 	public boolean[] getOutputs(int m) {
@@ -129,12 +134,12 @@ public class Pathway {
 		tracePathway(molecules[m], result);				
 		return result;
 	}
-	
+
 	// recursive tracing function
 	private void tracePathway(Molecule startingMolecule, boolean[] result) {
 		// tag the starting molecule as present - since we got here somehow
 		result[startingMolecule.getNumber()] = true;
-		
+
 		ArrayList<Enzyme> nextEnzymeList = startingMolecule.getNextEnzymeList();
 		// see if you've reached a terminal molecule
 		if (nextEnzymeList.size() == 0) {
@@ -148,42 +153,54 @@ public class Pathway {
 			}
 		}
 	}
-	
-	
-	private void checkPathwayIntegrity() {
-		// make sure everything is connected OK
-		boolean OK = true;
-		// all molecules have at least one enzyme 
+
+
+	public void checkPathwayIntegrity() throws PathwayDrawingException {
+		// make sure all enzymes are used
+		for (int i = 0; i < enzymes.length; i++) {
+			if (enzymes[i] == null) {
+				throw new PathwayDrawingException("Enzyme " + i + " is not part of the pathway;"
+						+ " you should check your pathway carefully.");
+			}
+		}
+
+		// make sure all molecules are used
+		for (int i = 0; i < molecules.length; i++) {
+			if (molecules[i] == null) {
+				throw new PathwayDrawingException("Molecule " + i + " is not part of the pathway;"
+						+ " you should check your pathway carefully.");
+			}
+		}
+
+		// all molecules have at least one enzyme after them
 		// 	if not, then they're terminal 
 		for (int i = 0; i < molecules.length; i++) {
 			if (molecules[i].getNextEnzymeList().size() == 0) {
 				molecules[i].setTerminal();
 			}
 		}
-		
+
 		// all enzymes have a substrate and a product
 		//	if not, make a fuss
 		for (int i = 0; i < enzymes.length; i++) {
 			if (enzymes[i].getSubstrate() == null) {
-				System.out.println("Enzyme " + i + " lacks a substrate!");
-				OK = false;
+				throw new PathwayDrawingException("Enzyme " + i + " lacks a substrate;"
+						+ " you should check your pathway carefully.");
 			}
 			if (enzymes[i].getProduct() == null) {
-				System.out.println("Enzyme " + i + " lacks a product!");
-				OK = false;
+				throw new PathwayDrawingException("Enzyme " + i + " lacks a product;"
+						+ " you should check your pathway carefully.");
 			}
 		}
-		
+
 		// need to be sure that all intermediates get produced if all enzymes present
 		boolean[] outputs = getOutputs(0);
 		for (int i = 0; i < outputs.length; i++) {
 			if (!outputs[i]) {
-				System.out.println("Molecule " + i + " is NOT produced!");
-				OK = false;
+				throw new PathwayDrawingException("Molecule " + i + " is not produced by any enzyme;"
+						+ "you should check your pathway carefully.");
 			}
 		}
-		if (OK) {
-			System.out.println("Pathway is OK");
-		}
+		System.out.println("Pathway is OK");
 	}
 }

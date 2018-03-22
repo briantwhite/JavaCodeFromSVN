@@ -34,6 +34,7 @@ public class PathwayPanel extends JPanel {
 	int numMolecules;
 	
 	PathwayDrawingPanel pathwayDrawingPanel;
+	JLabel pathwayStatusLabel;
 
 	JPanel genoPanel;
 	JLabel noWorkingSetWarningLabel = new JLabel("<html>"
@@ -108,14 +109,22 @@ public class PathwayPanel extends JPanel {
 		pathwayDrawingPanel = new PathwayDrawingPanel(yeastVGL);
 		this.add(pathwayDrawingPanel);
 		
-		JButton b = new JButton("convert");
+		JButton b = new JButton("Check integrity");
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pathwayDrawingPanel.convertToPathway();
+				try {
+					pathwayDrawingPanel.convertToPathway();
+					pathwayStatusLabel.setText("<html><font color='green'>Pathway is built properly,"
+							+ " but is not necessarily correct.</font></html>");
+				} catch (PathwayDrawingException e1) {
+					pathwayStatusLabel.setText("<html><font color='red'>" + e1.getMessage() + "</font></html>");
+				}
 			}
 		});
 		this.add(b);
-
+		
+		pathwayStatusLabel = new JLabel();
+		this.add(pathwayStatusLabel);
 	}
 
 	private class checkBoxListener implements ItemListener {
