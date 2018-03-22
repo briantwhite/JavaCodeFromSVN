@@ -519,3 +519,6 @@ it looks like the type of the drawingTiles is not being restored.
 it walks the tree down branches now
 
 added PathwayDrawingException to flag when they draw strange things
+
+got it to make a valid pathway from the above saved file
+now, need to deal with weird pathways

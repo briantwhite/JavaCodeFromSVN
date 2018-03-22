@@ -116,10 +116,9 @@ public class PathwayDrawingPanel extends JPanel {
 	}
 
 	public Pathway convertToPathway() {
-		ArrayList<Enzyme> enzymeList = new ArrayList<Enzyme>();
-		ArrayList<Molecule> moleculeList = new ArrayList<Molecule>();
-		int enzymeIndex = 0;
-		int moleculeIndex = 0;
+		Enzyme[] enzymes = new Enzyme[yeastVGL.getPathway().getNumberOfEnzymes()];
+		Molecule[] molecules = new Molecule[yeastVGL.getPathway().getNumberOfMolecules()];
+		molecules[0] = new Molecule(0);	// precursor always 0
 		// follow the pathway starting at the precursor
 		//  first, find the precursor; then do a recursive exploration
 		int col = 0;
@@ -142,16 +141,22 @@ public class PathwayDrawingPanel extends JPanel {
 		}
 		System.out.println("found P at r:" + row + " col:" + col);
 		try {
-			explorePathwayStartingAt(row, col, -1, 0);
+			explorePathwayStartingAt(enzymes, molecules, row, col, -1, 0);
 		} catch (PathwayDrawingException e) {
 			System.out.println(e.getMessage());;
 		}
-		return null;
+		return new Pathway(enzymes, molecules);
 	}
 
 	// recursive function to walk the drawn pathway
 	//  and process along the way
-	private void explorePathwayStartingAt(int row, int col, int lastEnzymeIndex, int lastMoleculeIndex) throws PathwayDrawingException {
+	private void explorePathwayStartingAt(
+			Enzyme[] enzymes,
+			Molecule[] molecules,
+			int row, 
+			int col, 
+			int lastEnzymeIndex, 
+			int lastMoleculeIndex) throws PathwayDrawingException {
 		int enzymeIndex = lastEnzymeIndex;
 		int moleculeIndex = lastMoleculeIndex;
 		
@@ -159,15 +164,23 @@ public class PathwayDrawingPanel extends JPanel {
 		b.append("Looking at r" + row + " c" + col);
 		DrawingPanelTile tile = tileArray[row][col];
 		if (tile instanceof MoleculeTile) {
-			b.append(" molecule #" + tile.getSelection());
+			b.append(" molecule #" + tile.getSelection() + "\n");
 			moleculeIndex = tile.getSelection();
-			b.append("\n\tsetting the product of enzyme " + enzymeIndex + " to molecule " + moleculeIndex);
+			b.append("\tcreating molecule " + moleculeIndex + "\n");
+			b.append("\tsetting the product of enzyme " + enzymeIndex + " to molecule " + moleculeIndex);
+			molecules[moleculeIndex] = new Molecule(moleculeIndex);
+			enzymes[enzymeIndex].setProduct(molecules[moleculeIndex]);
 		}
 		if (tile instanceof EnzymeTile) {
 			b.append(" enzyme #" + tile.getSelection());
 			enzymeIndex = tile.getSelection();
 			b.append("\n\tcreating enzyme number " + tile.getSelection() + "\n");
-			b.append("\tsetting it's substrate to " + moleculeIndex);
+			b.append("\tsetting it's substrate to " + moleculeIndex + "\n");
+			b.append("\ttelling molecule " + moleculeIndex + " that one of it's next enzymes is " + tile.getSelection());
+			Enzyme e = new Enzyme(tile.getSelection());
+			e.setSubstrate(molecules[moleculeIndex]);
+			enzymes[tile.getSelection()] = e;
+			molecules[moleculeIndex].addNextEnzyme(e);
 		}
 		System.out.println(b.toString());
 		// look for arrow to right
@@ -178,7 +191,7 @@ public class PathwayDrawingPanel extends JPanel {
 			if (tileArray[row][col + 1].getSelection() != ArrowTile.BLANK_ARROW) {
 				if (tileArray[row][col + 1].getSelection() == ArrowTile.STRAIGHT_ARROW) {
 					// keep going straight on
-					explorePathwayStartingAt(row, col + 2, enzymeIndex, moleculeIndex);
+					explorePathwayStartingAt(enzymes, molecules, row, col + 2, enzymeIndex, moleculeIndex);
 				} 
 				if (tileArray[row][col + 1].getSelection() == ArrowTile.FORKED_ARROW) {
 					// hit a branch
@@ -189,9 +202,9 @@ public class PathwayDrawingPanel extends JPanel {
 					}
 					if (tileArray[row - 1][col + 1].getSelection() == ArrowTile.BENT_ARROW) {
 						// keep going straight on
-						explorePathwayStartingAt(row, col + 2, enzymeIndex, moleculeIndex);
+						explorePathwayStartingAt(enzymes, molecules, row, col + 2, enzymeIndex, moleculeIndex);
 						// and take the branch
-						explorePathwayStartingAt(row - 1, col + 2, enzymeIndex, moleculeIndex);
+						explorePathwayStartingAt(enzymes, molecules, row - 1, col + 2, enzymeIndex, moleculeIndex);
 					} else {
 						throw new PathwayDrawingException("You have a forked arrow leading nowhere; you should connect it to a bent arrow.");
 					}

@@ -54,6 +54,7 @@ public class Pathway {
 	public Pathway(Enzyme[] enzymes, Molecule[] molecules) {
 		this.enzymes = enzymes;
 		this.molecules = molecules;
+		checkPathwayIntegrity();
 	}
 	
 	public void activateAllEnzymes() {
