@@ -83,6 +83,10 @@ public class Pathway {
 	public Molecule[] getMolecules() {
 		return molecules;
 	}
+	
+	public Enzyme[] getEnzymes() {
+		return enzymes;
+	}
 
 	// test if a given strain will grow under these conditions:
 	//  - specific set of mutations in genotype (array of booleans for enzyme function)
@@ -202,5 +206,33 @@ public class Pathway {
 			}
 		}
 		System.out.println("Pathway is OK");
+	}
+	
+	
+	// returns null if they're the same
+	public String isEquivalentTo(Pathway p) {
+		if (p.getNumberOfEnzymes() == getNumberOfEnzymes()) {
+			return new String("Pathways have different numbers of enzymes; can't compare them.");
+		}
+		if (p.getNumberOfMolecules() == getNumberOfMolecules()) {
+			return new String("Pathways have different numbers of molecules; can't compare them.");
+		}
+		
+		// safe to try a comparison
+		StringBuffer errors = new StringBuffer();
+		for (int i = 0; i < enzymes.length; i++) {
+			if (!enzymes[i].isEquivalentTo(p.getEnzymes()[i])) {
+				errors.append("Something about Enzyme " + i + " is not correct.");
+			}
+		}
+		for (int i = 0; i < molecules.length; i++) {
+			if (!molecules[i].isEquivalentTo(p.getMolecules()[i])) {
+				errors.append("Something about Molecule " + i + " is not correct.");
+			}
+		}
+		if (errors.length() == 0) {
+			return null;
+		}
+		return errors.toString();
 	}
 }

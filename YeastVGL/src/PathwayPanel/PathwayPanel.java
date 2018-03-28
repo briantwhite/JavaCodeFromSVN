@@ -116,6 +116,7 @@ public class PathwayPanel extends JPanel {
 					pathwayDrawingPanel.convertToPathway();
 					pathwayStatusLabel.setText("<html><font color='green'>Pathway is built properly,"
 							+ " but is not necessarily correct.</font></html>");
+					System.out.println(pathwayDrawingPanel.convertToPathway().isEquivalentTo(pathway));
 				} catch (PathwayDrawingException e1) {
 					pathwayStatusLabel.setText("<html><font color='red'>" + e1.getMessage() + "</font></html>");
 				}

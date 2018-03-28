@@ -55,7 +55,18 @@ public class Enzyme {
 		return name;
 	}
 	
-	
+	public boolean isEquivalentTo(Enzyme e) {
+		if (this.number != e.getNumber()) {
+			return false;
+		}
+		if (this.product != e.getProduct()) {
+			return false;
+		}
+		if (this.substrate != e.getSubstrate()) {
+			return false;
+		}
+		return true;
+	}
 	
 
 }

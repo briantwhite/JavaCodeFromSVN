@@ -40,4 +40,23 @@ public class Molecule {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public boolean isEquivalentTo(Molecule m) {
+		if (number != m.getNumber()) {
+			return false;
+		}
+		
+		for (int i = 0; i < nextEnzymeList.size(); i++) {
+			boolean foundIt = false;
+			for (int j = 0; j < m.getNextEnzymeList().size(); j++) {
+				if (nextEnzymeList.get(i).getNumber() == m.getNextEnzymeList().get(j).getNumber()) {
+					foundIt = true;
+				}
+			}
+			if (!foundIt) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

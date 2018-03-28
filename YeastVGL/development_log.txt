@@ -545,3 +545,6 @@ got all of these working and it drives a JLabel with the status of the pathway w
 for scoring, can just go enzyme-by-enzyme and check all substrates & products
 	might not need to check the molecules (?)
 	can report "trouble with enzyme 3" as a hint
+
+3/28/18
+working on compare - NG, it says different numbers of enzymes...

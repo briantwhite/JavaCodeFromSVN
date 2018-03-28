@@ -243,5 +243,4 @@ public class PathwayDrawingPanel extends JPanel {
 			return;
 		}
 	}
-
 }
