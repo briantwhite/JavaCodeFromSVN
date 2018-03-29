@@ -548,3 +548,13 @@ for scoring, can just go enzyme-by-enzyme and check all substrates & products
 
 3/28/18
 working on compare - NG, it says different numbers of enzymes...
+
+3/29/18
+silly errors
+now fixed 
+saved version with correct pathway "correctCGs-correctPathway.yvgl"
+checks out OK!
+
+need to get the various messages working OK
+	the errors are OK but need a success message
+

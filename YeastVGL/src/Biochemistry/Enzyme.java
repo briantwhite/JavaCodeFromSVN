@@ -59,10 +59,10 @@ public class Enzyme {
 		if (this.number != e.getNumber()) {
 			return false;
 		}
-		if (this.product != e.getProduct()) {
+		if (this.product.getNumber() != e.getProduct().getNumber()) {
 			return false;
 		}
-		if (this.substrate != e.getSubstrate()) {
+		if (this.substrate.getNumber() != e.getSubstrate().getNumber()) {
 			return false;
 		}
 		return true;
