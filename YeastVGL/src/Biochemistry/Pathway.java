@@ -205,29 +205,29 @@ public class Pathway {
 						+ "you should check your pathway carefully.");
 			}
 		}
-		System.out.println("Pathway is OK");
+//		System.out.println("Pathway is OK");
 	}
 	
 	
 	// returns null if they're the same
 	public String isEquivalentTo(Pathway p) {
 		if (p.getNumberOfEnzymes() != getNumberOfEnzymes()) {
-			return new String("Pathways have different numbers of enzymes; can't compare them.\n");
+			return new String("Pathways have different numbers of enzymes; can't compare them.<br>");
 		}
 		if (p.getNumberOfMolecules() != getNumberOfMolecules()) {
-			return new String("Pathways have different numbers of molecules; can't compare them.\n");
+			return new String("Pathways have different numbers of molecules; can't compare them.<br>");
 		}
 		
 		// safe to try a comparison
 		StringBuffer errors = new StringBuffer();
 		for (int i = 0; i < enzymes.length; i++) {
 			if (!enzymes[i].isEquivalentTo(p.getEnzymes()[i])) {
-				errors.append("Something about Enzyme " + i + " is not correct.\n");
+				errors.append("Something about Enzyme " + i + " is not correct.<br>");
 			}
 		}
 		for (int i = 0; i < molecules.length; i++) {
 			if (!molecules[i].isEquivalentTo(p.getMolecules()[i])) {
-				errors.append("Something about Molecule " + i + " is not correct.\n");
+				errors.append("Something about Molecule " + i + " is not correct.<br>");
 			}
 		}
 		if (errors.length() == 0) {

@@ -32,7 +32,7 @@ public class PathwayPanel extends JPanel {
 	Pathway pathway;
 	int numEnzymes;
 	int numMolecules;
-	
+
 	PathwayDrawingPanel pathwayDrawingPanel;
 	JLabel pathwayStatusLabel;
 
@@ -103,27 +103,30 @@ public class PathwayPanel extends JPanel {
 		willItGrowPanel.add(willItGrowLabel);
 		middlePanel.add(willItGrowPanel);
 		mainPanel.add(middlePanel);
-		
+
 		this.add(mainPanel);
-		
+
 		pathwayDrawingPanel = new PathwayDrawingPanel(yeastVGL);
 		this.add(pathwayDrawingPanel);
-		
-		JButton b = new JButton("Check integrity");
+
+		JButton b = new JButton("Check pathway");
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					pathwayDrawingPanel.convertToPathway();
-					pathwayStatusLabel.setText("<html><font color='green'>Pathway is built properly,"
-							+ " but is not necessarily correct.</font></html>");
-					System.out.println(pathwayDrawingPanel.convertToPathway().isEquivalentTo(pathway));
+					String result = pathwayDrawingPanel.convertToPathway().isEquivalentTo(pathway);
+					if (result == null) {
+						pathwayStatusLabel.setText("<html><font color='green'>Pathway is correct.</font></html>");
+					} else {
+						pathwayStatusLabel.setText("<html><font color='red'>The pathway is formatted correctly but:<br>" 
+								+ result + "</font></html>");
+					}
 				} catch (PathwayDrawingException e1) {
 					pathwayStatusLabel.setText("<html><font color='red'>" + e1.getMessage() + "</font></html>");
 				}
 			}
 		});
 		this.add(b);
-		
+
 		pathwayStatusLabel = new JLabel();
 		this.add(pathwayStatusLabel);
 	}
@@ -165,7 +168,6 @@ public class PathwayPanel extends JPanel {
 				for (int j = 0; j < numEnzymes; j++) {
 					if (!ms.getGenotype()[j]) {
 						compositeGenotype[j] = false;
-						System.out.println("M" + ms.getIndex() + " told me to inactivate E" + j);
 					}
 				}
 			}
@@ -194,7 +196,7 @@ public class PathwayPanel extends JPanel {
 			willItGrowLabel.setText("<html><font color=\"red\">It Won't grow!</html>");
 		}
 	}
-	
+
 	public PathwayDrawingPanel getPathwayDrawingPanel() {
 		return pathwayDrawingPanel;
 	}

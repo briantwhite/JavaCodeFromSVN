@@ -558,3 +558,6 @@ checks out OK!
 need to get the various messages working OK
 	the errors are OK but need a success message
 
+3/30/18
+working on details
+oops - the CGs in the drawing panel don't match the ones in the working set.

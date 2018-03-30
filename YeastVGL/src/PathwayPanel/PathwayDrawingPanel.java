@@ -139,7 +139,7 @@ public class PathwayDrawingPanel extends JPanel {
 			System.out.println("No precursor in pathway; aborting!");
 			return null;
 		}
-		System.out.println("found P at r:" + row + " col:" + col);
+//		System.out.println("found P at r:" + row + " col:" + col);
 		explorePathwayStartingAt(enzymes, molecules, row, col, -1, 0);
 		Pathway p = new Pathway(enzymes, molecules);
 		p.checkPathwayIntegrity();
@@ -200,7 +200,7 @@ public class PathwayDrawingPanel extends JPanel {
 				}
 			}
 		}
-		System.out.println(b.toString());
+//		System.out.println(b.toString());
 
 		// look for arrow to right
 		if (col == NUM_COLS) {
