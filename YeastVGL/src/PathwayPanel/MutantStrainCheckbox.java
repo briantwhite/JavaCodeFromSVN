@@ -1,4 +1,4 @@
-package ComplementationTestPanel;
+package PathwayPanel;
 
 import javax.swing.JCheckBox;
 

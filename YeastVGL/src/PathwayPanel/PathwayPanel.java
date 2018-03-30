@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -15,9 +16,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Biochemistry.SingleMutantStrain;
 import Biochemistry.Pathway;
-import ComplementationTestPanel.MutantStrainCheckbox;
+import Biochemistry.SingleMutantStrain;
 import YeastVGL.YeastVGL;
 
 public class PathwayPanel extends JPanel {
@@ -33,6 +33,11 @@ public class PathwayPanel extends JPanel {
 	int numEnzymes;
 	int numMolecules;
 
+	// for going back and forth between
+	//  internal enzyme/gene numbers and user-assigned CG letters
+	String[] cgNames;
+	TreeMap<String, Integer> cgNumbers;
+	
 	PathwayDrawingPanel pathwayDrawingPanel;
 	JLabel pathwayStatusLabel;
 
@@ -137,8 +142,18 @@ public class PathwayPanel extends JPanel {
 		}
 	}
 
+	/*
+	 * update the checkboxes with the new working set
+	 * ALSO update the mapping between internal enzyme/gene number and
+	 *   user-assigned complemention group letter names
+	 */
 	public void updateWorkingSet(ArrayList<SingleMutantStrain> workingSet) {
 		this.workingSet = workingSet;
+		cgNames = new String[numEnzymes]; // names indexed by enzyme/gene number
+		for (int i = 0; i < numEnzymes; i++) {
+			cgNames[i] = "";
+		}
+		cgNumbers = new TreeMap<String, Integer>(); // numbers indexed by cg name letter
 		genoPanel.removeAll();
 		if (workingSet.isEmpty()) {
 			genoPanel.add(noWorkingSetWarningLabel);
@@ -149,6 +164,10 @@ public class PathwayPanel extends JPanel {
 			genoPanel.add(genotypeCheckboxes[i]);
 			genotypeCheckboxes[i].setSelected(false);
 			genotypeCheckboxes[i].addItemListener(new checkBoxListener());
+			int number = workingSet.get(i).getIndex();
+			String cg = workingSet.get(i).getComplementationGroup();
+			cgNames[number] = cg;
+			cgNumbers.put(cg, new Integer(number));
 		}
 	}
 
@@ -172,14 +191,14 @@ public class PathwayPanel extends JPanel {
 				}
 			}
 		}
-		System.out.println("PP line 139: updating composite genotype");
-		for (int i = 0; i < numEnzymes; i++) {
-			if (compositeGenotype[i]) {		
-				System.out.println("E" + i + " ACTIVE");
-			} else {
-				System.out.println("E" + i + " inactive");			
-			}
-		}
+//		System.out.println("PP line 139: updating composite genotype");
+//		for (int i = 0; i < numEnzymes; i++) {
+//			if (compositeGenotype[i]) {		
+//				System.out.println("E" + i + " ACTIVE");
+//			} else {
+//				System.out.println("E" + i + " inactive");			
+//			}
+//		}
 
 		// minimal medium is assumed to contain molecule 0
 		ArrayList<Integer> startingMolecules = new ArrayList<Integer>();
