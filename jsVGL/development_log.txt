@@ -353,3 +353,10 @@ BUT - LTI 1.1 only supports sending grades - not saving state (but this is 2014 
 
 3) Blackboard is even worse...
 
+First, get it so there are no errors in the eclipse on my laptop
+	try project => properties => gwt => general: enable GWT 
+	still a red exclamation point
+need to show it gwt-user.jar
+	it's in /Users/brianwhite/.p2/pool/plugins/com.gwtplugins.gwt.eclipse.sdkbundle.gwt27_2.7.0.201710131939/gwt-2.7.0/
+	use command-shift-period to show the hidden directories in the open dialog
+
