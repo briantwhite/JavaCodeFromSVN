@@ -564,3 +564,8 @@ oops - the CGs in the drawing panel don't match the ones in the working set.
 	set up some lookups
 		cgNames => use enzyme/gene number to find cg name letter
 		cgNumbers => use cg name letter to find enzyme/gene number
+
+4/3/18
+note: be sure that the info in those lookups is preserved across a save
+	or restored on load (probably)
+	- and is still changable and savable
