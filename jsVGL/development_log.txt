@@ -334,4 +334,22 @@ works!!
 parsing the grade when it's xml is a pain 
 put back the json code for GRADE only in jsVGL.js
 
-	
+4/3/18
+thinking about LMS integration
+several options
+
+** ALLEGEDLY GENERIC **
+1) LTI - this is generic-ish across LMS's 
+	https://www.edu-apps.org/code.html - good intro
+	http://acrl.ala.org/techconnect/post/making-a-basic-lti-learning-tools-intoperability-app/ - good also and links to a talk on this
+	https://github.com/Harvard-ATG/workshop-lti-basic - the presentation is cool
+BUT - LTI 1.1 only supports sending grades - not saving state (but this is 2014 data)
+	LTI 2.0 might be better - but it may be dead https://mfeldstein.com/ims-failed-lti-2-0/
+
+** specific LMS **
+2) Moodle 
+	it looks like saving user data is possible, but integration is a pain
+		https://stackoverflow.com/questions/43312505/how-to-save-custom-user-data-in-moodle
+
+3) Blackboard is even worse...
+
