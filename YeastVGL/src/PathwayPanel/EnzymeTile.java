@@ -40,18 +40,20 @@ public class EnzymeTile extends DrawingPanelTile {
 		popupMenu.add(blankItem); 
 		// use the String complementation group name for display only
 		//  within the application, use the proper index
-		String[] cgChoices = yeastVGL.getPathwayPanel().getCGNames();
-		TreeMap<String, Integer> cgNames = yeastVGL.getPathwayPanel().getCGNumbers();
-		for (int i = 0; i < cgChoices.length; i++) {
-			JMenuItem item = new JMenuItem(cgChoices[i]);
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					String choice = ((JMenuItem)e.getSource()).getText();
-					selectedEnzyme = cgNames.get(choice);
-					updateSelectedTile(selectedEnzyme);
-				}						
-			});
-			popupMenu.add(item);
+		if ((yeastVGL.getPathwayPanel() != null) && (yeastVGL.getPathwayPanel().getCGNames() != null)) {
+			String[] cgChoices = yeastVGL.getPathwayPanel().getCGNames();
+			TreeMap<String, Integer> cgNames = yeastVGL.getPathwayPanel().getCGNumbers();
+			for (int i = 0; i < cgChoices.length; i++) {
+				JMenuItem item = new JMenuItem(cgChoices[i]);
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String choice = ((JMenuItem)e.getSource()).getText();
+						selectedEnzyme = cgNames.get(choice);
+						updateSelectedTile(selectedEnzyme);
+					}						
+				});
+				popupMenu.add(item);
+			}
 		}
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
