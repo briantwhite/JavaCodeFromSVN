@@ -264,4 +264,12 @@ so not very demanding
 
 so, could probably host on UMB's servers.
 
+---- ADD LOAD AND SAVE WORK OPTION ----
+it looks like this might be possible!
+	saving files https://github.com/eligrey/FileSaver.js
+		even zip files https://stackoverflow.com/questions/21997057/how-to-use-filesaver-js
+		would need some weak encryption.
+		looks like it ends up as a file on your desktop
+	loading files 
+		https://www.html5rocks.com/en/tutorials/file/dndfiles/ 
  
