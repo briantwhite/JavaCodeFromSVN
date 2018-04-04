@@ -569,3 +569,11 @@ oops - the CGs in the drawing panel don't match the ones in the working set.
 note: be sure that the info in those lookups is preserved across a save
 	or restored on load (probably)
 	- and is still changable and savable
+
+4/4/18
+set up to use the cgNames and cgNumbers to display properly.
+PROBLEM - when you first run it (or anytime the CG list isn't complete), you get a null pointer
+	since the cgNames and cgNumbers don't exist
+	NEED a smart solution...
+		default list??
+		warning message in list??

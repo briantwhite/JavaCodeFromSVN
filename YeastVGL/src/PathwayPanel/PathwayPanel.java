@@ -219,5 +219,13 @@ public class PathwayPanel extends JPanel {
 	public PathwayDrawingPanel getPathwayDrawingPanel() {
 		return pathwayDrawingPanel;
 	}
+	
+	public String[] getCGNames() {
+		return cgNames;
+	}
+	
+	public TreeMap<String, Integer> getCGNumbers() {
+		return cgNumbers;
+	}
 
 }
