@@ -172,3 +172,96 @@ function ChiSq(x,n) {
  to do: make a way to hide useless crosses
  	checkbox to display or not?
  	shrink them to one line?
+ 
+4/4/18
+need to think about how to get this out there to people
+thinking about LMS integration
+several options
+
+---- LMS INTEGRATION ----
+** ALLEGEDLY GENERIC **
+1) LTI - this is generic-ish across LMS's 
+	https://www.edu-apps.org/code.html - good intro
+	http://acrl.ala.org/techconnect/post/making-a-basic-lti-learning-tools-intoperability-app/ - good also and links to a talk on this
+	https://github.com/Harvard-ATG/workshop-lti-basic - the presentation is cool
+BUT - LTI 1.1 only supports sending grades - not saving state (but this is 2014 data)
+	LTI 2.0 might be better - but it may be dead https://mfeldstein.com/ims-failed-lti-2-0/
+
+** specific LMS **
+2) Moodle 
+	it looks like saving user data is possible, but integration is a pain
+		https://stackoverflow.com/questions/43312505/how-to-save-custom-user-data-in-moodle
+
+3) Blackboard is even worse...
+
+CONCLUSION: Naaah...
+
+---- E-COMMERCE SITE ----
+- won't make much $
+- teachers might not use it as much
+- copyright issues
+
+---- HOST OWN SITE ----
+1) For demo purposes, it may go a long way to make a single web page 
+	with links to nice pages with headings for each of the currently-existing VGL problems
+	- problems:
+		no grading
+		no saving work
+
+2) Bigger site backed by MySQL database and accounts, etc
+	accounts
+		register
+		confirmation e-mail
+		reset password etc
+	save work
+		if untouched in 6 months, send e-mail warning of deletion
+		if untouched in 1 year, delete
+	when they login; get a choice
+		new problem
+			list of problems page from (1)
+		open work
+			list of all the problems they've saved
+		grading
+			can click once to submit for grading
+				how to prevent repeated tries? 
+					delete problem on submission?
+					mark it as submitted and switch to practice mode?
+				if success
+					get page with their name, problem type, date, time, and success
+					and an encrypted string of this 
+						teacher can copy paste into app to decrypt and verify
+						(not super secure)
+- can do research on how they approach problems
+
+BUT - will require significant server resources
+how much?
+look at logfiles for downloads and assume each download would correspond to 2-5 problems
+grep out the lines containing the different VGL packages and pipe to wc -l 
+	MacNG (no grader) = VGLII-3.3.2.NG.zip
+	Mac Grader = VGLII-3.3.2.mac.zip
+	PC = VGLII.pc.zip
+	Linux = VGLII.tar.gz
+
+FILE	start date		end date		#MacNG	#MacG	#PC		#Linux	TOT
+log.8	04/Feb/2018		11/Feb/2018		195		77		405		7		684
+log.7	11/Feb/2018		18/Feb/2018		155		68		525		34		782
+log.6	18/Feb/2018		25/Feb/2018		36		12		51		2		101
+log.5	25/Feb/2018		04/Mar/2018		75		18		257		6		356
+log.4	04/Mar/2018		11/Mar/2018		68		6		169		2		245
+log.3	11/Mar/2018		18/Mar/2018		68		14		127		2		211
+log.2	18/Mar/2018		25/Mar/2018		48		4		44		4		100
+log.1	25/Mar/2018		01/Apr/2018		208		20		181		0		409
+log		01/Apr/2018		04/Apr/2018		30		5		161		1		197
+TOTAL   59 days 						883		224		1920	58		3085
+										29%		7%		62%		2%
+
+3085 in 59 days = 52 downloads per day
+if each corresponds to 2-5 problems, that is about 100-250 per day or about 5-10 per hour
+
+per year, that's 19,000 downloads or about 100,000 problems we'd have to save
+even if each were 1Kb, that'd only be 100Mb to save
+so not very demanding
+
+so, could probably host on UMB's servers.
+
+ 
