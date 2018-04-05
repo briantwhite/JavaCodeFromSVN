@@ -67,6 +67,7 @@ public class YeastVGL {
 	
 	public void restoreSavedState(State state) {
 		ctp.restoreSavedState(state);
+		pp.updateWorkingSet(ctp.getWorkingSet());
 		pp.getPathwayDrawingPanel().restoreSavedState(state);
 	}
 }

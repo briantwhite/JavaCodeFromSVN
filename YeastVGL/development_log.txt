@@ -579,3 +579,33 @@ PROBLEM - when you first run it (or anytime the CG list isn't complete), you get
 		warning message in list??
 		* if null, just show the list with only a "-"
 			need to do this carefully...
+
+4/5/18
+take out null test to look carefully
+	may be smart to build the cgNames early?
+
+the problem is, when you build the PathWayDrawingPanel for the first time, you need to build EnzymeTiles
+	and, to build an EnzymeTile, you need that list of complementation group names
+maybe, if there's no working set yet, have the EnzymeTile's menu just say "No Complementation Groups Defined Yet" 
+	and prevent a choice.
+OK - what's the best way to detect that?
+on startup, at this line (that throws the null pointer error)
+		String[] cgChoices = yeastVGL.getPathwayPanel().getCGNames();
+it's called in the constructor of PathwayPanel, so that's the null part
+	test for that.
+	seems OK now
+
+now, get a null pointer when you load saved work
+	need to fire PathwayPanel.updateWorkingSet() earlier
+
+try in YeastVGL adding the ** line
+	public void restoreSavedState(State state) {
+		ctp.restoreSavedState(state);
+**		pp.updateWorkingSet(ctp.getWorkingSet());
+		pp.getPathwayDrawingPanel().restoreSavedState(state);
+	}
+now get index out of bounds...
+hmmm it's the index of the mutantStrains that's not right...
+	want to use getMutatedGeneIndex()
+
+OK - no errors now but cg choices are not in alphabetical order...

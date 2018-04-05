@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
@@ -30,21 +32,32 @@ public class EnzymeTile extends DrawingPanelTile {
 		text = new JLabel();
 		add(text);
 
-		JMenuItem blankItem = new JMenuItem("-");
-		blankItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectedEnzyme = -1;
-				updateSelectedTile(selectedEnzyme);
-			}			
-		});
-		popupMenu.add(blankItem); 
-		// use the String complementation group name for display only
-		//  within the application, use the proper index
-		if ((yeastVGL.getPathwayPanel() != null) && (yeastVGL.getPathwayPanel().getCGNames() != null)) {
-			String[] cgChoices = yeastVGL.getPathwayPanel().getCGNames();
+		if (yeastVGL.getPathwayPanel() == null) {
+			// called when program starts up and no complementation groups
+			//  have been assgned yet
+			popupMenu.add(new JMenuItem("No Complementation Groups have been selected yet."));
+
+		} else {
+			popupMenu.removeAll();
+			JMenuItem blankItem = new JMenuItem("-");
+			blankItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					selectedEnzyme = -1;
+					updateSelectedTile(selectedEnzyme);
+				}			
+			});
+			popupMenu.add(blankItem); 
+			// use the String complementation group name for display only
+			//  within the application, use the proper index
+			//  first, get the CG labels out in alphabetical order
+			Set<String> cgChoiceSet = yeastVGL.getPathwayPanel().getCGNumbers().keySet();
+			ArrayList<String> cgChoices = new ArrayList<String>();
+			for (String s : cgChoiceSet) {
+				cgChoices.add(s);
+			}
 			TreeMap<String, Integer> cgNames = yeastVGL.getPathwayPanel().getCGNumbers();
-			for (int i = 0; i < cgChoices.length; i++) {
-				JMenuItem item = new JMenuItem(cgChoices[i]);
+			for (int i = 0; i < cgChoices.size(); i++) {
+				JMenuItem item = new JMenuItem(cgChoices.get(i));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						String choice = ((JMenuItem)e.getSource()).getText();

@@ -164,7 +164,7 @@ public class PathwayPanel extends JPanel {
 			genoPanel.add(genotypeCheckboxes[i]);
 			genotypeCheckboxes[i].setSelected(false);
 			genotypeCheckboxes[i].addItemListener(new checkBoxListener());
-			int number = workingSet.get(i).getIndex();
+			int number = workingSet.get(i).getMutatedGeneIndex();
 			String cg = workingSet.get(i).getComplementationGroup();
 			cgNames[number] = cg;
 			cgNumbers.put(cg, new Integer(number));
