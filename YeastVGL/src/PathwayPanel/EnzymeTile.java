@@ -38,35 +38,7 @@ public class EnzymeTile extends DrawingPanelTile {
 			popupMenu.add(new JMenuItem("No Complementation Groups have been selected yet."));
 
 		} else {
-			popupMenu.removeAll();
-			JMenuItem blankItem = new JMenuItem("-");
-			blankItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					selectedEnzyme = -1;
-					updateSelectedTile(selectedEnzyme);
-				}			
-			});
-			popupMenu.add(blankItem); 
-			// use the String complementation group name for display only
-			//  within the application, use the proper index
-			//  first, get the CG labels out in alphabetical order
-			Set<String> cgChoiceSet = yeastVGL.getPathwayPanel().getCGNumbers().keySet();
-			ArrayList<String> cgChoices = new ArrayList<String>();
-			for (String s : cgChoiceSet) {
-				cgChoices.add(s);
-			}
-			TreeMap<String, Integer> cgNames = yeastVGL.getPathwayPanel().getCGNumbers();
-			for (int i = 0; i < cgChoices.size(); i++) {
-				JMenuItem item = new JMenuItem(cgChoices.get(i));
-				item.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String choice = ((JMenuItem)e.getSource()).getText();
-						selectedEnzyme = cgNames.get(choice);
-						updateSelectedTile(selectedEnzyme);
-					}						
-				});
-				popupMenu.add(item);
-			}
+			updatePopupMenu();
 		}
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -80,6 +52,38 @@ public class EnzymeTile extends DrawingPanelTile {
 						e.getX(), e.getY());
 			}
 		});
+	}
+	
+	public void updatePopupMenu() {
+		popupMenu.removeAll();
+		JMenuItem blankItem = new JMenuItem("-");
+		blankItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedEnzyme = -1;
+				updateSelectedTile(selectedEnzyme);
+			}			
+		});
+		popupMenu.add(blankItem); 
+		// use the String complementation group name for display only
+		//  within the application, use the proper index
+		//  first, get the CG labels out in alphabetical order
+		Set<String> cgChoiceSet = yeastVGL.getPathwayPanel().getCGNumbers().keySet();
+		ArrayList<String> cgChoices = new ArrayList<String>();
+		for (String s : cgChoiceSet) {
+			cgChoices.add(s);
+		}
+		TreeMap<String, Integer> cgNames = yeastVGL.getPathwayPanel().getCGNumbers();
+		for (int i = 0; i < cgChoices.size(); i++) {
+			JMenuItem item = new JMenuItem(cgChoices.get(i));
+			item.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String choice = ((JMenuItem)e.getSource()).getText();
+					selectedEnzyme = cgNames.get(choice);
+					updateSelectedTile(selectedEnzyme);
+				}						
+			});
+			popupMenu.add(item);
+		}
 	}
 
 	public void updateSelectedTile(int selectedEnzyme) {

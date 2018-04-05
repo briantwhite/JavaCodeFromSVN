@@ -429,6 +429,10 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		} else {
 			workingSetStatusLabel.setText("<html><font color='green'>AOK</font></html>");
 			wsp.setBorder(workingSetPanelGreenBorder);
+			
+			// get the next panel ready
+			yeastVGL.getPathwayPanel().updateWorkingSet(getWorkingSet());
+			yeastVGL.getPathwayPanel().getPathwayDrawingPanel().updateCGChoices();
 		}
 	}
 

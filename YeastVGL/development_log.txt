@@ -500,6 +500,7 @@ take the private mutantSet out of ComplementationTestPanel and replace with yeas
 now it works - it must've been an issue with the local version of mutantSet in ComplementationTestPanel
 
 now make a version with a drawn pathway based on "correctCGs-full.yvgl" called "correctCGs-pathway.yvgl"
+(this pathway is not correct)
   C:0  1   2    3    4    5    6    7    8    9    10   11   12   13   14   15  16   17   18   19   20
 R0	                                          +-> enz 2 --> mol 3
                                    	          |
@@ -609,3 +610,58 @@ hmmm it's the index of the mutantStrains that's not right...
 	want to use getMutatedGeneIndex()
 
 OK - no errors now but cg choices are not in alphabetical order...
+
+so check if it's OK
+
+							|--(enz 1)--> 2 --(enz 2)--> 3
+	molec 0 --(enz 0)--> 1 -|
+	        				|--(enz 3)--> 4 --(enz 4)--> 5 --(enz 5)--> 6
+	        				
+     [java] M:0  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:1  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:2  E0+ E1- E2+ E3+ E4+ E5+  mutatedGeneIndex:1 CG:
+     [java] M:3  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:4  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:5  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:6  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:7  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:8  E0- E1+ E2+ E3+ E4+ E5+  mutatedGeneIndex:0 CG:
+     [java] M:9  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:10  E0+ E1- E2+ E3+ E4+ E5+  mutatedGeneIndex:1 CG:
+     [java] M:11  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:12  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:13  E0+ E1+ E2+ E3+ E4- E5+  mutatedGeneIndex:4 CG:
+     [java] M:14  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+
+	enzyme		enzyme 		mutantstr	gene mutated
+	label		position	chosen for 	in that
+	on panel	in pathway	that CG		mutant strain
+	-------		---------	---------	----------
+	CG E 		enz 0		M8			gene 0
+	CG B		enz 1		M2			gene 1
+	CG C		enz 3		M3			gene 3
+	CG A		enz 2		M0			gene 2
+	CG F		enz 4		M13			gene 4
+	CG D		enz 5		M5			gene 5
+
+ALL MATCH OK - so the assigning works OK.
+
+try some tests
+1) change the cg to a wrong one in the pathway
+	check pathway: get error
+	change it back
+	check pathway: ok
+
+2) open the one with the incorrect pathway
+	fix the pathway
+	check pathway: OK
+	save it
+	reopen
+	check pathway: OK
+	
+3) start new and work it out and be sure OK
+ 	OK!
+ 	
+seems good to go to Sophie
+will need layout...
+	

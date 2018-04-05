@@ -170,7 +170,7 @@ public class PathwayPanel extends JPanel {
 			cgNumbers.put(cg, new Integer(number));
 		}
 	}
-
+	
 	public void updateDisplay() {
 		boolean[] compositeGenotype = new boolean[numEnzymes];
 		for (int i = 0; i < numEnzymes; i++) {

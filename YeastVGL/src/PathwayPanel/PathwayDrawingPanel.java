@@ -114,6 +114,18 @@ public class PathwayDrawingPanel extends JPanel {
 		innerPanel.revalidate();
 		innerPanel.repaint();
 	}
+	
+	// do this once you've selected or changed the CGs
+	public void updateCGChoices() {
+		for (int row = 0; row < tileArray.length; row++) {
+			for (int col = 0; col < tileArray[0].length; col++) {
+				DrawingPanelTile tile = tileArray[row][col];
+				if (tile instanceof EnzymeTile) {
+					((EnzymeTile)tile).updatePopupMenu();
+				}
+			}
+		}
+	}
 
 	public Pathway convertToPathway() throws PathwayDrawingException {
 		Enzyme[] enzymes = new Enzyme[yeastVGL.getPathway().getNumberOfEnzymes()];
