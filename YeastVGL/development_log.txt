@@ -664,4 +664,15 @@ try some tests
  	
 seems good to go to Sophie
 will need layout...
-	
+
+4/6/18
+another test - 
+	take a succesful saved one
+	swap some of the CG letters (to used and unused ones)
+	see if the pathway automatically updates
+		if not, fix it and be sure it is marked correct and saves as correct
+
+also - fix file menu
+	disable save until have filename
+	apple-S saves (saves as if no file name)
+	trap for apple-Q
