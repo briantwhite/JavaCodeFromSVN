@@ -308,6 +308,7 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		workingSetCheckboxes[mutantStrainNumber].setText("M" + mutantStrainNumber + " CG: " + choice);
 		// update mutantStrain's cg
 		yeastVGL.getMutantSet().getMutantStrains()[mutantStrainNumber].setComplementationGroup(choice);
+		updateWorkingSetStatusLabel();
 	}
 
 	public void updateTableStatusLabel() {

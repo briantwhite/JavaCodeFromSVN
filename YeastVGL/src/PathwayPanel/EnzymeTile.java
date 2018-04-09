@@ -72,22 +72,35 @@ public class EnzymeTile extends DrawingPanelTile {
 		for (String s : cgChoiceSet) {
 			cgChoices.add(s);
 		}
-		TreeMap<String, Integer> cgNames = yeastVGL.getPathwayPanel().getCGNumbers();
+		TreeMap<String, Integer> cgNumbers = yeastVGL.getPathwayPanel().getCGNumbers();
 		for (int i = 0; i < cgChoices.size(); i++) {
 			JMenuItem item = new JMenuItem(cgChoices.get(i));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String choice = ((JMenuItem)e.getSource()).getText();
-					selectedEnzyme = cgNames.get(choice);
+					selectedEnzyme = cgNumbers.get(choice);
 					updateSelectedTile(selectedEnzyme);
 				}						
 			});
 			popupMenu.add(item);
 		}
+		updateSelectedTile(selectedEnzyme);
 	}
 
 	public void updateSelectedTile(int selectedEnzyme) {
-		this.selectedEnzyme = selectedEnzyme;
+		setSelection(selectedEnzyme);
+	}
+
+	public int getSelection() {
+		return selectedEnzyme;
+	}
+
+	public void setSelection(int s) {
+		selectedEnzyme = s;
+		updateLabel();
+	}
+	
+	private void updateLabel() {
 		if (selectedEnzyme == -1) {
 			setBackground(BLANK_BACKGROUND_COLOR);
 			setBorder(BorderFactory.createEmptyBorder());
@@ -102,14 +115,5 @@ public class EnzymeTile extends DrawingPanelTile {
 							BorderFactory.createRaisedBevelBorder(), 
 							BorderFactory.createLoweredBevelBorder()));
 		}
-	}
-
-	public int getSelection() {
-		return selectedEnzyme;
-	}
-
-	public void setSelection(int s) {
-		selectedEnzyme = s;
-		updateSelectedTile(selectedEnzyme);
 	}
 }

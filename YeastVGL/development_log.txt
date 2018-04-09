@@ -676,3 +676,11 @@ also - fix file menu
 	disable save until have filename
 	apple-S saves (saves as if no file name)
 	trap for apple-Q
+	
+4/9/18
+tested as above
+	it didn't update the choices or the labels..
+	fixed that but it tells you the pathway is correct with the old labels - need to update the enzyme labels
+	fixed that bug too
+	
+
