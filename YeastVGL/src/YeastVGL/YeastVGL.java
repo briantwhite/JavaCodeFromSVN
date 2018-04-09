@@ -19,6 +19,12 @@ public class YeastVGL {
 	public static final int NUM_MUTANTS = 15;
 
 	public static void main(String[] args) {
+		/*
+		 * trap apple-Q
+		 * 	need to have this early in code 
+		 *  https://stackoverflow.com/questions/2061194/swing-on-osx-how-to-trap-command-q
+		 */
+		System.setProperty("apple.eawt.quitStrategy", "CLOSE_ALL_WINDOWS");  
 		yeastVGL = new YeastVGL();
 		gui = new YeastVGL_GUI(yeastVGL);
 		gui.setVisible(true);

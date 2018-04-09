@@ -683,4 +683,6 @@ tested as above
 	fixed that but it tells you the pathway is correct with the old labels - need to update the enzyme labels
 	fixed that bug too
 	
+set up keyboard shortcuts a la https://stackoverflow.com/questions/13366793/how-do-you-make-menu-item-jmenuitem-shortcut
+set up to trap apple-Q a la https://stackoverflow.com/questions/2061194/swing-on-osx-how-to-trap-command-q
 

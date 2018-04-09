@@ -1,5 +1,6 @@
 package YeastVGL;
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -20,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -29,7 +31,6 @@ import com.google.gson.Gson;
 
 import Biochemistry.MutantSet;
 import Biochemistry.Pathway;
-import PathwayPanel.PathwayDrawingPanel;
 
 public class YeastVGL_GUI extends JFrame {
 
@@ -43,6 +44,7 @@ public class YeastVGL_GUI extends JFrame {
 
 	File currentSaveWorkFile;
 
+	JMenuItem saveWorkItem;
 	private boolean haveSomethingToSave;
 
 	public YeastVGL_GUI(YeastVGL yeastVGL) {
@@ -56,13 +58,12 @@ public class YeastVGL_GUI extends JFrame {
 		currentSaveWorkFile = null;
 
 		haveSomethingToSave = false;
-
 		setupUI();
 	}
 
 	class ApplicationCloser extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
-			System.exit(0);
+			quit();
 		}
 	}
 
@@ -73,12 +74,19 @@ public class YeastVGL_GUI extends JFrame {
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBorder(new BevelBorder(BevelBorder.RAISED));
+		
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem newProblemItem = new JMenuItem("New Problem");
+		newProblemItem.setAccelerator(KeyStroke.getKeyStroke('N', 
+				Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
 		fileMenu.add(newProblemItem);
 		JMenuItem openWorkItem = new JMenuItem("Open Work...");
+		openWorkItem.setAccelerator(KeyStroke.getKeyStroke('O', 
+				Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
 		fileMenu.add(openWorkItem);
-		JMenuItem saveWorkItem = new JMenuItem("Save Work");
+		saveWorkItem = new JMenuItem("Save Work");
+		saveWorkItem.setAccelerator(KeyStroke.getKeyStroke('S', 
+				Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
 		fileMenu.add(saveWorkItem);
 		JMenuItem saveWorkAsItem = new JMenuItem("Save Work As...");
 		fileMenu.add(saveWorkAsItem);
