@@ -691,3 +691,5 @@ talked to Sophie
 2) have the instructions talk about this and the molecule checkboxes be red for 'end products'
 3) need to test scoring that, if you have the 3-step part of the pathway in the top row 
 	(instead of the bottom row), that it's still scored as OK
+
+start with (1) - make new images
