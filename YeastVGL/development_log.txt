@@ -686,3 +686,8 @@ tested as above
 set up keyboard shortcuts a la https://stackoverflow.com/questions/13366793/how-do-you-make-menu-item-jmenuitem-shortcut
 set up to trap apple-Q a la https://stackoverflow.com/questions/2061194/swing-on-osx-how-to-trap-command-q
 
+talked to Sophie
+1) revised drawing (see notes/Revised pathway drawing - 0.png)
+2) have the instructions talk about this and the molecule checkboxes be red for 'end products'
+3) need to test scoring that, if you have the 3-step part of the pathway in the top row 
+	(instead of the bottom row), that it's still scored as OK
