@@ -692,4 +692,48 @@ talked to Sophie
 3) need to test scoring that, if you have the 3-step part of the pathway in the top row 
 	(instead of the bottom row), that it's still scored as OK
 
+4/11/18
 start with (1) - make new images
+	made LineTile - essentially an old ArrowTile with line images instead of arrows
+	in ArrowTile - commented out all except blank and straight
+need to be careful about pathway conversion.
+	make an abstract subclass of DrawingPanelTile called "ConnectorTile" with subclasses LineTile and ArrowTile
+	also make BLANK, BENT, STRAIGHT, and FORKED be generic integers across the ConnectorTiles
+		this will make processing easier
+
+** for drawing assistance - have each Connector tile call back to PathwayDrawingPanel.updateNeighborsOf(int row, int col)
+	that fixes the ones above & below
+	- and one from Enzyme tile that makes outgoing arrow
+
+<sigh> need to make all new saved work files...
+     [java] M:0  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:1  E0+ E1+ E2+ E3+ E4- E5+  mutatedGeneIndex:4 CG:
+     [java] M:2  E0- E1+ E2+ E3+ E4+ E5+  mutatedGeneIndex:0 CG:
+     [java] M:3  E0- E1+ E2+ E3+ E4+ E5+  mutatedGeneIndex:0 CG:
+     [java] M:4  E0- E1+ E2+ E3+ E4+ E5+  mutatedGeneIndex:0 CG:
+     [java] M:5  E0+ E1- E2+ E3+ E4+ E5+  mutatedGeneIndex:1 CG:
+     [java] M:6  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:7  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:8  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:9  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+     [java] M:10  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:11  E0+ E1+ E2+ E3+ E4+ E5-  mutatedGeneIndex:5 CG:
+     [java] M:12  E0- E1+ E2+ E3+ E4+ E5+  mutatedGeneIndex:0 CG:
+     [java] M:13  E0+ E1+ E2- E3+ E4+ E5+  mutatedGeneIndex:2 CG:
+     [java] M:14  E0+ E1+ E2+ E3- E4+ E5+  mutatedGeneIndex:3 CG:
+correctCGsandWS.yvgl - has correct CGS and a good working set
+seems to draw and save OK
+test that pathway scored OK
+M0 = A (enz 3)
+M1 = B (enz 4)
+M2 = C (enz 0)
+M5 = D (enz 1)
+M10 = E (enz 5)
+M13 = F (enz 2)
+
+							|--(enz D)--> 2 --(enz F)--> 3
+	molec 0 --(enz C)--> 1 -|
+	        				|--(enz A)--> 4 --(enz B)--> 5 --(enz E)--> 6
+	        				
+checks OK!
+save as correctAll.yvgl

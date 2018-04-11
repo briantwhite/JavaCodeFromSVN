@@ -42,7 +42,10 @@ public class PathwayDrawingPanel extends JPanel {
 					tileArray[row][col] = new UneditableTile(yeastVGL, row, col);
 					innerPanel.add(tileArray[row][col]);
 				}
-			} else if (((col % 4) == 1) || ((col % 4) == 3)) {
+			} else if ((col % 4) == 1) {
+				tileArray[row][col] = new LineTile(yeastVGL, row, col);
+				innerPanel.add(tileArray[row][col]);
+			} else if ((col % 4) == 3) {
 				tileArray[row][col] = new ArrowTile(yeastVGL, row, col);
 				innerPanel.add(tileArray[row][col]);
 			} else if ((col % 4) == 2) {
@@ -88,6 +91,11 @@ public class PathwayDrawingPanel extends JPanel {
 				int selection = savedTiles[row][col].selection;
 				if (type == SavedTile.ARROW) {
 					tileArray[row][col] = new ArrowTile(yeastVGL, row, col);
+					tileArray[row][col].updateSelectedTile(selection);
+					innerPanel.add(tileArray[row][col]);
+				}
+				if (type == SavedTile.LINE) {
+					tileArray[row][col] = new LineTile(yeastVGL, row, col);
 					tileArray[row][col].updateSelectedTile(selection);
 					innerPanel.add(tileArray[row][col]);
 				}
@@ -219,18 +227,18 @@ public class PathwayDrawingPanel extends JPanel {
 			throw new PathwayDrawingException("You have an arrow leading off the page; "
 					+ "you should shorten your pathway.");
 		}
-		if (tileArray[row][col + 1] instanceof ArrowTile) {
-			if (tileArray[row][col + 1].getSelection() != ArrowTile.BLANK_ARROW) {
+		if (tileArray[row][col + 1] instanceof ConnectorTile) {
+			if (tileArray[row][col + 1].getSelection() != ConnectorTile.BLANK) {
 				// you can't have a bent arrow after a molecule or enzyme
-				if (tileArray[row][col + 1].getSelection() == ArrowTile.BENT_ARROW) {
+				if (tileArray[row][col + 1].getSelection() == ConnectorTile.BENT) {
 					throw new PathwayDrawingException("Enzyme " + enzymeIndex + " is followed by a bent arrow; "
 							+ "you should replace it with a straight or forked arrow.");
 				}
-				if (tileArray[row][col + 1].getSelection() == ArrowTile.STRAIGHT_ARROW) {
+				if (tileArray[row][col + 1].getSelection() == ConnectorTile.STRAIGHT) {
 					// keep going straight on
 					explorePathwayStartingAt(enzymes, molecules, row, col + 2, enzymeIndex, moleculeIndex);
 				} 
-				if (tileArray[row][col + 1].getSelection() == ArrowTile.FORKED_ARROW) {
+				if (tileArray[row][col + 1].getSelection() == ConnectorTile.FORKED) {
 					// hit a branch
 					//  first, be sure they did it right
 					if (row == 0) {
@@ -238,7 +246,7 @@ public class PathwayDrawingPanel extends JPanel {
 						throw new PathwayDrawingException("You have an arrow branching off the page; "
 								+ "you should move your pathway down.");
 					}
-					if (tileArray[row - 1][col + 1].getSelection() == ArrowTile.BENT_ARROW) {
+					if (tileArray[row - 1][col + 1].getSelection() == ConnectorTile.BENT) {
 						// keep going straight on
 						explorePathwayStartingAt(enzymes, molecules, row, col + 2, enzymeIndex, moleculeIndex);
 						// and take the branch

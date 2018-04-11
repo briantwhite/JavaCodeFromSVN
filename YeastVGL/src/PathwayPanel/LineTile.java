@@ -13,28 +13,28 @@ import javax.swing.JMenuItem;
 
 import YeastVGL.YeastVGL;
 
-public class ArrowTile extends ConnectorTile {
-
+public class LineTile extends ConnectorTile {
+	
 	private int type;
 
-//	private URL bfaImageURL = YeastVGL.class.getResource("images/BigForkedArrow.png");
-//	private ImageIcon bigForkedArrow = new ImageIcon(bfaImageURL);
-//	private URL sfaImageURL = YeastVGL.class.getResource("images/SmallForkedArrow.png");
-//	private ImageIcon smallForkedArrow = new ImageIcon(sfaImageURL);
-//	private URL bbaImageURL = YeastVGL.class.getResource("images/BigBentArrow.png");
-//	private ImageIcon bigBentArrow = new ImageIcon(bbaImageURL);
-//	private URL sbaImageURL = YeastVGL.class.getResource("images/SmallBentArrow.png");
-//	private ImageIcon smallBentArrow = new ImageIcon(sbaImageURL);
-	private URL bsaImageURL = YeastVGL.class.getResource("images/BigStraightArrow.png");
-	private ImageIcon bigStraightArrow = new ImageIcon(bsaImageURL);
-	private URL ssaImageURL = YeastVGL.class.getResource("images/SmallStraightArrow.png");
-	private ImageIcon smallStraightArrow = new ImageIcon(ssaImageURL);
+	private URL bflImageURL = YeastVGL.class.getResource("images/BigForkedLine.png");
+	private ImageIcon bigForkedLine = new ImageIcon(bflImageURL);
+	private URL sflImageURL = YeastVGL.class.getResource("images/SmallForkedLine.png");
+	private ImageIcon smallForkedLine = new ImageIcon(sflImageURL);
+	private URL bblImageURL = YeastVGL.class.getResource("images/BigBentLine.png");
+	private ImageIcon bigBentLine = new ImageIcon(bblImageURL);
+	private URL sblImageURL = YeastVGL.class.getResource("images/SmallBentLine.png");
+	private ImageIcon smallBentLine = new ImageIcon(sblImageURL);
+	private URL bslImageURL = YeastVGL.class.getResource("images/BigStraightLine.png");
+	private ImageIcon bigStraightLine = new ImageIcon(bslImageURL);
+	private URL sslImageURL = YeastVGL.class.getResource("images/SmallStraightLine.png");
+	private ImageIcon smallStraightLine = new ImageIcon(sslImageURL);
 	private URL beImageURL = YeastVGL.class.getResource("images/BigEmpty.png");
 	private ImageIcon bigEmpty = new ImageIcon(beImageURL);
 	private URL seImageURL = YeastVGL.class.getResource("images/SmallEmpty.png");
 	private ImageIcon smallEmpty = new ImageIcon(seImageURL);
 
-	public ArrowTile(YeastVGL yeastVGL, int row, int col) {
+	public LineTile(YeastVGL yeastVGL, int row, int col) {
 		super(yeastVGL, row, col);
 		BLANK_BACKGROUND_COLOR = new Color(255,255,240);
 		ACTIVE_BACKGROUND_COLOR = new Color(255,255,220);
@@ -51,7 +51,7 @@ public class ArrowTile extends ConnectorTile {
 			}		
 		});
 		popupMenu.add(emptyItem);
-		JMenuItem straightItem = new JMenuItem(smallStraightArrow);
+		JMenuItem straightItem = new JMenuItem(smallStraightLine);
 		straightItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				type = STRAIGHT;
@@ -59,22 +59,22 @@ public class ArrowTile extends ConnectorTile {
 			}		
 		});
 		popupMenu.add(straightItem);
-//		JMenuItem forkedItem = new JMenuItem(smallForkedArrow);
-//		forkedItem.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				type = FORKED_ARROW;
-//				updateSelectedTile(type);
-//			}		
-//		});
-//		popupMenu.add(forkedItem);
-//		JMenuItem bentItem = new JMenuItem(smallBentArrow);
-//		bentItem.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				type = BENT_ARROW;
-//				updateSelectedTile(type);
-//			}		
-//		});
-//		popupMenu.add(bentItem);
+		JMenuItem forkedItem = new JMenuItem(smallForkedLine);
+		forkedItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				type = FORKED;
+				updateSelectedTile(type);
+			}		
+		});
+		popupMenu.add(forkedItem);
+		JMenuItem bentItem = new JMenuItem(smallBentLine);
+		bentItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				type = BENT;
+				updateSelectedTile(type);
+			}		
+		});
+		popupMenu.add(bentItem);
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				showPopup(e);
@@ -88,27 +88,27 @@ public class ArrowTile extends ConnectorTile {
 			}
 		});
 	}
-	
+
 	public void updateSelectedTile(int type) {
 		this.type = type;
 		removeAll();
 		if (type == BLANK) {
 			add(new JLabel(bigEmpty));
 		} else if (type == STRAIGHT) {
-			add(new JLabel(bigStraightArrow));
-//		} else if (type == FORKED) {
-//			add(new JLabel(bigForkedArrow));
-//		} else {
-//			add(new JLabel(bigBentArrow));
+			add(new JLabel(bigStraightLine));
+		} else if (type == FORKED) {
+			add(new JLabel(bigForkedLine));
+		} else {
+			add(new JLabel(bigBentLine));
 		}
 		revalidate();
 		repaint();
 	}
-	
+
 	public int getSelection() {
 		return type;
 	}
-	
+
 	public void setSelection(int s) {
 		type = s;
 		updateSelectedTile(type);
