@@ -2,8 +2,10 @@ package Biochemistry;
 import java.util.ArrayList;
 
 import PathwayPanel.PathwayDrawingException;
+import YeastVGL.YeastVGL;
 
 public class Pathway {
+	private YeastVGL yeastVGL;
 	private Molecule[] molecules;
 	private Enzyme[] enzymes;
 
@@ -57,7 +59,8 @@ public class Pathway {
 		}
 	}
 
-	public Pathway(Enzyme[] enzymes, Molecule[] molecules) {
+	public Pathway(YeastVGL yeastVGL, Enzyme[] enzymes, Molecule[] molecules) {
+		this.yeastVGL = yeastVGL;
 		this.enzymes = enzymes;
 		this.molecules = molecules;
 	}
@@ -83,7 +86,7 @@ public class Pathway {
 	public Molecule[] getMolecules() {
 		return molecules;
 	}
-	
+
 	public Enzyme[] getEnzymes() {
 		return enzymes;
 	}
@@ -205,10 +208,10 @@ public class Pathway {
 						+ "you should check your pathway carefully.");
 			}
 		}
-//		System.out.println("Pathway is OK");
+		//		System.out.println("Pathway is OK");
 	}
-	
-	
+
+
 	// returns null if they're the same
 	public String isEquivalentTo(Pathway p) {
 		if (p.getNumberOfEnzymes() != getNumberOfEnzymes()) {
@@ -217,12 +220,13 @@ public class Pathway {
 		if (p.getNumberOfMolecules() != getNumberOfMolecules()) {
 			return new String("Pathways have different numbers of molecules; can't compare them.<br>");
 		}
-		
+
 		// safe to try a comparison
 		StringBuffer errors = new StringBuffer();
 		for (int i = 0; i < enzymes.length; i++) {
 			if (!enzymes[i].isEquivalentTo(p.getEnzymes()[i])) {
-				errors.append("Something about Enzyme " + i + " is not correct.<br>");
+				errors.append("Something about Enzyme " + 
+						yeastVGL.getPathwayPanel().getCGNames()[i] + " is not correct.<br>");
 			}
 		}
 		for (int i = 0; i < molecules.length; i++) {

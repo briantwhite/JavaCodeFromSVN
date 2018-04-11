@@ -101,6 +101,7 @@ public class LineTile extends ConnectorTile {
 		} else {
 			add(new JLabel(bigBentLine));
 		}
+		yeastVGL.getPathwayPanel().getPathwayDrawingPanel().updateNeighboringTiles(row, col);
 		revalidate();
 		repaint();
 	}

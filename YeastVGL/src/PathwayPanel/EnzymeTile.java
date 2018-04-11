@@ -20,11 +20,9 @@ public class EnzymeTile extends DrawingPanelTile {
 
 	private int selectedEnzyme = -1;
 	private JLabel text;
-	private YeastVGL yeastVGL;
 
 	public EnzymeTile(YeastVGL yeastVGL, int row, int col) {
 		super(yeastVGL, row, col);
-		this.yeastVGL = yeastVGL;
 		BLANK_BACKGROUND_COLOR = new Color(240, 255, 240);
 		ACTIVE_BACKGROUND_COLOR = new Color(200, 255, 200);
 		setBackground(BLANK_BACKGROUND_COLOR);
@@ -89,6 +87,7 @@ public class EnzymeTile extends DrawingPanelTile {
 
 	public void updateSelectedTile(int selectedEnzyme) {
 		setSelection(selectedEnzyme);
+		yeastVGL.getPathwayPanel().getPathwayDrawingPanel().updateNeighboringTiles(row, col);
 	}
 
 	public int getSelection() {

@@ -19,7 +19,7 @@ public abstract class DrawingPanelTile extends JPanel {
 	
 	public final int row, col;
 	
-	private YeastVGL yeastVGL;
+	public YeastVGL yeastVGL;
 	
 	public JPopupMenu popupMenu;
 	

@@ -737,3 +737,17 @@ M13 = F (enz 2)
 	        				
 checks OK!
 save as correctAll.yvgl
+
+added some helpful drawing aids - tested OK
+be sure a pathway drawn with this check out, saves, and loads as OK - 
+	something weird is happening - on restore from save, we're losing the LineTiles
+	it's case (2) - when you set a tile to blank on setup, it clears the tile above it..
+		just simplify that case
+tests out AOK
+
+** also tested that drawing the pathway with "3 over 2" is scored as AOK - good
+
+but - the warning messages use the enzyme numbers not the CGs -
+	fixed
+
+good enough to show to Sophie again

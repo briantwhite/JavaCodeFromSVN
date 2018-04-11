@@ -2,7 +2,6 @@ package PathwayPanel;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -68,6 +67,37 @@ public class PathwayDrawingPanel extends JPanel {
 		add(scroller);
 	}
 
+	/*
+	 * "drawing assistance" - when you select certain tiles, this is the callback to 
+	 * 	fix the neighbors in a hopefully helpful way
+	 * 
+	 * 1) when you select an enzyme, you get a straight arrow to the right
+	 * 	this goes back to blank if you undo the enzyme
+	 * 
+	 * 2) if you choose a forked line, it puts a bent line above it
+	 * 	this goes back to blank if you undo the bottom line
+	 *  (can't do the reverse or you get an infinite loop)
+	 *  
+	 */
+	public void updateNeighboringTiles(int row, int col) {
+		DrawingPanelTile tile = tileArray[row][col];
+		// (1)
+		if ( (tile instanceof EnzymeTile) && (tileArray[row][col + 1] != null) ) {
+			if (tile.getSelection() != -1) {
+				((ConnectorTile)tileArray[row][col + 1]).setSelection(ConnectorTile.STRAIGHT);
+			} else {
+				((ConnectorTile)tileArray[row][col + 1]).setSelection(ConnectorTile.BLANK);
+			}
+		}
+
+		// (2) 
+		if ( (tile instanceof LineTile) && (row > 0) && (tileArray[row - 1][col] != null) ) {
+			if (((LineTile)tile).getSelection() == ConnectorTile.FORKED) {
+				((ConnectorTile)tileArray[row - 1][col]).setSelection(ConnectorTile.BENT);
+			} 
+		}
+	}
+
 	public SavedPathwayDrawingState getState() {
 		SavedTile[][] tiles = new SavedTile[NUM_ROWS][NUM_COLS];
 		for (int row = 0; row < NUM_ROWS; row++) {
@@ -122,7 +152,7 @@ public class PathwayDrawingPanel extends JPanel {
 		innerPanel.revalidate();
 		innerPanel.repaint();
 	}
-	
+
 	// do this once you've selected or changed the CGs
 	public void updateCGChoices() {
 		for (int row = 0; row < tileArray.length; row++) {
@@ -159,9 +189,9 @@ public class PathwayDrawingPanel extends JPanel {
 			System.out.println("No precursor in pathway; aborting!");
 			return null;
 		}
-//		System.out.println("found P at r:" + row + " col:" + col);
+		//		System.out.println("found P at r:" + row + " col:" + col);
 		explorePathwayStartingAt(enzymes, molecules, row, col, -1, 0);
-		Pathway p = new Pathway(enzymes, molecules);
+		Pathway p = new Pathway(yeastVGL, enzymes, molecules);
 		p.checkPathwayIntegrity();
 		return p;
 	}
@@ -215,12 +245,13 @@ public class PathwayDrawingPanel extends JPanel {
 					enzymes[tile.getSelection()] = e;
 					molecules[moleculeIndex].addNextEnzyme(e);
 				} else {
-					throw new PathwayDrawingException("You used enzyme " + tile.getSelection() + " more than once; "
+					throw new PathwayDrawingException("You used enzyme " + 
+							yeastVGL.getPathwayPanel().getCGNames()[tile.getSelection()] + " more than once; "
 							+ "you should check your pathway carefully.");
 				}
 			}
 		}
-//		System.out.println(b.toString());
+		//		System.out.println(b.toString());
 
 		// look for arrow to right
 		if (col == NUM_COLS) {
@@ -231,7 +262,8 @@ public class PathwayDrawingPanel extends JPanel {
 			if (tileArray[row][col + 1].getSelection() != ConnectorTile.BLANK) {
 				// you can't have a bent arrow after a molecule or enzyme
 				if (tileArray[row][col + 1].getSelection() == ConnectorTile.BENT) {
-					throw new PathwayDrawingException("Enzyme " + enzymeIndex + " is followed by a bent arrow; "
+					throw new PathwayDrawingException("Enzyme " + 
+							yeastVGL.getPathwayPanel().getCGNames()[enzymeIndex] + " is followed by a bent arrow; "
 							+ "you should replace it with a straight or forked arrow.");
 				}
 				if (tileArray[row][col + 1].getSelection() == ConnectorTile.STRAIGHT) {
