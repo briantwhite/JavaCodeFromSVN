@@ -27,6 +27,8 @@ public abstract class DrawingPanelTile extends JPanel {
 		this.row = row;
 		this.col = col;
 		this.yeastVGL = yeastVGL;
+		this.setMaximumSize(new Dimension(TILE_WIDTH, TILE_HEIGHT));
+		this.setMinimumSize(new Dimension(TILE_WIDTH, TILE_HEIGHT));
 		this.setPreferredSize(new Dimension(TILE_WIDTH, TILE_HEIGHT));
 //		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		

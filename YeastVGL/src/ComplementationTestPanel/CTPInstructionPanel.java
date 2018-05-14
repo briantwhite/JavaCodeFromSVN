@@ -25,6 +25,8 @@ public class CTPInstructionPanel extends JPanel {
 				+ "<li>You should then assign a complementation group letter to each group by clicking in the corresponding cell"
 				+ " and choosing from the list that pops up.</li>"
 				+ "<li>Choose one member of each group for your working set by checking the box at the right.</li>"
+				+ "<li>The messages at the bottom of the panels will let you know when you have correctly assigned "
+				+ "the complementation groups and working set. Wait for each to be green before proceeding to the next step.</li>"
 				+ "<li>Save your work before continuing to the Pathway pane.</li>"
 				+ "</ol>"
 				+ "</div></html>";

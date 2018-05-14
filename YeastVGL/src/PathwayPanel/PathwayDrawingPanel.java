@@ -3,6 +3,7 @@ package PathwayPanel;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -55,16 +56,18 @@ public class PathwayDrawingPanel extends JPanel {
 				innerPanel.add(tileArray[row][col]);
 			}
 		}
-		innerPanel.setPreferredSize(new Dimension(
-				(NUM_COLS * (DrawingPanelTile.TILE_WIDTH + CELL_SPACING)) + 50,
-				(NUM_ROWS * (DrawingPanelTile.TILE_HEIGHT + CELL_SPACING)) + 50));
-		JScrollPane scroller = new JScrollPane(
-				innerPanel, 
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scroller.setPreferredSize(new Dimension(
-				800, (NUM_ROWS * (DrawingPanelTile.TILE_HEIGHT + CELL_SPACING) + 50)));
-		add(scroller);
+//		innerPanel.setMaximumSize(new Dimension(
+//				(NUM_COLS * (DrawingPanelTile.TILE_WIDTH + CELL_SPACING)) + 100,
+//				(NUM_ROWS * (DrawingPanelTile.TILE_HEIGHT + CELL_SPACING)) + 100));
+		innerPanel.setBorder(BorderFactory.createTitledBorder("Enter Pathway Here"));
+//		JScrollPane scroller = new JScrollPane(
+//				innerPanel, 
+//				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+//				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+//		scroller.setPreferredSize(new Dimension(
+//				1000, (NUM_ROWS * (DrawingPanelTile.TILE_HEIGHT + CELL_SPACING) + 50)));
+//		add(scroller);
+		add(innerPanel);
 	}
 
 	/*

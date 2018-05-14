@@ -51,7 +51,7 @@ public class EnzymeTile extends DrawingPanelTile {
 			}
 		});
 	}
-	
+
 	public void updatePopupMenu() {
 		popupMenu.removeAll();
 		JMenuItem blankItem = new JMenuItem("-");
@@ -98,7 +98,7 @@ public class EnzymeTile extends DrawingPanelTile {
 		selectedEnzyme = s;
 		updateLabel();
 	}
-	
+
 	private void updateLabel() {
 		if (selectedEnzyme == -1) {
 			setBackground(BLANK_BACKGROUND_COLOR);
@@ -106,7 +106,9 @@ public class EnzymeTile extends DrawingPanelTile {
 			text.setText("");
 		} else {
 			setBackground(ACTIVE_BACKGROUND_COLOR);
-			text.setText("<html><align='center'>Enz<br>CG:<br><b>" + yeastVGL.getPathwayPanel().getCGNames()[selectedEnzyme] + "</b></align></html>");
+			text.setText("<html><font size=2><align='center'>Enz<br>CG:</font><font color='blue'>" 
+					+ yeastVGL.getPathwayPanel().getCGNames()[selectedEnzyme] 
+							+ "</font></align></html>");
 			text.setHorizontalAlignment(SwingConstants.CENTER);
 			text.setVerticalAlignment(SwingConstants.CENTER);
 			setBorder(

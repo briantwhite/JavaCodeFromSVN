@@ -1,5 +1,7 @@
 package PathwayPanel;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,27 +58,16 @@ public class PathwayPanel extends JPanel {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(Box.createRigidArea(new Dimension(900,10)));
 
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
-
-		JPanel leftPanel = new JPanel();
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.add(Box.createRigidArea(new Dimension(150,1)));
+		JPanel topPanel = new JPanel();
+		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 
 		JPanel instructionPanel = new JPanel();
 		instructionPanel.setLayout(new BoxLayout(instructionPanel, BoxLayout.Y_AXIS));
-		instructionPanel.setBorder(BorderFactory.createTitledBorder("Instructions"));
 		instructionPanel.add(Box.createRigidArea(new Dimension(150,1)));
-		instructionPanel.add(new JLabel("<html>"
-				+ "bla"
-				+ "</html>"));
-		leftPanel.add(instructionPanel);
-		mainPanel.add(leftPanel);
-
-		JPanel middlePanel = new JPanel();
-		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
-		middlePanel.add(Box.createRigidArea(new Dimension(600,1)));
-
+		instructionPanel.add(new PPInstructionPanel());
+		instructionPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		topPanel.add(instructionPanel);
+		
 		genoPanel = new JPanel();
 		genoPanel.setLayout(new BoxLayout(genoPanel, BoxLayout.Y_AXIS));
 		genoPanel.add(Box.createRigidArea(new Dimension(100,1)));
@@ -86,7 +77,8 @@ public class PathwayPanel extends JPanel {
 		genoPanel.add(genotypeLabel);
 
 		genoPanel.add(noWorkingSetWarningLabel);
-		middlePanel.add(genoPanel);
+		genoPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		topPanel.add(genoPanel);
 
 		JPanel substrPanel = new JPanel();
 		substrPanel.setLayout(new BoxLayout(substrPanel, BoxLayout.Y_AXIS));
@@ -94,22 +86,32 @@ public class PathwayPanel extends JPanel {
 		substrPanel.setBorder(BorderFactory.createTitledBorder("Growth Medium"));
 		JLabel substrateLabel = new JLabel("Which molecules are in the medium?");
 		substrPanel.add(substrateLabel);				
+		JLabel substrateLabel2 = new JLabel("Note that the precursor (P) is always present.");
+		substrPanel.add(substrateLabel2);				
 		substrateCheckboxes = new JCheckBox[numMolecules];
 		for (int i = 1; i < numMolecules; i++) {
-			substrateCheckboxes[i] = new JCheckBox("Molecule: " + i);
+			if (yeastVGL.getPathway().getMolecules()[i].isTerminal()) {
+				substrateCheckboxes[i] = new JCheckBox("<html><font color='red'>Molecule: " + i + "</font></html>");
+			} else {
+				substrateCheckboxes[i] = new JCheckBox("Molecule: " + i);
+			}
+			
 			substrPanel.add(substrateCheckboxes[i]);
 			substrateCheckboxes[i].setSelected(false);
 			substrateCheckboxes[i].addItemListener(new checkBoxListener());
 		}
-		middlePanel.add(substrPanel);
-
 		JPanel willItGrowPanel = new JPanel();
-		willItGrowLabel = new JLabel();
+		willItGrowLabel = new JLabel("       ");
+		willItGrowLabel.setMinimumSize(new Dimension(200,20));
+		willItGrowLabel.setOpaque(true);
 		willItGrowPanel.add(willItGrowLabel);
-		middlePanel.add(willItGrowPanel);
-		mainPanel.add(middlePanel);
+		willItGrowPanel.setBorder(BorderFactory.createTitledBorder("Will it grow?"));
+		substrPanel.add(willItGrowPanel);
+		substrPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		topPanel.add(substrPanel);
 
-		this.add(mainPanel);
+
+		this.add(topPanel);
 
 		pathwayDrawingPanel = new PathwayDrawingPanel(yeastVGL);
 		this.add(pathwayDrawingPanel);

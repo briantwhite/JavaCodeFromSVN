@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
+import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -48,7 +49,8 @@ public class YeastVGL_GUI extends JFrame {
 	private boolean haveSomethingToSave;
 
 	public YeastVGL_GUI(YeastVGL yeastVGL) {
-		super("Yeast VGL 0.1");
+		super("Yeast VGL 1.0");
+		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new ApplicationCloser());
 		this.yeastVGL = yeastVGL;
 		this.pathway = yeastVGL.getPathway();
@@ -112,6 +114,7 @@ public class YeastVGL_GUI extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				yeastVGL.getPathwayPanel().updateWorkingSet(
 						yeastVGL.getComplementationTestPanel().getWorkingSet());
+				yeastVGL.getPathwayPanel().updateDisplay();
 			}			
 		});
 		

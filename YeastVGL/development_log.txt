@@ -762,4 +762,34 @@ working on layouts
 		used JEditorPane - a pain but now OK
 
 * Pathway Panel - needs serious work..
+	did it
+	
+weird bug: when you cancel the apple-Q, the window disappears anyway
+	probably because it's in the windowClosing event
+	use this 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		in YeastVGL_GUI.java
+
+make mac and PC versions for testing 
+call it version 1.0
+
+set up build.xml stealing and modifying from VGLII
+same with launch4j.xml
+need appbundler-1.0.jar (steal from VGLII) refresh to add to project.
+need to make icon
+	used graphicconverter to save as .icns (for mac)
+used http://icoconvert.com/ to make custom pc multi-icon file icon_CkA_icon.ico
+
+sign the app (a copy on the desktop)
+Brians-MacBook-Pro:Desktop brianwhite$ codesign -f -v -s "Developer ID Application: Brian White (RNA5B8HQ54)" YVGL-1.0.app/
+YVGL-1.0.app/: signed app bundle with Mach-O thin (x86_64) [edu.umb.yvgl]
+Brians-MacBook-Pro:Desktop brianwhite$ /Applications/check-signature YVGL-1.0.app/
+(c) 2014 Apple Inc.  All rights reserved.
+YES
+
+set up place on my server to download them
+http://intro.bio.umb.edu/UBTests/YeastVGL.exe.zip
+http://intro.bio.umb.edu/UBTests/YVGL-1.0.zip
+
+tell Sophie to test.
+
 
