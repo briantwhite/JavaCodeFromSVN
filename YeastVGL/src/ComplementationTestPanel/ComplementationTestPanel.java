@@ -2,7 +2,9 @@ package ComplementationTestPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -128,14 +130,17 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(Box.createRigidArea(new Dimension(150,1)));
+		leftPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
 		JPanel instructionPanel = new CTPInstructionPanel();
+		instructionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		leftPanel.add(instructionPanel);
 		mainPanel.add(leftPanel);
 
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
 		middlePanel.add(Box.createRigidArea(new Dimension(600,1)));
+		middlePanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
 		ctp = new JPanel();
 		ctp.setBorder(BorderFactory.createTitledBorder("Complementation Table"));
@@ -191,12 +196,12 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		rightPanel.add(Box.createRigidArea(new Dimension(200,1)));
+		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
 		wsp = new JPanel();
 		wsp.setLayout(new BoxLayout(wsp, BoxLayout.Y_AXIS));
 		wsp.setBorder(BorderFactory.createTitledBorder("Working Set"));
-		wsp.add(Box.createRigidArea(new Dimension(200,1)));
+
 		// now the working set of mutants
 		workingSetCheckboxes = new JCheckBox[numMutants];
 		for (int i = 0; i < numMutants; i++) {
@@ -210,9 +215,11 @@ public class ComplementationTestPanel extends JPanel implements ActionListener, 
 		}
 		for (int i = 0; i < workingSetCheckboxes.length; i++) {
 			wsp.add(workingSetCheckboxes[i]);
+			workingSetCheckboxes[i].setAlignmentX(Component.LEFT_ALIGNMENT);
 		}
 		workingSetStatusLabel = new JLabel();
 		wsp.add(workingSetStatusLabel);
+		workingSetStatusLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		rightPanel.add(wsp);
 		mainPanel.add(rightPanel);
 

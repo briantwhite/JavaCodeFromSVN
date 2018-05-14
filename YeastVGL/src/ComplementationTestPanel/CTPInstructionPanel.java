@@ -5,17 +5,17 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
+import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 
 public class CTPInstructionPanel extends JPanel {
 	
 	public CTPInstructionPanel() {
 		super();
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(BorderFactory.createTitledBorder("Instructions"));
-		add(Box.createRigidArea(new Dimension(150,1)));
-		add(new JLabel("<html>"
+		setSize(new Dimension(400,800));
+		String text = "<html><div WIDTH="
+				+ getWidth() + ">"
 				+ "<ol>"
 				+ "<li>Determine your complementation groups using the data at the left</li>"
 				+ "<ul>"
@@ -27,6 +27,10 @@ public class CTPInstructionPanel extends JPanel {
 				+ "<li>Choose one member of each group for your working set by checking the box at the right.</li>"
 				+ "<li>Save your work before continuing to the Pathway pane.</li>"
 				+ "</ol>"
-				+ "</html>"));
+				+ "</div></html>";
+		JEditorPane label = new JEditorPane();
+		label.setContentType("text/html");
+		label.setText(text);
+		add(label);
 	}
 }

@@ -751,3 +751,15 @@ but - the warning messages use the enzyme numbers not the CGs -
 	fixed
 
 good enough to show to Sophie again
+
+5/14/18
+working on layouts
+* Welcome panel - basically OK
+* Complementation test panel - OK left to right; just need to get
+	individual panels aligned at top
+		use things like 		leftPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+	text in panels aligned left
+		used JEditorPane - a pain but now OK
+
+* Pathway Panel - needs serious work..
+
