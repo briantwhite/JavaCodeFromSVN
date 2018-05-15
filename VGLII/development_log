@@ -3772,3 +3772,25 @@ try rebuilding and posting - no new version for this one.
 		zip VGLII.pc.zip -x \*.DS_Store -r VGLII-3.3.2/
 3) post on web and test
 	looks better; check with Liz
+
+5/15/18
+try windows signing again - I probably should have used "-$ commercial" instead of "-$ individual"
+keys are in /javastuff/ReadyToRun/WindowsSigning/
+put in a copy of VGLII-3.3.1.exe from JavaCodeFromSVN/VGLII/
+
+Brians-MacBook-Pro:WindowsSigning brianwhite$ signcode -spc authenticode.spc -v authenticode.pvk -a sha1 -$ commercial -n "Virtual Genetics Lab" -i http://vgl.umb.edu -t http://timestamp.verisign.com/scripts/timstamp.dll -tr 10 VGLII-3.3.1.exe 
+Mono SignCode - version 5.4.1.0
+Sign assemblies and PE files using Authenticode(tm).
+Copyright 2002, 2003 Motus Technologies. Copyright 2004-2008 Novell. BSD licensed.
+
+Enter password for authenticode.pvk: 
+Vasel1ne$andwich
+Success
+
+It created a VGLII-3.3.1.exe.bak - don't use that one
+zip the VGLII-3.3.1.exe to VGLII-3.3.3.exe.zip and put on web as above
+download to win 10
+Still NG - if you look at the file's properties, it has a 'digital signatures' tab that lists "University of Massachusetts Boston"
+and type "sha1" and today's date but you still get the warning that it could hurt your PC.
+- probably, the certificate is not the right kind...
+
