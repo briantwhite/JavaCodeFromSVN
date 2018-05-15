@@ -3784,7 +3784,7 @@ Sign assemblies and PE files using Authenticode(tm).
 Copyright 2002, 2003 Motus Technologies. Copyright 2004-2008 Novell. BSD licensed.
 
 Enter password for authenticode.pvk: 
-Vasel1ne$andwich
+v-sandwich
 Success
 
 It created a VGLII-3.3.1.exe.bak - don't use that one
