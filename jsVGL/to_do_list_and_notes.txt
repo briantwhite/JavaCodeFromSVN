@@ -272,4 +272,21 @@ it looks like this might be possible!
 		looks like it ends up as a file on your desktop
 	loading files 
 		https://www.html5rocks.com/en/tutorials/file/dndfiles/ 
+
+6/5/18
+repeated the log analysis
+
+FILE	start date		end date		#MacNG	#MacG	#PC		#Linux	TOT
+log.8	08/Apr/2018		15/Apr/2018		138		24		147		3
+log.7	15/Apr/2018		22/Apr/2018		139		22		76		6
+log.6	22/Apr/2018		29/Apr/2018		36		8		39		0
+log.5	29/Apr/2018		06/May/2018		24		4		14		2
+log.4	06/May/2018		13/May/2018		0		0		9		0
+log.3	13/May/2018		20/May/2018		2		1		18		0
+log.2	20/May/2018		27/May/2018		30		2		7		0
+log.1	27/May/2018		03/Jun/2018		3		2		5		0
+log		03/Jun/2018		05/Jun/2018		0		0		0		0
+
+
+
  
