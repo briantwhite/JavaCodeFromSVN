@@ -792,4 +792,11 @@ http://intro.bio.umb.edu/UBTests/YVGL-1.0.zip
 
 tell Sophie to test.
 
-
+6/19/18
+Sophie tests it & has comments:
+- French version
+- either say "all mutations checked to be recessive" or add dominant ones
+- in complementation test, should not be able to highlight rows - it's distracting
+- better instructions about assigning complementation groups (be clear about which cell to click in)
+- maybe have a separate help page that's like a web browser like VGL has
+- instructions for pathway panel typo: "you can theN check..."
