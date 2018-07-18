@@ -295,3 +295,5 @@ log		03/Jun/2018		05/Jun/2018		0		0		0		0
  7/18/18
  downloaded VGL server log files and put them in a folder in this project VGLdownloadLogs/<date>
  for later analysis
+ 
+ need to do it about every 8 weeks - marked on calendar
