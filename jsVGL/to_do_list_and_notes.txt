@@ -291,3 +291,7 @@ log		03/Jun/2018		05/Jun/2018		0		0		0		0
 
  6/25/18
  could also make an edX MOOC with only jsVGL to allow saving of work
+ 
+ 7/18/18
+ downloaded VGL server log files and put them in a folder in this project VGLdownloadLogs/<date>
+ for later analysis
