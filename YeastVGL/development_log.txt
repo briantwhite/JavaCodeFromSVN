@@ -800,3 +800,9 @@ Sophie tests it & has comments:
 - better instructions about assigning complementation groups (be clear about which cell to click in)
 - maybe have a separate help page that's like a web browser like VGL has
 - instructions for pathway panel typo: "you can theN check..."
+
+7/18/18
+try to get it on the home mac
+window -> show view -> git repositories
+	under JavaCodeFromSVN -> Working Tree -> YeastVGL 
+		import projects
