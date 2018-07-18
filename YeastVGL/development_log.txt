@@ -806,3 +806,10 @@ try to get it on the home mac
 window -> show view -> git repositories
 	under JavaCodeFromSVN -> Working Tree -> YeastVGL 
 		import projects
+an error with Gson - did steps at 2/16/18 and now is OK
+
+notes for going forward: need to clean up code
+- on launch, make the Pathway (that's the "model" in the "model-view-controller" pattern)
+- build the ComplementationPanel
+- don't build the PathwayPanel until there's a complete and WorkingSet
+	then, if the WS gets updated, rebuild the PathwayPanel
