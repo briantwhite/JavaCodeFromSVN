@@ -301,3 +301,5 @@ log		03/Jun/2018		05/Jun/2018		0		0		0		0
  9/13/18
  downloaded logs again
  
+ 10/12/18
+ it looks like the virtual fly lab has been taken off the web - may see an increase in downloads.
