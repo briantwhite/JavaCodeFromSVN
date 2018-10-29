@@ -3797,4 +3797,4 @@ and type "sha1" and today's date but you still get the warning that it could hur
 10/29/18
 Got request from Corrinne Summerill csummerill@gsu.edu for custom problem
 "For each cross, we need true-breeding parents (homozygous dominant and homozygous recessive)
-find out if it's sex-linked or not and inc dom or not.
+she wants FieldPopTrueBreeding <true> versions of OneGene01.pr2 and TwoGenes01.pr2
