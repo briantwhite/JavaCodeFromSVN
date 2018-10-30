@@ -3798,3 +3798,23 @@ and type "sha1" and today's date but you still get the warning that it could hur
 Got request from Corrinne Summerill csummerill@gsu.edu for custom problem
 "For each cross, we need true-breeding parents (homozygous dominant and homozygous recessive)
 she wants FieldPopTrueBreeding <true> versions of OneGene01.pr2 and TwoGenes01.pr2
+
+10/30/18
+procedure:
+1) get OneGene01.pr2
+2) unzip to yield Level01.pr2 - plain text
+3) edit Level01.pr2 with BBedit
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<BeginnerMode>False</BeginnerMode>
+	<FieldPopTrueBreeding>True</FieldPopTrueBreeding>
+	<ZZ_ZW>0.0</ZZ_ZW>
+	<Gene1_SexLinked>0.0</Gene1_SexLinked>
+</root>
+4) zip Test Level01.pr2 
+5) mv Test.zip OneGene01-TB.pr2
+6) test - OK
+7) put in Future/
+
+-do same for TwoGenes01.pr2 to make TwoGenes01-TB.pr2
+
