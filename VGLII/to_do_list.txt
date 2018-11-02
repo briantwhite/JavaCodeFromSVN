@@ -65,4 +65,12 @@ you don't have "save for grading" as an option?  move the VGLII program file bac
 		
 23) add lethal phenotypes (sex-limited lethal also?)
 
+24) add some way for the TAs to 'see the answer' to help the students 
+   - perhaps an encrypted string they can paste in to some app for decoding?
+   
+25) to show that something is NOT sex-linked, you may need 2 crosses (is that all?)
+	reciprocal crosses?
+	- check to see that this is true
+	- if true, if they choose autosomal in the ModelBuilder, they have to select 2 cages 
+		"to show it's not sex-linked"
 
