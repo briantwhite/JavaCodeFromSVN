@@ -33,5 +33,5 @@ UI changes
 need a way to turn off or hide the second gene
 
 
-	
+Add text names of colors for colorblind users.
 	
