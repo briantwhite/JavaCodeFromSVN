@@ -3818,3 +3818,14 @@ procedure:
 
 -do same for TwoGenes01.pr2 to make TwoGenes01-TB.pr2
 
+11/7/18
+Some users may be unable to run java applications in the future (IT security stuff)
+looked again at Excelsior JET but https://www.excelsiorjet.com/evaluate says,
+"You may need to install an X Window implementation such as XQuartz. Why?
+Certain Excelsior JET functionality involves running your natively compiled 
+program in a terminal. On Linux, it employs xterm for that purpose. For now 
+Excelsior JET for OS X also falls back to xterm, but future versions will 
+either employ the standard OS X terminal emulator, Terminal.app, or will 
+have the respective functionality reimplemented without such external dependencies."
+
+so it looks like it still needs xterm on OS X - so it's still useless.
