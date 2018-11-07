@@ -3829,3 +3829,21 @@ either employ the standard OS X terminal emulator, Terminal.app, or will
 have the respective functionality reimplemented without such external dependencies."
 
 so it looks like it still needs xterm on OS X - so it's still useless.
+
+alternatively, there's a thing called GraalVM that looks like it can make native
+applications. https://www.graalvm.org/
+the thing is, do you have to run it on each platform to get a native executable?
+<sigh> https://blog.frankel.ch/first-impressions-graalvm/ says
+- need paid version for OS X
+- there's no windows version!
+So it is also useless.
+
+"AOT compiler" = "Ahead of time compiler" - this may be what I need.
+
+There is "GCJ" like gcc for java but it's a loser
+	https://www.quora.com/Is-it-possible-to-compile-Java-code-using-GNU-compiler (2017 comment) says
+	"Yes. But the GCJ only supports an old version of the language and doesn’t support 
+	a GUI library (AWT/Swing etc.). GCJ is no longer maintained and will be dropped 
+	from GCC in the near future."
+
+So, for now, there's no native alternative.
