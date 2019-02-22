@@ -3847,3 +3847,7 @@ There is "GCJ" like gcc for java but it's a loser
 	from GCC in the near future."
 
 So, for now, there's no native alternative.
+
+2/23/19
+it currently requires the "legacy java" on OS X
+try building under latest java - figure out how - and see if this goes away
