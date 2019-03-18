@@ -310,3 +310,17 @@ log		03/Jun/2018		05/Jun/2018		0		0		0		0
  12/3/19
  downloaded logs again
  
+ 2/25/19
+ downloaded again
+ 
+ 3/18/19
+ ----- BLACKBOARD INTEGRATION -------
+ talked to Tim Lambert tlambert@umassonline.net
+and Phil Saulnier psaulnier@umassp.edu
+about bboard integration
+- in order to save state, you can't use an LTI. LTI's save their own state on _their_ server.
+Need a "building block" -
+	a set of files that will live on blackboard and can write to bboard's database
+
+to do this, I need a developer account and a VM I can play on - they're setting that up.
+ 
