@@ -3852,3 +3852,24 @@ So, for now, there's no native alternative.
 it currently requires the "legacy java" on OS X
 try building under latest java - figure out how - and see if this goes away
 might help users
+
+4/9/18
+to get it to run with the latest java, first figure out what version it's running now
+https://stackoverflow.com/questions/2591083/getting-java-version-at-runtime
+shows how to print the jvm version.
+
+first of all - in project properties -> Java Compiler is set to 1.7 (it could be 1.8 or maybe 1.9)
+in console, what are we running on the mac?
+[briansofficemac:~] brian% java -version
+java version "1.8.0_05"
+Java(TM) SE Runtime Environment (build 1.8.0_05-b13)
+Java HotSpot(TM) 64-Bit Server VM (build 25.5-b02, mixed mode)
+
+
+	public static void main(String[] args) {
+
+		System.out.println(System.getProperty("java.runtime.version"));
+		VGLII vgl2 = new VGLII(args);
+gives: "1.8.0_05-b13"
+
+this is the latest version on the machine - so what's up with that??
