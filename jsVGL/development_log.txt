@@ -371,3 +371,11 @@ java.lang.NullPointerException
 	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
 google is no help.
+
+tried setting gwt-user.jar to the one in ~/.p2/.... still NG.
+
+the error is "Project 'jsVGL' does not have any GWT SDKs on its build path" - but it does!
+WTF?
+try the various purges here https://stackoverflow.com/questions/8540620/the-project-xxx-does-not-have-any-gwt-sdks-on-its-build-path
+finally, it worked to go to Project Properties -> Order and Export and moving the GWT SDK to the top of the list (right under
+the project itself)!
