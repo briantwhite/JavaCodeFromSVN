@@ -353,3 +353,21 @@ in project -> properties -> build path
 	add it as external jar
 		Mac HD/Applications/eclipse/plugins/com.google...../gwt-2.6.0/gwt-user.jar
 			(found using spotlinght)
+fixed that problem 
+but GWT compile gives "java.lang.NullPointerError" 
+and there's a red x by the project but nowhere else!
+	fixed this by going to Problems pane at bottom, right-clicking and choosing delete.
+
+can't get rid of the null pointer - tried deleting and reinstalling and re-selecting the SDK
+from the "Error Log" tab, got the error
+java.lang.NullPointerException
+	at com.google.gwt.eclipse.core.launch.GWTLaunchConfiguration.maybeGetDevJarPath(GWTLaunchConfiguration.java:176)
+	at com.google.gwt.eclipse.core.launch.GWTLaunchConfiguration.computeDynamicVMArgs(GWTLaunchConfiguration.java:120)
+	at com.google.gwt.eclipse.core.launch.GWTLaunchConfiguration.computeCompileDynamicVMArgsAsList(GWTLaunchConfiguration.java:41)
+	at com.google.gwt.eclipse.core.compile.GWTCompileRunner.computeCompilerCommandLine(GWTCompileRunner.java:223)
+	at com.google.gwt.eclipse.core.compile.GWTCompileRunner.compile(GWTCompileRunner.java:81)
+	at com.google.gwt.eclipse.core.compile.GWTCompileRunner.compileWithCancellationSupport(GWTCompileRunner.java:126)
+	at com.google.gwt.eclipse.core.actions.GWTCompileToolbarHandler$1.runInWorkspace(GWTCompileToolbarHandler.java:136)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+google is no help.
