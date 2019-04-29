@@ -345,3 +345,11 @@ need to show it gwt-user.jar
 4/4/18
 fixed the index.html and associated problems JsVGLA - F for demonstration purposes
 put on web
+
+4/29/19
+thinking about load and save
+on office mac, need to fix warning "!"
+in project -> properties -> build path
+	add it as external jar
+		Mac HD/Applications/eclipse/plugins/com.google...../gwt-2.6.0/gwt-user.jar
+			(found using spotlinght)
