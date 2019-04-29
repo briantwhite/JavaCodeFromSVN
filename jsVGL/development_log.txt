@@ -379,3 +379,24 @@ WTF?
 try the various purges here https://stackoverflow.com/questions/8540620/the-project-xxx-does-not-have-any-gwt-sdks-on-its-build-path
 finally, it worked to go to Project Properties -> Order and Export and moving the GWT SDK to the top of the list (right under
 the project itself)!
+
+see about getting it to save a file https://github.com/eligrey/FileSaver.js
+first, fix all jsVGLx.html to use the local - not EdX version (old server is https://s3.amazonaws.com/edx-org-mitx/7.00x/jsvgl/jsvgl.nocache.js
+adding save work button - the container is in jsVGLA.html (only; for now).
+OOPS - this needs to be in the jsVGLx.html since FileSaver.js is external to jsVGL.java
+use the window.getStateXML() functions like they're used in jsVGL.js
+
+got xml2json.js from https://gist.github.com/czue/464479
+	didn't work...
+	try getting it from the 111F18 SPOC backup - NG
+	try from https://github.com/abdolence/x2js
+		seems OK
+
+Make FileUtils.js separate js file for use by all save/load buttons.
+Works!
+
+Need 
+1) find a clever way to get a filename
+2) don't enable the "Save work" button until there's something to save and there's a filename.
+	have it pop up error dialogs
+ 

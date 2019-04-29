@@ -94,7 +94,7 @@ public class JsVGL implements EntryPoint {
 				vglII.crossTwo(false);
 			}			
 		});
-
+		
 		setButtonState(false);
 
 		final TabPanel mainPanel = new TabPanel();
