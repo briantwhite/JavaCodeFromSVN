@@ -396,7 +396,17 @@ Make FileUtils.js separate js file for use by all save/load buttons.
 Works!
 
 Need 
-1) find a clever way to get a filename
+1) find a clever way to get a filename from the user
 2) don't enable the "Save work" button until there's something to save and there's a filename.
 	have it pop up error dialogs
+
+Ideas:
+- have a text entry blank with notes 
+	- will save to desktop
+	- will have .jsvgl extension (add if not typed by user)
+- for opening files, have a separate page jsVGLOpen.html
+	with a file-open
+	no new problem or clear workspace buttons
+	do have save button
+
  
