@@ -409,4 +409,7 @@ Ideas:
 	no new problem or clear workspace buttons
 	do have save button
 
- 
+ file structure notes:
+ - since header and footer are pretty similar, use some standard header and footer files
+   https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file
+   although this looks like a pain
