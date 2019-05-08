@@ -6,7 +6,7 @@
 
     <link type="text/css" rel="stylesheet" href="JsVGL.css">
 
-    <title>Virtual Genetics Lab 12: Simple Dominance</title>
+    <title>Virtual Genetics Lab: Load your saved work</title>
     
     <script type="text/javascript" language="javascript" src="jsvgl/jsvgl.nocache.js"></script>
     <script type="text/javascript" language="javascript" src="xml2json.js"></script>
@@ -37,8 +37,11 @@
       	<td>
       		<table>
       			<tr>
-      				<td id="newPracticeProblemButtonContainer"></td>
-      				<td id="newGradedProblemButtonContainer"></td>
+      				<td style="display:none" id="newPracticeProblemButtonContainer"></td>
+      				<td style="display:none" id="newGradedProblemButtonContainer"></td>
+      				<td>1) Select a .jsvgl file to load.<br>
+      					<input type="file" accept=".jsvgl" id="inputFile"/><br>
+      					<button type="button" onClick="loadWork(document.getElementById('inputFile').files[0])">2) Click to load the file.</button></td>
       				<td id="clearWorkspaceButtonContainer"></td>
       				<td><button type="button" onClick="saveWork(window.getStateXML())">Save Work</button></td>
       				<td><input type="text" placeholder="work file name.jsvgl" id="workFileName"/></td>

@@ -413,3 +413,15 @@ Ideas:
  - since header and footer are pretty similar, use some standard header and footer files
    https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file
    although this looks like a pain
+
+5/8/19
+working on jsVGLA.html to get it running
+got file saving to work with useful safeguards
+
+now for loading...
+seems to be built into javascript https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
+make jsVGLOpen.html based on jsVGLA.html
+
+can't delete the new problem buttons or get a null reference on load
+	hide them instead https://stackoverflow.com/questions/6910349/hiding-table-data-using-div-style-displaynone
+not quite working yet

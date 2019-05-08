@@ -11,5 +11,20 @@ function saveWork(stateXML) {
 	}
 	var x2js = new X2JS();
 	var blob = new Blob([JSON.stringify(x2js.xml_str2json(stateXML))], {type: "text/plain;charset=utf-8"});
-//	saveAs(blob, "test.txt");
+	var workFileName = document.getElementById("workFileName").value;
+	if (workFileName == "") {
+		alert("Please enter a name for the file in the blank to the right of the Save button.");
+		return;
+	}
+	if (!workFileName.endsWith(".jsvgl")) {
+		workFileName = workFileName + ".jsvgl";
+	}
+	alert("A file named " + workFileName + " will be saved to your Desktop.\n Your browser may warn you about the file; it is safe.");
+	saveAs(blob, workFileName);
+}
+
+function loadWork(inputFile) {
+	var reader = new FileReader();
+	var contents = reader.readAsText(inputFile);
+	alert(inputFile);
 }
