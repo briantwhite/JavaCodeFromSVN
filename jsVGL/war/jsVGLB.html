@@ -11,6 +11,8 @@
     <script type="text/javascript" language="javascript" src="jsvgl/jsvgl.nocache.js"></script>
     <script type="text/javascript" language="javascript" src="xml2json.js"></script>
     <script type="text/javascript" language="javascript" src="jsVGL.js"></script>
+    <script type="text/javascript" language="javascript" src="FileSaver.js"></script>
+    <script type="text/javascript" language="javascript" src="FileUtils.js"></script>
     <script type="text/javascript" language="javascript">
      	var Params = {
     		SuperCrossEnabled: "false",
@@ -39,6 +41,8 @@
       				<td id="newPracticeProblemButtonContainer"></td>
       				<td id="newGradedProblemButtonContainer"></td>
       				<td id="clearWorkspaceButtonContainer"></td>
+       				<td><button type="button" onClick="saveWork(window.getStateXML())">Save Work</button></td>
+      				<td><input type="text" placeholder="work file name.jsvgl" id="workFileName"/></td>
       			</tr>
       		</table>
       	</td>

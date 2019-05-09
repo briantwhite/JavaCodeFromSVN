@@ -25,6 +25,19 @@ function saveWork(stateXML) {
 
 function loadWork(inputFile) {
 	var reader = new FileReader();
-	var contents = reader.readAsText(inputFile);
-	alert(inputFile);
+	reader.readAsText(inputFile);
+	reader.onload = fileLoaded;
+}
+
+function fileLoaded(evt) {
+	var contents = evt.target.result;
+	var x2js = new X2JS();
+	try {
+		var xml = x2js.json2xml_str(JSON.parse(contents));
+	}
+	catch (err) {
+		alert("Sorry, that doesn't seem to be a jsVGL file.\nPlease try a different file.");
+		return;
+	}
+	window.setStateXML(xml);
 }

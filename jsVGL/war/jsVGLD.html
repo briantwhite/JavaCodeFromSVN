@@ -1,7 +1,7 @@
 <!doctype html>
 
 <html>
-  <head><script type="text/javascript">var NREUMQ=NREUMQ||[];NREUMQ.push(["mark","firstbyte",new Date().getTime()]);</script>
+  <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
     <link type="text/css" rel="stylesheet" href="JsVGL.css">
@@ -11,6 +11,8 @@
     <script type="text/javascript" language="javascript" src="jsvgl/jsvgl.nocache.js"></script>
     <script type="text/javascript" language="javascript" src="xml2json.js"></script>
     <script type="text/javascript" language="javascript" src="jsVGL.js"></script>
+    <script type="text/javascript" language="javascript" src="FileSaver.js"></script>
+    <script type="text/javascript" language="javascript" src="FileUtils.js"></script>
     <script type="text/javascript" language="javascript">
     	var Params = {
     		SuperCrossEnabled: "false",
@@ -38,6 +40,8 @@
       				<td id="newPracticeProblemButtonContainer"></td>
       				<td id="newGradedProblemButtonContainer"></td>
       				<td id="clearWorkspaceButtonContainer"></td>
+       				<td><button type="button" onClick="saveWork(window.getStateXML())">Save Work</button></td>
+      				<td><input type="text" placeholder="work file name.jsvgl" id="workFileName"/></td>
       			</tr>
       		</table>
       	</td>
@@ -53,5 +57,5 @@
         <td id="cagesContainer"></td>
      </tr>
     </table>
-  <script type="text/javascript">if(!NREUMQ.f){NREUMQ.f=function(){NREUMQ.push(["load",new Date().getTime()]);var e=document.createElement("script");e.type="text/javascript";e.src=(("http:"===document.location.protocol)?"http:":"https:")+"//"+"js-agent.newrelic.com/nr-100.js";document.body.appendChild(e);if(NREUMQ.a)NREUMQ.a();};NREUMQ.a=window.onload;window.onload=NREUMQ.f;};NREUMQ.push(["nrfj","beacon-1.newrelic.com","1beac94c95","1671104","NQQGYUZWDUNSVUMPWQxOIkBaVBdZXFgYBVkMFQFbQEQGQkVTRUhbCwUAWVFAAkJWDGQSVxYIB3ZbWRdVXUJkA0QUBBYbREUMU1ZFRDlEBxARUEdD",0,29,new Date().getTime(),"","","","",""]);</script></body>
+  </body>
 </html>

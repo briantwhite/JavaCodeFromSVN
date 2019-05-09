@@ -425,3 +425,8 @@ make jsVGLOpen.html based on jsVGLA.html
 can't delete the new problem buttons or get a null reference on load
 	hide them instead https://stackoverflow.com/questions/6910349/hiding-table-data-using-div-style-displaynone
 not quite working yet
+
+5/9/19
+got it working - no encryption on the .jsvgl files (yet?)
+update all .html files
+post all on website and see what the community says.
