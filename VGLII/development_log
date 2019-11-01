@@ -3880,6 +3880,48 @@ https://www.graalvm.org/
 you need to run it on Mac or Win to get the native executable but there appear to be windows and mac versions
 windows: https://dev.to/skhmt/creating-a-native-executable-in-windows-with-graalvm-3g7f
 looks promising - maybe give it a try.
+
+ON OFFICE MAC:
 download the mac version "graalvm-ce-darwin-amd64-19.2.1.tar.gz"
 mac os install instructions here https://blog.softwaremill.com/graalvm-installation-and-setup-on-macos-294dd1d23ca2
+	- download
+	- unzip on desktop
+	- cd to Desktop
+	- sudo mv graalvm-ce-19.0.0 /Library/Java/JavaVirtualMachines
+[briansofficemac:~] brian% /usr/libexec/java_home -V
+Matching Java Virtual Machines (2):
+    1.8.0_231, x86_64:	"GraalVM CE 19.2.1"	/Library/Java/JavaVirtualMachines/graalvm-ce-19.2.1/Contents/Home
+    1.8.0_05, x86_64:	"Java SE 8"	/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home
 
+/Library/Java/JavaVirtualMachines/graalvm-ce-19.2.1/Contents/Home
+it's there
+[briansofficemac:~] brian% java -version
+openjdk version "1.8.0_232"
+OpenJDK Runtime Environment (build 1.8.0_232-20191009173705.graal.jdk8u-src-tar-gz-b07)
+OpenJDK 64-Bit GraalVM CE 19.2.1 (build 25.232-b07-jvmci-19.2-b03, mixed mode)
+it's active
+but
+[briansofficemac:~] brian% gu
+gu: Command not found.
+it wasn't on path
+do it the hard way
+brian% /Library/Java/JavaVirtualMachines/graalvm-ce-19.2.1/Contents/Home/bin/gu install native-image
+works
+
+
+try it
+
+[briansofficemac:~/Desktop] brian% /Library/Java/JavaVirtualMachines/graalvm-ce-19.2.1/Contents/Home/bin/native-image -jar VGLII.jar --no-fallback 
+Build on Server(pid: 6139, port: 59702)*
+[VGLII:6139]    classlist:   2,704.75 ms
+[VGLII:6139]        (cap):     819.07 ms
+[VGLII:6139]        setup:   1,257.78 ms
+Error: Error compiling query code (in /var/folders/wv/5_hj_jnh8xj1zz0059bs91p80000gn/T/SVM-8532596652197143314/LibCHelperDirectives.c). Compiler command  gcc /var/folders/wv/5_hj_jnh8xj1zz0059bs91p80000gn/T/SVM-8532596652197143314/LibCHelperDirectives.c -o /var/folders/wv/5_hj_jnh8xj1zz0059bs91p80000gn/T/SVM-8532596652197143314/LibCHelperDirectives output included error: [, , Agreeing to the Xcode/iOS license requires admin privileges, please run “sudo xcodebuild -license” and then retry this command., , ]
+Error: Use -H:+ReportExceptionStackTraces to print stacktrace of underlying exception
+Error: Image build request failed with exit status 1
+
+run the sudo command
+	sudo xcodebuild -license
+
+try again
+NG - errors. Still not ready for prime time.
