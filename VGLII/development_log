@@ -3873,3 +3873,13 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.5-b02, mixed mode)
 gives: "1.8.0_05-b13"
 
 this is the latest version on the machine - so what's up with that??
+
+11/1/19
+Another look at "ahead of time compiler" GraalVM https://www.graalvm.org/
+https://www.graalvm.org/
+you need to run it on Mac or Win to get the native executable but there appear to be windows and mac versions
+windows: https://dev.to/skhmt/creating-a-native-executable-in-windows-with-graalvm-3g7f
+looks promising - maybe give it a try.
+download the mac version "graalvm-ce-darwin-amd64-19.2.1.tar.gz"
+mac os install instructions here https://blog.softwaremill.com/graalvm-installation-and-setup-on-macos-294dd1d23ca2
+
