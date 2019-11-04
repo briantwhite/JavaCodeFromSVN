@@ -3925,3 +3925,11 @@ run the sudo command
 
 try again
 NG - errors. Still not ready for prime time.
+
+11/4/19
+Don't bother - even if it worked on Mac and PC, it won't run on chromebooks, etc.
+
+Better to get jsVGL up to speed
+	- add chi-squared
+	- work on load/save stuff
+

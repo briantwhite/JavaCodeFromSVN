@@ -1875,4 +1875,10 @@ fix website - use the "frame version"
 
 all set
 
+11/4/19
+For a cross-platform version, it's probably best to go javascript with GWT
+there is an alternative "DukeScript" - but it may be paid. Ask them. e-mailed info@dukehoff.com
+- will need to work out saving the greenhouse
+	- don't use cookies, even though the data to save is small since that's not portable
+	- use a desktop/downloads Greenhouse folder
 
