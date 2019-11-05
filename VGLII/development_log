@@ -3932,4 +3932,16 @@ Don't bother - even if it worked on Mac and PC, it won't run on chromebooks, etc
 Better to get jsVGL up to speed
 	- add chi-squared
 	- work on load/save stuff
+	
+It may be better to use JSweet rather than GWT? 
+	- better debugging
+	- are threads supported? It doesn't look like they are
+		so, better for VGL than Aipotu.
 
+There's also cheerpj that promises automatic conversion of java to javascript with no limits
+	BUT you have to use their runtime over the web (what if they go out of business?)
+		but they say "with no server- or client-side requirements"
+		it does call out to a loader from their site
+	- so, easy to use but dependent on them.
+	- even if they go belly-up or get bought, if this doesn't require re-coding, it could be easy and
+		work for at least a while... worth considering.
