@@ -430,3 +430,6 @@ not quite working yet
 got it working - no encryption on the .jsvgl files (yet?)
 update all .html files
 post all on website and see what the community says.
+
+11/8/19
+fixed some of the TextStrings to explain the difference between graded and practice problems - some users were confused
