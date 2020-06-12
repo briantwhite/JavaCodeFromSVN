@@ -437,6 +437,17 @@ fixed some of the TextStrings to explain the difference between graded and pract
 6/12/20
 need to do some additions to use it in remote Bio 111
 1) have it be able to start off with a saved file (equivalent to a .wr2) from a web page
+	'save work in progress'
 2) when it's in graded mode, save in lightly encrypted (XOR with passphrase?)
 3) when it's in practice mode, save unencrypted
 4) have a save to html like in VGLII so they can have their data in an easy form
+	'export data'
+5) maybe move all buttons (except cross) to a menu to save space and be more organized
+	call menu "File"
+	
+started work on Version 2.0
+- add menu first.
+because this changes the page layout - all the jsVGL.html files will need to be updated.
+
+got menu working 
+one issue - the disabled items don't look different.

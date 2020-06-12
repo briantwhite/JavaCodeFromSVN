@@ -1,36 +1,37 @@
 package edu.umb.jsVGL.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.Dictionary;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.umb.jsVGL.client.VGL.SavedProblemStrings;
 import edu.umb.jsVGL.client.VGL.VGLII;
-import edu.umb.jsVGL.client.VGL.UIimages.UIImageResource;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class JsVGL implements EntryPoint {
 	
-	private Button clearWorkspaceButton = null;
-	private Button newPracticeProblemButton = null;
-	private Button newGradedProblemButton = null;
+	private MenuItem saveWorkItem = null;
+	private MenuItem exportDataItem = null;
+	private MenuItem clearWorkspaceItem = null;
+	private MenuItem newPracticeProblemItem = null;
+	private MenuItem newGradedProblemItem = null;
 	private Button crossButton = null;
 	private Button superCrossButton = null;
 
@@ -55,36 +56,55 @@ public class JsVGL implements EntryPoint {
 	}
 
 	private void buildMainPanelUI(Dictionary params) {
-
-		clearWorkspaceButton = new Button("Clear Workspace");
-		clearWorkspaceButton.setStyleName("jsVGL_Button");
-		RootPanel.get("clearWorkspaceButtonContainer").add(clearWorkspaceButton);
-		clearWorkspaceButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		
+		// set up the menu
+		MenuBar menuBar = new MenuBar();
+		menuBar.setAutoOpen(true);
+		menuBar.setWidth("200px");
+		menuBar.setAnimationEnabled(true);
+		
+		MenuBar fileMenu = new MenuBar(true);
+		fileMenu.setAnimationEnabled(true);
+		saveWorkItem = new MenuItem("Save work in progress...", new Command() {
+			public void execute() {
+				
+			}
+		});
+		fileMenu.addItem(saveWorkItem);
+		exportDataItem = new MenuItem("Export data...", new Command() {
+			public void execute() {
+				
+			}
+		});
+		fileMenu.addItem(exportDataItem);
+		menuBar.addItem(new MenuItem("File",fileMenu));
+		
+		MenuBar problemMenu = new MenuBar(true);
+		problemMenu.setAnimationEnabled(true);
+		newPracticeProblemItem = new MenuItem("New Practice Problem", new Command() {
+			public void execute() {
+				vglII.newPracticeProblem();
+			}
+		});
+		problemMenu.addItem(newPracticeProblemItem);
+		newGradedProblemItem = new MenuItem("New Graded Problem", new Command() {
+			public void execute() {
+				vglII.newGradedProblem();
+			}
+		});
+		problemMenu.addItem(newGradedProblemItem);
+		clearWorkspaceItem = new MenuItem("Clear Workspace", new Command() {
+			public void execute() {
 				vglII.resetProblemSpace();
 				resetUI();
 				modelBuilderPanel.clear();
 				modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
-			}			
+			}
 		});
+		problemMenu.addItem(clearWorkspaceItem);
+		menuBar.addItem(new MenuItem("Problem", problemMenu));
+		RootPanel.get("menuContainer").add(menuBar);
 
-		newPracticeProblemButton = new Button("New Practice Problem");
-		newPracticeProblemButton.setStyleName("jsVGL_Button");
-		RootPanel.get("newPracticeProblemButtonContainer").add(newPracticeProblemButton);
-		newPracticeProblemButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				vglII.newPracticeProblem();
-			}			
-		});
-
-		newGradedProblemButton = new Button("New Graded Problem");
-		newGradedProblemButton.setStyleName("jsVGL_Button");
-		RootPanel.get("newGradedProblemButtonContainer").add(newGradedProblemButton);
-		newGradedProblemButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				vglII.newGradedProblem();
-			}			
-		});
 
 		crossButton = new Button("Cross Two");
 		crossButton.setStyleName("jsVGL_CrossButton");
@@ -192,9 +212,11 @@ public class JsVGL implements EntryPoint {
 	 * 		save enabled
 	 */
 	public void setButtonState(boolean state) {
-		clearWorkspaceButton.setEnabled(state);
-		newPracticeProblemButton.setEnabled(!state);
-		newGradedProblemButton.setEnabled(!state);
+		clearWorkspaceItem.setEnabled(state);
+		newPracticeProblemItem.setEnabled(!state);
+		newGradedProblemItem.setEnabled(!state);
+		saveWorkItem.setEnabled(state);
+		exportDataItem.setEnabled(state);
 		crossButton.setEnabled(state);
 	}
 
