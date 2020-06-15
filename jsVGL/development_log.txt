@@ -450,4 +450,20 @@ started work on Version 2.0
 because this changes the page layout - all the jsVGL.html files will need to be updated.
 
 got menu working 
-one issue - the disabled items don't look different.
+6) one issue - the disabled items don't look different.
+ - figure out how to gray them out
+ - maybe have enabled and disabled styles and set style when enabled/disabled
+
+6/15/20
+other things
+7) on menu items, have tool tip text that explains 
+	'save work in progress to open later or submit to your TA"
+	"save your results in a form that can be opened by a word processor"
+8) clear workspace should have "are you sure" dialog
+9) do you need the Base64Encoder? check in regular VGL how it's used
+10) fix instructions to match the file menus not buttons
+11) in file saving dialogs have notes
+	"this file can be opened by jsVGL to continue your work or submitted for grading"
+	"this file can be opened in a word processor; it can't be opened by jsVGL"
+12) have "open work..." that opens a saved work file
+13) play with menu style to have it match the rest
