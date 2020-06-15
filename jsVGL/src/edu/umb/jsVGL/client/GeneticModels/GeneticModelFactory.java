@@ -31,7 +31,6 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
-import edu.umb.jsVGL.client.VGL.Base64Coder;
 import edu.umb.jsVGL.client.VGL.SavedWorkFileData;
 
 public class GeneticModelFactory {
@@ -62,11 +61,6 @@ public class GeneticModelFactory {
 		return model;
 	}
 	
-	public SavedWorkFileData setupModelAndStateFromBase64Zip(String input) {
-		String xmlString = Base64Coder.readBase64Zip(input);
-		return readModelFromXML(xmlString);
-	}
-
 	public SavedWorkFileData readModelFromXML(String xmlString) {
 		SavedWorkFileData result = null;
 		Document doc = XMLParser.parse(xmlString);

@@ -5,10 +5,14 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -80,7 +84,25 @@ public class JsVGL implements EntryPoint {
 		fileMenu.addItem(exportDataItem);
 		openWorkItem = new MenuItem("Open saved work...", new Command() {
 			public void execute() {
-				
+				final DialogBox openWorkDialog = new DialogBox(true, true);  // autoHide, modal
+				VerticalPanel dialogPanel = new VerticalPanel();
+				final FileUpload openWorkFileUpload = new FileUpload();
+				HorizontalPanel hPanel = new HorizontalPanel();
+				hPanel.add(openWorkFileUpload);
+				hPanel.add(new Button("Load File", new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						
+					}					
+				}));
+				dialogPanel.add(hPanel);
+				dialogPanel.add(new Button("Cancel", new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						openWorkDialog.hide();
+					}					
+				}));
+				openWorkDialog.setWidget(dialogPanel);
+				openWorkDialog.center();
+				openWorkDialog.show();
 			}
 		});
 		fileMenu.addItem(openWorkItem);
@@ -103,10 +125,12 @@ public class JsVGL implements EntryPoint {
 		problemMenu.addItem(newGradedProblemItem);
 		clearWorkspaceItem = new MenuItem("Clear Workspace", new Command() {
 			public void execute() {
-				vglII.resetProblemSpace();
-				resetUI();
-				modelBuilderPanel.clear();
-				modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
+				if (Window.confirm("Are you sure you want to clear the workspace?\nThis will delete all your work permanently.")) {
+					vglII.resetProblemSpace();
+					resetUI();
+					modelBuilderPanel.clear();
+					modelBuilderPanel.add(new Label("Please Start a problem before making a model."));					
+				}
 			}
 		});
 		problemMenu.addItem(clearWorkspaceItem);
