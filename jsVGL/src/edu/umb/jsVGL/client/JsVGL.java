@@ -28,6 +28,7 @@ import edu.umb.jsVGL.client.VGL.VGLII;
 public class JsVGL implements EntryPoint {
 	
 	private MenuItem saveWorkItem = null;
+	private MenuItem openWorkItem = null;
 	private MenuItem exportDataItem = null;
 	private MenuItem clearWorkspaceItem = null;
 	private MenuItem newPracticeProblemItem = null;
@@ -77,6 +78,13 @@ public class JsVGL implements EntryPoint {
 			}
 		});
 		fileMenu.addItem(exportDataItem);
+		openWorkItem = new MenuItem("Open saved work...", new Command() {
+			public void execute() {
+				
+			}
+		});
+		fileMenu.addItem(openWorkItem);
+
 		menuBar.addItem(new MenuItem("File",fileMenu));
 		
 		MenuBar problemMenu = new MenuBar(true);
@@ -216,8 +224,24 @@ public class JsVGL implements EntryPoint {
 		newPracticeProblemItem.setEnabled(!state);
 		newGradedProblemItem.setEnabled(!state);
 		saveWorkItem.setEnabled(state);
+		openWorkItem.setEnabled(!state);
 		exportDataItem.setEnabled(state);
 		crossButton.setEnabled(state);
+		if (state) {
+			clearWorkspaceItem.setStyleName("jsVGL_EnabledMenuItem");
+			newPracticeProblemItem.setStyleName("jsVGL_DisabledMenuItem");
+			newGradedProblemItem.setStyleName("jsVGL_DisabledMenuItem");
+			openWorkItem.setStyleName("jsVGL_DisabledMenuItem");
+			saveWorkItem.setStyleName("jsVGL_EnabledMenuItem");
+			exportDataItem.setStyleName("jsVGL_EnabledMenuItem");
+		} else {
+			clearWorkspaceItem.setStyleName("jsVGL_DisabledMenuItem");
+			newPracticeProblemItem.setStyleName("jsVGL_EnabledMenuItem");
+			newGradedProblemItem.setStyleName("jsVGL_EnabledMenuItem");
+			openWorkItem.setStyleName("jsVGL_EnabledMenuItem");
+			saveWorkItem.setStyleName("jsVGL_DisabledMenuItem");
+			exportDataItem.setStyleName("jsVGL_DisabledMenuItem");
+		}
 	}
 
 	public SimplePanel getModelBuilderPanel() {

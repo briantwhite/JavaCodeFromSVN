@@ -12,12 +12,12 @@
 	background-color: #d0d0d0;
 }
 
-.jsVGL_CrossButton {
-	
+.jsVGL_EnabledMenuItem {
+	color: #000000;
 }
 
-.jsVGL_CrossButton:enabled {
-	
+.jsVGL_DisabledMenuItem {
+	color: #808080;
 }
 
 .jsVGL_CagePanel {
