@@ -4,19 +4,12 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.Dictionary;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -31,12 +24,9 @@ import edu.umb.jsVGL.client.VGL.VGLII;
  */
 public class JsVGL implements EntryPoint {
 	
-	private MenuItem saveWorkItem = null;
-	private MenuItem openWorkItem = null;
-	private MenuItem exportDataItem = null;
-	private MenuItem clearWorkspaceItem = null;
-	private MenuItem newPracticeProblemItem = null;
-	private MenuItem newGradedProblemItem = null;
+	private Button clearWorkspaceButton = null;
+	private Button newPracticeProblemButton = null;
+	private Button newGradedProblemButton = null;
 	private Button crossButton = null;
 	private Button superCrossButton = null;
 
@@ -61,82 +51,36 @@ public class JsVGL implements EntryPoint {
 	}
 
 	private void buildMainPanelUI(Dictionary params) {
-		
-		// set up the menu
-		MenuBar menuBar = new MenuBar();
-		menuBar.setAutoOpen(true);
-		menuBar.setWidth("200px");
-		menuBar.setAnimationEnabled(true);
-		
-		MenuBar fileMenu = new MenuBar(true);
-		fileMenu.setAnimationEnabled(true);
-		saveWorkItem = new MenuItem("Save work in progress...", new Command() {
-			public void execute() {
-				
-			}
-		});
-		fileMenu.addItem(saveWorkItem);
-		exportDataItem = new MenuItem("Export data...", new Command() {
-			public void execute() {
-				
-			}
-		});
-		fileMenu.addItem(exportDataItem);
-		openWorkItem = new MenuItem("Open saved work...", new Command() {
-			public void execute() {
-				final DialogBox openWorkDialog = new DialogBox(true, true);  // autoHide, modal
-				VerticalPanel dialogPanel = new VerticalPanel();
-				final FileUpload openWorkFileUpload = new FileUpload();
-				HorizontalPanel hPanel = new HorizontalPanel();
-				hPanel.add(openWorkFileUpload);
-				hPanel.add(new Button("Load File", new ClickHandler() {
-					public void onClick(ClickEvent event) {
-						
-					}					
-				}));
-				dialogPanel.add(hPanel);
-				dialogPanel.add(new Button("Cancel", new ClickHandler() {
-					public void onClick(ClickEvent event) {
-						openWorkDialog.hide();
-					}					
-				}));
-				openWorkDialog.setWidget(dialogPanel);
-				openWorkDialog.center();
-				openWorkDialog.show();
-			}
-		});
-		fileMenu.addItem(openWorkItem);
 
-		menuBar.addItem(new MenuItem("File",fileMenu));
-		
-		MenuBar problemMenu = new MenuBar(true);
-		problemMenu.setAnimationEnabled(true);
-		newPracticeProblemItem = new MenuItem("New Practice Problem", new Command() {
-			public void execute() {
+		clearWorkspaceButton = new Button("Clear Workspace");
+		clearWorkspaceButton.setStyleName("jsVGL_Button");
+		RootPanel.get("clearWorkspaceButtonContainer").add(clearWorkspaceButton);
+		clearWorkspaceButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				vglII.resetProblemSpace();
+				resetUI();
+				modelBuilderPanel.clear();
+				modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
+			}			
+		});
+
+		newPracticeProblemButton = new Button("New Practice Problem");
+		newPracticeProblemButton.setStyleName("jsVGL_Button");
+		RootPanel.get("newPracticeProblemButtonContainer").add(newPracticeProblemButton);
+		newPracticeProblemButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
 				vglII.newPracticeProblem();
-			}
+			}			
 		});
-		problemMenu.addItem(newPracticeProblemItem);
-		newGradedProblemItem = new MenuItem("New Graded Problem", new Command() {
-			public void execute() {
-				vglII.newGradedProblem();
-			}
-		});
-		problemMenu.addItem(newGradedProblemItem);
-		clearWorkspaceItem = new MenuItem("Clear Workspace", new Command() {
-			public void execute() {
-				if (Window.confirm("Are you sure you want to clear the workspace?\nThis will delete all your work permanently.")) {
-					vglII.resetProblemSpace();
-					resetUI();
-					modelBuilderPanel.clear();
-					modelBuilderPanel.add(new Label("Please Start a problem before making a model."));					
-				}
-			}
-		});
-		problemMenu.addItem(clearWorkspaceItem);
-		menuBar.addItem(new MenuItem("Problem", problemMenu));
-		RootPanel.get("menuContainer").add(menuBar);
 
+		newGradedProblemButton = new Button("New Graded Problem");
+		newGradedProblemButton.setStyleName("jsVGL_Button");
+		RootPanel.get("newGradedProblemButtonContainer").add(newGradedProblemButton);
+		newGradedProblemButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				vglII.newGradedProblem();
+			}			
+		});
 
 		crossButton = new Button("Cross Two");
 		crossButton.setStyleName("jsVGL_CrossButton");
@@ -146,7 +90,7 @@ public class JsVGL implements EntryPoint {
 				vglII.crossTwo(false);
 			}			
 		});
-		
+
 		setButtonState(false);
 
 		final TabPanel mainPanel = new TabPanel();
@@ -244,28 +188,10 @@ public class JsVGL implements EntryPoint {
 	 * 		save enabled
 	 */
 	public void setButtonState(boolean state) {
-		clearWorkspaceItem.setEnabled(state);
-		newPracticeProblemItem.setEnabled(!state);
-		newGradedProblemItem.setEnabled(!state);
-		saveWorkItem.setEnabled(state);
-		openWorkItem.setEnabled(!state);
-		exportDataItem.setEnabled(state);
+		clearWorkspaceButton.setEnabled(state);
+		newPracticeProblemButton.setEnabled(!state);
+		newGradedProblemButton.setEnabled(!state);
 		crossButton.setEnabled(state);
-		if (state) {
-			clearWorkspaceItem.setStyleName("jsVGL_EnabledMenuItem");
-			newPracticeProblemItem.setStyleName("jsVGL_DisabledMenuItem");
-			newGradedProblemItem.setStyleName("jsVGL_DisabledMenuItem");
-			openWorkItem.setStyleName("jsVGL_DisabledMenuItem");
-			saveWorkItem.setStyleName("jsVGL_EnabledMenuItem");
-			exportDataItem.setStyleName("jsVGL_EnabledMenuItem");
-		} else {
-			clearWorkspaceItem.setStyleName("jsVGL_DisabledMenuItem");
-			newPracticeProblemItem.setStyleName("jsVGL_EnabledMenuItem");
-			newGradedProblemItem.setStyleName("jsVGL_EnabledMenuItem");
-			openWorkItem.setStyleName("jsVGL_EnabledMenuItem");
-			saveWorkItem.setStyleName("jsVGL_DisabledMenuItem");
-			exportDataItem.setStyleName("jsVGL_DisabledMenuItem");
-		}
 	}
 
 	public SimplePanel getModelBuilderPanel() {

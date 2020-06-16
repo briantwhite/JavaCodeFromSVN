@@ -8,7 +8,7 @@
 
     <title>Virtual Genetics Lab</title>
     
-    <script type="text/javascript" language="javascript" src="jsvgl/jsvgl.nocache.js"></script>
+    <script type="text/javascript" language="javascript" src="https://s3.amazonaws.com/edx-public-downloads/jsvgl/jsvgl.nocache.js"></script>
     <script type="text/javascript" language="javascript" src="xml2json.js"></script>
     <script type="text/javascript" language="javascript" src="jsVGL.js"></script>
     <script type="text/javascript" language="javascript">
@@ -42,13 +42,24 @@
       </div>
     </noscript>
 
-    <table align="center" border="1">
-      <tr><td id="menuContainer"></td></tr>
+    <table align="center">
+      <tr>
+      	<td>
+      		<table>
+      			<tr>
+      				<td id="newPracticeProblemButtonContainer"></td>
+      				<td id="newGradedProblemButtonContainer"></td>
+      				<td id="clearWorkspaceButtonContainer"></td>
+      			</tr>
+      		</table>
+      	</td>
+         
+      </tr>
        <tr>
         <td id="mainPanelContainer"></td>
        </tr>
        <tr>
-       	  <td align="center" id="crossButtonContainer"></td>
+       	  <td align="left" id="crossButtonContainer"></td>
 	   </tr>
        <tr>
         <td id="cagesContainer"></td>

@@ -481,4 +481,31 @@ set up menu item for (1)
 
 for (12) & (1) look here https://www.tutorialspoint.com/gwt/gwt_fileupload_widget.htm
    got the file chooser dialog going.
-   
+
+this site https://stackoverflow.com/questions/9279216/reading-a-file-on-client-side-in-gwt/38321335
+	has info on reading in a file.
+	also try stealing code from FileUtils.js
+	FileReader doesn't work so use the native method thingy described under "HTML5"
+	
+6/16/20
+rats - can't use the file menus built into jsVGL
+	won't be compatible with edX (they show all the time but save etc aren't appropriate for edX)
+	they don't appear to work with file loading
+- so build them into the javascript enclosing page (only present for non-edX uses)
+
+new plan:
+1) take out all the menus
+2) rebuild it and be sure that save and load work as they used to
+3) build the file menu (open, save, export) into the javascript enclosing page
+
+used TimeMachine to recover jsVGL folder from 6/1/20 and copy in text of altered files (to avoid git-astrophe)
+
+started by restoring original state
+pasted in full content of
+	JsVGL.java
+	jsVGL.html
+	JsVGL.css
+- tested OK - thereby doing (1) and (2).
+
+set up new version of jsVGLA.html for testing these - jsVGL_test.html
+put in stuff for a dropdown menu from https://www.w3schools.com/howto/howto_css_dropdown.asp
