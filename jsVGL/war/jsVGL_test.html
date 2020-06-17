@@ -32,6 +32,15 @@
         in order for this application to display correctly.
       </div>
     </noscript>
+    
+    <div>
+    	<dialog id="loadFileChooserDialog">
+    		Click "Choose File", select a .jsvgl file to load and click "OK".<br><br>
+    		<input type="file" name="inputFileName" accept=".jsvgl"></input><br><br>
+    		<button type="button" onClick="document.getElementById('loadFileChooserDialog').close()">Cancel</button>
+    		<button type="button" onClick="loadWork(document.getElementsByName("inputFileName")[0].value)">OK</button>
+    	</dialog>
+    </div>
 
     <table align="center">
       <tr>
@@ -41,7 +50,7 @@
   				<div class="dropdown-content">
     				<button id="saveWorkButton" onClick="saveWorkDialog(window.getStateXML())">Save Work As...</button>
     				<button id="exportWorkButton" onClick="saveWorkDialog(window.getStateXML())">Export Report...</button>
-    				<button id="loadWorkButton" onClick="saveWorkDialog(window.getStateXML())">Load Saved Work...</button>
+    				<button id="loadWorkButton" onClick="loadWorkDialog()">Load Saved Work...</button>
   				</div>
 			</div>
       	</td>

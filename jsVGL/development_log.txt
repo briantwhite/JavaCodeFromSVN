@@ -528,3 +528,7 @@ make an optional menuEnabler.js file - need to include in all pages that can sav
 
 here's a way to enable/disable menu items
 document.getElementById("saveWorkButton").disabled = true
+
+it's all working EXCEPT:
+- loading a saved work file
+- exporting as html

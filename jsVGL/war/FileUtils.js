@@ -47,7 +47,7 @@ function exportWork(stateHTML, exportFileName) {
 }
 
 function loadWorkDialog() {
-	
+	document.getElementById("loadFileChooserDialog").showModal();
 }
 
 function loadWork(inputFile) {
@@ -67,4 +67,5 @@ function fileLoaded(evt) {
 		return;
 	}
 	window.setStateXML(xml);
+	document.getElementById('loadFileChooserDialog').close();
 }
