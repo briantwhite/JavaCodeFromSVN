@@ -525,3 +525,6 @@ make an optional menuEnabler.js file - need to include in all pages that can sav
 	(edX pages will need an empty stub method)
 	actually, it'd be nice if there was a way to test if the method is defined and not call it if it isn't
 	did that in JsVGL.java
+
+here's a way to enable/disable menu items
+document.getElementById("saveWorkButton").disabled = true

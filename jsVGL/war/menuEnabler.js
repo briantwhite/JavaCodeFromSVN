@@ -3,6 +3,6 @@
 //  NOTE: requires specific menu items to be present
     
 function updateMenuStatus(state) {
-	alert(state);
+
 }
 

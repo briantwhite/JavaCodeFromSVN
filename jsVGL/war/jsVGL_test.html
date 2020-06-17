@@ -37,11 +37,11 @@
       <tr>
       	<td>
       		<div class="dropdown">
-  				<button class="dropbtn">Dropdown</button>
+  				<button class="dropbtn">File</button>
   				<div class="dropdown-content">
-    				<a href="#" onClick="alert(); return false;">Link 1</a>
-    				<a href="#">Link 2</a>
-    				<a href="#">Link 3</a>
+    				<button id="saveWorkButton" onClick="saveWorkDialog(window.getStateXML())">Save Work As...</button>
+    				<button id="exportWorkButton" onClick="saveWorkDialog(window.getStateXML())">Export Report...</button>
+    				<button id="loadWorkButton" onClick="saveWorkDialog(window.getStateXML())">Load Saved Work...</button>
   				</div>
 			</div>
       	</td>
@@ -53,8 +53,6 @@
       				<td id="newPracticeProblemButtonContainer"></td>
       				<td id="newGradedProblemButtonContainer"></td>
       				<td id="clearWorkspaceButtonContainer"></td>
-      				<td><button type="button" onClick="saveWork(window.getStateXML())">Save Work</button></td>
-      				<td><input type="text" placeholder="work file name.jsvgl" id="workFileName"/></td>
       			</tr>
       		</table>
       	</td>

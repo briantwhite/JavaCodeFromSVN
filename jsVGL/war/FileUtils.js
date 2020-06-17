@@ -1,6 +1,11 @@
 // functions to work with FileSaver.js from https://github.com/eligrey/FileSaver.js
 
-function saveWork(stateXML) {
+function saveWorkDialog(stateXML) {
+	var fileName = prompt("Enter the name of the file to save and click OK:", "work file.jsvgl");
+	saveWork(stateXML, fileName);
+}
+
+function saveWork(stateXML, workFileName) {
 	if (stateXML.startsWith("ERROR: No Problem")) {
 		alert("There is no work to save; please start a problem first.");
 		return;
@@ -11,9 +16,8 @@ function saveWork(stateXML) {
 	}
 	var x2js = new X2JS();
 	var blob = new Blob([JSON.stringify(x2js.xml_str2json(stateXML))], {type: "text/plain;charset=utf-8"});
-	var workFileName = document.getElementById("workFileName").value;
 	if (workFileName == "") {
-		alert("Please enter a name for the file in the blank to the right of the Save button.");
+		alert("No file name entered; please try again and enter a file name in the space provided.");
 		return;
 	}
 	if (!workFileName.endsWith(".jsvgl")) {
