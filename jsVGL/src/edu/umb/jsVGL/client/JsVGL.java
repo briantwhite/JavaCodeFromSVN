@@ -4,8 +4,10 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.Dictionary;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -51,16 +53,17 @@ public class JsVGL implements EntryPoint {
 	}
 
 	private void buildMainPanelUI(Dictionary params) {
-
 		clearWorkspaceButton = new Button("Clear Workspace");
 		clearWorkspaceButton.setStyleName("jsVGL_Button");
 		RootPanel.get("clearWorkspaceButtonContainer").add(clearWorkspaceButton);
 		clearWorkspaceButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				vglII.resetProblemSpace();
-				resetUI();
-				modelBuilderPanel.clear();
-				modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
+				if (Window.confirm("Are you sure you want to clear the workspace?\nAll your work will be deleted.")) {
+					vglII.resetProblemSpace();
+					resetUI();
+					modelBuilderPanel.clear();
+					modelBuilderPanel.add(new Label("Please Start a problem before making a model."));
+				}
 			}			
 		});
 

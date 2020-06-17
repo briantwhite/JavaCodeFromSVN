@@ -36,8 +36,11 @@
 }
 
 /* Change color of dropdown button on hover */
-.dropdown-content button[disabled]:hover {background-color: #FFFF00;}
-.dropdown-content button:hover {background-color: #FF0000;}
+.dropdown-content button[disabled]:hover {
+	background-color: #f1f1f1;
+	color: #808080;
+}
+.dropdown-content button:hover {background-color: #A0A0A0;}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}

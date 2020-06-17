@@ -1,11 +1,6 @@
 // functions to work with FileSaver.js from https://github.com/eligrey/FileSaver.js
 
-function saveWorkDialog(stateXML) {
-	var fileName = prompt("Enter the name of the file to save and click OK:", "work file.jsvgl");
-	saveWork(stateXML, fileName);
-}
-
-function saveWork(stateXML, workFileName) {
+function saveWorkDialog(stateHTML) {
 	if (stateXML.startsWith("ERROR: No Problem")) {
 		alert("There is no work to save; please start a problem first.");
 		return;
@@ -14,6 +9,12 @@ function saveWork(stateXML, workFileName) {
 		alert("Sorry, but it is not possible to save a problem created in Practice Mode.");
 		return;
 	}
+
+	var fileName = prompt("Enter the name of the file to save and click OK:", "work file.jsvgl");
+	saveWork(stateXML, fileName);
+}
+
+function saveWork(stateXML, workFileName) {
 	var x2js = new X2JS();
 	var blob = new Blob([JSON.stringify(x2js.xml_str2json(stateXML))], {type: "text/plain;charset=utf-8"});
 	if (workFileName == "") {
@@ -25,6 +26,28 @@ function saveWork(stateXML, workFileName) {
 	}
 	alert("A file named " + workFileName + " will be saved to your Desktop.\n Your browser may warn you about the file; it is safe.");
 	saveAs(blob, workFileName);
+}
+
+function exportWorkDialog(stateHTML) {
+	var fileName = prompt("Enter the name of the file to save and click OK:", "work file.jsvgl");
+	exportWork(stateHTML, fileName);
+}
+
+function exportWork(stateHTML, exportFileName) {
+	var blob = new Blob([stateHTML], {type: "text/html;charset=utf-8"});
+	if (exportFileName == "") {
+		alert("No file name entered; please try again and enter a file name in the space provided.");
+		return;
+	}
+	if (!exportFileName.endsWith(".html")) {
+		exportFileName = exportFileName + ".html";
+	}
+	alert("A file named " + exportFileName + " will be saved to your Desktop.\n Your browser may warn you about the file; it is safe.");
+	saveAs(blob, exportFileName);	
+}
+
+function loadWorkDialog() {
+	
 }
 
 function loadWork(inputFile) {
