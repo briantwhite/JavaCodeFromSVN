@@ -192,8 +192,27 @@ public class JsVGL implements EntryPoint {
 		newPracticeProblemButton.setEnabled(!state);
 		newGradedProblemButton.setEnabled(!state);
 		crossButton.setEnabled(state);
+		// sent update message to external js page
+		if (updateMenuStatusFunctionExists().equals("Y")) {
+			updateMenuStatus(state);
+		}
 	}
-
+	/* 
+	 * method for alerting the javascript wrapper that 
+	 *   the state has changed
+	 */
+	native void updateMenuStatus(boolean state) /*-{
+		$wnd.updateMenuStatus(state);
+	}-*/;
+	// method to detect if updateManuStatus has been defined
+	native String updateMenuStatusFunctionExists() /*-{
+		if (typeof $wnd.updateMenuStatus === "function") {
+			return "Y";
+		} else {
+			return "N";
+		}
+	}-*/;
+	
 	public SimplePanel getModelBuilderPanel() {
 		return modelBuilderPanel;
 	}
