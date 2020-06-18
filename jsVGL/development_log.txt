@@ -532,3 +532,8 @@ document.getElementById("saveWorkButton").disabled = true
 it's all working EXCEPT:
 - loading a saved work file
 - exporting as html
+
+6/18/20
+got file save and load working AOK.
+working on exporting as html
+	just steal "GetWorkAsHTML.java" from VGLII - make new file in jsVGL and paste in code.

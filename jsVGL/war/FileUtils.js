@@ -1,6 +1,6 @@
 // functions to work with FileSaver.js from https://github.com/eligrey/FileSaver.js
 
-function saveWorkDialog(stateHTML) {
+function saveWorkDialog(stateXML) {
 	if (stateXML.startsWith("ERROR: No Problem")) {
 		alert("There is no work to save; please start a problem first.");
 		return;
@@ -11,7 +11,9 @@ function saveWorkDialog(stateHTML) {
 	}
 
 	var fileName = prompt("Enter the name of the file to save and click OK:", "work file.jsvgl");
-	saveWork(stateXML, fileName);
+	if (fileName != null) {
+		saveWork(stateXML, fileName);
+	}
 }
 
 function saveWork(stateXML, workFileName) {
@@ -30,7 +32,9 @@ function saveWork(stateXML, workFileName) {
 
 function exportWorkDialog(stateHTML) {
 	var fileName = prompt("Enter the name of the file to save and click OK:", "work file.jsvgl");
-	exportWork(stateHTML, fileName);
+	if (fileName != null) {
+		exportWork(stateHTML, fileName);
+	}
 }
 
 function exportWork(stateHTML, exportFileName) {
