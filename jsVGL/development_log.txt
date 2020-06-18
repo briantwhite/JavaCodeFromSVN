@@ -537,3 +537,19 @@ it's all working EXCEPT:
 got file save and load working AOK.
 working on exporting as html
 	just steal "GetWorkAsHTML.java" from VGLII - make new file in jsVGL and paste in code.
+need to steal getWorkAsHTML() methods from
+	ModelBuilderUI
+	ModelPane
+	LinkagPanel
+	all the individual model details panels
+a bunch of patching needed
+	take out internationalization
+looks like I need to replace things like sexLinkageChoices.getSelectedItem()
+	with String.valueOf(sexLinkageChoices.getSelectedIndex()))
+	since .getSelectedItem() doesn't exist in GWT
+oops; that's wrong, you need 
+	interactionTypeChoices.getItemText(interactionTypeChoices.getSelectedIndex())
+also, no need to tell if we're getting html for grading or not - remove boolean argument
+	(it looks like that was just for i18n)
+
+got it working - need to test with a few different models

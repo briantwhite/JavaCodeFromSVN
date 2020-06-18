@@ -7,7 +7,6 @@ import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -155,10 +154,15 @@ public class JsVGL implements EntryPoint {
 		$wnd.setStateXML = $entry(function(xmlString) {return jsvgl.@edu.umb.jsVGL.client.JsVGL::setStateXML(Ljava/lang/String;)(xmlString);});
 		$wnd.getGradeXML = $entry(function() {return jsvgl.@edu.umb.jsVGL.client.JsVGL::getGradeXML()();});
 		$wnd.getGradeHTML = $entry(function() {return jsvgl.@edu.umb.jsVGL.client.JsVGL::getGradeHTML()();});
+		$wnd.getHTML = $entry(function() {return jsvgl.@edu.umb.jsVGL.client.JsVGL::getHTML()();});
 	}-*/;
 	
 	public String getStateXML() {
 		return vglII.saveProblem().problemXML;
+	}
+	
+	public String getHTML() {
+		return vglII.getHTML();
 	}
 	
 	public void setStateXML(String state) {

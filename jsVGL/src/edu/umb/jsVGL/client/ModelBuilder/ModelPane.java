@@ -19,7 +19,12 @@ import com.google.gwt.xml.client.XMLParser;
 import edu.umb.jsVGL.client.GeneticModels.ProblemTypeSpecification;
 
 public class ModelPane extends AbsolutePanel implements ChangeHandler {
-
+	
+	/*
+	 *  color for list items where the student didn't have 
+	 *    a choice - so don't grade
+	 */
+	private static final String NOT_A_CHOICE_COLOR = "gray";
 
 	private int index;
 	private String character;
@@ -582,6 +587,64 @@ public class ModelPane extends AbsolutePanel implements ChangeHandler {
 		mpe.appendChild(e);
 
 		return mpe;
+	}
+	
+	/*
+	 * if for grader, the items that are not choices
+	 * 		(that is, their choice lists have zero length)
+	 *   	should be shown grayed out
+	 */
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<b>" + character + "</b><br>");
+		b.append("<ul>");
+
+		b.append("<li>");
+		if (sexLinkageChoices.getItemCount() == 1) 
+			b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
+		b.append(String.valueOf(sexLinkageChoices.getItemText(sexLinkageChoices.getSelectedIndex())));
+		if (sexLinkageChoices.getItemCount() == 1) b.append("</font>");
+		b.append("</li>");
+
+		b.append("<li>");
+		if (alleleNumberChoices.getItemCount() == 1) 
+			b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
+		b.append(String.valueOf(alleleNumberChoices.getItemText(alleleNumberChoices.getSelectedIndex())));
+		if (alleleNumberChoices.getItemCount() == 1) b.append("</font>");
+		b.append("</li>");
+
+		if (interactionTypeChoices != null) {
+
+			b.append("<li>");
+			if (interactionTypeChoices.getItemCount() == 1)
+				b.append("<font color=" + NOT_A_CHOICE_COLOR + ">");
+			b.append(String.valueOf(interactionTypeChoices.getItemText(interactionTypeChoices.getSelectedIndex())));
+			if (interactionTypeChoices.getItemCount() == 1) b.append("</font>");
+			b.append("</li>");
+
+			ModelDetailsPanel mdp = (ModelDetailsPanel)interactionDetailsPanel.getContentWidget();
+			b.append(mdp.getAsHtml());
+		}
+
+		b.append("<li>");
+		b.append("Relevant Cages:");
+		b.append("</li><ul>");
+
+		if (sexLinkageCageChoices != null) {
+			b.append("<li>");
+			b.append("For Sex Linkage ");				
+			b.append("<b>");
+			b.append(String.valueOf(sexLinkageCageChoices.getSelectedIndex()) + "</b></li>");
+		}
+
+		b.append("<li>");
+		b.append("For Details ");
+		b.append("<b>");
+
+		b.append(String.valueOf(interactionCageChoices.getSelectedIndex()) + "</b></li>");
+		b.append("</ul>");
+		b.append("</ul><br>");
+		return b.toString();
 	}
 
 }

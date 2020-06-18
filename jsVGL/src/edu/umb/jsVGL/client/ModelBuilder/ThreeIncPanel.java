@@ -3,8 +3,6 @@ package edu.umb.jsVGL.client.ModelBuilder;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class ThreeIncPanel extends ModelDetailsPanel implements ChangeHandler {
@@ -32,11 +30,11 @@ public class ThreeIncPanel extends ModelDetailsPanel implements ChangeHandler {
 			t5Choices.addItem(phenos[i]);
 			t6Choices.addItem(phenos[i]);
 		}
-		
+
 		AbsolutePanel mainPanel = new AbsolutePanel();
 		mainPanel.setSize("216px", "216px");
 		mainPanel.setStyleName("jsVGL_ThreeIncPanel");
-		
+
 		this.t1Choices = t1Choices;
 		t1Choices.addChangeHandler(this);
 		this.t2Choices = t2Choices;
@@ -110,6 +108,39 @@ public class ThreeIncPanel extends ModelDetailsPanel implements ChangeHandler {
 		if (e.getSource().equals(t6Choices)) {
 			mp.setT6Value(t6Choices.getSelectedIndex());
 		}
+	}
+
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>" + t1Choices.getItemText(t1Choices.getSelectedIndex()) + " ");
+		b.append("is pure breeding.</li>");
+
+		b.append("<li>" + t4Choices.getItemText(t4Choices.getSelectedIndex()) + " ");
+		b.append("is in between ");
+		b.append(t1Choices.getItemText(t1Choices.getSelectedIndex()) + " ");
+		b.append("and ");
+		b.append(t2Choices.getItemText(t2Choices.getSelectedIndex()) + "</li>");
+
+		b.append("<li>" + t2Choices.getItemText(t2Choices.getSelectedIndex()) + " ");
+		b.append("is pure breeding.</li>");
+
+		b.append("<li>" + t5Choices.getItemText(t5Choices.getSelectedIndex()) + " ");
+		b.append("is in between ");
+		b.append(t2Choices.getItemText(t2Choices.getSelectedIndex()) + " ");
+		b.append("and ");
+		b.append(t3Choices.getItemText(t3Choices.getSelectedIndex()) + "</li>");
+
+		b.append("<li>" + t3Choices.getItemText(t3Choices.getSelectedIndex()) + " ");
+		b.append("is pure breeding.</li>");
+
+		b.append("<li>" + t6Choices.getItemText(t6Choices.getSelectedIndex()) + " ");
+		b.append("is in between ");
+		b.append(t1Choices.getItemText(t1Choices.getSelectedIndex()) + " ");
+		b.append("and ");
+		b.append(t3Choices.getItemText(t3Choices.getSelectedIndex()) + "</li>");
+		b.append("</ul>");
+		return b.toString();
 	}
 
 }

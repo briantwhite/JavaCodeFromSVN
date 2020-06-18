@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -287,4 +286,42 @@ public class LinkagePanel extends SimplePanel {
 		return result;
 	}
 
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<b>");
+		b.append("Linkage");
+		b.append("</b><br><ul>");
+		b.append("<li>" + chars[0] + " And "
+				+ chars[1] + " Are ");
+		b.append(g1g2Linked.getItemText(g1g2Linked.getSelectedIndex()) + "</li>");
+		b.append("<ul><li>" 
+				+ "Relevant Cages"
+				+ " "
+				+ g1g2LinkageRelevantCage.getItemText(g1g2LinkageRelevantCage.getSelectedIndex())
+				+ "</li></ul>");
+	
+		if (chars.length == 3) {
+			b.append("<li>" + chars[1] + " And "
+					+ chars[2] + " "
+					+ " Are ");
+			b.append(g2g3Linked.getItemText(g2g3Linked.getSelectedIndex()) + "</li>");
+			b.append("<ul><li>" 
+					+ "Relevant Cages"
+					+ " "
+					+ g2g3LinkageRelevantCage.getItemText(g2g3LinkageRelevantCage.getSelectedIndex())
+					+ "</li></ul>");
+
+			b.append("<li>" + chars[0] + " And "
+					+ chars[2] + " Are ");
+			b.append(g3g1Linked.getItemText(g3g1Linked.getSelectedIndex()) + "</li>");
+			b.append("<ul><li>" 
+					+ "Relevant Cages"
+					+ " "
+					+ g3g1LinkageRelevantCage.getItemText(g3g1LinkageRelevantCage.getSelectedIndex())
+					+ "</li></ul>");
+		}
+		b.append("</ul>");
+		return b.toString();
+	}
+	
 }

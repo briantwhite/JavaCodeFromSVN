@@ -40,7 +40,7 @@ public class ThreeHierPanel extends ModelDetailsPanel implements ChangeHandler {
 		l2.setStyleName("jsVGL_InteractionText");
 		mainPanel.add(l2);
 		mainPanel.add(t1Choices);
-		
+
 		setWidget(mainPanel);
 	}
 
@@ -71,5 +71,22 @@ public class ThreeHierPanel extends ModelDetailsPanel implements ChangeHandler {
 		}
 	}
 
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>" + t1Choices.getItemText(t1Choices.getSelectedIndex()) + " ");
+		b.append("is recessive to all</li>");
+
+		b.append("<li>" + t2Choices.getItemText(t2Choices.getSelectedIndex()) + " ");
+		b.append("is dominant to ");
+		b.append(t1Choices.getItemText(t1Choices.getSelectedIndex()) + "; ");
+		b.append("is recessive to ");
+		b.append(t3Choices.getItemText(t3Choices.getSelectedIndex()) + "</li>");
+
+		b.append("<li>" + t3Choices.getItemText(t3Choices.getSelectedIndex()) + " ");
+		b.append("is dominant to all</li>");
+		b.append("</ul>");
+		return b.toString();
+	}
 
 }

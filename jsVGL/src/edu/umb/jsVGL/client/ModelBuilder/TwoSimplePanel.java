@@ -12,9 +12,9 @@ public class TwoSimplePanel extends ModelDetailsPanel implements ChangeHandler {
 			ListBox t1Choices, 
 			ListBox t2Choices,
 			ModelPane mp) {
-		
+
 		VerticalPanel mainPanel = new VerticalPanel();
-		
+
 		t2Choices = new ListBox();
 		t1Choices = new ListBox();
 		for (int i = 0; i < phenos.length; i++) {
@@ -53,6 +53,17 @@ public class TwoSimplePanel extends ModelDetailsPanel implements ChangeHandler {
 		if (event.getSource().equals(t2Choices)) {
 			mp.setT2Value(t2Choices.getSelectedIndex());
 		}
+	}
+
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>" + t1Choices.getItemText(t1Choices.getSelectedIndex()) + " ");
+		b.append("is recessive</li>");
+		b.append("<li>" + t2Choices.getItemText(t2Choices.getSelectedIndex()) + " ");
+		b.append("is dominant</li>");
+		b.append("</ul>");
+		return b.toString();
 	}
 
 }

@@ -234,7 +234,9 @@ public class VGLII {
 	}
 
 
-
+	public String getHTML() {
+		return GetWorkAsHTML.getWorkAsHTML(cageCollection, modelBuilder);
+	}
 
 	/**
 	 * Method to release temporary objects and re-initialize objects and

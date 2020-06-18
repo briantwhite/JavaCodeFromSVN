@@ -30,5 +30,7 @@ public abstract class ModelDetailsPanel extends SimplePanel implements ChangeHan
 	public void updateT4Choices(int x) {}
 	public void updateT5Choices(int x) {}
 	public void updateT6Choices(int x) {}
+	
+	public abstract String getAsHtml();
 		
 }

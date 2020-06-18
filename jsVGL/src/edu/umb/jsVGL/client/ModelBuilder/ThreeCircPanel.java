@@ -3,7 +3,6 @@ package edu.umb.jsVGL.client.ModelBuilder;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class ThreeCircPanel extends ModelDetailsPanel implements ChangeHandler {
@@ -14,11 +13,11 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ChangeHandler {
 			ListBox t2Choices,
 			ListBox t3Choices,
 			ModelPane mp) {
-		
+
 		AbsolutePanel mainPanel = new AbsolutePanel();
 		mainPanel.setSize("216px", "216px");
 		mainPanel.setStyleName("jsVGL_ThreeCircPanel");
-		
+
 		t1Choices = new ListBox();
 		t2Choices = new ListBox();
 		t3Choices = new ListBox();
@@ -69,6 +68,30 @@ public class ThreeCircPanel extends ModelDetailsPanel implements ChangeHandler {
 		if (e.getSource().equals(t3Choices)) {
 			mp.setT3Value(t3Choices.getSelectedIndex());
 		}
+	}
+
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>" + t1Choices.getItemText(t1Choices.getSelectedIndex()) + " ");
+		b.append("is dominant to ");
+		b.append(t3Choices.getItemText(t3Choices.getSelectedIndex()) + "; ");
+		b.append("is recessive to ");
+		b.append(t2Choices.getItemText(t2Choices.getSelectedIndex()) + "</li>");
+
+		b.append("<li>" + t2Choices.getItemText(t2Choices.getSelectedIndex()) + " ");
+		b.append("is dominant to ");
+		b.append(t1Choices.getItemText(t1Choices.getSelectedIndex()) + "; ");
+		b.append("is recessive to ");
+		b.append(t3Choices.getItemText(t3Choices.getSelectedIndex()) + "</li>");
+
+		b.append("<li>" + t3Choices.getItemText(t3Choices.getSelectedIndex()) + " ");
+		b.append("is dominant to ");
+		b.append(t2Choices.getItemText(t2Choices.getSelectedIndex()) + "; ");
+		b.append("is recessive to ");
+		b.append(t1Choices.getItemText(t1Choices.getSelectedIndex()) + "</li>");
+		b.append("</ul>");
+		return b.toString();
 	}
 
 

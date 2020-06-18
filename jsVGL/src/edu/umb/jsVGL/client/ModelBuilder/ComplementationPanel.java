@@ -67,23 +67,19 @@ public class ComplementationPanel extends ModelDetailsPanel implements ChangeHan
 			mp.setT2Value(t2Choices.getSelectedIndex());
 		}
 	}
-		
-//	public void paintComponent(Graphics g) {
-//		super.paintComponent(g);
-//		Graphics2D g2d = (Graphics2D)g;
-//		g2d.setColor(Color.GRAY);
-//		g2d.setStroke(new BasicStroke(5F));
-//		g2d.drawLine(gALabel.getLocation().x, gALabel.getLocation().y + 18, 
-//				gALabel.getLocation().x + 40, gALabel.getLocation().y + 18);
-//		g2d.drawLine(gALabel.getLocation().x + 35, gALabel.getLocation().y + 13, 
-//				gALabel.getLocation().x + 40, gALabel.getLocation().y + 18);
-//		g2d.drawLine(gALabel.getLocation().x + 35, gALabel.getLocation().y + 23, 
-//				gALabel.getLocation().x + 40, gALabel.getLocation().y + 18);
-//		g2d.drawLine(gBLabel.getLocation().x, gBLabel.getLocation().y + 18, 
-//				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
-//		g2d.drawLine(gBLabel.getLocation().x + 35, gBLabel.getLocation().y + 13, 
-//				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
-//		g2d.drawLine(gBLabel.getLocation().x + 35, gBLabel.getLocation().y + 23, 
-//				gBLabel.getLocation().x + 40, gBLabel.getLocation().y + 18);
-//	}
+				
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>");
+		b.append(t1Choices.getItemText(t1Choices.getSelectedIndex()));
+		b.append(" ---(Gene A)--->");
+		b.append(intermediateChoices.getItemText(intermediateChoices.getSelectedIndex()));
+		b.append(" ---(Gene B)--->");
+		b.append(t2Choices.getItemText(t2Choices.getSelectedIndex()));
+		b.append("</li>");
+		b.append("</ul>");
+		return b.toString();
+	}
+
 }

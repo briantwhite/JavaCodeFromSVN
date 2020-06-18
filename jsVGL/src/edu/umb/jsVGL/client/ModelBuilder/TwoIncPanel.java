@@ -14,7 +14,7 @@ public class TwoIncPanel extends ModelDetailsPanel implements ChangeHandler {
 			ListBox t2Choices,
 			ListBox t3Choices,
 			ModelPane mp) {
-		
+
 		VerticalPanel mainPanel = new VerticalPanel();
 
 		t1Choices = new ListBox();
@@ -25,13 +25,13 @@ public class TwoIncPanel extends ModelDetailsPanel implements ChangeHandler {
 			t2Choices.addItem(phenos[i]);
 			t3Choices.addItem(phenos[i]);			
 		}
-		
+
 		HorizontalPanel firstRow = new HorizontalPanel();
 		firstRow.add(t1Choices);
 		Label l1 = new Label("is Pure Breeding");
 		l1.setStyleName("jsVGL_InteractionText");
 		firstRow.add(l1);
-		
+
 		HorizontalPanel secondRow = new HorizontalPanel();
 		secondRow.add(spacer);
 		secondRow.add(combineArrow);
@@ -39,17 +39,17 @@ public class TwoIncPanel extends ModelDetailsPanel implements ChangeHandler {
 		l2.setStyleName("jsVGL_InteractionText");
 		secondRow.add(l2);
 		secondRow.add(t3Choices);		
-		
+
 		HorizontalPanel thirdRow = new HorizontalPanel();
 		thirdRow.add(t2Choices);
 		Label l3 = new Label("is Pure Breeding");
 		l3.setStyleName("jsVGL_InteractionText");
 		thirdRow.add(l3);
-		
+
 		mainPanel.add(firstRow);
 		mainPanel.add(secondRow);
 		mainPanel.add(thirdRow);
-	
+
 		this.t1Choices = t1Choices;
 		t1Choices.addChangeHandler(this);
 		this.t2Choices = t2Choices;
@@ -87,5 +87,22 @@ public class TwoIncPanel extends ModelDetailsPanel implements ChangeHandler {
 		}
 	}
 
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>" + t1Choices.getItemText(t1Choices.getSelectedIndex()) + " ");
+		b.append("is pure breeding.</li>");
+
+		b.append("<li>" + t3Choices.getItemText(t3Choices.getSelectedIndex()) + " ");
+		b.append("is in between ");
+		b.append(t1Choices.getItemText(t1Choices.getSelectedIndex()) + " ");
+		b.append("and ");
+		b.append(t2Choices.getItemText(t2Choices.getSelectedIndex()) + "</li>");
+
+		b.append("<li>" + t2Choices.getItemText(t2Choices.getSelectedIndex()) + " ");
+		b.append("is pure breeding.</li>");
+		b.append("</ul>");
+		return b.toString();
+	}
 
 }

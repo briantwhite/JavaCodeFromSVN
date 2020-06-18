@@ -95,5 +95,19 @@ public class EpistasisPanel extends ModelDetailsPanel implements ChangeHandler {
 			mp.setT3Value(t3Choices.getSelectedIndex());
 		}
 	}
+	
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>");
+		b.append(t1Choices.getItemText(t1Choices.getSelectedIndex()));
+		b.append(" ---(Gene A)--->");
+		b.append(t2Choices.getItemText(t2Choices.getSelectedIndex()));
+		b.append(" ---(Gene B)--->");
+		b.append(t3Choices.getItemText(t3Choices.getSelectedIndex()));
+		b.append("</li></ul>");
+		return b.toString();
+	}
+
 }
 

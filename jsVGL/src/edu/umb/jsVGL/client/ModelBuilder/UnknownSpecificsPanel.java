@@ -1,7 +1,6 @@
 package edu.umb.jsVGL.client.ModelBuilder;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Label;
 
 public class UnknownSpecificsPanel extends ModelDetailsPanel {
@@ -12,5 +11,13 @@ public class UnknownSpecificsPanel extends ModelDetailsPanel {
 	}
 
 	public void onChange(ChangeEvent event) {}
+
+	public String getAsHtml() {
+		StringBuffer b = new StringBuffer();
+		b.append("<ul>");
+		b.append("<li>Unknown</li> ");
+		b.append("</ul>");
+		return b.toString();
+	}
 
 }

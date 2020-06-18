@@ -31,7 +31,7 @@ function saveWork(stateXML, workFileName) {
 }
 
 function exportWorkDialog(stateHTML) {
-	var fileName = prompt("Enter the name of the file to save and click OK:", "work file.jsvgl");
+	var fileName = prompt("Enter the name of the file to save and click OK:", "exported data.html");
 	if (fileName != null) {
 		exportWork(stateHTML, fileName);
 	}
