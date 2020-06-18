@@ -553,3 +553,10 @@ also, no need to tell if we're getting html for grading or not - remove boolean 
 	(it looks like that was just for i18n)
 
 got it working - need to test with a few different models
+
+need to find a way to have 'boilerplate' html for header and footer in standard files so you don't have to edit them all
+	and it's easier to make new ones.
+	- it turns out that you can't.
+
+probably best to save jsVGL_test.html under new names and then paste in the problem spec
+	BE CAREFUL NOT TO MESS UP THE ONES FOR edX!!!
