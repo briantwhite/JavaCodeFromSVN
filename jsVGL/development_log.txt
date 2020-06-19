@@ -560,3 +560,33 @@ need to find a way to have 'boilerplate' html for header and footer in standard 
 
 probably best to save jsVGL_test.html under new names and then paste in the problem spec
 	BE CAREFUL NOT TO MESS UP THE ONES FOR edX!!!
+
+6/19/20
+Next to-do list:
+1) set it up with a page to load "canned" problems
+	- save a bunch of .jsvgl files for lab with known models
+	- make a page with a bunch of buttons "load Red and green wings" etc.
+2) fix the .jsvgl pages for the website to use new version
+	BE CAREFUL about edX versions - make separate folder.
+3) build java application: jsvglFileReader
+	- password to run
+	- opens .jsvgl and shows real model and their model
+
+First, fix the instructions to match the new UI.
+
+need to do (2) first.
+be careful of edX stuff
+Each is run by a file JsVGL_V3.html uploaded to Studio.
+These talk, in turn to jsVGL.js that uploaded to Studio along with xml2json.js
+They use the javascript in /opt/bitnami/apps/edx/edx-platform/lms/static/SPOC/jsVGL/
+(page 39)
+
+Where is it used?
+•	Lec 11 (basic genetics); core question 3: jsVGL1.html
+•	Lec 11; extra practice problems; JsVGL_V3.html
+•	Lec 13 (sex-linkage); core question 4: jsVGL2.html
+•	Lec 13; extra practice problems; JsVGL_SexLink.html
+None of those files are in war/ so they're safe
+
+Which ones are linked by index.html? A thru F and "load".
+	

@@ -98,7 +98,11 @@ public class JsVGL implements EntryPoint {
 		final TabPanel mainPanel = new TabPanel();
 
 		final FlowPanel instructionsPanel = new FlowPanel();
-		instructionsPanel.add(new HTML(TextStrings.WELCOME_TEXT));
+		if (updateMenuStatusFunctionExists().equals("Y")) {
+			instructionsPanel.add(new HTML(TextStrings.FILE_MENU_WELCOME_TEXT));			
+		} else {
+			instructionsPanel.add(new HTML(TextStrings.NO_FILE_MENU_WELCOME_TEXT));			
+		}
 		mainPanel.add(instructionsPanel, "Instructions");
 
 		modelBuilderPanel = new SimplePanel();
@@ -211,7 +215,8 @@ public class JsVGL implements EntryPoint {
 	native void updateMenuStatus(boolean state) /*-{
 		$wnd.updateMenuStatus(state);
 	}-*/;
-	// method to detect if updateManuStatus has been defined
+	// method to detect if updateMenuStatus has been defined
+	//  if it exists, it means the file menu is on the page
 	native String updateMenuStatusFunctionExists() /*-{
 		if (typeof $wnd.updateMenuStatus === "function") {
 			return "Y";
