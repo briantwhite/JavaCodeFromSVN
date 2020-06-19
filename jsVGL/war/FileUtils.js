@@ -73,3 +73,15 @@ function fileLoaded(evt) {
 	window.setStateXML(xml);
 	document.getElementById('loadFileChooserDialog').close();
 }
+
+function loadInLine(json) {
+	var x2js = new X2JS();
+	try {
+		var xml = x2js.json2xml_str(JSON.parse(json));
+	}
+	catch (err) {
+		alert("Error loading problem.");
+		return;
+	}
+	window.setStateXML(xml);
+}

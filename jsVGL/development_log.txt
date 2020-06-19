@@ -611,5 +611,18 @@ will need to send clear out server directory and replace with these files
 - menuEnabler.js
 - xml2json.js
 
+1) made files
+- simple dominance (jsVGLA.html)
+	"Blue & Yellow Wings" Blue is dominant
+	"Five & Six Legs" Five is dominant
+- incomplete dominance (jsVGLB.html)
+	"652 Antennae.jsvgl" Six is the heterozygote
+	"BPY Eyes.jsvgl" Yellow is heterozygote
+- sex-linkage (jsVGLC.html)
+	"One & Six Antennae.jsvgl" XX/XY sex-linked; One is dominant
+	"Yellow & Purple Eyes.jsvgl" XX/XY sex-linked; Purple is dominant
 
-	
+For these, since the text isn't huge - just put the json strings in-line
+add a function to take the json string and make it xml and set the state with it loadInLine() to FileUtils.java
+save modified version of jsVGL_test.html jsVGL_forLab.html
+Works! Need to put the json in single quotes because it contains internal double-quotes.

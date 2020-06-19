@@ -1,0 +1,87 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <link type="text/css" rel="stylesheet" href="JsVGL.css">
+
+    <title>Virtual Genetics Lab 12: Simple Dominance</title>
+    
+    <script type="text/javascript" language="javascript" src="jsvgl/jsvgl.nocache.js"></script>
+    <script type="text/javascript" language="javascript" src="xml2json.js"></script>
+    <script type="text/javascript" language="javascript" src="jsVGL.js"></script>
+    <script type="text/javascript" language="javascript" src="FileSaver.js"></script>
+    <script type="text/javascript" language="javascript" src="FileUtils.js"></script>
+    <script type="text/javascript" language="javascript" src="menuEnabler.js"></script>
+    <script type="text/javascript" language="javascript">
+    	var Params = {
+    		SuperCrossEnabled: "false",
+    		ZZ_ZW: "0.0",
+			Gene1_SexLinked: "0.0"
+    	};
+    	var BYWings = '{"VglII":{"GeneticModel":{"CharacterOrderScrambler":{"Character":{"_Index":"0","_Character":"0"}},"ProblemTypeSpecification":{"FieldPopTrueBreeding":"false","BeginnerMode":"false","MinOffspring":"25","MaxOffspring":"35","ZZ_ZW":"0","Gene1_SexLinked":"0","Gene1_3Alleles":"0","Gene1_IncDom":"0","Gene1_CircDom":"0.5","Gene2_Present":"0","Gene2_SameChrAsGene1":"0","Gene2_MinRfToGene1":"0","Gene2_MaxRfToGene1":"0","Gene2_3Alleles":"0","Gene2_IncDom":"0","Gene2_CircDom":"0.5","Gene3_Present":"0","Gene3_SameChrAsGene1":"0","Gene3_MinRfToPrevGene":"0","Gene3_MaxRfToPrevGene":"0","Gene3_3Alleles":"0","Gene3_IncDom":"0","Gene3_CircDom":"0.5","PhenotypeInteraction":"0","Epistasis":"0"},"PhenotypeProcessor":{"_InteractionType":"0"},"ChromosomeModel":[{"GeneModel":{"Trait":[{"_Index":"1","_TraitName":"Yellow","_Type":"Color","_BodyPart":"Wing"},{"_Index":"2","_TraitName":"Blue","_Type":"Color","_BodyPart":"Wing"}],"_Index":"0","_Type":"TwoAlleleSimpleDominance","_RfToPrevious":"-1"},"_SexChromosome":"false","_NumGenes":"1"},{"_SexChromosome":"true","_NumGenes":"0"}],"_XX_XYSexDetermination":"true","_BeginnerMode":"false","_NumberOfGeneModels":"1","_NumberOfCharacters":"1","_MinOffspring":"25","_MaxOffspring":"35"},"Organisms":{"Cage":{"Children":{"O":[{"C":[{"A":{"_i":"0,2"},"_i":"MA","_s":"1"},{"A":{"_i":"0,2"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"27,0,M"},{"C":[{"A":{"_i":"0,2"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"25,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,2"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"-1"}],"_i":"23,0,M"},{"C":[{"A":{"_i":"0,2"},"_i":"MA","_s":"1"},{"A":{"_i":"0,2"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"22,0,M"},{"C":[{"A":{"_i":"0,2"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"21,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,2"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"11,0,M"},{"C":[{"A":{"_i":"0,2"},"_i":"MA","_s":"1"},{"A":{"_i":"0,2"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"19,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,2"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"28,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"-1"}],"_i":"29,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"24,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"20,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"18,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"9,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"-1"}],"_i":"8,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"7,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"6,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"5,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"4,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"-1"},{"_i":"PS","_s":"0"}],"_i":"0,0,M"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"1,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"2,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"3,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"10,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"12,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"13,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"14,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"15,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"16,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"17,0,F"},{"C":[{"A":{"_i":"0,1"},"_i":"MA","_s":"1"},{"A":{"_i":"0,1"},"_i":"PA","_s":"1"},{"_i":"MS","_s":"0"},{"_i":"PS","_s":"0"}],"_i":"26,0,F"}]},"_Created":"Fri Jun 19 16:41:45 GMT-400 2020","_SuperCross":"false","_Id":"0","_NumChildren":"30"}},"ModelBuilderState":{"Character":{"SexLinkage":"0","AlleleNumber":"0","InteractionType":"0","T1":"0","T2":"0","T3":"0","T4":"0","T5":"0","T6":"0","DetailsCage":"0","_Name":"Wing Color","_Index":"0"}}}}';
+    </script>
+    
+    
+  </head>
+
+  <body>
+    
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+    
+    <div>
+    	<dialog id="loadFileChooserDialog">
+    		Click "Choose File", select a .jsvgl file to load and click "OK".<br><br>
+    		<input type="file" id="inputFileName" accept=".jsvgl"></input><br><br>
+    		<button type="button" onClick="document.getElementById('loadFileChooserDialog').close()">Cancel</button>
+    		<button type="button" onClick="loadWork(document.getElementById('inputFileName').files[0])">OK</button>
+    	</dialog>
+    </div>
+
+    <table align="center">
+      <tr>
+      	<td>
+      		<div class="dropdown">
+  				<button class="dropbtn">File</button>
+  				<div class="dropdown-content">
+    				<button id="saveWorkButton" onClick="saveWorkDialog(window.getStateXML())">Save Work As...</button>
+    				<button id="exportWorkButton" onClick="exportWorkDialog(window.getHTML())">Export Report...</button>
+    				<button id="loadWorkButton" onClick="loadWorkDialog()">Load Saved Work...</button>
+  				</div>
+			</div>
+      	</td>
+      </tr>
+      <tr>
+      	<td><button onClick="loadInLine(BYWings)">Blue &amp; Yellow Wings</button></td>
+      </tr>
+      <tr>
+      	<td>
+      		<table>
+      			<tr>
+      				<td id="newPracticeProblemButtonContainer"></td>
+      				<td id="newGradedProblemButtonContainer"></td>
+      				<td id="clearWorkspaceButtonContainer"></td>
+      			</tr>
+      		</table>
+      	</td>
+         
+      </tr>
+       <tr>
+        <td id="mainPanelContainer"></td>
+       </tr>
+       <tr>
+       	  <td align="left" id="crossButtonContainer"></td>
+	   </tr>
+       <tr>
+        <td id="cagesContainer"></td>
+     </tr>
+    </table>
+    <hr>
+</html>
