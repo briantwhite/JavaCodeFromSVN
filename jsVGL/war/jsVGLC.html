@@ -13,7 +13,8 @@
     <script type="text/javascript" language="javascript" src="jsVGL.js"></script>
     <script type="text/javascript" language="javascript" src="FileSaver.js"></script>
     <script type="text/javascript" language="javascript" src="FileUtils.js"></script>
-     <script type="text/javascript" language="javascript">
+    <script type="text/javascript" language="javascript" src="menuEnabler.js"></script>
+    <script type="text/javascript" language="javascript">
     	var Params = {
     		SuperCrossEnabled: "false",
     		ZZ_ZW: "0.0",
@@ -31,8 +32,29 @@
         in order for this application to display correctly.
       </div>
     </noscript>
+    
+    <div>
+    	<dialog id="loadFileChooserDialog">
+    		Click "Choose File", select a .jsvgl file to load and click "OK".<br><br>
+    		<input type="file" id="inputFileName" accept=".jsvgl"></input><br><br>
+    		<button type="button" onClick="document.getElementById('loadFileChooserDialog').close()">Cancel</button>
+    		<button type="button" onClick="loadWork(document.getElementById('inputFileName').files[0])">OK</button>
+    	</dialog>
+    </div>
 
     <table align="center">
+      <tr>
+      	<td>
+      		<div class="dropdown">
+  				<button class="dropbtn">File</button>
+  				<div class="dropdown-content">
+    				<button id="saveWorkButton" onClick="saveWorkDialog(window.getStateXML())">Save Work As...</button>
+    				<button id="exportWorkButton" onClick="exportWorkDialog(window.getHTML())">Export Report...</button>
+    				<button id="loadWorkButton" onClick="loadWorkDialog()">Load Saved Work...</button>
+  				</div>
+			</div>
+      	</td>
+      </tr>
       <tr>
       	<td>
       		<table>
@@ -40,8 +62,6 @@
       				<td id="newPracticeProblemButtonContainer"></td>
       				<td id="newGradedProblemButtonContainer"></td>
       				<td id="clearWorkspaceButtonContainer"></td>
-         		    <td><button type="button" onClick="saveWork(window.getStateXML())">Save Work</button></td>
-      				<td><input type="text" placeholder="work file name.jsvgl" id="workFileName"/></td>
       			</tr>
       		</table>
       	</td>
@@ -57,5 +77,5 @@
         <td id="cagesContainer"></td>
      </tr>
     </table>
-  </body>
+    <hr>
 </html>

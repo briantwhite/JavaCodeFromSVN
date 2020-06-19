@@ -589,4 +589,27 @@ Where is it used?
 None of those files are in war/ so they're safe
 
 Which ones are linked by index.html? A thru F and "load".
+	copy them all to folder on desktop
+	in eclipse, delete all file text
+		paste in the jsVGL_test.html code
+		fix title
+		paste in the params from the files in desktop folder (from bbedit)
+
+will need to send clear out server directory and replace with these files
+- stuff in jsvgl/
+- FileSaver.js
+- FileUtils.js
+- index.html
+- JsVGL.css
+- jsVGL.js
+- jsVGLA.html
+- jsVGLB.html
+- jsVGLC.html
+- jsVGLD.html
+- jsVGLE.html
+- jsVGLF.html
+- menuEnabler.js
+- xml2json.js
+
+
 	
