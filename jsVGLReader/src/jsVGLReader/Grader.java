@@ -1,3 +1,4 @@
+package jsVGLReader;
 
 
 import java.awt.BorderLayout;

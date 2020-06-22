@@ -1,3 +1,4 @@
+package jsVGLReader;
 
 
 public class GradingResult {
