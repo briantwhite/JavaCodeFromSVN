@@ -626,3 +626,17 @@ For these, since the text isn't huge - just put the json strings in-line
 add a function to take the json string and make it xml and set the state with it loadInLine() to FileUtils.java
 save modified version of jsVGL_test.html jsVGL_forLab.html
 Works! Need to put the json in single quotes because it contains internal double-quotes.
+
+6/22/20
+
+posted all new stuff on web.
+
+NEED TO put all the canned problems in a menu so it's not so cluttered (jsVGL_forLab.html)
+
+for the jsvglReader
+	- set it up to look in a directory of .jsvgl files
+	- show real and student model also graded or not
+	- steal a lot of code from VGLII.Grader.Grader - maybe just start by copying all that out
+		will need to tune up WorkFileLoader
+		no need for matching code or CageScorer (since already in the jsVGL).
+		try to reduce the amount of VGL Genetic Model code
