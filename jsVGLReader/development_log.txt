@@ -1,0 +1,6 @@
+6/22/20
+Set up project to build a java application reader for jsVGL files so TAs can
+	- see what the right answer is so they can give hints
+	- see if the students got it right
+
+will need a password in case it falls into the wrong hands
