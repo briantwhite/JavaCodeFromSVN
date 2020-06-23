@@ -16,33 +16,25 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.Timer;
 import javax.swing.text.Caret;
 
 
 public class jsVGLReader extends JFrame {
 
 	private File workingDir;
-
-	private Timer fileLoadingTimer;
-	private JProgressBar fileLoadingProgressBar;
-	private JLabel filenameLabel;
-	private JProgressBar decryptionProgressBar;
-	private JDialog progressDialog;
-	private boolean loadingFiles;
 
 	private JList workFileList;
 	private DefaultListModel workFileNames;
@@ -59,9 +51,6 @@ public class jsVGLReader extends JFrame {
 
 	public jsVGLReader() {
 		filenamesAndModels = new TreeMap<String, ModelSet>();
-		setupUI();
-		pack();
-		setVisible(true);
 	}
 
 	class ApplicationCloser extends WindowAdapter {
@@ -70,14 +59,38 @@ public class jsVGLReader extends JFrame {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		jsVGLReader reader = new jsVGLReader();
+
+		// get password
+		String password = "";
+		JPasswordField pf = new JPasswordField();
+		int okCxl = JOptionPane.showConfirmDialog(null, pf, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if (okCxl == JOptionPane.OK_OPTION) {
+			password = new String(pf.getPassword());
+		}		
+		if (!password.equals("jsVGL2020")) {
+			System.exit(0);
+		}
 		reader.setupUI();
 		reader.pack();
 		reader.setVisible(true);
+		
+		// get directory where files are
+		JDialog dialog = new JDialog();
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setDialogTitle("Choose the DIRECTORY where the work files are stored");
+		int val = fileChooser.showOpenDialog(dialog);
+		if (val != JFileChooser.APPROVE_OPTION) {
+			System.exit(0);
+		}
+		reader.openDirectoryAndLoadFiles(fileChooser.getSelectedFile());
+
 	}
 
 	private void setupUI() {
+				
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		JMenu helpMenu = new JMenu("Help");
@@ -99,6 +112,17 @@ public class jsVGLReader extends JFrame {
 		leftPanel.setBorder(BorderFactory.createTitledBorder("Work Files"));
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(Box.createRigidArea(new Dimension(300,1)));
+		
+		// get directory where files are
+		final JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setDialogTitle("Choose the DIRECTORY where the work files are stored");
+		int val = fileChooser.showOpenDialog(mainPanel);
+		if (val != JFileChooser.APPROVE_OPTION) {
+			System.exit(0);
+		}
+		workingDir = fileChooser.getSelectedFile();
+
 
 		workFileNames = new DefaultListModel();
 		workFileList = new JList(workFileNames);
@@ -152,7 +176,7 @@ public class jsVGLReader extends JFrame {
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 	}
 
-	public void openDirectoryAndLoadFiles() {
+	public void openDirectoryAndLoadFiles(File workingDir) {
 		String[] files = workingDir.list();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].endsWith(".gr2")) {
@@ -171,11 +195,6 @@ public class jsVGLReader extends JFrame {
 		outerPanel.add(wrapperPanel);
 		outerPanel.add(Box.createRigidArea(new Dimension(0, 25)));
 
-		progressDialog.add(outerPanel);
-		progressDialog.pack();
-		progressDialog.setVisible(true);
-		loadingFiles = false;
-		
 		setVisible(true);
 	}
 
