@@ -10,6 +10,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
@@ -31,13 +34,17 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.text.Caret;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 
 public class jsVGLReader extends JFrame {
 
 	private File workingDir;
 
-	private JList workFileList;
-	private DefaultListModel workFileNames;
+	private JList<File> workFileList;
+	private DefaultListModel<String> workFiles;
 
 	public JEditorPane correctAnswer;
 	public JScrollPane correctAnswerScroller;
@@ -51,6 +58,9 @@ public class jsVGLReader extends JFrame {
 
 	public jsVGLReader() {
 		filenamesAndModels = new TreeMap<String, ModelSet>();
+//		setupUI();
+//		pack();
+//		setVisible(true);
 	}
 
 	class ApplicationCloser extends WindowAdapter {
@@ -75,24 +85,28 @@ public class jsVGLReader extends JFrame {
 		reader.setupUI();
 		reader.pack();
 		reader.setVisible(true);
-		
-		// get directory where files are
-		JDialog dialog = new JDialog();
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fileChooser.setDialogTitle("Choose the DIRECTORY where the work files are stored");
-		int val = fileChooser.showOpenDialog(dialog);
-		if (val != JFileChooser.APPROVE_OPTION) {
-			System.exit(0);
-		}
-		reader.openDirectoryAndLoadFiles(fileChooser.getSelectedFile());
-
 	}
 
 	private void setupUI() {
 				
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem openItem = new JMenuItem("Open Directory with .jsvgl files...");
+		openItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openDirectoryAndLoadFiles();
+			}
+		});
+		fileMenu.add(openItem);
+		JMenuItem quitItem = new JMenuItem("Quit");
+		quitItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		fileMenu.add(quitItem);
+		menuBar.add(fileMenu);
 		JMenu helpMenu = new JMenu("Help");
 		menuBar.add(Box.createHorizontalGlue());
 		menuBar.add(helpMenu);
@@ -112,20 +126,9 @@ public class jsVGLReader extends JFrame {
 		leftPanel.setBorder(BorderFactory.createTitledBorder("Work Files"));
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(Box.createRigidArea(new Dimension(300,1)));
-		
-		// get directory where files are
-		final JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fileChooser.setDialogTitle("Choose the DIRECTORY where the work files are stored");
-		int val = fileChooser.showOpenDialog(mainPanel);
-		if (val != JFileChooser.APPROVE_OPTION) {
-			System.exit(0);
-		}
-		workingDir = fileChooser.getSelectedFile();
 
-
-		workFileNames = new DefaultListModel();
-		workFileList = new JList(workFileNames);
+		workFiles = new DefaultListModel<String>();
+		workFileList = new JList(workFiles);
 		workFileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		workFileList.setLayoutOrientation(JList.VERTICAL);
 		workFileList.setVisibleRowCount(-1);
@@ -137,7 +140,7 @@ public class jsVGLReader extends JFrame {
 			public void mouseClicked(MouseEvent evt) {
 				JList list = (JList) evt.getSource();
 				String workFileName =
-					(workFileNames.get((list.locationToIndex(evt.getPoint())))).toString();
+					(workFiles.get((list.locationToIndex(evt.getPoint())))).toString();
 				showWorkByName(workFileName);
 			}
 
@@ -176,28 +179,53 @@ public class jsVGLReader extends JFrame {
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 	}
 
-	public void openDirectoryAndLoadFiles(File workingDir) {
+	public void openDirectoryAndLoadFiles() {
+		
+		// get directory where files are
+		JDialog dialog = new JDialog();
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setDialogTitle("Choose the DIRECTORY where the .jsvgl files are stored");
+		int val = fileChooser.showOpenDialog(dialog);
+		if (val != JFileChooser.APPROVE_OPTION) {
+			System.exit(0);
+		}
+		workingDir = fileChooser.getSelectedFile();
 		String[] files = workingDir.list();
 		for (int i = 0; i < files.length; i++) {
-			if (files[i].endsWith(".gr2")) {
-				workFileNames.addElement(files[i]);
+			if (files[i].endsWith(".jsvgl")) {
+				workFiles.addElement(files[i]);
 			}
 		}
 
-		JPanel wrapperPanel = new JPanel();
-		wrapperPanel.setLayout(new BoxLayout(wrapperPanel, BoxLayout.X_AXIS));
-		wrapperPanel.add(Box.createRigidArea(new Dimension(25, 0)));
-		wrapperPanel.add(Box.createRigidArea(new Dimension(25, 0)));
-		
-		JPanel outerPanel = new JPanel();
-		outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
-		outerPanel.add(Box.createRigidArea(new Dimension(0, 25)));
-		outerPanel.add(wrapperPanel);
-		outerPanel.add(Box.createRigidArea(new Dimension(0, 25)));
-
+		for (int i = 0; i < workFiles.getSize(); i++) {
+			String currentWorkFileName = workFiles.get(i);
+			ModelSet modelSet = getModelsFromFile(workingDir.toString() + System.getProperty("file.separator") + currentWorkFileName);
+			filenamesAndModels.put(currentWorkFileName, modelSet);
+		}
 		setVisible(true);
 	}
 
+	private ModelSet getModelsFromFile(String fileName) {
+		JSONParser parser = new JSONParser();
+		try {
+			Object obj = parser.parse(new FileReader(fileName));
+			JSONObject jsonObj = (JSONObject)obj;
+			JSONObject vglJSON = (JSONObject)jsonObj.get("VglII");
+			JSONObject modelBuilderJSON = (JSONObject)vglJSON.get("ModelBuilderState");
+			System.out.println(modelBuilderJSON.toString());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	private void showWorkByName(String fileName) {
 
