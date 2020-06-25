@@ -212,8 +212,9 @@ public class jsVGLReader extends JFrame {
 			Object obj = parser.parse(new FileReader(fileName));
 			JSONObject jsonObj = (JSONObject)obj;
 			JSONObject vglJSON = (JSONObject)jsonObj.get("VglII");
-			JSONObject modelBuilderJSON = (JSONObject)vglJSON.get("ModelBuilderState");
-			System.out.println(modelBuilderJSON.toString());
+			
+			
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

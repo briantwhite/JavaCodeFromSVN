@@ -25,3 +25,8 @@ added as external jar in project properties
 used this site to make the json easier to read https://jsonformatter.org/json-pretty-print
 
 starting to get it to read and interpret the json in the .jsvgl files (in method jsVGLReader.getModelsFromFile())
+
+6/25/20
+rather than reconstructing the correct answer and student answer from the jsVGL data, save them as html in the .jsvgl file
+	maybe use light encryption for the correct answer.
+need to edit jsVGL.
