@@ -636,3 +636,9 @@ NEED TO put all the canned problems in a menu so it's not so cluttered (jsVGL_fo
 6/25/20
 need to add saving the model builder HTML and (lightly encrypted) right answer HTML in the .jsvgl file.
 	check the getGradeHTML and getGradeXML stuff to see if it's already there
+
+6/26/20
+use Base64 encoding for the 'encryption' of the correct answer info
+	make it one element in the XML <ra></ra>
+	could safely build the info for the reader in the stateXML since edX etc will ignore unknown tags
+		(you can add stuff safely - as long as the names are different - but removing stuff could cause problems)
