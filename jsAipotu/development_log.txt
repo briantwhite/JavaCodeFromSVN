@@ -1,0 +1,21 @@
+11/19/20
+started setting up project
+
+follow recipe in jsVGL
+
+in eclipse
+- new google -> web application project
+	name: jsAipotu
+	package: edu.umb.jsAipotu
+	create new project in workspace
+- team -> add to index
+- team -> commit (initial commit)
+- team -> push to upstream
+
+worked.
+
+nuked useless stuff:
+-src/edu.umb.jsAipotu/client
+	GreetingService & GreetingServiceAsnych
+package edu.umb.jsAipotu.server
+package edu.umb.jsAipotu.shared
