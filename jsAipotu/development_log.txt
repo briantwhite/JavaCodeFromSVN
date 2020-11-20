@@ -26,9 +26,16 @@ An error has occurred. See error log for more details.
 Path must include project and resource name: /.gitignore
 
 but .gitignore is in the repository root as well as the project root
+can't find this error on google
+posted to StackExchange
 
 moved in packages
 - make new package eg edu.umb.jsAipotu.client.Genetics
 - go into Aipotu/Genetics
 - select all; copy
 - click new package; paste
+
+11/20/20
+after reboot, the "path..." error is gone until first use of git.
+
+
