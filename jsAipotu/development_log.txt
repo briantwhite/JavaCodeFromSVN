@@ -41,3 +41,25 @@ after reboot, the "path..." error is gone until first use of git.
 11/22/20
 try going into .gitignore and deleting the only listing there "/test-classes/"
 may have done it - no. It now fusses about .DS_Store and .gitignore.
+no help.
+
+in the git settings for Eclipse, the default location is /Users/brian/git/
+	there is no .gitignore there - add it and see. NO HELP.
+
+try going to Team -> Advanced -> Clean... and cleaning everything it found.
+
+hmm. now it seems only to be fussing about .DS_Store
+
+try removing all of them from the repo https://intellipaat.com/community/9089/how-can-i-remove-dsstore-files-from-a-git-repository-gitignore-dsstore
+go to /Users/brian/git
+find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
+it failed because this directory isn't a repo
+went into /Users/brian/git/JavaCodeFromSVN/
+created empty .gitignore
+then ran
+find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
+	ran OK
+echo .DS_Store >> .gitignore
+git add .gitignore
+git commit -m '.DS_Store banished'
+
