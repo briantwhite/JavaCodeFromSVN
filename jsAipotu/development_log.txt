@@ -27,7 +27,7 @@ Path must include project and resource name: /.gitignore
 
 but .gitignore is in the repository root as well as the project root
 can't find this error on google
-posted to StackExchange
+posted to StackExchange with question "Eclipse 2020-09 (4.17.0) on OS X 10.13 keeps wanting me to put .gitignore and .DS_store on the path"
 
 moved in packages
 - make new package eg edu.umb.jsAipotu.client.Genetics
