@@ -40,3 +40,4 @@ after reboot, the "path..." error is gone until first use of git.
 
 11/22/20
 try going into .gitignore and deleting the only listing there "/test-classes/"
+may have done it - no. It now fusses about .DS_Store and .gitignore.
