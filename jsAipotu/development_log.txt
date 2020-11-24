@@ -65,3 +65,7 @@ git commit -m '.DS_Store banished'
 
 testing. FIXED!
 
+11/24/20
+need to set up the gui sensibly
+here's a good reference site: http://www.gwtproject.org/doc/latest/DevGuide.html
+
