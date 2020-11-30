@@ -1,29 +1,18 @@
 package edu.umb.jsAipotu.molGenExp;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.LineBorder;
 
-import preferences.GlobalDefaults;
-
-import molBiol.ExpressedGene;
-
-
-
-import biochem.FoldedProteinWithImages;
-import biochem.PaintedInACornerFoldingException;
+import edu.umb.jsAipotu.biochem.PaintedInACornerFoldingException;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 public class Greenhouse extends JList {
 

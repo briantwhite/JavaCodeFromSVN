@@ -7,8 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import preferences.GlobalDefaults;
-import preferences.MGEPreferences;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.MGEPreferences;
 
 public class CombinedColorPanel extends JPanel {
 

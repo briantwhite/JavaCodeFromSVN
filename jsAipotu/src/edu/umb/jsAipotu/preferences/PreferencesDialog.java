@@ -4,8 +4,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-
-import molGenExp.MolGenExp;
+import edu.umb.jsAipotu.molGenExp.MolGenExp;
 
 public class PreferencesDialog extends JDialog {
 

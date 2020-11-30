@@ -16,10 +16,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import javax.swing.JOptionPane;
-
-import preferences.GlobalDefaults;
-import preferences.MGEPreferences;
+import edu.umb.jsAipotu.preferences.MGEPreferences;
 
 
 

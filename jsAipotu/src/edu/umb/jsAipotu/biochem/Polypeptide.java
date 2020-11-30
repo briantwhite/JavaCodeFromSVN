@@ -41,18 +41,10 @@
 package edu.umb.jsAipotu.biochem;
 
 import java.awt.Color;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import preferences.GlobalDefaults;
-
-
-
-
-
-
-import molGenExp.MolGenExp;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 /**
  * Model a polypeptide as a List of AminoAcids.

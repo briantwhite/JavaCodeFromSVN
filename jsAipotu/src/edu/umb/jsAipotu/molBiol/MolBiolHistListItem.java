@@ -1,8 +1,8 @@
 package edu.umb.jsAipotu.molBiol;
 
-import molGenExp.ExpressedAndFoldedGene;
-import molGenExp.HistListItem;
-import biochem.FoldedProteinWithImages;
+import edu.umb.jsAipotu.biochem.FoldedProteinWithImages;
+import edu.umb.jsAipotu.molGenExp.ExpressedAndFoldedGene;
+import edu.umb.jsAipotu.molGenExp.HistListItem;
 
 public class MolBiolHistListItem extends HistListItem {
 	private ExpressedAndFoldedGene efg;

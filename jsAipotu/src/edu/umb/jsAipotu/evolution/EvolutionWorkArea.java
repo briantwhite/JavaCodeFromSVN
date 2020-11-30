@@ -30,13 +30,13 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import molGenExp.MolGenExp;
-import molGenExp.Organism;
-import molGenExp.OrganismFactory;
-import molGenExp.WorkPanel;
-import preferences.GlobalDefaults;
-import preferences.MGEPreferences;
-import biochem.FoldedProteinArchive;
+import edu.umb.jsAipotu.biochem.FoldedProteinArchive;
+import edu.umb.jsAipotu.molGenExp.MolGenExp;
+import edu.umb.jsAipotu.molGenExp.Organism;
+import edu.umb.jsAipotu.molGenExp.OrganismFactory;
+import edu.umb.jsAipotu.molGenExp.WorkPanel;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.MGEPreferences;
 
 public class EvolutionWorkArea extends WorkPanel implements ChangeListener {
 

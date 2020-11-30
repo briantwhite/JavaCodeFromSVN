@@ -1,7 +1,7 @@
 package edu.umb.jsAipotu.molGenExp;
 
-import molBiol.ExpressedGene;
-import biochem.FoldedProteinWithImages;
+import edu.umb.jsAipotu.biochem.FoldedProteinWithImages;
+import edu.umb.jsAipotu.molBiol.ExpressedGene;
 
 public class ExpressedAndFoldedGene {
 	private ExpressedGene eg;

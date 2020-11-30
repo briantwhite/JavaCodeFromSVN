@@ -9,11 +9,10 @@ import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 
-import preferences.GlobalDefaults;
-
-import molGenExp.HistListItem;
-import molGenExp.Organism;
-import molGenExp.OrganismFactory;
+import edu.umb.jsAipotu.molGenExp.HistListItem;
+import edu.umb.jsAipotu.molGenExp.Organism;
+import edu.umb.jsAipotu.molGenExp.OrganismFactory;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 public class Tray extends HistListItem {
 	

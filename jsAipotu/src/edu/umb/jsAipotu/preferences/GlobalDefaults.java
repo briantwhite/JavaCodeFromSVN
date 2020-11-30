@@ -2,11 +2,11 @@ package edu.umb.jsAipotu.preferences;
 
 import java.awt.Color;
 
-import molBiol.MolBiolParams;
-import molGenExp.RYBColorModel;
-import biochem.BiochemAttributes;
-import biochem.ColorModel;
-import biochem.StandardTable;
+import edu.umb.jsAipotu.biochem.BiochemAttributes;
+import edu.umb.jsAipotu.biochem.ColorModel;
+import edu.umb.jsAipotu.biochem.StandardTable;
+import edu.umb.jsAipotu.molBiol.MolBiolParams;
+import edu.umb.jsAipotu.molGenExp.RYBColorModel;
 
 public class GlobalDefaults {
 		

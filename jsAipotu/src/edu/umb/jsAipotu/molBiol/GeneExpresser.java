@@ -2,7 +2,7 @@ package edu.umb.jsAipotu.molBiol;
 
 import java.util.ArrayList;
 
-import preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 
 

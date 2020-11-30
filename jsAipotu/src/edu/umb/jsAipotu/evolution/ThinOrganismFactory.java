@@ -1,17 +1,13 @@
 package edu.umb.jsAipotu.evolution;
 
 import java.awt.Color;
-import java.io.File;
 
-import preferences.GlobalDefaults;
-
-import molBiol.ExpressedGene;
-import molBiol.GeneExpresser;
-import molGenExp.Organism;
-import biochem.FoldingException;
-import biochem.FoldingManager;
-import biochem.HexCanvas;
-import biochem.HexGrid;
+import edu.umb.jsAipotu.biochem.FoldingException;
+import edu.umb.jsAipotu.biochem.FoldingManager;
+import edu.umb.jsAipotu.molBiol.ExpressedGene;
+import edu.umb.jsAipotu.molBiol.GeneExpresser;
+import edu.umb.jsAipotu.molGenExp.Organism;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 public class ThinOrganismFactory {
 	private GeneExpresser geneExpresser;

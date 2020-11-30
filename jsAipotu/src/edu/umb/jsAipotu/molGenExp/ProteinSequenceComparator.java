@@ -1,14 +1,10 @@
 package edu.umb.jsAipotu.molGenExp;
 
-import java.util.StringTokenizer;
-
 import javax.swing.JOptionPane;
 
-
-import match.Blosum50;
-import match.NWSmart;
-import biochem.AminoAcid;
-import biochem.StandardTable;
+import edu.umb.jsAipotu.biochem.StandardTable;
+import edu.umb.jsAipotu.match.Blosum50;
+import edu.umb.jsAipotu.match.NWSmart;
 
 public class ProteinSequenceComparator extends SequenceComparator {
 

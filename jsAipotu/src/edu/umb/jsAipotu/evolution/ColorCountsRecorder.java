@@ -3,7 +3,7 @@ package edu.umb.jsAipotu.evolution;
 import java.awt.Color;
 import java.util.HashMap;
 
-import preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 
 //keeps the tallies of the number of organisms in the World

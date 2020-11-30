@@ -1,22 +1,16 @@
 package edu.umb.jsAipotu.molGenExp;
 
-import genetics.Tray;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
-import preferences.GlobalDefaults;
-
-
-import biochem.PaintedInACornerFoldingException;
-
-import molBiol.MolBiolWorkbench;
+import edu.umb.jsAipotu.biochem.PaintedInACornerFoldingException;
+import edu.umb.jsAipotu.molBiol.MolBiolWorkbench;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 public class HistListPopupMenu extends JPopupMenu {
 	

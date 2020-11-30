@@ -1,11 +1,10 @@
 package edu.umb.jsAipotu.biochem;
 
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
-import preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 
 public class ProteinImageFactory {

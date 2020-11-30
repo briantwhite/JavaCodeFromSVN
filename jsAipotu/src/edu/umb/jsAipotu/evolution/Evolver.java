@@ -1,8 +1,6 @@
 package edu.umb.jsAipotu.evolution;
 
 
-import genetics.Mutator;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -16,16 +14,13 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import molBiol.GeneExpresser;
-import molGenExp.MolGenExp;
-import preferences.GlobalDefaults;
-import preferences.MGEPreferences;
-import biochem.FoldedProteinArchive;
-import biochem.FoldingException;
-import biochem.FoldingManager;
-import biochem.HexCanvas;
-import biochem.HexGrid;
-import biochem.PolypeptideFactory;
+import edu.umb.jsAipotu.biochem.FoldingManager;
+import edu.umb.jsAipotu.biochem.PolypeptideFactory;
+import edu.umb.jsAipotu.genetics.Mutator;
+import edu.umb.jsAipotu.molBiol.GeneExpresser;
+import edu.umb.jsAipotu.molGenExp.MolGenExp;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.MGEPreferences;
 
 public class Evolver implements Runnable {
 

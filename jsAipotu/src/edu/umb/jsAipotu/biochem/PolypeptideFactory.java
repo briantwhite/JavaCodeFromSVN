@@ -39,16 +39,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import preferences.GlobalDefaults;
-
-
-
-
-
-
-
-
-import molGenExp.MolGenExp;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 public class PolypeptideFactory {
 

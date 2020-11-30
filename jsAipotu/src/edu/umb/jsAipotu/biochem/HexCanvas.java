@@ -15,7 +15,7 @@ package edu.umb.jsAipotu.biochem;
 
 import java.awt.Polygon;
 
-import preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 
 

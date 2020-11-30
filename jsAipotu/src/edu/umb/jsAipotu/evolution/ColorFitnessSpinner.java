@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 
 public class ColorFitnessSpinner extends JSpinner {

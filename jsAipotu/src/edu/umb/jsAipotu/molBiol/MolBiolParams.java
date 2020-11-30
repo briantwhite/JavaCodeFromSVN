@@ -1,12 +1,6 @@
 package edu.umb.jsAipotu.molBiol;
 
-import preferences.GlobalDefaults;
-import molGenExp.MolGenExp;
-/*
- * the parameters for setting up a genex
- * Created on May 5, 2005
- *
- */
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 /**
  * @author brian

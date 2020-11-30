@@ -21,10 +21,10 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
-import molGenExp.ExpressedAndFoldedGene;
-import molGenExp.Organism;
-import molGenExp.OrganismFactory;
-import molGenExp.WorkPanel;
+import edu.umb.jsAipotu.molGenExp.ExpressedAndFoldedGene;
+import edu.umb.jsAipotu.molGenExp.Organism;
+import edu.umb.jsAipotu.molGenExp.OrganismFactory;
+import edu.umb.jsAipotu.molGenExp.WorkPanel;
 
 public class GeneticsWorkPanel extends WorkPanel {
 

@@ -1,11 +1,10 @@
 package edu.umb.jsAipotu.genetics;
 
 
-import biochem.FoldedProteinArchive;
-import biochem.FoldingException;
-import molGenExp.ExpressedAndFoldedGene;
-import molGenExp.Organism;
-import molGenExp.OrganismFactory;
+import edu.umb.jsAipotu.biochem.FoldingException;
+import edu.umb.jsAipotu.molGenExp.ExpressedAndFoldedGene;
+import edu.umb.jsAipotu.molGenExp.Organism;
+import edu.umb.jsAipotu.molGenExp.OrganismFactory;
 
 public class MutantGenerator implements Runnable {
 

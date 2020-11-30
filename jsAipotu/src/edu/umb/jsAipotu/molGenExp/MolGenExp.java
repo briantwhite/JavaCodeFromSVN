@@ -1,8 +1,5 @@
 package edu.umb.jsAipotu.molGenExp;
 
-import evolution.EvolutionWorkArea;
-import genetics.GeneticsWorkbench;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -19,14 +16,10 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FilePermission;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.security.AccessControlException;
-import java.security.AccessController;
 import java.util.StringTokenizer;
-import java.util.prefs.Preferences;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -55,18 +48,20 @@ import javax.swing.event.ChangeListener;
 import com.apple.eawt.Application;
 import com.apple.eawt.QuitStrategy;
 
-import molBiol.MolBiolWorkbench;
-import molBiol.MolBiolWorkpanel;
-import preferences.GlobalDefaults;
-import preferences.MGEPreferences;
-import preferences.PreferencesDialog;
-import biochem.AminoAcid;
-import biochem.BiochemistryWorkbench;
-import biochem.BiochemistryWorkpanel;
-import biochem.FoldedProteinArchive;
-import biochem.FoldingException;
-import biochem.PaintedInACornerFoldingException;
-import biochem.StandardTable;
+import edu.umb.jsAipotu.biochem.AminoAcid;
+import edu.umb.jsAipotu.biochem.BiochemistryWorkbench;
+import edu.umb.jsAipotu.biochem.BiochemistryWorkpanel;
+import edu.umb.jsAipotu.biochem.FoldedProteinArchive;
+import edu.umb.jsAipotu.biochem.FoldingException;
+import edu.umb.jsAipotu.biochem.PaintedInACornerFoldingException;
+import edu.umb.jsAipotu.biochem.StandardTable;
+import edu.umb.jsAipotu.evolution.EvolutionWorkArea;
+import edu.umb.jsAipotu.genetics.GeneticsWorkbench;
+import edu.umb.jsAipotu.molBiol.MolBiolWorkbench;
+import edu.umb.jsAipotu.molBiol.MolBiolWorkpanel;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.MGEPreferences;
+import edu.umb.jsAipotu.preferences.PreferencesDialog;
 
 
 public class MolGenExp extends JFrame {

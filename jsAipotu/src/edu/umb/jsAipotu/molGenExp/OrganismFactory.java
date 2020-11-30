@@ -9,13 +9,13 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
-import molBiol.ExpressedGene;
-import molBiol.GeneExpresser;
-import preferences.GlobalDefaults;
-import biochem.FoldedProteinWithImages;
-import biochem.FoldingException;
-import biochem.FoldingManager;
-import evolution.ThinOrganism;
+import edu.umb.jsAipotu.biochem.FoldedProteinWithImages;
+import edu.umb.jsAipotu.biochem.FoldingException;
+import edu.umb.jsAipotu.biochem.FoldingManager;
+import edu.umb.jsAipotu.evolution.ThinOrganism;
+import edu.umb.jsAipotu.molBiol.ExpressedGene;
+import edu.umb.jsAipotu.molBiol.GeneExpresser;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 public class OrganismFactory {
 	

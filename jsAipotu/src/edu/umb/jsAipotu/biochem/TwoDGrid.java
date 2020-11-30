@@ -14,12 +14,8 @@
 package edu.umb.jsAipotu.biochem;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
-import preferences.GlobalDefaults;
-
-
-import molGenExp.MolGenExp;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 /**
  * Model a grid containing a polypeptide chain.

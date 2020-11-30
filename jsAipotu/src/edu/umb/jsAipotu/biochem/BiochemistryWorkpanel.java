@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -23,9 +22,9 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
-import molGenExp.WorkPanel;
-import preferences.GlobalDefaults;
-import preferences.MGEPreferences;
+import edu.umb.jsAipotu.molGenExp.WorkPanel;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.MGEPreferences;
 
 public class BiochemistryWorkpanel extends WorkPanel {
 

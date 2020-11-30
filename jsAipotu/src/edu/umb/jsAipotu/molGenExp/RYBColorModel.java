@@ -16,19 +16,15 @@ package edu.umb.jsAipotu.molGenExp;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
-import preferences.GlobalDefaults;
-
-
-import biochem.AcidInChain;
-import biochem.AminoAcid;
-import biochem.ColorModel;
-import biochem.Direction;
-import biochem.Grid;
-import biochem.HexGrid;
-import biochem.PaintedInACornerFoldingException;
+import edu.umb.jsAipotu.biochem.AcidInChain;
+import edu.umb.jsAipotu.biochem.AminoAcid;
+import edu.umb.jsAipotu.biochem.ColorModel;
+import edu.umb.jsAipotu.biochem.Direction;
+import edu.umb.jsAipotu.biochem.Grid;
+import edu.umb.jsAipotu.biochem.HexGrid;
+import edu.umb.jsAipotu.biochem.PaintedInACornerFoldingException;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 /**
  * Class representing RYBColor chart. Model the standard RYB color model.

@@ -23,10 +23,7 @@ import java.util.Comparator;
 
 import javax.swing.JPanel;
 
-import preferences.GlobalDefaults;
-
-
-import molGenExp.MolGenExp;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 /**
  * Display a Grid.

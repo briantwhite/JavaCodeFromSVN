@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JSlider;
 
-import preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 
 public class ColorFitnessSlider extends JSlider {

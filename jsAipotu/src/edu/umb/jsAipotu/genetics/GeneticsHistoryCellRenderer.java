@@ -10,7 +10,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 
-import preferences.MGEPreferences;
+import edu.umb.jsAipotu.preferences.MGEPreferences;
 
 public class GeneticsHistoryCellRenderer extends JButton 
 implements ListCellRenderer {

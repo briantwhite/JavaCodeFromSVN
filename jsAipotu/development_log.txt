@@ -82,3 +82,9 @@ Notes on the Greenhouse - maybe start here
 - have menu item to replace current Gh with file
 - have menu item to save it to .greenhouse file on local disk
 
+start going class-by-class and fixing the errors & note anything special
+* lots of things fixed by 'organize imports' - do this for all classes with errors first
+
+- biochem
+
+

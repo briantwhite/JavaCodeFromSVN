@@ -1,11 +1,10 @@
 package edu.umb.jsAipotu.biochem;
 
 import java.awt.Color;
-import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
-import molGenExp.HistListItem;
+import edu.umb.jsAipotu.molGenExp.HistListItem;
 
 public class FoldedProteinWithImages extends HistListItem {
 	private String aaSeq;

@@ -5,12 +5,9 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-
-import biochem.FoldedProteinWithImages;
 
 public class DNAHistoryCellRenderer extends JButton 
 	implements ListCellRenderer {

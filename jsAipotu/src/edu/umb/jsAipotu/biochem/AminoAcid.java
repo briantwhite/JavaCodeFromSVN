@@ -17,15 +17,8 @@ package edu.umb.jsAipotu.biochem;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.io.Serializable;
 
-import preferences.GlobalDefaults;
-
-
-
-
-import molGenExp.MolGenExp;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 /**
  * Model an AminoAcid

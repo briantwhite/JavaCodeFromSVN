@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
-import match.DNAidentity;
-import match.NWSmart;
+import edu.umb.jsAipotu.match.DNAidentity;
+import edu.umb.jsAipotu.match.NWSmart;
 
 public class DNASequenceComparator extends SequenceComparator {
 	

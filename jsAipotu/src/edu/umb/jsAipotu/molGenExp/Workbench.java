@@ -2,7 +2,7 @@ package edu.umb.jsAipotu.molGenExp;
 
 import javax.swing.JPanel;
 
-import biochem.PaintedInACornerFoldingException;
+import edu.umb.jsAipotu.biochem.PaintedInACornerFoldingException;
 
 public abstract class Workbench extends JPanel {
 	

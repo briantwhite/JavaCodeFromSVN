@@ -14,14 +14,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import molGenExp.CombinedColorPanel;
-import molGenExp.HistoryList;
-import molGenExp.MolGenExp;
-import molGenExp.Organism;
-import molGenExp.WorkPanel;
-import molGenExp.Workbench;
-import preferences.GlobalDefaults;
-import preferences.MGEPreferences;
+import edu.umb.jsAipotu.molGenExp.CombinedColorPanel;
+import edu.umb.jsAipotu.molGenExp.HistoryList;
+import edu.umb.jsAipotu.molGenExp.MolGenExp;
+import edu.umb.jsAipotu.molGenExp.Organism;
+import edu.umb.jsAipotu.molGenExp.WorkPanel;
+import edu.umb.jsAipotu.molGenExp.Workbench;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
 
 public class BiochemistryWorkbench extends Workbench {

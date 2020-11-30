@@ -2,12 +2,12 @@ package edu.umb.jsAipotu.genetics;
 
 import java.util.Random;
 
-import molBiol.ExpressedGene;
-import molBiol.GeneExpresser;
-import molGenExp.ExpressedAndFoldedGene;
-import preferences.MGEPreferences;
-import biochem.FoldingException;
-import biochem.FoldingManager;
+import edu.umb.jsAipotu.biochem.FoldingException;
+import edu.umb.jsAipotu.biochem.FoldingManager;
+import edu.umb.jsAipotu.molBiol.ExpressedGene;
+import edu.umb.jsAipotu.molBiol.GeneExpresser;
+import edu.umb.jsAipotu.molGenExp.ExpressedAndFoldedGene;
+import edu.umb.jsAipotu.preferences.MGEPreferences;
 
 public class Mutator {
 

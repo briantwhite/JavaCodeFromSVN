@@ -4,18 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import biochem.FoldingException;
-
-import molGenExp.Organism;
-import molGenExp.OrganismFactory;
-import preferences.GlobalDefaults;
-import preferences.MGEPreferences;
+import edu.umb.jsAipotu.biochem.FoldingException;
+import edu.umb.jsAipotu.molGenExp.Organism;
+import edu.umb.jsAipotu.molGenExp.OrganismFactory;
+import edu.umb.jsAipotu.preferences.GlobalDefaults;
+import edu.umb.jsAipotu.preferences.MGEPreferences;
 
 public class World extends JPanel implements MouseListener {
 
