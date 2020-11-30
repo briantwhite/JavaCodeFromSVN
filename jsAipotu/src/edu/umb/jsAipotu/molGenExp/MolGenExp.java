@@ -64,7 +64,7 @@ import edu.umb.jsAipotu.preferences.MGEPreferences;
 import edu.umb.jsAipotu.preferences.PreferencesDialog;
 
 
-public class MolGenExp extends JFrame {
+public class MolGenExp {
 
 	//indices for tabbed panes
 	private final static int GENETICS = 0;
@@ -124,32 +124,11 @@ public class MolGenExp extends JFrame {
 
 	private PreferencesDialog preferencesDialog;
 
-	public MolGenExp(String[] args) {
-		super("Aipotu " + GlobalDefaults.version);
-		setupUI(args);
-		addWindowListener(new ApplicationCloser());
-		// on mac, need to catch apple-Q to save on quit
-		// but this doesn't work on PC
-		if (args.length > 0) {
-			Application.getApplication().setQuitStrategy(QuitStrategy.CLOSE_ALL_WINDOWS);
-		}
+	public MolGenExp() {
+		setupUI();
 	}
 
-	public static void main(String[] args) {
-		MolGenExp mge = new MolGenExp(args);
-		mge.pack();
-		mge.setVisible(true);
-	}
-
-	class ApplicationCloser extends WindowAdapter {
-		public void windowClosing(WindowEvent e) {
-			saveToFolder(greenhouse.getAll());
-			FoldedProteinArchive.getInstance().saveArchiveToZipFile();
-			System.exit(0);
-		}
-	}
-
-	private void setupUI(String[] args) {
+	private void setupUI() {
 
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
@@ -274,8 +253,6 @@ public class MolGenExp extends JFrame {
 
 		mainPanel.add(statusPanel, BorderLayout.SOUTH);
 
-		setPreferredSize(new Dimension(1100,800));
-		getContentPane().add(mainPanel);
 
 		preferencesDialog = new PreferencesDialog(this);
 
@@ -364,67 +341,6 @@ public class MolGenExp extends JFrame {
 						.getLowerPanel().takeSnapshot()));
 			}			
 		});
-
-
-		/*
-		 * set up the greenhouse - this is a bit of a pain (see notes in May 2017)
-		 * 	on PC - there's no issue
-		 * 	on Mac - there's a problem. If you put the Greenhouse/ folder outside of Aipotu.app
-		 * 		osx will translocate the .app somewhere random so it can't find the Greenhouse/
-		 * 		But, if you put the Greenhouse in the .app, you can't write to it!
-		 * 
-		 * 		So, on mac, pass in a parameter so you know it's mac and you know where the app is
-		 * 			and put the working Greenhouse in ~/Library/Application Support/Aipotu/
-		 * 		- on first run, if there's nothing in ~/Library, read from the app
-		 * 			otherwise, use the ~/Library version
-		 */
-		greenhouseLoaderTimer = new Timer(100, new GrenhouseLoaderTimerListener());	//timer for greenhouse loading progress bar
-
-		// first, see if we're on mac or PC
-		if ((args.length == 1) && args[0].startsWith("-D")) {
-			// on mac - see if we've already made a writable GH
-			File testGHDir = new File(System.getProperty("user.home") 
-					+ "/Library/Application Support/Aipotu/"
-					+ GlobalDefaults.greenhouseDirName);
-			if (testGHDir.exists() && testGHDir.isDirectory() && testGHDir.canWrite()) {
-				MGEPreferences.getInstance().setGreenhouseDirectory(testGHDir);
-				try {
-					loadGreenhouse();
-				} catch (FoldingException e1) {
-					JOptionPane.showMessageDialog(null, 
-							GlobalDefaults.paintedInACornerNotice,
-							"Folding Error", JOptionPane.WARNING_MESSAGE);
-				}
-			} else {
-				// use the one in the .app 
-				MGEPreferences.getInstance().setGreenhouseDirectory(
-						new File(args[0].replace("-D", "") + "/Contents/Resources/" + GlobalDefaults.greenhouseDirName));
-				// load it and then set up to use a writable directory
-				try {
-					loadGreenhouse();
-				} catch (FoldingException e1) {
-					JOptionPane.showMessageDialog(null, 
-							GlobalDefaults.paintedInACornerNotice,
-							"Folding Error", JOptionPane.WARNING_MESSAGE);
-				}
-				MGEPreferences.getInstance().setGreenhouseDirectory(new File(System.getProperty("user.home") 
-						+ "/Library/Application Support/Aipotu/"
-						+ GlobalDefaults.greenhouseDirName));
-				// make directory
-				MGEPreferences.getInstance().getGreenhouseDirectory().mkdirs();
-				FoldedProteinArchive.getInstance().saveArchiveToZipFile();		// this loads and saves it
-			}
-		} else {
-			// on pc
-			MGEPreferences.getInstance().setGreenhouseDirectory(new File(GlobalDefaults.greenhouseDirName));
-			try {
-				loadGreenhouse();
-			} catch (FoldingException e1) {
-				JOptionPane.showMessageDialog(null, 
-						GlobalDefaults.paintedInACornerNotice,
-						"Folding Error", JOptionPane.WARNING_MESSAGE);
-			}
-		}
 
 		quitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -689,91 +605,12 @@ public class MolGenExp extends JFrame {
 
 	// save the greenhouse
 	public void saveToFolder(Object[] all) {
-		//first, clear out all the old organims
-		String[] oldOrganisms = MGEPreferences.getInstance().getGreenhouseDirectory().list();
-		if (oldOrganisms  != null) {
-			for (int i = 0; i < oldOrganisms.length; i++) {
-				String name = oldOrganisms[i];
-				if (name.indexOf(".organism") != -1) {
-					File f = new File(MGEPreferences.getInstance().getGreenhouseDirectory(), name);
-					f.delete();
-				}
-			}
-		}
-
-		for (int i = 0; i < all.length; i++) {
-			Organism o = (Organism)all[i];
-			String name = o.getName();
-			String fileName = MGEPreferences.getInstance().getGreenhouseDirectory().toString() 
-					+ System.getProperty("file.separator") 
-					+ name
-					+ ".organism";
-			Writer output = null;
-			try {
-				output = new BufferedWriter(new FileWriter(fileName) );
-				output.write(o.getGene1().getExpressedGene().getDNA());
-				output.write("\n");
-				output.write(o.getGene2().getExpressedGene().getDNA());
-				output.write("\n");
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			finally {
-				if (output != null)
-					try {
-						output.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-			}
-
-		}
+		
 	}
 
 	public void loadGreenhouse() throws FoldingException {
 
-		// if there's no GH dir, make one
-		if (!MGEPreferences.getInstance().getGreenhouseDirectory().exists()) {
-			MGEPreferences.getInstance().getGreenhouseDirectory().mkdirs();
-		}
-
-		clearSelectedOrganisms();
-		greenhouse.clearList();
-
-		greenhouseLoader = new GreenhouseLoader(MGEPreferences.getInstance().getGreenhouseDirectory(), greenhouse);
-
-		Thread t = new Thread(greenhouseLoader);
-		t.start();
-		greenhouseLoaderTimer.start();
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-		statusLabel.setText("MGX is Loading " 
-				+ greenhouseLoader.getLengthOfTask() 
-				+ " Organisms into the Greenhouse");
-		progressBar.setMinimum(0);
-		progressBar.setMaximum(greenhouseLoader.getLengthOfTask());
-		progressBar.setValue(0);
 	}
-
-	private class GrenhouseLoaderTimerListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-			if (greenhouseLoader.done()) {
-				greenhouseLoaderTimer.stop();
-				MolGenExp.this.setCursor(
-						Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				progressBar.setValue(0);
-				statusLabel.setText("Ready");
-			} else {
-				statusLabel.setText("Loading Organism number " 
-						+ (greenhouseLoader.getCurrent() + 1) 
-						+ " of "
-						+ greenhouseLoader.getLengthOfTask());
-				progressBar.setValue(greenhouseLoader.getCurrent() + 1);
-			}
-		}
-	}
-
 
 	public void saveSelectedOrganismToGreenhouse() throws FoldingException {
 		switch (explorerPane.getSelectedIndex()) {

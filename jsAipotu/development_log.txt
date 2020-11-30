@@ -85,6 +85,25 @@ Notes on the Greenhouse - maybe start here
 start going class-by-class and fixing the errors & note anything special
 * lots of things fixed by 'organize imports' - do this for all classes with errors first
 
-- biochem
+- only molBiol has residual errors
 
+edit molGenExp/MolGenExp.java to 
+	not have a main method - it will be instantiated by JsAipotu.java
+	nix greehouseLoader since greenhouse will hold all needed info on each organism
+
+try to gwt compile and get this error:
+[ERROR] Line 13: No source code is available for type edu.umb.jsAipotu.molGenExp.MolGenExp; did you forget to inherit a required module?
+[ERROR] Hint: Check the inheritance chain from your module; it may not be inheriting a required module or a module may not be adding its source path entries properly
+
+but the class is there. What's up?
+sometimes, this is an issue with edu.umb.jsAipotu/JsAipotu.gwt.xml but it looks the same as the one from JsVGL
+
+this link http://codeinventions.blogspot.com/2014/12/no-source-code-is-available-for-type-did-you-forget-to-inherit-a-required-module.html
+says it's because I'm trying to use non-gwt thingies in a gwt project.
+Probably the GUI classes.
+If you take out the instantiation of an MolGenExp, the error disappears.
+
+Try building the MGX GUI in JsAipotu.java bit by bit - based on MolGenExp.java (which you'll eventually delete)
+
+started with menu.
 
