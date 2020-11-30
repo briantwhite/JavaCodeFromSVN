@@ -69,3 +69,16 @@ testing. FIXED!
 need to set up the gui sensibly
 here's a good reference site: http://www.gwtproject.org/doc/latest/DevGuide.html
 
+11/30/20
+Notes on the Greenhouse - maybe start here
+- save all organisms in the Gh in one big .greenhouse json file (or xml, whichever is easier)
+- for each organism, save it all:
+	- upper/lower DNA
+	- upper/lower AA seq
+	- upper/lower protein struct
+	- upper/lower color
+	- overall color
+- on startup, it looks for starting.greenhouse in the web directory and loads it
+- have menu item to replace current Gh with file
+- have menu item to save it to .greenhouse file on local disk
+
