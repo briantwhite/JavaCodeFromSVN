@@ -107,3 +107,9 @@ Try building the MGX GUI in JsAipotu.java bit by bit - based on MolGenExp.java (
 
 started with menu.
 
+12/1/20
+git had been fussing about big files on commits
+found this file https://github.com/github/gitignore/blob/master/GWT.gitignore
+added them to this project's .gitignore
+
+
