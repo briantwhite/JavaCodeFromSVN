@@ -68,6 +68,8 @@ testing. FIXED!
 11/24/20
 need to set up the gui sensibly
 here's a good reference site: http://www.gwtproject.org/doc/latest/DevGuide.html
+also
+http://samples.gwtproject.org/samples/Showcase/Showcase.html
 
 11/30/20
 Notes on the Greenhouse - maybe start here
