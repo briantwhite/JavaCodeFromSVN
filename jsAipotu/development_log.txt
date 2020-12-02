@@ -204,3 +204,5 @@ need to convert to json by hand. Use this site https://jsoneditoronline.org/#rig
 	made file "default.greenhouse"
 when reading it in, gonna need sanity checks to be sure I didn't mess up the protein sequences
 
+how to read it in? https://examples.javacodegeeks.com/enterprise-java/gwt/gwt-json-example/
+got it working
