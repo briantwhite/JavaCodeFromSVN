@@ -107,7 +107,7 @@ public class JsAipotu implements EntryPoint {
 		});
 		menuBar.addItem("Greenhouse", greenhouseMenu);
 		
-		RootPanel.get("menuContainer").add(menuBar);
+		RootPanel.get("mainPanelContainer").add(menuBar);
 		RootPanel.get("mainPanelContainer").add(mainPanel);
 	}
 }

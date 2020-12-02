@@ -1,0 +1,56 @@
+{
+  "organisms": [
+    {
+      "name" : "Green-1",
+      "upperDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTACTGGCGGCAGTAGTAGGGGGCGT",
+      "lowerDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTACTGGCGGCAGTAGTAGGGGGCGT",
+      "upperProtein1" : "MSNRHILLVYWRQ",
+      "lowerProtein1" : "MSNRHILLVYWRQ",
+      "upperProtein3" : "MetSerAsnArgHisIleLeuLeuValTyrTrpArgGln",
+      "lowerProtein3" : "MetSerAsnArgHisIleLeuLeuValTyrTrpArgGln",
+      "upperProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:Y:NE:W:NW:R:NW:Q:none:",
+      "lowerProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:Y:NE:W:NW:R:NW:Q:none:",
+      "upperProteinColor" : "r=0,g=255,b=0",
+      "lowerProteinColor" : "r=0,g=255,b=0"
+    },
+    {
+      "name" : "Green-2",
+      "upperDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTACTGTCGGCAGTAGTAGGGGGCGT",
+      "lowerDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTGGTGTCGGCAGTAGTAGGGGGCGT",
+      "upperProtein1" : "MSNRHILLVYCRQ",
+      "lowerProtein1" : "MSNRHILLVWCRQ",
+      "upperProtein3" : "MetSerAsnArgHisIleLeuLeuValTyrCysArgGln",
+      "lowerProtein3" : "MetSerAsnArgHisIleLeuLeuValTrpCysArgGln",
+      "upperProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:Y:NE:C:NW:R:NW:Q:none:",
+      "lowerProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:W:NE:C:NW:R:NW:Q:none:",
+      "upperProteinColor" : "r=0,g=0,b=255",
+      "lowerProteinColor" : "r=255,g=255,b=0"
+    },
+    {
+      "name" : "Red",
+      "upperDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTTCTGTCGGCAGTAGTAGGGGGCGT",
+      "lowerDNA" : "CAGCTATGACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTTCTGTCGGCAGTAGTAGGGGGCGT",
+      "upperProtein1" : "MSNRHILLVFCRQ",
+      "lowerProtein1" : "",
+      "upperProtein3" : "MetSerAsnArgHisIleLeuLeuValPheCysArgGln",
+      "lowerProtein3" : "",
+      "upperProteinString" : " M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:F:NE:C:NW:R:NW:Q:none:",
+      "lowerProteinString" : "",
+      "upperProteinColor" : "r=255,g=0,b=0",
+      "lowerProteinColor" : "r=255,g=255,b=255"
+    },
+    {
+      "name" : "White",
+      "upperDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGGTCTGTCGGCAGTAGTAGGGGGCGT",
+      "lowerDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGGTCTGTCGGCAGTAGTAGGGGGCGT",
+      "upperProtein1" : "MSNRHILLVVCRQ",
+      "lowerProtein1" : "MSNRHILLVVCRQ",
+      "upperProtein3" : "MetSerAsnArgHisIleLeuLeuValValCysArgGln",
+      "lowerProtein3" : "MetSerAsnArgHisIleLeuLeuValValCysArgGln",
+      "upperProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:V:NE:C:NW:R:NW:Q:none:",
+      "lowerProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:V:NE:C:NW:R:NW:Q:none:",
+      "upperProteinColor" : "r=255,g=255,b=255",
+      "lowerProteinColor" : "r=255,g=255,b=255"
+    }
+    ]
+}

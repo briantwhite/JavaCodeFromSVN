@@ -114,4 +114,93 @@ git had been fussing about big files on commits
 found this file https://github.com/github/gitignore/blob/master/GWT.gitignore
 added them to this project's .gitignore
 
+12/2/20
+start working to get greenhouse running (see 11/30 notes)
+json or XML?
+it looks like GWT has a JsonUtils http://www.gwtproject.org/javadoc/latest/com/google/gwt/core/client/JsonUtils.html 
+	so use json
+	
+first, get the full info for each greehouse strain - make a temporary change to Aipotu's OrganismFactory
+
+In FoldedProteinArchive:
+	public synchronized void add(String aaSeq, String proteinString, Color color) {
+		archive.put(aaSeq, 
+				new FoldedAndColoredProtein(proteinString, color));
+		System.out.println(aaSeq);
+		System.out.println(proteinString);
+		totalFoldedSequences++;
+	}
+
+In OrganismFactory:
+	public Organism createOrganism(String name, String DNA1, String DNA2) 
+	throws FoldingException {
+
+		ExpressedGene eg1 = geneExpresser.expressGene(DNA1, -1);
+		FoldedProteinWithImages fp1 = foldingManager.foldWithPix(eg1.getProtein());
+
+		ExpressedGene eg2 = geneExpresser.expressGene(DNA2, -1);
+		FoldedProteinWithImages fp2 = foldingManager.foldWithPix(eg2.getProtein());
+		
+		System.out.println(name);
+		System.out.println(DNA1);
+		System.out.println(DNA2);
+		System.out.println(eg1.getProtein());
+		System.out.println(eg2.getProtein());
+		System.out.println(fp1.getColor().toString());
+		System.out.println(fp2.getColor().toString());
+		return createOrganism(name,
+				new ExpressedAndFoldedGene(eg1, fp1),
+				new ExpressedAndFoldedGene(eg2, fp2));
+	}
+
+result:
+     [java] MSNRHILLVYWRQ
+     [java] M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:Y:NE:W:NW:R:NW:Q:none:
+     [java] MSTSAHFVSVLAAVVKKKK
+     [java] M: E:S:NE:T: W:S: W:A:NW:H:SW:F: W:V: W:S:SE:V: E:L:SW:A: E:A:NE:V:SE:V:SE:K:SE:K:SE:K:SE:K:none:
+     [java] MSKSAHFVSVLAAVVKKKK
+     [java] M: E:S:NE:K: W:S: W:A:NW:H:SW:F: W:V: W:S:SE:V: E:L:SW:A: E:A:NE:V:SE:V:SE:K:SE:K:SE:K:SE:K:none:
+     [java] MSNRHILLVFCRQ
+     [java] M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:F:NE:C:NW:R:NW:Q:none:
+     [java] MLRVPRYTLQFSFTGFPGASEWDVFGT
+     [java] M: E:L: E:R:NW:V:NE:P:NW:R:SW:Y: W:T:SE:L: W:Q:SW:F:SW:S: E:F:SW:T: E:G:NE:F:SE:P:SE:G:SW:A:SE:S:SW:E:NW:W: W:D:NE:V:NE:F: W:G: W:T:none:
+     [java] MSNRHILLVVCRQ
+     [java] M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:V:NE:C:NW:R:NW:Q:none:
+     [java] MSNRHILLVYCRQ
+     [java] M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:Y:NE:C:NW:R:NW:Q:none:
+     [java] MSNRHILLVWCRQ
+     [java] M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:W:NE:C:NW:R:NW:Q:none:
+     [java] MSNRHILGYTKVSVRAAVVKKKK
+     [java] M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:G: W:Y:SW:T:NW:K:NE:V: W:S:NE:V:NW:R: E:A:SE:A:NE:V:NW:V:NW:K:NW:K:NW:K:NW:K:none:
+     [java] Green-1
+     [java] CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTACTGGCGGCAGTAGTAGGGGGCGT
+     [java] CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTACTGGCGGCAGTAGTAGGGGGCGT
+     [java] MetSerAsnArgHisIleLeuLeuValTyrTrpArgGln
+     [java] MetSerAsnArgHisIleLeuLeuValTyrTrpArgGln
+     [java] java.awt.Color[r=0,g=255,b=0]
+     [java] java.awt.Color[r=0,g=255,b=0]
+     [java] Green-2
+     [java] CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTACTGTCGGCAGTAGTAGGGGGCGT
+     [java] CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTGGTGTCGGCAGTAGTAGGGGGCGT
+     [java] MetSerAsnArgHisIleLeuLeuValTyrCysArgGln
+     [java] MetSerAsnArgHisIleLeuLeuValTrpCysArgGln
+     [java] java.awt.Color[r=0,g=0,b=255]
+     [java] java.awt.Color[r=255,g=255,b=0]
+     [java] Red
+     [java] CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTTCTGTCGGCAGTAGTAGGGGGCGT
+     [java] CAGCTATGACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTTCTGTCGGCAGTAGTAGGGGGCGT
+     [java] MetSerAsnArgHisIleLeuLeuValPheCysArgGln
+     [java] java.awt.Color[r=255,g=0,b=0]
+     [java] java.awt.Color[r=255,g=255,b=255]
+     [java] White
+     [java] CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGGTCTGTCGGCAGTAGTAGGGGGCGT
+     [java] CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGGTCTGTCGGCAGTAGTAGGGGGCGT
+     [java] MetSerAsnArgHisIleLeuLeuValValCysArgGln
+     [java] MetSerAsnArgHisIleLeuLeuValValCysArgGln
+     [java] java.awt.Color[r=255,g=255,b=255]
+     [java] java.awt.Color[r=255,g=255,b=255]
+
+need to convert to json by hand. Use this site https://jsoneditoronline.org/#right=local.movuxo&left=local.wedunu
+	made file "default.greenhouse"
+when reading it in, gonna need sanity checks to be sure I didn't mess up the protein sequences
 
