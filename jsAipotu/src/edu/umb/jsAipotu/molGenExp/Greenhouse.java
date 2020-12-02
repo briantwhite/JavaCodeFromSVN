@@ -6,15 +6,16 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
+import com.google.gwt.user.cellview.client.CellList;
+
 import edu.umb.jsAipotu.biochem.PaintedInACornerFoldingException;
 import edu.umb.jsAipotu.preferences.GlobalDefaults;
 
-public class Greenhouse extends JList {
+public class Greenhouse extends CellList<Organism> {
 
 	DefaultListModel greenhouseDataModel;
 	MolGenExp mge;

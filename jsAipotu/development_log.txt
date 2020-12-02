@@ -205,4 +205,9 @@ need to convert to json by hand. Use this site https://jsoneditoronline.org/#rig
 when reading it in, gonna need sanity checks to be sure I didn't mess up the protein sequences
 
 how to read it in? https://examples.javacodegeeks.com/enterprise-java/gwt/gwt-json-example/
-got it working
+got it working - it can read things in
+
+need to set up a scrollable list of items
+
+use a CellList<Organism> of OrganismCell<Organism>s
+	this is a useful example http://samples.gwtproject.org/samples/Showcase/Showcase.html#!CwCellList
