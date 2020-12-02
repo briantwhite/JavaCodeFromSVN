@@ -211,3 +211,5 @@ need to set up a scrollable list of items
 
 use a CellList<Organism> of OrganismCell<Organism>s
 	this is a useful example http://samples.gwtproject.org/samples/Showcase/Showcase.html#!CwCellList
+	this is a simpler one http://www.gwtproject.org/doc/latest/DevGuideUiCustomCells.html
+		it looks like you put one cell in the list as a prototype and then add to the list.
