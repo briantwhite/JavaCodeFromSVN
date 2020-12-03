@@ -258,4 +258,11 @@ Compare preferences of jsVGL - specifically Build Path - and jsAipotu is missing
 	still NG
 try fixing "order and export" to match jsVGL - still NG
 
-the whole project is somehow hosed.
+the whole project is somehow hosed - it can't see any of the files in the
+
+noticed important difference between jsVGL and jsAipotu - in jsVGL the packages are edu.umb.jsVGL.client.whatever
+	but in jsAipotu, they're not in .client 
+	and JsAipotu.java is in client/ so it can't see them
+use refactor for each package and change name to include .client.
+WORKS!!
+

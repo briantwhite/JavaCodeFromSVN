@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
-import edu.umb.jsAipotu.molGenExp.Fred;
+import edu.umb.jsAipotu.client.molGenExp.Fred;
 
 
 
