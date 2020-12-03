@@ -1,6 +1,6 @@
 package edu.umb.jsAipotu.molGenExp;
 
-public class Greenhouse {
+public class Fred {
 
 	public void set() {
 		

@@ -220,10 +220,42 @@ just copy code from http://www.gwtproject.org/doc/latest/DevGuideUiCustomCells.h
 still NG - it doesn't like OrganismCell extending AbstractCell
 try their built-in "TextCell" from http://www.gwtproject.org/doc/latest/DevGuideUiCellWidgets.html
 	OK, that works.
-best to use their ImageCell	
+best to use their ImageCell	or SafeHtmlCell (put in image AND label)
+	BUT these will need a link back to the actual organism (unless you use a Custom CellList - that I can't seem to get to work)
 
 info on actions on cells https://stackoverflow.com/questions/5257807/how-to-add-clickhandler-on-imagecell-in-gwt-celltable
 
 maybe, since there are only 8 colors, you might make 8 (or 16 with large/small) canned images to draw on.
 	actually 9 colors since "folded in a corner" yields gray 
-	
+	made them and put them in images/
+
+try to move the code to a Greenhouse class that extends CellList<String> - it won't compile.
+	No source code is available for type edu.umb.jsAipotu.molGenExp.Greenhouse; did you forget to inherit a required module?
+
+so, far, this is the only thing that compiles (in JsAipotu.java)
+		greenhouseWrapper = new CaptionPanel("Greenhouse");
+//		Greenhouse greenhouse = new Greenhouse();
+//		greenhousePanel = new ScrollPanel(greenhouse.getCellList());
+		TextCell cell = new TextCell();
+		List<String> names = Arrays.asList("tom", "dick", "harry");
+		CellList<String> cellList = new CellList<String>(cell);
+		cellList.setRowData(0, names);
+		greenhousePanel = new ScrollPanel(cellList);
+		greenhouseWrapper.setContentWidget(greenhousePanel);
+		//loadGreenhouse("default.greenhouse", greenhouse);
+		mainPanel.addWest(greenhousePanel, 100);
+
+even an EMPTY Greenhouse.java won't compile!
+
+Greenhouse.java is in molGenExp/
+	try commenting out all code that leads to any errors in any files in molGenExp/ - still NG
+
+try deleting and making a new Greenhouse.java - NG
+maybe it's the name "Greenhouse" - try making a new class "Fred" and it fails to compile.
+
+WTF??? - it's probably not seeing ANY of my classes.
+Compare preferences of jsVGL - specifically Build Path - and jsAipotu is missing gwt-user.jar
+	still NG
+try fixing "order and export" to match jsVGL - still NG
+
+the whole project is somehow hosed.

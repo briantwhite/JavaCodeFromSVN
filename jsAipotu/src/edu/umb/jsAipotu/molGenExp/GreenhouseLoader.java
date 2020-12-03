@@ -75,11 +75,11 @@ public class GreenhouseLoader implements Runnable {
 
 				// be sure there are only 2 DNA sequences in the organism
 				if (geneSequences.size() == 2) {
-					greenhouse.add(
-							organismFactory.createOrganism(
-									organismName, 
-									geneSequences.get(0),
-									geneSequences.get(1)));
+//					greenhouse.add(
+//							organismFactory.createOrganism(
+//									organismName, 
+//									geneSequences.get(0),
+//									geneSequences.get(1)));
 				}
 				input.close();
 			} 

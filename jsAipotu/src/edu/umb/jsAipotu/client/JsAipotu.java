@@ -23,6 +23,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
+import edu.umb.jsAipotu.molGenExp.Fred;
+
 
 
 /**
@@ -128,10 +130,13 @@ public class JsAipotu implements EntryPoint {
 		menuBar.addItem("Greenhouse", greenhouseMenu);
 		
 		greenhouseWrapper = new CaptionPanel("Greenhouse");
-		List<String> names = Arrays.asList("tom", "dick", "harry");
+		Fred greenhouse = new Fred();
+		greenhouse.set();
+//		greenhousePanel = new ScrollPanel(greenhouse.getCellList());
 		TextCell cell = new TextCell();
+		List<String> names = Arrays.asList("tom", "dick", "harry");
 		CellList<String> cellList = new CellList<String>(cell);
-		cellList.setRowData(0, names);;
+		cellList.setRowData(0, names);
 		greenhousePanel = new ScrollPanel(cellList);
 		greenhouseWrapper.setContentWidget(greenhousePanel);
 		//loadGreenhouse("default.greenhouse", greenhouse);
