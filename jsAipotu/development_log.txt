@@ -266,3 +266,4 @@ noticed important difference between jsVGL and jsAipotu - in jsVGL the packages 
 use refactor for each package and change name to include .client.
 WORKS!!
 
+trying to get sanity checks to work but the MGX classes need a lot of fixing to be GWT-compatable.

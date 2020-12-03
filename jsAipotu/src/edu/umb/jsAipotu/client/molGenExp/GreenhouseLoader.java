@@ -1,102 +1,71 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.client.Window;
 
-public class GreenhouseLoader implements Runnable {
+import edu.umb.jsAipotu.client.molBiol.ExpressedGene;
+import edu.umb.jsAipotu.client.molBiol.GeneExpresser;
 
-	private File greenhouseDir;
-	private ArrayList<String> organismFiles;
+public class GreenhouseLoader {
+
+//	private OrganismFactory organismFactory;
 	private Greenhouse greenhouse;
-	private int i;
-	private OrganismFactory organismFactory;
+	private GeneExpresser geneExpresser;
 
-	public GreenhouseLoader(File greenhouseDir, Greenhouse greenhouse) {
-		this.greenhouseDir = greenhouseDir;
+	public GreenhouseLoader(Greenhouse greenhouse) {
+//		organismFactory = new OrganismFactory();
+		geneExpresser = new GeneExpresser();
 		this.greenhouse = greenhouse;
-		String[] files = greenhouseDir.list();
-		organismFiles = new ArrayList<String>();
-		for (int counter = 0; counter < files.length; counter++) {
-			String fileName = files[counter];
-			if (fileName.endsWith(".organism")) {
-				organismFiles.add(fileName);
-			}
-		}
-		organismFactory = new OrganismFactory();
+		
 	}
 
-	public int getLengthOfTask() {
-		return organismFiles.size();
-	}
+	public void load(String fileName) {
+		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET, fileName);
+		try {
+			requestBuilder.sendRequest(null, new RequestCallback() {
 
-	public int getCurrent() {
-		return i;
-	}
-
-	public void stop() {
-		i = organismFiles.size();
-	}
-
-	boolean done() {
-		if (i >= organismFiles.size()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-
-	public void run() {
-		for (i = 0; i < organismFiles.size(); i++){
-			String fileString = (String)organismFiles.get(i);
-
-			ArrayList<String> geneSequences = new ArrayList<String>();
-
-			String organismName = 
-					fileString.replaceAll(".organism", "");
-			String orgFileName = greenhouseDir.toString() 
-					+ System.getProperty("file.separator") 
-					+ fileString;
-
-			BufferedReader input = null;
-			try {
-				input = new BufferedReader(new FileReader(orgFileName));
-				String line = null;
-				while ((line = input.readLine()) != null) {
-					Pattern p = Pattern.compile("[^AGCT]+");
-					if (!p.matcher(line).find()) {
-						geneSequences.add(line);
-					} 
-				}
-
-				// be sure there are only 2 DNA sequences in the organism
-				if (geneSequences.size() == 2) {
-//					greenhouse.add(
-//							organismFactory.createOrganism(
-//									organismName, 
-//									geneSequences.get(0),
-//									geneSequences.get(1)));
-				}
-				input.close();
-			} 
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			finally {
-				try {
-					if (input!= null) {
-						input.close();
+				public void onResponseReceived(Request request, Response response) {
+					JSONValue jsonValue = JSONParser.parseStrict(response.getText());
+					JSONObject jsonObject = jsonValue.isObject();
+					JSONArray organismArray = jsonObject.get("organisms").isArray();
+					for (int i = 0; i < organismArray.size(); i++) {
+						JSONObject org = organismArray.get(i).isObject();
+						String name = org.get("name").toString().replace("\"", "");
+						String gene1 = org.get("upperDNA").toString().replace("\"", "");
+						String gene2 = org.get("lowerDNA").toString().replace("\"", "");
+						String protein1 = org.get("upperProtein1").toString().replace("\"", "");
+						String protein2 = org.get("lowerProtein1").toString().replace("\"", "");
+						
+						// sanity checks - figure out proteins from DNA and be sure they match
+						ExpressedGene eg1 = geneExpresser.expressGene(gene1, -1);
+						convert3letterTo1Letter(eg1.getProtein());
+						greenhouse.add(new Organism(name));
 					}
 				}
-				catch (IOException ex) {
-					ex.printStackTrace();
+
+				public void onError(Request request, Throwable exception) {
+					Window.alert("An error occurred while trying to load the greenhouse: " + exception.getMessage());
 				}
-			}
+			});
+		} catch (RequestException e) {
+			Window.alert("An error occurred while trying to load the greenhouse: " + e.toString());
 		}
 	}
 
+	private void convert3letterTo1Letter(String p3) {
+		StringBuffer b = new StringBuffer();
+		for (int i = 0; i < p3.length(); i = i + 3) {
+			String aa3 = p3.substring(i, i + 2);
+			b.append(aa3 + "\n");
+		}
+		Window.alert(b.toString());
+	}
 }
