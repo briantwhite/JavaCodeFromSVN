@@ -1,5 +1,9 @@
 package edu.umb.jsAipotu.client;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -10,10 +14,10 @@ import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CaptionPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -47,17 +51,10 @@ public class JsAipotu implements EntryPoint {
 	public void onModuleLoad() {
 		//mge = new MolGenExp();
 		buildUI();
-		//Greenhouse greenhouse = new Greenhouse(new DefaultListModel(), mge);
-		loadGreenhouse("default.greenhouse");
 	}
 
 	private void buildUI() {
 		mainPanel = new SplitLayoutPanel(5);
-		greenhouseWrapper = new CaptionPanel("Greenhouse");
-		greenhousePanel = new ScrollPanel(new HTML("HI"));
-		greenhouseWrapper.setContentWidget(greenhousePanel);
-
-		mainPanel.addWest(greenhousePanel, 100);
 		mainPanel.setSize("500px", "500px");
 
 		//		final TabLayoutPanel workspace = new TabLayoutPanel(1.5, Unit.EM);
@@ -129,6 +126,17 @@ public class JsAipotu implements EntryPoint {
 			}
 		});
 		menuBar.addItem("Greenhouse", greenhouseMenu);
+		
+		greenhouseWrapper = new CaptionPanel("Greenhouse");
+		List<String> names = Arrays.asList("tom", "dick", "harry");
+		TextCell cell = new TextCell();
+		CellList<String> cellList = new CellList<String>(cell);
+		cellList.setRowData(0, names);;
+		greenhousePanel = new ScrollPanel(cellList);
+		greenhouseWrapper.setContentWidget(greenhousePanel);
+		//loadGreenhouse("default.greenhouse", greenhouse);
+		mainPanel.addWest(greenhousePanel, 100);
+
 
 		RootPanel.get("mainPanelContainer").add(menuBar);
 		RootPanel.get("mainPanelContainer").add(mainPanel);
@@ -143,8 +151,10 @@ public class JsAipotu implements EntryPoint {
 					JSONValue jsonValue = JSONParser.parseStrict(response.getText());
 					JSONObject jsonObject = jsonValue.isObject();
 					JSONArray organismArray = jsonObject.get("organisms").isArray();
-					JSONObject organism0 = organismArray.get(0).isObject();
-					Window.alert(organism0.get("upperProteinString").toString());
+					for (int i = 0; i < organismArray.size(); i++) {
+						JSONObject org = organismArray.get(i).isObject();
+						Window.alert(org.get("name").toString());
+					}
 				}
 
 				public void onError(Request request, Throwable exception) {

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FilePermission;
 import java.security.AccessControlException;
 import java.security.AccessController;
-import java.util.prefs.Preferences;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;

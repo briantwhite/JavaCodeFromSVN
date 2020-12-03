@@ -14,7 +14,6 @@
 package edu.umb.jsAipotu.biochem;
 
 import java.awt.Color;
-import java.io.Serializable;
 import java.util.HashMap;
 
 

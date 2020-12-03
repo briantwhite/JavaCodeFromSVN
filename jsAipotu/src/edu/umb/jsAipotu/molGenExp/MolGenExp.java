@@ -2,7 +2,6 @@ package edu.umb.jsAipotu.molGenExp;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -11,14 +10,9 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
@@ -29,7 +23,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -45,9 +38,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.apple.eawt.Application;
-import com.apple.eawt.QuitStrategy;
-
 import edu.umb.jsAipotu.biochem.AminoAcid;
 import edu.umb.jsAipotu.biochem.BiochemistryWorkbench;
 import edu.umb.jsAipotu.biochem.BiochemistryWorkpanel;
@@ -60,7 +50,6 @@ import edu.umb.jsAipotu.genetics.GeneticsWorkbench;
 import edu.umb.jsAipotu.molBiol.MolBiolWorkbench;
 import edu.umb.jsAipotu.molBiol.MolBiolWorkpanel;
 import edu.umb.jsAipotu.preferences.GlobalDefaults;
-import edu.umb.jsAipotu.preferences.MGEPreferences;
 import edu.umb.jsAipotu.preferences.PreferencesDialog;
 
 

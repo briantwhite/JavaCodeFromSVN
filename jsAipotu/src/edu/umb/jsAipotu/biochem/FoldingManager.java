@@ -41,8 +41,6 @@
 package edu.umb.jsAipotu.biochem;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 

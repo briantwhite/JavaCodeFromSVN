@@ -42,18 +42,11 @@
 package edu.umb.jsAipotu.biochem;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.TransferHandler;
 
 
 

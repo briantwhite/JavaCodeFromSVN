@@ -213,3 +213,17 @@ use a CellList<Organism> of OrganismCell<Organism>s
 	this is a useful example http://samples.gwtproject.org/samples/Showcase/Showcase.html#!CwCellList
 	this is a simpler one http://www.gwtproject.org/doc/latest/DevGuideUiCustomCells.html
 		it looks like you put one cell in the list as a prototype and then add to the list.
+		
+can't get the classes using the CellList etc to compile 
+try going simple - just a list of strings for now.
+just copy code from http://www.gwtproject.org/doc/latest/DevGuideUiCustomCells.html
+still NG - it doesn't like OrganismCell extending AbstractCell
+try their built-in "TextCell" from http://www.gwtproject.org/doc/latest/DevGuideUiCellWidgets.html
+	OK, that works.
+best to use their ImageCell	
+
+info on actions on cells https://stackoverflow.com/questions/5257807/how-to-add-clickhandler-on-imagecell-in-gwt-celltable
+
+maybe, since there are only 8 colors, you might make 8 (or 16 with large/small) canned images to draw on.
+	actually 9 colors since "folded in a corner" yields gray 
+	

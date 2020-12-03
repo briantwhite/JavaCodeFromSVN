@@ -1,0 +1,23 @@
+Notes on the Greenhouse - maybe start here
+- save all organisms in the Gh in one big .greenhouse json file (or xml, whichever is easier)
+- for each organism, save it all:
+	- upper/lower DNA
+	- upper/lower AA seq
+	- upper/lower protein struct
+- don't save color - figure that out since it's quick and also converting colors is a pain
+- on startup, it looks for starting.greenhouse in the web directory and loads it
+- have menu item to replace current Gh with file
+- have menu item to save it to .greenhouse file on local disk
+
+BIOCHEM
+- if folding on the browser is slow:
+	- have it call out to a folding server
+		- the server won't keep a local folded protein archive 
+			- the proteins will not be common across individual users
+			- it will need maintenance (cron job - mysql database etc)
+		- local computers keep their own folded protein database
+
+EVOLUTION
+- progress bar options
+	- a bar that ticks off as each of the cells is computed
+	- just have the cells appear as they are computed

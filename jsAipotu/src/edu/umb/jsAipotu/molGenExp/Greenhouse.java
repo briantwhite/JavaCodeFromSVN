@@ -1,118 +1,89 @@
 package edu.umb.jsAipotu.molGenExp;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
-import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.JOptionPane;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
+import java.util.List;
 
 import com.google.gwt.user.cellview.client.CellList;
 
-import edu.umb.jsAipotu.biochem.PaintedInACornerFoldingException;
-import edu.umb.jsAipotu.preferences.GlobalDefaults;
-
 public class Greenhouse extends CellList<Organism> {
 
-	DefaultListModel greenhouseDataModel;
 	MolGenExp mge;
-
-	public Greenhouse (ListModel dataModel, final MolGenExp mgeX) {
-		super(dataModel);
+	private List<Organism> organismList;
+	private CellList<Organism> organismCells;
+	
+	public Greenhouse (final MolGenExp mgeX, OrganismCell organismCell) {
+		super(organismCell);
 		this.mge = mgeX;
-		this.setCellRenderer(new OrganismCellRenderer());
-		greenhouseDataModel = (DefaultListModel)dataModel;
-		this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		this.setSelectionModel(new CustomListSelectionModel(mge, this));
-		this.setFixedCellWidth(80);
-
-		this.addMouseListener(new MouseListener() {
-			public void mouseClicked(MouseEvent e) {				
-				if (e.getClickCount() == 2) {
-					try {
-						mge.loadOrganismIntoActivePanel(
-								(Organism)getSelectedValue());
-					} catch (PaintedInACornerFoldingException e1) {
-						JOptionPane.showMessageDialog(mge, 
-								GlobalDefaults.paintedInACornerNotice,
-								"Folding Error", JOptionPane.WARNING_MESSAGE);
-					}
-				}
-			}
-			public void mouseEntered(MouseEvent arg0) {}
-			public void mouseExited(MouseEvent arg0) {}
-			public void mousePressed(MouseEvent arg0) {}
-			public void mouseReleased(MouseEvent arg0) {}
-		});
+		organismList = new ArrayList<Organism>();
+		organismCells = new CellList<Organism>(organismCell);
 	}
 
 	public void add(Organism o) {
-		greenhouseDataModel.addElement(o);
+		organismList.add(o);
+		organismCells.setRowData(0, organismList);
 	}
 
-	public void deleteSelected() {
-		if (getSelectedIndex() != -1 ) {
-			greenhouseDataModel.removeElementAt(getSelectedIndex());
-		} else {
-			JOptionPane.showMessageDialog(null, "You have not selected an "
-					+ "item to delete.",
-					"None Selected", JOptionPane.WARNING_MESSAGE);
-		}
-	}
+//	public void deleteSelected() {
+//		if (getSelectedIndex() != -1 ) {
+//			greenhouseDataModel.removeElementAt(getSelectedIndex());
+//		} else {
+//			JOptionPane.showMessageDialog(null, "You have not selected an "
+//					+ "item to delete.",
+//					"None Selected", JOptionPane.WARNING_MESSAGE);
+//		}
+//	}
 
 	public void clearList() {
-		greenhouseDataModel.removeAllElements();
+		organismList = new ArrayList<Organism>();
+		organismCells.setRowData(0, organismList);
 	}
 
 	public Object[] getAll() {
-		return greenhouseDataModel.toArray();
+		return organismList.toArray();
 	}
 
 	public boolean nameExistsAlready(String newName) {
-		Object[] allOrgs = greenhouseDataModel.toArray();
-		ArrayList allNames = new ArrayList();
+		Object[] allOrgs = organismList.toArray();
+		ArrayList<String> allNames = new ArrayList<String>();
 		for (int i = 0; i < allOrgs.length; i++) {
 			allNames.add(((Organism)allOrgs[i]).getName());
 		}
 		return allNames.contains(newName);
 	}
 
-	public Organism getSelectedOrganism() {
-		if (getSelectedIndex() < 0) {
-			return null;
-		}
-		return (Organism)greenhouseDataModel.getElementAt(
-				getSelectedIndex());
-	}
-	
-	public Organism[] getSelectedOrganisms() {
-		if (getSelectedIndex() < 0) {
-			return null;
-		}
-		Object[] values = getSelectedValues();
-		Organism[] orgs = new Organism[values.length];
-		for (int i = 0; i < orgs.length; i++) {
-			orgs[i] = (Organism)values[i];
-		}
-		return orgs;
-	}
-	
-	public void setDefaultSelectionSettings() {
-		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		setSelectionModel(new DefaultListSelectionModel());
-	}
-	
-	public void setCustomSelectionSettings() {
-		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		setSelectionModel(new CustomListSelectionModel(mge, this));
-	}
-	
-	public void setEvolutionSelectionSettings() {
-		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		setSelectionModel(new DefaultListSelectionModel());
-	}
-
+//	public Organism getSelectedOrganism() {
+//		if (getSelectedIndex() < 0) {
+//			return null;
+//		}
+//		return (Organism)greenhouseDataModel.getElementAt(
+//				getSelectedIndex());
+//	}
+//	
+//	public Organism[] getSelectedOrganisms() {
+//		if (getSelectedIndex() < 0) {
+//			return null;
+//		}
+//		Object[] values = getSelectedValues();
+//		Organism[] orgs = new Organism[values.length];
+//		for (int i = 0; i < orgs.length; i++) {
+//			orgs[i] = (Organism)values[i];
+//		}
+//		return orgs;
+//	}
+//	
+//	public void setDefaultSelectionSettings() {
+//		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//		setSelectionModel(new DefaultListSelectionModel());
+//	}
+//	
+//	public void setCustomSelectionSettings() {
+//		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+//		setSelectionModel(new CustomListSelectionModel(mge, this));
+//	}
+//	
+//	public void setEvolutionSelectionSettings() {
+//		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+//		setSelectionModel(new DefaultListSelectionModel());
+//	}
+//
 }

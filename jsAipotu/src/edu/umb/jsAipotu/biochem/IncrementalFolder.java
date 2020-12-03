@@ -13,10 +13,6 @@
 
 package edu.umb.jsAipotu.biochem;
 
-import java.util.Random;
-
-
-
 /**
  * Incremental approximation algorithm searching for minimal energy.
  * 
