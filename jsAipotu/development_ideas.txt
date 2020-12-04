@@ -4,10 +4,17 @@ Notes on the Greenhouse - maybe start here
 	- upper/lower DNA
 	- upper/lower AA seq
 	- upper/lower protein struct
+*** revised 12/4/20 - just save DNA for each organism to avoid entry errors
+	- do save folded protein archive
+
 - don't save color - figure that out since it's quick and also converting colors is a pain
 - on startup, it looks for starting.greenhouse in the web directory and loads it
 - have menu item to replace current Gh with file
 - have menu item to save it to .greenhouse file on local disk
+
+- when you load them - fill the folded protein archive first, then build the organisms
+	make folded protein archive an actual part of the greenhouse
+	** when you save folded protein archive with greenhouse - only save the pertinent entries
 
 BIOCHEM
 - if folding on the browser is slow:

@@ -1,37 +1,30 @@
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.zip.Deflater;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 
-import edu.umb.jsAipotu.client.preferences.MGEPreferences;
-
-
-
+import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.client.Window;
 
 public class FoldedProteinArchive {
 
-	private static FoldedProteinArchive singleton;
+	private static FoldedProteinArchive singleton = null;
 	private HashMap<String, FoldedAndColoredProtein> archive;    
-	private static final String archiveFileName = "FoldedProteinArchive";
+	private static final String greenhouseFileName = "default.greenhouse";
 	private static int totalFoldedSequences;
 
 	private FoldedProteinArchive() {
 		archive = new HashMap<String, FoldedAndColoredProtein>();
-		loadArchiveFromFile();
 		totalFoldedSequences = 0;
+		loadArchiveFromGreenhouseFile(greenhouseFileName);
 	}
 
 	public static FoldedProteinArchive getInstance() {
@@ -41,17 +34,17 @@ public class FoldedProteinArchive {
 		return singleton;
 	}
 
-	public synchronized void add(String aaSeq, String proteinString, Color color) {
+	public void add(String aaSeq, String proteinString, CssColor color) {
 		archive.put(aaSeq, 
 				new FoldedAndColoredProtein(proteinString, color));
 		totalFoldedSequences++;
 	}
 
-	public synchronized boolean isInArchive(String aaSeq) {
+	public boolean isInArchive(String aaSeq) {
 		return archive.containsKey(aaSeq);
 	}
 
-	public synchronized FoldedAndColoredProtein getEntry(String aaSeq) {
+	public FoldedAndColoredProtein getEntry(String aaSeq) {
 		return archive.get(aaSeq);
 	}
 
@@ -64,109 +57,37 @@ public class FoldedProteinArchive {
 	}
 	
 	public void saveArchiveToZipFile() {
-		StringBuffer buf = new StringBuffer();
-		Set<String> keySet = archive.keySet();
-		Iterator<String> it = keySet.iterator();
 
-		while (it.hasNext()) {
-			String seq = (String)it.next();
-			FoldedAndColoredProtein entry = archive.get(seq);
-			buf.append(seq);
-			buf.append(";");
-			buf.append(entry.getProteinString());
-			buf.append(";");
-			String colorString = entry.getColor().toString();
-			colorString = colorString.replaceAll("java.awt.Color\\[r=", "");
-			colorString = colorString.replaceAll(",g=", "/");
-			colorString = colorString.replaceAll(",b=", "/");
-			colorString = colorString.replaceAll("]", "");
-			buf.append(colorString);
-			buf.append("\n");
-		}
-
-		String archiveString = buf.toString();
-		byte[] archiveBytes = null;
-		try {
-			archiveBytes = archiveString.getBytes("US-ASCII");
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		}
-		ZipOutputStream archiveWriter = null;
-		try {
-			archiveWriter = 
-				new ZipOutputStream(new FileOutputStream(
-						MGEPreferences.getInstance().getGreenhouseDirectory().getAbsolutePath() + 
-						System.getProperty("file.separator") +
-						archiveFileName + ".zip"));
-			archiveWriter.setLevel(Deflater.DEFAULT_COMPRESSION);
-			archiveWriter.putNextEntry(new ZipEntry(archiveFileName + ".txt"));
-			archiveWriter.write(archiveBytes, 0, archiveBytes.length);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				if (archiveWriter != null) {
-					archiveWriter.close();
-				}
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
-	private synchronized void loadArchiveFromFile() {
-		String fullArchiveFileName = 
-				MGEPreferences.getInstance().getGreenhouseDirectory().getAbsolutePath() + 
-				System.getProperty("file.separator") + 
-			archiveFileName + ".zip";
-
-		File archiveFile = new File(fullArchiveFileName);
-		if (archiveFile.exists()) {
-			try {
-				ZipFile archiveZip = new ZipFile(fullArchiveFileName);
-				Enumeration zipFileEntries = archiveZip.entries();
-				while (zipFileEntries.hasMoreElements()) {
-					ZipEntry zipEntry = (ZipEntry)zipFileEntries.nextElement();
-					BufferedReader zipReader = 
-						new BufferedReader(
-								new InputStreamReader(
-										archiveZip.getInputStream(zipEntry)));
-					String line = null;
-					while ((line = zipReader.readLine()) != null) {
-						if (line.indexOf(":") > -1) {
-							addEntryToArchive(line);
-						}
+	private void loadArchiveFromGreenhouseFile(String fileName) {
+		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET, fileName);
+		try {
+			requestBuilder.sendRequest(null, new RequestCallback() {
+				public void onResponseReceived(Request request, Response response) {
+					JSONValue jsonValue = JSONParser.parseStrict(response.getText());
+					JSONObject jsonObject = jsonValue.isObject();
+					JSONArray fpaEntryArray = jsonObject.get("foldedProteinArchive").isArray();
+					for (int i = 0; i < fpaEntryArray.size(); i++) {
+						JSONObject entry = fpaEntryArray.get(i).isObject();
+						String aaSeq = entry.get("aaSeq").toString().replace("\"", "");
+						String topology = entry.get("topology").toString().replace("\"", "");
+						String colorString = entry.get("color").toString().replace("\"", "");
+						String[] colorStringParts = colorString.split("/");
+						CssColor color = CssColor.make(
+								Integer.parseInt(colorStringParts[0]),
+								Integer.parseInt(colorStringParts[1]),
+								Integer.parseInt(colorStringParts[2]));
+						add(aaSeq, topology, color);
 					}
-					zipReader.close();
 				}
-				archiveZip.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
+				public void onError(Request request, Throwable exception) {
+					Window.alert("An error occurred while trying to load the FPA in the Greenhouse: " + exception.getMessage());
+				}
+			});
+		} catch (RequestException e) {
+			Window.alert("An error occurred while trying to load the FPA in the Greenhouse: " + e.toString());
 		}
 	}
-
-	//take it in format <num;>aaseq;direction string; color (as R/G/B)
-	// first num is optional (it comes from the folding server and can be ignored
-	public synchronized void addEntryToArchive(String s) {
-		String[] parts = s.split(";");
-		int startIndex = 0;
-		// if the first part is a number; ignore it
-		if (parts[0].matches("[0-9]+")) {
-			startIndex = 1;
-		}
-
-		//in format R/G/B
-		String colorString = parts[startIndex + 2];
-		String[] colorStringParts = colorString.split("/");
-		Color color = new Color(
-				Integer.parseInt(colorStringParts[0]),
-				Integer.parseInt(colorStringParts[1]),
-				Integer.parseInt(colorStringParts[2]));
-		add(parts[startIndex], parts[startIndex + 1], color);
-//		System.out.println(parts[startIndex] + " " + parts[startIndex + 1] + " " + color.toString());
-	}
-
 }

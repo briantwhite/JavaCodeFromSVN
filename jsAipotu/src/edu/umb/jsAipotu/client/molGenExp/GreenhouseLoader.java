@@ -11,7 +11,6 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
 
-import edu.umb.jsAipotu.client.molBiol.ExpressedGene;
 import edu.umb.jsAipotu.client.molBiol.GeneExpresser;
 
 public class GreenhouseLoader {
@@ -40,14 +39,7 @@ public class GreenhouseLoader {
 						JSONObject org = organismArray.get(i).isObject();
 						String name = org.get("name").toString().replace("\"", "");
 						String gene1 = org.get("upperDNA").toString().replace("\"", "");
-						String gene2 = org.get("lowerDNA").toString().replace("\"", "");
-						String protein1 = org.get("upperProtein1").toString().replace("\"", "");
-						String protein2 = org.get("lowerProtein1").toString().replace("\"", "");
-						
-						// sanity checks - figure out proteins from DNA and be sure they match
-						ExpressedGene eg1 = geneExpresser.expressGene(gene1, -1);
-						convert3letterTo1Letter(eg1.getProtein());
-						greenhouse.add(new Organism(name));
+						String gene2 = org.get("lowerDNA").toString().replace("\"", "");						
 					}
 				}
 

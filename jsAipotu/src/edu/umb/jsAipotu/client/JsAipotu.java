@@ -1,15 +1,6 @@
 package edu.umb.jsAipotu.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
-import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CaptionPanel;
@@ -18,10 +9,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
+import edu.umb.jsAipotu.client.biochem.FoldedProteinArchive;
 import edu.umb.jsAipotu.client.molGenExp.Greenhouse;
 import edu.umb.jsAipotu.client.molGenExp.GreenhouseCell;
 import edu.umb.jsAipotu.client.molGenExp.GreenhouseLoader;
-import edu.umb.jsAipotu.client.molGenExp.Organism;
 
 
 
@@ -131,6 +122,11 @@ public class JsAipotu implements EntryPoint {
 		menuBar.addItem("Greenhouse", greenhouseMenu);
 		mainPanel.addNorth(menuBar, 50);
 		
+		// Read in the folded protein archive in the greenhouse file
+		FoldedProteinArchive.getInstance();
+		// wait for the archive to get full - it takes time for it to get loaded asynchronously
+		while (FoldedProteinArchive.getInstance().getNumSequencesInArchive() == 0) {}
+		Window.alert("size " + Integer.toString(FoldedProteinArchive.getInstance().getNumSequencesInArchive()));
 		greenhouseWrapper = new CaptionPanel("Greenhouse");
 		greenhouse = new Greenhouse(new GreenhouseCell());
 		greenhousePanel = new ScrollPanel(greenhouse);

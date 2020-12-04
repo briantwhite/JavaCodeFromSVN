@@ -1,9 +1,5 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import java.awt.Color;
-
-import javax.swing.ImageIcon;
-
 public class Organism {
 	
 	private String name;

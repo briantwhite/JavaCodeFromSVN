@@ -267,3 +267,21 @@ use refactor for each package and change name to include .client.
 WORKS!!
 
 trying to get sanity checks to work but the MGX classes need a lot of fixing to be GWT-compatable.
+
+12/4/20
+nice info on drawing in GWT here - it looks pretty simple
+http://www.science.smith.edu/dftwiki/index.php/Tutorial:_The_Basics_of_a_Simple_GWT_Canvas_App
+
+Q: Aipotu uses java.awt.Color - what is a smart gwt substitute?
+	the link above uses CssColor - that might be good - use it.
+
+revise default.greenhouse to save the folded protein archive.
+	get the archive by starting java Aipotu, immediately saving the folded protein archive, and unzipping it
+
+PROBLEM - the greenhouse loading is asynchronous so, if you do FoldedProteinArchive.getInstance(), it returns before the
+	archive is full - it's waiting for the file.
+	you can't just put that in a while size == 0 loop or it hangs.
+	** need a better solution ***
+	- FALLBACK: could just build FPA with some hard-coded starting entries 
+		(not the best because it will make other saved greenhouses slow to load - whatever!)
+		

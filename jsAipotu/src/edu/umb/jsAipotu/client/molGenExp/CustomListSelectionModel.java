@@ -1,7 +1,6 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
 import javax.swing.DefaultListSelectionModel;
-import javax.swing.JList;
 
 public class CustomListSelectionModel extends DefaultListSelectionModel {
 //	private MolGenExp mge;

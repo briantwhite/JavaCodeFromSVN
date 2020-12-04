@@ -3,54 +3,74 @@
     {
       "name" : "Green-1",
       "upperDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTACTGGCGGCAGTAGTAGGGGGCGT",
-      "lowerDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTACTGGCGGCAGTAGTAGGGGGCGT",
-      "upperProtein1" : "MSNRHILLVYWRQ",
-      "lowerProtein1" : "MSNRHILLVYWRQ",
-      "upperProtein3" : "MetSerAsnArgHisIleLeuLeuValTyrTrpArgGln",
-      "lowerProtein3" : "MetSerAsnArgHisIleLeuLeuValTyrTrpArgGln",
-      "upperProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:Y:NE:W:NW:R:NW:Q:none:",
-      "lowerProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:Y:NE:W:NW:R:NW:Q:none:",
-      "upperProteinColor" : "r=0,g=255,b=0",
-      "lowerProteinColor" : "r=0,g=255,b=0"
+      "lowerDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTACTGGCGGCAGTAGTAGGGGGCGT"
     },
     {
       "name" : "Green-2",
       "upperDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTACTGTCGGCAGTAGTAGGGGGCGT",
-      "lowerDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTGGTGTCGGCAGTAGTAGGGGGCGT",
-      "upperProtein1" : "MSNRHILLVYCRQ",
-      "lowerProtein1" : "MSNRHILLVWCRQ",
-      "upperProtein3" : "MetSerAsnArgHisIleLeuLeuValTyrCysArgGln",
-      "lowerProtein3" : "MetSerAsnArgHisIleLeuLeuValTrpCysArgGln",
-      "upperProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:Y:NE:C:NW:R:NW:Q:none:",
-      "lowerProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:W:NE:C:NW:R:NW:Q:none:",
-      "upperProteinColor" : "r=0,g=0,b=255",
-      "lowerProteinColor" : "r=255,g=255,b=0"
+      "lowerDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTGGTGTCGGCAGTAGTAGGGGGCGT"
     },
     {
       "name" : "Red",
       "upperDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTTCTGTCGGCAGTAGTAGGGGGCGT",
-      "lowerDNA" : "CAGCTATGACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTTCTGTCGGCAGTAGTAGGGGGCGT",
-      "upperProtein1" : "MSNRHILLVFCRQ",
-      "lowerProtein1" : "",
-      "upperProtein3" : "MetSerAsnArgHisIleLeuLeuValPheCysArgGln",
-      "lowerProtein3" : "",
-      "upperProteinString" : " M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:F:NE:C:NW:R:NW:Q:none:",
-      "lowerProteinString" : "",
-      "upperProteinColor" : "r=255,g=0,b=0",
-      "lowerProteinColor" : "r=255,g=255,b=255"
+      "lowerDNA" : "CAGCTATGACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGTTCTGTCGGCAGTAGTAGGGGGCGT"
     },
     {
       "name" : "White",
       "upperDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGGTCTGTCGGCAGTAGTAGGGGGCGT",
-      "lowerDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGGTCTGTCGGCAGTAGTAGGGGGCGT",
-      "upperProtein1" : "MSNRHILLVVCRQ",
-      "lowerProtein1" : "MSNRHILLVVCRQ",
-      "upperProtein3" : "MetSerAsnArgHisIleLeuLeuValValCysArgGln",
-      "lowerProtein3" : "MetSerAsnArgHisIleLeuLeuValValCysArgGln",
-      "upperProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:V:NE:C:NW:R:NW:Q:none:",
-      "lowerProteinString" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:V:NE:C:NW:R:NW:Q:none:",
-      "upperProteinColor" : "r=255,g=255,b=255",
-      "lowerProteinColor" : "r=255,g=255,b=255"
+      "lowerDNA" : "CAGCTATAACCGAGATTGATGTCTAGTGCGATAAGCCCCAAAGATCGGCACATTTTGTGCGCTATACAAAGGTTAGTGGTCTGTCGGCAGTAGTAGGGGGCGT"
+    }
+    ],
+    "foldedProteinArchive": [
+    {
+      "aaSeq" : "",
+      "topology" : "",
+      "color" : "255/255/255"
+    },
+    {
+      "aaSeq": "MSNRHILLVYWRQ",
+      "topology" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:Y:NE:W:NW:R:NW:Q:none:",
+      "color" : "0/255/0"
+    },
+    {
+      "aaSeq" : "MSTSAHFVSVLAAVVKKKK",
+      "topology" : "M: E:S:NE:T: W:S: W:A:NW:H:SW:F: W:V: W:S:SE:V: E:L:SW:A: E:A:NE:V:SE:V:SE:K:SE:K:SE:K:SE:K:none:",
+      "color" : "255/0/0"
+    },
+    {
+      "aaSeq" : "MSKSAHFVSVLAAVVKKKK",
+      "topology" : "M: E:S:NE:K: W:S: W:A:NW:H:SW:F: W:V: W:S:SE:V: E:L:SW:A: E:A:NE:V:SE:V:SE:K:SE:K:SE:K:SE:K:none:",
+      "color" : "255/0/0"
+    },
+    {
+      "aaSeq" : "MSNRHILLVFCRQ",
+      "topology" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:F:NE:C:NW:R:NW:Q:none:",
+      "color" : "255/0/0"
+    },
+    {
+      "aaSeq" : "MLRVPRYTLQFSFTGFPGASEWDVFGT",
+      "topology" : "M: E:L: E:R:NW:V:NE:P:NW:R:SW:Y: W:T:SE:L: W:Q:SW:F:SW:S: E:F:SW:T: E:G:NE:F:SE:P:SE:G:SW:A:SE:S:SW:E:NW:W: W:D:NE:V:NE:F: W:G: W:T:none:",
+      "color" : "255/0/0"
+    },
+    {
+      "aaSeq" : "MSNRHILLVVCRQ",
+      "topology" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:V:NE:C:NW:R:NW:Q:none:",
+      "color" : "255/255/255"
+    },
+    {
+      "aaSeq" : "MSNRHILLVYCRQ",
+      "topology" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:Y:NE:C:NW:R:NW:Q:none:",
+      "color" : "0/0/255"
+    },
+    {
+      "aaSeq" : "MSNRHILLVWCRQ",
+      "topology" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:L: W:V:NW:W:NE:C:NW:R:NW:Q:none:",
+      "color" : "255/255/0"
+    },
+    {
+      "aaSeq" : "MSNRHILGYTKVSVRAAVVKKKK",
+      "topology" : "M: E:S:NE:N:NW:R: W:H:SW:I:SW:L:SE:G: W:Y:SW:T:NW:K:NE:V: W:S:NE:V:NW:R: E:A:SE:A:NE:V:NW:V:NW:K:NW:K:NW:K:NW:K:none:",
+      "color" : "0/0/255"
     }
     ]
 }
