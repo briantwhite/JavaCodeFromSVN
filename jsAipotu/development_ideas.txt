@@ -1,11 +1,7 @@
 Notes on the Greenhouse - maybe start here
 - save all organisms in the Gh in one big .greenhouse json file (or xml, whichever is easier)
-- for each organism, save it all:
-	- upper/lower DNA
-	- upper/lower AA seq
-	- upper/lower protein struct
-*** revised 12/4/20 - just save DNA for each organism to avoid entry errors
-	- do save folded protein archive
+- for each organism, save DNA only
+- do save folded protein archive
 
 - don't save color - figure that out since it's quick and also converting colors is a pain
 - on startup, it looks for starting.greenhouse in the web directory and loads it

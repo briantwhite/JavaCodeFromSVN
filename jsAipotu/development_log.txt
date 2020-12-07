@@ -284,4 +284,13 @@ PROBLEM - the greenhouse loading is asynchronous so, if you do FoldedProteinArch
 	** need a better solution ***
 	- FALLBACK: could just build FPA with some hard-coded starting entries 
 		(not the best because it will make other saved greenhouses slow to load - whatever!)
+
+12/7/20
+better idea:
+- on startup
+	- make empty folded protein archive
+	- start greenhouse loader that:
+		- put entries into FPA
+		- create organisms using DNA and data in FPA
+
 		
