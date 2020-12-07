@@ -13,8 +13,9 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
 import java.util.HashMap;
+
+import com.google.gwt.canvas.dom.client.CssColor;
 
 
 /**
@@ -27,9 +28,9 @@ import java.util.HashMap;
  */
 public abstract class ColorModel {
 
-	private Color[] numberToColorMap;
+	private CssColor[] numberToColorMap;
 	
-	private HashMap<Color, Integer> colorToNumberMap;
+	private HashMap<CssColor, Integer> colorToNumberMap;
 
 	/**
 	 * Constructor
@@ -38,9 +39,9 @@ public abstract class ColorModel {
 		
 	}
 
-	public abstract int getColorNumber(Color c);
+	public abstract int getColorNumber(CssColor c);
 	
-	public abstract String getColorName(Color c);
+	public abstract String getColorName(CssColor c);
 	
 	public abstract void categorizeAcids(Grid grid);
 
@@ -50,7 +51,7 @@ public abstract class ColorModel {
 	 * @return
 	 * @throws PaintedInACornerFoldingException 
 	 */
-	public abstract Color getProteinColor(Grid grid) throws PaintedInACornerFoldingException;
+	public abstract CssColor getProteinColor(Grid grid) throws PaintedInACornerFoldingException;
 
 	/**
 	 * Mix two colors and return the result
@@ -58,10 +59,12 @@ public abstract class ColorModel {
 	 * @param b
 	 * @return
 	 */
-	public abstract Color mixTwoColors(Color a, Color b);
+	public abstract CssColor mixTwoColors(CssColor a, CssColor b);
 	
 	// color the names of amino acids by their properties
-	public abstract Color colorAaNameText(AminoAcid aa);
+	public abstract CssColor colorAaNameText(AminoAcid aa);
 	
-	public abstract Color getColorFromString(String c);
+	public abstract CssColor getColorFromString(String c);
+	
+	public abstract String getImageFileNameFromColor(CssColor c);
 }

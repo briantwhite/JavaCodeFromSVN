@@ -1,6 +1,6 @@
 package edu.umb.jsAipotu.client.preferences;
 
-import java.awt.Color;
+import com.google.gwt.canvas.dom.client.CssColor;
 
 import edu.umb.jsAipotu.client.biochem.BiochemAttributes;
 import edu.umb.jsAipotu.client.biochem.ColorModel;
@@ -46,7 +46,7 @@ public class GlobalDefaults {
 	 * they're dead and shown as gray (or whatever the dead color is)
 	 * - note that the folding routing returns a color of NULL if it's folded in a corner
 	 */
-	public static final Color DEAD_COLOR = Color.GRAY;
+	public static final CssColor DEAD_COLOR = CssColor.make("gray");
 	public static final String DEAD_COLOR_NAME = "Gray";
 
 	public static final String paintedInACornerNotice = "<html>"

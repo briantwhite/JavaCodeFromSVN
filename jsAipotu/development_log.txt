@@ -293,4 +293,14 @@ better idea:
 		- put entries into FPA
 		- create organisms using DNA and data in FPA
 
+did it but REMEMBER - the function returns BEFORE the GH is loaded
+	the only 'safe' place is inside the request callback function - this won't run until the file is received
+
+seems to load the FPA OK
+
+now work on Organism - use a String for the image file name
+work on RYBColorModel to include image file name lookup
+
+all these changes percolate down into OrganismFactory and FoldingManager etc.
+	will need to do carefully.
 		

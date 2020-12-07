@@ -18,13 +18,11 @@ public class FoldedProteinArchive {
 
 	private static FoldedProteinArchive singleton = null;
 	private HashMap<String, FoldedAndColoredProtein> archive;    
-	private static final String greenhouseFileName = "default.greenhouse";
 	private static int totalFoldedSequences;
 
 	private FoldedProteinArchive() {
 		archive = new HashMap<String, FoldedAndColoredProtein>();
 		totalFoldedSequences = 0;
-		loadArchiveFromGreenhouseFile(greenhouseFileName);
 	}
 
 	public static FoldedProteinArchive getInstance() {
@@ -60,34 +58,4 @@ public class FoldedProteinArchive {
 
 	}
 
-	private void loadArchiveFromGreenhouseFile(String fileName) {
-		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET, fileName);
-		try {
-			requestBuilder.sendRequest(null, new RequestCallback() {
-				public void onResponseReceived(Request request, Response response) {
-					JSONValue jsonValue = JSONParser.parseStrict(response.getText());
-					JSONObject jsonObject = jsonValue.isObject();
-					JSONArray fpaEntryArray = jsonObject.get("foldedProteinArchive").isArray();
-					for (int i = 0; i < fpaEntryArray.size(); i++) {
-						JSONObject entry = fpaEntryArray.get(i).isObject();
-						String aaSeq = entry.get("aaSeq").toString().replace("\"", "");
-						String topology = entry.get("topology").toString().replace("\"", "");
-						String colorString = entry.get("color").toString().replace("\"", "");
-						String[] colorStringParts = colorString.split("/");
-						CssColor color = CssColor.make(
-								Integer.parseInt(colorStringParts[0]),
-								Integer.parseInt(colorStringParts[1]),
-								Integer.parseInt(colorStringParts[2]));
-						add(aaSeq, topology, color);
-					}
-				}
-
-				public void onError(Request request, Throwable exception) {
-					Window.alert("An error occurred while trying to load the FPA in the Greenhouse: " + exception.getMessage());
-				}
-			});
-		} catch (RequestException e) {
-			Window.alert("An error occurred while trying to load the FPA in the Greenhouse: " + e.toString());
-		}
-	}
 }

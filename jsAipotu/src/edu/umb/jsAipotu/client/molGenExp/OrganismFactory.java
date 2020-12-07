@@ -19,7 +19,6 @@ import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class OrganismFactory {
 	
-	private static int imageSize = 50; //size of image for greenhouse
 	private static HashMap<String, ImageIcon> iconCache;
 	
 	private GeneExpresser geneExpresser;
@@ -57,7 +56,7 @@ public class OrganismFactory {
 			ExpressedAndFoldedGene gene2) {
 		
 		//calculate color
-		Color color = GlobalDefaults.colorModel.mixTwoColors(
+		CssColor color = GlobalDefaults.colorModel.mixTwoColors(
 				gene1.getFoldedProteinWithImages().getColor(), 
 				gene2.getFoldedProteinWithImages().getColor());
 		
@@ -88,7 +87,7 @@ public class OrganismFactory {
 
 	
 	
-	private ImageIcon makeIcon(Color color) {
+	private ImageIcon makeIcon(CssColor color) {
 		BufferedImage pic = new BufferedImage(
 				imageSize,
 				imageSize,

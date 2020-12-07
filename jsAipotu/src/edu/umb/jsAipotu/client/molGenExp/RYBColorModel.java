@@ -13,9 +13,10 @@
 
 package edu.umb.jsAipotu.client.molGenExp;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.google.gwt.canvas.dom.client.CssColor;
 
 import edu.umb.jsAipotu.client.biochem.AcidInChain;
 import edu.umb.jsAipotu.client.biochem.AminoAcid;
@@ -38,21 +39,21 @@ public class RYBColorModel extends ColorModel {
 
 	ArrayList<AcidInChain> hydrophobics;
 	ArrayList<AcidInChain> hydrophilics;
-	ArrayList<Color> coreColors;
+	ArrayList<CssColor> coreColors;
 
-	private Color[] numberToColorMap = {
+	private CssColor[] numberToColorMap = {
 			// colors are modeled by bits in integer
 			//    	1's = blue
 			//		2's = yellow
 			//		4's = red
-			Color.WHITE,			 // 000 0
-			Color.BLUE,			 // 001 1
-			Color.YELLOW,	     // 010 2 
-			Color.GREEN,			 // 011 3
-			Color.RED,			 // 100 4
-			new Color(138,43,226), // 101 5 Purple
-			new Color(255,140,0),	 // 110 6 Orange
-			Color.BLACK  
+			CssColor.make("white"),			 // 000 0
+			CssColor.make("blue"),			 // 001 1
+			CssColor.make("yellow"),	     // 010 2 
+			CssColor.make("green"),			 // 011 3
+			CssColor.make("red"),			 // 100 4
+			CssColor.make(138,43,226), // 101 5 Purple
+			CssColor.make(255,140,0),	 // 110 6 Orange
+			CssColor.make("black")      // 111
 	};
 
 	private String[] numberToColorNameMap = {
@@ -65,9 +66,20 @@ public class RYBColorModel extends ColorModel {
 			"Orange",
 			"Black"
 	};
+	
+	private String[] numberToImageFileNameMap = {
+			"white.gif",
+			"blue.gif",
+			"yellow.gif",
+			"green.gif",
+			"red.gif",
+			"purple.gif",
+			"orange.gif",
+			"black.gif"
+	};
 
-	private HashMap<Color, Integer> colorToNumberMap;
-	private HashMap<String, Color> nameToColorMap;
+	private HashMap<CssColor, Integer> colorToNumberMap;
+	private HashMap<String, CssColor> nameToColorMap;
 
 	/**
 	 * Constructor
@@ -75,34 +87,34 @@ public class RYBColorModel extends ColorModel {
 	public RYBColorModel() { 
 		super();
 		
-		colorToNumberMap = new HashMap<Color, Integer>();
+		colorToNumberMap = new HashMap<CssColor, Integer>();
 		for (int i = 0; i < numberToColorMap.length; i++) {
-			colorToNumberMap.put((Color)numberToColorMap[i], new Integer(i));
+			colorToNumberMap.put((CssColor)numberToColorMap[i], new Integer(i));
 		}
 		
-		nameToColorMap = new HashMap<String, Color>();
+		nameToColorMap = new HashMap<String, CssColor>();
 		for (int i = 0; i < numberToColorMap.length; i++) {
 			nameToColorMap.put(numberToColorNameMap[i], numberToColorMap[i]);
 		}
 	}
 
-	public Color getProteinColor(Grid grid) throws PaintedInACornerFoldingException {
-		Color color = Color.white;
+	public CssColor getProteinColor(Grid grid) throws PaintedInACornerFoldingException {
+		CssColor color = CssColor.make("white");
 		hydrophobics = new ArrayList<AcidInChain>();
 		hydrophilics = new ArrayList<AcidInChain>();
-		coreColors = new ArrayList<Color>();
+		coreColors = new ArrayList<CssColor>();
 
 		HexGrid realGrid = (HexGrid)grid;
 		int numAcids = grid.getPP().getLength();
 		Direction[] allDirections = grid.getAllDirections();
 		if (numAcids < 13)
-			return Color.white;
+			return CssColor.make("white");
 		categorizeAcids(grid);
 		if (hydrophobics.size() < 7 || hydrophilics.size() < 6)
-			return Color.white;
-		Color c = Color.white;
+			return CssColor.make("white");
+		CssColor c = CssColor.make("white");
 		for (int i = 0; i < hydrophobics.size(); i++) {
-			c = Color.white;
+			c = CssColor.make("white");
 			AcidInChain a = (AcidInChain) hydrophobics.get(i);
 			int d;
 			for (d = 0; d < allDirections.length; d++) {
@@ -138,11 +150,11 @@ public class RYBColorModel extends ColorModel {
 		}
 	}
 
-	private Color mixHexagonalCores() {
-		Color color = (Color) coreColors.get(0);
+	private CssColor mixHexagonalCores() {
+		CssColor color = (CssColor) coreColors.get(0);
 		for (int i = 1; i < coreColors.size(); i++)
 			color = mixTwoColors(color, 
-					(Color) coreColors.get(i));
+					(CssColor) coreColors.get(i));
 		return color;
 	}
 
@@ -151,13 +163,13 @@ public class RYBColorModel extends ColorModel {
 	 * Color by amino acids found in core
 	 * 	accumulate color as amino acids found
 	 */
-	private Color colorByAminoAcid(Color c, AcidInChain a) {
+	private CssColor colorByAminoAcid(CssColor c, AcidInChain a) {
 		if (a.getName().equalsIgnoreCase("phe"))
-			c = mixTwoColors(c, Color.red);
+			c = mixTwoColors(c, CssColor.make("red"));
 		if (a.getName().equalsIgnoreCase("tyr"))
-			c = mixTwoColors(c, Color.blue);
+			c = mixTwoColors(c, CssColor.make("blue"));
 		if (a.getName().equalsIgnoreCase("trp"))
-			c = mixTwoColors(c, Color.yellow);
+			c = mixTwoColors(c, CssColor.make("yellow"));
 		return c;
 	}
 
@@ -168,7 +180,7 @@ public class RYBColorModel extends ColorModel {
 	 * @param b
 	 * @return
 	 */
-	public Color mixTwoColors(Color a, Color b) {
+	public CssColor mixTwoColors(CssColor a, CssColor b) {
 		// null colors mean that it's a dead organism because
 		//  one or both proteins is folded in a corner
 		if ((a == null) || (b == null)) {
@@ -180,34 +192,44 @@ public class RYBColorModel extends ColorModel {
 		return numberToColorMap[aNum | bNum];
 	}
 
-	public int getColorNumber(Color c) {
+	public int getColorNumber(CssColor c) {
 		if (colorToNumberMap.get(c) == null) return -1;			// if not on the list, it's the
 																//  dead color
 		return ((Integer)colorToNumberMap.get(c)).intValue();
 	}
 
-	public Color colorAaNameText(AminoAcid a) {
+	public CssColor colorAaNameText(AminoAcid a) {
 		if (a.getName().equals("Arg") ||
 				a.getName().equals("Lys") ||
 				a.getName().equals("His")) {
-			return Color.BLUE;
+			return CssColor.make("blue");
 		}
 		if (a.getName().equals("Asp") ||
 				a.getName().equals("Glu")) {
-			return Color.RED;
+			return CssColor.make("red");
 		}
-		return Color.black;
+		return CssColor.make("black");
 	}
 
-	public String getColorName(Color c) {
+	public String getColorName(CssColor c) {
 		int colorNumber = getColorNumber(c);
 		if (colorNumber == -1) return null;
 		return numberToColorNameMap[getColorNumber(c)];
 	}
 	
-	public Color getColorFromString(String c) {
-		Color result = null;
+	public CssColor getColorFromString(String c) {
+		CssColor result = null;
 		if (nameToColorMap.containsKey(c)) result = nameToColorMap.get(c);
 		return result;
 	}
+
+
+	public String getImageFileNameFromColor(CssColor c) {
+		int n = getColorNumber(c);
+		if (n == -1) {
+			return "images/blank.gif";
+		}
+		return "images/" + numberToImageFileNameMap[n];
+	}
+	
 }

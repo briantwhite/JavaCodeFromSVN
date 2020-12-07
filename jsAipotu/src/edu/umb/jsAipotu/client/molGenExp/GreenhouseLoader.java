@@ -1,5 +1,10 @@
+/* loads the greenhouse file
+ *   first, filling the FoldedProteinArchive with entries relevant to the greenhouse members
+ *   then, reading in the organisms in the greenhouse
+ */
 package edu.umb.jsAipotu.client.molGenExp;
 
+import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -11,6 +16,7 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
 
+import edu.umb.jsAipotu.client.biochem.FoldedProteinArchive;
 import edu.umb.jsAipotu.client.molBiol.GeneExpresser;
 
 public class GreenhouseLoader {
@@ -34,15 +40,9 @@ public class GreenhouseLoader {
 				public void onResponseReceived(Request request, Response response) {
 					JSONValue jsonValue = JSONParser.parseStrict(response.getText());
 					JSONObject jsonObject = jsonValue.isObject();
-					JSONArray organismArray = jsonObject.get("organisms").isArray();
-					for (int i = 0; i < organismArray.size(); i++) {
-						JSONObject org = organismArray.get(i).isObject();
-						String name = org.get("name").toString().replace("\"", "");
-						String gene1 = org.get("upperDNA").toString().replace("\"", "");
-						String gene2 = org.get("lowerDNA").toString().replace("\"", "");						
-					}
+					loadFoldedProteinArchive(jsonObject.get("foldedProteinArchive").isArray());
+					loadGreenhouse(jsonObject.get("organisms").isArray());
 				}
-
 				public void onError(Request request, Throwable exception) {
 					Window.alert("An error occurred while trying to load the greenhouse: " + exception.getMessage());
 				}
@@ -52,12 +52,28 @@ public class GreenhouseLoader {
 		}
 	}
 
-	private void convert3letterTo1Letter(String p3) {
-		StringBuffer b = new StringBuffer();
-		for (int i = 0; i < p3.length(); i = i + 3) {
-			String aa3 = p3.substring(i, i + 2);
-			b.append(aa3 + "\n");
+	private void loadFoldedProteinArchive(JSONArray fpaEntryArray) {
+		for (int i = 0; i < fpaEntryArray.size(); i++) {
+			JSONObject entryObj = fpaEntryArray.get(i).isObject();
+			String aaSeq = entryObj.get("aaSeq").toString().replace("\"", "");
+			String topology = entryObj.get("topology").toString().replace("\"", "");
+			CssColor color = parseColorString(entryObj.get("color").toString().replace("\"", ""));
+			FoldedProteinArchive.getInstance().add(aaSeq, topology, color);
 		}
-		Window.alert(b.toString());
+	}
+	
+	private CssColor parseColorString(String colorString) {
+		String[] colorStringParts = colorString.split("/");
+		return CssColor.make(Integer.parseInt(colorStringParts[0]), Integer.parseInt(colorStringParts[1]), Integer.parseInt(colorStringParts[2]));
+	}
+	
+	private void loadGreenhouse(JSONArray organismArray) {
+		for (int i = 0; i < organismArray.size(); i++) {
+			JSONObject org = organismArray.get(i).isObject();
+			String name = org.get("name").toString().replace("\"", "");
+			String gene1 = org.get("upperDNA").toString().replace("\"", "");
+			String gene2 = org.get("lowerDNA").toString().replace("\"", "");						
+		}
+
 	}
 }

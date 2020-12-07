@@ -122,11 +122,6 @@ public class JsAipotu implements EntryPoint {
 		menuBar.addItem("Greenhouse", greenhouseMenu);
 		mainPanel.addNorth(menuBar, 50);
 		
-		// Read in the folded protein archive in the greenhouse file
-		FoldedProteinArchive.getInstance();
-		// wait for the archive to get full - it takes time for it to get loaded asynchronously
-		while (FoldedProteinArchive.getInstance().getNumSequencesInArchive() == 0) {}
-		Window.alert("size " + Integer.toString(FoldedProteinArchive.getInstance().getNumSequencesInArchive()));
 		greenhouseWrapper = new CaptionPanel("Greenhouse");
 		greenhouse = new Greenhouse(new GreenhouseCell());
 		greenhousePanel = new ScrollPanel(greenhouse);
