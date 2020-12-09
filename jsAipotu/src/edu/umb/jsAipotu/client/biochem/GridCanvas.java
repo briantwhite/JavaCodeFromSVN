@@ -23,6 +23,7 @@ import java.util.Comparator;
 
 import javax.swing.JPanel;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
@@ -31,7 +32,7 @@ import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
  * Display a Grid.
  *  
  */
-public abstract class GridCanvas extends JPanel {
+public abstract class GridCanvas extends Canvas {
 
 	protected int cellDiameter = 2 * GlobalDefaults.aaRadius;
 
@@ -48,7 +49,10 @@ public abstract class GridCanvas extends JPanel {
 	private Dimension requiredCanvasSize;
 	
 	public GridCanvas(int width, int height) {
-		this.setSize(width, height);
+		this.setWidth(width + "px");
+		this.setCoordinateSpaceWidth(width);
+		this.setHeight(height + "px");
+		this.setCoordinateSpaceHeight(height);
 	}
 
 	public GridCanvas() {
@@ -162,7 +166,7 @@ public abstract class GridCanvas extends JPanel {
 		this.parentPanel = parentPanel;
 	}
 
-	public void paint(Graphics g) {
+	public void paint(Context2d g) {
 
 		if (grid == null)
 			return;
@@ -219,9 +223,8 @@ public void calculateRequiredCanvasSize() {
 private void paintProtein(Context2d g) {
 	ColorCoder cc = null;
 	
-	setBackground(BiochemistryWorkbench.BACKGROUND_COLOR);
 	cc = new ShadingColorCoder(GlobalDefaults.aaTable.getContrastScaler());
-	g.setColor(BiochemistryWorkbench.BACKGROUND_COLOR);
+	g.setFillStyle(BiochemistryWorkbench.BACKGROUND_COLOR.toString());
 	g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
 	
 	
@@ -245,15 +248,18 @@ private void paintProtein(Context2d g) {
 	}
 	
 	// draw the backbone
-	g.setColor(Color.MAGENTA);
+	g.setStrokeStyle("magenta");
+	g.beginPath();
 	for (int i = 0; i < numAcids; i++) {
-		AcidInChain a = pp.getAminoAcid(i);		
-		if (i < numAcids - 1) {
-			g.drawLine(spots[i].x, spots[i].y, spots[i + 1].x,
-					spots[i + 1].y);
+		AcidInChain a = pp.getAminoAcid(i);	
+		// just move to first aa - don't start drawing yet
+		if (i == 0) {
+			g.moveTo(spots[i].x, spots[i].y);
+		} else {
+			g.lineTo(spots[i].x, spots[i].y);
 		}
 	}
-	
+	g.stroke();
 }
 	
 	private class SortByZ implements Comparator {

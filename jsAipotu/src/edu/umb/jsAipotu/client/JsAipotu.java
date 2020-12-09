@@ -2,14 +2,12 @@ package edu.umb.jsAipotu.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
-import edu.umb.jsAipotu.client.biochem.FoldedProteinArchive;
 import edu.umb.jsAipotu.client.molGenExp.Greenhouse;
 import edu.umb.jsAipotu.client.molGenExp.GreenhouseCell;
 import edu.umb.jsAipotu.client.molGenExp.GreenhouseLoader;
@@ -128,7 +126,7 @@ public class JsAipotu implements EntryPoint {
 		greenhouse.setSize("100px", "600px");
 		greenhouseWrapper.setContentWidget(greenhousePanel);
 		greenhouseLoader = new GreenhouseLoader(greenhouse);
-		greenhouseLoader.load("default.greenhouse");
+		greenhouseLoader.load();
 		mainPanel.addWest(greenhousePanel, 105);
 
 
@@ -136,4 +134,7 @@ public class JsAipotu implements EntryPoint {
 		RootPanel.get("mainPanelContainer").add(mainPanel);
 	}
 
+	public static native void consoleLog(String message) /*-{
+		console.log(message);
+	}-*/;
 }

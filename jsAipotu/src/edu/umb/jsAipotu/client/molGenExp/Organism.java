@@ -6,19 +6,19 @@ public class Organism {
 	
 	private String name;
 	
-	private ExpressedAndFoldedGene gene1;
-	private ExpressedAndFoldedGene gene2;
+//	private ExpressedAndFoldedGene gene1;
+//	private ExpressedAndFoldedGene gene2;
 	private CssColor color;
 	private String imageFileName;
 	
 	public Organism(String name, 
-			ExpressedAndFoldedGene gene1, ExpressedAndFoldedGene gene2,
+			//ExpressedAndFoldedGene gene1, ExpressedAndFoldedGene gene2,
 			CssColor color,
 			String imageFileName
 			) {
 		this.name = name; 
-		this.gene1 = gene1;
-		this.gene2 = gene2;
+//		this.gene1 = gene1;
+//		this.gene2 = gene2;
 		this.color = color;
 		this.imageFileName = imageFileName;
 	}
@@ -27,13 +27,13 @@ public class Organism {
 		return name;
 	}
 
-	public ExpressedAndFoldedGene getGene1() {
-		return gene1;
-	}
-
-	public ExpressedAndFoldedGene getGene2() {
-		return gene2;
-	}
+//	public ExpressedAndFoldedGene getGene1() {
+//		return gene1;
+//	}
+//
+//	public ExpressedAndFoldedGene getGene2() {
+//		return gene2;
+//	}
 
 	public CssColor getColor() {
 		return color;

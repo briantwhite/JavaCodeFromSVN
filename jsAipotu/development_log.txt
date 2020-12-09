@@ -316,3 +316,20 @@ currently in the middle of the GridCanvas
 some useful sites:
 http://www.gwtproject.org/javadoc/latest/com/google/gwt/canvas/dom/client/Context2d.html
 http://blog.mrroa.com/2013/10/22/canvas-rendering-context-2d-overview/
+filled circles https://www.html5canvastutorials.com/tutorials/html5-canvas-circles/
+
+should GridCanvas subclass Canvas or some sort of panel?
+	maybe neither - just have it HAVE a Canvas.
+
+first, it'll be better to put the images and greenhouse in a ClientBundle so they're all loaded together
+http://www.gwtproject.org/doc/latest/DevGuideClientBundle.html
+	- made package edu.umb.jsAipotu.client.resources
+	- made class in there Resources.java that implements the ClientBundle interface
+compile fails "This method requires a body instead of a semicolon" in the ClientBundle for things like:
+	@Source("black.gif")
+	public ImageResource blackFlowerImage();
+	<sigh> it needed to be public interface Resources extends ClientBundle (not class and extends)
+works now (at least for the Greenhouse file)
+
+trying to get console logging to work - can get it to show with a native method in Chrome's console but not eclipse.
+	
