@@ -1,7 +1,6 @@
 package edu.umb.jsAipotu.client.biochem;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -14,6 +13,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import com.google.gwt.canvas.dom.client.CssColor;
+
 import edu.umb.jsAipotu.client.molGenExp.CombinedColorPanel;
 import edu.umb.jsAipotu.client.molGenExp.HistoryList;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
@@ -25,8 +26,7 @@ import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class BiochemistryWorkbench extends Workbench {
 
-	public static final Color BACKGROUND_COLOR = new Color((float) 0.7,
-			(float) 0.7, (float) 1.0);
+	public static final CssColor BACKGROUND_COLOR = CssColor.make(178, 178, 255); 
 
 	private BiochemistryWorkpanel upperWorkPanel;
 	private BiochemistryWorkpanel lowerWorkPanel;
@@ -104,12 +104,12 @@ public class BiochemistryWorkbench extends Workbench {
 	}
 
 	public void updateCombinedColor() {
-		Color u = upperWorkPanel.getColor();
-		Color l = lowerWorkPanel.getColor();
+		CssColor u = upperWorkPanel.getColor();
+		CssColor l = lowerWorkPanel.getColor();
 		
 		if ((u == null) || (l == null)) return;
 		
-		Color combined = GlobalDefaults.colorModel.mixTwoColors(u, l);
+		CssColor combined = GlobalDefaults.colorModel.mixTwoColors(u, l);
 		combinedColorPanel.setCombinedColor(combined);
 	}
 

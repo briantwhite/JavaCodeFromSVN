@@ -1,21 +1,21 @@
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.image.BufferedImage;
+import com.google.gwt.canvas.client.Canvas;
 
 public class ProteinImageSet {
-	BufferedImage fullScaleImage;
-	BufferedImage thumbnailImage;
+	Canvas fullScaleImage;
+	Canvas thumbnailImage;
 	
-	public ProteinImageSet(BufferedImage fsi, BufferedImage ti) {
+	public ProteinImageSet(Canvas fsi, Canvas ti) {
 		fullScaleImage = fsi;
 		thumbnailImage = ti;
 	}
 
-	public BufferedImage getFullScaleImage() {
+	public Canvas getFullScaleImage() {
 		return fullScaleImage;
 	}
 
-	public BufferedImage getThumbnailImage() {
+	public Canvas getThumbnailImage() {
 		return thumbnailImage;
 	}
 

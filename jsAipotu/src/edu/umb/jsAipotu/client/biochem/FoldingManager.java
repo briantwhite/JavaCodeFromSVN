@@ -40,11 +40,12 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+
+import com.google.gwt.canvas.dom.client.CssColor;
 
 /**
  * Manages the process of folding the polypeptide chains; serves as a subject
@@ -140,10 +141,10 @@ public class FoldingManager {
 
 	/**
 	 * 
-	 * @return Color.
+	 * @return CssColor.
 	 * @throws PaintedInACornerFoldingException 
 	 */
-	public Color getProteinColor() throws PaintedInACornerFoldingException {
+	public CssColor getProteinColor() throws PaintedInACornerFoldingException {
 		return currentGrid.getProteinColor();
 	}
 

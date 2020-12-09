@@ -23,6 +23,8 @@ import java.util.Comparator;
 
 import javax.swing.JPanel;
 
+import com.google.gwt.canvas.dom.client.Context2d;
+
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 /**
@@ -214,7 +216,7 @@ public void calculateRequiredCanvasSize() {
 			maxY + 2 * cellDiameter);
 	}
 
-private void paintProtein(Graphics g) {
+private void paintProtein(Context2d g) {
 	ColorCoder cc = null;
 	
 	setBackground(BiochemistryWorkbench.BACKGROUND_COLOR);

@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import com.google.gwt.canvas.dom.client.CssColor;
+
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
@@ -26,7 +28,7 @@ public class CombinedColorPanel extends JPanel {
 		this.add(colorChip);
 	}
 	
-	public void setCombinedColor(Color color) {
+	public void setCombinedColor(CssColor color) {
 		colorChip.setBackground(color);
 		if (MGEPreferences.getInstance().isShowColorNameText()) {
 			colorChip.setToolTipText(

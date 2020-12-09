@@ -1,8 +1,8 @@
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
-
 import javax.swing.ImageIcon;
+
+import com.google.gwt.canvas.dom.client.CssColor;
 
 import edu.umb.jsAipotu.client.molGenExp.HistListItem;
 
@@ -10,12 +10,12 @@ public class FoldedProteinWithImages extends HistListItem {
 	private String aaSeq;
 	private ImageIcon thumbnailPic;
 	private ImageIcon bigPic;
-	private Color color;
+	private CssColor color;
 	
 	public FoldedProteinWithImages(String aaSeq, 
 			ImageIcon bigPic,
 			ImageIcon thumb, 
-			Color color) {
+			CssColor color) {
 		this.aaSeq = aaSeq;
 		this.bigPic = bigPic;
 		thumbnailPic = thumb;
@@ -35,7 +35,7 @@ public class FoldedProteinWithImages extends HistListItem {
 		return thumbnailPic;
 	}
 
-	public Color getColor() {
+	public CssColor getColor() {
 		return color;
 	}
 

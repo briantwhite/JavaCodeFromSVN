@@ -13,7 +13,7 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
+import com.google.gwt.canvas.dom.client.CssColor;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
@@ -154,7 +154,7 @@ public abstract class TwoDGrid extends Grid {
 		return energy;
 	}
 
-	public Color getProteinColor() throws PaintedInACornerFoldingException {
+	public CssColor getProteinColor() throws PaintedInACornerFoldingException {
 		return GlobalDefaults.colorModel.getProteinColor(this);
 	}
 

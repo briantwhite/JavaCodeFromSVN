@@ -4,6 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.user.client.Window;
+
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 
@@ -13,17 +17,18 @@ public class ProteinImageFactory {
 
 	public static ProteinImageSet generateImages(HexCanvas hexCanvas) {
 		
-		BufferedImage fullSizePic = 
-			new BufferedImage(hexCanvas.getRequiredCanvasSize().width, 
-					hexCanvas.getRequiredCanvasSize().height, 
-					BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = fullSizePic.createGraphics();
-		g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-				RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		Canvas fullSizePic = Canvas.createIfSupported();
+		if (fullSizePic == null) {
+			Window.alert("Sorry, your browser doesn't support the HTML5 Canvas element that is needed for Aipotu; please try another");
+			return null;
+		}
+		fullSizePic.setWidth(hexCanvas.getRequiredCanvasSize().width + "px");
+		fullSizePic.setCoordinateSpaceWidth(hexCanvas.getRequiredCanvasSize().width);
+		fullSizePic.setHeight(hexCanvas.getRequiredCanvasSize().height + "px");
+		fullSizePic.setCoordinateSpaceHeight(hexCanvas.getRequiredCanvasSize().height);
+
+		Context2d g = fullSizePic.getContext2d();
 		hexCanvas.paint(g);
-		g.dispose();
 		
 		int imageWidth = fullSizePic.getWidth(null);
 		int imageHeight = fullSizePic.getHeight(null);

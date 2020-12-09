@@ -21,12 +21,12 @@ import edu.umb.jsAipotu.client.molBiol.GeneExpresser;
 
 public class GreenhouseLoader {
 
-//	private OrganismFactory organismFactory;
+	private OrganismFactory organismFactory;
 	private Greenhouse greenhouse;
 	private GeneExpresser geneExpresser;
 
 	public GreenhouseLoader(Greenhouse greenhouse) {
-//		organismFactory = new OrganismFactory();
+		organismFactory = new OrganismFactory();
 		geneExpresser = new GeneExpresser();
 		this.greenhouse = greenhouse;
 		

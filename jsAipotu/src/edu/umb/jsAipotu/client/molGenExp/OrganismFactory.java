@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
+import com.google.gwt.canvas.dom.client.CssColor;
+
 import edu.umb.jsAipotu.client.biochem.FoldedProteinWithImages;
 import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.biochem.FoldingManager;
@@ -60,16 +62,8 @@ public class OrganismFactory {
 				gene1.getFoldedProteinWithImages().getColor(), 
 				gene2.getFoldedProteinWithImages().getColor());
 		
-		//generate icon
-		// see if we've cached one yet
-		ImageIcon image = null;
-		if (iconCache.containsKey(color.toString())) {
-			image = (ImageIcon)iconCache.get(color.toString());
-		} else {
-			image = makeIcon(color);
-			iconCache.put(color.toString(), image);
-		}
-		return new Organism(name, gene1, gene2, color, image);
+		String imageFileName = GlobalDefaults.colorModel.getImageFileNameFromColor(color);
+		return new Organism(name, gene1, gene2, color, imageFileName);
 	}
 	
 	public Organism createOrganism(ThinOrganism thinOrg) throws FoldingException {
@@ -84,43 +78,4 @@ public class OrganismFactory {
 				new ExpressedAndFoldedGene(eg1, fp1),
 				new ExpressedAndFoldedGene(eg2, fp2));
 	}
-
-	
-	
-	private ImageIcon makeIcon(CssColor color) {
-		BufferedImage pic = new BufferedImage(
-				imageSize,
-				imageSize,
-				BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = pic.createGraphics();
-		g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-				RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(0, 0, 50, 50);
-		g.setColor(color);
-		int[] xPoints = {0, 22, 25, 28, 50,
-				36, 50, 36, 50, 28,
-				25, 22, 0, 14, 0, 14};
-		int[] yPoints = {0, 14, 0, 14, 0,
-				22, 25, 28, 50, 36,
-				50, 36, 50, 28, 25, 22};
-		int nPoints = xPoints.length;
-		g.fill(new Polygon(xPoints, yPoints, nPoints));
-		g.setColor(Color.LIGHT_GRAY);
-		g.drawLine(25, 25, 22, 14);
-		g.drawLine(25, 25, 28, 14);
-		g.drawLine(25, 25, 36, 22);
-		g.drawLine(25, 25, 36, 28);		
-		g.drawLine(25, 25, 28, 36);
-		g.drawLine(25, 25, 22, 36);
-		g.drawLine(25, 25, 14, 28);
-		g.drawLine(25, 25, 14, 22);		
-
-		g.dispose();
-		pic.flush();
-		return new ImageIcon(pic);
-	}
-
 }

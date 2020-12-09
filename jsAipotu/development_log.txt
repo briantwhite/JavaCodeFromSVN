@@ -303,4 +303,16 @@ work on RYBColorModel to include image file name lookup
 
 all these changes percolate down into OrganismFactory and FoldingManager etc.
 	will need to do carefully.
-		
+	
+12/9/20
+got most of the color needed for Organism Factory working 
+need to work on the protein folding graphics.
+it's in ProteinImageFactory.java
+	you ask the grid to paint itself on a 2DGraphics thingy.
+how do you do that in GWT?
+	it looks like you can create a canvas with a pic in it and then add it to a widget as an image
+		use Canvas instead of BufferedImage
+currently in the middle of the GridCanvas
+some useful sites:
+http://www.gwtproject.org/javadoc/latest/com/google/gwt/canvas/dom/client/Context2d.html
+http://blog.mrroa.com/2013/10/22/canvas-rendering-context-2d-overview/

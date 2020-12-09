@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
+import com.google.gwt.canvas.dom.client.CssColor;
+
 import edu.umb.jsAipotu.client.molGenExp.WorkPanel;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 import edu.umb.jsAipotu.client.preferences.MGEPreferences;
@@ -173,7 +175,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		return proteinSequence.getText();
 	}
 
-	public Color getColor() {
+	public CssColor getColor() {
 		if (foldedProteinWithImages == null) return null;
 		return foldedProteinWithImages.getColor();
 	}

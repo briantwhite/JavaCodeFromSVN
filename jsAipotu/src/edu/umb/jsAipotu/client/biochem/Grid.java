@@ -15,11 +15,12 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import com.google.gwt.canvas.dom.client.CssColor;
 
 
 
@@ -183,7 +184,7 @@ public abstract class Grid implements Serializable {
 
 	public abstract Direction[] getAllDirections();
 
-	protected abstract Color getProteinColor() 
+	protected abstract CssColor getProteinColor() 
 	throws PaintedInACornerFoldingException;
 
 	protected Direction[] allDirections = null;
