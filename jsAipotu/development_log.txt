@@ -332,4 +332,13 @@ compile fails "This method requires a body instead of a semicolon" in the Client
 works now (at least for the Greenhouse file)
 
 trying to get console logging to work - can get it to show with a native method in Chrome's console but not eclipse.
+in JsAipotu.java at the bottom:
+	public static native void consoleLog(String message) /*-{
+		console.log(message);
+	}-*/;
+call with JsAipotu.consoleLog(message)
+
+12/10/20
+working on Greenhouse loader to get it to build proper organisms as above (all the way down into protein image making)
+
 	

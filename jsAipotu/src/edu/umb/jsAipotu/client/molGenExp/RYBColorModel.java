@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Image;
 
 import edu.umb.jsAipotu.client.biochem.AcidInChain;
 import edu.umb.jsAipotu.client.biochem.AminoAcid;
@@ -26,6 +28,7 @@ import edu.umb.jsAipotu.client.biochem.Grid;
 import edu.umb.jsAipotu.client.biochem.HexGrid;
 import edu.umb.jsAipotu.client.biochem.PaintedInACornerFoldingException;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
+import edu.umb.jsAipotu.client.resources.Resources;
 
 /**
  * Class representing RYBColor chart. Model the standard RYB color model.
@@ -67,15 +70,15 @@ public class RYBColorModel extends ColorModel {
 			"Black"
 	};
 	
-	private String[] numberToImageFileNameMap = {
-			"white.gif",
-			"blue.gif",
-			"yellow.gif",
-			"green.gif",
-			"red.gif",
-			"purple.gif",
-			"orange.gif",
-			"black.gif"
+	private ImageResource[] numberToImageResourceMap = {
+			Resources.INSTANCE.whiteFlowerImage(),
+			Resources.INSTANCE.blueFlowerImage(),
+			Resources.INSTANCE.yellowFlowerImage(),
+			Resources.INSTANCE.greenFlowerImage(),
+			Resources.INSTANCE.redFlowerImage(),
+			Resources.INSTANCE.purpleFlowerImage(),
+			Resources.INSTANCE.orangeFlowerImage(),
+			Resources.INSTANCE.blackFlowerImage()
 	};
 
 	private HashMap<CssColor, Integer> colorToNumberMap;
@@ -224,12 +227,12 @@ public class RYBColorModel extends ColorModel {
 	}
 
 
-	public String getImageFileNameFromColor(CssColor c) {
+	public Image getImageFromColor(CssColor c) {
 		int n = getColorNumber(c);
 		if (n == -1) {
-			return "images/blank.gif";
+			return new Image(Resources.INSTANCE.blankFlowerImage());
 		}
-		return "images/" + numberToImageFileNameMap[n];
+		return new Image(numberToImageResourceMap[n]);
 	}
 	
 }

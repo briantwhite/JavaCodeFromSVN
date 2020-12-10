@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Image;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
@@ -17,21 +18,21 @@ public class ProteinImageFactory {
 
 	public static ProteinImageSet generateImages(HexCanvas hexCanvas) {
 		
-		Canvas fullSizePic = Canvas.createIfSupported();
-		if (fullSizePic == null) {
+		Canvas fullSizeCanvas = Canvas.createIfSupported();
+		if (fullSizeCanvas == null) {
 			Window.alert("Sorry, your browser doesn't support the HTML5 Canvas element that is needed for Aipotu; please try another");
 			return null;
 		}
-		fullSizePic.setWidth(hexCanvas.getRequiredCanvasSize().width + "px");
-		fullSizePic.setCoordinateSpaceWidth(hexCanvas.getRequiredCanvasSize().width);
-		fullSizePic.setHeight(hexCanvas.getRequiredCanvasSize().height + "px");
-		fullSizePic.setCoordinateSpaceHeight(hexCanvas.getRequiredCanvasSize().height);
+		fullSizeCanvas.setWidth(hexCanvas.getRequiredCanvasSize().width + "px");
+		fullSizeCanvas.setCoordinateSpaceWidth(hexCanvas.getRequiredCanvasSize().width);
+		fullSizeCanvas.setHeight(hexCanvas.getRequiredCanvasSize().height + "px");
+		fullSizeCanvas.setCoordinateSpaceHeight(hexCanvas.getRequiredCanvasSize().height);
 
-		Context2d g = fullSizePic.getContext2d();
+		Context2d g = fullSizeCanvas.getContext2d();
 		hexCanvas.paint(g);
 		
-		int imageWidth = fullSizePic.getWidth(null);
-		int imageHeight = fullSizePic.getHeight(null);
+		int imageWidth = hexCanvas.getRequiredCanvasSize().width;
+		int imageHeight = hexCanvas.getRequiredCanvasSize().height;
 		double imageRatio = (double) imageWidth / (double) imageHeight;
 		double thumbRatio = 
 			(double) GlobalDefaults.thumbWidth / (double) GlobalDefaults.thumbHeight;
@@ -46,20 +47,11 @@ public class ProteinImageFactory {
 		}
 		// draw original image to thumbnail image object;
 		// 	scale it to the new size on-the-fly
-
-		BufferedImage thumbImage =
-		new BufferedImage(
-		actualThumbWidth,
-		actualThumbHeight,
-		BufferedImage.TYPE_INT_RGB);
-		Graphics2D smallG = thumbImage.createGraphics();
-		smallG.setRenderingHint(
-		RenderingHints.KEY_INTERPOLATION,
-		RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		smallG.drawImage(fullSizePic, 0, 0, actualThumbWidth, actualThumbHeight, null);
-		smallG.dispose();
-
-		return new ProteinImageSet(fullSizePic, thumbImage);
+		Canvas thumbCanvas = Canvas.createIfSupported();
+		Context2d tg = thumbCanvas.getContext2d();
+		tg.drawImage(fullSizeCanvas.getCanvasElement(), 0, 0, (double) actualThumbWidth, (double) actualThumbHeight);
+		
+		return new ProteinImageSet(fullSizeCanvas, thumbCanvas);
 	}
 
 }
