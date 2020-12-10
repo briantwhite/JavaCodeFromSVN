@@ -40,10 +40,8 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
+import java.util.ArrayList;
 
 import com.google.gwt.canvas.dom.client.CssColor;
 
@@ -101,29 +99,6 @@ public class FoldingManager {
 				currentFolder.hIndex, currentFolder.iIndex));
 	}
 
-	/**
-	 * 
-	 * @param pattern
-	 *            String.
-	 * @return String.
-	 * @throws PaintedInACornerFoldingException 
-	 */
-	public String getEnergyString(String pattern) 
-	throws PaintedInACornerFoldingException {
-		return getEnergy(pattern);
-	}
-
-	/**
-	 * 
-	 * @param pattern
-	 *            String.
-	 * @return String.
-	 * @throws PaintedInACornerFoldingException 
-	 */
-	public String getEnergy(String pattern) throws PaintedInACornerFoldingException {
-		DecimalFormat formatter = new java.text.DecimalFormat(pattern);
-		return (formatter.format(getEnergy()));
-	}
 
 	/**
 	 * 
@@ -146,19 +121,6 @@ public class FoldingManager {
 	 */
 	public CssColor getProteinColor() throws PaintedInACornerFoldingException {
 		return currentGrid.getProteinColor();
-	}
-
-	/**
-	 * 
-	 * @param pattern
-	 *            String.
-	 * @return String.
-	 * @throws PaintedInACornerFoldingException 
-	 */
-	public String getFoldingIndex(String pattern) 
-	throws PaintedInACornerFoldingException {
-		DecimalFormat formatter = new java.text.DecimalFormat(pattern);
-		return (formatter.format(getFoldingIndex()));
 	}
 
 	/**
@@ -198,52 +160,7 @@ public class FoldingManager {
 		return currentFolder.getTime();
 	}
 
-	/**
-	 * 
-	 * @return String.
-	 * @throws PaintedInACornerFoldingException 
-	 */
-	public String report() throws PaintedInACornerFoldingException {
-		if (isPlotting) {
-			StringBuffer buf = new StringBuffer();
-			buf.append("\n " + "Polypeptide:   " + getPolypeptide().toString());
-			buf.append("\n " + "Energy:        " + getEnergy());
-			buf.append("\n " + "Folding index: " + getFoldingIndex());
-			return buf.toString();
-		} else {
-			return "\n" + currentFolder.report();
-		}
-	}
 
-	/**
-	 * 
-	 * @return String.
-	 */
-	public String actionReport() {
-		StringBuffer buf = new StringBuffer();
-		if (isPlotting) {
-			buf.append("Plotted Solution");
-		} else {
-			buf.append("\n");
-			if (currentAttrib.getIsRandom()) {
-				buf.append("Randomly generated with length:   ");
-				buf.append(currentAttrib.getLength());
-				buf.append("   and seed:  " + currentAttrib.getSeed());
-			} else {
-				buf.append(" Polypeptide was parsed from input");
-			}
-			buf.append("\n");
-			if (currentAttrib.getFolder().equalsIgnoreCase("bruteForce")) {
-				buf.append(" Brute Force Algorithm");
-			} else {
-				buf.append(" Incremental  ");
-				buf.append("   look-ahead: " + currentAttrib.getLookup());
-				buf.append("   step: " + currentAttrib.getStep());
-			}
-			buf.append("\n");
-		}
-		return buf.toString();
-	}
 
 	// mutator methods
 
@@ -350,8 +267,8 @@ public class FoldingManager {
 			
 			return new FoldedProteinWithImages(
 					aaSeq,
-					new ImageIcon(imageSet.getFullScaleImage()),
-					new ImageIcon(imageSet.getThumbnailImage()),
+					imageSet.getFullScaleImage(),
+					imageSet.getThumbnailImage(),
 					foldedAndColoredProtein.getColor());
 		}
 		
@@ -375,8 +292,8 @@ public class FoldingManager {
 			
 			return new FoldedProteinWithImages(
 					aaSeq,
-					new ImageIcon(imageSet.getFullScaleImage()),
-					new ImageIcon(imageSet.getThumbnailImage()),
+					imageSet.getFullScaleImage(),
+					imageSet.getThumbnailImage(),
 					currentGrid.getProteinColor());
 		} catch (FoldingException e) {
 			// folded in a corner, so return a null images and color

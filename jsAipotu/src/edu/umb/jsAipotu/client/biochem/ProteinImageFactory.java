@@ -29,7 +29,7 @@ public class ProteinImageFactory {
 		fullSizeCanvas.setCoordinateSpaceHeight(hexCanvas.getRequiredCanvasSize().height);
 
 		Context2d g = fullSizeCanvas.getContext2d();
-		hexCanvas.paint(g);
+		hexCanvas.paintProtein(g);
 		
 		int imageWidth = hexCanvas.getRequiredCanvasSize().width;
 		int imageHeight = hexCanvas.getRequiredCanvasSize().height;

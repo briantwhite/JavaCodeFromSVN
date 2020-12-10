@@ -1,15 +1,11 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.user.client.ui.Image;
 
 import edu.umb.jsAipotu.client.biochem.FoldedProteinWithImages;
 import edu.umb.jsAipotu.client.biochem.FoldingException;
@@ -21,15 +17,12 @@ import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class OrganismFactory {
 	
-	private static HashMap<String, ImageIcon> iconCache;
-	
 	private GeneExpresser geneExpresser;
 	private FoldingManager foldingManager;
 	
 	public OrganismFactory() {
 		geneExpresser = new GeneExpresser();
 		foldingManager = new FoldingManager();
-		iconCache = new HashMap<String, ImageIcon>();
 	}
 	
 	// method for making new organism from old organism
@@ -62,8 +55,8 @@ public class OrganismFactory {
 				gene1.getFoldedProteinWithImages().getColor(), 
 				gene2.getFoldedProteinWithImages().getColor());
 		
-		String imageFileName = GlobalDefaults.colorModel.getImageFileNameFromColor(color);
-		return new Organism(name, gene1, gene2, color, imageFileName);
+		Image image = GlobalDefaults.colorModel.getImageFromColor(color);
+		return new Organism(name, gene1, gene2, color, image);
 	}
 	
 	public Organism createOrganism(ThinOrganism thinOrg) throws FoldingException {

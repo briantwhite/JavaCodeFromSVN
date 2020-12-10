@@ -3,19 +3,21 @@ package edu.umb.jsAipotu.client.evolution;
 import java.awt.Color;
 import java.util.Random;
 
+import com.google.gwt.canvas.dom.client.CssColor;
+
 //class with just DNA and color - so it's smaller
 //for use with evolution
 //don't bother with pictures unless needed
 public class ThinOrganism {
 	private String dna1;
 	private String dna2;
-	private Color color1;
-	private Color color2;
-	private Color overallColor;
+	private CssColor color1;
+	private CssColor color2;
+	private CssColor overallColor;
 
 	protected ThinOrganism(String dna1, String dna2, 
-			Color color1, Color color2, 
-			Color overallColor) {
+			CssColor color1, CssColor color2, 
+			CssColor overallColor) {
 		this.dna1 = dna1;
 		this.dna2 = dna2;
 		this.color1 = color1;
@@ -31,15 +33,15 @@ public class ThinOrganism {
 		return dna2;
 	}
 	
-	public Color getColor1() {
+	public CssColor getColor1() {
 		return color1;
 	}
 	
-	public Color getColor2() {
+	public CssColor getColor2() {
 		return color2;
 	}
 
-	public Color getOverallColor() {
+	public CssColor getOverallColor() {
 		return overallColor;
 	}
 

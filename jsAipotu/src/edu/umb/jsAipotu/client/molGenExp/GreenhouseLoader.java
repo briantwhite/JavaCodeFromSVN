@@ -16,7 +16,9 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
 
+import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.biochem.FoldedProteinArchive;
+import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.molBiol.GeneExpresser;
 import edu.umb.jsAipotu.client.resources.Resources;
 
@@ -81,7 +83,15 @@ public class GreenhouseLoader {
 			JSONObject org = organismArray.get(i).isObject();
 			String name = org.get("name").toString().replace("\"", "");
 			String gene1 = org.get("upperDNA").toString().replace("\"", "");
-			String gene2 = org.get("lowerDNA").toString().replace("\"", "");						
+			String gene2 = org.get("lowerDNA").toString().replace("\"", "");	
+			try {
+				Organism o = organismFactory.createOrganism(name, gene1, gene2);
+				JsAipotu.consoleLog(name);
+				greenhouse.add(o);
+			} catch (FoldingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}

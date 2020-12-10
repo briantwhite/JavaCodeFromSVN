@@ -13,8 +13,6 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
-
 /**
  * Interpolate between colors in HSB model.
  */
@@ -27,12 +25,12 @@ public abstract class ColorCoder {
 	public ColorCoder(float k) {
 	}
 
-	protected Color getCellColor(double hydrophobicIndex) {
-		return Color.BLACK;
+	protected String getCellColor(double hydrophobicIndex) {
+		return "black";
 	}
 
-	protected Color getCellColor(float hydrophobicIndex) {
-		return Color.BLACK;
+	protected String getCellColor(float hydrophobicIndex) {
+		return "black";
 	}
 
 }

@@ -44,6 +44,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.google.gwt.canvas.dom.client.CssColor;
+
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 /**
@@ -62,7 +64,7 @@ public class Polypeptide {
 	/**
 	 * @return Returns the color.
 	 */
-	public Color getColor() {
+	public CssColor getColor() {
 		return color;
 	}
 
@@ -169,7 +171,7 @@ public class Polypeptide {
 	 * @param color
 	 *            The color to set.
 	 */
-	public void setColor(Color color) {
+	public void setColor(CssColor color) {
 		this.color = color;
 	}
 
@@ -202,7 +204,7 @@ public class Polypeptide {
 
 	private boolean folded = false;
 
-	private Color color;
+	private CssColor color;
 
 	private double maxEnergy = 1.0; // to scale histogram
 

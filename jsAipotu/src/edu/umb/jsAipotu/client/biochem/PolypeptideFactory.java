@@ -35,9 +35,11 @@
 package edu.umb.jsAipotu.client.biochem;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+//import java.util.StringTokenizer;
+import java.util.Arrays;
+
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
@@ -199,9 +201,9 @@ public class PolypeptideFactory {
 		//figure out what kind of protein sequence it is
 		int numAALetterCode = 1;
 
-		Pattern p = Pattern.compile("[a-z]{1,}");
-		Matcher m = p.matcher(input);
-		if (m.find()) {
+		RegExp re = RegExp.compile("[a-z]{1,}");
+		MatchResult m = re.exec(input);
+		if (m != null) {
 			numAALetterCode = 3;
 		}
 
@@ -251,16 +253,13 @@ public class PolypeptideFactory {
 	 * @param input
 	 * @return ArrayList
 	 */
-	public ArrayList getTokens(String input) {
+	public ArrayList<String> getTokens(String input) {
 		// setting delimiters
 		for (int i = 0; i < DELIMITERS.length; i++)
 			input = input.replace(DELIMITERS[i], ' ');
 
 		// parsing
-		ArrayList tokens = new ArrayList();
-		StringTokenizer st = new StringTokenizer(input);
-		while (st.hasMoreTokens())
-			tokens.add(st.nextToken());
+		ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(input.split(" ")));
 		return tokens;
 	}
 

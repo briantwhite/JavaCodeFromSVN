@@ -15,8 +15,8 @@
 package edu.umb.jsAipotu.client.biochem;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+
+import com.google.gwt.canvas.dom.client.Context2d;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
@@ -99,41 +99,39 @@ public class AminoAcid {
 		return abName;
 	}
 
-	public void paint(Graphics g, ColorCoder cc, int x, int y) {
+	public void paint(Context2d g2d, ColorCoder cc, int x, int y) {
 
 		final int AB_Y_OFFSET = 13;
 
-		int aminoAcidDiameter = GlobalDefaults.aaRadius * 2;
-
-		Graphics2D g2d = (Graphics2D)g;
-
 		int offset = getStringIndentationConstant(name, GlobalDefaults.aaRadius);
 
-		g2d.setColor(cc.getCellColor(normalizedHydrophobicIndex));
-
-		g2d.fillOval(x, y, aminoAcidDiameter, aminoAcidDiameter);
+		
+		g2d.beginPath();
+		g2d.arc(x, y, GlobalDefaults.aaRadius, 0, 2 * Math.PI);
+		g2d.setFillStyle(cc.getCellColor(normalizedHydrophobicIndex));
+		g2d.fill();
 
 		//default label color is white
-		g2d.setColor(Color.WHITE);
+		g2d.setFillStyle("white");
 
 		//if philic - then add stuff
 		if (name.equals("Arg") ||
 				name.equals("Lys") ||
 				name.equals("His")) {
-			g2d.setColor(Color.blue);
-			g2d.drawString("+", 
+			g2d.setFillStyle("blue");
+			g2d.fillText("+", 
 					x + GlobalDefaults.aaRadius - 15, 
 					y + GlobalDefaults.aaRadius);
-			g2d.setColor(Color.BLACK);
+			g2d.setFillStyle("black");
 		}
 
 		if (name.equals("Asp") ||
 				name.equals("Glu")) {
-			g2d.setColor(Color.red);
-			g2d.drawString("-", 
+			g2d.setFillStyle("red");
+			g2d.fillText("-", 
 					x + GlobalDefaults.aaRadius - 15, 
 					y + GlobalDefaults.aaRadius);
-			g2d.setColor(Color.BLACK);
+			g2d.setFillStyle("black");
 		}
 
 		if (name.equals("Asn") ||
@@ -141,17 +139,17 @@ public class AminoAcid {
 				name.equals("Ser") ||
 				name.equals("Thr") ||
 				name.equals("Tyr")) {
-			g2d.setColor(Color.green);
-			g2d.drawString("*", 
+			g2d.setFillStyle("green");
+			g2d.fillText("*", 
 					x + GlobalDefaults.aaRadius - 15, 
 					y + GlobalDefaults.aaRadius);
-			g2d.setColor(Color.BLACK);
+			g2d.setFillStyle("black");
 		}
 		
-		g2d.drawString(name, 
+		g2d.fillText(name, 
 				x + GlobalDefaults.aaRadius - offset, 
 				y + GlobalDefaults.aaRadius);
-		g2d.drawString(abName, 
+		g2d.fillText(abName, 
 				x + GlobalDefaults.aaRadius , 
 				y + GlobalDefaults.aaRadius + AB_Y_OFFSET);
 	}

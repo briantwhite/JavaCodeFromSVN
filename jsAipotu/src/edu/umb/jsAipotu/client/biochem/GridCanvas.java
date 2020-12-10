@@ -15,24 +15,21 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import javax.swing.JPanel;
-
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.user.client.Window;
 
+import edu.umb.jsAipotu.client.molGenExp.Dimension;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 /**
  * Display a Grid.
  *  
  */
-public abstract class GridCanvas extends Canvas {
+public abstract class GridCanvas {
 
 	protected int cellDiameter = 2 * GlobalDefaults.aaRadius;
 
@@ -44,21 +41,26 @@ public abstract class GridCanvas extends Canvas {
 
 	protected Polypeptide pp;
 
-	private JPanel parentPanel;
-	
 	private Dimension requiredCanvasSize;
-	
+
+	private Canvas canvas;
+
 	public GridCanvas(int width, int height) {
-		this.setWidth(width + "px");
-		this.setCoordinateSpaceWidth(width);
-		this.setHeight(height + "px");
-		this.setCoordinateSpaceHeight(height);
+		canvas = Canvas.createIfSupported();
+		if (canvas == null) {
+			Window.alert("This application is not supported by this browser; please try a different browser.");
+		}
+		canvas.setWidth(width + "px");
+		canvas.setCoordinateSpaceWidth(width);
+		canvas.setHeight(height + "px");
+		canvas.setCoordinateSpaceHeight(height);
+		requiredCanvasSize = new Dimension(width, height);
 	}
 
 	public GridCanvas() {
 		requiredCanvasSize = new Dimension(0,0);
 	}
-	
+
 	public Dimension getRequiredCanvasSize() {
 		calculateRequiredCanvasSize();
 		return requiredCanvasSize;
@@ -162,106 +164,84 @@ public abstract class GridCanvas extends Canvas {
 			return (int) (3 / 4f * r);
 	}
 
-	public void setParentPanel(JPanel parentPanel) {
-		this.parentPanel = parentPanel;
-	}
-
-	public void paint(Context2d g) {
-
+	public void calculateRequiredCanvasSize() {
 		if (grid == null)
 			return;
 
-		calculateRequiredCanvasSize();
-		setPreferredSize(requiredCanvasSize);
-//		parentPanel.getSize().width = requiredCanvasSize.width;
-//		parentPanel.getSize().height = requiredCanvasSize.height;
-		revalidate();
-
-		super.paintComponent(g);
-		
-		paintProtein(g);
-
-	}
-
-
-public void calculateRequiredCanvasSize() {
-	if (grid == null)
-		return;
-	
-	GridPoint[] spots = new GridPoint[numAcids];
-	AcidInChain[] acidsByZ = new AcidInChain[numAcids];
-	for (int i = 0; i < numAcids; i++) {
-		AcidInChain a = pp.getAminoAcid(i);
-		spots[i] = project(a.xyz);
-		acidsByZ[i] = a;
-	}
-	GridPoint min = getMin(spots);
-	for (int i = 0; i < numAcids; i++) {
-		spots[i] = spots[i].subtract(min);
-	}
-	Arrays.sort(acidsByZ, new SortByZ());
-	GridPoint here = null;
-	int maxX = 0;
-	int maxY = 0;
-	for (int i = 0; i < numAcids; i++) {
-		AcidInChain a = acidsByZ[i];
-		here = project(a.xyz).subtract(min);
-		if (i == 0) {
-			maxX = here.x;
-			maxY = here.y;
-		} else {
-			if (here.x > maxX)
+		GridPoint[] spots = new GridPoint[numAcids];
+		AcidInChain[] acidsByZ = new AcidInChain[numAcids];
+		for (int i = 0; i < numAcids; i++) {
+			AcidInChain a = pp.getAminoAcid(i);
+			spots[i] = project(a.xyz);
+			acidsByZ[i] = a;
+		}
+		GridPoint min = getMin(spots);
+		for (int i = 0; i < numAcids; i++) {
+			spots[i] = spots[i].subtract(min);
+		}
+		Arrays.sort(acidsByZ, new SortByZ());
+		GridPoint here = null;
+		int maxX = 0;
+		int maxY = 0;
+		for (int i = 0; i < numAcids; i++) {
+			AcidInChain a = acidsByZ[i];
+			here = project(a.xyz).subtract(min);
+			if (i == 0) {
 				maxX = here.x;
-			if (here.y > maxY)
 				maxY = here.y;
+			} else {
+				if (here.x > maxX)
+					maxX = here.x;
+				if (here.y > maxY)
+					maxY = here.y;
+			}
 		}
-	}
-	requiredCanvasSize = new Dimension(maxX + 2 * cellDiameter, 
-			maxY + 2 * cellDiameter);
+		requiredCanvasSize = new Dimension(maxX + 2 * cellDiameter, 
+				maxY + 2 * cellDiameter);
 	}
 
-private void paintProtein(Context2d g) {
-	ColorCoder cc = null;
-	
-	cc = new ShadingColorCoder(GlobalDefaults.aaTable.getContrastScaler());
-	g.setFillStyle(BiochemistryWorkbench.BACKGROUND_COLOR.toString());
-	g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
-	
-	
-	GridPoint[] spots = new GridPoint[numAcids];
-	AcidInChain[] acidsByZ = new AcidInChain[numAcids];
-	for (int i = 0; i < numAcids; i++) {
-		AcidInChain a = pp.getAminoAcid(i);
-		spots[i] = project(a.xyz);
-		acidsByZ[i] = a;
-	}
-	GridPoint min = getMin(spots);
-	for (int i = 0; i < numAcids; i++) {
-		spots[i] = spots[i].subtract(min);
-	}
-	Arrays.sort(acidsByZ, new SortByZ());
-	int r = GlobalDefaults.aaRadius;
-	for (int i = 0; i < numAcids; i++) {
-		AcidInChain a = acidsByZ[i];
-		GridPoint here = project(a.xyz).subtract(min);	
-		a.getAminoAcid().paint(g, cc, here.x - r, here.y - r);
-	}
-	
-	// draw the backbone
-	g.setStrokeStyle("magenta");
-	g.beginPath();
-	for (int i = 0; i < numAcids; i++) {
-		AcidInChain a = pp.getAminoAcid(i);	
-		// just move to first aa - don't start drawing yet
-		if (i == 0) {
-			g.moveTo(spots[i].x, spots[i].y);
-		} else {
-			g.lineTo(spots[i].x, spots[i].y);
+	public void paintProtein(Context2d g) {
+		ColorCoder cc = null;
+
+		cc = new ShadingColorCoder(GlobalDefaults.aaTable.getContrastScaler());
+		g.setFillStyle(BiochemistryWorkbench.BACKGROUND_COLOR.toString());
+		g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
+
+
+		GridPoint[] spots = new GridPoint[numAcids];
+		AcidInChain[] acidsByZ = new AcidInChain[numAcids];
+		for (int i = 0; i < numAcids; i++) {
+			AcidInChain a = pp.getAminoAcid(i);
+			spots[i] = project(a.xyz);
+			acidsByZ[i] = a;
 		}
+		GridPoint min = getMin(spots);
+		for (int i = 0; i < numAcids; i++) {
+			spots[i] = spots[i].subtract(min);
+		}
+		Arrays.sort(acidsByZ, new SortByZ());
+		int r = GlobalDefaults.aaRadius;
+		for (int i = 0; i < numAcids; i++) {
+			AcidInChain a = acidsByZ[i];
+			GridPoint here = project(a.xyz).subtract(min);	
+			a.getAminoAcid().paint(g, cc, here.x - r, here.y - r);
+		}
+
+		// draw the backbone
+		g.setStrokeStyle("magenta");
+		g.beginPath();
+		for (int i = 0; i < numAcids; i++) {
+			AcidInChain a = pp.getAminoAcid(i);	
+			// just move to first aa - don't start drawing yet
+			if (i == 0) {
+				g.moveTo(spots[i].x, spots[i].y);
+			} else {
+				g.lineTo(spots[i].x, spots[i].y);
+			}
+		}
+		g.stroke();
 	}
-	g.stroke();
-}
-	
+
 	private class SortByZ implements Comparator {
 		public int compare(Object o1, Object o2) {
 			AcidInChain a1 = (AcidInChain) o1;
@@ -269,31 +249,5 @@ private void paintProtein(Context2d g) {
 			return (a1.xyz.z - a2.xyz.z);
 		}
 	}
-
-	private void drawDottedLine(Graphics g, int x1, int y1, int x2, int y2) {
-	}
-
-	// for hex grid - never called
-	private void paintEmpties(Graphics g) {
-		g.setColor(Color.black);
-		for (int row = 0; row < size; row++) {
-			int rowstart = (row <= numAcids) ? numAcids - row : 0;
-			int rowend = (row <= numAcids) ? size : size - row + numAcids;
-			for (int col = rowstart; col < rowend; col++) {
-				GridPoint here = new GridPoint(row, col);
-				// redo if needed g.drawOval(
-				// 			   getCenterX(here) - cellRadius,
-				// 			   getCenterY(here) - cellRadius,
-				// 			   cellDiameter, cellDiameter);
-				// commented out code draws the grid
-				// 		hexagon.translate(getCornerX(row, col),
-				// 				  getCornerY(row,col));
-				// 		g.drawPolygon(hexagon);
-				// 		hexagon.translate(-getCornerX(row, col),
-				// 				  -getCornerY(row,col));
-			}
-		}
-	}
-
 }
 

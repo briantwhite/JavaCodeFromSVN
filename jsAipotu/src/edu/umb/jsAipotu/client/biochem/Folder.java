@@ -39,9 +39,6 @@ public abstract class Folder {
 
 	private long time;
 		
-	protected java.text.DecimalFormat formatter = new java.text.DecimalFormat(
-			"####.####");
-
 	// for efficiency: save function calls by creating an array here
 	protected AcidInChain[] acids;
 
@@ -78,31 +75,6 @@ public abstract class Folder {
 
 	public void setIonicIndex(double iIndex) {
 		this.iIndex = iIndex;
-	}
-
-	public String report() throws PaintedInACornerFoldingException {
-		StringBuffer buf = new StringBuffer(getName());
-		buf.append("\n" + pp.toString());
-		buf.append("\nenergy "
-				+ formatter.format(grid.getEnergy(hpIndex, hIndex, iIndex)));
-		buf.append("\nfolding index "
-				+ formatter.format(grid
-						.getFoldingIndex(hpIndex, hIndex, iIndex)));
-		buf.append("\ntime   " + getTime() + " seconds");
-		buf.append("\ntopology " + pp.getTopology());
-		return buf.toString();
-	}
-
-	public String csvReport() throws PaintedInACornerFoldingException {
-		StringBuffer buf = new StringBuffer();
-		buf.append(""
-				+ formatter.format(grid.getEnergy(hpIndex, hIndex, iIndex)));
-		buf.append(", "
-				+ formatter.format(grid
-						.getFoldingIndex(hpIndex, hIndex, iIndex)));
-		buf.append(", " + pp.getDirectionSequence());
-		buf.append(", " + pp.toCSV());
-		return buf.toString();
 	}
 
 	public String getTopology() {
