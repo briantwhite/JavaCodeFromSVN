@@ -345,3 +345,15 @@ working on Greenhouse loader to get it to build proper organisms as above
 <sigh> need to create a Dimension class since there isn't one in GWT
 
 still working to get rid of all compilation errors...
+
+12/11/20
+will need to get the GUI up and running
+	big question - lay it out in one big panel or make many containers in the web page?
+	also, use jsVGL as guide to layouts
+	
+also - need to see how you put a custom image somewhere 
+	http://www.science.smith.edu/dftwiki/index.php/Tutorial:_The_Basics_of_a_Simple_GWT_Canvas_App
+
+build it in parallel with the panels used in Aipotu
+
+working on Workbenches - use GeneticsWorkbench as prototype

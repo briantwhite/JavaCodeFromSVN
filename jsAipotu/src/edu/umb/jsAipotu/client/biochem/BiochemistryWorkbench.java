@@ -1,22 +1,18 @@
 package edu.umb.jsAipotu.client.biochem;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
+import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsAipotu.client.molGenExp.CombinedColorPanel;
-import edu.umb.jsAipotu.client.molGenExp.HistoryList;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 import edu.umb.jsAipotu.client.molGenExp.Organism;
 import edu.umb.jsAipotu.client.molGenExp.WorkPanel;
@@ -30,77 +26,48 @@ public class BiochemistryWorkbench extends Workbench {
 
 	private BiochemistryWorkpanel upperWorkPanel;
 	private BiochemistryWorkpanel lowerWorkPanel;
-	private HistoryList proteinHistoryList;
-	private JScrollPane histListScrollPane;
+
+	ArrayList<FoldedProteinWithImages> foldedProteins;
+	CellList<FoldedProteinWithImages> proteinHistoryList;
+	ScrollPanel histListScrollPanel;
+	
 	private CombinedColorPanel combinedColorPanel;
-
-	ProteinPrinter printer;
-
-	File outFile;
 
 	private MolGenExp mge;
 
 	public BiochemistryWorkbench(MolGenExp mge) {
 		super(mge);
 		this.mge = mge;
-		printer = new ProteinPrinter();
-		outFile = null;
 		setupUI();
 	}
 
 
-	class ApplicationCloser extends WindowAdapter {
-		public void windowClosing(WindowEvent e) {
-			System.exit(0);
-		}
-	}
-
 	private void setupUI() {
 
-		JPanel leftPanel = new JPanel();
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.add(Box.createRigidArea(new Dimension(200,1)));
-		JPanel aapPanel = new JPanel();
-		aapPanel.setLayout(new BoxLayout(aapPanel, BoxLayout.X_AXIS));
-		aapPanel.setBorder(BorderFactory.createTitledBorder("Amino acids"));
+		VerticalPanel leftPanel = new VerticalPanel();
+		
+		CaptionPanel aapPanel = new CaptionPanel("Amino Acids");
 		AminoAcidPalette aaPalette = new AminoAcidPalette(180, 225, 5, 4);
-		aapPanel.setMaximumSize(new Dimension(200, 250));
-		aapPanel.add(Box.createRigidArea(new Dimension(1,225)));
 		aapPanel.add(aaPalette);
-
-		JPanel histListPanel = new JPanel();
-		histListPanel.setBorder(
-				BorderFactory.createTitledBorder("History List"));
-		histListPanel.setLayout(new BoxLayout(histListPanel, BoxLayout.Y_AXIS));
-		proteinHistoryList = new HistoryList(
-				new DefaultListModel(), 
-				this, 
-				new ProteinHistoryCellRenderer(),
-				false);
-		histListScrollPane = new JScrollPane(proteinHistoryList);
-		histListPanel.add(histListScrollPane);
-
 		leftPanel.add(aapPanel);
-		leftPanel.add(histListPanel);
 
-		JPanel rightPanel = new JPanel();
-		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+		CaptionPanel histListPanel = new CaptionPanel("History List");
+		proteinHistoryList = new CellList<FoldedProteinWithImages>(new BiochemHistListItem());
+		histListScrollPanel = new ScrollPanel(proteinHistoryList);
+		histListPanel.add(histListScrollPanel);
+		leftPanel.add(histListPanel);
+		
+		add(leftPanel);
+
+		VerticalPanel centerPanel = new VerticalPanel();
 		upperWorkPanel = new BiochemistryWorkpanel("Upper Folding Window", this);
 		lowerWorkPanel = new BiochemistryWorkpanel("Lower Folding Window", this);
-		rightPanel.add(upperWorkPanel);
+		centerPanel.add(upperWorkPanel);
 		combinedColorPanel = new CombinedColorPanel();
-		rightPanel.add(combinedColorPanel);
-		rightPanel.add(lowerWorkPanel);
+		centerPanel.add(combinedColorPanel);
+		centerPanel.add(lowerWorkPanel);
 		
-		JPanel mainPanel = new JPanel();
-
-		mainPanel.setLayout(
-				new BoxLayout(mainPanel, BoxLayout.X_AXIS));
-		mainPanel.add(leftPanel);
-		mainPanel.add(rightPanel);
-
-		setLayout(new BorderLayout());
-		add(mainPanel, BorderLayout.CENTER);
+		add(centerPanel);
 	}
 
 	public void updateCombinedColor() {
@@ -122,9 +89,8 @@ public class BiochemistryWorkbench extends Workbench {
 
 	public void addToHistoryList(Object o) 
 	throws PaintedInACornerFoldingException {
-		proteinHistoryList.add(o);
-		histListScrollPane.revalidate();
-		histListScrollPane.repaint();
+		foldedProteins.add((FoldedProteinWithImages) o);
+		proteinHistoryList.setRowData(foldedProteins);
 		updateCombinedColor();
 	}
 

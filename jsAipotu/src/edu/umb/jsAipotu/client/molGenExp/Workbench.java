@@ -1,10 +1,10 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import javax.swing.JPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 import edu.umb.jsAipotu.client.biochem.PaintedInACornerFoldingException;
 
-public abstract class Workbench extends JPanel {
+public abstract class Workbench extends HorizontalPanel {
 	
 	public MolGenExp mge;
 	

@@ -24,13 +24,13 @@ import edu.umb.jsAipotu.client.resources.Resources;
 
 public class GreenhouseLoader {
 	
-	private OrganismFactory organismFactory;
+//	private OrganismFactory organismFactory;
 	private Greenhouse greenhouse;
-	private GeneExpresser geneExpresser;
+//	private GeneExpresser geneExpresser;
 
 	public GreenhouseLoader(Greenhouse greenhouse) {
-		organismFactory = new OrganismFactory();
-		geneExpresser = new GeneExpresser();
+//		organismFactory = new OrganismFactory();
+//		geneExpresser = new GeneExpresser();
 		this.greenhouse = greenhouse;
 		
 	}
@@ -84,14 +84,13 @@ public class GreenhouseLoader {
 			String name = org.get("name").toString().replace("\"", "");
 			String gene1 = org.get("upperDNA").toString().replace("\"", "");
 			String gene2 = org.get("lowerDNA").toString().replace("\"", "");	
-			try {
-				Organism o = organismFactory.createOrganism(name, gene1, gene2);
-				JsAipotu.consoleLog(name);
-				greenhouse.add(o);
-			} catch (FoldingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				Organism o = organismFactory.createOrganism(name, gene1, gene2);
+//				greenhouse.add(o);
+//			} catch (FoldingException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 
 	}
