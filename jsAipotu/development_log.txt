@@ -357,3 +357,9 @@ also - need to see how you put a custom image somewhere
 build it in parallel with the panels used in Aipotu
 
 working on Workbenches - use GeneticsWorkbench as prototype
+	leave in error-inducing functions as a reminder to fix
+
+did:
+	- genetics
+	- biochem
+	- mobo

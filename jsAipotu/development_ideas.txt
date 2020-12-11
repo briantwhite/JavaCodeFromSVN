@@ -24,3 +24,13 @@ EVOLUTION
 - progress bar options
 	- a bar that ticks off as each of the cells is computed
 	- just have the cells appear as they are computed
+	
+
+USELESS CLASSES TO EVENTULLY NUKE
+Biochem
+- ProteinHistoryCellRenderer (replaced by BiochemHistListItem)
+- ProteinPrinter (use screenshots)
+Genetics
+- GeneticsHistoryCellRenderer (replaced by GeneticsHistListItem)
+Mobo
+- DNAHistoryCellRenderer (replaced by MolBiolHistListItem)

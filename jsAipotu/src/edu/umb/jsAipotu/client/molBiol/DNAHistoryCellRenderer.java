@@ -20,7 +20,7 @@ public class DNAHistoryCellRenderer extends JButton
 
 	public Component getListCellRendererComponent(JList list, 
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
-		MolBiolHistListItem mbhli = (MolBiolHistListItem)value;
+		ExpressedGeneWithImages mbhli = (ExpressedGeneWithImages)value;
 		JButton button = 
 			new JButton(mbhli.getFoldedProteinWithImages().getThumbnailPic());
 		button.setOpaque(true);

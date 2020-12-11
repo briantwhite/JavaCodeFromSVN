@@ -40,4 +40,7 @@ public interface Resources extends ClientBundle {
 	
 	@Source("yellow.gif")
 	public ImageResource yellowFlowerImage();
+	
+	@Source("GeneticCode.gif")
+	public ImageResource geneticCodeImage();
 }
