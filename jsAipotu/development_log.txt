@@ -363,3 +363,9 @@ did:
 	- genetics
 	- biochem
 	- mobo
+
+12/14/20
+To do:
+- move all 'model' code (GeneExpresser, greenhouse loader, etc) out of JsAipotu.java (should just be GUI controller) to MolGenExp.java 
+- dig down and make all the GUIs set up
+	- leave error-generating methods in place to remind you to fix them
