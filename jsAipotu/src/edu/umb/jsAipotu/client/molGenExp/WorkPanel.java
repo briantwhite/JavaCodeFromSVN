@@ -1,11 +1,7 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import java.awt.image.BufferedImage;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
-import javax.swing.JPanel;
-
-public abstract class WorkPanel extends JPanel {
+public abstract class WorkPanel extends VerticalPanel {
 	
-	public abstract BufferedImage takeSnapshot();
-
 }

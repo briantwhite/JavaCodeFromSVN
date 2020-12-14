@@ -19,9 +19,6 @@ import edu.umb.jsAipotu.client.biochem.BiochemistryWorkbench;
 import edu.umb.jsAipotu.client.evolution.EvolutionWorkArea;
 import edu.umb.jsAipotu.client.genetics.GeneticsWorkbench;
 import edu.umb.jsAipotu.client.molBiol.MolBiolWorkbench;
-import edu.umb.jsAipotu.client.molGenExp.Greenhouse;
-import edu.umb.jsAipotu.client.molGenExp.GreenhouseCell;
-import edu.umb.jsAipotu.client.molGenExp.GreenhouseLoader;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 
 
@@ -31,13 +28,7 @@ import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
  */
 public class JsAipotu implements EntryPoint {
 	
-	private MolGenExp mge = null;
-
-	//indices for tabbed panes
-	private final static int GENETICS = 0;
-	private final static int BIOCHEMISTRY = 1;
-	private final static int MOLECULAR_BIOLOGY = 2;
-	private final static int EVOLUTION = 3;
+	private MolGenExp mge;
 
 	//private MolGenExp mge;
 
@@ -61,13 +52,9 @@ public class JsAipotu implements EntryPoint {
 	private CaptionPanel rightPanelCaption = null;
 	private Button addToGreenhouseButton = null;
 	private ScrollPanel greenhousePanel = null;
-	
-
-	private Greenhouse greenhouse; 
-	private GreenhouseLoader greenhouseLoader;
-	
+		
 	public void onModuleLoad() {
-		//mge = new MolGenExp();
+		mge = new MolGenExp();
 		buildUI();
 	}
 
@@ -166,12 +153,9 @@ public class JsAipotu implements EntryPoint {
 			}
 		});
 		rightPanel.add(addToGreenhouseButton);
-		greenhouse = new Greenhouse(new GreenhouseCell());
-		greenhousePanel = new ScrollPanel(greenhouse);
-		greenhouse.setWidth("100px");
-		rightPanel.add(greenhousePanel);
-		greenhouseLoader = new GreenhouseLoader(greenhouse);
-		greenhouseLoader.load();
+		greenhousePanel = new ScrollPanel(mge.getGreenhouse());
+		greenhousePanel.setWidth("100px");
+		rightPanel.add(greenhousePanel);	
 		rightPanelCaption.setContentWidget(rightPanel);
 		innerPanel.add(rightPanelCaption);
 
