@@ -61,8 +61,6 @@ public abstract class Folder {
 	
 	public abstract void realFold() throws PaintedInACornerFoldingException;
 
-	public abstract String getStatistics();
-
 	public abstract String getName();
 
 	public void setHydroPhobicIndex(double hpIndex) {
@@ -81,11 +79,4 @@ public abstract class Folder {
 		return pp.getTopology();
 	}
 
-	public long getTime() {
-		return time / 1000;
-	}
-
-	public double getEnergy() throws PaintedInACornerFoldingException {
-		return grid.getEnergy(hpIndex, hIndex, hIndex);
-	}
 }

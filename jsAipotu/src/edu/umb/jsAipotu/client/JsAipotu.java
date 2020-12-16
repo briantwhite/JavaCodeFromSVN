@@ -30,8 +30,6 @@ public class JsAipotu implements EntryPoint {
 	
 	private MolGenExp mge;
 
-	//private MolGenExp mge;
-
 	// gui elements
 	private DockPanel mainPanel = null;
 	private MenuBar menuBar = null;
@@ -43,10 +41,10 @@ public class JsAipotu implements EntryPoint {
 	private HorizontalPanel innerPanel = null;
 	
 	private TabLayoutPanel explorerPane = null;
-	private GeneticsWorkbench geneticsWorkbench = null;
-	private BiochemistryWorkbench biochemistryWorkbench = null;
-	private MolBiolWorkbench molBiolWorkbench = null;
-	private EvolutionWorkArea evolutionWorkArea = null;
+//	private GeneticsWorkbench geneticsWorkbench = null;
+//	private BiochemistryWorkbench biochemistryWorkbench = null;
+//	private MolBiolWorkbench molBiolWorkbench = null;
+//	private EvolutionWorkArea evolutionWorkArea = null;
 	
 	private VerticalPanel rightPanel = null;
 	private CaptionPanel rightPanelCaption = null;
@@ -132,16 +130,16 @@ public class JsAipotu implements EntryPoint {
 		innerPanel = new HorizontalPanel();
 		
 		// explorer pane - tabbed pane for the 4 workbenches/workarea
-		explorerPane = new TabLayoutPanel(5, Unit.PX);
-		geneticsWorkbench = new GeneticsWorkbench(mge);
-		explorerPane.add(geneticsWorkbench, "Genetics");
-		biochemistryWorkbench = new BiochemistryWorkbench(mge);
-		explorerPane.add(biochemistryWorkbench, "Biochemistry");
-		molBiolWorkbench = new MolBiolWorkbench(mge);
-		explorerPane.add(molBiolWorkbench, "Molecular Biology");
-		evolutionWorkArea = new EvolutionWorkArea(mge);
-		explorerPane.add(evolutionWorkArea, "Evolution");
-		innerPanel.add(explorerPane);
+//		explorerPane = new TabLayoutPanel(5, Unit.PX);
+//		geneticsWorkbench = new GeneticsWorkbench(mge);
+//		explorerPane.add(geneticsWorkbench, "Genetics");
+//		biochemistryWorkbench = new BiochemistryWorkbench(mge);
+//		explorerPane.add(biochemistryWorkbench, "Biochemistry");
+//		molBiolWorkbench = new MolBiolWorkbench(mge);
+//		explorerPane.add(molBiolWorkbench, "Molecular Biology");
+//		evolutionWorkArea = new EvolutionWorkArea(mge);
+//		explorerPane.add(evolutionWorkArea, "Evolution");
+//		innerPanel.add(explorerPane);
 		
 		// right-hand side: greenhouse and add to greenhouse button
 		rightPanel = new VerticalPanel();

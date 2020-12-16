@@ -375,3 +375,11 @@ started on GeneticsWorkPanel
 theres a FlexTable but maybe a table of buttons rather than a CellList would be better?
 	but selection rules in a table?
 	- leave error-generating methods in place to remind you to fix them
+	
+12/16/20
+Idea: maybe, to be sure you can get images etc working, try commenting out the workpanels and workbenches and get the
+	greenhouse to work
+to do this right, you need to get OrganismFactory to work.
+need to get down into folding code - nuke out reports and stats and energy and time measurements
+
+take the hexagon-related stuff out of HexCanvas (it needed Polygon which isn't in GWT) - seems OK so far.

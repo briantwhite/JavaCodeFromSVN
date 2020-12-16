@@ -186,23 +186,11 @@ public class BruteForceFolder extends Folder {
 		return topologies.toString();
 	}
 
-	public String getStatistics() {
-		return "explored " + chainCount + " chains in " + getTime()
-		+ " seconds";
-	}
-
 	public String getEnergyHistogram() {
 		StringBuffer buf = new StringBuffer(400);
 		for (int i = 0; i < buckets.length; i++) {
 			buf.append(buckets[i] + ", ");
 		}
-		return buf.toString();
-	}
-
-	public String report() throws PaintedInACornerFoldingException {
-		StringBuffer buf = new StringBuffer(super.report());
-		buf.append("\nexplored " + chainCount + " chains");
-		buf.append("\nminimum occurred " + getEnergyTies() + " times");
 		return buf.toString();
 	}
 

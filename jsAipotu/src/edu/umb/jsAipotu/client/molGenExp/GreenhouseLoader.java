@@ -16,21 +16,17 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
 
-import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.biochem.FoldedProteinArchive;
 import edu.umb.jsAipotu.client.biochem.FoldingException;
-import edu.umb.jsAipotu.client.molBiol.GeneExpresser;
 import edu.umb.jsAipotu.client.resources.Resources;
 
 public class GreenhouseLoader {
 	
-//	private OrganismFactory organismFactory;
+	private OrganismFactory organismFactory;
 	private Greenhouse greenhouse;
-//	private GeneExpresser geneExpresser;
 
 	public GreenhouseLoader(Greenhouse greenhouse) {
-//		organismFactory = new OrganismFactory();
-//		geneExpresser = new GeneExpresser();
+		organismFactory = new OrganismFactory();
 		this.greenhouse = greenhouse;
 		
 	}
@@ -84,13 +80,13 @@ public class GreenhouseLoader {
 			String name = org.get("name").toString().replace("\"", "");
 			String gene1 = org.get("upperDNA").toString().replace("\"", "");
 			String gene2 = org.get("lowerDNA").toString().replace("\"", "");	
-//			try {
-//				Organism o = organismFactory.createOrganism(name, gene1, gene2);
-//				greenhouse.add(o);
-//			} catch (FoldingException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			try {
+				Organism o = organismFactory.createOrganism(name, gene1, gene2);
+				greenhouse.add(o);
+			} catch (FoldingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}

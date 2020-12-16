@@ -1,9 +1,5 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import java.util.HashMap;
-
-import javax.swing.ImageIcon;
-
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.user.client.ui.Image;
 

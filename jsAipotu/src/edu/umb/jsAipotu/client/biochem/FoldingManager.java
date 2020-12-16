@@ -89,26 +89,6 @@ public class FoldingManager {
 		return lastPPId;
 	}
 
-	/**
-	 * 
-	 * @return String.
-	 * @throws PaintedInACornerFoldingException 
-	 */
-	public String getEnergyString() throws PaintedInACornerFoldingException {
-		return String.valueOf(currentGrid.getEnergy(currentFolder.hpIndex,
-				currentFolder.hIndex, currentFolder.iIndex));
-	}
-
-
-	/**
-	 * 
-	 * @return double.
-	 * @throws PaintedInACornerFoldingException 
-	 */
-	public double getEnergy() throws PaintedInACornerFoldingException {
-		return currentGrid.getEnergy(currentFolder.hpIndex,
-				currentFolder.hIndex, currentFolder.iIndex);
-	}
 
 	public Grid getGrid() {
 		return currentGrid;
@@ -149,17 +129,6 @@ public class FoldingManager {
 	public String getTopology() {
 		return currentPP.getTopology();
 	}
-
-	/**
-	 * 
-	 * @return long.
-	 */
-	public long getTime() {
-		if (isPlotting)
-			return 0;
-		return currentFolder.getTime();
-	}
-
 
 
 	// mutator methods
