@@ -1,10 +1,6 @@
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.BorderLayout;
 import java.util.ArrayList;
-
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.user.cellview.client.CellList;

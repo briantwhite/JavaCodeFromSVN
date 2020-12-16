@@ -45,6 +45,8 @@ import java.util.ArrayList;
 
 import com.google.gwt.canvas.dom.client.CssColor;
 
+import edu.umb.jsAipotu.client.JsAipotu;
+
 /**
  * Manages the process of folding the polypeptide chains; serves as a subject
  * for FoldingObservers. FoldingManager was originally a singleton class. 
@@ -229,7 +231,7 @@ public class FoldingManager {
 			} catch (FoldingException e1) {
 				return null;
 			}
-			
+
 			//now, make the pix
 			ProteinImageSet imageSet = 
 				ProteinImageFactory.generateImages(hexCanvas);

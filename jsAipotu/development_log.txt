@@ -383,3 +383,43 @@ to do this right, you need to get OrganismFactory to work.
 need to get down into folding code - nuke out reports and stats and energy and time measurements
 
 take the hexagon-related stuff out of HexCanvas (it needed Polygon which isn't in GWT) - seems OK so far.
+
+can't get it to compile without fussing about errors in BiochemWOorkbench and Workpanel but they're not needed
+	who the fuck is instantiating them?
+	if you comment out the instantiation of "OrganismFactory" the compilation errors go away
+		this calls GeneExpresser and FoldingManager
+put GeneExpresser back without any folding and it compiles.
+in OrganismFactory, added instantiation of FoldingManager - no compile errors
+	try putting back some method calls to FoldingManager
+	FoldingManager.foldWithPix prevents compilation
+
+it's in GridCanvas line 207 where it gets the background color from BiochemWorkbench
+	for now, replace it with gray
+	compiles
+
+get a null reference if you try to make organisms - but it's in an obscure obfuscated method
+	it's in OrganismFactory.createOrganism
+	try compiling with the "detailed" option instead of "obfuscated"
+it looks like the "combine color" is getting nulls out of the FoldedProteinArchive
+	maybe I'm turning the color string into a CssColor wrong
+	colors coming out of the parseColorString are ok
+maybe the Request method is returning before the FPA has entries - nope, if you ask how many entries just before
+	you call the load greenhouse method, you get 10
+
+loooking in FoldingManager
+	it is getting a good AA seq and finding the protein in the FPA
+
+put in a crapload of print statements in FoldingManager
+it's returning null
+			try {
+				polypeptide = PolypeptideFactory.getInstance().createFromProteinString(
+						foldedAndColoredProtein.getProteinString());
+				JsAipotu.consoleLog("FoldingManager 233: got this polypeptide: " + polypeptide.toString());
+				hexCanvas.setGrid(new HexGrid(polypeptide));
+			} catch (FoldingException e1) {
+				JsAipotu.consoleLog("FOldingManager 236: folding exception: " + e1.getMessage());
+				return null;
+			}
+it never gets to "FoldingManager 233" - and the error is:
+	"direction not found. DIRECTION:"
+	directionString parsing is getting an empty string as the first and only one to parse..

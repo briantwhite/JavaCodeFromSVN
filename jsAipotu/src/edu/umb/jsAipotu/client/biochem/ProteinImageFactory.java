@@ -1,13 +1,8 @@
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Image;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 

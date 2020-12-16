@@ -41,6 +41,7 @@ import java.util.Arrays;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
+import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class PolypeptideFactory {
@@ -116,7 +117,7 @@ public class PolypeptideFactory {
 	 */
 	// 
 	public Polypeptide createFromProteinString(String input) throws FoldingException {
-
+		JsAipotu.consoleLog("PolypeptideFactory 120: got this input: " + input);
 		// parse input into strings representing an acid or a direction
 		ArrayList acidString = getTokens(input);
 
@@ -303,6 +304,7 @@ public class PolypeptideFactory {
 	 */
 	public Direction parseDirection(String directionString)
 	throws FoldingException {
+		JsAipotu.consoleLog("PolypeptideFactory 307: parsing direction string: " + directionString);
 		if (directionString.trim().equalsIgnoreCase("none")) {
 			//System.out.println("Direction is: none");
 			return Direction.none;

@@ -3,16 +3,6 @@ package edu.umb.jsAipotu.client.biochem;
 import java.util.HashMap;
 
 import com.google.gwt.canvas.dom.client.CssColor;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
-import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONValue;
-import com.google.gwt.user.client.Window;
 
 public class FoldedProteinArchive {
 

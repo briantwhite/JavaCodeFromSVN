@@ -34,3 +34,7 @@ Genetics
 - GeneticsHistoryCellRenderer (replaced by GeneticsHistListItem)
 Mobo
 - DNAHistoryCellRenderer (replaced by MolBiolHistListItem)
+
+
+THINGS YOU EVENTUALLY NEED TO FIX
+- in GridCanvas line 207 restore the background color from BiochemWorkbench (once you get that going)

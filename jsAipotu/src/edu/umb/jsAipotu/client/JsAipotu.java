@@ -1,7 +1,6 @@
 package edu.umb.jsAipotu.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -15,10 +14,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.umb.jsAipotu.client.biochem.BiochemistryWorkbench;
-import edu.umb.jsAipotu.client.evolution.EvolutionWorkArea;
-import edu.umb.jsAipotu.client.genetics.GeneticsWorkbench;
-import edu.umb.jsAipotu.client.molBiol.MolBiolWorkbench;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 
 
