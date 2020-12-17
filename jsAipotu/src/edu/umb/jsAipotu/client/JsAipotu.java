@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import edu.umb.jsAipotu.client.molGenExp.CombinedColorPanel;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 
 

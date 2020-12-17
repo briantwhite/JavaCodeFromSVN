@@ -471,3 +471,16 @@ some of the lettering is small and mis-alinged - fix that in AminoAcid.paint()
 	default font is "10px sans-serif"
 all set
 
+back to genetics - how best to build a Tray
+	HTML table of cells or buttons
+	CellList? - can make it horizontal (a pain) but still only one row
+	CellTable? - a pain because you have to define each column so it won't resize nicely
+	FlexTable - probably not needed
+it may be ok to just use a FlowPanel and add() them and it'll take xare of the rest
+	what should the organisms in a cage be?
+	can they be a cell? it would probably be good because it can be made with an organism built in
+		and you can use the code from the greenhouse member
+** it will be best to do this once you've read over the GWT book on order to see the best method
+
+Maybe try to get mobo workpanel working
+	first get CombinedColorPanel ok

@@ -21,7 +21,7 @@ public class Greenhouse extends CellList<Organism> {
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			public void onSelectionChange(SelectionChangeEvent event) {
 				Organism o = selectionModel.getSelectedObject();
-				JsAipotu.showImage(o.getGene1().getFoldedProteinWithImages().getFullSizePic());
+				//JsAipotu.showImage(o.getGene1().getFoldedProteinWithImages().getThumbnailPic());
 			}
 		});
 	}
