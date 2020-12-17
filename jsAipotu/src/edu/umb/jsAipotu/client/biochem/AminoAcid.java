@@ -18,6 +18,7 @@ import java.awt.Color;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 
+import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 /**
@@ -105,14 +106,18 @@ public class AminoAcid {
 
 		int offset = getStringIndentationConstant(name, GlobalDefaults.aaRadius);
 
-		
 		g2d.beginPath();
-		g2d.arc(x, y, GlobalDefaults.aaRadius, 0, 2 * Math.PI);
+		g2d.arc(x + GlobalDefaults.aaRadius,
+				y + GlobalDefaults.aaRadius, 
+				GlobalDefaults.aaRadius, 
+				0, 
+				2 * Math.PI);
 		g2d.setFillStyle(cc.getCellColor(normalizedHydrophobicIndex));
 		g2d.fill();
 
 		//default label color is white
 		g2d.setFillStyle("white");
+		g2d.setFont("10px sans-serif");
 
 		//if philic - then add stuff
 		if (name.equals("Arg") ||
@@ -120,7 +125,7 @@ public class AminoAcid {
 				name.equals("His")) {
 			g2d.setFillStyle("blue");
 			g2d.fillText("+", 
-					x + GlobalDefaults.aaRadius - 15, 
+					x + GlobalDefaults.aaRadius - 10, 
 					y + GlobalDefaults.aaRadius);
 			g2d.setFillStyle("black");
 		}
@@ -128,9 +133,11 @@ public class AminoAcid {
 		if (name.equals("Asp") ||
 				name.equals("Glu")) {
 			g2d.setFillStyle("red");
+			g2d.setFont("18px sans-serif");
 			g2d.fillText("-", 
-					x + GlobalDefaults.aaRadius - 15, 
+					x + GlobalDefaults.aaRadius - 10, 
 					y + GlobalDefaults.aaRadius);
+			g2d.setFont("10px sans-serif");
 			g2d.setFillStyle("black");
 		}
 
@@ -140,9 +147,11 @@ public class AminoAcid {
 				name.equals("Thr") ||
 				name.equals("Tyr")) {
 			g2d.setFillStyle("green");
+			g2d.setFont("20px sans-serif");
 			g2d.fillText("*", 
-					x + GlobalDefaults.aaRadius - 15, 
+					x + GlobalDefaults.aaRadius - 10, 
 					y + GlobalDefaults.aaRadius);
+			g2d.setFont("10px sans-serif");
 			g2d.setFillStyle("black");
 		}
 		
@@ -150,7 +159,7 @@ public class AminoAcid {
 				x + GlobalDefaults.aaRadius - offset, 
 				y + GlobalDefaults.aaRadius);
 		g2d.fillText(abName, 
-				x + GlobalDefaults.aaRadius , 
+				x + GlobalDefaults.aaRadius - 5, 
 				y + GlobalDefaults.aaRadius + AB_Y_OFFSET);
 	}
 

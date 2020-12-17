@@ -1,5 +1,6 @@
 package edu.umb.jsAipotu.client;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -160,4 +161,8 @@ public class JsAipotu implements EntryPoint {
 	public static native void consoleLog(String message) /*-{
 		console.log(message);
 	}-*/;
+	
+	public static void showImage(Canvas canvas) {
+		RootPanel.get("test").add(canvas);
+	}
 }

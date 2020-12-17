@@ -448,3 +448,26 @@ now need to work on getting images into Greenhouse cells
 	it's better to pass in ImageResource than Image
 
 WORKS!!
+
+see if the protein drawing stuff is working
+for now, set up so if you click on a greenhouse entry it puts one protein in a separate div "test"
+
+made JsAipotu.showImage(Canvas) that puts the image in "test"
+	the images are misaligned but it seems to work
+fix up the protein drawing code - it's in GridCanvas.java
+
+first, see if you can put a canvas in a panel in the app itself - yep, just add it
+	put it back to the test region
+
+the mis-alignment is likely that the circle drawing is different (in AminoAcid.paint())
+	original: g2d.fillOval(x, y, aminoAcidDiameter, aminoAcidDiameter);
+		x, y is the coordinates of the upper left corner of the oval to be filled
+	gwt: g2d.arc(x, y, GlobalDefaults.aaRadius, 0, 2 * Math.PI);
+		it looks like the arc's x and y are the CENTER of the arc
+	so try adding aaRadius to x and y in the arc() command.
+	FIXED
+
+some of the lettering is small and mis-alinged - fix that in AminoAcid.paint()
+	default font is "10px sans-serif"
+all set
+
