@@ -16,7 +16,7 @@ package edu.umb.jsAipotu.client.biochem;
 import java.util.HashMap;
 
 import com.google.gwt.canvas.dom.client.CssColor;
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.resources.client.ImageResource;
 
 
 /**
@@ -67,5 +67,5 @@ public abstract class ColorModel {
 	
 	public abstract CssColor getColorFromString(String c);
 	
-	public abstract Image getImageFromColor(CssColor c);
+	public abstract ImageResource getImageResourceFromColor(CssColor c);
 }

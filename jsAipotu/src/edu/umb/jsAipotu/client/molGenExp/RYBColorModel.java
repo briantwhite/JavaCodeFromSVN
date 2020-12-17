@@ -20,6 +20,7 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
 
+import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.biochem.AcidInChain;
 import edu.umb.jsAipotu.client.biochem.AminoAcid;
 import edu.umb.jsAipotu.client.biochem.ColorModel;
@@ -49,14 +50,15 @@ public class RYBColorModel extends ColorModel {
 			//    	1's = blue
 			//		2's = yellow
 			//		4's = red
-			CssColor.make("white"),			 // 000 0
-			CssColor.make("blue"),			 // 001 1
-			CssColor.make("yellow"),	     // 010 2 
-			CssColor.make("green"),			 // 011 3
-			CssColor.make("red"),			 // 100 4
-			CssColor.make(138,43,226), // 101 5 Purple
-			CssColor.make(255,140,0),	 // 110 6 Orange
-			CssColor.make("black")      // 111
+			// use RGB values to make the lookup work
+			CssColor.make(255, 255, 255),	 // White   000 0
+			CssColor.make(  0,   0, 255),	 // Blue    001 1
+			CssColor.make(255, 255,   0),	 // Yellow  010 2 
+			CssColor.make(  0, 255,   0),	 // Green   011 3
+			CssColor.make(255,   0,   0),	 // Red     100 4
+			CssColor.make(138,  43, 226),    // Purple  101 5 
+			CssColor.make(255, 140,   0),	 // Orange  110 6  
+			CssColor.make(  0,   0,   0)     // Black   111 7
 	};
 
 	private String[] numberToColorNameMap = {
@@ -99,6 +101,7 @@ public class RYBColorModel extends ColorModel {
 		for (int i = 0; i < numberToColorMap.length; i++) {
 			nameToColorMap.put(numberToColorNameMap[i], numberToColorMap[i]);
 		}
+		
 	}
 
 	public CssColor getProteinColor(Grid grid) throws PaintedInACornerFoldingException {
@@ -227,12 +230,12 @@ public class RYBColorModel extends ColorModel {
 	}
 
 
-	public Image getImageFromColor(CssColor c) {
+	public ImageResource getImageResourceFromColor(CssColor c) {
 		int n = getColorNumber(c);
 		if (n == -1) {
-			return new Image(Resources.INSTANCE.blankFlowerImage());
+			return Resources.INSTANCE.blankFlowerImage();
 		}
-		return new Image(numberToImageResourceMap[n]);
+		return numberToImageResourceMap[n];
 	}
 	
 }

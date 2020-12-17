@@ -117,10 +117,10 @@ public class PolypeptideFactory {
 	 */
 	// 
 	public Polypeptide createFromProteinString(String input) throws FoldingException {
-		JsAipotu.consoleLog("PolypeptideFactory 120: got this input: " + input);
+
 		// parse input into strings representing an acid or a direction
 		ArrayList acidString = getTokens(input);
-
+		
 		// parsing each acid string into AminoAcids using AminoAcidTable.
 		//     or each direction string into a Direction using Direction
 		// From parsing, acids are on even positions, and directions on odd
@@ -255,12 +255,16 @@ public class PolypeptideFactory {
 	 * @return ArrayList
 	 */
 	public ArrayList<String> getTokens(String input) {
+		// special case of an empty string input
+		if (input.equals("")) {
+			return new ArrayList<String>();
+		}
 		// setting delimiters
 		for (int i = 0; i < DELIMITERS.length; i++)
 			input = input.replace(DELIMITERS[i], ' ');
 
 		// parsing
-		ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(input.split(" ")));
+		ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
 		return tokens;
 	}
 
@@ -304,7 +308,6 @@ public class PolypeptideFactory {
 	 */
 	public Direction parseDirection(String directionString)
 	throws FoldingException {
-		JsAipotu.consoleLog("PolypeptideFactory 307: parsing direction string: " + directionString);
 		if (directionString.trim().equalsIgnoreCase("none")) {
 			//System.out.println("Direction is: none");
 			return Direction.none;

@@ -1,7 +1,7 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
 import com.google.gwt.canvas.dom.client.CssColor;
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.resources.client.ImageResource;
 
 import edu.umb.jsAipotu.client.biochem.FoldedProteinWithImages;
 import edu.umb.jsAipotu.client.biochem.FoldingException;
@@ -51,8 +51,8 @@ public class OrganismFactory {
 				gene1.getFoldedProteinWithImages().getColor(), 
 				gene2.getFoldedProteinWithImages().getColor());
 		
-		Image image = GlobalDefaults.colorModel.getImageFromColor(color);
-		return new Organism(name, gene1, gene2, color, image);
+		ImageResource imageResource = GlobalDefaults.colorModel.getImageResourceFromColor(color);
+		return new Organism(name, gene1, gene2, color, imageResource);
 	}
 	
 	public Organism createOrganism(ThinOrganism thinOrg) throws FoldingException {

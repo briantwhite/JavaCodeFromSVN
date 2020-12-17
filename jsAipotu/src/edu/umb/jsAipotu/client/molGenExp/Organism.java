@@ -1,6 +1,7 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
 
 public class Organism {
@@ -10,18 +11,18 @@ public class Organism {
 	private ExpressedAndFoldedGene gene1;
 	private ExpressedAndFoldedGene gene2;
 	private CssColor color;
-	private Image image;
+	private ImageResource imageResource;
 	
 	public Organism(String name, 
 			ExpressedAndFoldedGene gene1, ExpressedAndFoldedGene gene2,
 			CssColor color,
-			Image image
+			ImageResource imageResource
 			) {
 		this.name = name; 
 		this.gene1 = gene1;
 		this.gene2 = gene2;
 		this.color = color;
-		this.image = image;
+		this.imageResource = imageResource;
 	}
 			
 	public String getName() {
@@ -40,8 +41,8 @@ public class Organism {
 		return color;
 	}
 	
-	public Image getImage() {
-		return image;
+	public ImageResource getImageResource() {
+		return imageResource;
 	}
 	
 	public void setName(String name) {

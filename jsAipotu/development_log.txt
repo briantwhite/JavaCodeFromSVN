@@ -423,3 +423,28 @@ it's returning null
 it never gets to "FoldingManager 233" - and the error is:
 	"direction not found. DIRECTION:"
 	directionString parsing is getting an empty string as the first and only one to parse..
+
+12/17/20
+maybe need to split the string at whitespace not just a single space
+that was it. In PolypeptideFactory line 263:
+ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
+fixes the problem
+
+now a bug in the color to number map in RYBColorModel
+	"Cannot read property 'java_lang_Integer_value' of undefined"
+it may be that, if you make the keys be things like "white" instead of an RGB set, they're not equal
+	changed CssColor specifications to RGB values not names
+	fixed that one
+
+OrganismFactory line 50 is getting a null color from one of the expressed and folded genes
+	it's folding most of them without error but blowing up when the aa sequence is "" (nothing)
+		how did we deal with this before in PolypeptideFactory?
+			it probably fell through and made a Polypeptide(aminoAcids[0], directions[0])
+		in this version, when it gets the empty string, the routine returns a one-member ArrayList (it should be 0).
+		probably, the best is to have getTokens("") return an empty ArrayList
+	fixed it!
+
+now need to work on getting images into Greenhouse cells
+	it's better to pass in ImageResource than Image
+
+WORKS!!

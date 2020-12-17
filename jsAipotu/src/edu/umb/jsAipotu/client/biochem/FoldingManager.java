@@ -223,10 +223,12 @@ public class FoldingManager {
 			HexCanvas hexCanvas = new HexCanvas();
 			FoldedAndColoredProtein foldedAndColoredProtein = 
 				foldedProteinArchive.getEntry(aaSeq);
+
 			Polypeptide polypeptide;
 			try {
 				polypeptide = PolypeptideFactory.getInstance().createFromProteinString(
 						foldedAndColoredProtein.getProteinString());
+
 				hexCanvas.setGrid(new HexGrid(polypeptide));
 			} catch (FoldingException e1) {
 				return null;
