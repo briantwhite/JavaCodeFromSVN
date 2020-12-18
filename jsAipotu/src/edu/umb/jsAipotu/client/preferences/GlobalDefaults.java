@@ -13,6 +13,9 @@ public class GlobalDefaults {
 	//radius of aas as drawn in big images
 	public final static int aaRadius = 20;
 	
+	// background color for protein images
+	public static final CssColor PROTEIN_BACKGROUND_COLOR = CssColor.make(178, 178, 255); 
+	
 	// sizes for images
 	public final static int thumbWidth = 130;
 	public final static int thumbHeight = 70;

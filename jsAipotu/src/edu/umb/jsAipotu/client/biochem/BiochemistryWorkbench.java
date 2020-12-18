@@ -18,8 +18,6 @@ import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class BiochemistryWorkbench extends Workbench {
 
-	public static final CssColor BACKGROUND_COLOR = CssColor.make(178, 178, 255); 
-
 	private BiochemistryWorkpanel upperWorkPanel;
 	private BiochemistryWorkpanel lowerWorkPanel;
 

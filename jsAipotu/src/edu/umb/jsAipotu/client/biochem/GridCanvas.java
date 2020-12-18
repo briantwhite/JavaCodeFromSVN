@@ -204,8 +204,7 @@ public abstract class GridCanvas {
 		ColorCoder cc = null;
 
 		cc = new ShadingColorCoder(GlobalDefaults.aaTable.getContrastScaler());
-//		g.setFillStyle(BiochemistryWorkbench.BACKGROUND_COLOR.toString());
-		g.setFillStyle("gray");
+		g.setFillStyle(GlobalDefaults.PROTEIN_BACKGROUND_COLOR.toString());
 		g.fillRect(0, 0, requiredCanvasSize.width, requiredCanvasSize.height);
 
 

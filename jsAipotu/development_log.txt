@@ -484,3 +484,16 @@ it may be ok to just use a FlowPanel and add() them and it'll take xare of the r
 
 Maybe try to get mobo workpanel working
 	first get CombinedColorPanel ok
+
+12/18/20
+moved the protein background color from BiochemWorkbench to GlobalDefaults 
+	(so you don't have to have BiochemWB running to get proteins folded)
+
+working on mobo workpanel - what's the best container for the HTML?
+	TextArea where you setReadOnly(true)
+	you can also getCursorPos()
+try it.
+
+working out bugs in MolBiolWorkpanel using the jsGenex code where I can.
+
+(maybe do the same for the BiochemWorkpanel)
