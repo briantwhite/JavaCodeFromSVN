@@ -497,3 +497,11 @@ try it.
 working out bugs in MolBiolWorkpanel using the jsGenex code where I can.
 
 (maybe do the same for the BiochemWorkpanel)
+
+1/5/21
+Need to figure out where in the DNA the user has clicked in MoBo
+there's a selection event: https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
+	 window.getSelection() works in chrome - can you get what you need? anchorOffset might be the thing
+more info here: https://w3c.github.io/selection-api/#dfn-selection
+may work in gwt https://docs.sencha.com/gxt/4.x/javadoc/gwt-elemental-2.8.2/elemental/html/class-use/Selection.html
+
