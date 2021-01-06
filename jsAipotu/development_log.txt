@@ -528,3 +528,10 @@ can get X coordinate of a click. How to turn that to a character index?
 		90		729
 		100		807
 these are the same even when scrolled
+
+better, since they may re-size, is to calculate the size of each character
+if you can somehow get the graphics context, you can do this https://www.w3schools.com/tags/canvas_measuretext.asp
+- actually, the pixel locations are stable on zoom.
+- so find a linear approx to the above in excel
+	base = (0.128 pixel) - 3.32
+WOWRKS
