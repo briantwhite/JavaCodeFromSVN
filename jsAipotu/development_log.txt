@@ -504,4 +504,27 @@ there's a selection event: https://developer.mozilla.org/en-US/docs/Web/API/Wind
 	 window.getSelection() works in chrome - can you get what you need? anchorOffset might be the thing
 more info here: https://w3c.github.io/selection-api/#dfn-selection
 may work in gwt https://docs.sencha.com/gxt/4.x/javadoc/gwt-elemental-2.8.2/elemental/html/class-use/Selection.html
+also here: https://stackoverflow.com/questions/20402259/how-can-i-get-gwt-html-selected-text
+perhaps even better: https://code.google.com/archive/p/gwt-selection/
 
+1/6/21
+Got it to show a gene.
+window.getSelection() gives the selected base in it's HTML element. That means that, if you select the 2nd base after the
+promoter - the post-promoter DNA is it's own element - you get an offset of 2. So it doesn't help give the coordinates
+from the START of the DNA. Not useful. Hmmm...
+
+can get X coordinate of a click. How to turn that to a character index?
+(middle of DNA base)
+	DNA base	pixelX
+		0		26
+		10		104
+		20		183
+		30		260
+		40		338
+		50		416
+		60		495
+		70		572
+		80		651
+		90		729
+		100		807
+these are the same even when scrolled

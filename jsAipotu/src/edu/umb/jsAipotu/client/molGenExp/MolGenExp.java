@@ -124,7 +124,15 @@ public class MolGenExp {
 //		return oal2.getOrganism();
 //	}
 	
+	public void saveOrganismToGreenhouse(Organism o) {
+		
+	}
+	
 	public void updateGeneticsButtonStatus() {
+		
+	}
+	
+	public void setAddToGreenhouseButtonEnabled(boolean enabled) {
 		
 	}
 }

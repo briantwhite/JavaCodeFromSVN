@@ -129,6 +129,7 @@ public class JsAipotu implements EntryPoint {
 		
 		// explorer pane - tabbed pane for the 4 workbenches/workarea
 		explorerPane = new TabLayoutPanel(5, Unit.PX);
+		explorerPane.setSize("1000px", "750px");
 //		geneticsWorkbench = new GeneticsWorkbench(mge);
 //		explorerPane.add(geneticsWorkbench, "Genetics");
 //		biochemistryWorkbench = new BiochemistryWorkbench(mge);
@@ -137,7 +138,7 @@ public class JsAipotu implements EntryPoint {
 		explorerPane.add(molBiolWorkbench, "Molecular Biology");
 //		evolutionWorkArea = new EvolutionWorkArea(mge);
 //		explorerPane.add(evolutionWorkArea, "Evolution");
-//		innerPanel.add(explorerPane);
+		innerPanel.add(explorerPane);
 		
 		// right-hand side: greenhouse and add to greenhouse button
 		rightPanel = new VerticalPanel();
