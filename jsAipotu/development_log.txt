@@ -534,4 +534,33 @@ if you can somehow get the graphics context, you can do this https://www.w3schoo
 - actually, the pixel locations are stable on zoom.
 - so find a linear approx to the above in excel
 	base = (0.128 pixel) - 3.32
-WOWRKS
+	
+		geneDisplayPanel.addClickHandler(new ClickHandler() {   
+			public void onClick(ClickEvent event) {
+				int pixelX = event.getRelativeX(event.getRelativeElement());
+				int baseNum = (int)((pixelX * 0.128) - 3.32);
+				JsAipotu.consoleLog(Integer.toString(baseNum));
+			}
+		});
+
+WORKS
+
+1/7/21
+Need to find a way to get the keyboard controls to work
+- instead of HTML, use some editable text pane that you can fill with HTML
+	and set up monster controlled editor
+	maybe RichTextArea would be good
+		it will display HTML nicely
+		but the cursor location stuff isn't good - it changes when you scroll
+			so no good unless you can fix this
+		but it will give keyboard events.
+		PUNT on it
+- put a transparent text input or editing thingy over the HTML panel
+- find some way to capture the key events
+	https://stackoverflow.com/questions/7647118/is-there-a-way-to-trap-a-keyboard-event-in-gwt
+- wrap it in a FocusPanel - that has kb events.
+	KeyPress only does real characters
+	KeyDown works for arrow keys
+
+First, got clicking on a base to highlight the corresponding RNA etc.
+got it going with FocusPanel!
