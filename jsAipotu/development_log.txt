@@ -564,3 +564,8 @@ Need to find a way to get the keyboard controls to work
 
 First, got clicking on a base to highlight the corresponding RNA etc.
 got it going with FocusPanel!
+
+1/8/21
+Before you go further - put the size settings in the .css file
+	make a different size for the inside scroll panel of each workpanel
+worked out some layout issues

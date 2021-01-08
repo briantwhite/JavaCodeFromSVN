@@ -5,7 +5,6 @@
 
 .mainMenuBar .gwt-MenuBar {
   cursor: default;
-
 }
 
 .mainMenuBar .gwt-MenuItem {
@@ -29,4 +28,26 @@
 	border: 1px solid black;
 	width: 40px;
 	height: 20px;
+}
+
+.mainPanel {
+	width: 1500px;
+	height: 1200px;
+}
+
+.explorerPane {
+	width: 1000px;
+	height: 750px;
+}
+
+.greenhousePanel {
+	width: 100px;
+}
+.MoBoDNApanel {
+	width: 500px;
+	height: 250px;
+}
+.MoBoButtonPanel .gwt-Button {
+	margin-left: 10px;
+	margin-right: 10px;
 }

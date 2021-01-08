@@ -1,6 +1,5 @@
 package edu.umb.jsAipotu.client;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -8,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -29,7 +29,7 @@ public class JsAipotu implements EntryPoint {
 	private MolGenExp mge;
 
 	// gui elements
-	private DockPanel mainPanel = null;
+	private DockLayoutPanel mainPanel = null;
 	private MenuBar menuBar = null;
 	private MenuBar fileMenu = null;
 	private MenuBar editMenu = null;
@@ -55,8 +55,8 @@ public class JsAipotu implements EntryPoint {
 	}
 
 	private void buildUI() {
-		mainPanel = new DockPanel();
-		mainPanel.setSize("1000px", "500px");
+		mainPanel = new DockLayoutPanel(Unit.EM);
+		mainPanel.setStyleName("mainPanel");
 
 		// menus
 		menuBar = new MenuBar(false);
@@ -123,13 +123,13 @@ public class JsAipotu implements EntryPoint {
 			}
 		});
 		menuBar.addItem("Greenhouse", greenhouseMenu);
-		mainPanel.add(menuBar, DockPanel.NORTH);
+		mainPanel.addNorth(menuBar, 3);
 		
 		innerPanel = new HorizontalPanel();
 		
 		// explorer pane - tabbed pane for the 4 workbenches/workarea
-		explorerPane = new TabLayoutPanel(5, Unit.PX);
-		explorerPane.setSize("1000px", "750px");
+		explorerPane = new TabLayoutPanel(40, Unit.PX);
+		explorerPane.setStyleName("explorerPane");
 //		geneticsWorkbench = new GeneticsWorkbench(mge);
 //		explorerPane.add(geneticsWorkbench, "Genetics");
 //		biochemistryWorkbench = new BiochemistryWorkbench(mge);
@@ -151,12 +151,12 @@ public class JsAipotu implements EntryPoint {
 		});
 		rightPanel.add(addToGreenhouseButton);
 		greenhousePanel = new ScrollPanel(mge.getGreenhouse());
-		greenhousePanel.setWidth("100px");
+		greenhousePanel.setStyleName("greenhousePanel");
 		rightPanel.add(greenhousePanel);	
 		rightPanelCaption.setContentWidget(rightPanel);
 		innerPanel.add(rightPanelCaption);
 
-		mainPanel.add(innerPanel, DockPanel.CENTER);
+		mainPanel.add(innerPanel);
 		
 		RootPanel.get("mainPanelContainer").add(mainPanel);
 	}
@@ -165,7 +165,5 @@ public class JsAipotu implements EntryPoint {
 		console.log(message);
 	}-*/;
 	
-	public static void showImage(Canvas canvas) {
-		RootPanel.get("test").add(canvas);
-	}
+	
 }
