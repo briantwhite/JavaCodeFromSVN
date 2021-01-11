@@ -55,10 +55,16 @@
 	background: lightblue;
 }
 
+.BiochemButtonPanel .gwt-Button {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
 .MoBoDNApanel {
 	width: 500px;
 	height: 250px;
 }
+
 .MoBoButtonPanel .gwt-Button {
 	margin-left: 10px;
 	margin-right: 10px;

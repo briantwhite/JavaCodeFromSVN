@@ -585,3 +585,13 @@ move on to getting biochem workbench going
 need to fix AminoAcidPalette to be AminoAcidPaletteBuilder class with one static method build()
 	got it going
 
+now biochem workpanel
+	- don't need FoldedProteinPanel - will use a SimplePanel and draw on it
+	- don't need ProteinHistoryCellRenderer either (Will use BiochemHistListItem)
+the amino acid entry thing is a JTextField who's document is a TLCDocument
+		what to use for the JTextField? - it must have a getDocument
+			there doesn't appear to be a GWT equivalent
+there's some relevant info here https://gwtgrabbag.wordpress.com/2010/12/26/gwt-detecting-changes-in-a-textbox-with-event-filtering-and-jsni/
+	but it's a pain.
+also https://gwtgrabbag.wordpress.com/2010/12/26/detecting-changes-in-a-gwt-textbox-by-sinking-events/
+also https://stackoverflow.com/questions/19201132/gwt-input-event-on-textbox
