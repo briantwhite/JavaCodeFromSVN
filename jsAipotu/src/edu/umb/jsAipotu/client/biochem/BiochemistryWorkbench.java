@@ -2,6 +2,7 @@ package edu.umb.jsAipotu.client.biochem;
 
 import java.util.ArrayList;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.CaptionPanel;
@@ -18,8 +19,8 @@ import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class BiochemistryWorkbench extends Workbench {
 
-	private BiochemistryWorkpanel upperWorkPanel;
-	private BiochemistryWorkpanel lowerWorkPanel;
+//	private BiochemistryWorkpanel upperWorkPanel;
+//	private BiochemistryWorkpanel lowerWorkPanel;
 
 	ArrayList<FoldedProteinWithImages> foldedProteins;
 	CellList<FoldedProteinWithImages> proteinHistoryList;
@@ -41,7 +42,7 @@ public class BiochemistryWorkbench extends Workbench {
 		VerticalPanel leftPanel = new VerticalPanel();
 		
 		CaptionPanel aapPanel = new CaptionPanel("Amino Acids");
-		AminoAcidPalette aaPalette = new AminoAcidPalette(180, 225, 5, 4);
+		Canvas aaPalette = AminoAcidPaletteBuilder.build(180, 225, 5, 4);
 		aapPanel.add(aaPalette);
 		leftPanel.add(aapPanel);
 
@@ -54,31 +55,31 @@ public class BiochemistryWorkbench extends Workbench {
 		add(leftPanel);
 
 		VerticalPanel centerPanel = new VerticalPanel();
-		upperWorkPanel = new BiochemistryWorkpanel("Upper Folding Window", this);
-		lowerWorkPanel = new BiochemistryWorkpanel("Lower Folding Window", this);
-		centerPanel.add(upperWorkPanel);
+//		upperWorkPanel = new BiochemistryWorkpanel("Upper Folding Window", this);
+//		lowerWorkPanel = new BiochemistryWorkpanel("Lower Folding Window", this);
+//		centerPanel.add(upperWorkPanel);
 		combinedColorPanel = new CombinedColorPanel();
 		centerPanel.add(combinedColorPanel);
-		centerPanel.add(lowerWorkPanel);
+//		centerPanel.add(lowerWorkPanel);
 		
 		add(centerPanel);
 	}
 
 	public void updateCombinedColor() {
-		CssColor u = upperWorkPanel.getColor();
-		CssColor l = lowerWorkPanel.getColor();
-		
-		if ((u == null) || (l == null)) return;
-		
-		CssColor combined = GlobalDefaults.colorModel.mixTwoColors(u, l);
-		combinedColorPanel.setCombinedColor(combined);
+//		CssColor u = upperWorkPanel.getColor();
+//		CssColor l = lowerWorkPanel.getColor();
+//		
+//		if ((u == null) || (l == null)) return;
+//		
+//		CssColor combined = GlobalDefaults.colorModel.mixTwoColors(u, l);
+//		combinedColorPanel.setCombinedColor(combined);
 	}
 
 	public void loadOrganism(Organism o) {
-		upperWorkPanel.setFoldedProteinWithImages(
-				o.getGene1().getFoldedProteinWithImages());
-		lowerWorkPanel.setFoldedProteinWithImages(
-				o.getGene2().getFoldedProteinWithImages());
+//		upperWorkPanel.setFoldedProteinWithImages(
+//				o.getGene1().getFoldedProteinWithImages());
+//		lowerWorkPanel.setFoldedProteinWithImages(
+//				o.getGene2().getFoldedProteinWithImages());
 	}
 
 	public void addToHistoryList(Object o) 
@@ -89,19 +90,21 @@ public class BiochemistryWorkbench extends Workbench {
 	}
 
 	public WorkPanel getLowerPanel() {
-		return lowerWorkPanel;
+//		return lowerWorkPanel;
+		return null;
 	}
 
 	public WorkPanel getUpperPanel() {
-		return upperWorkPanel;
+//		return upperWorkPanel;
+		return null;
 	}
 
 	public void sendToLowerPanel(Object o) throws PaintedInACornerFoldingException {
-		lowerWorkPanel.setFoldedProteinWithImages((FoldedProteinWithImages)o);
+//		lowerWorkPanel.setFoldedProteinWithImages((FoldedProteinWithImages)o);
 	}
 
 	public void sendToUpperPanel(Object o) throws PaintedInACornerFoldingException {
-		upperWorkPanel.setFoldedProteinWithImages((FoldedProteinWithImages)o);
+//		upperWorkPanel.setFoldedProteinWithImages((FoldedProteinWithImages)o);
 	}
 }
 

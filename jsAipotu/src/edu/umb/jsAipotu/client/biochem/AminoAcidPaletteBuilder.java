@@ -41,12 +41,14 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Point;
 
-import javax.swing.JPanel;
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.user.client.Window;
+
+import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 
 
@@ -56,7 +58,7 @@ import javax.swing.JPanel;
  * @author Namita Singla/MGX Team UMB
  * @version v0.1
  */
-public class AminoAcidPalette extends JPanel {
+public class AminoAcidPaletteBuilder {
 
 	// non-public fields
 
@@ -64,40 +66,26 @@ public class AminoAcidPalette extends JPanel {
 
 	private static int cellDiameter = 2 * cellRadius;
 	
-	private static int AB_Y_OFFSET = 13;
+	private static int columnWidth, rowHeight;
 
-	private int row, column, columnWidth, rowHeight;
+	private static AminoAcid[] list;
 
-	private AminoAcid selectedAminoAcid;
+	public static Canvas build(int width, int height, int row, int column) {
+		Canvas canvas = Canvas.createIfSupported();
+		if (canvas == null) {
+			Window.alert("This application is not supported by this browser; please try a different browser.");
+			return null;
+		}
+		canvas.setWidth(width + "px");
+		canvas.setCoordinateSpaceWidth(width);
+		canvas.setHeight(height + "px");
+		canvas.setCoordinateSpaceHeight(height);
+		
+		Context2d c2d = canvas.getContext2d();
+		
+		c2d.setFillStyle(GlobalDefaults.PROTEIN_BACKGROUND_COLOR.toString());
+		c2d.fillRect(0, 0, width, height);
 
-	private AminoAcid[] list;
-
-	private boolean admin;
-	/**
-	 * Constructor
-	 * 
-	 * @param width
-	 *            Width of canvas
-	 * @param height
-	 *            Height of canvas
-	 */
-	public AminoAcidPalette(int width, int height, int row, int column) {
-		super(new BorderLayout());
-		super.setPreferredSize(new Dimension(width, height));
-		super.setBackground(BiochemistryWorkbench.BACKGROUND_COLOR);
-
-		this.row = row;
-		this.column = column;
-		this.admin = admin;
-	}
-
-	/**
-	 * Draw the palette
-	 */
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Dimension d = getSize();
-		Point p = this.getLocation();
 		columnWidth = cellDiameter + cellRadius / 4;
 		rowHeight = columnWidth;
 		StandardTable table = new StandardTable();
@@ -107,34 +95,10 @@ public class AminoAcidPalette extends JPanel {
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
 				AminoAcid a = list[x];
-				a.paint(g, cc, j * columnWidth, i * rowHeight);
+				a.paint(c2d, cc, j * columnWidth, i * rowHeight);
 				x++;
 			}
 		}
+		return canvas;
 	}
-
-	/**
-	 * Returns constants used for center the name of the polypeptide
-	 */
-	protected int getStringIndentationConstant(String name, int r) {
-		// the values returned are hardcoded with values that
-		//   look best when the canvas is drawn. Their value
-		//   was establish through trials, and best was picked.
-
-		int length = name.trim().length();
-		if (length == 1) // 1
-			return 0;
-		else if (length == 2) // -1
-			return 0;
-		else if (length == 3) // 0.x
-			return (int) (1 / 5f * r);
-		else if (length == 4) // -0.x
-			return (int) (1 / 2f * r);
-		else if (length == 5) // -0.xx
-			return (int) (2 / 3f * r);
-		else
-			// length == 6. can't be longer. -0.xxx
-			return (int) (3 / 4f * r);
-	}
-
 }

@@ -43,6 +43,18 @@
 .greenhousePanel {
 	width: 100px;
 }
+
+.gwt-TabLayoutPanelTab {
+	border: 1px solid black;
+	background: lightgray;
+	margin: 5px;
+	padding: 5px;
+}
+
+.gwt-TabLayoutPanelTab-selected {
+	background: lightblue;
+}
+
 .MoBoDNApanel {
 	width: 500px;
 	height: 250px;

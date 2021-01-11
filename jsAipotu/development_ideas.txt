@@ -25,6 +25,12 @@ EVOLUTION
 	- a bar that ticks off as each of the cells is computed
 	- just have the cells appear as they are computed
 	
+GENETICS
+- have the organisms be CaptionPanels with ID# as name
+	- and image inside
+- will need to work out selection system
+- use FlowLayout so it lays out rows and columns by itself
+	
 
 USELESS CLASSES TO EVENTULLY NUKE
 Biochem

@@ -8,7 +8,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -16,6 +15,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import edu.umb.jsAipotu.client.biochem.BiochemistryWorkbench;
 import edu.umb.jsAipotu.client.molBiol.MolBiolWorkbench;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 
@@ -40,7 +40,7 @@ public class JsAipotu implements EntryPoint {
 	
 	private TabLayoutPanel explorerPane = null;
 //	private GeneticsWorkbench geneticsWorkbench = null;
-//	private BiochemistryWorkbench biochemistryWorkbench = null;
+	private BiochemistryWorkbench biochemistryWorkbench = null;
 	private MolBiolWorkbench molBiolWorkbench = null;
 //	private EvolutionWorkArea evolutionWorkArea = null;
 	
@@ -55,7 +55,7 @@ public class JsAipotu implements EntryPoint {
 	}
 
 	private void buildUI() {
-		mainPanel = new DockLayoutPanel(Unit.EM);
+		mainPanel = new DockLayoutPanel(Unit.PX);
 		mainPanel.setStyleName("mainPanel");
 
 		// menus
@@ -123,7 +123,7 @@ public class JsAipotu implements EntryPoint {
 			}
 		});
 		menuBar.addItem("Greenhouse", greenhouseMenu);
-		mainPanel.addNorth(menuBar, 3);
+		mainPanel.addNorth(menuBar, 30);
 		
 		innerPanel = new HorizontalPanel();
 		
@@ -132,8 +132,8 @@ public class JsAipotu implements EntryPoint {
 		explorerPane.setStyleName("explorerPane");
 //		geneticsWorkbench = new GeneticsWorkbench(mge);
 //		explorerPane.add(geneticsWorkbench, "Genetics");
-//		biochemistryWorkbench = new BiochemistryWorkbench(mge);
-//		explorerPane.add(biochemistryWorkbench, "Biochemistry");
+		biochemistryWorkbench = new BiochemistryWorkbench(mge);
+		explorerPane.add(biochemistryWorkbench, "Biochemistry");
 		molBiolWorkbench = new MolBiolWorkbench(mge);
 		explorerPane.add(molBiolWorkbench, "Molecular Biology");
 //		evolutionWorkArea = new EvolutionWorkArea(mge);

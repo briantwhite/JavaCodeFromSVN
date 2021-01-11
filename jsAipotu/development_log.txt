@@ -569,3 +569,19 @@ got it going with FocusPanel!
 Before you go further - put the size settings in the .css file
 	make a different size for the inside scroll panel of each workpanel
 worked out some layout issues
+
+1/11/21
+To do
+- anytime you use EM units (width of an m), change to pixels since they're easier to understand
+	DONE
+- re-check the obfuscate option for compiling
+	DONE
+- re-do Greenhouse with an underlying list model as described in "GWT in action"
+	try replacing the ArrayList<Organism> in Greenhouse.java with ListDataProvider<Organism>
+	WORKS
+
+move on to getting biochem workbench going
+
+need to fix AminoAcidPalette to be AminoAcidPaletteBuilder class with one static method build()
+	got it going
+
