@@ -595,3 +595,9 @@ there's some relevant info here https://gwtgrabbag.wordpress.com/2010/12/26/gwt-
 	but it's a pain.
 also https://gwtgrabbag.wordpress.com/2010/12/26/detecting-changes-in-a-gwt-textbox-by-sinking-events/
 also https://stackoverflow.com/questions/19201132/gwt-input-event-on-textbox
+
+1/12/21
+the RichTextArea things are a pain - can get cursor but it's a kludge
+	https://stackoverflow.com/questions/12542522/how-to-get-cursor-position-or-location-from-richtextarea-in-gwt
+better is a plain TextArea http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/ui/TextArea.html
+	can get the cursor position and can set it so only one line of text is visible
