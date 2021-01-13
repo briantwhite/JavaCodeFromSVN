@@ -36,6 +36,7 @@ USELESS CLASSES TO EVENTULLY NUKE
 Biochem
 - ProteinHistoryCellRenderer (replaced by BiochemHistListItem)
 - ProteinPrinter (use screenshots)
+- TripleLetterCodeDocument (replaced by ProteinSequenceEntryBox)
 Genetics
 - GeneticsHistoryCellRenderer (replaced by GeneticsHistListItem)
 Mobo

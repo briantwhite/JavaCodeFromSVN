@@ -3,7 +3,6 @@ package edu.umb.jsAipotu.client.biochem;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -14,13 +13,12 @@ import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 import edu.umb.jsAipotu.client.molGenExp.Organism;
 import edu.umb.jsAipotu.client.molGenExp.WorkPanel;
 import edu.umb.jsAipotu.client.molGenExp.Workbench;
-import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 
 public class BiochemistryWorkbench extends Workbench {
 
-//	private BiochemistryWorkpanel upperWorkPanel;
-//	private BiochemistryWorkpanel lowerWorkPanel;
+	private BiochemistryWorkpanel upperWorkPanel;
+	private BiochemistryWorkpanel lowerWorkPanel;
 
 	ArrayList<FoldedProteinWithImages> foldedProteins;
 	CellList<FoldedProteinWithImages> proteinHistoryList;
@@ -55,12 +53,12 @@ public class BiochemistryWorkbench extends Workbench {
 		add(leftPanel);
 
 		VerticalPanel centerPanel = new VerticalPanel();
-//		upperWorkPanel = new BiochemistryWorkpanel("Upper Folding Window", this);
-//		lowerWorkPanel = new BiochemistryWorkpanel("Lower Folding Window", this);
-//		centerPanel.add(upperWorkPanel);
+		upperWorkPanel = new BiochemistryWorkpanel("Upper Folding Window", this);
+		lowerWorkPanel = new BiochemistryWorkpanel("Lower Folding Window", this);
+		centerPanel.add(upperWorkPanel);
 		combinedColorPanel = new CombinedColorPanel();
 		centerPanel.add(combinedColorPanel);
-//		centerPanel.add(lowerWorkPanel);
+		centerPanel.add(lowerWorkPanel);
 		
 		add(centerPanel);
 	}

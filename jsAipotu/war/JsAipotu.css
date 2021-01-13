@@ -60,6 +60,11 @@
 	margin-right: 10px;
 }
 
+.aaBox {
+	border: 1px solid black;
+	font-family: courier;
+}
+
 .MoBoDNApanel {
 	width: 500px;
 	height: 250px;

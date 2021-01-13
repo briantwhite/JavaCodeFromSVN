@@ -1,11 +1,5 @@
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-
-import javax.swing.Action;
-import javax.swing.JOptionPane;
-
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -19,9 +13,9 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.molGenExp.WorkPanel;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
-import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
 public class BiochemistryWorkpanel extends WorkPanel {
 
@@ -35,8 +29,8 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	SimplePanel proteinPanel;  // where the protein gets drawn
 	ScrollPanel proteinPanelScroller;
 	CaptionPanel proteinSequenceWrapper;
-	TextBox proteinSequence;
-	TripleLetterCodeDocument tlcDoc;
+	TextBox aaBox;
+	ProteinSequenceEntryBox proteinSequenceEntryBox;
 
 	HorizontalPanel buttonPanel;
 	Button foldButton;
@@ -50,8 +44,6 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	StandardTable table;
 
 	FoldedProteinWithImages foldedProteinWithImages;
-
-	Action foldProteinAction;
 
 	public BiochemistryWorkpanel(String title, final BiochemistryWorkbench protex) {
 		super(title);
@@ -67,13 +59,9 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	private void setupUI() {
 		mainPanel = new VerticalPanel();
 		
-		tlcDoc = new TripleLetterCodeDocument();
-		tlcDoc.setLinkedFoldingWindow(this);
-
 		proteinSequenceWrapper = new CaptionPanel("Amino Acid Sequence");
-		proteinSequence = new TextBox();
-		proteinSequenceWrapper.add(proteinSequence);
-		proteinSequence.setDocument(tlcDoc);
+		proteinSequenceEntryBox = new ProteinSequenceEntryBox();
+		proteinSequenceWrapper.add(proteinSequenceEntryBox);
 		mainPanel.add(proteinSequenceWrapper);
 		
 		proteinPanelWrapper = new CaptionPanel("Folded Protein");
@@ -102,17 +90,19 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		loadSampleButton = new Button("Load Sample Protein");
 		loadSampleButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent arg0) {
-				proteinSequence.setText(GlobalDefaults.sampleProtein);
-				foldProtein();
+				proteinSequenceEntryBox.setAminoAcidSequence(GlobalDefaults.sampleProtein);
+				//foldProtein();
 			}
 		});
 		buttonPanel.add(loadSampleButton);
 		mainPanel.add(buttonPanel);	
+		
+		add(mainPanel);
 	}
 
 	private void foldProtein() {
 		try {
-			foldedProteinWithImages = manager.foldWithPix(proteinSequence.getText().trim());
+			foldedProteinWithImages = manager.foldWithPix(proteinSequenceEntryBox.getAminoAcidSequence());
 
 			// if it folded into a corner, it will have a null for a pic
 			//  detect this and warn user
@@ -139,7 +129,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 
 
 	public String getAaSeq() {
-		return proteinSequence.getText();
+		return proteinSequenceEntryBox.getAminoAcidSequence();
 	}
 
 	public CssColor getColor() {
@@ -170,13 +160,11 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		} catch (FoldingException e) {
 			e.printStackTrace();
 		}
-		((TripleLetterCodeDocument)
-				proteinSequence.getDocument()).removeAll();
 		StringBuffer abAASeq = new StringBuffer();
 		for (int i = 0; i < acids.length; i++) {
 			abAASeq.append(acids[i].getAbName());
 		}
-		proteinSequence.setText(abAASeq.toString());
+		proteinSequenceEntryBox.setAminoAcidSequence(abAASeq.toString());
 
 		//update the color chip on the folding window
 		colorChip.getElement().getStyle().setBackgroundColor(fp.getColor().toString());

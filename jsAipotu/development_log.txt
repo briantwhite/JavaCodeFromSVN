@@ -601,3 +601,28 @@ the RichTextArea things are a pain - can get cursor but it's a kludge
 	https://stackoverflow.com/questions/12542522/how-to-get-cursor-position-or-location-from-richtextarea-in-gwt
 better is a plain TextArea http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/ui/TextArea.html
 	can get the cursor position and can set it so only one line of text is visible
+PLAN
+	- make ProteinSequenceEntryBox class
+	- use TextArea
+	- either:
+		a) turn off editing and find the cursor with the method or by the click locator code from MoBo - BETTER
+		b) leave editing on but respond to any selection by limiting it to particular amino acid(s)
+			respond to selection by adjusting selection
+	- deal with entry of aas or deletion by capturing keystrokes like in MoBo
+
+this is turning into a pain
+ValueBox may be better https://stackoverflow.com/questions/17685964/custom-renderer-in-gwt
+another example https://stackoverflow.com/questions/10413645/converting-string-to-bigdecimal-in-gwt/10425061#10425061
+but the renderer code seems to have no influence on the display???
+	it's calling the getInstance() code but not the render() code. Why?
+	- did it exactly like the bigdecimal one and you can set the text but the renderer has no effect
+	tried http://www.java2s.com/example/java-src/pkg/com/google/gwt/sample/dynatablemvp/client/widgets/zipplusfourbox-137df.html
+		no good
+what am I missing?
+
+probably best to go back to TextArea and turn on editing but
+	- undderlying representation is 3-letter code
+	- respond to clicks by putting cursor at end of aa
+	- repond to selection by extending to several aas
+	- respond to deleted by nuking whole aas
+	- respond to typing of single letters by inserting whole aas
