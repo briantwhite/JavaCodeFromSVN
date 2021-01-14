@@ -626,3 +626,21 @@ probably best to go back to TextArea and turn on editing but
 	- repond to selection by extending to several aas
 	- respond to deleted by nuking whole aas
 	- respond to typing of single letters by inserting whole aas
+
+1/14/21
+it's a mess if you turn on editing - the cursor movements seem to happen independently of the programmatic settings
+	it moves right but the cursorPos() in the middle of a movement is really wrong
+	and delete comes around AFTER the method returns and nukes the last char!
+might be smarter to turn of editing - but then you lose the cursor and the arrow keys now scroll <sigh>
+maybe can capture the key events before they get to the TextBox
+
+try sinking the keyboard events - maybe will work.
+	keyCode seems to work
+		8 = delete
+		37 = left arrow
+		39 = right arrow
+FINALLY got it working.
+need to get folding to go.
+Nuked
+	TripleLetterCodeDocument
+	SingleLetterCodeDocument

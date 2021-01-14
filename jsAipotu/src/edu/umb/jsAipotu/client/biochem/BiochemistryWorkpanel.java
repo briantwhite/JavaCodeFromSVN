@@ -61,6 +61,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		
 		proteinSequenceWrapper = new CaptionPanel("Amino Acid Sequence");
 		proteinSequenceEntryBox = new ProteinSequenceEntryBox();
+		proteinSequenceEntryBox.setStyleName("proteinSequenceEntryBox");
 		proteinSequenceWrapper.add(proteinSequenceEntryBox);
 		mainPanel.add(proteinSequenceWrapper);
 		
