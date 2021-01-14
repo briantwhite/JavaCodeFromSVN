@@ -18,6 +18,7 @@ import java.util.HashMap;
 
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 
 import edu.umb.jsAipotu.client.JsAipotu;
@@ -71,7 +72,7 @@ public class RYBColorModel extends ColorModel {
 			"Orange",
 			"Black"
 	};
-	
+
 	private ImageResource[] numberToImageResourceMap = {
 			Resources.INSTANCE.whiteFlowerImage(),
 			Resources.INSTANCE.blueFlowerImage(),
@@ -91,21 +92,22 @@ public class RYBColorModel extends ColorModel {
 	 */
 	public RYBColorModel() { 
 		super();
-		
+
 		colorToNumberMap = new HashMap<CssColor, Integer>();
 		for (int i = 0; i < numberToColorMap.length; i++) {
 			colorToNumberMap.put((CssColor)numberToColorMap[i], new Integer(i));
 		}
-		
+
 		nameToColorMap = new HashMap<String, CssColor>();
 		for (int i = 0; i < numberToColorMap.length; i++) {
 			nameToColorMap.put(numberToColorNameMap[i], numberToColorMap[i]);
 		}
-		
+
 	}
 
 	public CssColor getProteinColor(Grid grid) throws PaintedInACornerFoldingException {
-		CssColor color = CssColor.make("white");
+		JsAipotu.consoleLog("RYBcm 109");
+		CssColor color = CssColor.make(255, 255, 255);
 		hydrophobics = new ArrayList<AcidInChain>();
 		hydrophilics = new ArrayList<AcidInChain>();
 		coreColors = new ArrayList<CssColor>();
@@ -114,13 +116,13 @@ public class RYBColorModel extends ColorModel {
 		int numAcids = grid.getPP().getLength();
 		Direction[] allDirections = grid.getAllDirections();
 		if (numAcids < 13)
-			return CssColor.make("white");
+			return CssColor.make(255, 255, 255);
 		categorizeAcids(grid);
 		if (hydrophobics.size() < 7 || hydrophilics.size() < 6)
-			return CssColor.make("white");
-		CssColor c = CssColor.make("white");
+			return CssColor.make(255, 255, 255);
+		CssColor c = CssColor.make(255, 255, 255);
 		for (int i = 0; i < hydrophobics.size(); i++) {
-			c = CssColor.make("white");
+			c = CssColor.make(255, 255, 255);
 			AcidInChain a = (AcidInChain) hydrophobics.get(i);
 			int d;
 			for (d = 0; d < allDirections.length; d++) {
@@ -131,15 +133,21 @@ public class RYBColorModel extends ColorModel {
 					break;
 				else if (hydrophobics.contains(ac)) {
 					c = colorByAminoAcid(c, ac);
+					JsAipotu.consoleLog("RYBcm 135: colored by aa:" + c.value());
 				}
 			}
 			if (d == allDirections.length) {
 				c = colorByAminoAcid(c, a);
+				JsAipotu.consoleLog("RYBcm 140: colored by aa:" + c.value());
 				coreColors.add(c);
+				JsAipotu.consoleLog("RYBCM 143: coreColors.toString()=" + coreColors.toString());
 			}
 		}
-		if (coreColors.size() > 0)
+		JsAipotu.consoleLog("RYBcm 142: coreColors.size()=" + coreColors.size());
+		JsAipotu.consoleLog("RYBcm 143: coreColors.get(0).value()=" + coreColors.get(0).value());
+		if (coreColors.size() > 0) {
 			color = mixHexagonalCores();
+		}
 		return color;
 	}
 
@@ -158,9 +166,12 @@ public class RYBColorModel extends ColorModel {
 
 	private CssColor mixHexagonalCores() {
 		CssColor color = (CssColor) coreColors.get(0);
-		for (int i = 1; i < coreColors.size(); i++)
+		JsAipotu.consoleLog("RYBcolormodel 161: first color=" + coreColors.get(0).value());
+		for (int i = 1; i < coreColors.size(); i++) {
+			JsAipotu.consoleLog("RYBcolormodel 163: next color=" + coreColors.get(i).value());
 			color = mixTwoColors(color, 
 					(CssColor) coreColors.get(i));
+		}
 		return color;
 	}
 
@@ -171,11 +182,12 @@ public class RYBColorModel extends ColorModel {
 	 */
 	private CssColor colorByAminoAcid(CssColor c, AcidInChain a) {
 		if (a.getName().equalsIgnoreCase("phe"))
-			c = mixTwoColors(c, CssColor.make("red"));
+			c = mixTwoColors(c, CssColor.make(255, 0, 0));
 		if (a.getName().equalsIgnoreCase("tyr"))
-			c = mixTwoColors(c, CssColor.make("blue"));
+			c = mixTwoColors(c, CssColor.make(0, 0, 255));
 		if (a.getName().equalsIgnoreCase("trp"))
-			c = mixTwoColors(c, CssColor.make("yellow"));
+			c = mixTwoColors(c, CssColor.make(255, 255, 0));
+		JsAipotu.consoleLog("RYBcm 186: made color:" + c.value());
 		return c;
 	}
 
@@ -192,7 +204,6 @@ public class RYBColorModel extends ColorModel {
 		if ((a == null) || (b == null)) {
 			return GlobalDefaults.DEAD_COLOR;
 		}
-
 		int aNum = ((Integer)colorToNumberMap.get(a)).intValue();
 		int bNum = ((Integer)colorToNumberMap.get(b)).intValue();
 		return numberToColorMap[aNum | bNum];
@@ -200,7 +211,7 @@ public class RYBColorModel extends ColorModel {
 
 	public int getColorNumber(CssColor c) {
 		if (colorToNumberMap.get(c) == null) return -1;			// if not on the list, it's the
-																//  dead color
+		//  dead color
 		return ((Integer)colorToNumberMap.get(c)).intValue();
 	}
 
@@ -222,7 +233,7 @@ public class RYBColorModel extends ColorModel {
 		if (colorNumber == -1) return null;
 		return numberToColorNameMap[getColorNumber(c)];
 	}
-	
+
 	public CssColor getColorFromString(String c) {
 		CssColor result = null;
 		if (nameToColorMap.containsKey(c)) result = nameToColorMap.get(c);
@@ -237,5 +248,5 @@ public class RYBColorModel extends ColorModel {
 		}
 		return numberToImageResourceMap[n];
 	}
-	
+
 }

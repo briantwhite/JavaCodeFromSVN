@@ -61,8 +61,15 @@
 }
 
 .proteinSequenceEntryBox {
+	width: 500px;
+	height: 30px;
 	border: 1px solid black;
 	font-family: courier;
+}
+
+.proteinPanel {
+	width: 500px;
+	height: 250px;
 }
 
 .MoBoDNApanel {

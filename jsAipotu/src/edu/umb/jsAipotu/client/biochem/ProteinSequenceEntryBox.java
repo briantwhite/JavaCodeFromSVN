@@ -3,6 +3,8 @@ package edu.umb.jsAipotu.client.biochem;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.TextBox;
 
+import edu.umb.jsAipotu.client.JsAipotu;
+
 
 public class ProteinSequenceEntryBox extends TextBox {
 
@@ -10,7 +12,7 @@ public class ProteinSequenceEntryBox extends TextBox {
 	private StandardTable aaTable;
 	private final static String allowedLetters = "ACDEFGHIKLMNPQRSTVWY";
 
-	public ProteinSequenceEntryBox() {
+	public ProteinSequenceEntryBox(BiochemistryWorkpanel bwp) {
 		this.bwp = bwp;
 		aaTable = new StandardTable();
 		sinkEvents(Event.ONKEYDOWN);
@@ -65,10 +67,16 @@ public class ProteinSequenceEntryBox extends TextBox {
 			String s = Character.toString((char)e.getKeyCode()).toUpperCase();
 			if (allowedLetters.indexOf(s) != -1) {
 				String name = aaTable.getFromAbName(s).getName();
-				String leftHalf = getText().substring(0, cp);
-				String rightHalf = getText().substring(cp); 
-				setText(leftHalf + name + rightHalf);
-				setCursorPos(cp + 3);
+				if (getText() == "") {
+					// entry into a blank box
+					setText(name);
+					setCursorPos(3);
+				} else {
+					String leftHalf = getText().substring(0, cp);
+					String rightHalf = getText().substring(cp); 
+					setText(leftHalf + name + rightHalf);
+					setCursorPos(cp + 3);
+				}
 				bwp.aaSeqChanged();
 			}	
 		}

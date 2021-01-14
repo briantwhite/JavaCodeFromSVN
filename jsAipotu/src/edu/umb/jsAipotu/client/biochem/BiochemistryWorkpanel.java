@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsAipotu.client.JsAipotu;
@@ -29,7 +28,6 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	SimplePanel proteinPanel;  // where the protein gets drawn
 	ScrollPanel proteinPanelScroller;
 	CaptionPanel proteinSequenceWrapper;
-	TextBox aaBox;
 	ProteinSequenceEntryBox proteinSequenceEntryBox;
 
 	HorizontalPanel buttonPanel;
@@ -60,13 +58,14 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		mainPanel = new VerticalPanel();
 		
 		proteinSequenceWrapper = new CaptionPanel("Amino Acid Sequence");
-		proteinSequenceEntryBox = new ProteinSequenceEntryBox();
+		proteinSequenceEntryBox = new ProteinSequenceEntryBox(this);
 		proteinSequenceEntryBox.setStyleName("proteinSequenceEntryBox");
 		proteinSequenceWrapper.add(proteinSequenceEntryBox);
 		mainPanel.add(proteinSequenceWrapper);
 		
 		proteinPanelWrapper = new CaptionPanel("Folded Protein");
 		proteinPanel = new SimplePanel();
+		proteinPanel.setStyleName("proteinPanel");
 		proteinPanelScroller = new ScrollPanel(proteinPanel);
 		proteinPanelWrapper.add(proteinPanelScroller);
 		mainPanel.add(proteinPanelWrapper);
@@ -92,7 +91,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		loadSampleButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent arg0) {
 				proteinSequenceEntryBox.setAminoAcidSequence(GlobalDefaults.sampleProtein);
-				//foldProtein();
+				foldProtein();
 			}
 		});
 		buttonPanel.add(loadSampleButton);
@@ -102,12 +101,14 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	}
 
 	private void foldProtein() {
+		JsAipotu.consoleLog("BWorkpanel 104");
 		try {
 			foldedProteinWithImages = manager.foldWithPix(proteinSequenceEntryBox.getAminoAcidSequence());
-
+			JsAipotu.consoleLog("BWorkpanel 107");
 			// if it folded into a corner, it will have a null for a pic
 			//  detect this and warn user
 			if (foldedProteinWithImages.getFullSizePic() == null) {
+				JsAipotu.consoleLog(GlobalDefaults.paintedInACornerNotice);
 				Window.alert(GlobalDefaults.paintedInACornerNotice);	
 				return;
 			}
@@ -124,6 +125,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 			foldButton.setEnabled(false);
 
 		} catch (FoldingException e) {
+			JsAipotu.consoleLog(GlobalDefaults.paintedInACornerNotice);
 			Window.alert(GlobalDefaults.paintedInACornerNotice);
 		}	
 	}	

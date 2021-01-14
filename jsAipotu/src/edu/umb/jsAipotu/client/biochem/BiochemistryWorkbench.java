@@ -82,9 +82,9 @@ public class BiochemistryWorkbench extends Workbench {
 
 	public void addToHistoryList(Object o) 
 	throws PaintedInACornerFoldingException {
-		foldedProteins.add((FoldedProteinWithImages) o);
-		proteinHistoryList.setRowData(foldedProteins);
-		updateCombinedColor();
+//		foldedProteins.add((FoldedProteinWithImages) o);
+//		proteinHistoryList.setRowData(foldedProteins);
+//		updateCombinedColor();
 	}
 
 	public WorkPanel getLowerPanel() {
