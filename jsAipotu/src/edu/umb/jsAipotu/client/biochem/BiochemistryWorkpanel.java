@@ -101,10 +101,8 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	}
 
 	private void foldProtein() {
-		JsAipotu.consoleLog("BWorkpanel 104");
 		try {
 			foldedProteinWithImages = manager.foldWithPix(proteinSequenceEntryBox.getAminoAcidSequence());
-			JsAipotu.consoleLog("BWorkpanel 107");
 			// if it folded into a corner, it will have a null for a pic
 			//  detect this and warn user
 			if (foldedProteinWithImages.getFullSizePic() == null) {

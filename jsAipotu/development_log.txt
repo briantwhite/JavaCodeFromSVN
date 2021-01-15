@@ -650,3 +650,17 @@ proteins fold nicely but coloring doesn't work.
 got single color proteins colored properly but mixing causes an error
 	when you make a TrpPhe core - orange - it blows up in mixHexagonalCores when it tries to get coreColors(0)
 	also, it never seems to call RYBcolorModel.colorByAminoAcid if there's only one phobic in the core???
+
+1/15/21
+Played a little more:
+- the reason a red protein is OK is that protein was in the database
+- anytime you fold a protein that has a phobic core, it dies
+- simple proteins without cores are folded AOK.
+
+it's a fundamental problem with CssColors and GWT
+	https://stackoverflow.com/questions/19748832/how-to-keep-a-list-of-csscolor-instances
+basically, you can't pull a CssColor out of an ArrayList (and probably other complex data structures)
+	it does work as a key in getImageResourceFromColor
+need to re-do some of the coloring thing - but be careful since you already solved some of the problem in GreenhouseLoader
+	make an ArrayList<String> of things like "255, 255,0" and make() colors from them.
+WORKS - but need to think carefully about how you're doing color.

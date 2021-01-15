@@ -39,12 +39,19 @@ import edu.umb.jsAipotu.client.resources.Resources;
  * 
  * -- modified by TJ, makes RYBColorChart singleton
  * modified by BW - totally different method
+ * 
+ * 1/15/21 notes for js version
+ * 	can't take a CssColor out of an ArrayList (or, probably, any other complex data structure)
+ *   because of class cast issues https://stackoverflow.com/questions/19748832/how-to-keep-a-list-of-csscolor-instances
+ *  so, when you need to pull out a CssColor from an ArrayList, etc, don't save them as colors but
+ *    save them as CssColor.toString which looks like "rgb[255,0,0]"
+ *    and use CssColor.make(string) to re-construct the color
  */
 public class RYBColorModel extends ColorModel {
 
 	ArrayList<AcidInChain> hydrophobics;
 	ArrayList<AcidInChain> hydrophilics;
-	ArrayList<CssColor> coreColors;
+	ArrayList<String> coreColorStrings;
 
 	private CssColor[] numberToColorMap = {
 			// colors are modeled by bits in integer
@@ -85,7 +92,7 @@ public class RYBColorModel extends ColorModel {
 	};
 
 	private HashMap<CssColor, Integer> colorToNumberMap;
-	private HashMap<String, CssColor> nameToColorMap;
+	private HashMap<String, String> nameToColorStringMap;
 
 	/**
 	 * Constructor
@@ -95,22 +102,21 @@ public class RYBColorModel extends ColorModel {
 
 		colorToNumberMap = new HashMap<CssColor, Integer>();
 		for (int i = 0; i < numberToColorMap.length; i++) {
-			colorToNumberMap.put((CssColor)numberToColorMap[i], new Integer(i));
+			colorToNumberMap.put(numberToColorMap[i], new Integer(i));
 		}
 
-		nameToColorMap = new HashMap<String, CssColor>();
+		nameToColorStringMap = new HashMap<String, String>();
 		for (int i = 0; i < numberToColorMap.length; i++) {
-			nameToColorMap.put(numberToColorNameMap[i], numberToColorMap[i]);
+			nameToColorStringMap.put(numberToColorNameMap[i], numberToColorMap[i].toString());
 		}
 
 	}
 
 	public CssColor getProteinColor(Grid grid) throws PaintedInACornerFoldingException {
-		JsAipotu.consoleLog("RYBcm 109");
 		CssColor color = CssColor.make(255, 255, 255);
 		hydrophobics = new ArrayList<AcidInChain>();
 		hydrophilics = new ArrayList<AcidInChain>();
-		coreColors = new ArrayList<CssColor>();
+		coreColorStrings = new ArrayList<String>();
 
 		HexGrid realGrid = (HexGrid)grid;
 		int numAcids = grid.getPP().getLength();
@@ -133,19 +139,14 @@ public class RYBColorModel extends ColorModel {
 					break;
 				else if (hydrophobics.contains(ac)) {
 					c = colorByAminoAcid(c, ac);
-					JsAipotu.consoleLog("RYBcm 135: colored by aa:" + c.value());
 				}
 			}
 			if (d == allDirections.length) {
 				c = colorByAminoAcid(c, a);
-				JsAipotu.consoleLog("RYBcm 140: colored by aa:" + c.value());
-				coreColors.add(c);
-				JsAipotu.consoleLog("RYBCM 143: coreColors.toString()=" + coreColors.toString());
+				coreColorStrings.add(c.toString());
 			}
 		}
-		JsAipotu.consoleLog("RYBcm 142: coreColors.size()=" + coreColors.size());
-		JsAipotu.consoleLog("RYBcm 143: coreColors.get(0).value()=" + coreColors.get(0).value());
-		if (coreColors.size() > 0) {
+		if (coreColorStrings.size() > 0) {
 			color = mixHexagonalCores();
 		}
 		return color;
@@ -165,12 +166,10 @@ public class RYBColorModel extends ColorModel {
 	}
 
 	private CssColor mixHexagonalCores() {
-		CssColor color = (CssColor) coreColors.get(0);
-		JsAipotu.consoleLog("RYBcolormodel 161: first color=" + coreColors.get(0).value());
-		for (int i = 1; i < coreColors.size(); i++) {
-			JsAipotu.consoleLog("RYBcolormodel 163: next color=" + coreColors.get(i).value());
+		CssColor color = CssColor.make(coreColorStrings.get(0));
+		for (int i = 1; i < coreColorStrings.size(); i++) {
 			color = mixTwoColors(color, 
-					(CssColor) coreColors.get(i));
+					CssColor.make(coreColorStrings.get(i)));
 		}
 		return color;
 	}
@@ -187,7 +186,6 @@ public class RYBColorModel extends ColorModel {
 			c = mixTwoColors(c, CssColor.make(0, 0, 255));
 		if (a.getName().equalsIgnoreCase("trp"))
 			c = mixTwoColors(c, CssColor.make(255, 255, 0));
-		JsAipotu.consoleLog("RYBcm 186: made color:" + c.value());
 		return c;
 	}
 
@@ -236,7 +234,7 @@ public class RYBColorModel extends ColorModel {
 
 	public CssColor getColorFromString(String c) {
 		CssColor result = null;
-		if (nameToColorMap.containsKey(c)) result = nameToColorMap.get(c);
+		if (nameToColorStringMap.containsKey(c)) result = CssColor.make(nameToColorStringMap.get(c));
 		return result;
 	}
 
