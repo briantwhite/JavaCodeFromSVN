@@ -18,7 +18,7 @@ import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class BiochemistryWorkpanel extends WorkPanel {
 
-	final BiochemistryWorkbench protex;
+	final BiochemistryWorkbench bwbench;
 	
 	CssColor defaultBackgroundColor;
 	
@@ -43,10 +43,10 @@ public class BiochemistryWorkpanel extends WorkPanel {
 
 	FoldedProteinWithImages foldedProteinWithImages;
 
-	public BiochemistryWorkpanel(String title, final BiochemistryWorkbench protex) {
+	public BiochemistryWorkpanel(String title, final BiochemistryWorkbench bwbench) {
 		super(title);
 		defaultBackgroundColor = GlobalDefaults.PROTEIN_BACKGROUND_COLOR;
-		this.protex = protex;
+		this.bwbench = bwbench;
 		foldedProteinWithImages = null;
 		manager = new FoldingManager();
 		table = new StandardTable();
@@ -68,6 +68,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		proteinPanel.setStyleName("proteinPanel");
 		proteinPanelScroller = new ScrollPanel(proteinPanel);
 		proteinPanelWrapper.add(proteinPanelScroller);
+		proteinPanelWrapper.setStyleName("proteinPanelFOLDED");
 		mainPanel.add(proteinPanelWrapper);
 
 		buttonPanel = new HorizontalPanel();
@@ -118,16 +119,22 @@ public class BiochemistryWorkpanel extends WorkPanel {
 			}
 			proteinPanel.add(foldedProteinWithImages.getFullSizePic());
 			
-			protex.addToHistoryList(foldedProteinWithImages);
+			bwbench.addToHistoryList(foldedProteinWithImages);
 
 			foldButton.setEnabled(false);
+			proteinPanelWrapper.setStyleName("proteinPanelWrapperFOLDED");
+			proteinPanelWrapper.setCaptionText("Folded Protein");
 
 		} catch (FoldingException e) {
-			JsAipotu.consoleLog(GlobalDefaults.paintedInACornerNotice);
 			Window.alert(GlobalDefaults.paintedInACornerNotice);
 		}	
 	}	
 
+	public void foldProteinIfButtonEnabled() {
+		if (foldButton.isEnabled()) {
+			foldProtein();
+		}
+	}
 
 	public String getAaSeq() {
 		return proteinSequenceEntryBox.getAminoAcidSequence();
@@ -146,7 +153,8 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	// the aa seq is changed
 	public void aaSeqChanged() {
 		foldButton.setEnabled(true);
-//		resultPanel.setBackground(Color.PINK);
+		proteinPanelWrapper.setStyleName("proteinPanelWrapperNotFOLDED");
+		proteinPanelWrapper.setCaptionHTML("<font color=\"red\">------ click FOLD to fold new amino acid sequence ------</font>");
 	}
 
 	public void setFoldedProteinWithImages(FoldedProteinWithImages fp) {
@@ -171,7 +179,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		colorChip.getElement().getStyle().setBackgroundColor(fp.getColor().toString());
 
 		//update the combined color chip
-		protex.updateCombinedColor();
+		bwbench.updateCombinedColor();
 
 		//update the picture as well
 		if (proteinPanel.getWidget() != null) {

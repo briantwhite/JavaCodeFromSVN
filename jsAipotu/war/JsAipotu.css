@@ -72,6 +72,14 @@
 	height: 250px;
 }
 
+.proteinPanelWrapperFOLDED {
+	border: 1px solid black;
+}
+
+.proteinPanelWrapperNotFOLDED {
+	border: 2px solid red;
+}
+
 .MoBoDNApanel {
 	width: 500px;
 	height: 250px;

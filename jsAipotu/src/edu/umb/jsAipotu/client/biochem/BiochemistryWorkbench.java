@@ -3,7 +3,6 @@ package edu.umb.jsAipotu.client.biochem;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -21,7 +20,7 @@ public class BiochemistryWorkbench extends Workbench {
 	private BiochemistryWorkpanel lowerWorkPanel;
 
 	ArrayList<FoldedProteinWithImages> foldedProteins;
-	CellList<FoldedProteinWithImages> proteinHistoryList;
+	BiochemHistoryList biochemHistoryList;
 	ScrollPanel histListScrollPanel;
 	
 	private CombinedColorPanel combinedColorPanel;
@@ -45,8 +44,8 @@ public class BiochemistryWorkbench extends Workbench {
 		leftPanel.add(aapPanel);
 
 		CaptionPanel histListPanel = new CaptionPanel("History List");
-		proteinHistoryList = new CellList<FoldedProteinWithImages>(new BiochemHistListItem());
-		histListScrollPanel = new ScrollPanel(proteinHistoryList);
+		biochemHistoryList = new BiochemHistoryList(new BiochemHistListItem());
+		histListScrollPanel = new ScrollPanel(biochemHistoryList);
 		histListPanel.add(histListScrollPanel);
 		leftPanel.add(histListPanel);
 		
@@ -82,8 +81,7 @@ public class BiochemistryWorkbench extends Workbench {
 
 	public void addToHistoryList(Object o) 
 	throws PaintedInACornerFoldingException {
-//		foldedProteins.add((FoldedProteinWithImages) o);
-//		proteinHistoryList.setRowData(foldedProteins);
+		biochemHistoryList.add((FoldedProteinWithImages)o);
 //		updateCombinedColor();
 	}
 

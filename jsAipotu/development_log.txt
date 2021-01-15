@@ -664,3 +664,7 @@ basically, you can't pull a CssColor out of an ArrayList (and probably other com
 need to re-do some of the coloring thing - but be careful since you already solved some of the problem in GreenhouseLoader
 	make an ArrayList<String> of things like "255, 255,0" and make() colors from them.
 WORKS - but need to think carefully about how you're doing color.
+	- don't ever enter colors by rgb, use getColorByName()
+
+need to do history list - use FoldedProteinWithImages as cell element
+	got it going!

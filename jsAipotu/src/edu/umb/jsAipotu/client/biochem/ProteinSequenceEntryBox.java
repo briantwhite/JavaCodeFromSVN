@@ -60,7 +60,7 @@ public class ProteinSequenceEntryBox extends TextBox {
 
 			// return
 			if (kc == 13) {
-
+				bwp.foldProteinIfButtonEnabled();
 			}
 
 			// deal with amino acid entries

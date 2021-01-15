@@ -113,7 +113,7 @@ public class RYBColorModel extends ColorModel {
 	}
 
 	public CssColor getProteinColor(Grid grid) throws PaintedInACornerFoldingException {
-		CssColor color = CssColor.make(255, 255, 255);
+		CssColor color = getColorFromString("White");
 		hydrophobics = new ArrayList<AcidInChain>();
 		hydrophilics = new ArrayList<AcidInChain>();
 		coreColorStrings = new ArrayList<String>();
@@ -122,13 +122,13 @@ public class RYBColorModel extends ColorModel {
 		int numAcids = grid.getPP().getLength();
 		Direction[] allDirections = grid.getAllDirections();
 		if (numAcids < 13)
-			return CssColor.make(255, 255, 255);
+			return getColorFromString("White");
 		categorizeAcids(grid);
 		if (hydrophobics.size() < 7 || hydrophilics.size() < 6)
-			return CssColor.make(255, 255, 255);
-		CssColor c = CssColor.make(255, 255, 255);
+			return getColorFromString("White");
+		CssColor c = getColorFromString("White");
 		for (int i = 0; i < hydrophobics.size(); i++) {
-			c = CssColor.make(255, 255, 255);
+			c = getColorFromString("White");
 			AcidInChain a = (AcidInChain) hydrophobics.get(i);
 			int d;
 			for (d = 0; d < allDirections.length; d++) {
@@ -181,11 +181,11 @@ public class RYBColorModel extends ColorModel {
 	 */
 	private CssColor colorByAminoAcid(CssColor c, AcidInChain a) {
 		if (a.getName().equalsIgnoreCase("phe"))
-			c = mixTwoColors(c, CssColor.make(255, 0, 0));
+			c = mixTwoColors(c, getColorFromString("Red"));
 		if (a.getName().equalsIgnoreCase("tyr"))
-			c = mixTwoColors(c, CssColor.make(0, 0, 255));
+			c = mixTwoColors(c, getColorFromString("Blue"));
 		if (a.getName().equalsIgnoreCase("trp"))
-			c = mixTwoColors(c, CssColor.make(255, 255, 0));
+			c = mixTwoColors(c, getColorFromString("Yellow"));
 		return c;
 	}
 
