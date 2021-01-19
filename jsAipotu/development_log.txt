@@ -668,3 +668,17 @@ WORKS - but need to think carefully about how you're doing color.
 
 need to do history list - use FoldedProteinWithImages as cell element
 	got it going!
+
+1/19/21
+Notes going forward:
+	- General
+		- set compilation to obfuscate
+		- setTitle() sets the tool tip text
+	- Biochem
+		- may need to deal with selection events - can you select a region?
+		- add "clear sequence" button (and shift-delete key combination)
+		- since there's a history list, see how it looks if you clear the folded structure display if the
+			aa sequence changes (no more red border)
+			- also gray out color chip
+	- MoBo
+		- need to sink browser events (maybe just the arrow keys) because arrow keys move the scroller 
