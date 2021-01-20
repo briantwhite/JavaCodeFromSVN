@@ -1,6 +1,5 @@
 package edu.umb.jsAipotu.client.evolution;
 
-import java.awt.Color;
 import java.util.Random;
 
 import com.google.gwt.canvas.dom.client.CssColor;

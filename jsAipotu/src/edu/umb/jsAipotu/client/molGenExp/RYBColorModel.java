@@ -18,10 +18,7 @@ import java.util.HashMap;
 
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Image;
 
-import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.biochem.AcidInChain;
 import edu.umb.jsAipotu.client.biochem.AminoAcid;
 import edu.umb.jsAipotu.client.biochem.ColorModel;

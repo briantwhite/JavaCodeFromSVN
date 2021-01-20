@@ -13,8 +13,6 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Polygon;
-
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 

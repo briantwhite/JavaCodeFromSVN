@@ -1,7 +1,5 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import com.google.gwt.user.client.ui.TabLayoutPanel;
-
 public class MolGenExp {
 	
 	//indices for tabbed panes

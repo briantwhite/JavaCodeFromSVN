@@ -682,3 +682,18 @@ Notes going forward:
 			- also gray out color chip
 	- MoBo
 		- need to sink browser events (maybe just the arrow keys) because arrow keys move the scroller 
+
+1/20/21
+MoBo: fix arrow key issue
+	need to make new class analagous to ProteinSequenceEntryBox: GeneDisplayPanel
+	not all the browser events work (probably since it's not editable)
+		try RichTextArea instead of HTML
+			can't get cursor position and clientX is hosed by scrolling
+		try TextArea - NG, it won't show as HTML 
+	go back to HTML
+		try adding a key handler - NG
+		try putting it in a FocusPanel
+			a bit of a pain - since characters are all upper case and you have to check if shift held
+WORKS
+
+need to get DNA entry code in mobo going.

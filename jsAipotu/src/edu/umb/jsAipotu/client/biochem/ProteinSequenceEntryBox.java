@@ -3,8 +3,6 @@ package edu.umb.jsAipotu.client.biochem;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.TextBox;
 
-import edu.umb.jsAipotu.client.JsAipotu;
-
 
 public class ProteinSequenceEntryBox extends TextBox {
 

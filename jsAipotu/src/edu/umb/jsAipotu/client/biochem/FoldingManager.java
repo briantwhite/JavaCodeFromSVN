@@ -45,8 +45,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.canvas.dom.client.CssColor;
 
-import edu.umb.jsAipotu.client.JsAipotu;
-
 /**
  * Manages the process of folding the polypeptide chains; serves as a subject
  * for FoldingObservers. FoldingManager was originally a singleton class. 

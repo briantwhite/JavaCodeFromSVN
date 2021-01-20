@@ -40,7 +40,6 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 

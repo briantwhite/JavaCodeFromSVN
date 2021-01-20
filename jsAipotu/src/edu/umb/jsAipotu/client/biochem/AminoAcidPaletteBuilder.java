@@ -41,9 +41,6 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Dimension;
-import java.awt.Point;
-
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.user.client.Window;

@@ -13,9 +13,6 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
-
-
 /**
  * just shade between different intensities of one color.
  */

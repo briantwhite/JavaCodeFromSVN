@@ -14,11 +14,8 @@
 
 package edu.umb.jsAipotu.client.biochem;
 
-import java.awt.Color;
-
 import com.google.gwt.canvas.dom.client.Context2d;
 
-import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 /**

@@ -41,7 +41,6 @@ import java.util.Arrays;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
-import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class PolypeptideFactory {

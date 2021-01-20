@@ -2,7 +2,6 @@ package edu.umb.jsAipotu.client.molGenExp;
 
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Image;
 
 public class Organism {
 	
