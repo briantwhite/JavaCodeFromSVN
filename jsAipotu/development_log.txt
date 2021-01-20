@@ -696,4 +696,19 @@ MoBo: fix arrow key issue
 			a bit of a pain - since characters are all upper case and you have to check if shift held
 WORKS
 
-need to get DNA entry code in mobo going.
+need to get DNA entry code in mobo going - actually, it's already there
+
+work on biochem stuff
+- selection? you can't select it all so don't worry
+- try the 'clear the protein structure when you change the sequence' thing
+	looks good
+	deleting an aa didn't trigger an update - fixed
+- add a 'clear aa seq' button
+WORKS
+
+now the to-do list:
+- MoBo
+	- get protein folding and hist list working
+	- get color chips (including combined one) working
+- Biochem
+	- get color chips (including combined one) working

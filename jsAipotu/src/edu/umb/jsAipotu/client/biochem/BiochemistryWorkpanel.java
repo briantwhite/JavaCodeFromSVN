@@ -33,6 +33,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	HorizontalPanel buttonPanel;
 	Button foldButton;
 	Button loadSampleButton;
+	Button clearAASeqButton;
 	HTML colorLabel;
 	SimplePanel colorChip;
 
@@ -88,6 +89,26 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		colorChip.setStyleName("colorChip");
 		buttonPanel.add(colorChip);
 
+		clearAASeqButton = new Button("Clear Amino Acid Sequence");
+		clearAASeqButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent arg0) {
+				proteinSequenceEntryBox.setAminoAcidSequence("");
+
+				//update the color chip on the folding window
+				colorChip.getElement().getStyle().setBackgroundColor("white");
+
+				//update the combined color chip
+				bwbench.updateCombinedColor();
+
+				//update the picture as well
+				if (proteinPanel.getWidget() != null) {
+					proteinPanel.remove(proteinPanel.getWidget());
+				}
+				foldButton.setEnabled(false);
+			}
+		});
+		buttonPanel.add(clearAASeqButton);
+
 		loadSampleButton = new Button("Load Sample Protein");
 		loadSampleButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent arg0) {
@@ -96,6 +117,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 			}
 		});
 		buttonPanel.add(loadSampleButton);
+		
 		mainPanel.add(buttonPanel);	
 		
 		add(mainPanel);
@@ -155,6 +177,9 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		foldButton.setEnabled(true);
 		proteinPanelWrapper.setStyleName("proteinPanelWrapperNotFOLDED");
 		proteinPanelWrapper.setCaptionHTML("<font color=\"red\">------ click FOLD to fold new amino acid sequence ------</font>");
+		if (proteinPanel.getWidget() != null) {
+			proteinPanel.remove(proteinPanel.getWidget());
+		}
 	}
 
 	public void setFoldedProteinWithImages(FoldedProteinWithImages fp) {

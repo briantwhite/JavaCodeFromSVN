@@ -53,6 +53,7 @@ public class ProteinSequenceEntryBox extends TextBox {
 					String rightHalf = getText().substring(cp); 
 					setText(leftHalf + rightHalf);
 					setCursorPos(cp - 3);
+					bwp.aaSeqChanged();
 				}
 			}
 
