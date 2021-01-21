@@ -710,5 +710,7 @@ now the to-do list:
 - MoBo
 	- get protein folding and hist list working
 	- get color chips (including combined one) working
+	- need to deal with FoldedInACorner (gray chips etc)
 - Biochem
 	- get color chips (including combined one) working
+	- need to deal with FoldedInACorner (gray chips etc)
