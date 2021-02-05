@@ -39,12 +39,14 @@ public class BiochemistryWorkbench extends Workbench {
 		VerticalPanel leftPanel = new VerticalPanel();
 		
 		CaptionPanel aapPanel = new CaptionPanel("Amino Acids");
+		aapPanel.setStyleName("biochemAATable");
 		Canvas aaPalette = AminoAcidPaletteBuilder.build(180, 225, 5, 4);
 		aapPanel.add(aaPalette);
 		leftPanel.add(aapPanel);
 
 		CaptionPanel histListPanel = new CaptionPanel("History List");
 		biochemHistoryList = new BiochemHistoryList(new BiochemHistListItem());
+		//biochemHistoryList.setStyleName("biochemHistList");
 		histListScrollPanel = new ScrollPanel(biochemHistoryList);
 		histListPanel.add(histListScrollPanel);
 		leftPanel.add(histListPanel);

@@ -32,12 +32,12 @@
 
 .mainPanel {
 	width: 1500px;
-	height: 1200px;
+	height: 2000px;
 }
 
 .explorerPane {
 	width: 1000px;
-	height: 750px;
+	height: 2000px;
 }
 
 .greenhousePanel {
@@ -53,6 +53,20 @@
 
 .gwt-TabLayoutPanelTab-selected {
 	background: lightblue;
+}
+
+.biochemAATable {
+	width: 180px;
+}
+
+.biochemHistList {
+	width: 180px;
+	height: 800px;
+}
+
+.biochemHistListItem {
+	width: 70px;
+	height: 15px;
 }
 
 .BiochemButtonPanel .gwt-Button {

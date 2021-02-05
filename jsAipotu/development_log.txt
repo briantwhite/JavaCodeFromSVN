@@ -714,3 +714,9 @@ now the to-do list:
 - Biochem
 	- get color chips (including combined one) working
 	- need to deal with FoldedInACorner (gray chips etc)
+
+2/5/21
+working on biochem hist list formatting
+	can't seem to set the width properly - it seems to have something to do with the image.
+	The thumbnail image is 300x150 as measured by the coordinateSpaceWidth and Height
+	need to fix this.
