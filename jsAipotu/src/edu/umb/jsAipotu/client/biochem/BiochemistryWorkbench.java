@@ -46,6 +46,7 @@ public class BiochemistryWorkbench extends Workbench {
 
 		CaptionPanel histListPanel = new CaptionPanel("History List");
 		biochemHistoryList = new BiochemHistoryList(new BiochemHistListItem());
+		biochemHistoryList.setStyleName("biochemHistList");
 		//biochemHistoryList.setStyleName("biochemHistList");
 		histListScrollPanel = new ScrollPanel(biochemHistoryList);
 		histListPanel.add(histListScrollPanel);

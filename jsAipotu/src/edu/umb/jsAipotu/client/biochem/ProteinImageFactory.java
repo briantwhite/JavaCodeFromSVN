@@ -43,6 +43,8 @@ public class ProteinImageFactory {
 		// draw original image to thumbnail image object;
 		// 	scale it to the new size on-the-fly
 		Canvas thumbCanvas = Canvas.createIfSupported();
+		thumbCanvas.setCoordinateSpaceHeight(actualThumbHeight);
+		thumbCanvas.setCoordinateSpaceWidth(actualThumbWidth);
 		Context2d tg = thumbCanvas.getContext2d();
 		tg.drawImage(fullSizeCanvas.getCanvasElement(), 0, 0, (double) actualThumbWidth, (double) actualThumbHeight);
 		

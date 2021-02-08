@@ -10,6 +10,7 @@ public class FoldedProteinWithImages extends HistListItem {
 	private Canvas thumbnailPic;
 	private Canvas bigPic;
 	private CssColor color;
+	private boolean isSelected;
 	
 	public FoldedProteinWithImages(String aaSeq, 
 			Canvas bigPic,
@@ -20,6 +21,7 @@ public class FoldedProteinWithImages extends HistListItem {
 		thumbnailPic = thumb;
 		this.color = color;
 		toolTipText = aaSeq;
+		isSelected = false;
 	}
 
 	public String getAaSeq() {
@@ -44,5 +46,13 @@ public class FoldedProteinWithImages extends HistListItem {
 
 	public void setToolTipText(String text) {
 		toolTipText = text;
+	}
+	
+	public void setSelected(boolean b) {
+		isSelected = b;
+	}
+	
+	public boolean isSelected() {
+		return isSelected;
 	}
 }

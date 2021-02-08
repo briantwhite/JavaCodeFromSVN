@@ -720,3 +720,11 @@ working on biochem hist list formatting
 	can't seem to set the width properly - it seems to have something to do with the image.
 	The thumbnail image is 300x150 as measured by the coordinateSpaceWidth and Height
 	need to fix this.
+
+2/8/21
+the relevant code is in ProteinImageFactory.generateImages()
+made it the right size but how can I set the style of a Cell?
+the trick is to set it up in the template in BiochemHistListItem and set the table-layout:FIXED
+
+started working on what happens when you click a hist list item
+	trying to get selection working - it's a little sketchy
