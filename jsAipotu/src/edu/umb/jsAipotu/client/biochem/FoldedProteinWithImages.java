@@ -48,11 +48,11 @@ public class FoldedProteinWithImages extends HistListItem {
 		toolTipText = text;
 	}
 	
-	public void setSelected(boolean b) {
-		isSelected = b;
-	}
-	
 	public boolean isSelected() {
 		return isSelected;
+	}
+	
+	public void setSelected(boolean b) {
+		isSelected = b;
 	}
 }

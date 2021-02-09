@@ -3,7 +3,9 @@ package edu.umb.jsAipotu.client.biochem;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -22,6 +24,9 @@ public class BiochemistryWorkbench extends Workbench {
 	ArrayList<FoldedProteinWithImages> foldedProteins;
 	BiochemHistoryList biochemHistoryList;
 	ScrollPanel histListScrollPanel;
+	
+	private Button sendToUpperButton;
+	private Button sendToLowerButton;
 	
 	private CombinedColorPanel combinedColorPanel;
 
@@ -45,11 +50,20 @@ public class BiochemistryWorkbench extends Workbench {
 		leftPanel.add(aapPanel);
 
 		CaptionPanel histListPanel = new CaptionPanel("History List");
+		HorizontalPanel buttonPanel = new HorizontalPanel();
+		sendToUpperButton = new Button("\u21E8Upper Window");
+		sendToUpperButton.setStyleName("histListButton");
+		buttonPanel.add(sendToUpperButton);
+		sendToLowerButton = new Button("\u21E8Lower Window");
+		sendToLowerButton.setStyleName("histListButton");
+		buttonPanel.add(sendToLowerButton);	
+		VerticalPanel innerPanel = new VerticalPanel();
+		innerPanel.add(buttonPanel);
 		biochemHistoryList = new BiochemHistoryList(new BiochemHistListItem());
 		biochemHistoryList.setStyleName("biochemHistList");
-		//biochemHistoryList.setStyleName("biochemHistList");
 		histListScrollPanel = new ScrollPanel(biochemHistoryList);
-		histListPanel.add(histListScrollPanel);
+		innerPanel.add(histListScrollPanel);
+		histListPanel.add(innerPanel);
 		leftPanel.add(histListPanel);
 		
 		add(leftPanel);

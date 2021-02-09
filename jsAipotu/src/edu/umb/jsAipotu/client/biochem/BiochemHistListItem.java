@@ -14,18 +14,23 @@ import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.UIObject;
 
 public class BiochemHistListItem extends AbstractCell<FoldedProteinWithImages>{
+
+	private PopupPanel popup;
+
+	public BiochemHistListItem() {
+	}
 
 	interface Templates extends SafeHtmlTemplates {
 		@SafeHtmlTemplates.Template("<table style=\"{0}\"><tr><td>{1}</td></tr><tr><td>{2}</td></tr></table>")
 		SafeHtml cell(SafeStyles colorStyle, SafeHtml imageHTML, SafeHtml labelHTML);
 	}
 	private static Templates templates = GWT.create(Templates.class);
-
-	public BiochemHistListItem() {
-		super("click"); // capture click events
-	}
 
 	public void render(Context context, FoldedProteinWithImages fp, SafeHtmlBuilder sb) {
 		if (fp == null) {
@@ -36,7 +41,7 @@ public class BiochemHistListItem extends AbstractCell<FoldedProteinWithImages>{
 		b.tableLayout(Style.TableLayout.FIXED);
 		b.width(180, Unit.PX);
 		if (fp.isSelected()) {
-			b.appendTrustedString("border:1px solid red;");
+			b.appendTrustedString("border:2px solid red;");
 		} else {
 			b.appendTrustedString("border:1px solid black;");
 		}
@@ -51,21 +56,6 @@ public class BiochemHistListItem extends AbstractCell<FoldedProteinWithImages>{
 			safeLabel = SafeHtmlUtils.fromTrustedString("<font color=\"black\">" + fp.getAaSeq() + "</font>");
 		}
 		sb.append(templates.cell(colorStyle, safeImage, safeLabel));
-	}
-
-	public void onBrowserEvent(Context context, Element parent, FoldedProteinWithImages value, NativeEvent event,
-			ValueUpdater<FoldedProteinWithImages> valueUpdater) {
-		if ("click".equals(event.getType())) {
-			EventTarget eventTarget = event.getEventTarget();
-	        if (parent.getFirstChildElement().isOrHasChild(Element.as(eventTarget))) {
-	        	if (value.isSelected()) {
-					value.setSelected(false);
-				} else {
-					value.setSelected(true);
-				}
-	        	valueUpdater.update(value);
-	        }
-		}
 	}
 
 }

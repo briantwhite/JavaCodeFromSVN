@@ -59,6 +59,10 @@
 	width: 180px;
 }
 
+.histListButton {
+	border: 1px solid blue;
+}
+
 .biochemHistList {
 	width: 180px;
 	height: 800px;

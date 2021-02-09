@@ -728,3 +728,12 @@ the trick is to set it up in the template in BiochemHistListItem and set the tab
 
 started working on what happens when you click a hist list item
 	trying to get selection working - it's a little sketchy
+
+2/9/21
+probably best to use the built-in selection model stuff and, instead of a popup menu, just
+	have a "-> upper" and "-> lower" buttons at the top of the hist list
+Got selection working but getting the popup in the right place is a huge pain - can't seem to make it resistant to scrolling.
+got buttons there 
+need to
+	- enable buttons only when something is selected
+	- get 'sending' to work
