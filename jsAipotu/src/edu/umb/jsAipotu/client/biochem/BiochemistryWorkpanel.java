@@ -92,7 +92,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		clearAASeqButton = new Button("Clear Amino Acid Sequence");
 		clearAASeqButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent arg0) {
-				proteinSequenceEntryBox.setAminoAcidSequence("");
+				proteinSequenceEntryBox.setAminoAcidSequence("", true);
 
 				//update the color chip on the folding window
 				colorChip.getElement().getStyle().setBackgroundColor("white");
@@ -112,7 +112,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		loadSampleButton = new Button("Load Sample Protein");
 		loadSampleButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent arg0) {
-				proteinSequenceEntryBox.setAminoAcidSequence(GlobalDefaults.sampleProtein);
+				proteinSequenceEntryBox.setAminoAcidSequence(GlobalDefaults.sampleProtein, true);
 				foldProtein();
 			}
 		});
@@ -181,6 +181,11 @@ public class BiochemistryWorkpanel extends WorkPanel {
 			proteinPanel.remove(proteinPanel.getWidget());
 		}
 	}
+	
+	public void markProteinAsFolded() {
+		proteinPanelWrapper.setStyleName("proteinPanelWrapperFOLDED");
+		proteinPanelWrapper.setCaptionText("Folded Protein");
+	}
 
 	public void setFoldedProteinWithImages(FoldedProteinWithImages fp) {
 
@@ -198,7 +203,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		for (int i = 0; i < acids.length; i++) {
 			abAASeq.append(acids[i].getAbName());
 		}
-		proteinSequenceEntryBox.setAminoAcidSequence(abAASeq.toString());
+		proteinSequenceEntryBox.setAminoAcidSequence(abAASeq.toString(), false);
 
 		//update the color chip on the folding window
 		colorChip.getElement().getStyle().setBackgroundColor(fp.getColor().toString());
@@ -212,6 +217,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		}
 		proteinPanel.add(foldedProteinWithImages.getFullSizePic());
 		foldButton.setEnabled(false);
+		markProteinAsFolded();
 	}
 
 }

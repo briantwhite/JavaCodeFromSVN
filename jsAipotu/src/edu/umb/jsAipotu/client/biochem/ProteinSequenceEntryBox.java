@@ -83,7 +83,7 @@ public class ProteinSequenceEntryBox extends TextBox {
 		super.onBrowserEvent(e);
 	}
 
-	public void setAminoAcidSequence(String s) {
+	public void setAminoAcidSequence(String s, boolean needsToBeFolded) {
 		// do some safety testing to see if it's one-letter or three
 		//  3-letter codes will contain lower case letters
 		if (s.equals(s.toUpperCase())) {
@@ -99,7 +99,11 @@ public class ProteinSequenceEntryBox extends TextBox {
 			// it is 3-letter
 			setText(s.trim());
 		}
-		bwp.aaSeqChanged();
+		if (needsToBeFolded) {
+			// in some cases, like when you load a folded protein from the hist list, there's no need to fold
+			//  so no need to change the background
+			bwp.aaSeqChanged();
+		}
 	}
 
 	public String getAminoAcidSequence() {

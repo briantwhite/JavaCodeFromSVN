@@ -9,6 +9,7 @@ public class ExpressedGeneWithImages extends HistListItem {
 	private FoldedProteinWithImages fp;
 	private String htmlString;
 	private String currentDNA;
+	private boolean isSelected;
 	
 	public ExpressedGeneWithImages(ExpressedAndFoldedGene efg) { 
 		this.efg = efg;
@@ -16,6 +17,7 @@ public class ExpressedGeneWithImages extends HistListItem {
 		htmlString = efg.getExpressedGene().getHtmlString();
 		currentDNA = efg.getExpressedGene().getDNA();
 		toolTipText = efg.getExpressedGene().getProtein();
+		isSelected = false;
 	}
 	
 	public ExpressedAndFoldedGene getEFG() {
@@ -42,4 +44,12 @@ public class ExpressedGeneWithImages extends HistListItem {
 		return currentDNA;
 	}
 	
+	public boolean isSelected() {
+		return isSelected;
+	}
+	
+	public void setSelected(boolean b) {
+		isSelected = b;
+	}
+
 }

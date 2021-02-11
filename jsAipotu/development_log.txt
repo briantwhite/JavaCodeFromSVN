@@ -737,3 +737,11 @@ got buttons there
 need to
 	- enable buttons only when something is selected
 	- get 'sending' to work
+
+2/11/21
+got the enabling of buttons and moving to workpanels going
+- need to get the combined color thing going - OK now
+
+do the same for MoBo
+got it working!
+- need to fix the nasty gray and red shading to something more friendly

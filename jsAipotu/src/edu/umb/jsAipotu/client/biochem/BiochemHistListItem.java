@@ -21,8 +21,6 @@ import com.google.gwt.user.client.ui.UIObject;
 
 public class BiochemHistListItem extends AbstractCell<FoldedProteinWithImages>{
 
-	private PopupPanel popup;
-
 	public BiochemHistListItem() {
 	}
 

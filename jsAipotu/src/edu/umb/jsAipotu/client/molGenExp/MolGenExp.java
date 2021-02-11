@@ -1,5 +1,7 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
+import java.util.Set;
+
 public class MolGenExp {
 	
 	//indices for tabbed panes
@@ -16,7 +18,7 @@ public class MolGenExp {
 //	private OrganismAndLocation oal2;
 
 	public MolGenExp() {
-		greenhouse = new Greenhouse(new GreenhouseCell());
+		greenhouse = new Greenhouse(this, new GreenhouseCell());
 		greenhouseLoader = new GreenhouseLoader(greenhouse);
 		greenhouseLoader.load();
 		
@@ -121,6 +123,14 @@ public class MolGenExp {
 //	public Organism getOrg2() {
 //		return oal2.getOrganism();
 //	}
+	
+	public void handleGreenhouseSelection(Set<Organism> oSet) {
+		
+	}
+	
+	public void loadOrganismIntoActivePanel(Organism o) {
+		
+	}
 	
 	public void saveOrganismToGreenhouse(Organism o) {
 		
