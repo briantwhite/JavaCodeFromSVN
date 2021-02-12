@@ -744,4 +744,9 @@ got the enabling of buttons and moving to workpanels going
 
 do the same for MoBo
 got it working!
-- need to fix the nasty gray and red shading to something more friendly
+- need to fix the nasty gray and red shading to something more friendly - it's not really necessary at all.
+
+2/21/21
+just nixed the background color changes in mobo since you can see the important effects in the button shading and the hist list
+
+now, on to genetics - lots of errors to fix

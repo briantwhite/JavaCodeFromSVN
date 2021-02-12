@@ -2,6 +2,8 @@ package edu.umb.jsAipotu.client.molGenExp;
 
 import java.util.Set;
 
+import com.google.gwt.user.client.ui.TabLayoutPanel;
+
 public class MolGenExp {
 	
 	//indices for tabbed panes
@@ -34,7 +36,7 @@ public class MolGenExp {
 	//handlers for selections of creatures in Genetics mode
 	//  max of two at a time.
 	//these are called by the CustomListSelectionMode
-//	public void deselectOrganism(OrganismAndLocation oal, TabLayoutPanel explorerPane) {
+	public void deselectOrganism(OrganismAndLocation oal, TabLayoutPanel explorerPane) {
 //
 //		// only do this in genetics
 //		if (explorerPane.getSelectedIndex() != GENETICS) {
@@ -60,7 +62,7 @@ public class MolGenExp {
 //		//should not get to here
 //		updateGeneticsButtonStatus();
 //		return;
-//	}
+	}
 //
 //	public void addSelectedOrganism(OrganismAndLocation oal, TabLayoutPanel explorerPane) {
 //
@@ -102,7 +104,7 @@ public class MolGenExp {
 //		return;
 //	}
 //
-//	public void clearSelectedOrganisms() {
+	public void clearSelectedOrganisms() {
 //		if (oal1 != null) {
 ////			oal1.getListLocation().removeSelectionIntervalDirectly(oal1);
 //		}
@@ -114,7 +116,7 @@ public class MolGenExp {
 //		oal1 = null;
 //		oal2 = null;
 //		updateGeneticsButtonStatus();
-//	}
+	}
 //
 //	public Organism getOrg1() {
 //		return oal1.getOrganism();

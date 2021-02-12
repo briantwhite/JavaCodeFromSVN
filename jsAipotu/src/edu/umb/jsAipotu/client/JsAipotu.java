@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsAipotu.client.biochem.BiochemistryWorkbench;
+import edu.umb.jsAipotu.client.genetics.GeneticsWorkbench;
 import edu.umb.jsAipotu.client.molBiol.MolBiolWorkbench;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 
@@ -39,7 +40,7 @@ public class JsAipotu implements EntryPoint {
 	private HorizontalPanel innerPanel = null;
 	
 	private TabLayoutPanel explorerPane = null;
-//	private GeneticsWorkbench geneticsWorkbench = null;
+	private GeneticsWorkbench geneticsWorkbench = null;
 	private BiochemistryWorkbench biochemistryWorkbench = null;
 	private MolBiolWorkbench molBiolWorkbench = null;
 //	private EvolutionWorkArea evolutionWorkArea = null;
@@ -130,8 +131,8 @@ public class JsAipotu implements EntryPoint {
 		// explorer pane - tabbed pane for the 4 workbenches/workarea
 		explorerPane = new TabLayoutPanel(40, Unit.PX);
 		explorerPane.setStyleName("explorerPane");
-//		geneticsWorkbench = new GeneticsWorkbench(mge);
-//		explorerPane.add(geneticsWorkbench, "Genetics");
+		geneticsWorkbench = new GeneticsWorkbench(mge);
+		explorerPane.add(geneticsWorkbench, "Genetics");
 		biochemistryWorkbench = new BiochemistryWorkbench(mge);
 		explorerPane.add(biochemistryWorkbench, "Biochemistry");
 		molBiolWorkbench = new MolBiolWorkbench(mge);

@@ -28,10 +28,6 @@ import edu.umb.jsAipotu.client.molGenExp.WorkPanel;
 
 public class GeneticsWorkPanel extends WorkPanel {
 
-	private String title;
-
-	private String upperOrLower;
-
 	private int trayNum; 	//current tray number
 	private String parentInfo;	//info on the parent
 
@@ -51,10 +47,8 @@ public class GeneticsWorkPanel extends WorkPanel {
 	private MutantGenerator mutantGenerator;
 	private Timer timer;
 
-	public GeneticsWorkPanel(String upperOrLower, GeneticsWorkbench gw) {
-		super();
-		this.upperOrLower = upperOrLower;
-		title = upperOrLower + " GeneticsWindow";
+	public GeneticsWorkPanel(String title, GeneticsWorkbench gw) {
+		super(title);
 		this.gw = gw;
 		organismFactory = new OrganismFactory();
 		setupUI();
