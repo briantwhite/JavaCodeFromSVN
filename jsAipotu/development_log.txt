@@ -746,7 +746,13 @@ do the same for MoBo
 got it working!
 - need to fix the nasty gray and red shading to something more friendly - it's not really necessary at all.
 
-2/21/21
+2/12/21
 just nixed the background color changes in mobo since you can see the important effects in the button shading and the hist list
+
+2/17/21
+how to do the greenhouse and tray items?
+	cells? - but a CellList is one-dimensional and a CellTable is more meant for one object per row
+	buttons? - use a FlowPanel for a Tray and a vertical panel for the greenhouse
+		but then you have to handle the selections and additions to the greenhouse manually - might be worth a try
 
 now, on to genetics - lots of errors to fix
