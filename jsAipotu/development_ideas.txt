@@ -41,6 +41,8 @@ Genetics
 - GeneticsHistoryCellRenderer (replaced by GeneticsHistListItem)
 Mobo
 - DNAHistoryCellRenderer (replaced by MolBiolHistListItem)
+MolGenExp
+- OrganismAndLocation
 
 
 THINGS YOU EVENTUALLY NEED TO FIX

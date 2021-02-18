@@ -20,7 +20,7 @@ public class MolGenExp {
 //	private OrganismAndLocation oal2;
 
 	public MolGenExp() {
-		greenhouse = new Greenhouse(this, new GreenhouseCell());
+		greenhouse = new Greenhouse(this);
 		greenhouseLoader = new GreenhouseLoader(greenhouse);
 		greenhouseLoader.load();
 		
@@ -33,10 +33,14 @@ public class MolGenExp {
 		return greenhouse;
 	}
 	
+	// deal with organism selections in greenhouse (location -1) or tray (location = tray #: 0 or higher)
+	public void organismWasSelected(Organism o, int location) {
+		
+	}
 	//handlers for selections of creatures in Genetics mode
 	//  max of two at a time.
 	//these are called by the CustomListSelectionMode
-	public void deselectOrganism(OrganismAndLocation oal, TabLayoutPanel explorerPane) {
+//	public void deselectOrganism(OrganismAndLocation oal, TabLayoutPanel explorerPane) {
 //
 //		// only do this in genetics
 //		if (explorerPane.getSelectedIndex() != GENETICS) {
@@ -62,7 +66,7 @@ public class MolGenExp {
 //		//should not get to here
 //		updateGeneticsButtonStatus();
 //		return;
-	}
+//	}
 //
 //	public void addSelectedOrganism(OrganismAndLocation oal, TabLayoutPanel explorerPane) {
 //

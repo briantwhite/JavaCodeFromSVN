@@ -755,4 +755,13 @@ how to do the greenhouse and tray items?
 	buttons? - use a FlowPanel for a Tray and a vertical panel for the greenhouse
 		but then you have to handle the selections and additions to the greenhouse manually - might be worth a try
 
+2/18/21
+try making OrganismButton class for greenhouse and trays
+can't use the "OrganismAndLocation" mode because there's no custom list selection model in GWT
+have trayNumber = -1 to mean 'in the greenhouse'
+
+it looks like Button is a pain - only one can be selected at a time and the selected property doesn't seem to be accessible
+just try a captionpanel and call it OrganismUI
+it needs to be in a FocusPanel to detect clicks and you need to sink the events so it selects properly
+
 now, on to genetics - lots of errors to fix

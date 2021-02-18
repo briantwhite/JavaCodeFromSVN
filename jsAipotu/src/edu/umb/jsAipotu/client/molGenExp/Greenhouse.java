@@ -1,34 +1,36 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-import com.google.gwt.user.cellview.client.CellList;
-import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.MultiSelectionModel;
-import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class Greenhouse extends CellList<Organism> {
+public class Greenhouse extends ScrollPanel {
 
-	private ListDataProvider<Organism> organisms;
+	private ArrayList<OrganismUI> organismUIs;
 	private MolGenExp mge;
+	private VerticalPanel innerPanel;
 	
-	public Greenhouse(MolGenExp mge, GreenhouseCell greenhouseCell) {
-		super(greenhouseCell);
+	public Greenhouse(MolGenExp mge) {
+		super();
 		this.mge = mge;
-		organisms = new ListDataProvider<Organism>();
-		organisms.addDataDisplay(this);
-		final MultiSelectionModel<Organism> selectionModel = new MultiSelectionModel<Organism>();
-		this.setSelectionModel(selectionModel);
-		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-			public void onSelectionChange(SelectionChangeEvent event) {
-				Set<Organism> oSet = selectionModel.getSelectedSet();
-				//mge.handleGreenhouseSelection(oSet);
-			}
-		});
+		organismUIs = new ArrayList<OrganismUI>();
+		innerPanel = new VerticalPanel();
+		this.add(innerPanel);
 	}
 
+	// method used by GreenhouseLoader - it assumes the organism has a name already
 	public void add(Organism org) {
-		organisms.getList().add(org);
+		organismUIs.add(new OrganismUI(org, -1, mge));  // location -1 means 'in the greenhouse'
+		updateDisplay();
 	}
 	
+	private void updateDisplay() {
+		innerPanel.clear();
+		Iterator<OrganismUI> ouIt = organismUIs.iterator();
+		while (ouIt.hasNext()) {
+			innerPanel.add(ouIt.next());
+		}
+	}
 }

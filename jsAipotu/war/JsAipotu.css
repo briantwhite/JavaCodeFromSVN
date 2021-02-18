@@ -44,6 +44,14 @@
 	width: 100px;
 }
 
+.unSelectedOrganismUI {
+	background: white;
+}
+
+.selectedOrganismUI {
+	background: lightblue;
+}
+
 .gwt-TabLayoutPanelTab {
 	border: 1px solid black;
 	background: lightgray;
