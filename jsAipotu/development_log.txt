@@ -764,4 +764,10 @@ it looks like Button is a pain - only one can be selected at a time and the sele
 just try a captionpanel and call it OrganismUI
 it needs to be in a FocusPanel to detect clicks and you need to sink the events so it selects properly
 
+got selection in Greenhouse going - maybe get it to load into biochem and mobo next
+got it to load into mobo
+	biochem should be easy
+
+need to get Gh to clear all selections when switching tabs
+
 now, on to genetics - lots of errors to fix

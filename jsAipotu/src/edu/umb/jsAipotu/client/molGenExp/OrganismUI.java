@@ -38,7 +38,7 @@ public class OrganismUI extends FocusPanel {
 			} else {
 				setSelected(true);
 			}
-			mge.organismWasSelected(o, location);
+			mge.organismWasClicked(this);
 		}
 	}
 	
@@ -57,6 +57,5 @@ public class OrganismUI extends FocusPanel {
 		} else {
 			setStyleName("unSelectedOrganismUI");
 		}
-	}
-	
+	}	
 }
