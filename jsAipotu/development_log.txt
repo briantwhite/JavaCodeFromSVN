@@ -784,3 +784,10 @@ Notes for selecting organims:
 - get biochem to load from greenhouse selection - did it
 
 now, need to get genetics working
+got selection of oui1 and oui2 working!
+
+now crossing.
+
+got it to cross but:
+- putting the size of an OrganismUI in the css has no effect on size in the FlowPanel
+- FlowPanel lays out only vertically!

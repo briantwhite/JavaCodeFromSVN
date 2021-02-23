@@ -52,6 +52,11 @@
 	background: lightblue;
 }
 
+.offspringDisplayPanel {
+	width: 500;
+	height: 250;
+}
+
 .gwt-TabLayoutPanelTab {
 	border: 1px solid black;
 	background: lightgray;

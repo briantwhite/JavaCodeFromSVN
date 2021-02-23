@@ -3,7 +3,7 @@ package edu.umb.jsAipotu.client.molGenExp;
 import edu.umb.jsAipotu.client.JsAipotu;
 
 public class MolGenExp {
-	
+
 	private JsAipotu jsA;
 
 	//indices for tabbed panes
@@ -43,11 +43,43 @@ public class MolGenExp {
 		}
 
 	}
-	
+
 	private void processSelectionInGenetics(OrganismUI oui) {
+		//  oui2 = most recently selected organism
+		//  oui1 = least recently selected organism
+		//  new orgs added to oui2 and push down to oui1 and then dropped
 		
+		// first, see if this was a selection or a de-selection event
+		if (oui.isSelected()) {
+			if ((oui1 == null) & (oui2 == null)) {
+				// none selected yet, so put in oui2
+				oui2 = oui;
+				
+			} else if ((oui1 == null) & (oui2 != null)) {
+				// only one previously selected, move old to 1 and put new in 2
+				oui1 = oui2;
+				oui2 = oui;
+			} else if ((oui1 != null) & (oui2 != null)) {
+				// two were previously selected, un-select old 1, move 2 to 1 and put new in 2
+				oui1.setSelected(false);
+				oui1 = oui2;
+				oui2 = oui;
+			} 
+		} else {
+			// a de-selection event
+			if (oui.equals(oui1)) {
+				// it's ok to have oui1 empty
+				oui1 = null;
+			} else if (oui.equals(oui2)) {
+				// if you un-select oui2, need to move oui1 up
+				oui2 = oui1;
+				oui1 = null;
+			}
+		}
+		updateGeneticsButtonStatus();
+		return;
 	}
-	
+
 	private void processSelectionInMoboOrBiochem(OrganismUI oui) {
 		greenhouse.selectOnlyThisOrganism(oui);
 		if (jsA.getSelectedTabIndex() == MOLECULAR_BIOLOGY) {
@@ -57,82 +89,15 @@ public class MolGenExp {
 			jsA.getBiochemWorkbench().loadOrganism(oui.getOrganism());
 		}
 	}
-	
-	public void clearGreenhouseSelections() {
+
+	public void clearSelectedOrganisms() {
 		greenhouse.clearAllSelections();
+		clearSelectedOrganismsInGeneticsWorkbench();
 	}
-	//handlers for selections of creatures in Genetics mode
-	//  max of two at a time.
-	//these are called by the CustomListSelectionMode
-	//	public void deselectOrganism(OrganismAndLocation oal, TabLayoutPanel explorerPane) {
-	//
-	//		// only do this in genetics
-	//		if (explorerPane.getSelectedIndex() != GENETICS) {
-	//			return;
-	//		}
-	//
-	//		//remove from list of selected organisms
-	//		//if #1 is being deleted, delete it and move #2 up
-	//		if ((oal.getOrganism()).equals(oal1.getOrganism())) {
-	//			oal1 = oal2;
-	//			oal2 = null;
-	//			updateGeneticsButtonStatus();
-	//			return;
-	//		}
-	//
-	//		//otherwise just delete #2
-	//		if ((oal.getOrganism()).equals(oal2.getOrganism())) {
-	//			oal2 = null;
-	//			updateGeneticsButtonStatus();
-	//			return;
-	//		}
-	//
-	//		//should not get to here
-	//		updateGeneticsButtonStatus();
-	//		return;
-	//	}
-	//
-	//	public void addSelectedOrganism(OrganismAndLocation oal, TabLayoutPanel explorerPane) {
-	//
-	//		// only do this in genetics
-	//		if (explorerPane.getSelectedIndex() != GENETICS) {
-	//			return;
-	//		}
-	//
-	//		//if none selected so far, put it in #1
-	//		if ((oal1 == null) && (oal2 == null)) {
-	//			oal1 = oal;
-	//			updateGeneticsButtonStatus();
-	//			return;
-	//		}
-	//
-	//		// if only one selected so far, it should be in #1
-	//		// so move #1 to #2 and put this in #1
-	//		if ((oal1 != null) && (oal2 == null)) {
-	//			oal2 = oal1;
-	//			oal1 = oal;
-	//			updateGeneticsButtonStatus();
-	//			return;
-	//		}
-	//
-	//		//it must be that there are 2 selected orgs
-	//		// so you have to drop #2, move 1 to 2 and put the
-	//		// new one in 1.
-	//		if ((oal1 != null) && (oal2 != null)) {
-	//			//drop #2
-	////			oal2.getListLocation().removeSelectionIntervalDirectly(oal2);
-	//			//move 1 to 2
-	//			oal2 = oal1;
-	//			//put new one in 1
-	//			oal1 = oal;
-	//			updateGeneticsButtonStatus();
-	//		}
-	//
-	//		//should not get to here
-	//		return;
-	//	}
-	//
-	public void clearSelectedOrganismsInGenetics() {
+
+
+
+	public void clearSelectedOrganismsInGeneticsWorkbench() {
 		if (oui1 != null) {
 			oui1.setSelected(false);
 		}
@@ -150,7 +115,7 @@ public class MolGenExp {
 		return oui1;
 	}
 
-	public OrganismUI getOrg2() {
+	public OrganismUI getOUI2() {
 		return oui2;
 	}
 
@@ -163,7 +128,19 @@ public class MolGenExp {
 	}
 
 	public void updateGeneticsButtonStatus() {
-
+		if ((oui1 == null) & (oui2 == null)) {
+			jsA.getGeneticsWorkbench().setCrossTwoButtonsEnabled(false);
+			jsA.getGeneticsWorkbench().setSelfCrossButtonsEnabled(false);
+			jsA.getGeneticsWorkbench().setMutateButtonsEnabled(false);
+		} else if ((oui1 == null) & (oui2 != null)) {
+			jsA.getGeneticsWorkbench().setCrossTwoButtonsEnabled(false);
+			jsA.getGeneticsWorkbench().setSelfCrossButtonsEnabled(true);
+			jsA.getGeneticsWorkbench().setMutateButtonsEnabled(true);			
+		} else if ((oui1 != null) & (oui2 != null)) {
+			jsA.getGeneticsWorkbench().setCrossTwoButtonsEnabled(true);
+			jsA.getGeneticsWorkbench().setSelfCrossButtonsEnabled(false);
+			jsA.getGeneticsWorkbench().setMutateButtonsEnabled(false);			
+		}
 	}
 
 	public void setAddToGreenhouseButtonEnabled(boolean enabled) {

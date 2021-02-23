@@ -18,7 +18,6 @@ public class Tray extends HistListItem {
 	
 	private int trayNumber;
 	private String parentInfo;
-	private String colorCountInfo;
 	private Organism[] allOrganisms;
 	private ImageIcon thumbImage;
 	
@@ -36,8 +35,7 @@ public class Tray extends HistListItem {
 		Object[] organisms = offspringList.getAll();
 		allOrganisms = new Organism[organisms.length];
 		
-		// make thumbnail and count # of each colors
-		HashMap<Color, Integer> colorCounts = new HashMap<Color, Integer>();
+		// make thumbnail
 		BufferedImage pic = new BufferedImage(80, 40, 
 				BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = pic.createGraphics();
@@ -60,42 +58,15 @@ public class Tray extends HistListItem {
 			int x = (10*(i%8)) + 1;
 			int y = (10*(i/8)) + 1;
 			g.fillRect(x, y, 10, 10);
-			
-			//count the color
-			Color c = allOrganisms[i].getColor();
-			int oldCount = 0;
-			if (colorCounts.containsKey(c)) {
-				oldCount = colorCounts.get(c);
-			} 
-			colorCounts.put(c, oldCount + 1);
-
 		}
 		g.dispose();
 		thumbImage = new ImageIcon(pic);
-		
-		//output the color counts
-		StringBuffer countsBuffer = new StringBuffer();
-		Iterator<Color> colorIt = colorCounts.keySet().iterator();
-		while (colorIt.hasNext()) {
-			Color c = colorIt.next();
-			countsBuffer.append("- " 
-					+ colorCounts.get(c)
-					+ " "
-					+ GlobalDefaults.colorModel.getColorName(c)
-					+ "<br>");
-		}
-		colorCountInfo = countsBuffer.toString();
-
 	}
 	
 	public String getParentInfo() {
 		return parentInfo;
 	}
-	
-	public String getColorCountInfo() {
-		return colorCountInfo;
-	}
-	
+		
 	public String getToolTipText() {
 		return toolTipText;
 	}

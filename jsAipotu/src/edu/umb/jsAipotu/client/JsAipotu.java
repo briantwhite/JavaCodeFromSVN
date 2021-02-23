@@ -135,7 +135,7 @@ public class JsAipotu implements EntryPoint {
 		explorerPane.setStyleName("explorerPane");
 		explorerPane.addSelectionHandler(new SelectionHandler<Integer>() {
 			public void onSelection(SelectionEvent<Integer> event) {
-				mge.clearGreenhouseSelections();
+				mge.clearSelectedOrganisms();
 			}
 		});
 		geneticsWorkbench = new GeneticsWorkbench(mge);
@@ -176,6 +176,10 @@ public class JsAipotu implements EntryPoint {
 	public static native void consoleLog(String message) /*-{
 		console.log(message);
 	}-*/;
+	
+	public GeneticsWorkbench getGeneticsWorkbench() {
+		return geneticsWorkbench;
+	}
 	
 	public BiochemistryWorkbench getBiochemWorkbench() {
 		return biochemistryWorkbench;
