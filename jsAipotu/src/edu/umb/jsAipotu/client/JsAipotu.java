@@ -4,6 +4,8 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
@@ -131,6 +133,11 @@ public class JsAipotu implements EntryPoint {
 		// explorer pane - tabbed pane for the 4 workbenches/workarea
 		explorerPane = new TabLayoutPanel(40, Unit.PX);
 		explorerPane.setStyleName("explorerPane");
+		explorerPane.addSelectionHandler(new SelectionHandler<Integer>() {
+			public void onSelection(SelectionEvent<Integer> event) {
+				mge.clearGreenhouseSelections();
+			}
+		});
 		geneticsWorkbench = new GeneticsWorkbench(mge);
 		explorerPane.add(geneticsWorkbench, "Genetics");
 		biochemistryWorkbench = new BiochemistryWorkbench(mge);

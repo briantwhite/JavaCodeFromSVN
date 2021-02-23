@@ -26,24 +26,17 @@ EVOLUTION
 	- just have the cells appear as they are computed
 	
 GENETICS
-- have the organisms be CaptionPanels with ID# as name
-	- and image inside
-- will need to work out selection system
 - use FlowLayout so it lays out rows and columns by itself
 	
 
 USELESS CLASSES TO EVENTULLY NUKE
 Biochem
-- ProteinHistoryCellRenderer (replaced by BiochemHistListItem)
-- ProteinPrinter (use screenshots)
-- TripleLetterCodeDocument (replaced by ProteinSequenceEntryBox)
 Genetics
 - GeneticsHistoryCellRenderer (replaced by GeneticsHistListItem)
 Mobo
-- DNAHistoryCellRenderer (replaced by MolBiolHistListItem)
+
 MolGenExp
-- OrganismAndLocation
+
 
 
 THINGS YOU EVENTUALLY NEED TO FIX
-- in GridCanvas line 207 restore the background color from BiochemWorkbench (once you get that going)

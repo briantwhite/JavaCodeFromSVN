@@ -13,7 +13,7 @@ public class Greenhouse extends ScrollPanel {
 	private ArrayList<OrganismUI> organismUIs;
 	private MolGenExp mge;
 	private VerticalPanel innerPanel;
-	
+
 	public Greenhouse(MolGenExp mge) {
 		super();
 		this.mge = mge;
@@ -24,10 +24,10 @@ public class Greenhouse extends ScrollPanel {
 
 	// method used by GreenhouseLoader - it assumes the organism has a name already
 	public void add(Organism org) {
-		organismUIs.add(new OrganismUI(org, -1, mge));  // location -1 means 'in the greenhouse'
+		organismUIs.add(new OrganismUI(org, mge)); 
 		updateDisplay();
 	}
-	
+
 	private void updateDisplay() {
 		innerPanel.clear();
 		Iterator<OrganismUI> ouIt = organismUIs.iterator();
@@ -35,7 +35,7 @@ public class Greenhouse extends ScrollPanel {
 			innerPanel.add(ouIt.next());
 		}
 	}
-	
+
 	public void selectOnlyThisOrganism(OrganismUI oui) {
 		Iterator<OrganismUI> ouIt = organismUIs.iterator();
 		while (ouIt.hasNext()) {
@@ -43,6 +43,13 @@ public class Greenhouse extends ScrollPanel {
 			if (x != oui) {
 				x.setSelected(false);
 			}
+		}
+	}
+
+	public void clearAllSelections() {
+		Iterator<OrganismUI> ouIt = organismUIs.iterator();
+		while (ouIt.hasNext()) {
+			ouIt.next().setSelected(false);
 		}
 	}
 }

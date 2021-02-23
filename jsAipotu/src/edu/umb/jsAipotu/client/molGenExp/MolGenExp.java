@@ -53,6 +53,13 @@ public class MolGenExp {
 		if (jsA.getSelectedTabIndex() == MOLECULAR_BIOLOGY) {
 			jsA.getMolBiolWorkbench().loadOrganism(oui.getOrganism());
 		}
+		if (jsA.getSelectedTabIndex() == BIOCHEMISTRY) {
+			jsA.getBiochemWorkbench().loadOrganism(oui.getOrganism());
+		}
+	}
+	
+	public void clearGreenhouseSelections() {
+		greenhouse.clearAllSelections();
 	}
 	//handlers for selections of creatures in Genetics mode
 	//  max of two at a time.
@@ -125,7 +132,7 @@ public class MolGenExp {
 	//		return;
 	//	}
 	//
-	public void clearSelectedOrganisms() {
+	public void clearSelectedOrganismsInGenetics() {
 		if (oui1 != null) {
 			oui1.setSelected(false);
 		}

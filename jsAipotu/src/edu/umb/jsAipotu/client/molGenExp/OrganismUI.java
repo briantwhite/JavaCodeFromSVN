@@ -11,13 +11,11 @@ import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 public class OrganismUI extends FocusPanel {
 	
 	private Organism o;
-	private int location; // -1 means 'in greenhouse'; otherwise tray number
 	private boolean selected;
 	private MolGenExp mge;
 	
-	public OrganismUI (Organism o, int location, MolGenExp mge) {
+	public OrganismUI (Organism o, MolGenExp mge) {
 		this.o = o;
-		this.location = location;
 		this.mge = mge;
 		selected = false;
 		CaptionPanel innerPanel = new CaptionPanel(o.getName());
@@ -45,11 +43,7 @@ public class OrganismUI extends FocusPanel {
 	public Organism getOrganism() {
 		return o;
 	}
-	
-	public int getLocation() {
-		return location;
-	}
-	
+		
 	public void setSelected(boolean b) {
 		selected = b;
 		if (selected) {

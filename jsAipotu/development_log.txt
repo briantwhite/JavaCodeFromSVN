@@ -771,3 +771,16 @@ got it to load into mobo
 need to get Gh to clear all selections when switching tabs
 
 now, on to genetics - lots of errors to fix
+
+2/19/21
+Notes for selecting organims:
+- clear all selections on changing tabs
+- since individual OrganismUIs handle their own selected or not and you message them directly to be selected or not,
+   it's probably not necessary to know their location (greenhouse or specific tray) so you can take out the location code
+
+2/23/21
+- working on clearing greenhouse selections when changing workspaces - did it
+- take out location info in OrganismUI - did it
+- get biochem to load from greenhouse selection - did it
+
+now, need to get genetics working
