@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -29,7 +30,7 @@ public class GeneticsWorkPanel extends WorkPanel {
 	private HTML upperLabel;
 
 	private SimplePanel trayPanel;
-	private FlowPanel offspringDisplayPanel;
+	private Grid offspringDisplayGrid;
 
 	private Button crossTwoButton;
 	private Button selfCrossButton;
@@ -58,9 +59,8 @@ public class GeneticsWorkPanel extends WorkPanel {
 		mainPanel.add(upperLabel);
 		
 		trayPanel = new SimplePanel();
-		offspringDisplayPanel = new FlowPanel();
-		offspringDisplayPanel.setSize("500px", "250px");
-		ScrollPanel offspringListScroller = new ScrollPanel(offspringDisplayPanel);
+		offspringDisplayGrid = new Grid(8,8);
+		ScrollPanel offspringListScroller = new ScrollPanel(offspringDisplayGrid);
 		trayPanel.add(offspringListScroller);
 		mainPanel.add(trayPanel);
 
@@ -100,7 +100,7 @@ public class GeneticsWorkPanel extends WorkPanel {
 
 	public void crossTwo(Organism o1, Organism o2) {
 		
-		offspringDisplayPanel.clear();
+		offspringDisplayGrid.clear();
 		
 		trayNum = gw.getNextTrayNum();		
 
@@ -118,6 +118,8 @@ public class GeneticsWorkPanel extends WorkPanel {
 				+ "</b>");
 
 		int count = 20 + Random.nextInt(10);
+		int row = 0;
+		int col = 0;
 		for (int i = 1; i < count; i++) {
 
 			//contribution from first parent
@@ -138,7 +140,12 @@ public class GeneticsWorkPanel extends WorkPanel {
 				organismFactory.createOrganism(trayNum + "-" + i, efg1, efg2);
 
 			offspring.add(o);
-			offspringDisplayPanel.add(new OrganismUI(o, gw.getMGE()));
+			offspringDisplayGrid.setWidget(row, col, new OrganismUI(o, gw.getMGE()));
+			col++;
+			if (col == 8) {
+				col = 0;
+				row++;
+			}
 		}
 
 		// add tray to hist list
