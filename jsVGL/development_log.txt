@@ -642,3 +642,7 @@ use Base64 encoding for the 'encryption' of the correct answer info
 	make it one element in the XML <ra></ra>
 	could safely build the info for the reader in the stateXML since edX etc will ignore unknown tags
 		(you can add stuff safely - as long as the names are different - but removing stuff could cause problems)
+
+2/23/21
+at request of Laurel Pfeifer-Meister lpfeife1@uoregon.edu, added a problem jsVGLG based on OneGene04.pr
+	XX/XY sex-linked & inc dom.
