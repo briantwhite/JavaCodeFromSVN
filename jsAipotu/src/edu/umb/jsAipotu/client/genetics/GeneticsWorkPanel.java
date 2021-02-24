@@ -1,12 +1,12 @@
 package edu.umb.jsAipotu.client.genetics;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -21,6 +21,10 @@ import edu.umb.jsAipotu.client.molGenExp.OrganismUI;
 import edu.umb.jsAipotu.client.molGenExp.WorkPanel;
 
 public class GeneticsWorkPanel extends WorkPanel {
+	
+	// settings for laying out grid of offspring
+	private static int NUM_COLS = 8;
+	private static int NUM_ROWS = 4;
 
 	private int trayNum; 	//current tray number
 	private String parentInfo;	//info on the parent
@@ -59,7 +63,7 @@ public class GeneticsWorkPanel extends WorkPanel {
 		mainPanel.add(upperLabel);
 		
 		trayPanel = new SimplePanel();
-		offspringDisplayGrid = new Grid(8,8);
+		offspringDisplayGrid = new Grid(NUM_ROWS, NUM_COLS);
 		ScrollPanel offspringListScroller = new ScrollPanel(offspringDisplayGrid);
 		trayPanel.add(offspringListScroller);
 		mainPanel.add(trayPanel);
@@ -99,6 +103,8 @@ public class GeneticsWorkPanel extends WorkPanel {
 	}
 
 	public void crossTwo(Organism o1, Organism o2) {
+		
+		offspring = new ArrayList<Organism>();
 		
 		offspringDisplayGrid.clear();
 		
@@ -142,31 +148,41 @@ public class GeneticsWorkPanel extends WorkPanel {
 			offspring.add(o);
 			offspringDisplayGrid.setWidget(row, col, new OrganismUI(o, gw.getMGE()));
 			col++;
-			if (col == 8) {
+			if (col == NUM_COLS) {
 				col = 0;
 				row++;
 			}
 		}
 
 		// add tray to hist list
-//		Tray tray = new Tray(trayNum, parentInfo, offspringList);
-//		gw.addToHistoryList(tray);
+		Tray tray = new Tray(trayNum, parentInfo, offspring);
+		gw.addToHistoryList(tray);
 	}
 
-//	public void setCurrentTray(Tray tray) {
-//		offspringList.clearList();
-//		Organism[] organisms = tray.getAllOrganisms();
-//		for (int i = 0; i < organisms.length; i++) {
-//			Organism o = organismFactory.createOrganism(organisms[i].getName(),
-//					organisms[i]);
-//			offspringList.add(o);
-//		}
-//		upperLabel.setText("<html><h1>" 
-//				+ "Tray " + tray.getNumber() + ": "
-//				+ tray.getParentInfo()
-//				+ "</h1></html");
-//
-//	}
+	public void setCurrentTray(Tray tray) {
+		offspringDisplayGrid.clear();
+		offspring = new ArrayList<Organism>();
+		ArrayList<Organism> organisms = tray.getAllOrganisms();
+		int row = 0;
+		int col = 0;
+		Iterator<Organism> oIt = organisms.iterator();
+		while (oIt.hasNext()) {
+			Organism orig = oIt.next();
+			Organism o = organismFactory.createOrganism(orig.getName(), orig);
+			offspring.add(o);
+			offspringDisplayGrid.setWidget(row, col, new OrganismUI(o, gw.getMGE()));
+			col++;
+			if (col == NUM_COLS) {
+				col = 0;
+				row++;
+			}
+		}
+		upperLabel.setHTML("<b>" 
+				+ "Tray " + tray.getNumber() + ": "
+				+ tray.getParentInfo()
+				+ "</b>");
+
+	}
 
 	public void mutateOrganism(Organism o) {
 		//figure out how many mutants to make

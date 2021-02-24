@@ -68,6 +68,11 @@
 	background: lightblue;
 }
 
+.geneticsHistList {
+	width: 180px;
+	height: 800px;
+}
+
 .biochemAATable {
 	width: 180px;
 }

@@ -800,4 +800,16 @@ had to set the size of the OrganismUI in the code (not css) to get it to be smal
 make the flower images smaller - say 30x30 instead of 50x50 for more compact UI
 	saved the 50x50's in PossiblyUsefulFiles/BigFlowerPics/
 	used graphicconverter to scale to 30x30
+	was able to take out the size setting in the OrganismUI and they size nicely now
+
+see if you can get the genetics history list working - YES
+
+but need to set it up with class GeneticsHistoryList - with the buttons etc.
+
+hist list working BUT - need to fix selection so the buttons don't turn blue (compare with Biochem and Mobo)
+
+next:
+	- get self-cross working
+	- get mutation working
+	- get add to greenhouse (along with save and load GH) working
 should make the flower pics smaller to save real estate

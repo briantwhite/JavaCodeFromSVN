@@ -25,7 +25,6 @@ public class OrganismUI extends FocusPanel {
 		this.add(innerPanel);
 		sinkEvents(Event.ONCLICK);
 		setStyleName("unSelectedOrganismUI");
-		this.setSize("80px", "100px");  // for unclear reasons, css doesn't work here
 	}
 	
 	// need to capture click events for the custom selection model
