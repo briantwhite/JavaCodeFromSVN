@@ -11,6 +11,11 @@ Notes on the Greenhouse - maybe start here
 - when you load them - fill the folded protein archive first, then build the organisms
 	make folded protein archive an actual part of the greenhouse
 	** when you save folded protein archive with greenhouse - only save the pertinent entries
+	
+- can save the greenhouse on change events on the host just in case
+	- use HTML5 storage http://www.gwtproject.org/doc/latest/DevGuideHtml5Storage.html
+		need to know how to clear this during development
+	- also give them the option to save/load a real file on their desktop
 
 BIOCHEM
 - if folding on the browser is slow:
@@ -26,7 +31,6 @@ EVOLUTION
 	- just have the cells appear as they are computed
 	
 GENETICS
-- use FlowLayout so it lays out rows and columns by itself
 	
 
 USELESS CLASSES TO EVENTULLY NUKE

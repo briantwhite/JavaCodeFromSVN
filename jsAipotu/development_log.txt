@@ -793,4 +793,11 @@ got it to cross but:
 - FlowPanel lays out only vertically!
 use a Grid and it works!
 
+2/24/21
+had to set the size of the OrganismUI in the code (not css) to get it to be small in a FlowPanel
+	maybe you don't have to in Grid
+
+make the flower images smaller - say 30x30 instead of 50x50 for more compact UI
+	saved the 50x50's in PossiblyUsefulFiles/BigFlowerPics/
+	used graphicconverter to scale to 30x30
 should make the flower pics smaller to save real estate
