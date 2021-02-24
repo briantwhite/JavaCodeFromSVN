@@ -806,10 +806,12 @@ see if you can get the genetics history list working - YES
 
 but need to set it up with class GeneticsHistoryList - with the buttons etc.
 
-hist list working BUT - need to fix selection so the buttons don't turn blue (compare with Biochem and Mobo)
+hist list working BUT - need to fix selection so the buttons don't turn blue (compare with Biochem and Mobo) - fixed
 
 next:
-	- get self-cross working
-	- get mutation working
+	- get self-cross working - did it
+	- get mutation working - did it
+	- need a 'busy signal' when it's making the mutants
 	- get add to greenhouse (along with save and load GH) working
-should make the flower pics smaller to save real estate
+
+

@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -23,8 +25,8 @@ import edu.umb.jsAipotu.client.molGenExp.WorkPanel;
 public class GeneticsWorkPanel extends WorkPanel {
 	
 	// settings for laying out grid of offspring
-	private static int NUM_COLS = 8;
-	private static int NUM_ROWS = 4;
+	public static final int NUM_COLS = 8;
+	public static final int NUM_ROWS = 4;
 
 	private int trayNum; 	//current tray number
 	private String parentInfo;	//info on the parent
@@ -43,9 +45,7 @@ public class GeneticsWorkPanel extends WorkPanel {
 	private OrganismFactory organismFactory;
 	
 	private ArrayList<Organism> offspring;
-	
-//	private MutantGenerator mutantGenerator;
-
+		
 	public GeneticsWorkPanel(String title, GeneticsWorkbench gw) {
 		super(title);
 		this.gw = gw;
@@ -91,15 +91,17 @@ public class GeneticsWorkPanel extends WorkPanel {
 
 		selfCrossButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent arg0) {
-				
+				Organism o = gw.getMGE().getOUI2().getOrganism();
+				crossTwo(o, o);
 			}
 		});
 
 		mutateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent arg0) {
-				
+				makeMutantsOf(gw.getMGE().getOUI2().getOrganism());
 			}
 		});
+		
 	}
 
 	public void crossTwo(Organism o1, Organism o2) {
@@ -154,6 +156,31 @@ public class GeneticsWorkPanel extends WorkPanel {
 			}
 		}
 
+		// add tray to hist list
+		Tray tray = new Tray(trayNum, parentInfo, offspring);
+		gw.addToHistoryList(tray);
+	}
+	
+	public void makeMutantsOf(Organism o) {
+		trayNum = gw.getNextTrayNum();
+		parentInfo = "Mutants of " + o.getName();
+		upperLabel.setHTML("<b>" 
+				+ "Tray " + trayNum + ": "
+				+ parentInfo
+				+ "</b>");
+		int count = 20 + Random.nextInt(10);
+		int row = 0;
+		int col = 0;
+		for (int i = 1; i < count; i++) {
+			Organism mutant = MutantGenerator.getInstance().getMutantOf(o, trayNum + "-" + i);
+			offspring.add(mutant);
+			offspringDisplayGrid.setWidget(row, col, new OrganismUI(mutant, gw.getMGE()));
+			col++;
+			if (col == NUM_COLS) {
+				col = 0;
+				row++;
+			}
+		}
 		// add tray to hist list
 		Tray tray = new Tray(trayNum, parentInfo, offspring);
 		gw.addToHistoryList(tray);

@@ -6,73 +6,33 @@ import edu.umb.jsAipotu.client.molGenExp.ExpressedAndFoldedGene;
 import edu.umb.jsAipotu.client.molGenExp.Organism;
 import edu.umb.jsAipotu.client.molGenExp.OrganismFactory;
 
-public class MutantGenerator implements Runnable {
-
-	private int mutantCount;	//number of mutants to make
-	private int current;
-	private Organism o;
-	private int trayNum;
-	private GeneticsWorkbench gw;
-	private OffspringList offspringList;
+public class MutantGenerator  {
 
 	private OrganismFactory organismFactory;
 	private Mutator mutator;
 
-	MutantGenerator (Organism o,
-			int mutantCount,
-			int trayNum,
-			OffspringList offspringList, 
-			GeneticsWorkbench gw) {
-		this.o = o;
-		this.trayNum = trayNum;
-		this.gw = gw;
-		this.offspringList = offspringList;
-		this.mutantCount = mutantCount;
+	private static MutantGenerator instance;
+
+	public static MutantGenerator getInstance() {
+		if (instance == null) {
+			instance = new MutantGenerator();
+		}
+		return instance;
+	}
+
+	private MutantGenerator () {
 		mutator = Mutator.getInstance();
 		organismFactory = new OrganismFactory();
 	}
 
-	public int getLengthOfTask() {
-		return mutantCount;
+	public Organism getMutantOf(Organism o, String name) {
+		ExpressedAndFoldedGene efg1 = null;
+		ExpressedAndFoldedGene efg2 = null;
+		efg1 = makeAGoodMutant(o.getGene1());
+		efg2 = makeAGoodMutant(o.getGene2());
+		return organismFactory.createOrganism(name, efg1, efg2);
 	}
 
-	public int getCurrent() {
-		return current;
-	}
-
-	public Organism getOrganism() {
-		return o;
-	}
-
-	public void stop() {
-		current = mutantCount;
-	}
-
-	boolean done() {
-		if (current >= mutantCount) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public void run() {
-		for (current = 0; current < mutantCount; current++) {
-			ExpressedAndFoldedGene efg1 = null;
-			ExpressedAndFoldedGene efg2 = null;
-			efg1 = makeAGoodMutant(o.getGene1());
-			efg2 = makeAGoodMutant(o.getGene2());
-
-			if (current < mutantCount) {
-				offspringList.add(
-						organismFactory.createOrganism(
-								trayNum + "-" + (current + 1),
-								efg1,
-								efg2));
-			}
-		}
-	}
-	
 	private ExpressedAndFoldedGene makeAGoodMutant(ExpressedAndFoldedGene efg) {
 		//loop over making new organisms
 		//  if one has an un-foldable protein
@@ -80,7 +40,7 @@ public class MutantGenerator implements Runnable {
 		//  need to go back and try other sequences
 		//  until you get one that works
 		ExpressedAndFoldedGene result = null;
-		
+
 		boolean gotAGoodOne = false;
 		while(!gotAGoodOne) {
 			try {

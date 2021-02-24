@@ -13,6 +13,8 @@ import edu.umb.jsAipotu.client.molGenExp.OrganismFactory;
 
 public class Tray extends HistListItem {
 	
+	private static final int thumbnailCellSize = 20;
+	
 	private int trayNumber;
 	private String parentInfo;
 	private ArrayList<Organism> allOrganisms;
@@ -33,11 +35,11 @@ public class Tray extends HistListItem {
 			
 		// make thumbnail
 		thumbCanvas = Canvas.createIfSupported();
-		thumbCanvas.setCoordinateSpaceHeight(40);
-		thumbCanvas.setCoordinateSpaceWidth(80);
+		thumbCanvas.setCoordinateSpaceHeight(thumbnailCellSize * GeneticsWorkPanel.NUM_ROWS);
+		thumbCanvas.setCoordinateSpaceWidth(thumbnailCellSize * GeneticsWorkPanel.NUM_COLS);
 		Context2d tg = thumbCanvas.getContext2d();
 		tg.setFillStyle(CssColor.make("LightGray"));
-		tg.fillRect(0, 0, 80, 40);
+		tg.fillRect(0, 0, 160, 80);
 
 		Iterator<Organism> oIt = organisms.iterator();
 		int i = 0;
@@ -50,9 +52,9 @@ public class Tray extends HistListItem {
 			
 			//add to the icon
 			tg.setFillStyle(o.getColor());
-			int x = (10*(i%8)) + 1;
-			int y = (10*(i/8)) + 1;
-			tg.fillRect(x, y, 10, 10);
+			int x = (thumbnailCellSize * (i % GeneticsWorkPanel.NUM_COLS)) + 1;
+			int y = (thumbnailCellSize * (i/GeneticsWorkPanel.NUM_COLS)) + 1;
+			tg.fillRect(x, y, thumbnailCellSize, thumbnailCellSize);
 			i++;
 		}
 	}

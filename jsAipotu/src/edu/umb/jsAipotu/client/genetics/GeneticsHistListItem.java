@@ -36,6 +36,7 @@ public class GeneticsHistListItem extends AbstractCell<Tray>{
 		} else {
 			b.appendTrustedString("border:1px solid black;");
 		}
+		b.trustedBackgroundColor("LightGray");
 		SafeStyles colorStyle = b.toSafeStyles();
 		SafeHtml safeImage = SafeHtmlUtils.fromTrustedString("<img src=\"" + tray.getThumbCanvas().toDataUrl() + "\" />");
 		sb.append(templates.cell(colorStyle, safeImage));

@@ -1,12 +1,8 @@
 package edu.umb.jsAipotu.client.preferences;
 
-import java.io.File;
-
 public class MGEPreferences {
 
 	private static MGEPreferences instance;
-
-	private static File greenhouseDirectory;
 
 	//world info
 	private int worldSize;
@@ -27,7 +23,6 @@ public class MGEPreferences {
 	//info for saving pix of each generation in evolve
 	private boolean generationPixOn;
 	protected static boolean DEFAULT_GENERATION_PIX_ON = false;
-	private String savePixToPath;
 	protected static String DEFAULT_SAVE_PIX_TO_PATH = "";
 
 	//display options
@@ -44,7 +39,6 @@ public class MGEPreferences {
 
 	private MGEPreferences() {
 		// set default values
-		greenhouseDirectory = null;
 
 		worldSize = DEFAULT_WORLD_SIZE;
 		showBothAllelesInWorld = DEFAULT_SHOW_BOTH_ALLELES;
@@ -56,23 +50,9 @@ public class MGEPreferences {
 
 		generationPixOn = DEFAULT_GENERATION_PIX_ON;
 
-		File desktopFile = new File(System.getProperty(
-				"user.home") +  "/Desktop");
-		if (desktopFile.canWrite()) {
-			savePixToPath = desktopFile.getAbsolutePath();
-		} 
-
 		showColorNameText = DEFAULT_SHOW_COLOR_NAME_TEXT;
 	}
 
-
-	public File getGreenhouseDirectory() {
-		return greenhouseDirectory;
-	}
-
-	public void setGreenhouseDirectory(File ghd) {
-		greenhouseDirectory = ghd;
-	}
 
 	public int getWorldSize() {
 		return worldSize;
@@ -128,14 +108,6 @@ public class MGEPreferences {
 
 	public void setGenerationPixOn(boolean generationPixOn) {
 		this.generationPixOn = generationPixOn;
-	}
-
-	public String getSavePixToPath() {
-		return savePixToPath;
-	}
-
-	public void setSavePixToPath(String savePixToPath) {
-		this.savePixToPath = savePixToPath;
 	}
 
 	public boolean isShowColorNameText() {
