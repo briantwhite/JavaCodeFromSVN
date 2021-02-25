@@ -45,7 +45,7 @@ public class GeneticsWorkPanel extends WorkPanel {
 	private OrganismFactory organismFactory;
 	
 	private ArrayList<Organism> offspring;
-		
+	
 	public GeneticsWorkPanel(String title, GeneticsWorkbench gw) {
 		super(title);
 		this.gw = gw;
@@ -129,7 +129,7 @@ public class GeneticsWorkPanel extends WorkPanel {
 		int row = 0;
 		int col = 0;
 		for (int i = 1; i < count; i++) {
-
+			
 			//contribution from first parent
 			if (Random.nextInt(2) == 0) {
 				efg1 = o1.getGene1();
