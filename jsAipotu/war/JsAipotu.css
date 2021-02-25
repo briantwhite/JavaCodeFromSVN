@@ -73,6 +73,12 @@
 	height: 800px;
 }
 
+.busyPopup {
+	border: 1px solid black;
+	background: lightblue;
+	padding: 100px;
+}
+
 .biochemAATable {
 	width: 180px;
 }

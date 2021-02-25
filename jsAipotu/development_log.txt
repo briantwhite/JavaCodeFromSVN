@@ -820,3 +820,15 @@ this might be useful - a Timer http://www.java2s.com/Code/Java/GWT/ProgressBardi
 even better is IncrementalCommand - and can update some sort of "busy" message with progress - or even posting the OrganismUIs
 	http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsDelayed.html#incremental
 
+2/25/21
+<sigh> IncrementalCommand is deprecated. Replace it with Scheduler.scheduleIncremental()
+it looks like you make a method boolean execute()
+	returns true if there's more work to do; false if done
+maybe it's
+	Scheduler.get().scheduleIncremental(new IncrementalCommand() {
+	 execute()
+	 };
+
+got it to work and even pop up a busy panel - can use this for evolution too.
+
+need to get add to greenhouse, with associated saving, working next.
