@@ -133,11 +133,6 @@ public class JsAipotu implements EntryPoint {
 		// explorer pane - tabbed pane for the 4 workbenches/workarea
 		explorerPane = new TabLayoutPanel(40, Unit.PX);
 		explorerPane.setStyleName("explorerPane");
-		explorerPane.addSelectionHandler(new SelectionHandler<Integer>() {
-			public void onSelection(SelectionEvent<Integer> event) {
-				mge.clearSelectedOrganisms();
-			}
-		});
 		geneticsWorkbench = new GeneticsWorkbench(mge);
 		explorerPane.add(geneticsWorkbench, "Genetics");
 		biochemistryWorkbench = new BiochemistryWorkbench(mge);
@@ -152,11 +147,7 @@ public class JsAipotu implements EntryPoint {
 		rightPanel = new VerticalPanel();
 		rightPanelCaption = new CaptionPanel("Greenhouse");
 		addToGreenhouseButton = new Button("Add...");
-		addToGreenhouseButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				
-			}
-		});
+		addToGreenhouseButton.setEnabled(false);
 		rightPanel.add(addToGreenhouseButton);
 		greenhousePanel = new ScrollPanel(mge.getGreenhouse());
 		greenhousePanel.setStyleName("greenhousePanel");
@@ -167,6 +158,20 @@ public class JsAipotu implements EntryPoint {
 		mainPanel.add(innerPanel);
 		
 		RootPanel.get("mainPanelContainer").add(mainPanel);
+		
+		explorerPane.addSelectionHandler(new SelectionHandler<Integer>() {
+			public void onSelection(SelectionEvent<Integer> event) {
+				mge.clearSelectedOrganisms();
+				enableAddToGreenhouseButton(false);
+			}
+		});
+		
+		addToGreenhouseButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				mge.saveSelectedOrganismToGreenhouse();
+			}
+		});
+
 	}
 	
 	public int getSelectedTabIndex() {
@@ -189,4 +194,8 @@ public class JsAipotu implements EntryPoint {
 		return molBiolWorkbench;
 	}
 	
+	public void enableAddToGreenhouseButton(boolean b) {
+		addToGreenhouseButton.setEnabled(b);
+	}
+		
 }

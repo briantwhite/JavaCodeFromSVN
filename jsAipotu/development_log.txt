@@ -832,3 +832,5 @@ maybe it's
 got it to work and even pop up a busy panel - can use this for evolution too.
 
 need to get add to greenhouse, with associated saving, working next.
+
+got the dialog to pop up and get a name, now need to check and process.

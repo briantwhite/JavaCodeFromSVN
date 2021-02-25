@@ -1,5 +1,14 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
 import edu.umb.jsAipotu.client.JsAipotu;
 
 public class MolGenExp {
@@ -34,7 +43,7 @@ public class MolGenExp {
 		return greenhouse;
 	}
 
-	// deal with organism selections in greenhouse (location -1) or tray (location = tray #: 0 or higher)
+	// deal with organism selections
 	public void organismWasClicked(OrganismUI oui) {
 		if (jsA.getSelectedTabIndex() == GENETICS) {
 			processSelectionInGenetics(oui);
@@ -48,13 +57,13 @@ public class MolGenExp {
 		//  oui2 = most recently selected organism
 		//  oui1 = least recently selected organism
 		//  new orgs added to oui2 and push down to oui1 and then dropped
-		
+
 		// first, see if this was a selection or a de-selection event
 		if (oui.isSelected()) {
 			if ((oui1 == null) & (oui2 == null)) {
 				// none selected yet, so put in oui2
 				oui2 = oui;
-				
+
 			} else if ((oui1 == null) & (oui2 != null)) {
 				// only one previously selected, move old to 1 and put new in 2
 				oui1 = oui2;
@@ -95,8 +104,6 @@ public class MolGenExp {
 		clearSelectedOrganismsInGeneticsWorkbench();
 	}
 
-
-
 	public void clearSelectedOrganismsInGeneticsWorkbench() {
 		if (oui1 != null) {
 			oui1.setSelected(false);
@@ -123,8 +130,44 @@ public class MolGenExp {
 
 	}
 
-	public void saveOrganismToGreenhouse(Organism o) {
+	public void saveSelectedOrganismToGreenhouse() {
+		if ((oui1 == null) & (oui2 != null)) {
+			saveOrganismToGreenhouse(oui2.getOrganism());
+		}
+	}
 
+	public void saveOrganismToGreenhouse(Organism o) {
+		final DialogBox getNameDialog = new DialogBox(false);
+		Button okButton = new Button("OK");
+		Button cancelButton = new Button("Cancel");
+		Label textLabel = new Label("Enter a name for your organism");
+		final TextBox nameBox = new TextBox();
+		nameBox.setMaxLength(50);
+		
+		VerticalPanel mainPanel = new VerticalPanel();
+		mainPanel.setStyleName("enterNameDialog");
+		mainPanel.add(textLabel);
+		mainPanel.add(nameBox);
+		HorizontalPanel buttonPanel = new HorizontalPanel();
+		buttonPanel.add(cancelButton);
+		buttonPanel.add(okButton);
+		mainPanel.add(buttonPanel);
+		getNameDialog.add(mainPanel);
+
+		cancelButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				getNameDialog.hide();
+			}
+		});
+
+		okButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				JsAipotu.consoleLog(nameBox.getText());
+				getNameDialog.hide();
+			}
+		});
+		
+		getNameDialog.show();
 	}
 
 	public void updateGeneticsButtonStatus() {
@@ -132,18 +175,22 @@ public class MolGenExp {
 			jsA.getGeneticsWorkbench().setCrossTwoButtonsEnabled(false);
 			jsA.getGeneticsWorkbench().setSelfCrossButtonsEnabled(false);
 			jsA.getGeneticsWorkbench().setMutateButtonsEnabled(false);
+			jsA.enableAddToGreenhouseButton(false);
 		} else if ((oui1 == null) & (oui2 != null)) {
 			jsA.getGeneticsWorkbench().setCrossTwoButtonsEnabled(false);
 			jsA.getGeneticsWorkbench().setSelfCrossButtonsEnabled(true);
-			jsA.getGeneticsWorkbench().setMutateButtonsEnabled(true);			
+			jsA.getGeneticsWorkbench().setMutateButtonsEnabled(true);	
+			if (!greenhouse.isInGreenhouse(oui2.getOrganism())) {
+				jsA.enableAddToGreenhouseButton(true);
+			} else {
+				jsA.enableAddToGreenhouseButton(false);
+			}	
 		} else if ((oui1 != null) & (oui2 != null)) {
 			jsA.getGeneticsWorkbench().setCrossTwoButtonsEnabled(true);
 			jsA.getGeneticsWorkbench().setSelfCrossButtonsEnabled(false);
-			jsA.getGeneticsWorkbench().setMutateButtonsEnabled(false);			
+			jsA.getGeneticsWorkbench().setMutateButtonsEnabled(false);
+			jsA.enableAddToGreenhouseButton(false);
 		}
 	}
 
-	public void setAddToGreenhouseButtonEnabled(boolean enabled) {
-
-	}
 }

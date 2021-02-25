@@ -6,8 +6,6 @@ import java.util.Iterator;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.umb.jsAipotu.client.JsAipotu;
-
 public class Greenhouse extends ScrollPanel {
 
 	private ArrayList<OrganismUI> organismUIs;
@@ -52,4 +50,25 @@ public class Greenhouse extends ScrollPanel {
 			ouIt.next().setSelected(false);
 		}
 	}
+	
+	public boolean isInGreenhouse(Organism o) {
+		Iterator<OrganismUI> ouiIt = organismUIs.iterator();
+		while (ouiIt.hasNext()) {
+			if (ouiIt.next().getOrganism().equals(o)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean nameExistsAlready(String newName) {
+		Iterator<OrganismUI> ouiIt = organismUIs.iterator();
+		while (ouiIt.hasNext()) {
+			if (ouiIt.next().getOrganism().getName().equals(newName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
