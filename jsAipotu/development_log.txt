@@ -817,5 +817,6 @@ next:
 tried working on the busy signal but it only shows the popup after the mutants are all made.
 	in general, no UI changes seem to be made until loop finishes.
 this might be useful - a Timer http://www.java2s.com/Code/Java/GWT/ProgressBardialogboxExtGWT.htm
-
+even better is IncrementalCommand - and can update some sort of "busy" message with progress - or even posting the OrganismUIs
+	http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsDelayed.html#incremental
 
