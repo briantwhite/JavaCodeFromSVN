@@ -834,3 +834,10 @@ got it to work and even pop up a busy panel - can use this for evolution too.
 need to get add to greenhouse, with associated saving, working next.
 
 got the dialog to pop up and get a name, now need to check and process.
+
+3/1/21
+how to save greenhouse?
+the HTML5 storage http://www.gwtproject.org/doc/latest/DevGuideHtml5Storage.html 
+	stores name, value pairs of only strings
+	simplest: name="jsonString", value= the json string for the whole greenhouse + the folded protein archive
+		(remember only to save the proteins needed for the greenhouse strains)
