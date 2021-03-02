@@ -841,3 +841,18 @@ the HTML5 storage http://www.gwtproject.org/doc/latest/DevGuideHtml5Storage.html
 	stores name, value pairs of only strings
 	simplest: name="jsonString", value= the json string for the whole greenhouse + the folded protein archive
 		(remember only to save the proteins needed for the greenhouse strains)
+
+3/2/21
+get adding to GH working - did it
+need to figure out how to save it.
+
+working on it
+get a weird [Intervention] in the console "Unable to preventDefault inside passive event listener due to target being treated as passive"
+this fires when you enter text into the name entry dialog - it works but it's not clear what's up with the error
+	tried to use compile "pretty" or "detailed" to trace code and find this:
+function $eventPreventDefault(evt){
+  evt.preventDefault();
+}
+now it doesn't fire..?? WTF. For a bit, it was crashing chrome!
+google is not helpful
+this may help https://developers.google.com/web/updates/2016/06/passive-event-listeners

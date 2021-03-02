@@ -1,7 +1,12 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -14,7 +19,7 @@ import edu.umb.jsAipotu.client.JsAipotu;
 public class MolGenExp {
 
 	private JsAipotu jsA;
-
+	
 	//indices for tabbed panes
 	public final static int GENETICS = 0;
 	public final static int BIOCHEMISTRY = 1;
@@ -33,7 +38,7 @@ public class MolGenExp {
 		greenhouse = new Greenhouse(this);
 		greenhouseLoader = new GreenhouseLoader(greenhouse);
 		greenhouseLoader.load();
-
+		
 		// the two selected organisms in genetics
 		oui1 = null;
 		oui2 = null;
@@ -136,7 +141,7 @@ public class MolGenExp {
 		}
 	}
 
-	public void saveOrganismToGreenhouse(Organism o) {
+	public void saveOrganismToGreenhouse(final Organism o) {
 		final DialogBox getNameDialog = new DialogBox(false);
 		Button okButton = new Button("OK");
 		Button cancelButton = new Button("Cancel");
@@ -162,12 +167,45 @@ public class MolGenExp {
 
 		okButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				JsAipotu.consoleLog(nameBox.getText());
+				String name = nameBox.getText();
+				RegExp p = RegExp.compile("[^ A-Za-z0-9\\_\\-]+");
+				if (name.equals("")) {
+					Window.alert("The name you entered was blank.\nPlease try again.");
+					return;
+				}
+				if (p.test(name)) {
+					Window.alert("Names may only contain letters, numbers, dashes, and underscores.\nPlease try a different name.");
+					return;
+				}
+				if (greenhouse.nameExistsAlready(name)) {
+					Window.alert("There is already an organism in the Greenhouse with that name.\nPlease try another.");
+					return;
+				}
+				
+				greenhouse.add(new OrganismFactory().createOrganism(name,o));
+				clearSelectedOrganisms();
+				saveGreenhouseToHTML5storage();
 				getNameDialog.hide();
 			}
 		});
 		
 		getNameDialog.show();
+	}
+	
+	public void saveGreenhouseToHTML5storage() {
+		// only archive the proteins needed for the greenhouse organisms
+		HashSet<String> aaSeqsNeeded = new HashSet<String>();
+		Iterator<Organism> orgIt = greenhouse.getAllOrganisms().iterator();
+		while (orgIt.hasNext()) {
+			Organism o = orgIt.next();
+			aaSeqsNeeded.add(o.getGene1().getExpressedGene().getProtein());
+			aaSeqsNeeded.add(o.getGene2().getExpressedGene().getProtein());
+		}
+		// assemble the folded protein archive
+		Iterator<String> aaSeqIt = aaSeqsNeeded.iterator();
+		while (aaSeqIt.hasNext()) {
+			JsAipotu.consoleLog(aaSeqIt.next());
+		}
 	}
 
 	public void updateGeneticsButtonStatus() {

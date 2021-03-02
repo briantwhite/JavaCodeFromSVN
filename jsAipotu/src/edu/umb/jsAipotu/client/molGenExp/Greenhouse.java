@@ -19,6 +19,15 @@ public class Greenhouse extends ScrollPanel {
 		innerPanel = new VerticalPanel();
 		this.add(innerPanel);
 	}
+	
+	public ArrayList<Organism> getAllOrganisms() {
+		ArrayList<Organism> orgs = new ArrayList<Organism>();
+		Iterator<OrganismUI> ouiIt = organismUIs.iterator();
+		while (ouiIt.hasNext()) {
+			orgs.add(ouiIt.next().getOrganism());
+		}
+		return orgs;
+	}
 
 	// method used by GreenhouseLoader - it assumes the organism has a name already
 	public void add(Organism org) {
