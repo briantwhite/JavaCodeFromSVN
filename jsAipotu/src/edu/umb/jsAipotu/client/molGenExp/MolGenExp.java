@@ -10,6 +10,7 @@ import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -24,7 +25,7 @@ import edu.umb.jsAipotu.client.biochem.FoldedProteinArchive;
 public class MolGenExp {
 
 	private JsAipotu jsA;
-	
+
 	//indices for tabbed panes
 	public final static int GENETICS = 0;
 	public final static int BIOCHEMISTRY = 1;
@@ -43,7 +44,7 @@ public class MolGenExp {
 		greenhouse = new Greenhouse(this);
 		greenhouseLoader = new GreenhouseLoader(greenhouse);
 		greenhouseLoader.load();
-		
+
 		// the two selected organisms in genetics
 		oui1 = null;
 		oui2 = null;
@@ -153,7 +154,7 @@ public class MolGenExp {
 		Label textLabel = new Label("Enter a name for your organism");
 		final TextBox nameBox = new TextBox();
 		nameBox.setMaxLength(50);
-		
+
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("enterNameDialog");
 		mainPanel.add(textLabel);
@@ -186,49 +187,71 @@ public class MolGenExp {
 					Window.alert("There is already an organism in the Greenhouse with that name.\nPlease try another.");
 					return;
 				}
-				
+
 				greenhouse.add(new OrganismFactory().createOrganism(name,o));
 				clearSelectedOrganisms();
 				saveGreenhouseToHTML5storage();
 				getNameDialog.hide();
 			}
 		});
-		
+
 		getNameDialog.show();
 	}
-	
+
 	public void saveGreenhouseToHTML5storage() {
-		
+
 		JSONObject greenhouseJSON = new JSONObject();
 
 		// only archive the proteins needed for the greenhouse organisms
+		// as you do this, create the JSON for the organisms
+		JSONArray organisms = new JSONArray();
+		int i = 0;
 		HashSet<String> aaSeqsNeeded = new HashSet<String>();
 		Iterator<Organism> orgIt = greenhouse.getAllOrganisms().iterator();
 		while (orgIt.hasNext()) {
 			Organism o = orgIt.next();
+			// DNA sequences for the organism
+			JSONObject organismJSON = new JSONObject();
+			organismJSON.put("name", new JSONString(o.getName()));
+			organismJSON.put("upperDNA", new JSONString(o.getGene1().getExpressedGene().getDNA()));
+			organismJSON.put("lowerDNA", new JSONString(o.getGene2().getExpressedGene().getDNA()));
+			organisms.set(i, organismJSON);
+			i++;
+			// proteins for the archive
 			aaSeqsNeeded.add(o.getGene1().getFoldedProteinWithImages().getAaSeq());
 			aaSeqsNeeded.add(o.getGene2().getFoldedProteinWithImages().getAaSeq());
 		}
+		greenhouseJSON.put("organisms", organisms);
 		// assemble the folded protein archive
 		JSONArray entries = new JSONArray();
+		i = 0;
 		Iterator<String> aaSeqIt = aaSeqsNeeded.iterator();
-		int i = 0;
 		while (aaSeqIt.hasNext()) {
 			String aaSeq = aaSeqIt.next();
 			JSONObject entryJSON = new JSONObject();
 			entryJSON.put("aaSeq", new JSONString(aaSeq));
 			entryJSON.put("topology", new JSONString(FoldedProteinArchive.getInstance().getEntry(aaSeq).getProteinString()));
-			entryJSON.put("color", new JSONString(FoldedProteinArchive.getInstance().getEntry(aaSeq).getColor().toString()));
+			entryJSON.put("color", generateColorJSONString(FoldedProteinArchive.getInstance().getEntry(aaSeq).getColor()));
 			entries.set(i, entryJSON);
 			i++;
 		}
 		greenhouseJSON.put("foldedProteinArchive", entries);
-		JsAipotu.consoleLog(greenhouseJSON.toString());
+
+		// save to HTML5 storage http://www.gwtproject.org/doc/latest/DevGuideHtml5Storage.html 
+		Storage greenhouseStore = null;
+		greenhouseStore = Storage.getLocalStorageIfSupported();
+		if (greenhouseStore != null) {
+			greenhouseStore.setItem("greenhouse", greenhouseJSON.toString());
+		}
 	}
-	
-	private JSONString generateColorString(CssColor c) {
+
+	// convert rgb(255,255,0) to 255/255/0
+	private JSONString generateColorJSONString(CssColor c) {
 		String s = c.toString();
-		
+		s = s.substring(4); // trim rgb(
+		s = s.replace(")", ""); // trailing )
+		s = s.replace(",", "/");
+		return new JSONString(s);
 	}
 
 	public void updateGeneticsButtonStatus() {

@@ -5,6 +5,8 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -14,7 +16,12 @@ import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsAipotu.client.biochem.FoldedProteinArchive;
 import edu.umb.jsAipotu.client.biochem.FoldingException;
@@ -28,11 +35,25 @@ public class GreenhouseLoader {
 	public GreenhouseLoader(Greenhouse greenhouse) {
 		organismFactory = new OrganismFactory();
 		this.greenhouse = greenhouse;
-		
 	}
 	
 	public void load() {
-		processJSONString(Resources.INSTANCE.defaultGreenhouse().getText());
+		// first, see if there's a saved greenhouse in this browser
+		Storage greenhouseStore = null;
+		greenhouseStore = Storage.getLocalStorageIfSupported();
+		if (greenhouseStore != null) {
+			String greenhouseJSONstring = greenhouseStore.getItem("greenhouse");
+			if (greenhouseJSONstring != null) {
+				boolean useSavedGH = Window.confirm("Saved Greenhouse found; click OK to use it; click Cancel to use default");
+				if (useSavedGH) {
+					processJSONString(greenhouseJSONstring);
+				} else {
+					processJSONString(Resources.INSTANCE.defaultGreenhouse().getText());
+				}
+			} else {
+				processJSONString(Resources.INSTANCE.defaultGreenhouse().getText());
+			}
+		}
 	}
 
 	public void loadFromFile(String fileName) {

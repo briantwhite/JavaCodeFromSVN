@@ -862,3 +862,13 @@ weird - it doesn't happen now.
 
 working on saving folded protein archive in MolGenExp.java
 need to parse color from rgb(255,255,0) to 255/255/0 
+got it to make a nice JSON for the greenhouse
+
+need to save in HTML5 storage http://www.gwtproject.org/doc/latest/DevGuideHtml5Storage.html 
+
+can view/edit contents in the dev tools of chrome https://developers.google.com/web/tools/chrome-devtools/storage/localstorage
+
+it's there with title file:// in nice, intelligible JSON format.
+got it to work! and storage persists even if browser quits!
+
+next is to save to file and load from file working
