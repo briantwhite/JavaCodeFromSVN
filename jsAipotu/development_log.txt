@@ -856,3 +856,9 @@ function $eventPreventDefault(evt){
 now it doesn't fire..?? WTF. For a bit, it was crashing chrome!
 google is not helpful
 this may help https://developers.google.com/web/updates/2016/06/passive-event-listeners
+
+3/3/21
+weird - it doesn't happen now.
+
+working on saving folded protein archive in MolGenExp.java
+need to parse color from rgb(255,255,0) to 255/255/0 

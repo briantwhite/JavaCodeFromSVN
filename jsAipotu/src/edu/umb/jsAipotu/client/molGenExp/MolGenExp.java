@@ -3,8 +3,12 @@ package edu.umb.jsAipotu.client.molGenExp;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -15,6 +19,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsAipotu.client.JsAipotu;
+import edu.umb.jsAipotu.client.biochem.FoldedProteinArchive;
 
 public class MolGenExp {
 
@@ -193,19 +198,37 @@ public class MolGenExp {
 	}
 	
 	public void saveGreenhouseToHTML5storage() {
+		
+		JSONObject greenhouseJSON = new JSONObject();
+
 		// only archive the proteins needed for the greenhouse organisms
 		HashSet<String> aaSeqsNeeded = new HashSet<String>();
 		Iterator<Organism> orgIt = greenhouse.getAllOrganisms().iterator();
 		while (orgIt.hasNext()) {
 			Organism o = orgIt.next();
-			aaSeqsNeeded.add(o.getGene1().getExpressedGene().getProtein());
-			aaSeqsNeeded.add(o.getGene2().getExpressedGene().getProtein());
+			aaSeqsNeeded.add(o.getGene1().getFoldedProteinWithImages().getAaSeq());
+			aaSeqsNeeded.add(o.getGene2().getFoldedProteinWithImages().getAaSeq());
 		}
 		// assemble the folded protein archive
+		JSONArray entries = new JSONArray();
 		Iterator<String> aaSeqIt = aaSeqsNeeded.iterator();
+		int i = 0;
 		while (aaSeqIt.hasNext()) {
-			JsAipotu.consoleLog(aaSeqIt.next());
+			String aaSeq = aaSeqIt.next();
+			JSONObject entryJSON = new JSONObject();
+			entryJSON.put("aaSeq", new JSONString(aaSeq));
+			entryJSON.put("topology", new JSONString(FoldedProteinArchive.getInstance().getEntry(aaSeq).getProteinString()));
+			entryJSON.put("color", new JSONString(FoldedProteinArchive.getInstance().getEntry(aaSeq).getColor().toString()));
+			entries.set(i, entryJSON);
+			i++;
 		}
+		greenhouseJSON.put("foldedProteinArchive", entries);
+		JsAipotu.consoleLog(greenhouseJSON.toString());
+	}
+	
+	private JSONString generateColorString(CssColor c) {
+		String s = c.toString();
+		
 	}
 
 	public void updateGeneticsButtonStatus() {
