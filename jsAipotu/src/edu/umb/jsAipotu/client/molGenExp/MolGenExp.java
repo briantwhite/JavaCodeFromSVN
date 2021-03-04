@@ -1,5 +1,6 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
+import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -194,12 +195,21 @@ public class MolGenExp {
 				getNameDialog.hide();
 			}
 		});
-
+		
+		getNameDialog.setPopupPosition(greenhouse.getAbsoluteLeft() - 250, greenhouse.getAbsoluteTop());
 		getNameDialog.show();
 	}
 
 	public void saveGreenhouseToHTML5storage() {
-
+		// save to HTML5 storage http://www.gwtproject.org/doc/latest/DevGuideHtml5Storage.html 
+		Storage greenhouseStore = null;
+		greenhouseStore = Storage.getLocalStorageIfSupported();
+		if (greenhouseStore != null) {
+			greenhouseStore.setItem("greenhouse", getGreenhouseJSONstring());
+		}
+	}
+	
+	private String getGreenhouseJSONstring() {
 		JSONObject greenhouseJSON = new JSONObject();
 
 		// only archive the proteins needed for the greenhouse organisms
@@ -236,13 +246,7 @@ public class MolGenExp {
 			i++;
 		}
 		greenhouseJSON.put("foldedProteinArchive", entries);
-
-		// save to HTML5 storage http://www.gwtproject.org/doc/latest/DevGuideHtml5Storage.html 
-		Storage greenhouseStore = null;
-		greenhouseStore = Storage.getLocalStorageIfSupported();
-		if (greenhouseStore != null) {
-			greenhouseStore.setItem("greenhouse", greenhouseJSON.toString());
-		}
+		return greenhouseJSON.toString();
 	}
 
 	// convert rgb(255,255,0) to 255/255/0
@@ -253,6 +257,24 @@ public class MolGenExp {
 		s = s.replace(",", "/");
 		return new JSONString(s);
 	}
+	
+	public void saveGreenhouseToFile() {
+		String GHfileName = Window.prompt("Please enter a name for the saved Greenhouse file:", "saved.greenhouse");
+		if (GHfileName == null) {
+			return;
+		}
+		if (GHfileName == "") {
+			Window.alert("You entered a blank filename. Please try again.");
+		}
+		Window.alert("A file named " + GHfileName + " will be saved to your Desktop.\n Your browser may warn you about the file; it is safe.");
+		saveFile(GHfileName, getGreenhouseJSONstring());		
+	}
+	
+	public static native void saveFile(String fileName, String text) /*-{
+		var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+		$wnd.saveAs(blob, fileName);
+	}-*/;
+
 
 	public void updateGeneticsButtonStatus() {
 		if ((oui1 == null) & (oui2 == null)) {

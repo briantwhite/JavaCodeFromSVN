@@ -872,3 +872,12 @@ it's there with title file:// in nice, intelligible JSON format.
 got it to work! and storage persists even if browser quits!
 
 next is to save to file and load from file working
+
+3/4/21
+working on save GH to file. looks like you can't in GWT but there's a way in js https://github.com/eligrey/FileSaver.js
+have used this in jsVGL 
+	 - put FileUtils.js in war/
+	 - add <script type="text/javascript" language="javascript" src="FileSaver.js"></script> to jsAipotu.html
+it saves OK now to the desktop.
+
+need to get load to work - and need to clear the GH (but not the FParchive)

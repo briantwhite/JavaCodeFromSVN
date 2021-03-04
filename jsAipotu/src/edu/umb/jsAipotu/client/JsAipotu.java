@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -122,7 +123,7 @@ public class JsAipotu implements EntryPoint {
 		});
 		greenhouseMenu.addItem("Save Greenhouse to file...", new Command() {
 			public void execute() {
-
+				mge.saveGreenhouseToFile();
 			}
 		});
 		menuBar.addItem("Greenhouse", greenhouseMenu);
@@ -197,5 +198,5 @@ public class JsAipotu implements EntryPoint {
 	public void enableAddToGreenhouseButton(boolean b) {
 		addToGreenhouseButton.setEnabled(b);
 	}
-		
+			
 }
