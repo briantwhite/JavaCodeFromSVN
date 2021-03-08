@@ -881,3 +881,11 @@ have used this in jsVGL
 it saves OK now to the desktop.
 
 need to get load to work - and need to clear the GH (but not the FParchive)
+
+3/8/21
+some working on loading the file 
+need to add the file dialog to the jsAipotu.html from jsVGLA.html
+need also to bring in code from jsVGL's FileUtils.js (take it all and delete some).
+
+set up methods to read in the saved file - currently just a stub in JsAipotu.setGreenhouse(String greenhouseString) 
+	need to clear greenhouse and use GreenhouseLoader properly

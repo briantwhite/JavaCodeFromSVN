@@ -138,10 +138,6 @@ public class MolGenExp {
 		return oui2;
 	}
 
-	public void loadOrganismIntoActivePanel(Organism o) {
-
-	}
-
 	public void saveSelectedOrganismToGreenhouse() {
 		if ((oui1 == null) & (oui2 != null)) {
 			saveOrganismToGreenhouse(oui2.getOrganism());
@@ -273,6 +269,14 @@ public class MolGenExp {
 	public static native void saveFile(String fileName, String text) /*-{
 		var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
 		$wnd.saveAs(blob, fileName);
+	}-*/;
+	
+	public void showLoadGreenhouseFileDialog() {
+		showLoadFileDialog();
+	}
+	
+	public static native void showLoadFileDialog() /*-{
+		$wnd.loadWorkDialog();
 	}-*/;
 
 

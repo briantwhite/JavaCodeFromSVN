@@ -56,6 +56,7 @@ public class JsAipotu implements EntryPoint {
 	public void onModuleLoad() {
 		mge = new MolGenExp(this);
 		buildUI();
+		exportMethods(this);
 	}
 
 	private void buildUI() {
@@ -118,7 +119,7 @@ public class JsAipotu implements EntryPoint {
 		greenhouseMenu = new MenuBar(true);
 		greenhouseMenu.addItem("Load Greenhouse file...", new Command() {
 			public void execute() {
-
+				mge.showLoadGreenhouseFileDialog();
 			}
 		});
 		greenhouseMenu.addItem("Save Greenhouse to file...", new Command() {
@@ -198,5 +199,13 @@ public class JsAipotu implements EntryPoint {
 	public void enableAddToGreenhouseButton(boolean b) {
 		addToGreenhouseButton.setEnabled(b);
 	}
+	
+	public void setGreenhouse(String greenhouseString) {
+		JsAipotu.consoleLog(greenhouseString);
+	}
+	
+	public native void exportMethods(JsAipotu jsA) /*-{
+		$wnd.setGreenhouse = $entry(function(greenhouseString) {return jsA.@edu.umb.jsAipotu.client.JsAipotu::setGreenhouse(Ljava/lang/String;)(greenhouseString);});
+	}-*/;
 			
 }
