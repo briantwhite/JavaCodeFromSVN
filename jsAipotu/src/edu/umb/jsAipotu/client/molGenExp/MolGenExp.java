@@ -266,6 +266,12 @@ public class MolGenExp {
 		saveFile(GHfileName, getGreenhouseJSONstring());		
 	}
 	
+	public void loadGreenhouseFromFile(String greenhouseJSONstring) {
+		greenhouse.clearAllOrganisms();
+		greenhouseLoader.processJSONString(greenhouseJSONstring);
+		greenhouse.updateDisplay();
+	}
+	
 	public static native void saveFile(String fileName, String text) /*-{
 		var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
 		$wnd.saveAs(blob, fileName);

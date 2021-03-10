@@ -5,8 +5,6 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
 import com.google.gwt.canvas.dom.client.CssColor;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -18,10 +16,6 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsAipotu.client.biochem.FoldedProteinArchive;
 import edu.umb.jsAipotu.client.biochem.FoldingException;
@@ -73,7 +67,7 @@ public class GreenhouseLoader {
 		}
 	}
 
-	private void processJSONString(String jsonString) {
+	public void processJSONString(String jsonString) {
 		JSONValue jsonValue = JSONParser.parseStrict(jsonString);
 		JSONObject jsonObject = jsonValue.isObject();
 		loadFoldedProteinArchive(jsonObject.get("foldedProteinArchive").isArray());

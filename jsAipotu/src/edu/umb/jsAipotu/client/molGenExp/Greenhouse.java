@@ -28,6 +28,11 @@ public class Greenhouse extends ScrollPanel {
 		}
 		return orgs;
 	}
+	
+	public void clearAllOrganisms() {
+		organismUIs.clear();
+		updateDisplay();
+	}
 
 	// method used by GreenhouseLoader - it assumes the organism has a name already
 	public void add(Organism org) {
@@ -35,7 +40,7 @@ public class Greenhouse extends ScrollPanel {
 		updateDisplay();
 	}
 
-	private void updateDisplay() {
+	public void updateDisplay() {
 		innerPanel.clear();
 		Iterator<OrganismUI> ouIt = organismUIs.iterator();
 		while (ouIt.hasNext()) {
