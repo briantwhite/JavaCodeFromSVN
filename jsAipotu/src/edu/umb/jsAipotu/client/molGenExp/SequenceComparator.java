@@ -1,5 +1,7 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
+import com.google.gwt.user.client.ui.DialogBox;
+
 public abstract class SequenceComparator {
 
 	public final static int UPPER = 0;
@@ -17,6 +19,8 @@ public abstract class SequenceComparator {
 	private String lowerSeq;
 	private String sampleSeq;
 	private String probeSeq;
+	
+	public DialogBox resultDialog;
 
 	public SequenceComparator(String u,
 			String l,
@@ -26,6 +30,9 @@ public abstract class SequenceComparator {
 		lowerSeq = l;
 		sampleSeq = s;
 		probeSeq = c;
+		resultDialog = new DialogBox(true);
+		resultDialog.setStyleName("comparisonResultDialog");
+		resultDialog.hide();
 	}
 
 	public abstract void compareSequences(int seqID1, int seqID2);

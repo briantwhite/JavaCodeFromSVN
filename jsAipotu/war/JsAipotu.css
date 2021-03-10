@@ -40,6 +40,13 @@
 	height: 2000px;
 }
 
+.comparisonResultDialog {
+	border: 1px solid black;
+	width: 800px;
+	height: 200px;
+	background: lightgray;
+}
+
 .greenhousePanel {
 	width: 100px;
 }

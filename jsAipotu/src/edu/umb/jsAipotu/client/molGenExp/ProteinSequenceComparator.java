@@ -1,14 +1,17 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import javax.swing.JOptionPane;
+import com.google.gwt.user.client.ui.DialogBox;
 
 import edu.umb.jsAipotu.client.JsAipotu;
+import edu.umb.jsAipotu.client.biochem.AminoAcid;
+import edu.umb.jsAipotu.client.biochem.FoldingException;
+import edu.umb.jsAipotu.client.biochem.PolypeptideFactory;
 import edu.umb.jsAipotu.client.biochem.StandardTable;
 import edu.umb.jsAipotu.client.match.Blosum50;
 import edu.umb.jsAipotu.client.match.NWSmart;
 
 public class ProteinSequenceComparator extends SequenceComparator {
-
+	
 	public ProteinSequenceComparator(String u,
 			String l,
 			String s,
@@ -17,8 +20,8 @@ public class ProteinSequenceComparator extends SequenceComparator {
 	}
 
 	public void compareSequences(int seqID1, int seqID2) {
-		String seq1 = getSequence(seqID1);
-		String seq2 = getSequence(seqID2);
+		String seq1 = convert3LetterTo1Letter(getSequence(seqID1));
+		String seq2 = convert3LetterTo1Letter(getSequence(seqID2));
 		String seq1Label = getSequenceLabel(seqID1);
 		String seq2Label = getSequenceLabel(seqID2);
 
@@ -42,29 +45,41 @@ public class ProteinSequenceComparator extends SequenceComparator {
 		JsAipotu.consoleLog(seq1Label + upperAlignedSequence);
 		JsAipotu.consoleLog(DIFFERENCE_LABEL + differenceString);
 		JsAipotu.consoleLog(seq2Label + lowerAlignedSequence);
-//		JOptionPane.showMessageDialog(null, 
-//		"<html><body><pre>"
-//				+ "<font color=blue>"
-//				+ seq1Label
-//				+ "</font> "
-//				+ upperAlignedSequence
-//				+ "<br>"
-//				+ "<font color=red>"
-//				+ DIFFERENCE_LABEL
-//				+ differenceString 
-//				+ "</font><br>"
-//				+ "<font color=green>"
-//				+ seq2Label 
-//				+ "</font> "
-//				+ lowerAlignedSequence
-//				+ "</pre></body></html>",
-//				"Differences between Amino Acid Sequences.",
-//				JOptionPane.PLAIN_MESSAGE,
-//				null);
-
+		resultDialog.setHTML("<pre>"
+				+ "<font color=blue>"
+				+ seq1Label
+				+ "</font> "
+				+ upperAlignedSequence
+				+ "<br>"
+				+ "<font color=red>"
+				+ DIFFERENCE_LABEL
+				+ differenceString 
+				+ "</font><br>"
+				+ "<font color=green>"
+				+ seq2Label 
+				+ "</font> "
+				+ lowerAlignedSequence
+				+ "</pre>"
+				+ "<br>Click anywhere outside this box to close it.");
+		resultDialog.show();
 	}
 	
-	public String convert1LetterTo3Letter(String abAASeq) {
+	private String convert3LetterTo1Letter(String aaSeq) {
+		//get the aa seq as a single letter string with no separators
+		AminoAcid[] acids;
+		try {
+			acids = PolypeptideFactory.getInstance().parseInputStringToAmAcArray(aaSeq);
+		} catch (FoldingException e) {
+			return null;
+		}
+		StringBuffer buf = new StringBuffer();
+		for (int i = 0; i < acids.length; i++) {
+			buf.append(acids[i].getAbName());
+		}
+		return buf.toString();
+	}
+	
+	private String convert1LetterTo3Letter(String abAASeq) {
 		StandardTable table = new StandardTable();
 		StringBuffer aaSeq = new StringBuffer();
 		for (int i = 0; i < abAASeq.length(); i++) {

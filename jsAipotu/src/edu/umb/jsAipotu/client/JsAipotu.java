@@ -44,7 +44,6 @@ public class JsAipotu implements EntryPoint {
 	private DockLayoutPanel mainPanel = null;
 	private MenuBar menuBar = null;
 	private MenuBar fileMenu = null;
-	private MenuBar editMenu = null;
 	private MenuBar compareMenu = null;
 	private MenuBar greenhouseMenu = null;
 
@@ -82,9 +81,16 @@ public class JsAipotu implements EntryPoint {
 			}
 		});
 		menuBar.addItem("File", fileMenu);
-		// Edit menu
-		editMenu = new MenuBar(true);
-		editMenu.addItem("Copy upper sequence to Probe", new Command() {
+
+		// Compare menu
+		compareMenu = new MenuBar(true);
+		compareMenu.addItem("Upper vs Lower", new SequenceComparatorCommand(this, SequenceComparator.UPPER, SequenceComparator.LOWER));
+		compareMenu.addItem("Upper vs Sample", new SequenceComparatorCommand(this, SequenceComparator.UPPER, SequenceComparator.SAMPLE));
+		compareMenu.addItem("Lower vs Sample", new SequenceComparatorCommand(this, SequenceComparator.LOWER, SequenceComparator.SAMPLE));
+		compareMenu.addItem("Upper vs Probe", new SequenceComparatorCommand(this, SequenceComparator.UPPER, SequenceComparator.PROBE));
+		compareMenu.addItem("Lower vs Probe", new SequenceComparatorCommand(this, SequenceComparator.LOWER, SequenceComparator.PROBE));
+		compareMenu.addSeparator();
+		compareMenu.addItem("Use upper sequence as Probe", new Command() {
 			public void execute() {
 				switch (explorerPane.getSelectedIndex()) {
 				case MolGenExp.GENETICS:
@@ -100,7 +106,7 @@ public class JsAipotu implements EntryPoint {
 				}
 			}
 		});
-		editMenu.addItem("Copy lower sequence to Probe", new Command() {
+		compareMenu.addItem("Use lower sequence as Probe", new Command() {
 			public void execute() {
 				switch (explorerPane.getSelectedIndex()) {
 				case MolGenExp.GENETICS:
@@ -116,14 +122,6 @@ public class JsAipotu implements EntryPoint {
 				}
 			}
 		});
-		menuBar.addItem("Edit", editMenu);
-		// Compare menu
-		compareMenu = new MenuBar(true);
-		compareMenu.addItem("Upper vs Lower", new SequenceComparatorCommand(this, SequenceComparator.UPPER, SequenceComparator.LOWER));
-		compareMenu.addItem("Upper vs Sample", new SequenceComparatorCommand(this, SequenceComparator.UPPER, SequenceComparator.SAMPLE));
-		compareMenu.addItem("Lower vs Sample", new SequenceComparatorCommand(this, SequenceComparator.LOWER, SequenceComparator.SAMPLE));
-		compareMenu.addItem("Upper vs Probe", new SequenceComparatorCommand(this, SequenceComparator.UPPER, SequenceComparator.PROBE));
-		compareMenu.addItem("Lower vs Probe", new SequenceComparatorCommand(this, SequenceComparator.LOWER, SequenceComparator.PROBE));
 		menuBar.addItem("Compare", compareMenu);
 		// Greenhouse menu
 		greenhouseMenu = new MenuBar(true);
