@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
+import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.match.DNAidentity;
 import edu.umb.jsAipotu.client.match.NWSmart;
 
@@ -84,29 +85,35 @@ public class DNASequenceComparator extends SequenceComparator {
 		if (differenceListString.length() > 60) {
 			differenceListString = "Too many differences to list!!";
 		}
+		
+		JsAipotu.consoleLog(numberingString);
+		JsAipotu.consoleLog(seq1Label + upperAlignedSequence);
+		JsAipotu.consoleLog(DIFFERENCE_LABEL + differenceString);
+		JsAipotu.consoleLog(seq2Label + lowerAlignedSequence);
 
-		JOptionPane.showMessageDialog(null, 
-				"<html><body><pre>"
-				+ numberingString
-				+ "<font color=blue>"
-				+ seq1Label
-				+ "</font> "
-				+ upperAlignedSequence
-				+ "<br>"
-				+ "<font color=red>"
-				+ DIFFERENCE_LABEL
-				+ differenceString 
-				+ "</font><br>"
-				+ "<font color=green>"
-				+ seq2Label
-				+ "</font> "
-				+ lowerAlignedSequence
-				+ "</pre>"
-				+ differenceListString
-				+ "</body></html>",
-				"Differences between DNA Sequences.",
-				JOptionPane.PLAIN_MESSAGE,
-				null);
+
+//		JOptionPane.showMessageDialog(null, 
+//				"<html><body><pre>"
+//				+ numberingString
+//				+ "<font color=blue>"
+//				+ seq1Label
+//				+ "</font> "
+//				+ upperAlignedSequence
+//				+ "<br>"
+//				+ "<font color=red>"
+//				+ DIFFERENCE_LABEL
+//				+ differenceString 
+//				+ "</font><br>"
+//				+ "<font color=green>"
+//				+ seq2Label
+//				+ "</font> "
+//				+ lowerAlignedSequence
+//				+ "</pre>"
+//				+ differenceListString
+//				+ "</body></html>",
+//				"Differences between DNA Sequences.",
+//				JOptionPane.PLAIN_MESSAGE,
+//				null);
 
 	}
 }

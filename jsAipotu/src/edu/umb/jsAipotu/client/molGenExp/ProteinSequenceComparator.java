@@ -2,6 +2,7 @@ package edu.umb.jsAipotu.client.molGenExp;
 
 import javax.swing.JOptionPane;
 
+import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.biochem.StandardTable;
 import edu.umb.jsAipotu.client.match.Blosum50;
 import edu.umb.jsAipotu.client.match.NWSmart;
@@ -38,25 +39,28 @@ public class ProteinSequenceComparator extends SequenceComparator {
 		}
 		String differenceString = differenceBuffer.toString();
 		
-		JOptionPane.showMessageDialog(null, 
-		"<html><body><pre>"
-				+ "<font color=blue>"
-				+ seq1Label
-				+ "</font> "
-				+ upperAlignedSequence
-				+ "<br>"
-				+ "<font color=red>"
-				+ DIFFERENCE_LABEL
-				+ differenceString 
-				+ "</font><br>"
-				+ "<font color=green>"
-				+ seq2Label 
-				+ "</font> "
-				+ lowerAlignedSequence
-				+ "</pre></body></html>",
-				"Differences between Amino Acid Sequences.",
-				JOptionPane.PLAIN_MESSAGE,
-				null);
+		JsAipotu.consoleLog(seq1Label + upperAlignedSequence);
+		JsAipotu.consoleLog(DIFFERENCE_LABEL + differenceString);
+		JsAipotu.consoleLog(seq2Label + lowerAlignedSequence);
+//		JOptionPane.showMessageDialog(null, 
+//		"<html><body><pre>"
+//				+ "<font color=blue>"
+//				+ seq1Label
+//				+ "</font> "
+//				+ upperAlignedSequence
+//				+ "<br>"
+//				+ "<font color=red>"
+//				+ DIFFERENCE_LABEL
+//				+ differenceString 
+//				+ "</font><br>"
+//				+ "<font color=green>"
+//				+ seq2Label 
+//				+ "</font> "
+//				+ lowerAlignedSequence
+//				+ "</pre></body></html>",
+//				"Differences between Amino Acid Sequences.",
+//				JOptionPane.PLAIN_MESSAGE,
+//				null);
 
 	}
 	

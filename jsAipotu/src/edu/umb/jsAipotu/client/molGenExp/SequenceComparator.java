@@ -5,18 +5,18 @@ public abstract class SequenceComparator {
 	public final static int UPPER = 0;
 	public final static int LOWER = 1;
 	public final static int SAMPLE = 2;
-	public final static int CLIPBOARD = 3;
+	public final static int PROBE = 3;
 	
 	public final static String UPPER_LABEL = 		"Upper Sequence:    ";
 	public final static String LOWER_LABEL = 		"Lower Sequence:    ";
 	public final static String SAMPLE_LABEL = 		"Sample Sequence:   ";
-	public final static String CLIPBOARD_LABEL = 	"Clipboard Sequence:";
+	public final static String PROBE_LABEL = 	"Probe Sequence:";
 	public final static String DIFFERENCE_LABEL = 	"Difference:         ";
 
 	private String upperSeq;
 	private String lowerSeq;
 	private String sampleSeq;
-	private String clipboardSeq;
+	private String probeSeq;
 
 	public SequenceComparator(String u,
 			String l,
@@ -25,7 +25,7 @@ public abstract class SequenceComparator {
 		upperSeq = u;
 		lowerSeq = l;
 		sampleSeq = s;
-		clipboardSeq = c;
+		probeSeq = c;
 	}
 
 	public abstract void compareSequences(int seqID1, int seqID2);
@@ -42,8 +42,8 @@ public abstract class SequenceComparator {
 		return sampleSeq;
 	}
 
-	public String getClipboardSeq() {
-		return clipboardSeq;
+	public String getProbeSeq() {
+		return probeSeq;
 	}
 
 	public String getSequence(int id) {
@@ -55,8 +55,8 @@ public abstract class SequenceComparator {
 			return lowerSeq;
 		case SAMPLE:
 			return sampleSeq;
-		case CLIPBOARD:
-			return clipboardSeq;
+		case PROBE:
+			return probeSeq;
 		default:
 			return "";
 		}
@@ -71,8 +71,8 @@ public abstract class SequenceComparator {
 			return LOWER_LABEL;
 		case SAMPLE:
 			return SAMPLE_LABEL;
-		case CLIPBOARD:
-			return CLIPBOARD_LABEL;
+		case PROBE:
+			return PROBE_LABEL;
 		default:
 			return "";
 		}

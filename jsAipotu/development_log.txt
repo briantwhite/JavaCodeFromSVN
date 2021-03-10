@@ -897,3 +897,5 @@ now, need to get the sequence comparisons going. Step 1 is copy to clipboard for
 since the javascript 'sandbox' guards the clipboard. Probably better to not use the clipboard and call it something else.
 	try "Probe" for now.
 test out the code for "Copy upper sequence to Probe" - compiles OK
+
+got it to compare but the 3-letter protein sequences are being treated as 1-letter - need to fix
