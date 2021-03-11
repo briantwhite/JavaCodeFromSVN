@@ -904,3 +904,20 @@ need to
 - set dialog size and position properly
 - do it for DNA
 - maybe make it a confirm dialog with a close button
+
+3/11/21
+Notes:
+need to (carry forward from above):
+- comparisons
+	- set dialog size and position properly
+	- do it for DNA
+	- maybe make it a confirm dialog with a close button
+	- size and position properly
+	- menu should only be enabled in mobo or biochem
+- try to make it easier to tell that there are workpanels maybe make pastel background colors
+	and have the tabs colored that way
+- add tool tip text for each OrganismUI that reports its color (it looks like setTitle will do it)
+- file menu should be re-named to "settings" and have sub-menus for topics
+	maybe have one that toggles between show color names and hide color names
+
+	
