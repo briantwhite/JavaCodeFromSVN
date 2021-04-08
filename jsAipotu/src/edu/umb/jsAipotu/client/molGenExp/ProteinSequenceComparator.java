@@ -1,8 +1,5 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import com.google.gwt.user.client.ui.DialogBox;
-
-import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.biochem.AminoAcid;
 import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.biochem.PolypeptideFactory;
@@ -41,11 +38,7 @@ public class ProteinSequenceComparator extends SequenceComparator {
 			}
 		}
 		String differenceString = differenceBuffer.toString();
-		
-		JsAipotu.consoleLog(seq1Label + upperAlignedSequence);
-		JsAipotu.consoleLog(DIFFERENCE_LABEL + differenceString);
-		JsAipotu.consoleLog(seq2Label + lowerAlignedSequence);
-		resultDialog.setHTML("<pre>"
+		html.setHTML("<pre>"
 				+ "<font color=blue>"
 				+ seq1Label
 				+ "</font> "
@@ -59,8 +52,8 @@ public class ProteinSequenceComparator extends SequenceComparator {
 				+ seq2Label 
 				+ "</font> "
 				+ lowerAlignedSequence
-				+ "</pre>"
-				+ "<br>Click anywhere outside this box to close it.");
+				+ "</pre>");
+		resultDialog.setPopupPosition(300, 300);
 		resultDialog.show();
 	}
 	

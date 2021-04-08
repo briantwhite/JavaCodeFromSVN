@@ -31,7 +31,7 @@ public class DNASequenceComparator extends SequenceComparator {
 		String lowerAlignedSequence = alignment[1];
 
 		//mark the differences
-		ArrayList differences = new ArrayList();
+		ArrayList<Integer> differences = new ArrayList<Integer>();
 		StringBuffer differenceBuffer = new StringBuffer();
 		for (int i = 0; i < upperAlignedSequence.length(); i++){
 			if (upperAlignedSequence.charAt(i) 
@@ -74,7 +74,7 @@ public class DNASequenceComparator extends SequenceComparator {
 
 		StringBuffer differenceListBuffer = new StringBuffer();
 		differenceListBuffer.append("Differences at positions:  ");
-		Iterator it = differences.iterator();
+		Iterator<Integer> it = differences.iterator();
 		while (it.hasNext()) {
 			differenceListBuffer.append(((Integer)it.next()).toString());
 			differenceListBuffer.append(", ");
@@ -86,34 +86,25 @@ public class DNASequenceComparator extends SequenceComparator {
 			differenceListString = "Too many differences to list!!";
 		}
 		
-		JsAipotu.consoleLog(numberingString);
-		JsAipotu.consoleLog(seq1Label + upperAlignedSequence);
-		JsAipotu.consoleLog(DIFFERENCE_LABEL + differenceString);
-		JsAipotu.consoleLog(seq2Label + lowerAlignedSequence);
-
-
-//		JOptionPane.showMessageDialog(null, 
-//				"<html><body><pre>"
-//				+ numberingString
-//				+ "<font color=blue>"
-//				+ seq1Label
-//				+ "</font> "
-//				+ upperAlignedSequence
-//				+ "<br>"
-//				+ "<font color=red>"
-//				+ DIFFERENCE_LABEL
-//				+ differenceString 
-//				+ "</font><br>"
-//				+ "<font color=green>"
-//				+ seq2Label
-//				+ "</font> "
-//				+ lowerAlignedSequence
-//				+ "</pre>"
-//				+ differenceListString
-//				+ "</body></html>",
-//				"Differences between DNA Sequences.",
-//				JOptionPane.PLAIN_MESSAGE,
-//				null);
-
+		html.setHTML("<pre>"
+				+ numberingString
+				+ "<font color=blue>"
+				+ seq1Label
+				+ "</font> "
+				+ upperAlignedSequence
+				+ "<br>"
+				+ "<font color=red>"
+				+ DIFFERENCE_LABEL
+				+ differenceString 
+				+ "</font><br>"
+				+ "<font color=green>"
+				+ seq2Label
+				+ "</font> "
+				+ lowerAlignedSequence
+				+ "</pre>"
+				+ differenceListString
+				+ "</body></html>");
+		resultDialog.setPopupPosition(100, 300);
+		resultDialog.show();
 	}
 }

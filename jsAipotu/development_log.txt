@@ -920,4 +920,18 @@ need to (carry forward from above):
 - file menu should be re-named to "settings" and have sub-menus for topics
 	maybe have one that toggles between show color names and hide color names
 
-	
+4/8/21
+working on protein compare dialog
+got sizing, placement, and close button going
+
+did it for DNA
+
+menu enabled only in mobo or biochem - ok cheesy but not easy to do right 
+	https://stackoverflow.com/questions/15134026/how-to-disable-menubar-in-gwt
+
+how about making the tabs look better - like the one here?
+	http://samples.gwtproject.org/samples/Showcase/Showcase.html#!CwTabLayoutPanel
+there's a decorated tab bar and decorated tab panel but they don't have 'get selected index' methods.
+	that won't work
+
+used other styles

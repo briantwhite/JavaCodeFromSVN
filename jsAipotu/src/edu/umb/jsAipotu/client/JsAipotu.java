@@ -1,5 +1,7 @@
 package edu.umb.jsAipotu.client;
 
+import java.util.Iterator;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,6 +14,7 @@ import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -122,6 +125,7 @@ public class JsAipotu implements EntryPoint {
 				}
 			}
 		});
+		compareMenu.setVisible(false); // starts in genetics with this disabled
 		menuBar.addItem("Compare", compareMenu);
 		// Greenhouse menu
 		greenhouseMenu = new MenuBar(true);
@@ -173,6 +177,11 @@ public class JsAipotu implements EntryPoint {
 			public void onSelection(SelectionEvent<Integer> event) {
 				mge.clearSelectedOrganisms();
 				enableAddToGreenhouseButton(false);
+				if ((explorerPane.getSelectedIndex() == MolGenExp.BIOCHEMISTRY) || (explorerPane.getSelectedIndex() == MolGenExp.MOLECULAR_BIOLOGY)) {
+					compareMenu.setVisible(true);
+				} else {
+					compareMenu.setVisible(false);
+				}
 			}
 		});
 

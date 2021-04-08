@@ -1,6 +1,13 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public abstract class SequenceComparator {
 
@@ -21,6 +28,9 @@ public abstract class SequenceComparator {
 	private String probeSeq;
 	
 	public DialogBox resultDialog;
+	public HTML html;
+	private VerticalPanel dialogPanel;
+	private Button closeButton;
 
 	public SequenceComparator(String u,
 			String l,
@@ -30,9 +40,22 @@ public abstract class SequenceComparator {
 		lowerSeq = l;
 		sampleSeq = s;
 		probeSeq = c;
-		resultDialog = new DialogBox(true);
+		resultDialog = new DialogBox(false);
 		resultDialog.setStyleName("comparisonResultDialog");
+		dialogPanel = new VerticalPanel();
+		html = new HTML();
+		dialogPanel.add(html);
+		closeButton = new Button("Close");
+		closeButton.setStyleName("closeComparisonResultButton");
+		dialogPanel.add(closeButton);
+		resultDialog.add(dialogPanel);
 		resultDialog.hide();
+		
+		closeButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				resultDialog.hide();
+			}
+		});
 	}
 
 	public abstract void compareSequences(int seqID1, int seqID2);

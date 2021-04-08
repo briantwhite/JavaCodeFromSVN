@@ -33,6 +33,7 @@
 .mainPanel {
 	width: 1500px;
 	height: 2000px;
+	background: lightgray;
 }
 
 .explorerPane {
@@ -40,11 +41,15 @@
 	height: 2000px;
 }
 
+
 .comparisonResultDialog {
-	border: 1px solid black;
-	width: 800px;
-	height: 200px;
+	border: 3px double black;
 	background: lightgray;
+}
+
+.closeComparisonResultButton {
+	border: 1px solid black;
+	margin-left: 50%;
 }
 
 .greenhousePanel {
@@ -64,15 +69,25 @@
 	height: 250;
 }
 
-.gwt-TabLayoutPanelTab {
-	border: 1px solid black;
+.gwt-TabLayoutPanelTabs {
+	border: none;
 	background: lightgray;
-	margin: 5px;
+}
+
+.gwt-TabLayoutPanelTab {
+	background: lightgray;
 	padding: 5px;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
 }
 
 .gwt-TabLayoutPanelTab-selected {
-	background: lightblue;
+	background: white;
+}
+
+.gwt-TabLayoutPanelContent {
+	background: white;
 }
 
 .enterNameDialog {
