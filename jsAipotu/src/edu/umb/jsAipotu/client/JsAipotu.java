@@ -1,7 +1,5 @@
 package edu.umb.jsAipotu.client;
 
-import java.util.Iterator;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,7 +12,6 @@ import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -46,7 +43,7 @@ public class JsAipotu implements EntryPoint {
 	// gui elements
 	private DockLayoutPanel mainPanel = null;
 	private MenuBar menuBar = null;
-	private MenuBar fileMenu = null;
+	private MenuBar preferencesMenu = null;
 	private MenuBar compareMenu = null;
 	private MenuBar greenhouseMenu = null;
 
@@ -77,13 +74,13 @@ public class JsAipotu implements EntryPoint {
 		menuBar = new MenuBar(false);
 		menuBar.setStyleName("mainMenuBar");
 		// File menu
-		fileMenu = new MenuBar(true);
-		fileMenu.addItem("Preferences", new Command() {
+		preferencesMenu = new MenuBar(true);
+		preferencesMenu.addItem("Show color names", new Command() {
 			public void execute() {
 
 			}
 		});
-		menuBar.addItem("File", fileMenu);
+		menuBar.addItem("Preferences", preferencesMenu);
 
 		// Compare menu
 		compareMenu = new MenuBar(true);
@@ -160,11 +157,11 @@ public class JsAipotu implements EntryPoint {
 		// right-hand side: greenhouse and add to greenhouse button
 		rightPanel = new VerticalPanel();
 		rightPanelCaption = new CaptionPanel("Greenhouse");
+		rightPanelCaption.setStyleName("greenhousePanel");
 		addToGreenhouseButton = new Button("Add...");
 		addToGreenhouseButton.setEnabled(false);
 		rightPanel.add(addToGreenhouseButton);
 		greenhousePanel = new ScrollPanel(mge.getGreenhouse());
-		greenhousePanel.setStyleName("greenhousePanel");
 		rightPanel.add(greenhousePanel);	
 		rightPanelCaption.setContentWidget(rightPanel);
 		innerPanel.add(rightPanelCaption);

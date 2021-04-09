@@ -934,4 +934,18 @@ how about making the tabs look better - like the one here?
 there's a decorated tab bar and decorated tab panel but they don't have 'get selected index' methods.
 	that won't work
 
-used other styles
+used other styles to get it better
+
+4/9/21
+need to clean up the layout a bit.
+got it pretty-much OK
+
+need to (some carried over)
+- be able to save organism to greenhouse from MoBo
+- add tool tip text for each OrganismUI that reports its color (it looks like setTitle will do it)
+- file menu should be re-named to "settings" and have sub-menus for topics
+	maybe have one that toggles between show color names and hide color names
+
+got tool-tip text working on OrganismUI
+need to set up preferences to turn it on/off
+

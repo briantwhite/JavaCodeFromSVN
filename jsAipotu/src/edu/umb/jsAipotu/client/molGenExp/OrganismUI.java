@@ -25,6 +25,7 @@ public class OrganismUI extends FocusPanel {
 		this.add(innerPanel);
 		sinkEvents(Event.ONCLICK);
 		setStyleName("unSelectedOrganismUI");
+		setTitle(GlobalDefaults.colorModel.getColorName(o.getColor()));
 	}
 	
 	// need to capture click events for the custom selection model
