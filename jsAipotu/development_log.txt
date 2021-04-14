@@ -949,3 +949,10 @@ need to (some carried over)
 got tool-tip text working on OrganismUI
 need to set up preferences to turn it on/off
 
+4/14/21
+try making a DisplayColorTextMenuItem
+	<sigh> can't seem to extend the MenuItem class...
+got it going - it's a pain but it does work
+need to add code for color chips and mobo and biochem hist list items
+	for color chips, can probably check the prefs when updating their color
+	for the hist list items, need to make an ArrayList of all of them...

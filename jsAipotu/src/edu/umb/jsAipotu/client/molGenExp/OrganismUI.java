@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Image;
 
+import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class OrganismUI extends FocusPanel {
@@ -26,6 +27,7 @@ public class OrganismUI extends FocusPanel {
 		sinkEvents(Event.ONCLICK);
 		setStyleName("unSelectedOrganismUI");
 		setTitle(GlobalDefaults.colorModel.getColorName(o.getColor()));
+		JsAipotu.allOrganismUIs.add(this);
 	}
 	
 	// need to capture click events for the custom selection model

@@ -1,5 +1,8 @@
 package edu.umb.jsAipotu.client;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,9 +15,11 @@ import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsAipotu.client.biochem.BiochemistryWorkbench;
@@ -24,10 +29,12 @@ import edu.umb.jsAipotu.client.molBiol.MolBiolWorkbench;
 import edu.umb.jsAipotu.client.molBiol.MolBiolWorkpanel;
 import edu.umb.jsAipotu.client.molGenExp.DNASequenceComparator;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
+import edu.umb.jsAipotu.client.molGenExp.OrganismUI;
 import edu.umb.jsAipotu.client.molGenExp.ProteinSequenceComparator;
 import edu.umb.jsAipotu.client.molGenExp.SequenceComparator;
 import edu.umb.jsAipotu.client.molGenExp.SequenceComparatorCommand;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
+import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
 
 
@@ -44,6 +51,7 @@ public class JsAipotu implements EntryPoint {
 	private DockLayoutPanel mainPanel = null;
 	private MenuBar menuBar = null;
 	private MenuBar preferencesMenu = null;
+	private MenuItem showColorTextItem = null;
 	private MenuBar compareMenu = null;
 	private MenuBar greenhouseMenu = null;
 
@@ -59,6 +67,8 @@ public class JsAipotu implements EntryPoint {
 	private CaptionPanel rightPanelCaption = null;
 	private Button addToGreenhouseButton = null;
 	private ScrollPanel greenhousePanel = null;
+	
+	public static ArrayList<OrganismUI> allOrganismUIs = new ArrayList<OrganismUI>(); // for turning on/off color name tool tip text
 
 	public void onModuleLoad() {
 		mge = new MolGenExp(this);
@@ -75,9 +85,24 @@ public class JsAipotu implements EntryPoint {
 		menuBar.setStyleName("mainMenuBar");
 		// File menu
 		preferencesMenu = new MenuBar(true);
-		preferencesMenu.addItem("Show color names", new Command() {
+		showColorTextItem = preferencesMenu.addItem("Show color names", new Command() {
 			public void execute() {
-
+				if (showColorTextItem.getText() == "Show color names") {
+					showColorTextItem.setText("Hide color names");
+					MGEPreferences.getInstance().setShowColorNameText(true);
+					Iterator<OrganismUI> ouiIt = allOrganismUIs.iterator();
+					while (ouiIt.hasNext()) {
+						OrganismUI oui = ouiIt.next();
+						oui.setTitle(GlobalDefaults.colorModel.getColorName(oui.getOrganism().getColor()));
+					}
+				} else {
+					showColorTextItem.setText("Show color names");
+					MGEPreferences.getInstance().setShowColorNameText(false);
+					Iterator<OrganismUI> ouiIt = allOrganismUIs.iterator();
+					while (ouiIt.hasNext()) {
+						ouiIt.next().setTitle(null);
+					}
+				}
 			}
 		});
 		menuBar.addItem("Preferences", preferencesMenu);
