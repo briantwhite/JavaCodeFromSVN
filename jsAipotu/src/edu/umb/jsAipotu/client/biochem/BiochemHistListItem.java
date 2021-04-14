@@ -1,11 +1,7 @@
 package edu.umb.jsAipotu.client.biochem;
 
 import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.EventTarget;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.safecss.shared.SafeStyles;
@@ -14,10 +10,8 @@ import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.UIObject;
+
+import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class BiochemHistListItem extends AbstractCell<FoldedProteinWithImages>{
 
@@ -49,11 +43,12 @@ public class BiochemHistListItem extends AbstractCell<FoldedProteinWithImages>{
 		SafeHtml safeLabel;
 		if (fp.getColor().value().equals("rgb(0,0,0)")) {
 			// black color needs white letters
-			safeLabel = SafeHtmlUtils.fromTrustedString("<font color=\"white\">" + fp.getAaSeq() + "</font>");
+			safeLabel = SafeHtmlUtils.fromTrustedString("<font color=\"white\">" + fp.getAaSeq() 
+			+ "<br>(" + GlobalDefaults.colorModel.getColorName(fp.getColor()) + ")</font>");
 		} else {
-			safeLabel = SafeHtmlUtils.fromTrustedString("<font color=\"black\">" + fp.getAaSeq() + "</font>");
+			safeLabel = SafeHtmlUtils.fromTrustedString("<font color=\"black\">" + fp.getAaSeq() 
+			+ "<br>(" + GlobalDefaults.colorModel.getColorName(fp.getColor()) + ")</font>");
 		}
 		sb.append(templates.cell(colorStyle, safeImage, safeLabel));
 	}
-
 }

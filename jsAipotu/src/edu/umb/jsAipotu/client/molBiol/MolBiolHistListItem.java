@@ -11,15 +11,18 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 
+import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
+
 public class MolBiolHistListItem extends AbstractCell<ExpressedGeneWithImages>{
 	
 	public MolBiolHistListItem() {
 	}
 
 	interface Templates extends SafeHtmlTemplates {
-		@SafeHtmlTemplates.Template("<table style=\"{0}\"><tr><td>{1}</td></tr></table>")
-		SafeHtml cell(SafeStyles colorStyle, SafeHtml imageHTML);
+		@SafeHtmlTemplates.Template("<table style=\"{0}\"><tr><td>{1}</td></tr><tr><td>{2}</td></tr></table>")
+		SafeHtml cell(SafeStyles colorStyle, SafeHtml imageHTML, SafeHtml labelHTML);
 	}
+	
 	private static Templates templates = GWT.create(Templates.class);
 
 	public void render(Context context, ExpressedGeneWithImages eg, SafeHtmlBuilder sb) {
@@ -38,7 +41,16 @@ public class MolBiolHistListItem extends AbstractCell<ExpressedGeneWithImages>{
 		b.trustedBackgroundColor(eg.getFoldedProteinWithImages().getColor().toString());
 		SafeStyles colorStyle = b.toSafeStyles();
 		SafeHtml safeImage = SafeHtmlUtils.fromTrustedString("<img src=\"" + eg.getFoldedProteinWithImages().getThumbnailPic().toDataUrl() + "\" />");
-		sb.append(templates.cell(colorStyle, safeImage));
+		SafeHtml safeLabel;
+		if (eg.getFoldedProteinWithImages().getColor().value().equals("rgb(0,0,0)")) {
+			// black color needs white letters
+			safeLabel = SafeHtmlUtils.fromTrustedString("<font color=\"white\">(" 
+			+ GlobalDefaults.colorModel.getColorName(eg.getFoldedProteinWithImages().getColor()) + ")</font>");
+		} else {
+			safeLabel = SafeHtmlUtils.fromTrustedString("<font color=\"black\">(" 
+				+ GlobalDefaults.colorModel.getColorName(eg.getFoldedProteinWithImages().getColor()) + ")</font>");
+		}
+		sb.append(templates.cell(colorStyle, safeImage, safeLabel));
 	}
 
 }
