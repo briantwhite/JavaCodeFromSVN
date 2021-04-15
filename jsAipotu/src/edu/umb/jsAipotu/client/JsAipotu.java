@@ -85,7 +85,7 @@ public class JsAipotu implements EntryPoint {
 		menuBar.setStyleName("mainMenuBar");
 		// File menu
 		preferencesMenu = new MenuBar(true);
-		showColorTextItem = preferencesMenu.addItem("Show color names", new Command() {
+		showColorTextItem = preferencesMenu.addItem("Hide color names", new Command() {
 			public void execute() {
 				if (showColorTextItem.getText() == "Show color names") {
 					showColorTextItem.setText("Hide color names");
@@ -166,6 +166,17 @@ public class JsAipotu implements EntryPoint {
 
 		innerPanel = new HorizontalPanel();
 
+		// right-hand side: greenhouse and add to greenhouse button
+		rightPanel = new VerticalPanel();
+		rightPanelCaption = new CaptionPanel("Greenhouse");
+		rightPanelCaption.setStyleName("greenhousePanel");
+		addToGreenhouseButton = new Button("Add...");
+		addToGreenhouseButton.setEnabled(false);
+		rightPanel.add(addToGreenhouseButton);
+		greenhousePanel = new ScrollPanel(mge.getGreenhouse());
+		rightPanel.add(greenhousePanel);	
+		rightPanelCaption.setContentWidget(rightPanel);
+
 		// explorer pane - tabbed pane for the 4 workbenches/workarea
 		explorerPane = new TabLayoutPanel(40, Unit.PX);
 		explorerPane.setStyleName("explorerPane");
@@ -178,18 +189,9 @@ public class JsAipotu implements EntryPoint {
 		//		evolutionWorkArea = new EvolutionWorkArea(mge);
 		//		explorerPane.add(evolutionWorkArea, "Evolution");
 		innerPanel.add(explorerPane);
-
-		// right-hand side: greenhouse and add to greenhouse button
-		rightPanel = new VerticalPanel();
-		rightPanelCaption = new CaptionPanel("Greenhouse");
-		rightPanelCaption.setStyleName("greenhousePanel");
-		addToGreenhouseButton = new Button("Add...");
-		addToGreenhouseButton.setEnabled(false);
-		rightPanel.add(addToGreenhouseButton);
-		greenhousePanel = new ScrollPanel(mge.getGreenhouse());
-		rightPanel.add(greenhousePanel);	
-		rightPanelCaption.setContentWidget(rightPanel);
-		innerPanel.add(rightPanelCaption);
+		
+		innerPanel.add(rightPanelCaption);  // need to do this because you have to make the add to greenhouse button
+											// before you make the workpanels
 
 		mainPanel.add(innerPanel);
 
@@ -218,7 +220,7 @@ public class JsAipotu implements EntryPoint {
 	public int getSelectedTabIndex() {
 		return explorerPane.getSelectedIndex();
 	}
-	
+		
 	public ProteinSequenceComparator getProteinSequenceComparator() {
 		return new ProteinSequenceComparator(
 				((BiochemistryWorkpanel)biochemistryWorkbench.getUpperPanel()).getAaSeq(),

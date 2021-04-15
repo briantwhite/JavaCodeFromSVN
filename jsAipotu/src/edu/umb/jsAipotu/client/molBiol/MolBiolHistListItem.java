@@ -42,8 +42,10 @@ public class MolBiolHistListItem extends AbstractCell<ExpressedGeneWithImages>{
 		SafeStyles colorStyle = b.toSafeStyles();
 		SafeHtml safeImage = SafeHtmlUtils.fromTrustedString("<img src=\"" + eg.getFoldedProteinWithImages().getThumbnailPic().toDataUrl() + "\" />");
 		SafeHtml safeLabel;
-		if (eg.getFoldedProteinWithImages().getColor().value().equals("rgb(0,0,0)")) {
-			// black color needs white letters
+		if (eg.getFoldedProteinWithImages().getColor().value().equals("rgb(0,0,0)") 
+				|| eg.getFoldedProteinWithImages().getColor().value().equals("rgb(0,0,255)") 
+				|| eg.getFoldedProteinWithImages().getColor().value().equals("rgb(138,43,226)")) {
+			// dark colors need white letters
 			safeLabel = SafeHtmlUtils.fromTrustedString("<font color=\"white\">(" 
 			+ GlobalDefaults.colorModel.getColorName(eg.getFoldedProteinWithImages().getColor()) + ")</font>");
 		} else {

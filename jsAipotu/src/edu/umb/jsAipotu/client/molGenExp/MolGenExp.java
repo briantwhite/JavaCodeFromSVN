@@ -1,6 +1,5 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -22,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.biochem.FoldedProteinArchive;
+import edu.umb.jsAipotu.client.biochem.FoldingException;
 
 public class MolGenExp {
 
@@ -139,9 +139,31 @@ public class MolGenExp {
 	}
 
 	public void saveSelectedOrganismToGreenhouse() {
-		if ((oui1 == null) & (oui2 != null)) {
-			saveOrganismToGreenhouse(oui2.getOrganism());
+		
+		switch (jsA.getSelectedTabIndex()) {
+		
+		case GENETICS:
+			if ((oui1 == null) & (oui2 != null)) {
+				saveOrganismToGreenhouse(oui2.getOrganism());
+			}
+			break;
+		
+		case BIOCHEMISTRY:
+			// not possible - you can't save proteins, only organisms or DNA
+			break;
+			
+		case MOLECULAR_BIOLOGY:
+			try {
+				jsA.getMolBiolWorkbench().saveOrganismToGreenhouse();
+			} catch (FoldingException e) {
+				return;
+			}
+			break;
+			
+		case EVOLUTION:
+			break;
 		}
+			
 	}
 
 	public void saveOrganismToGreenhouse(final Organism o) {
@@ -270,6 +292,10 @@ public class MolGenExp {
 		greenhouse.clearAllOrganisms();
 		greenhouseLoader.processJSONString(greenhouseJSONstring);
 		greenhouse.updateDisplay();
+	}
+	
+	public void setAddToGreenhouseButtonEnabled(boolean b) {
+		jsA.enableAddToGreenhouseButton(b);
 	}
 	
 	public static native void saveFile(String fileName, String text) /*-{

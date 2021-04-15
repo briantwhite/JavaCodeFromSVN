@@ -41,8 +41,8 @@ public class BiochemHistListItem extends AbstractCell<FoldedProteinWithImages>{
 		SafeStyles colorStyle = b.toSafeStyles();
 		SafeHtml safeImage = SafeHtmlUtils.fromTrustedString("<img src=\"" + fp.getThumbnailPic().toDataUrl() + "\" />");
 		SafeHtml safeLabel;
-		if (fp.getColor().value().equals("rgb(0,0,0)")) {
-			// black color needs white letters
+		if (fp.getColor().value().equals("rgb(0,0,0)") || fp.getColor().value().equals("rgb(0,0,255)") || fp.getColor().value().equals("rgb(138,43,226)")) {
+			// dark colors need white letters
 			safeLabel = SafeHtmlUtils.fromTrustedString("<font color=\"white\">" + fp.getAaSeq() 
 			+ "<br>(" + GlobalDefaults.colorModel.getColorName(fp.getColor()) + ")</font>");
 		} else {

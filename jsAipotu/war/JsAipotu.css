@@ -30,6 +30,10 @@
 	height: 20px;
 }
 
+.colorChipLabelText {
+	font-size: 10px;
+}
+
 .mainPanel {
 	width: 1100px;
 	height: 1050px;

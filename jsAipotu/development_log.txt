@@ -967,4 +967,16 @@ also need to do this to CombinedColorPanel too
 WEIRD BUG - if you send a protein hist item to the top panel and then the bottom,
 	it removes it from the top (probably because it's moving the image instead of making a new one)
 	and vice-versa
+
+4/15/21
+working on weird bug - just had the BiochemWorkpanel generate a new foldedProteinWithImages - all set
+
+now do the color chips - have to do them individually in the workpanels
+Biochem - did it
+MoBo - did it
+CombinedColorPanel - all set
+
+set up save to greenhouse in MoBo panel - works
+
+what's left? EVOLUTION.
 	

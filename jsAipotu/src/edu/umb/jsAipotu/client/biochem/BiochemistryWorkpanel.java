@@ -3,6 +3,7 @@ package edu.umb.jsAipotu.client.biochem;
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
@@ -35,7 +36,6 @@ public class BiochemistryWorkpanel extends WorkPanel {
 	Button loadSampleButton;
 	Button clearAASeqButton;
 	HTML colorLabel;
-	SimplePanel colorChip;
 
 	Polypeptide polypeptide;
 	FoldingManager manager;
@@ -84,9 +84,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		});
 		buttonPanel.add(foldButton);
 
-		colorLabel = new HTML("Color:");
-		colorChip = new SimplePanel();
-		colorChip.setStyleName("colorChip");
+		colorLabel = new HTML("Color:");		
 		buttonPanel.add(colorChip);
 
 		clearAASeqButton = new Button("Clear Amino Acid Sequence");
@@ -134,8 +132,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 				return;
 			}
 			//display it
-			CssColor proteinColor = foldedProteinWithImages.getColor();
-			colorChip.getElement().getStyle().setBackgroundColor(proteinColor.toString());
+			updateColorChip(foldedProteinWithImages.getColor());
 			if (proteinPanel.getWidget() != null) {
 				proteinPanel.remove(proteinPanel.getWidget());
 			}
@@ -206,7 +203,7 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		proteinSequenceEntryBox.setAminoAcidSequence(abAASeq.toString(), false);
 
 		//update the color chip on the folding window
-		colorChip.getElement().getStyle().setBackgroundColor(fp.getColor().toString());
+		updateColorChip(fp.getColor());
 
 		//update the combined color chip
 		bwbench.updateCombinedColor();
@@ -215,9 +212,9 @@ public class BiochemistryWorkpanel extends WorkPanel {
 		if (proteinPanel.getWidget() != null) {
 			proteinPanel.remove(proteinPanel.getWidget());
 		}
-		proteinPanel.add(foldedProteinWithImages.getFullSizePic());
+		proteinPanel.add(manager.foldWithPix(proteinSequenceEntryBox.getAminoAcidSequence()).getFullSizePic());
 		foldButton.setEnabled(false);
 		markProteinAsFolded();
 	}
-
+	
 }
