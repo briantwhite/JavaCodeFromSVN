@@ -1,13 +1,11 @@
 package edu.umb.jsAipotu.client.evolution;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+
+import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.Grid;
 
 import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.molGenExp.Organism;
@@ -15,7 +13,7 @@ import edu.umb.jsAipotu.client.molGenExp.OrganismFactory;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
-public class World extends JPanel implements MouseListener {
+public class World extends CaptionPanel {
 
 	private MGEPreferences preferences;
 
@@ -24,34 +22,39 @@ public class World extends JPanel implements MouseListener {
 
 	private ThinOrganism[][] organisms;
 	private ColorCountsRecorder colorCountsRecorder;
+	
+	private Grid organismGrid;
 
-	public final static int pictureSize = 500;
-	private int cellSize ;
 	private int selectedCelli = -1;
 	private int selectedCellj = -1;
 
 	public World() {
+		super("World");
+		setStyleName("world");
 		preferences = MGEPreferences.getInstance();
 		thinOrganismFactory = new ThinOrganismFactory();
 		organismFactory = new OrganismFactory();
 		colorCountsRecorder = ColorCountsRecorder.getInstance();
-		resizeWorld();
-		this.addMouseListener(this);
-	}
-
-	public void resizeWorld() {
-		organisms = 
-			new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()]; 
-		cellSize = pictureSize/preferences.getWorldSize();
+		organismGrid = new Grid(preferences.getWorldSize(), preferences.getWorldSize());
+		add(organismGrid);
 	}
 
 	public void initialize(Organism[] orgs) {
 		Random r = new Random();
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				organisms[i][j] = 
-					thinOrganismFactory.createThinOrganism(
-							orgs[r.nextInt(orgs.length)]);
+				ThinOrganism to = thinOrganismFactory.createThinOrganism(orgs[r.nextInt(orgs.length)]);
+				organisms[i][j] = to;
+				organismGrid.add(to);
+			}
+		}
+	}
+	
+	// fills with gray thin orgs for initial condition
+	public void initialize() {
+		for (int i = 0; i < preferences.getWorldSize(); i++) {
+			for (int j = 0; j < preferences.getWorldSize(); j++) {
+				organismGrid.add(new ThinOrganism());
 			}
 		}
 	}
@@ -69,63 +72,18 @@ public class World extends JPanel implements MouseListener {
 		}
 	}
 
-	public void paint(Graphics g) {
-
-		int worldSize = preferences.getWorldSize();
-
-		if (worldSize != organisms.length) {
-			resizeWorld();
-		}
-
-		g.setColor(new Color(160,160,160));
-		g.fillRect(0, 0, worldSize * cellSize, worldSize * cellSize);
-
-		for (int i = 0; i < worldSize; i++) {
-			for (int j = 0; j < worldSize; j++) {
-				if (organisms[i][j] == null) {
-					g.setColor(Color.DARK_GRAY);
-				} else {
-					g.setColor(organisms[i][j].getOverallColor());
-				}
-				g.fillRect((cellSize * i), (cellSize * j), (cellSize - 1), (cellSize - 1));
-			}
-		}
-		//show the selected cell
-		if ((selectedCelli > -1) && (selectedCellj > -1)) {
-			g.setColor(Color.black);
-			g.drawRect((cellSize * selectedCelli) - 1, 
-					(cellSize * selectedCellj) - 1, 
-					cellSize, cellSize);
-		}
-
-		//if enabled, show the colors of both alleles in upper left corner of cell
-		if (preferences.isShowBothAllelesInWorld()) {
-			for (int i = 0; i < worldSize; i++) {
-				for (int j = 0; j < worldSize; j++) {
-					if (organisms[i][j] == null) {
-						return;
-					} else {
-						ThinOrganism o = organisms[i][j];
-						g.setColor(o.getColor1());
-						g.fillRect((cellSize * i), (cellSize * j), 
-								(cellSize/4), (cellSize/8));
-						g.setColor(o.getColor2());
-						g.fillRect((cellSize * i), ((cellSize * j) + (cellSize/8)),
-								(cellSize/4), (cellSize/8));
-					}
-				}
-			}
-		}
-	}
-
 	public ThinOrganism getThinOrganism(int i, int j) {
 		return organisms[i][j];
 	}
 
 	public void setOrganisms(ThinOrganism[][] newOrgs) {
 		organisms = null;
-		organisms = newOrgs;
-		repaint();
+		for (int i = 0; i < preferences.getWorldSize(); i++) {
+			for (int j = 0; j < preferences.getWorldSize(); j++) {
+				organisms[i][j] = newOrgs[i][j];
+				organismGrid.add(newOrgs[i][j]);
+			}
+		}
 	}
 
 	public Organism getSelectedOrganism() throws FoldingException {
@@ -134,12 +92,12 @@ public class World extends JPanel implements MouseListener {
 		}
 		ThinOrganism to = organisms[selectedCelli][selectedCellj];
 		if (to.getOverallColor().equals(GlobalDefaults.DEAD_COLOR)) {
-			JOptionPane.showMessageDialog(null, 
-					"Unable to load that organism because it is not viable.\n"
-					+ "It is inviable because one of its proteins cannot be\n"
-					+ "Folded properly. Please choose another organism.", 
-					"Error Folding Protein", 
-					JOptionPane.WARNING_MESSAGE);
+//			JOptionPane.showMessageDialog(null, 
+//					"Unable to load that organism because it is not viable.\n"
+//					+ "It is inviable because one of its proteins cannot be\n"
+//					+ "Folded properly. Please choose another organism.", 
+//					"Error Folding Protein", 
+//					JOptionPane.WARNING_MESSAGE);
 		}
 		return organismFactory.createOrganism(to);
 	}
@@ -148,30 +106,5 @@ public class World extends JPanel implements MouseListener {
 		selectedCelli = -1;
 		selectedCellj = -1;
 	}
-
-	public void mouseClicked(MouseEvent e) {
-		
-		
-
-		int newCelli = e.getX()/cellSize;
-		if (newCelli < preferences.getWorldSize()) {
-			selectedCelli = newCelli;
-		}
-
-		int newCellj = e.getY()/cellSize;
-		if (newCellj < preferences.getWorldSize()) {
-			selectedCellj = newCellj;
-		}
-
-		repaint();
-	}
-
-	public void mouseEntered(MouseEvent e) {}
-
-	public void mouseExited(MouseEvent e) {}
-
-	public void mousePressed(MouseEvent e) {}
-
-	public void mouseReleased(MouseEvent e) {}
 
 }

@@ -8,7 +8,7 @@ import javax.swing.SpinnerNumberModel;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 
-public class ColorFitnessSpinner extends JSpinner {
+public class ColorFitnessSpinner extends NumberSpinner {
 	
 	private JSpinner spinner;
 	private Color color;

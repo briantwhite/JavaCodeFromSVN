@@ -19,11 +19,11 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsAipotu.client.biochem.BiochemistryWorkbench;
 import edu.umb.jsAipotu.client.biochem.BiochemistryWorkpanel;
+import edu.umb.jsAipotu.client.evolution.EvolutionWorkArea;
 import edu.umb.jsAipotu.client.genetics.GeneticsWorkbench;
 import edu.umb.jsAipotu.client.molBiol.MolBiolWorkbench;
 import edu.umb.jsAipotu.client.molBiol.MolBiolWorkpanel;
@@ -61,7 +61,7 @@ public class JsAipotu implements EntryPoint {
 	private GeneticsWorkbench geneticsWorkbench = null;
 	private BiochemistryWorkbench biochemistryWorkbench = null;
 	private MolBiolWorkbench molBiolWorkbench = null;
-	//	private EvolutionWorkArea evolutionWorkArea = null;
+	private EvolutionWorkArea evolutionWorkArea = null;
 
 	private VerticalPanel rightPanel = null;
 	private CaptionPanel rightPanelCaption = null;
@@ -186,8 +186,8 @@ public class JsAipotu implements EntryPoint {
 		explorerPane.add(biochemistryWorkbench, "Biochemistry");
 		molBiolWorkbench = new MolBiolWorkbench(mge);
 		explorerPane.add(molBiolWorkbench, "Molecular Biology");
-		//		evolutionWorkArea = new EvolutionWorkArea(mge);
-		//		explorerPane.add(evolutionWorkArea, "Evolution");
+		evolutionWorkArea = new EvolutionWorkArea(mge);
+		explorerPane.add(evolutionWorkArea, "Evolution");
 		innerPanel.add(explorerPane);
 		
 		innerPanel.add(rightPanelCaption);  // need to do this because you have to make the add to greenhouse button

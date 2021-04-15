@@ -1,7 +1,8 @@
 package edu.umb.jsAipotu.client.evolution;
 
-import java.awt.Color;
 import java.util.HashMap;
+
+import com.google.gwt.canvas.dom.client.CssColor;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
@@ -12,10 +13,10 @@ public class ColorCountsRecorder {
 	
 	private static ColorCountsRecorder instance;
 	
-	private HashMap<Color, Integer> colorCountsMap;
+	private HashMap<CssColor, Integer> colorCountsMap;
 	
 	private ColorCountsRecorder() {
-		colorCountsMap = new HashMap<Color, Integer>();
+		colorCountsMap = new HashMap<CssColor, Integer>();
 		setAllToZero();
 	}
 	
@@ -33,13 +34,13 @@ public class ColorCountsRecorder {
 		}
 	}
 	
-	public void incrementCount(Color c) {
+	public void incrementCount(CssColor c) {
 		if (c.equals(GlobalDefaults.DEAD_COLOR)) return;  // don't count the dead ones
 		int oldVal = colorCountsMap.get(c);
 		colorCountsMap.put(c, oldVal + 1);
 	}
 
-	public int getCount(Color c) {
+	public int getCount(CssColor c) {
 		return colorCountsMap.get(c);
 	}
 }

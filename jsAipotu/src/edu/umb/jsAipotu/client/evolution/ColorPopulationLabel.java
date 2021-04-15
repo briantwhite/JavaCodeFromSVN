@@ -1,8 +1,8 @@
 package edu.umb.jsAipotu.client.evolution;
 
-import java.awt.Color;
-
 import javax.swing.JLabel;
+
+import com.google.gwt.canvas.dom.client.CssColor;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
@@ -10,7 +10,7 @@ import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 public class ColorPopulationLabel extends JLabel {
 	
 	private JLabel label;
-	private Color color;
+	private CssColor color;
 	private String colorString;
 	
 	public ColorPopulationLabel(String colorString) {
@@ -24,7 +24,7 @@ public class ColorPopulationLabel extends JLabel {
 		return label;
 	}
 	
-	public Color getColor() {
+	public CssColor getColor() {
 		return color;
 	}
 	

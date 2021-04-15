@@ -3,11 +3,12 @@ package edu.umb.jsAipotu.client.evolution;
 import java.util.Random;
 
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.user.client.ui.FocusPanel;
 
 //class with just DNA and color - so it's smaller
 //for use with evolution
 //don't bother with pictures unless needed
-public class ThinOrganism {
+public class ThinOrganism extends FocusPanel {
 	private String dna1;
 	private String dna2;
 	private CssColor color1;
@@ -22,6 +23,14 @@ public class ThinOrganism {
 		this.color1 = color1;
 		this.color2 = color2;
 		this.overallColor = overallColor;
+		this.setStyleName("thinOrganism");
+		this.getElement().getStyle().setBackgroundColor(overallColor.toString());
+	}
+	
+	// empty constructor for starting screen
+	protected ThinOrganism() {
+		this.setStyleName("thinOrganism");
+		this.getElement().getStyle().setBackgroundColor("lightgray");
 	}
 	
 	public String getDNA1() {

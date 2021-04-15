@@ -1,6 +1,6 @@
 package edu.umb.jsAipotu.client.evolution;
 
-import java.awt.Color;
+import com.google.gwt.canvas.dom.client.CssColor;
 
 import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.biochem.FoldingManager;
@@ -19,7 +19,7 @@ public class ThinOrganismFactory {
 	}
 
 	public synchronized ThinOrganism createThinOrganism(
-			String dna1, String dna2, Color overallColor) 
+			String dna1, String dna2, CssColor overallColor) 
 	throws FoldingException {
 		String newDNA1 = "";
 		if (dna1 != null) {
@@ -29,8 +29,8 @@ public class ThinOrganismFactory {
 		if (dna2 != null) {
 			newDNA2 = dna2;
 		} 
-		Color color1 = foldAndComputeColor(dna1);
-		Color color2 = foldAndComputeColor(dna2);
+		CssColor color1 = foldAndComputeColor(dna1);
+		CssColor color2 = foldAndComputeColor(dna2);
 
 		return new ThinOrganism(newDNA1, newDNA2, 
 				color1, color2, 
@@ -47,8 +47,8 @@ public class ThinOrganismFactory {
 		if (dna2 != null) {
 			newDNA2 = dna2;
 		} 
-		Color color1 = foldAndComputeColor(dna1);
-		Color color2 = foldAndComputeColor(dna2);
+		CssColor color1 = foldAndComputeColor(dna1);
+		CssColor color2 = foldAndComputeColor(dna2);
 
 		return new ThinOrganism(newDNA1, newDNA2, 
 				color1, color2, 
@@ -63,7 +63,7 @@ public class ThinOrganismFactory {
 				o.getColor());
 	}
 
-	private Color foldAndComputeColor(String DNASeq) throws FoldingException {
+	private CssColor foldAndComputeColor(String DNASeq) throws FoldingException {
 		ExpressedGene newGene = geneExpresser.expressGene(DNASeq, -1);
 		String proteinSequence = newGene.getProtein();
 		String aaSeq = "";

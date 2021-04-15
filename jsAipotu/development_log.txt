@@ -979,4 +979,13 @@ CombinedColorPanel - all set
 set up save to greenhouse in MoBo panel - works
 
 what's left? EVOLUTION.
+
+will need something to set the fitness levels that's a little nicer than typing in a number
+there's code for a spinner at https://gist.github.com/pavanandhukuri/c63635b73c16ff5abe6bd2192599cf23
+
+make the world a caption panel containing a grid like you do with the genetics workpanel
+Have ThinOrganism extend a FocusPanel so you can select them
+
+trying to get the default world of 10x10 gray ThinOrganisms to show - no luck so far.
+
 	
