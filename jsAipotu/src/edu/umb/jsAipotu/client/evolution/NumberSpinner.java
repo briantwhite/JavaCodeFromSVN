@@ -14,15 +14,15 @@ import com.google.gwt.user.client.ui.IntegerBox;
 * 
 */
 public class NumberSpinner extends Composite {
-
+	
     private IntegerBox integerBox;
     private int MIN = 0;
     private int MAX = 10;
     private int DEFAULT = 5;
     private int RATE = 1;
 
-    public NumberSpinner() {
-    	
+    public NumberSpinner(final FitnessSettingsPanel fsp) {
+    	    	
         AbsolutePanel absolutePanel = new AbsolutePanel();
         initWidget(absolutePanel);
         absolutePanel.setSize("55px", "23px");
@@ -32,13 +32,14 @@ public class NumberSpinner extends Composite {
         integerBox.setSize("30px", "16px");
         integerBox.setValue(DEFAULT);
 
-        Button upButton = new Button();
+        Button upButton = new Button("&and;");
         upButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 setValue(getValue() + RATE);
                 if (getValue() > MAX) {
                 	setValue(MAX);
                 }
+                fsp.updateAbsoluteFitnesses();
             }
         });
         upButton.setStyleName("dp-spinner-upbutton");
@@ -46,13 +47,14 @@ public class NumberSpinner extends Composite {
         absolutePanel.add(upButton, 34, 1);
         upButton.setSize("12px", "10px");
 
-        Button downButton = new Button();
+        Button downButton = new Button("&or;");
         downButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 setValue(getValue() - RATE);
                 if (getValue() < MIN) {
                 	setValue(MIN);
                 }
+                fsp.updateAbsoluteFitnesses();
             }
         });
         downButton.setStyleName("dp-spinner-downbutton");

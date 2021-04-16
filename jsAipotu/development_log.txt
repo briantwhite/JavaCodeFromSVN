@@ -997,4 +997,8 @@ need to:
 - get spinner buttons to have up and down symbols
 - set up to update relative fitness whenever the spinners change
 
+have the up button but not the down button symbol
+	it's really hard to get the characters in there
+		may need to use an image and code like this pushButton.getUpFace().setImage(new Image(Resources.INSTANCE.new_cut_icon()));
+
 	

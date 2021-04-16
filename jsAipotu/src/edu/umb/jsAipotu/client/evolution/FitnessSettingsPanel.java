@@ -1,5 +1,6 @@
 package edu.umb.jsAipotu.client.evolution;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -12,8 +13,10 @@ public class FitnessSettingsPanel extends CaptionPanel {
 	private MolGenExp mge;
 	
 	private ColorFitnessSpinner[] spinners = new ColorFitnessSpinner[GlobalDefaults.colorList.length];
-	private HTML[] absoluteFitnessValues = new HTML[GlobalDefaults.colorList.length];
+	private HTML[] absoluteFitnessLabels = new HTML[GlobalDefaults.colorList.length];
 	private HTML[] populationCounts = new HTML[GlobalDefaults.colorList.length];
+	
+	private double[] absoluteFitnesses = new double[GlobalDefaults.colorList.length];
 	
 	public FitnessSettingsPanel(MolGenExp mge) {
 		super("Color Fitness and Population Counts");
@@ -32,13 +35,36 @@ public class FitnessSettingsPanel extends CaptionPanel {
 		mainGrid.setWidget(0, 2, new HTML("<b><u>Absolute Fitness</b></u>"));
 		mainGrid.setWidget(0, 3, new HTML("<b><u>Population Count</b></u>"));
 		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
-			spinners[i] = new ColorFitnessSpinner(GlobalDefaults.colorList[i]);
+			spinners[i] = new ColorFitnessSpinner(this, GlobalDefaults.colorList[i]);
 			mainGrid.setWidget(i + 1, 0, new HTML("<font color=\"" + spinners[i].getColorHTML() + "\">" + spinners[i].getColorString() + "</font>")); 
 			mainGrid.setWidget(i + 1, 1, spinners[i]);
-			absoluteFitnessValues[i] = new HTML("1");
-			mainGrid.setWidget(i + 1, 2, absoluteFitnessValues[i]);
+			absoluteFitnessLabels[i] = new HTML("1");
+			mainGrid.setWidget(i + 1, 2, absoluteFitnessLabels[i]);
 			populationCounts[i] = new HTML("0");
 			mainGrid.setWidget(i + 1, 3, populationCounts[i]);
 		}
+		updateAbsoluteFitnesses();
+	}
+	
+	public void updateAbsoluteFitnesses() {
+		int totalRelFitness = 0;
+		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
+			totalRelFitness = totalRelFitness + spinners[i].getValue();
+		}
+		if (totalRelFitness == 0) {
+			Window.alert("At least one Relative Fitness must be greater than zero.");
+			return;
+		}
+		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
+			double abFit = (double)spinners[i].getValue()/((double)totalRelFitness);
+			absoluteFitnesses[i] = abFit;
+			String abFitString = String.valueOf(abFit).substring(0, 6);
+			absoluteFitnessLabels[i].setText(abFitString);
+		}
+	}
+	
+	public double[] getFitnesses() {
+		updateAbsoluteFitnesses();
+		return absoluteFitnesses;
 	}
 }

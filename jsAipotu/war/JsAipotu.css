@@ -173,5 +173,13 @@
 .fitnessSettingPanel {
 	width: 500;
 	height: 1000;
-	background: darkgray;
+	background: lightgray;
+}
+
+.dp-spinner-upbutton {
+	font-size: 5px;
+}
+
+dp-spinner-downbutton {
+	font-size: 5px;
 }

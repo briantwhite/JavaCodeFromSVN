@@ -15,31 +15,9 @@ public class EvolutionWorkArea extends HorizontalPanel {
 	
 	private ColorCountsRecorder colorCountsRecorder;
 
-//	private JPanel leftPanel;
-//	private JPanel controlPanel;
-//	private JButton loadButton;
-//	private JButton runButton;
-//	private JButton runOneGenerationButton;
-//	private JButton pauseButton;
-//	private JPanel fitnessPanel;
-//	private JPanel rightPanel;
 
 	private World world;
 	private FitnessSettingsPanel fitnessSettingsPanel;
-//	private Evolver evolver;
-//	private Timer evolverTimer;
-
-//	private JLabel generationLabel;
-//	private int generation = 0;
-//	private JLabel averageFitnessLabel;
-//	
-//	private int totalNumberOfDeadOrganisms = 0;
-//
-//	Color backgroundColor = new Color(128,128,128);
-//
-//	ColorFitnessSpinner[] spinners = new ColorFitnessSpinner[GlobalDefaults.colorList.length];
-//	ColorPopulationLabel[] populationLabels = new ColorPopulationLabel[GlobalDefaults.colorList.length];
-//	JLabel[] absFitLabels = new JLabel[GlobalDefaults.colorList.length];
 
 	public EvolutionWorkArea(MolGenExp mge) {
 		super();

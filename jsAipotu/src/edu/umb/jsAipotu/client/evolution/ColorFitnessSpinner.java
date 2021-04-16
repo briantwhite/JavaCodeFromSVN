@@ -10,8 +10,8 @@ public class ColorFitnessSpinner extends NumberSpinner {
 	private CssColor color;
 	private String colorString;
 	
-	public ColorFitnessSpinner(String colorString) {
-		super();
+	public ColorFitnessSpinner(FitnessSettingsPanel fsp, String colorString) {
+		super(fsp);
 		this.colorString = colorString;
 		color = GlobalDefaults.colorModel.getColorFromString(colorString);
 	}
