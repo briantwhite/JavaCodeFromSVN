@@ -25,6 +25,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 //	private JPanel rightPanel;
 
 	private World world;
+	private FitnessSettingsPanel fitnessSettingsPanel;
 //	private Evolver evolver;
 //	private Timer evolverTimer;
 
@@ -52,8 +53,10 @@ public class EvolutionWorkArea extends HorizontalPanel {
 
 	private void setupUI() {
 		
-		world = new World();
+		fitnessSettingsPanel = new FitnessSettingsPanel(mge);
+		add(fitnessSettingsPanel);
 		
+		world = new World();
 		add(world);
 //		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 //

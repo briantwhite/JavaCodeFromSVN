@@ -2,8 +2,6 @@ package edu.umb.jsAipotu.client.evolution;
 
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Grid;
 
@@ -36,7 +34,8 @@ public class World extends CaptionPanel {
 		organismFactory = new OrganismFactory();
 		colorCountsRecorder = ColorCountsRecorder.getInstance();
 		organismGrid = new Grid(preferences.getWorldSize(), preferences.getWorldSize());
-		add(organismGrid);
+		setContentWidget(organismGrid);
+		initialize();
 	}
 
 	public void initialize(Organism[] orgs) {
@@ -45,7 +44,7 @@ public class World extends CaptionPanel {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				ThinOrganism to = thinOrganismFactory.createThinOrganism(orgs[r.nextInt(orgs.length)]);
 				organisms[i][j] = to;
-				organismGrid.add(to);
+				organismGrid.setWidget(i, j, to);
 			}
 		}
 	}
@@ -54,7 +53,7 @@ public class World extends CaptionPanel {
 	public void initialize() {
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				organismGrid.add(new ThinOrganism());
+				organismGrid.setWidget(i, j, new ThinOrganism());
 			}
 		}
 	}

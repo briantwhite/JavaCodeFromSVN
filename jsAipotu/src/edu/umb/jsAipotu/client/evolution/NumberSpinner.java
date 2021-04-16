@@ -15,14 +15,14 @@ import com.google.gwt.user.client.ui.IntegerBox;
 */
 public class NumberSpinner extends Composite {
 
-    private int RATE = 1;
     private IntegerBox integerBox;
+    private int MIN = 0;
+    private int MAX = 10;
+    private int DEFAULT = 5;
+    private int RATE = 1;
 
     public NumberSpinner() {
-        this(1);
-    }
-
-    public NumberSpinner(int defaultValue) {
+    	
         AbsolutePanel absolutePanel = new AbsolutePanel();
         initWidget(absolutePanel);
         absolutePanel.setSize("55px", "23px");
@@ -30,12 +30,15 @@ public class NumberSpinner extends Composite {
         integerBox = new IntegerBox();
         absolutePanel.add(integerBox, 0, 0);
         integerBox.setSize("30px", "16px");
-        integerBox.setValue(defaultValue);
+        integerBox.setValue(DEFAULT);
 
         Button upButton = new Button();
         upButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 setValue(getValue() + RATE);
+                if (getValue() > MAX) {
+                	setValue(MAX);
+                }
             }
         });
         upButton.setStyleName("dp-spinner-upbutton");
@@ -46,9 +49,10 @@ public class NumberSpinner extends Composite {
         Button downButton = new Button();
         downButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                if (getValue() == 0)
-                    return;
                 setValue(getValue() - RATE);
+                if (getValue() < MIN) {
+                	setValue(MIN);
+                }
             }
         });
         downButton.setStyleName("dp-spinner-downbutton");
@@ -75,12 +79,4 @@ public class NumberSpinner extends Composite {
         integerBox.setValue(value);
     }
 
-    /**
-     * Sets the rate at which increment or decrement is done.
-     * 
-     * @param rate
-     */
-    public void setRate(int rate) {
-        this.RATE = rate;
-    }
 }

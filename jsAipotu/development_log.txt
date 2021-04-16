@@ -988,4 +988,13 @@ Have ThinOrganism extend a FocusPanel so you can select them
 
 trying to get the default world of 10x10 gray ThinOrganisms to show - no luck so far.
 
+4/16/21
+got the empty World working.
+
+need to set up the controls - make a class that builds the panel
+got it roughly set up
+need to:
+- get spinner buttons to have up and down symbols
+- set up to update relative fitness whenever the spinners change
+
 	
