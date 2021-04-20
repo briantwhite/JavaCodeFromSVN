@@ -1,6 +1,9 @@
 package edu.umb.jsAipotu.client.evolution;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -31,8 +34,20 @@ public class NumberSpinner extends Composite {
         absolutePanel.add(integerBox, 0, 0);
         integerBox.setSize("30px", "16px");
         integerBox.setValue(DEFAULT);
+        integerBox.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				setValue(getValue()); // needed to deal with non-numeric entries
+				if (getValue() > MAX) {
+					setValue(MAX);
+				}
+				if (getValue() < MIN) {
+					setValue(MIN);
+				}
+				fsp.updateAbsoluteFitnesses();
+			}
+        });
 
-        Button upButton = new Button("&and;");
+        Button upButton = new Button();
         upButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 setValue(getValue() + RATE);
@@ -47,7 +62,7 @@ public class NumberSpinner extends Composite {
         absolutePanel.add(upButton, 34, 1);
         upButton.setSize("12px", "10px");
 
-        Button downButton = new Button("&or;");
+        Button downButton = new Button();
         downButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 setValue(getValue() - RATE);

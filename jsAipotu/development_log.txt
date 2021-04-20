@@ -1001,4 +1001,11 @@ have the up button but not the down button symbol
 	it's really hard to get the characters in there
 		may need to use an image and code like this pushButton.getUpFace().setImage(new Image(Resources.INSTANCE.new_cut_icon()));
 
-	
+4/20/21
+make 2 12x10 gifs 'upButton.gif" and 'downButton.gif'
+the tips on sourceforge were no good
+had to make a war/images/ folder and use css
+added code to deal with manual entries
+these are all set
+
+next: loading from the greenhouse - you need to be able to select as many organisms as you'd like

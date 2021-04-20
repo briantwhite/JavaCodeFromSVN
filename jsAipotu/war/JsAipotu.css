@@ -177,9 +177,11 @@
 }
 
 .dp-spinner-upbutton {
-	font-size: 5px;
+	border: 1px solid black;
+	background: url("images/upButton.gif");
 }
 
-dp-spinner-downbutton {
-	font-size: 5px;
+.dp-spinner-downbutton {
+	border: 1px solid black;
+	background: url("images/downButton.gif");
 }
