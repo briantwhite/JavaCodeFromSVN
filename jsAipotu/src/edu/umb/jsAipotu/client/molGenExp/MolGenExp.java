@@ -61,12 +61,25 @@ public class MolGenExp {
 
 	// deal with organism selections
 	public void organismWasClicked(OrganismUI oui) {
-		if (jsA.getSelectedTabIndex() == GENETICS) {
+		
+		switch (jsA.getSelectedTabIndex()) {
+		
+		case GENETICS:
 			processSelectionInGenetics(oui);
-		} else {
+			break;
+		
+		case BIOCHEMISTRY:
 			processSelectionInMoboOrBiochem(oui);
-		}
-
+			break;
+		
+		case MOLECULAR_BIOLOGY:
+			processSelectionInMoboOrBiochem(oui);
+			break;
+			
+		case EVOLUTION:
+			// just return since there's no limt on the number of OrganismUIs you can select
+			break;
+		} 
 	}
 
 	private void processSelectionInGenetics(OrganismUI oui) {
@@ -114,7 +127,7 @@ public class MolGenExp {
 			jsA.getBiochemWorkbench().loadOrganism(oui.getOrganism());
 		}
 	}
-
+	
 	public void clearSelectedOrganisms() {
 		greenhouse.clearAllSelections();
 		clearSelectedOrganismsInGeneticsWorkbench();

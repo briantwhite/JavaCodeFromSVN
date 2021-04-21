@@ -159,12 +159,6 @@
 	margin-right: 10px;
 }
 
-.thinOrganism {
-	width: 30px;
-	height: 30px;
-	border: 1px solid black;
-}
-
 .world {
 	width: 1000;
 	height: 1000;
@@ -184,4 +178,18 @@
 .dp-spinner-downbutton {
 	border: 1px solid black;
 	background: url("images/downButton.gif");
+}
+
+.selected-thinOrgansm {
+	width: 30px;
+	height: 30px;
+	border: 1px solid black;
+	background: lightblue;
+}
+
+.unselected-thinOrganism {
+	width: 30px;
+	height: 30px;
+	border: 1px solid black;
+	background: white;
 }

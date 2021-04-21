@@ -6,16 +6,19 @@ import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.biochem.FoldingManager;
 import edu.umb.jsAipotu.client.molBiol.ExpressedGene;
 import edu.umb.jsAipotu.client.molBiol.GeneExpresser;
+import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 import edu.umb.jsAipotu.client.molGenExp.Organism;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 public class ThinOrganismFactory {
 	private GeneExpresser geneExpresser;
 	private FoldingManager foldingManager;
+	private MolGenExp mge;
 
-	public ThinOrganismFactory() {
+	public ThinOrganismFactory(MolGenExp mge) {
 		geneExpresser = new GeneExpresser();
 		foldingManager = new FoldingManager();
+		this.mge = mge;
 	}
 
 	public synchronized ThinOrganism createThinOrganism(
@@ -34,7 +37,7 @@ public class ThinOrganismFactory {
 
 		return new ThinOrganism(newDNA1, newDNA2, 
 				color1, color2, 
-				overallColor);
+				overallColor, mge);
 	}
 
 	public synchronized ThinOrganism createThinOrganism(String dna1, String dna2) 
@@ -52,7 +55,7 @@ public class ThinOrganismFactory {
 
 		return new ThinOrganism(newDNA1, newDNA2, 
 				color1, color2, 
-				GlobalDefaults.colorModel.mixTwoColors(color1, color2));
+				GlobalDefaults.colorModel.mixTwoColors(color1, color2), mge);
 	}
 
 	public synchronized ThinOrganism createThinOrganism(Organism o) {
@@ -60,7 +63,7 @@ public class ThinOrganismFactory {
 				o.getGene2().getExpressedGene().getDNA(),
 				o.getGene1().getFoldedProteinWithImages().getColor(),
 				o.getGene2().getFoldedProteinWithImages().getColor(),
-				o.getColor());
+				o.getColor(), mge);
 	}
 
 	private CssColor foldAndComputeColor(String DNASeq) throws FoldingException {

@@ -85,5 +85,18 @@ public class Greenhouse extends ScrollPanel {
 		}
 		return false;
 	}
+	
+	// for evolution
+	public ArrayList<OrganismUI> getAllSelectedOrganisms() {
+		ArrayList<OrganismUI> selectedOrgs = new ArrayList<OrganismUI>();
+		Iterator<OrganismUI> ouiIt = organismUIs.iterator();
+		while (ouiIt.hasNext()) {
+			OrganismUI oui = ouiIt.next();
+			if (oui.isSelected()) {
+				selectedOrgs.add(oui);
+			}
+		}
+		return selectedOrgs;
+	}
 
 }

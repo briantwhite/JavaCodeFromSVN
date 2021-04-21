@@ -1,17 +1,22 @@
 package edu.umb.jsAipotu.client.evolution;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Grid;
 
 import edu.umb.jsAipotu.client.biochem.FoldingException;
+import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 import edu.umb.jsAipotu.client.molGenExp.Organism;
 import edu.umb.jsAipotu.client.molGenExp.OrganismFactory;
+import edu.umb.jsAipotu.client.molGenExp.OrganismUI;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
 public class World extends CaptionPanel {
+	
+	private MolGenExp mge;
 
 	private MGEPreferences preferences;
 
@@ -26,11 +31,12 @@ public class World extends CaptionPanel {
 	private int selectedCelli = -1;
 	private int selectedCellj = -1;
 
-	public World() {
+	public World(MolGenExp mge) {
 		super("World");
 		setStyleName("world");
+		this.mge = mge;
 		preferences = MGEPreferences.getInstance();
-		thinOrganismFactory = new ThinOrganismFactory();
+		thinOrganismFactory = new ThinOrganismFactory(mge);
 		organismFactory = new OrganismFactory();
 		colorCountsRecorder = ColorCountsRecorder.getInstance();
 		organismGrid = new Grid(preferences.getWorldSize(), preferences.getWorldSize());
@@ -38,11 +44,11 @@ public class World extends CaptionPanel {
 		initialize();
 	}
 
-	public void initialize(Organism[] orgs) {
+	public void initialize(ArrayList<OrganismUI> orgs) {
 		Random r = new Random();
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				ThinOrganism to = thinOrganismFactory.createThinOrganism(orgs[r.nextInt(orgs.length)]);
+				ThinOrganism to = thinOrganismFactory.createThinOrganism(orgs.get(r.nextInt(orgs.size())).getOrganism());
 				organisms[i][j] = to;
 				organismGrid.setWidget(i, j, to);
 			}

@@ -1031,3 +1031,7 @@ working on
 	- this should also happen in MoBoWorkpanel - it's there but really hard to test.
 
 (5) - code will be in MolGenExp.java
+	started working on it
+		set up ThinOrganism to have a built-in UI like OrganismUI
+		set up selection model to allow multiple selections
+			can get ArrayList of all of them by Greenhouse.getAllSelectedOrganisms()

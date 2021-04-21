@@ -34,7 +34,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		fitnessSettingsPanel = new FitnessSettingsPanel(mge);
 		add(fitnessSettingsPanel);
 		
-		world = new World();
+		world = new World(mge);
 		add(world);
 //		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 //
