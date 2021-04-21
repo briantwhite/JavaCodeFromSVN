@@ -1008,4 +1008,16 @@ had to make a war/images/ folder and use css
 added code to deal with manual entries
 these are all set
 
-next: loading from the greenhouse - you need to be able to select as many organisms as you'd like
+4/21/21
+next: 
+	1) have it default to pulling in the saved greenhouse without a choice
+		in Greenhouse menu - have option to load default GH which gives a warning that it'll erase the current one
+	2) make the extension of the saved greenhouse file be .jsgh since they're not compatable with regular aipotu gh files
+	3) have preferences menu item "Evolution: mutations on" and "Evolution: mutations off"
+	4) deal properly with FoldedInACorner protein exception
+		poison sequences
+			MSSAISPKIRHHFWRSKTGYVYVAAVGKKKK
+			MAGVRAVRVLRYAACCVCMFCAPMHLRITLKKKK
+			MSKCFKPQRTAARFCVSTNVSVLETLVDSKKKK
+	5) loading from the greenhouse - you need to be able to select as many organisms as you'd like
+	
