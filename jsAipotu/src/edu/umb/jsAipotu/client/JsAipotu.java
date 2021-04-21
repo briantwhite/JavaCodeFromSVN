@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -52,6 +53,7 @@ public class JsAipotu implements EntryPoint {
 	private MenuBar menuBar = null;
 	private MenuBar preferencesMenu = null;
 	private MenuItem showColorTextItem = null;
+	private MenuItem evolutionMutationItem = null;
 	private MenuBar compareMenu = null;
 	private MenuBar greenhouseMenu = null;
 
@@ -88,6 +90,7 @@ public class JsAipotu implements EntryPoint {
 		showColorTextItem = preferencesMenu.addItem("Hide color names", new Command() {
 			public void execute() {
 				if (showColorTextItem.getText() == "Show color names") {
+					// it was "show" so need to show the names and change the label to "hide"
 					showColorTextItem.setText("Hide color names");
 					MGEPreferences.getInstance().setShowColorNameText(true);
 					Iterator<OrganismUI> ouiIt = allOrganismUIs.iterator();
@@ -96,12 +99,26 @@ public class JsAipotu implements EntryPoint {
 						oui.setTitle(GlobalDefaults.colorModel.getColorName(oui.getOrganism().getColor()));
 					}
 				} else {
+					// it was "hide" so need to hide the names and change label to "show"
 					showColorTextItem.setText("Show color names");
 					MGEPreferences.getInstance().setShowColorNameText(false);
 					Iterator<OrganismUI> ouiIt = allOrganismUIs.iterator();
 					while (ouiIt.hasNext()) {
 						ouiIt.next().setTitle(null);
 					}
+				}
+			}
+		});
+		evolutionMutationItem = preferencesMenu.addItem("Evolution: turn mutations OFF", new Command() {
+			public void execute() {
+				if (evolutionMutationItem.getText() == "Evolution: turn mutations OFF") {
+					// it was to 'turn off' so turn them off and change label to "turn on"
+					evolutionMutationItem.setText("Evolution: turn mutations ON");
+					MGEPreferences.getInstance().setMutationsEnabled(false);
+				} else {
+					// it was to 'turn on' so turn them on and change label to "turn off"
+					evolutionMutationItem.setText("Evolution: turn mutations OFF");
+					MGEPreferences.getInstance().setMutationsEnabled(true);
 				}
 			}
 		});
@@ -151,6 +168,18 @@ public class JsAipotu implements EntryPoint {
 		menuBar.addItem("Compare", compareMenu);
 		// Greenhouse menu
 		greenhouseMenu = new MenuBar(true);
+		greenhouseMenu.addItem("Load default Greenhouse", new Command() {
+			public void execute() {
+				boolean confirmLoadDefault = Window.confirm("This will permanently delete any strains you have added to the Greenhouse;" +
+			"click OK to replace with default; click Cancel to keep your Greenhouse as is."); 
+				if (confirmLoadDefault) {
+					mge.getGreenhouse().clearAllOrganisms();
+					mge.getGreenhouseLoader().loadDefault();
+				} else {
+					return;
+				}
+			}
+		});
 		greenhouseMenu.addItem("Load Greenhouse file...", new Command() {
 			public void execute() {
 				mge.showLoadGreenhouseFileDialog();

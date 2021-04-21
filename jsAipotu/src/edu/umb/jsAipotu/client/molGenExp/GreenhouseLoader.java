@@ -22,7 +22,7 @@ import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.resources.Resources;
 
 public class GreenhouseLoader {
-	
+
 	private OrganismFactory organismFactory;
 	private Greenhouse greenhouse;
 
@@ -30,7 +30,7 @@ public class GreenhouseLoader {
 		organismFactory = new OrganismFactory();
 		this.greenhouse = greenhouse;
 	}
-	
+
 	public void load() {
 		// first, see if there's a saved greenhouse in this browser
 		Storage greenhouseStore = null;
@@ -38,16 +38,16 @@ public class GreenhouseLoader {
 		if (greenhouseStore != null) {
 			String greenhouseJSONstring = greenhouseStore.getItem("greenhouse");
 			if (greenhouseJSONstring != null) {
-				boolean useSavedGH = Window.confirm("Saved Greenhouse found; click OK to use it; click Cancel to use default");
-				if (useSavedGH) {
-					processJSONString(greenhouseJSONstring);
-				} else {
-					processJSONString(Resources.INSTANCE.defaultGreenhouse().getText());
-				}
+				processJSONString(greenhouseJSONstring);
 			} else {
+				// otherwise load default
 				processJSONString(Resources.INSTANCE.defaultGreenhouse().getText());
 			}
 		}
+	}
+	
+	public void loadDefault() {
+		processJSONString(Resources.INSTANCE.defaultGreenhouse().getText());
 	}
 
 	public void loadFromFile(String fileName) {
@@ -83,12 +83,12 @@ public class GreenhouseLoader {
 			FoldedProteinArchive.getInstance().add(aaSeq, topology, color);
 		}
 	}
-	
+
 	private CssColor parseColorString(String colorString) {
 		String[] colorStringParts = colorString.split("/");
 		return CssColor.make(Integer.parseInt(colorStringParts[0]), Integer.parseInt(colorStringParts[1]), Integer.parseInt(colorStringParts[2]));
 	}
-	
+
 	private void loadGreenhouse(JSONArray organismArray) {
 		for (int i = 0; i < organismArray.size(); i++) {
 			JSONObject org = organismArray.get(i).isObject();

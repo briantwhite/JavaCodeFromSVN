@@ -54,6 +54,10 @@ public class MolGenExp {
 	public Greenhouse getGreenhouse() {
 		return greenhouse;
 	}
+	
+	public GreenhouseLoader getGreenhouseLoader() {
+		return greenhouseLoader;
+	}
 
 	// deal with organism selections
 	public void organismWasClicked(OrganismUI oui) {
@@ -277,12 +281,15 @@ public class MolGenExp {
 	}
 	
 	public void saveGreenhouseToFile() {
-		String GHfileName = Window.prompt("Please enter a name for the saved Greenhouse file:", "saved.greenhouse");
+		String GHfileName = Window.prompt("Please enter a name for the saved Greenhouse file:", "saved.jsgh");
 		if (GHfileName == null) {
 			return;
 		}
 		if (GHfileName == "") {
 			Window.alert("You entered a blank filename. Please try again.");
+		}
+		if (!GHfileName.endsWith(".jsgh")) {
+			GHfileName = GHfileName + ".jsgh";
 		}
 		Window.alert("A file named " + GHfileName + " will be saved to your Desktop.\n Your browser may warn you about the file; it is safe.");
 		saveFile(GHfileName, getGreenhouseJSONstring());		

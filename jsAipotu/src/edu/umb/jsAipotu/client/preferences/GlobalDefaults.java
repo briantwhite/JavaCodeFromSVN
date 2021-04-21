@@ -52,11 +52,10 @@ public class GlobalDefaults {
 	public static final CssColor DEAD_COLOR = CssColor.make("gray");
 	public static final String DEAD_COLOR_NAME = "Gray";
 
-	public static final String paintedInACornerNotice = "<html>"
-		+ "I'm sorry, I cannot fold that protein.<br>"
+	public static final String paintedInACornerNotice = "I'm sorry, I cannot fold that protein.\n"
 		+ "The folding algorithm gets stuck because "
-		+ "it only works in two dimensions.<br>"
-		+ "Please try another sequence.</html>";
+		+ "it only works in two dimensions.\n"
+		+ "Please try another sequence.";
 	
 	public GlobalDefaults() {
 		

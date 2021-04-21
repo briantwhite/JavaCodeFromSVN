@@ -46,6 +46,7 @@ public class Greenhouse extends ScrollPanel {
 		while (ouIt.hasNext()) {
 			innerPanel.add(ouIt.next());
 		}
+		mge.saveGreenhouseToHTML5storage();
 	}
 
 	public void selectOnlyThisOrganism(OrganismUI oui) {

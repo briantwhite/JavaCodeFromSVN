@@ -1019,5 +1019,15 @@ next:
 			MSSAISPKIRHHFWRSKTGYVYVAAVGKKKK
 			MAGVRAVRVLRYAACCVCMFCAPMHLRITLKKKK
 			MSKCFKPQRTAARFCVSTNVSVLETLVDSKKKK
-	5) loading from the greenhouse - you need to be able to select as many organisms as you'd like
+	5) loading World from the greenhouse - you need to be able to select as many organisms as you'd like
 	
+working on 
+(1) - all set.
+(2) - all set.
+(3) - all set - had it set the MGEPreferences.setMutationsEnabled(true); or false - ready for later
+(4) see what happens now MSS AIS PKI RHH FWR SKT GYV YVA AVG KKKK
+	- you get an error dialog and it won't fold
+		where does that come from? BiochemistryWorkpanel lines 131 and 148.
+	- this should also happen in MoBoWorkpanel - it's there but really hard to test.
+
+(5) - code will be in MolGenExp.java
