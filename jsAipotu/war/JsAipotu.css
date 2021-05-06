@@ -193,3 +193,7 @@
 	border: 1px solid black;
 	background: white;
 }
+
+.evolutionButton {
+	margin: 5px;
+}

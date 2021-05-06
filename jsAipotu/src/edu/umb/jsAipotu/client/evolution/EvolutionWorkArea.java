@@ -1,6 +1,11 @@
 package edu.umb.jsAipotu.client.evolution;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 import edu.umb.jsAipotu.client.molGenExp.OrganismFactory;
@@ -31,8 +36,53 @@ public class EvolutionWorkArea extends HorizontalPanel {
 
 	private void setupUI() {
 		
+		VerticalPanel leftPanel = new VerticalPanel();
+		
 		fitnessSettingsPanel = new FitnessSettingsPanel(mge);
-		add(fitnessSettingsPanel);
+		leftPanel.add(fitnessSettingsPanel);
+		
+		CaptionPanel controlPanel = new CaptionPanel("Controls");
+		HorizontalPanel buttonPanel = new HorizontalPanel();
+		Button loadButton = new Button("Load");
+		loadButton.setStyleName("evolutionButton");
+		loadButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				
+			}
+		});
+		buttonPanel.add(loadButton);
+		
+		Button runButton = new Button("Run");
+		runButton.setStyleName("evolutionButton");
+		runButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				
+			}
+		});
+		buttonPanel.add(runButton);
+		
+		Button pauseButton = new Button("Pause");
+		pauseButton.setStyleName("evolutionButton");
+		pauseButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				
+			}
+		});
+		buttonPanel.add(pauseButton);
+		
+		Button oneGenButton = new Button("One Generation Only");
+		oneGenButton.setStyleName("evolutionButton");
+		oneGenButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				
+			}
+		});
+		buttonPanel.add(oneGenButton);
+		
+		controlPanel.setContentWidget(buttonPanel);
+		leftPanel.add(controlPanel);
+		
+		add(leftPanel);
 		
 		world = new World(mge);
 		add(world);
