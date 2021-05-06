@@ -1,5 +1,6 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -54,28 +55,28 @@ public class MolGenExp {
 	public Greenhouse getGreenhouse() {
 		return greenhouse;
 	}
-	
+
 	public GreenhouseLoader getGreenhouseLoader() {
 		return greenhouseLoader;
 	}
 
 	// deal with organism selections
 	public void organismWasClicked(OrganismUI oui) {
-		
+
 		switch (jsA.getSelectedTabIndex()) {
-		
+
 		case GENETICS:
 			processSelectionInGenetics(oui);
 			break;
-		
+
 		case BIOCHEMISTRY:
 			processSelectionInMoboOrBiochem(oui);
 			break;
-		
+
 		case MOLECULAR_BIOLOGY:
 			processSelectionInMoboOrBiochem(oui);
 			break;
-			
+
 		case EVOLUTION:
 			// just return since there's no limt on the number of OrganismUIs you can select
 			break;
@@ -127,7 +128,7 @@ public class MolGenExp {
 			jsA.getBiochemWorkbench().loadOrganism(oui.getOrganism());
 		}
 	}
-	
+
 	public void clearSelectedOrganisms() {
 		greenhouse.clearAllSelections();
 		clearSelectedOrganismsInGeneticsWorkbench();
@@ -156,19 +157,19 @@ public class MolGenExp {
 	}
 
 	public void saveSelectedOrganismToGreenhouse() {
-		
+
 		switch (jsA.getSelectedTabIndex()) {
-		
+
 		case GENETICS:
 			if ((oui1 == null) & (oui2 != null)) {
 				saveOrganismToGreenhouse(oui2.getOrganism());
 			}
 			break;
-		
+
 		case BIOCHEMISTRY:
 			// not possible - you can't save proteins, only organisms or DNA
 			break;
-			
+
 		case MOLECULAR_BIOLOGY:
 			try {
 				jsA.getMolBiolWorkbench().saveOrganismToGreenhouse();
@@ -176,11 +177,11 @@ public class MolGenExp {
 				return;
 			}
 			break;
-			
+
 		case EVOLUTION:
 			break;
 		}
-			
+
 	}
 
 	public void saveOrganismToGreenhouse(final Organism o) {
@@ -230,7 +231,7 @@ public class MolGenExp {
 				getNameDialog.hide();
 			}
 		});
-		
+
 		getNameDialog.setPopupPosition(greenhouse.getAbsoluteLeft() - 250, greenhouse.getAbsoluteTop());
 		getNameDialog.show();
 	}
@@ -243,7 +244,7 @@ public class MolGenExp {
 			greenhouseStore.setItem("greenhouse", getGreenhouseJSONstring());
 		}
 	}
-	
+
 	private String getGreenhouseJSONstring() {
 		JSONObject greenhouseJSON = new JSONObject();
 
@@ -292,7 +293,7 @@ public class MolGenExp {
 		s = s.replace(",", "/");
 		return new JSONString(s);
 	}
-	
+
 	public void saveGreenhouseToFile() {
 		String GHfileName = Window.prompt("Please enter a name for the saved Greenhouse file:", "saved.jsgh");
 		if (GHfileName == null) {
@@ -307,30 +308,16 @@ public class MolGenExp {
 		Window.alert("A file named " + GHfileName + " will be saved to your Desktop.\n Your browser may warn you about the file; it is safe.");
 		saveFile(GHfileName, getGreenhouseJSONstring());		
 	}
-	
+
 	public void loadGreenhouseFromFile(String greenhouseJSONstring) {
 		greenhouse.clearAllOrganisms();
 		greenhouseLoader.processJSONString(greenhouseJSONstring);
 		greenhouse.updateDisplay();
 	}
-	
+
 	public void setAddToGreenhouseButtonEnabled(boolean b) {
 		jsA.enableAddToGreenhouseButton(b);
 	}
-	
-	public static native void saveFile(String fileName, String text) /*-{
-		var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-		$wnd.saveAs(blob, fileName);
-	}-*/;
-	
-	public void showLoadGreenhouseFileDialog() {
-		showLoadFileDialog();
-	}
-	
-	public static native void showLoadFileDialog() /*-{
-		$wnd.loadWorkDialog();
-	}-*/;
-
 
 	public void updateGeneticsButtonStatus() {
 		if ((oui1 == null) & (oui2 == null)) {
@@ -354,5 +341,18 @@ public class MolGenExp {
 			jsA.enableAddToGreenhouseButton(false);
 		}
 	}
+	
+	public static native void saveFile(String fileName, String text) /*-{
+	var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+		$wnd.saveAs(blob, fileName);
+	}-*/;
+
+	public void showLoadGreenhouseFileDialog() {
+		showLoadFileDialog();
+	}
+
+	public static native void showLoadFileDialog() /*-{
+		$wnd.loadWorkDialog();
+	}-*/;
 
 }

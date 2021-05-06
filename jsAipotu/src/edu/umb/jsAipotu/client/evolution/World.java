@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Grid;
 
+import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 import edu.umb.jsAipotu.client.molGenExp.Organism;
@@ -39,6 +40,7 @@ public class World extends CaptionPanel {
 		thinOrganismFactory = new ThinOrganismFactory(mge);
 		organismFactory = new OrganismFactory();
 		colorCountsRecorder = ColorCountsRecorder.getInstance();
+		organisms = new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()];
 		organismGrid = new Grid(preferences.getWorldSize(), preferences.getWorldSize());
 		setContentWidget(organismGrid);
 		initialize();

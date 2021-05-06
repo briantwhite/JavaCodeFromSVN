@@ -1041,3 +1041,6 @@ working on Evolution's control panel
 	set up buttons but not the functions they run (yet)
 	next is to make them work
 also added generation and average fitness indicators.
+
+trying to get the color counts to work when you load a new world
+	it throws an error - fixed

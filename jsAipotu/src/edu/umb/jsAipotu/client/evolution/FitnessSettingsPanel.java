@@ -67,4 +67,14 @@ public class FitnessSettingsPanel extends CaptionPanel {
 		updateAbsoluteFitnesses();
 		return absoluteFitnesses;
 	}
+	
+	public void updateColorCountDisplay(ColorCountsRecorder colorCountsRecorder) {
+		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
+			populationCounts[i].setText(String.valueOf(
+					colorCountsRecorder.getCount(
+							GlobalDefaults.colorModel.getColorFromString(
+									GlobalDefaults.colorList[i]))));
+		}	
+	}
+
 }
