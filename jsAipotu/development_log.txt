@@ -1040,3 +1040,4 @@ working on
 working on Evolution's control panel
 	set up buttons but not the functions they run (yet)
 	next is to make them work
+also added generation and average fitness indicators.

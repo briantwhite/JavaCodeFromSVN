@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -20,7 +21,9 @@ public class EvolutionWorkArea extends HorizontalPanel {
 	
 	private ColorCountsRecorder colorCountsRecorder;
 
-
+	private HTML generationDisplay;
+	private HTML avgFitnessDisplay;
+	
 	private World world;
 	private FitnessSettingsPanel fitnessSettingsPanel;
 
@@ -43,6 +46,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		
 		CaptionPanel controlPanel = new CaptionPanel("Controls");
 		HorizontalPanel buttonPanel = new HorizontalPanel();
+		
 		Button loadButton = new Button("Load");
 		loadButton.setStyleName("evolutionButton");
 		loadButton.addClickHandler(new ClickHandler() {
@@ -53,6 +57,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		buttonPanel.add(loadButton);
 		
 		Button runButton = new Button("Run");
+		runButton.setEnabled(false);
 		runButton.setStyleName("evolutionButton");
 		runButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -62,6 +67,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		buttonPanel.add(runButton);
 		
 		Button pauseButton = new Button("Pause");
+		pauseButton.setEnabled(false);
 		pauseButton.setStyleName("evolutionButton");
 		pauseButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -71,6 +77,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		buttonPanel.add(pauseButton);
 		
 		Button oneGenButton = new Button("One Generation Only");
+		oneGenButton.setEnabled(false);
 		oneGenButton.setStyleName("evolutionButton");
 		oneGenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -82,99 +89,23 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		controlPanel.setContentWidget(buttonPanel);
 		leftPanel.add(controlPanel);
 		
+		HorizontalPanel generationDisplayPanel = new HorizontalPanel();
+		generationDisplay = new HTML("0");
+		generationDisplayPanel.add(new HTML("Generation: "));
+		generationDisplayPanel.add(generationDisplay);
+		leftPanel.add(generationDisplayPanel);
+		
+		HorizontalPanel avgFitDispPanel = new HorizontalPanel();
+		avgFitnessDisplay = new HTML("");
+		avgFitDispPanel.add(new HTML("Average fitness = "));
+		avgFitDispPanel.add(avgFitnessDisplay);
+		leftPanel.add(avgFitDispPanel);
+		
 		add(leftPanel);
 		
 		world = new World(mge);
 		add(world);
-//		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-//
-//		leftPanel = new JPanel();
-//		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-//		leftPanel.add(Box.createRigidArea(new Dimension(200,1)));
-//
-//		fitnessPanel = new JPanel();
-//		fitnessPanel.setBorder(BorderFactory.createTitledBorder(
-//		"Color Fitness and Population Counts"));
-//		fitnessPanel.setBackground(backgroundColor);
-//
-//		JPanel settingsAndCountPanel = new JPanel();
-//		settingsAndCountPanel.setOpaque(true);
-//		settingsAndCountPanel.setBackground(Color.BLACK);
-//
-//		settingsAndCountPanel.setLayout(new GridLayout(9, 4, 2, 2));
-//
-//		JLabel cLabel = new JLabel("<html><b><u>Color</u></b></html>");
-//		cLabel.setOpaque(true);
-//		cLabel.setBackground(backgroundColor);
-//		settingsAndCountPanel.add(cLabel);
-//
-//		JLabel rfLabel = new JLabel("<html><b><u>Relative<br>Fitness</u></b></html>");
-//		rfLabel.setOpaque(true);
-//		rfLabel.setBackground(backgroundColor);
-//		settingsAndCountPanel.add(rfLabel);
-//
-//		JLabel afLabel = new JLabel("<html><b><u>Absolute<br>Fitness</u></b></html>");
-//		afLabel.setOpaque(true);
-//		afLabel.setBackground(backgroundColor);
-//		settingsAndCountPanel.add(afLabel);
-//
-//		JLabel pcLabel = new JLabel("<html><b><u>Population<br>Count</u></b></html>");
-//		pcLabel.setOpaque(true);
-//		pcLabel.setBackground(backgroundColor);
-//		settingsAndCountPanel.add(pcLabel);
-//
-//		JLabel[] colorLabels = new JLabel[GlobalDefaults.colorList.length];
-//		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
-//			spinners[i] = new ColorFitnessSpinner(GlobalDefaults.colorList[i]);
-//			spinners[i].addChangeListener(this);
-//			colorLabels[i] = new JLabel(spinners[i].getColorString());
-//			colorLabels[i].setBackground(backgroundColor);
-//			colorLabels[i].setForeground(spinners[i].getColor());
-//			colorLabels[i].setOpaque(true);
-//			settingsAndCountPanel.add(colorLabels[i]);
-//			colorLabels[i].setLabelFor(spinners[i]);
-//
-//			spinners[i].setOpaque(true);
-//			spinners[i].setBackground(backgroundColor);
-//			settingsAndCountPanel.add(spinners[i]);
-//			
-//			absFitLabels[i] = new JLabel("--");
-//			absFitLabels[i].setOpaque(true);
-//			absFitLabels[i].setBackground(backgroundColor);
-//			settingsAndCountPanel.add(absFitLabels[i]);
-//
-//			populationLabels[i] = new ColorPopulationLabel(GlobalDefaults.colorList[i]);
-//			populationLabels[i].setOpaque(true);
-//			populationLabels[i].setBackground(backgroundColor);
-//
-//			settingsAndCountPanel.add(populationLabels[i]);
-//		}
-//
-//		fitnessPanel.add(settingsAndCountPanel);
-//
-//		leftPanel.add(fitnessPanel);
-//
-//		controlPanel = new JPanel();
-//		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
-//		controlPanel.setBorder(BorderFactory.createTitledBorder("Controls"));
-//		loadButton = new JButton("Load");
-//		controlPanel.add(loadButton);
-//		runButton = new JButton("Run");
-//		runButton.setEnabled(false);
-//		controlPanel.add(runButton);
-//		pauseButton = new JButton("Pause");
-//		pauseButton.setEnabled(false);
-//		controlPanel.add(pauseButton);
-//		runOneGenerationButton = new JButton("One Generation Only");
-//		runOneGenerationButton.setEnabled(false);
-//		controlPanel.add(runOneGenerationButton);
-//		leftPanel.add(controlPanel);
-//
-//		this.add(leftPanel);
-//
-//		rightPanel = new JPanel();
-//		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-//		rightPanel.setBorder(BorderFactory.createTitledBorder("World"));
+
 //
 //		rightPanel.add(Box.createRigidArea(new Dimension(500,1)));
 //		world = new World();
