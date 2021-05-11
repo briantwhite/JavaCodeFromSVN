@@ -329,7 +329,9 @@ to do this, I need a developer account and a VM I can play on - they're setting 
 could maybe set up on omega server a username/password/account system to 
 	- save student work
 	- e-mail out grading files?
-some possibilities: search for "identity management"
-this one looks promising - it's designed for applications https://www.keycloak.org/index.html
+search for "user management software"
+possible ones
+	PHP-based: https://awesomeopensource.com/project/userfrosting/UserFrosting
+	also: https://userspice.com/ 
 
  
