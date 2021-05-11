@@ -323,4 +323,13 @@ Need a "building block" -
 	a set of files that will live on blackboard and can write to bboard's database
 
 to do this, I need a developer account and a VM I can play on - they're setting that up.
+
+
+5/11/21
+could maybe set up on omega server a username/password/account system to 
+	- save student work
+	- e-mail out grading files?
+some possibilities: search for "identity management"
+this one looks promising - it's designed for applications https://www.keycloak.org/index.html
+
  
