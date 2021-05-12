@@ -1,6 +1,5 @@
 package edu.umb.jsAipotu.client.molGenExp;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -154,6 +153,10 @@ public class MolGenExp {
 
 	public OrganismUI getOUI2() {
 		return oui2;
+	}
+	
+	public JsAipotu getjsAipotu() {
+		return jsA;
 	}
 
 	public void saveSelectedOrganismToGreenhouse() {

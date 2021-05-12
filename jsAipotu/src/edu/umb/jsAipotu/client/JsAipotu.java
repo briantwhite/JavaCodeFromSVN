@@ -281,6 +281,10 @@ public class JsAipotu implements EntryPoint {
 	public MolBiolWorkbench getMolBiolWorkbench() {
 		return molBiolWorkbench;
 	}
+	
+	public EvolutionWorkArea getEvolutionWorkArea() {
+		return evolutionWorkArea;
+	}
 
 	public void enableAddToGreenhouseButton(boolean b) {
 		addToGreenhouseButton.setEnabled(b);

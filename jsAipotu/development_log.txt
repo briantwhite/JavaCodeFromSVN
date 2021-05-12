@@ -1044,3 +1044,8 @@ also added generation and average fitness indicators.
 
 trying to get the color counts to work when you load a new world
 	it throws an error - fixed
+
+5/12/21
+trying to get it to update the average fitness display
+	the most sensible place for this is in FitnessSettingsPanel.updateAbsoluteFitnesses() 
+		but, on startup, it ends up referring to things that aren't there yet

@@ -61,6 +61,7 @@ public class FitnessSettingsPanel extends CaptionPanel {
 			String abFitString = String.valueOf(abFit).substring(0, 6);
 			absoluteFitnessLabels[i].setText(abFitString);
 		}
+		mge.getjsAipotu().getEvolutionWorkArea().updateAverageFitnessDisplay();
 	}
 	
 	public double[] getFitnesses() {

@@ -176,12 +176,23 @@ public class EvolutionWorkArea extends HorizontalPanel {
 			mge.getGreenhouse().clearAllSelections();
 			world.updateCounts();
 			fitnessSettingsPanel.updateColorCountDisplay(colorCountsRecorder);
+			updateAverageFitnessDisplay();
 		}
 
 		//		setFitnessSpinnersEnabled(true);
 		//		mge.getProgressBar().setValue(0);
 		//		clearSelection();
 
+	}
+
+	public void updateAverageFitnessDisplay() {
+		float averageFitness = 0.0f;
+		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
+			float fractionOfPopulation = ((float)ColorCountsRecorder.getInstance().getCount(
+					GlobalDefaults.colorModel.getColorFromString(GlobalDefaults.colorList[i])))/100;
+			averageFitness = averageFitness + (((float)fitnessSettingsPanel.getFitnesses()[i]) * fractionOfPopulation);
+		}	
+		avgFitnessDisplay.setHTML(String.valueOf(averageFitness));
 	}
 
 	//	public ColorPopulationLabel[] getPopulationLabels() {
