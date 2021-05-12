@@ -3945,3 +3945,8 @@ There's also cheerpj that promises automatic conversion of java to javascript wi
 	- so, easy to use but dependent on them.
 	- even if they go belly-up or get bought, if this doesn't require re-coding, it could be easy and
 		work for at least a while... worth considering.
+
+5/12/21
+could build in the ability to recognize and grade jsVGL grading files - lightly encrypted
+	that way, you'd need password and keys to do the grading
+		and since graders are rare, it's probably OK if they have to dowonload the application

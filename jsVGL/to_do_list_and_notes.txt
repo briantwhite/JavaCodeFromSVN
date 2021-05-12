@@ -333,5 +333,5 @@ search for "user management software"
 possible ones
 	PHP-based: https://awesomeopensource.com/project/userfrosting/UserFrosting
 	also: https://userspice.com/ 
-
+could also make a version of VGL application that reads jsVGL grading files
  
