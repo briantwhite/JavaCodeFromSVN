@@ -334,4 +334,9 @@ possible ones
 	PHP-based: https://awesomeopensource.com/project/userfrosting/UserFrosting
 	also: https://userspice.com/ 
 could also make a version of VGL application that reads jsVGL grading files
+
+5/14/21
+the google drive API might be good for this - storing application-specific data (or just on Drive).
+https://developers.google.com/drive/api/v3/about-sdk
+
  
