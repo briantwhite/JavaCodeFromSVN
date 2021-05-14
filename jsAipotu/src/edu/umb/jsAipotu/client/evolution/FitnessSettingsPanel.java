@@ -1,5 +1,6 @@
 package edu.umb.jsAipotu.client.evolution;
 
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -38,12 +39,11 @@ public class FitnessSettingsPanel extends CaptionPanel {
 			spinners[i] = new ColorFitnessSpinner(this, GlobalDefaults.colorList[i]);
 			mainGrid.setWidget(i + 1, 0, new HTML("<font color=\"" + spinners[i].getColorHTML() + "\">" + spinners[i].getColorString() + "</font>")); 
 			mainGrid.setWidget(i + 1, 1, spinners[i]);
-			absoluteFitnessLabels[i] = new HTML("1");
+			absoluteFitnessLabels[i] = new HTML("0.125");
 			mainGrid.setWidget(i + 1, 2, absoluteFitnessLabels[i]);
 			populationCounts[i] = new HTML("0");
 			mainGrid.setWidget(i + 1, 3, populationCounts[i]);
 		}
-		updateAbsoluteFitnesses();
 	}
 	
 	public void updateAbsoluteFitnesses() {
@@ -58,14 +58,14 @@ public class FitnessSettingsPanel extends CaptionPanel {
 		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
 			double abFit = (double)spinners[i].getValue()/((double)totalRelFitness);
 			absoluteFitnesses[i] = abFit;
-			String abFitString = String.valueOf(abFit).substring(0, 6);
+			NumberFormat f = NumberFormat.getFormat("0.000");
+			String abFitString = f.format(abFit);
 			absoluteFitnessLabels[i].setText(abFitString);
 		}
 		mge.getjsAipotu().getEvolutionWorkArea().updateAverageFitnessDisplay();
 	}
 	
 	public double[] getFitnesses() {
-		updateAbsoluteFitnesses();
 		return absoluteFitnesses;
 	}
 	

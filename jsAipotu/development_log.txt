@@ -1049,3 +1049,6 @@ trying to get the color counts to work when you load a new world
 trying to get it to update the average fitness display
 	the most sensible place for this is in FitnessSettingsPanel.updateAbsoluteFitnesses() 
 		but, on startup, it ends up referring to things that aren't there yet
+
+5/14/21
+fixed the average fitness display

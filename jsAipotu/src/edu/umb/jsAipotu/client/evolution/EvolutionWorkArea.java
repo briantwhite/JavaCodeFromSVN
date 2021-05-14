@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -95,13 +96,13 @@ public class EvolutionWorkArea extends HorizontalPanel {
 
 		HorizontalPanel generationDisplayPanel = new HorizontalPanel();
 		generationDisplay = new HTML("0");
-		generationDisplayPanel.add(new HTML("Generation: "));
+		generationDisplayPanel.add(new HTML("Generation:&nbsp;"));
 		generationDisplayPanel.add(generationDisplay);
 		leftPanel.add(generationDisplayPanel);
 
 		HorizontalPanel avgFitDispPanel = new HorizontalPanel();
 		avgFitnessDisplay = new HTML("");
-		avgFitDispPanel.add(new HTML("Average fitness = "));
+		avgFitDispPanel.add(new HTML("Average fitness =&nbsp;"));
 		avgFitDispPanel.add(avgFitnessDisplay);
 		leftPanel.add(avgFitDispPanel);
 
@@ -176,6 +177,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 			mge.getGreenhouse().clearAllSelections();
 			world.updateCounts();
 			fitnessSettingsPanel.updateColorCountDisplay(colorCountsRecorder);
+			fitnessSettingsPanel.updateAbsoluteFitnesses();
 			updateAverageFitnessDisplay();
 		}
 
@@ -191,8 +193,10 @@ public class EvolutionWorkArea extends HorizontalPanel {
 			float fractionOfPopulation = ((float)ColorCountsRecorder.getInstance().getCount(
 					GlobalDefaults.colorModel.getColorFromString(GlobalDefaults.colorList[i])))/100;
 			averageFitness = averageFitness + (((float)fitnessSettingsPanel.getFitnesses()[i]) * fractionOfPopulation);
-		}	
-		avgFitnessDisplay.setHTML(String.valueOf(averageFitness));
+		}
+		NumberFormat f = NumberFormat.getFormat("0.000");
+		String avgFitString = f.format(averageFitness);
+		avgFitnessDisplay.setHTML(avgFitString);
 	}
 
 	//	public ColorPopulationLabel[] getPopulationLabels() {
