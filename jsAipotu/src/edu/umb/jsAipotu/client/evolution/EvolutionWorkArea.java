@@ -192,7 +192,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
 			float fractionOfPopulation = ((float)ColorCountsRecorder.getInstance().getCount(
 					GlobalDefaults.colorModel.getColorFromString(GlobalDefaults.colorList[i])))/100;
-			averageFitness = averageFitness + (((float)fitnessSettingsPanel.getFitnesses()[i]) * fractionOfPopulation);
+			averageFitness = averageFitness + (((float)fitnessSettingsPanel.getAbsoluteFitnesses()[i]) * fractionOfPopulation);
 		}
 		NumberFormat f = NumberFormat.getFormat("0.000");
 		String avgFitString = f.format(averageFitness);

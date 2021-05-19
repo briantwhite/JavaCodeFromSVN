@@ -65,8 +65,16 @@ public class FitnessSettingsPanel extends CaptionPanel {
 		mge.getjsAipotu().getEvolutionWorkArea().updateAverageFitnessDisplay();
 	}
 	
-	public double[] getFitnesses() {
+	public double[] getAbsoluteFitnesses() {
 		return absoluteFitnesses;
+	}
+	
+	public int[] getRelativeFitnesses() {
+		int[] relFits = new int[GlobalDefaults.colorList.length];
+		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
+			relFits[i] = spinners[i].getValue();
+		}
+		return relFits;
 	}
 	
 	public void updateColorCountDisplay(ColorCountsRecorder colorCountsRecorder) {

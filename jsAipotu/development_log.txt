@@ -1052,3 +1052,15 @@ trying to get it to update the average fitness display
 
 5/14/21
 fixed the average fitness display
+
+5/19/21
+started working on evolving - first without mutation.
+
+Use  RepeatingCommand stuff from 2/25
+have a method that just runs one generation EvolveCommand
+
+since the EvolveCommand's constructor sets up the gene pool, you need to make a new one for each generation
+
+still need to
+- hook up buttons
+- get mutation to work

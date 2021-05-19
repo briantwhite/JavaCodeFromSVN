@@ -17,18 +17,16 @@ public class ThinOrganism extends FocusPanel {
 	private CssColor color1;
 	private CssColor color2;
 	private CssColor overallColor;
-	private MolGenExp mge;
 	private boolean selected;
 
 	protected ThinOrganism(String dna1, String dna2, 
 			CssColor color1, CssColor color2, 
-			CssColor overallColor, MolGenExp mge) {
+			CssColor overallColor) {
 		this.dna1 = dna1;
 		this.dna2 = dna2;
 		this.color1 = color1;
 		this.color2 = color2;
 		this.overallColor = overallColor;
-		this.mge = mge;
 		this.selected = false;
 		setStyleName("unselected-thinOrganism");
 		this.getElement().getStyle().setBackgroundColor(overallColor.toString());
