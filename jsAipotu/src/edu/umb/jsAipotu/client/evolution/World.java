@@ -66,16 +66,16 @@ public class World extends CaptionPanel {
 	}
 
 	public void updateCounts() {
+		colorCountsRecorder.setAllToZero();
 		//first, be sure that there are organisms in the world
 		if (getThinOrganism(0,0) != null) {
-			colorCountsRecorder.setAllToZero();
 			for (int i = 0; i < preferences.getWorldSize(); i++) {
 				for (int j = 0; j < preferences.getWorldSize(); j++) {
 					colorCountsRecorder.incrementCount(
 							getThinOrganism(i, j).getOverallColor());
 				}
 			}
-		}
+		} 
 	}
 
 	public ThinOrganism getThinOrganism(int i, int j) {
@@ -83,11 +83,11 @@ public class World extends CaptionPanel {
 	}
 	
 	public void setOrganisms(ThinOrganism[][] newOrgs) {
-		organisms = null;
+		organisms = new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()];
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				organisms[i][j] = newOrgs[i][j];
-				organismGrid.add(newOrgs[i][j]);
+				organismGrid.setWidget(i, j, newOrgs[i][j]);
 			}
 		}
 	}

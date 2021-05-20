@@ -6,7 +6,7 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FocusPanel;
 
-import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
+import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
 //class with just DNA and color - so it's smaller
 //for use with evolution
@@ -37,6 +37,7 @@ public class ThinOrganism extends FocusPanel {
 	protected ThinOrganism() {
 		this.setStyleName("unselected-thinOrganism");
 		this.getElement().getStyle().setBackgroundColor("lightgray");
+		this.overallColor = GlobalDefaults.DEAD_COLOR;
 	}
 	
 	// need to capture click events for the custom selection model

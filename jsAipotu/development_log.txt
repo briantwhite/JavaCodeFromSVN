@@ -1064,3 +1064,8 @@ since the EvolveCommand's constructor sets up the gene pool, you need to make a 
 still need to
 - hook up buttons
 - get mutation to work
+
+5/20/21
+Got one generation without mutation working.
+
+BUT - the clear world button won't return color counts to zeros - what's up?? (need to fix)

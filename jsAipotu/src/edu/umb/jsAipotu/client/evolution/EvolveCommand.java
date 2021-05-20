@@ -6,7 +6,6 @@ import java.util.Random;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 
 import edu.umb.jsAipotu.client.biochem.FoldingException;
-import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
@@ -15,7 +14,7 @@ import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 //  must be constructed new for each generation
 public class EvolveCommand implements RepeatingCommand {
 	
-	private World world;
+	private EvolutionWorkArea ewa;
 	private ArrayList<String> genePool;
 	int orgNum;
 	int i;
@@ -24,10 +23,10 @@ public class EvolveCommand implements RepeatingCommand {
 	
 	private ThinOrganismFactory thinOrganismFactory;
 	
-	public EvolveCommand(World world, FitnessSettingsPanel fitnessSettingsPanel) {
-		this.world = world;
-		world.updateCounts();
-		genePool = createGenePool(world, fitnessSettingsPanel);
+	public EvolveCommand(EvolutionWorkArea ewa) {
+		this.ewa = ewa;
+		ewa.getWorld().updateCounts();
+		genePool = createGenePool(ewa.getWorld(), ewa.getFitnessSettingsPanel());
 		nextGen = new ThinOrganism[MGEPreferences.getInstance().getWorldSize()][MGEPreferences.getInstance().getWorldSize()];
 		orgNum = 0;
 		i = 0;
@@ -49,13 +48,14 @@ public class EvolveCommand implements RepeatingCommand {
 		}
 		
 		nextGen[i][j] = o;
-		
+
 		j++;
-		if (j > MGEPreferences.getInstance().getWorldSize()) {
+		if (j >= MGEPreferences.getInstance().getWorldSize()) {
 			j = 0;
 			i++;
-			if (i > MGEPreferences.getInstance().getWorldSize()) {
-				world.setOrganisms(nextGen);
+			if (i >= MGEPreferences.getInstance().getWorldSize()) {
+				ewa.getWorld().setOrganisms(nextGen);
+				ewa.updateCountsAndDisplays();
 				return false;
 			} else {
 				return true;

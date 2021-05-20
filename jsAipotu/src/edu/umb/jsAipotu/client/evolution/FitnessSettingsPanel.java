@@ -77,10 +77,10 @@ public class FitnessSettingsPanel extends CaptionPanel {
 		return relFits;
 	}
 	
-	public void updateColorCountDisplay(ColorCountsRecorder colorCountsRecorder) {
+	public void updateColorCountDisplay() {
 		for (int i = 0; i < GlobalDefaults.colorList.length; i++) {
 			populationCounts[i].setText(String.valueOf(
-					colorCountsRecorder.getCount(
+					ColorCountsRecorder.getInstance().getCount(
 							GlobalDefaults.colorModel.getColorFromString(
 									GlobalDefaults.colorList[i]))));
 		}	
