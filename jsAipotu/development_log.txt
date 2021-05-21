@@ -1069,3 +1069,13 @@ still need to
 Got one generation without mutation working.
 
 BUT - the clear world button won't return color counts to zeros - what's up?? (need to fix)
+
+5/21/21
+it's probably because World.initialize() {no arg} only removes the visible things not the underlying organisms
+fixed that
+
+got color labels working
+
+need to
+- get mutations working
+- allow selection of organisms to put in GH

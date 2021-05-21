@@ -7,6 +7,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
+import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
 //class with just DNA and color - so it's smaller
 //for use with evolution
@@ -30,16 +31,19 @@ public class ThinOrganism extends FocusPanel {
 		this.selected = false;
 		setStyleName("unselected-thinOrganism");
 		this.getElement().getStyle().setBackgroundColor(overallColor.toString());
+		if (MGEPreferences.getInstance().isShowColorNameText()) {
+			setTitle(GlobalDefaults.colorModel.getColorName(overallColor));
+		}
 		sinkEvents(Event.ONCLICK);
 	}
-	
+
 	// empty constructor for starting screen
 	protected ThinOrganism() {
 		this.setStyleName("unselected-thinOrganism");
 		this.getElement().getStyle().setBackgroundColor("lightgray");
 		this.overallColor = GlobalDefaults.DEAD_COLOR;
 	}
-	
+
 	// need to capture click events for the custom selection model
 	public void onBrowserEvent(Event e) {
 		if (e.getTypeInt() == Event.ONCLICK) {
@@ -59,11 +63,11 @@ public class ThinOrganism extends FocusPanel {
 	public String getDNA2() {
 		return dna2;
 	}
-	
+
 	public CssColor getColor1() {
 		return color1;
 	}
-	
+
 	public CssColor getColor2() {
 		return color2;
 	}
@@ -71,11 +75,11 @@ public class ThinOrganism extends FocusPanel {
 	public CssColor getOverallColor() {
 		return overallColor;
 	}
-	
+
 	public boolean isSelected() {
 		return selected;
 	}
-		
+
 	public void setSelected(boolean b) {
 		selected = b;
 		if (selected) {

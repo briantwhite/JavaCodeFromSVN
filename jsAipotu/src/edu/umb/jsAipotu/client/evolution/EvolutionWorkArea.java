@@ -77,6 +77,8 @@ public class EvolutionWorkArea extends HorizontalPanel {
 					generation = 0;
 					generationDisplay.setHTML(String.valueOf(generation));
 					loadButton.setEnabled(true);
+					oneGenButton.setEnabled(false);
+					clearButton.setEnabled(false);
 					world.updateCounts();
 					fitnessSettingsPanel.updateColorCountDisplay();
 					fitnessSettingsPanel.updateAbsoluteFitnesses();

@@ -60,7 +60,9 @@ public class World extends CaptionPanel {
 	public void initialize() {
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				organismGrid.setWidget(i, j, new ThinOrganism());
+				ThinOrganism to = new ThinOrganism();
+				organisms[i][j] = to;
+				organismGrid.setWidget(i, j, to);
 			}
 		}
 	}

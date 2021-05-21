@@ -183,15 +183,14 @@
 .selected-thinOrgansm {
 	width: 30px;
 	height: 30px;
-	border: 1px solid black;
-	background: lightblue;
+	border: 1px solid blue;
+
 }
 
 .unselected-thinOrganism {
 	width: 30px;
 	height: 30px;
 	border: 1px solid black;
-	background: white;
 }
 
 .evolutionButton {
