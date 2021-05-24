@@ -1078,4 +1078,19 @@ got color labels working
 
 need to
 - get mutations working
-- allow selection of organisms to put in GH
+
+5/24/21
+Eliminate the preferences menu - DID IT
+	- just have the color labels always show - DID IT
+	- have a checkbox for mutations on/off in the evolution control panel area - DID IT
+	
+need to get mutations working in evolution - DID IT
+
+next: need to get selection (only one at a time) and save to GH from evolution working - DID IT
+- allow selection of organisms to put in GH - DID IT
+
+need to deal with when they select a dead organism
+
+also, there's something weird going on - it seems to be only getting one allele
+	ex if you load with green-2 (yel/blu) and run one generation with mutations off, you get all yellow.
+	somehow, I broke it...

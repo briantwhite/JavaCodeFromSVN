@@ -107,7 +107,7 @@
 
 .busyPopup {
 	border: 1px solid black;
-	background: lightblue;
+	background: lightgreen;
 	padding: 100px;
 }
 
@@ -162,6 +162,7 @@
 .world {
 	width: 1000;
 	height: 1000;
+	background: lightblue;
 }
 
 .fitnessSettingPanel {
@@ -180,17 +181,16 @@
 	background: url("images/downButton.gif");
 }
 
-.selected-thinOrgansm {
+.selected-thinOrganism {
 	width: 30px;
 	height: 30px;
-	border: 1px solid blue;
-
+	border: 2px dotted #ff40ff;
 }
 
 .unselected-thinOrganism {
 	width: 30px;
 	height: 30px;
-	border: 1px solid black;
+	border: 2px solid white;
 }
 
 .evolutionButton {

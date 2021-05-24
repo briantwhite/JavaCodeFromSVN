@@ -182,6 +182,7 @@ public class MolGenExp {
 			break;
 
 		case EVOLUTION:
+			jsA.getEvolutionWorkArea().saveOrganismToGreenhouse();
 			break;
 		}
 

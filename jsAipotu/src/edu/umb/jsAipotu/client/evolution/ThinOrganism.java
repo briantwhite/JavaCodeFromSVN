@@ -7,12 +7,12 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
-import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
 //class with just DNA and color - so it's smaller
 //for use with evolution
 //don't bother with pictures unless needed
 public class ThinOrganism extends FocusPanel {
+	private World w;
 	private String dna1;
 	private String dna2;
 	private CssColor color1;
@@ -20,9 +20,10 @@ public class ThinOrganism extends FocusPanel {
 	private CssColor overallColor;
 	private boolean selected;
 
-	protected ThinOrganism(String dna1, String dna2, 
+	protected ThinOrganism(World w, String dna1, String dna2, 
 			CssColor color1, CssColor color2, 
 			CssColor overallColor) {
+		this.w = w;
 		this.dna1 = dna1;
 		this.dna2 = dna2;
 		this.color1 = color1;
@@ -31,9 +32,7 @@ public class ThinOrganism extends FocusPanel {
 		this.selected = false;
 		setStyleName("unselected-thinOrganism");
 		this.getElement().getStyle().setBackgroundColor(overallColor.toString());
-		if (MGEPreferences.getInstance().isShowColorNameText()) {
-			setTitle(GlobalDefaults.colorModel.getColorName(overallColor));
-		}
+		setTitle(GlobalDefaults.colorModel.getColorName(overallColor));
 		sinkEvents(Event.ONCLICK);
 	}
 
@@ -49,9 +48,12 @@ public class ThinOrganism extends FocusPanel {
 		if (e.getTypeInt() == Event.ONCLICK) {
 			this.setFocus(false);
 			if (selected) {
+				w.getMolGenExp().getjsAipotu().enableAddToGreenhouseButton(false);
 				setSelected(false);
 			} else {
+				w.clearAllSelectedOrganisms();
 				setSelected(true);
+				w.getMolGenExp().getjsAipotu().enableAddToGreenhouseButton(true);
 			}
 		}
 	}

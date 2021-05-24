@@ -9,10 +9,12 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 import edu.umb.jsAipotu.client.molGenExp.OrganismUI;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
@@ -21,7 +23,6 @@ import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 public class EvolutionWorkArea extends HorizontalPanel {
 
 	private MolGenExp mge;
-	private MGEPreferences preferences;
 
 	private HTML generationDisplay;
 	private int generation;
@@ -33,12 +34,13 @@ public class EvolutionWorkArea extends HorizontalPanel {
 	private Button loadButton;
 	private Button clearButton;
 	private Button oneGenButton;
+	
+	private CheckBox mutationsEnabledCheckbox;
 
 
 	public EvolutionWorkArea(MolGenExp mge) {
 		super();
 		this.mge = mge;
-		preferences = MGEPreferences.getInstance();
 		generation = 0;
 		setupUI();
 	}
@@ -51,7 +53,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		leftPanel.add(fitnessSettingsPanel);
 
 		CaptionPanel controlPanel = new CaptionPanel("Controls");
-		HorizontalPanel buttonPanel = new HorizontalPanel();
+		HorizontalPanel upperButtonPanel = new HorizontalPanel();
 
 		loadButton = new Button("Load");
 		clearButton = new Button("Clear World");
@@ -65,7 +67,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 				oneGenButton.setEnabled(true);
 			}
 		});
-		buttonPanel.add(loadButton);
+		upperButtonPanel.add(loadButton);
 
 		clearButton.setEnabled(false);
 		clearButton.setStyleName("evolutionButton");
@@ -86,7 +88,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 				}
 			}
 		});
-		buttonPanel.add(clearButton);
+		upperButtonPanel.add(clearButton);
 
 		oneGenButton.setEnabled(false);
 		oneGenButton.setStyleName("evolutionButton");
@@ -96,9 +98,14 @@ public class EvolutionWorkArea extends HorizontalPanel {
 				Scheduler.get().scheduleIncremental(ec);
 			}
 		});
-		buttonPanel.add(oneGenButton);
+		upperButtonPanel.add(oneGenButton);
+		
+		VerticalPanel buttonWrapperPanel = new VerticalPanel();
+		buttonWrapperPanel.add(upperButtonPanel);
+		mutationsEnabledCheckbox = new CheckBox("Mutations Enabled");
+		buttonWrapperPanel.add(mutationsEnabledCheckbox);
 
-		controlPanel.setContentWidget(buttonPanel);
+		controlPanel.setContentWidget(buttonWrapperPanel);
 		leftPanel.add(controlPanel);
 
 		HorizontalPanel generationDisplayPanel = new HorizontalPanel();
@@ -166,6 +173,19 @@ public class EvolutionWorkArea extends HorizontalPanel {
 
 	public FitnessSettingsPanel getFitnessSettingsPanel() {
 		return fitnessSettingsPanel;
+	}
+	
+	public boolean mutationsEnabled() {
+		return mutationsEnabledCheckbox.getValue();
+	}
+	
+	public void saveOrganismToGreenhouse() {
+		try {
+			mge.saveOrganismToGreenhouse(world.getSelectedOrganism());
+		} catch (FoldingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

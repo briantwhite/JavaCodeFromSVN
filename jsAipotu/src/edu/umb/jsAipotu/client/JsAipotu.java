@@ -51,7 +51,6 @@ public class JsAipotu implements EntryPoint {
 	// gui elements
 	private DockLayoutPanel mainPanel = null;
 	private MenuBar menuBar = null;
-	private MenuBar preferencesMenu = null;
 	private MenuItem showColorTextItem = null;
 	private MenuItem evolutionMutationItem = null;
 	private MenuBar compareMenu = null;
@@ -85,44 +84,6 @@ public class JsAipotu implements EntryPoint {
 		// menus
 		menuBar = new MenuBar(false);
 		menuBar.setStyleName("mainMenuBar");
-		// File menu
-		preferencesMenu = new MenuBar(true);
-		showColorTextItem = preferencesMenu.addItem("Hide color names", new Command() {
-			public void execute() {
-				if (showColorTextItem.getText() == "Show color names") {
-					// it was "show" so need to show the names and change the label to "hide"
-					showColorTextItem.setText("Hide color names");
-					MGEPreferences.getInstance().setShowColorNameText(true);
-					Iterator<OrganismUI> ouiIt = allOrganismUIs.iterator();
-					while (ouiIt.hasNext()) {
-						OrganismUI oui = ouiIt.next();
-						oui.setTitle(GlobalDefaults.colorModel.getColorName(oui.getOrganism().getColor()));
-					}
-				} else {
-					// it was "hide" so need to hide the names and change label to "show"
-					showColorTextItem.setText("Show color names");
-					MGEPreferences.getInstance().setShowColorNameText(false);
-					Iterator<OrganismUI> ouiIt = allOrganismUIs.iterator();
-					while (ouiIt.hasNext()) {
-						ouiIt.next().setTitle(null);
-					}
-				}
-			}
-		});
-		evolutionMutationItem = preferencesMenu.addItem("Evolution: turn mutations OFF", new Command() {
-			public void execute() {
-				if (evolutionMutationItem.getText() == "Evolution: turn mutations OFF") {
-					// it was to 'turn off' so turn them off and change label to "turn on"
-					evolutionMutationItem.setText("Evolution: turn mutations ON");
-					MGEPreferences.getInstance().setMutationsEnabled(false);
-				} else {
-					// it was to 'turn on' so turn them on and change label to "turn off"
-					evolutionMutationItem.setText("Evolution: turn mutations OFF");
-					MGEPreferences.getInstance().setMutationsEnabled(true);
-				}
-			}
-		});
-		menuBar.addItem("Preferences", preferencesMenu);
 
 		// Compare menu
 		compareMenu = new MenuBar(true);

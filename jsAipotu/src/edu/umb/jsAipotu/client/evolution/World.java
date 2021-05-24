@@ -28,15 +28,12 @@ public class World extends CaptionPanel {
 	
 	private Grid organismGrid;
 
-	private int selectedCelli = -1;
-	private int selectedCellj = -1;
-
 	public World(MolGenExp mge) {
 		super("World");
 		setStyleName("world");
 		this.mge = mge;
 		preferences = MGEPreferences.getInstance();
-		thinOrganismFactory = new ThinOrganismFactory();
+		thinOrganismFactory = new ThinOrganismFactory(this);
 		organismFactory = new OrganismFactory();
 		colorCountsRecorder = ColorCountsRecorder.getInstance();
 		organisms = new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()];
@@ -95,24 +92,35 @@ public class World extends CaptionPanel {
 	}
 
 	public Organism getSelectedOrganism() throws FoldingException {
-		if ((selectedCelli < 0) && (selectedCellj < 0)) {
-			return null;
+		for (int i = 0; i < preferences.getWorldSize(); i++) {
+			for (int j = 0; j < preferences.getWorldSize(); j++) {
+				if (organisms[i][j].isSelected()) {
+					return organismFactory.createOrganism(organisms[i][j]);
+				}
+			}
 		}
-		ThinOrganism to = organisms[selectedCelli][selectedCellj];
-		if (to.getOverallColor().equals(GlobalDefaults.DEAD_COLOR)) {
+		return null;
+
+//		if (to.getOverallColor().equals(GlobalDefaults.DEAD_COLOR)) {
 //			JOptionPane.showMessageDialog(null, 
 //					"Unable to load that organism because it is not viable.\n"
 //					+ "It is inviable because one of its proteins cannot be\n"
 //					+ "Folded properly. Please choose another organism.", 
 //					"Error Folding Protein", 
 //					JOptionPane.WARNING_MESSAGE);
+//		}
+		
+	}
+
+	public void clearAllSelectedOrganisms() {
+		for (int i = 0; i < preferences.getWorldSize(); i++) {
+			for (int j = 0; j < preferences.getWorldSize(); j++) {
+				organisms[i][j].setSelected(false);
+			}
 		}
-		return organismFactory.createOrganism(to);
 	}
 
-	public void clearSelectedOrganism() {
-		selectedCelli = -1;
-		selectedCellj = -1;
+	public MolGenExp getMolGenExp() {
+		return mge;
 	}
-
 }

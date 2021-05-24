@@ -36,7 +36,7 @@ public class Mutator {
 	}
 
 	public ExpressedAndFoldedGene mutateGene(ExpressedAndFoldedGene efg) 
-	throws FoldingException {
+			throws FoldingException {
 		//change one base in the DNA
 		if (efg.getExpressedGene().getDNA().length() == 0) {
 			return efg;
@@ -46,8 +46,8 @@ public class Mutator {
 
 		//fold it & get color etc
 		ExpressedAndFoldedGene newEfg = 
-			new ExpressedAndFoldedGene(
-					newGene, foldingManager.foldWithPix(newGene.getProtein()));
+				new ExpressedAndFoldedGene(
+						newGene, foldingManager.foldWithPix(newGene.getProtein()));
 
 		return newEfg;
 	}
@@ -57,39 +57,38 @@ public class Mutator {
 
 		StringBuffer DNABuffer = new StringBuffer(DNASequence);
 
-		if (preferences.isMutationsEnabled()) {
 
-			//mutation: pointMutationRate chance of changing each base
-			if (preferences.getPointMutationRate() != 0) {
-				int pointOdds = Math.round(1/preferences.getPointMutationRate());
-				for (int i = 0; i < DNABuffer.length(); i++) {
-					if (rand.nextInt(pointOdds) == 0) {
-						DNABuffer = DNABuffer.replace(i, i + 1, 
-								baseArray[rand.nextInt(4)]);
-					}
-				}
-			}
-
-			//deletion mutations
-			if (preferences.getDeletionMutationRate() != 0) {
-				int delOdds = Math.round(1/preferences.getDeletionMutationRate());
-				for (int i = 0; i < DNABuffer.length(); i++) {
-					if (rand.nextInt(delOdds) == 0) {
-						DNABuffer = DNABuffer.deleteCharAt(i);
-					}
-				}
-			}
-
-			//insertion mutations
-			if (preferences.getInsertionMutationRate() != 0) {
-				int insOdds = Math.round(1/preferences.getInsertionMutationRate());
-				for (int i = 0; i < DNABuffer.length(); i++) {
-					if (rand.nextInt(insOdds) == 0) {
-						DNABuffer = DNABuffer.insert(i, baseArray[rand.nextInt(4)]);
-					}
+		//mutation: pointMutationRate chance of changing each base
+		if (preferences.getPointMutationRate() != 0) {
+			int pointOdds = Math.round(1/preferences.getPointMutationRate());
+			for (int i = 0; i < DNABuffer.length(); i++) {
+				if (rand.nextInt(pointOdds) == 0) {
+					DNABuffer = DNABuffer.replace(i, i + 1, 
+							baseArray[rand.nextInt(4)]);
 				}
 			}
 		}
+
+		//deletion mutations
+		if (preferences.getDeletionMutationRate() != 0) {
+			int delOdds = Math.round(1/preferences.getDeletionMutationRate());
+			for (int i = 0; i < DNABuffer.length(); i++) {
+				if (rand.nextInt(delOdds) == 0) {
+					DNABuffer = DNABuffer.deleteCharAt(i);
+				}
+			}
+		}
+
+		//insertion mutations
+		if (preferences.getInsertionMutationRate() != 0) {
+			int insOdds = Math.round(1/preferences.getInsertionMutationRate());
+			for (int i = 0; i < DNABuffer.length(); i++) {
+				if (rand.nextInt(insOdds) == 0) {
+					DNABuffer = DNABuffer.insert(i, baseArray[rand.nextInt(4)]);
+				}
+			}
+		}
+
 
 		return DNABuffer.toString();
 	}

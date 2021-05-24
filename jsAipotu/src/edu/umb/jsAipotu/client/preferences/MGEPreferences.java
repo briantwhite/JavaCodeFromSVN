@@ -11,24 +11,12 @@ public class MGEPreferences {
 	protected static boolean DEFAULT_SHOW_BOTH_ALLELES = false;
 
 	//mutation rates
-	private boolean mutationsEnabled;
-	protected static boolean DEFAULT_MUTATIONS_ENABLED = true;
 	private float pointMutationRate;
 	protected static float DEFAULT_POINT_MUTATION_RATE = 0.001f;
 	private float deletionMutationRate;
 	protected static float DEFAULT_DELETION_MUTATION_RATE = 0.001f;
 	private float insertionMutationRate;
 	protected static float DEFAULT_INSERTION_MUTATION_RATE = 0.001f;
-
-	//info for saving pix of each generation in evolve
-	private boolean generationPixOn;
-	protected static boolean DEFAULT_GENERATION_PIX_ON = false;
-	protected static String DEFAULT_SAVE_PIX_TO_PATH = "";
-
-	//display options
-	private boolean showColorNameText;
-	protected static boolean DEFAULT_SHOW_COLOR_NAME_TEXT = true;
-
 
 	public static MGEPreferences getInstance() {
 		if (instance == null) {
@@ -42,15 +30,9 @@ public class MGEPreferences {
 
 		worldSize = DEFAULT_WORLD_SIZE;
 		showBothAllelesInWorld = DEFAULT_SHOW_BOTH_ALLELES;
-
-		mutationsEnabled = DEFAULT_MUTATIONS_ENABLED;
 		pointMutationRate = DEFAULT_POINT_MUTATION_RATE;
 		deletionMutationRate = DEFAULT_DELETION_MUTATION_RATE;
 		insertionMutationRate = DEFAULT_INSERTION_MUTATION_RATE;
-
-		generationPixOn = DEFAULT_GENERATION_PIX_ON;
-
-		showColorNameText = DEFAULT_SHOW_COLOR_NAME_TEXT;
 	}
 
 
@@ -68,14 +50,6 @@ public class MGEPreferences {
 
 	public void setShowBothAllelesInWorld(boolean b) {
 		showBothAllelesInWorld = b;
-	}
-
-	public boolean isMutationsEnabled() {
-		return mutationsEnabled;
-	}
-
-	public void setMutationsEnabled(boolean b) {
-		mutationsEnabled = b;
 	}
 
 	public float getPointMutationRate() {
@@ -101,22 +75,5 @@ public class MGEPreferences {
 	public void setInsertionMutationRate(float insertionMutationRate) {
 		this.insertionMutationRate = insertionMutationRate;
 	}
-
-	public boolean isGenerationPixOn() {
-		return generationPixOn;
-	}
-
-	public void setGenerationPixOn(boolean generationPixOn) {
-		this.generationPixOn = generationPixOn;
-	}
-
-	public boolean isShowColorNameText() {
-		return showColorNameText;
-	}
-
-	public void setShowColorNameText(boolean showColorNameText) {
-		this.showColorNameText = showColorNameText;
-	}
-
 
 }

@@ -197,39 +197,6 @@ public class GeneticsWorkPanel extends WorkPanel {
 
 	}
 
-	public void mutateOrganism(Organism o) {
-		//figure out how many mutants to make
-		//		Random random = new Random();
-		//		int mutantCount = 10 + random.nextInt(10);
-		//
-		//		trayNum = gw.getNextTrayNum();		
-		//		offspringList.clearList();
-		//
-		//		mutantGenerator = new MutantGenerator(
-		//				o,
-		//				mutantCount,
-		//				trayNum,
-		//				offspringList,
-		//				gw);
-		//
-		//		Thread t = new Thread(mutantGenerator);
-		//		t.start();
-		//		timer.start();
-		//		upperLabel.setText("Making " + mutantCount + " mutant versions of "
-		//				+ "Organism " + o.getName() + ".");
-		//		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		//		gw.setSelfCrossButtonsEnabled(false);
-		//		gw.setMutateButtonsEnabled(false);
-		//
-		//		gw.getMGE().setStatusLabelText("Making mutants of Organism " 
-		//				+ o.getName());
-		//		JProgressBar progressBar = gw.getMGE().getProgressBar();
-		//		progressBar.setMinimum(0);
-		//		progressBar.setMaximum(mutantGenerator.getLengthOfTask());
-		//		progressBar.setValue(0);
-	}
-
-
 	public void setCrossTwoButtonEnabled(boolean b) {
 		crossTwoButton.setEnabled(b);
 	}
