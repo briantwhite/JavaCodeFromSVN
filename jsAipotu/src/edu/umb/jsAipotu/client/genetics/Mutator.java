@@ -1,6 +1,6 @@
 package edu.umb.jsAipotu.client.genetics;
 
-import java.util.Random;
+import com.google.gwt.user.client.Random;
 
 import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.biochem.FoldingManager;
@@ -17,14 +17,11 @@ public class Mutator {
 	private GeneExpresser expresser;
 	private FoldingManager foldingManager;
 
-	private Random rand;
-
 	private String[] baseArray = {"A", "G", "C", "T"};
 
 	private Mutator() {
 		preferences = MGEPreferences.getInstance();
 		expresser = new GeneExpresser();
-		rand = new Random();
 		foldingManager = new FoldingManager();
 	}
 
@@ -62,9 +59,9 @@ public class Mutator {
 		if (preferences.getPointMutationRate() != 0) {
 			int pointOdds = Math.round(1/preferences.getPointMutationRate());
 			for (int i = 0; i < DNABuffer.length(); i++) {
-				if (rand.nextInt(pointOdds) == 0) {
+				if (Random.nextInt(pointOdds) == 0) {
 					DNABuffer = DNABuffer.replace(i, i + 1, 
-							baseArray[rand.nextInt(4)]);
+							baseArray[Random.nextInt(4)]);
 				}
 			}
 		}
@@ -73,7 +70,7 @@ public class Mutator {
 		if (preferences.getDeletionMutationRate() != 0) {
 			int delOdds = Math.round(1/preferences.getDeletionMutationRate());
 			for (int i = 0; i < DNABuffer.length(); i++) {
-				if (rand.nextInt(delOdds) == 0) {
+				if (Random.nextInt(delOdds) == 0) {
 					DNABuffer = DNABuffer.deleteCharAt(i);
 				}
 			}
@@ -83,8 +80,8 @@ public class Mutator {
 		if (preferences.getInsertionMutationRate() != 0) {
 			int insOdds = Math.round(1/preferences.getInsertionMutationRate());
 			for (int i = 0; i < DNABuffer.length(); i++) {
-				if (rand.nextInt(insOdds) == 0) {
-					DNABuffer = DNABuffer.insert(i, baseArray[rand.nextInt(4)]);
+				if (Random.nextInt(insOdds) == 0) {
+					DNABuffer = DNABuffer.insert(i, baseArray[Random.nextInt(4)]);
 				}
 			}
 		}

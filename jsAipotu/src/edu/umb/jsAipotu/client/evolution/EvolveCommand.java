@@ -1,13 +1,16 @@
 package edu.umb.jsAipotu.client.evolution;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 
+import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.biochem.FoldingException;
+import edu.umb.jsAipotu.client.genetics.Mutator;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
@@ -28,41 +31,41 @@ public class EvolveCommand implements RepeatingCommand {
 	PopupPanel busyPanel;
 	HTML busyPanelLabel;
 	
-	public EvolveCommand() {
-		thinOrganismFactory = new ThinOrganismFactory();
-//		busyPanel = new PopupPanel();
-//		busyPanel.setStyleName("busyPopup");
-//		busyPanel.setPopupPosition(300, 300);
-//		busyPanelLabel = new HTML("<center><h1>Getting ready to make mutations.<br> Please be patient.</h1></center>");
-//		busyPanel.setWidget(busyPanelLabel);
-//		busyPanel.show();
-	}
-	
-	public void prepareToEvolve(EvolutionWorkArea ewa) {
+	public EvolveCommand(EvolutionWorkArea ewa) {
+		this.ewa = ewa;
 		ewa.getWorld().updateCounts();
-		genePool = createGenePool(ewa.getWorld(), ewa.getFitnessSettingsPanel());
+		createGenePool(ewa.getWorld(), ewa.getFitnessSettingsPanel());
 		nextGen = new ThinOrganism[MGEPreferences.getInstance().getWorldSize()][MGEPreferences.getInstance().getWorldSize()];
 		orgNum = 1;
 		i = 0;
 		j = 0;
+		thinOrganismFactory = new ThinOrganismFactory();
+		
+		busyPanel = new PopupPanel();
+		busyPanel.setStyleName("busyPopup");
+		busyPanel.setPopupPosition(300, 300);
+		busyPanelLabel = new HTML("<center><h1>Getting ready to make mutations.<br> Please be patient.</h1></center>");
+		busyPanel.setWidget(busyPanelLabel);
+		busyPanel.show();
 	}
+	
 
 	// called over and over by browser; returns true if busy; false if done
 	//  add one mutant org to next gen
 	public boolean execute() {
 		
-		String DNA1 = getRandomAlleleFromPool();
-		String DNA2 = getRandomAlleleFromPool();
+		String DNA1 = "";
+		String DNA2 = "";
 				
-//		if (ewa.mutationsEnabled()) {
-//			busyPanelLabel.setHTML("<center><h1>Mutating " + String.valueOf(orgNum) + "/100 organisms.<br> Please be patient.</h1></center>");
-//			DNA1 = Mutator.getInstance().mutateDNASequence(getRandomAlleleFromPool());
-//			DNA2 = Mutator.getInstance().mutateDNASequence(getRandomAlleleFromPool());
-//		} else {
-		//	busyPanel.hide();
-//			DNA1 = getRandomAlleleFromPool();
-//			DNA2 = getRandomAlleleFromPool();
-//		}
+		if (ewa.mutationsEnabled()) {
+			busyPanelLabel.setHTML("<center><h1>Processing " + String.valueOf(orgNum) + " of 100 organisms.<br> Please be patient.</h1></center>");
+			DNA1 = Mutator.getInstance().mutateDNASequence(getRandomAlleleFromPool());
+			DNA2 = Mutator.getInstance().mutateDNASequence(getRandomAlleleFromPool());
+		} else {
+			busyPanel.hide();
+			DNA1 = getRandomAlleleFromPool();
+			DNA2 = getRandomAlleleFromPool();
+		}
 		
 		ThinOrganism o = null;
 		try {
@@ -82,7 +85,7 @@ public class EvolveCommand implements RepeatingCommand {
 			if (i >= MGEPreferences.getInstance().getWorldSize()) {
 				ewa.getWorld().setOrganisms(nextGen);
 				ewa.updateCountsAndDisplays();
-//				busyPanel.hide();
+				busyPanel.hide();
 				return false;
 			} else {
 				return true;
@@ -100,9 +103,9 @@ public class EvolveCommand implements RepeatingCommand {
 
 	
 	// each organism contributes absolute fitness (integer) random DNA sequences to pool
-	private ArrayList<String> createGenePool(World world, FitnessSettingsPanel fitnessSettingsPanel) {
+	private void createGenePool(World world, FitnessSettingsPanel fitnessSettingsPanel) {
 		int[] fitnesses = fitnessSettingsPanel.getRelativeFitnesses();
-		ArrayList<String> genePool = new ArrayList<String>();
+		genePool = new ArrayList<String>();
 		for (int i = 0; i < MGEPreferences.getInstance().getWorldSize(); i++) {
 			for (int j = 0; j < MGEPreferences.getInstance().getWorldSize(); j++) {
 				ThinOrganism to = world.getThinOrganism(i, j);
@@ -116,6 +119,11 @@ public class EvolveCommand implements RepeatingCommand {
 				}
 			}
 		}
-		return genePool;
+		Iterator<String> gpIt = genePool.iterator();
+		int n = 1;
+		while (gpIt.hasNext()) {
+			JsAipotu.consoleLog(String.valueOf(n) + "," + gpIt.next());
+			n++;
+		}
 	}
 }

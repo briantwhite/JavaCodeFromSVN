@@ -1,8 +1,8 @@
 package edu.umb.jsAipotu.client.evolution;
 
-import java.util.Random;
 
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.user.client.Random;
 
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 
@@ -53,8 +53,7 @@ public class ThinOrganism {
 	}
 
 	public String getRandomDNASequence() {
-		Random r = new Random();
-		if (r.nextDouble() > 0.5) {
+		if (Random.nextInt(2) == 0) {
 			return dna1;
 		} else {
 			return dna2;

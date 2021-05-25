@@ -1112,3 +1112,68 @@ try taking the thinOrganismGrid.clear() from initialize and set organsims
 maybe try making one MutateCommand at the start and updating the gene pool each time?
 	complete fail - if you load with all "Red" (red/white het) - you get all red!
 	and some monster errors.
+maybe put back MutateCommand as it was and clear out the World.thinOrganismGrid
+maybe don't have makeGenePool make a new ArrayList - just have it work on the global one.
+
+still NG
+
+get systematic - log the organisms the createGenePool is reading from
+			for (int j = 0; j < MGEPreferences.getInstance().getWorldSize(); j++) {
+				ThinOrganism to = world.getThinOrganism(i, j);
+				JsAipotu.consoleLog(String.valueOf(i) + "," + String.valueOf(j) + ",1," + to.getColor1().toString());
+				JsAipotu.consoleLog(String.valueOf(i) + "," + String.valueOf(j) + ",2," + to.getColor2().toString());
+				int colorNum = GlobalDefaults.colorModel.getColorNumber(to.getOverallColor());
+				// color number -1 is non-foldable protein = dead organism (fitness = 0)
+				if (colorNum != -1) {
+					int fitness = fitnesses[colorNum];
+					for (int x = 0; x < fitness; x++) {
+						genePool.add(to.getRandomDNASequence());
+					}
+				}
+			}
+
+OK, if you set up world with Green-2 (blue/yel het), you get:
+1,4,1,rgb(0,0,255)
+jsaipotu-0.js:13526 1,4,2,rgb(255,255,0)
+jsaipotu-0.js:13526 1,5,1,rgb(0,0,255)
+jsaipotu-0.js:13526 1,5,2,rgb(255,255,0)
+
+so, it's reading blue/yel hets
+
+now, look at the genePool:
+
+the difference in DNA between blue and yel is
+GTG TACT GTC - blue
+GTG TGGT GTC - yellow
+
+the gene pool is all TACT - blue
+
+why is getRandomDNASequence giving the same one?
+code from ThinOrganism:
+	public String getRandomDNASequence() {
+		Random r = new Random();
+		if (r.nextDouble() > 0.5) {
+			return dna1;
+		} else {
+			return dna2;
+		}
+	}
+
+try using the Random thingy from crossTwo
+Random.nextInt(2) == 0
+and use import com.google.gwt.user.client.Random;
+THAT'S IT!
+need to go in and fix the randoms wherever they are:
+- World.initialize(array list) - OK
+- Genetics crosses - OK
+- Genetics mutations - uses Mutator that we share - OK
+
+tested in genetics - OK
+
+build back into Evolution & test - OK
+
+now, need to get ThinOrganismUI selection working and save to greenhouse.
+
+
+
+ 

@@ -1,8 +1,8 @@
 package edu.umb.jsAipotu.client.evolution;
 
 import java.util.ArrayList;
-import java.util.Random;
 
+import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Grid;
 
@@ -40,11 +40,9 @@ public class World extends CaptionPanel {
 	}
 
 	public void initialize(ArrayList<OrganismUI> orgs) {
-		Random r = new Random();
-//		thinOrganismGrid.clear();
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				ThinOrganism to = thinOrganismFactory.createThinOrganism(orgs.get(r.nextInt(orgs.size())).getOrganism());
+				ThinOrganism to = thinOrganismFactory.createThinOrganism(orgs.get(Random.nextInt(orgs.size())).getOrganism());
 				ThinOrganismUI toUI = new ThinOrganismUI(to, mge);
 				thinOrganismGrid.setWidget(i, j, toUI);
 			}

@@ -18,14 +18,11 @@ import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 import edu.umb.jsAipotu.client.molGenExp.OrganismUI;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
-import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
 public class EvolutionWorkArea extends HorizontalPanel {
 
 	private MolGenExp mge;
 	
-	private EvolveCommand evolveCommand;
-
 	private HTML generationDisplay;
 	private int generation;
 	private HTML avgFitnessDisplay;
@@ -44,7 +41,6 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		super();
 		this.mge = mge;
 		generation = 0;
-		evolveCommand = new EvolveCommand();
 		setupUI();
 	}
 
@@ -97,8 +93,8 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		oneGenButton.setStyleName("evolutionButton");
 		oneGenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				evolveCommand.prepareToEvolve(mge.getjsAipotu().getEvolutionWorkArea());
-				Scheduler.get().scheduleIncremental(evolveCommand);
+				EvolveCommand ec = new EvolveCommand(mge.getjsAipotu().getEvolutionWorkArea());
+				Scheduler.get().scheduleIncremental(ec);
 			}
 		});
 		upperButtonPanel.add(oneGenButton);
