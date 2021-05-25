@@ -181,13 +181,13 @@
 	background: url("images/downButton.gif");
 }
 
-.selected-thinOrganism {
+.selected-thinOrganismUI {
 	width: 30px;
 	height: 30px;
 	border: 2px dotted #ff40ff;
 }
 
-.unselected-thinOrganism {
+.unselected-thinOrganismUI {
 	width: 30px;
 	height: 30px;
 	border: 2px solid white;

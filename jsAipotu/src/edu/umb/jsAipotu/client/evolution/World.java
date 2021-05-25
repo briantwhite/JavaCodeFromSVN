@@ -11,7 +11,6 @@ import edu.umb.jsAipotu.client.molGenExp.MolGenExp;
 import edu.umb.jsAipotu.client.molGenExp.Organism;
 import edu.umb.jsAipotu.client.molGenExp.OrganismFactory;
 import edu.umb.jsAipotu.client.molGenExp.OrganismUI;
-import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 
 public class World extends CaptionPanel {
@@ -23,32 +22,31 @@ public class World extends CaptionPanel {
 	private ThinOrganismFactory thinOrganismFactory;
 	private OrganismFactory organismFactory;
 
-	private ThinOrganism[][] organisms;
 	private ColorCountsRecorder colorCountsRecorder;
 	
-	private Grid organismGrid;
+	private Grid thinOrganismGrid;
 
 	public World(MolGenExp mge) {
 		super("World");
 		setStyleName("world");
 		this.mge = mge;
 		preferences = MGEPreferences.getInstance();
-		thinOrganismFactory = new ThinOrganismFactory(this);
+		thinOrganismFactory = new ThinOrganismFactory();
 		organismFactory = new OrganismFactory();
 		colorCountsRecorder = ColorCountsRecorder.getInstance();
-		organisms = new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()];
-		organismGrid = new Grid(preferences.getWorldSize(), preferences.getWorldSize());
-		setContentWidget(organismGrid);
+		thinOrganismGrid = new Grid(preferences.getWorldSize(), preferences.getWorldSize());
+		setContentWidget(thinOrganismGrid);
 		initialize();
 	}
 
 	public void initialize(ArrayList<OrganismUI> orgs) {
 		Random r = new Random();
+//		thinOrganismGrid.clear();
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				ThinOrganism to = thinOrganismFactory.createThinOrganism(orgs.get(r.nextInt(orgs.size())).getOrganism());
-				organisms[i][j] = to;
-				organismGrid.setWidget(i, j, to);
+				ThinOrganismUI toUI = new ThinOrganismUI(to, mge);
+				thinOrganismGrid.setWidget(i, j, toUI);
 			}
 		}
 	}
@@ -58,8 +56,8 @@ public class World extends CaptionPanel {
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				ThinOrganism to = new ThinOrganism();
-				organisms[i][j] = to;
-				organismGrid.setWidget(i, j, to);
+				ThinOrganismUI toUI = new ThinOrganismUI(to, mge);
+				thinOrganismGrid.setWidget(i, j, toUI);
 			}
 		}
 	}
@@ -78,15 +76,14 @@ public class World extends CaptionPanel {
 	}
 
 	public ThinOrganism getThinOrganism(int i, int j) {
-		return organisms[i][j];
+		return ((ThinOrganismUI)thinOrganismGrid.getWidget(i, j)).getThinOrganism();
 	}
 	
 	public void setOrganisms(ThinOrganism[][] newOrgs) {
-		organisms = new ThinOrganism[preferences.getWorldSize()][preferences.getWorldSize()];
+//		thinOrganismGrid.clear();
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				organisms[i][j] = newOrgs[i][j];
-				organismGrid.setWidget(i, j, newOrgs[i][j]);
+				thinOrganismGrid.setWidget(i, j, new ThinOrganismUI(newOrgs[i][j], mge));
 			}
 		}
 	}
@@ -94,8 +91,8 @@ public class World extends CaptionPanel {
 	public Organism getSelectedOrganism() throws FoldingException {
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				if (organisms[i][j].isSelected()) {
-					return organismFactory.createOrganism(organisms[i][j]);
+				if (((ThinOrganismUI)thinOrganismGrid.getWidget(i, j)).isSelected()) {
+					return organismFactory.createOrganism(((ThinOrganismUI)thinOrganismGrid.getWidget(i, j)).getThinOrganism());
 				}
 			}
 		}
@@ -115,7 +112,7 @@ public class World extends CaptionPanel {
 	public void clearAllSelectedOrganisms() {
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				organisms[i][j].setSelected(false);
+				((ThinOrganismUI)thinOrganismGrid.getWidget(i, j)).setSelected(false);
 			}
 		}
 	}

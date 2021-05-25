@@ -1094,3 +1094,21 @@ need to deal with when they select a dead organism
 also, there's something weird going on - it seems to be only getting one allele
 	ex if you load with green-2 (yel/blu) and run one generation with mutations off, you get all yellow.
 	somehow, I broke it...
+
+5/25/21
+rip out all the stuff from yesterday - the links to get selection working etc.
+	then try to get non-mutating evolution working.
+now works on first run after re-load but fails after you clear and re-load world - ish.
+
+try clearing the organismGrid and making organisms new each run
+it only sometimes works.
+
+need to back off and do it right - like you do in Genetics with a ThinOrganism and a ThinOrganismUI
+
+ish-works: the first few runs are OK but after multiple reloads, it ends up only all blue etc.
+try taking the thinOrganismGrid.clear() from initialize and set organsims
+	still NG.
+
+maybe try making one MutateCommand at the start and updating the gene pool each time?
+	complete fail - if you load with all "Red" (red/white het) - you get all red!
+	and some monster errors.

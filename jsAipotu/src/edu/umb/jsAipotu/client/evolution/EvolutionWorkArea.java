@@ -23,6 +23,8 @@ import edu.umb.jsAipotu.client.preferences.MGEPreferences;
 public class EvolutionWorkArea extends HorizontalPanel {
 
 	private MolGenExp mge;
+	
+	private EvolveCommand evolveCommand;
 
 	private HTML generationDisplay;
 	private int generation;
@@ -42,6 +44,7 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		super();
 		this.mge = mge;
 		generation = 0;
+		evolveCommand = new EvolveCommand();
 		setupUI();
 	}
 
@@ -94,8 +97,8 @@ public class EvolutionWorkArea extends HorizontalPanel {
 		oneGenButton.setStyleName("evolutionButton");
 		oneGenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				EvolveCommand ec = new EvolveCommand(mge.getjsAipotu().getEvolutionWorkArea());
-				Scheduler.get().scheduleIncremental(ec);
+				evolveCommand.prepareToEvolve(mge.getjsAipotu().getEvolutionWorkArea());
+				Scheduler.get().scheduleIncremental(evolveCommand);
 			}
 		});
 		upperButtonPanel.add(oneGenButton);
