@@ -1174,6 +1174,13 @@ build back into Evolution & test - OK
 
 now, need to get ThinOrganismUI selection working and save to greenhouse.
 
+got it to select only one ThinOrgUI at at time
+need to
+- activate/deactivate add to greenhouse button
+- get saving to work
+- shouldn't be able to select dead organisms
+- shouldn't be able to select gray orgs in initalized but not loaded World
+
 
 
  

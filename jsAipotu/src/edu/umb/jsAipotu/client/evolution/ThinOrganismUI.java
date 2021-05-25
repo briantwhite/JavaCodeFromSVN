@@ -9,11 +9,11 @@ import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
 public class ThinOrganismUI extends FocusPanel {
 	private ThinOrganism to;
 	private boolean selected;
-	private MolGenExp mge;
+	private World world;
 	
-	public ThinOrganismUI (ThinOrganism to, MolGenExp mge) {
+	public ThinOrganismUI (ThinOrganism to, World world) {
 		this.to = to;
-		this.mge = mge;
+		this.world = world;
 		selected = false;
 		sinkEvents(Event.ONCLICK);
 		setStyleName("unselected-thinOrganismUI");
@@ -28,6 +28,7 @@ public class ThinOrganismUI extends FocusPanel {
 			if (selected) {
 				setSelected(false);
 			} else {
+				world.deselectAllOrganismUIs();
 				setSelected(true);
 			}
 		}

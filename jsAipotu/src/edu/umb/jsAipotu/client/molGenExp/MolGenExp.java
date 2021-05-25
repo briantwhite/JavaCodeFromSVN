@@ -77,7 +77,7 @@ public class MolGenExp {
 			break;
 
 		case EVOLUTION:
-			// just return since there's no limt on the number of OrganismUIs you can select
+			// just return since evolution uses ThinOrganismUIs
 			break;
 		} 
 	}

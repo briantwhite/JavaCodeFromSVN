@@ -43,7 +43,7 @@ public class World extends CaptionPanel {
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				ThinOrganism to = thinOrganismFactory.createThinOrganism(orgs.get(Random.nextInt(orgs.size())).getOrganism());
-				ThinOrganismUI toUI = new ThinOrganismUI(to, mge);
+				ThinOrganismUI toUI = new ThinOrganismUI(to, this);
 				thinOrganismGrid.setWidget(i, j, toUI);
 			}
 		}
@@ -54,7 +54,7 @@ public class World extends CaptionPanel {
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				ThinOrganism to = new ThinOrganism();
-				ThinOrganismUI toUI = new ThinOrganismUI(to, mge);
+				ThinOrganismUI toUI = new ThinOrganismUI(to, this);
 				thinOrganismGrid.setWidget(i, j, toUI);
 			}
 		}
@@ -78,10 +78,9 @@ public class World extends CaptionPanel {
 	}
 	
 	public void setOrganisms(ThinOrganism[][] newOrgs) {
-//		thinOrganismGrid.clear();
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
-				thinOrganismGrid.setWidget(i, j, new ThinOrganismUI(newOrgs[i][j], mge));
+				thinOrganismGrid.setWidget(i, j, new ThinOrganismUI(newOrgs[i][j], this));
 			}
 		}
 	}
@@ -107,7 +106,7 @@ public class World extends CaptionPanel {
 		
 	}
 
-	public void clearAllSelectedOrganisms() {
+	public void deselectAllOrganismUIs() {
 		for (int i = 0; i < preferences.getWorldSize(); i++) {
 			for (int j = 0; j < preferences.getWorldSize(); j++) {
 				((ThinOrganismUI)thinOrganismGrid.getWidget(i, j)).setSelected(false);
