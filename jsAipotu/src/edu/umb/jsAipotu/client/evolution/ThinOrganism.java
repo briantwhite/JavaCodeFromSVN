@@ -27,7 +27,7 @@ public class ThinOrganism {
 		this.overallColor = overallColor;
 	}
 
-	// empty constructor for starting screen
+	// empty constructor for starting screen and a dead ThinOrganism (one with non-foldable protein)
 	protected ThinOrganism() {
 		this.overallColor = GlobalDefaults.DEAD_COLOR;
 	}

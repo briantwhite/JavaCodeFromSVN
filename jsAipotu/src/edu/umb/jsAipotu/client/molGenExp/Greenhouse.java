@@ -17,6 +17,7 @@ public class Greenhouse extends ScrollPanel {
 		this.mge = mge;
 		organismUIs = new ArrayList<OrganismUI>();
 		innerPanel = new VerticalPanel();
+		this.setStyleName("greenhouseScroller");
 		this.add(innerPanel);
 	}
 	

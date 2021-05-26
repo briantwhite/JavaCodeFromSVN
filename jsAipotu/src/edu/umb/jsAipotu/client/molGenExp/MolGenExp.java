@@ -128,9 +128,10 @@ public class MolGenExp {
 		}
 	}
 
-	public void clearSelectedOrganisms() {
+	public void clearSelectedOrganismsEverywhere() {
 		greenhouse.clearAllSelections();
 		clearSelectedOrganismsInGeneticsWorkbench();
+		jsA.getEvolutionWorkArea().getWorld().deselectAllOrganismUIs();
 	}
 
 	public void clearSelectedOrganismsInGeneticsWorkbench() {
@@ -230,7 +231,7 @@ public class MolGenExp {
 				}
 
 				greenhouse.add(new OrganismFactory().createOrganism(name,o));
-				clearSelectedOrganisms();
+				clearSelectedOrganismsEverywhere();
 				saveGreenhouseToHTML5storage();
 				getNameDialog.hide();
 			}

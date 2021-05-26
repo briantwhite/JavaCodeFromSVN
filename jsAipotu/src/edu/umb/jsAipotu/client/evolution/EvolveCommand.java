@@ -8,7 +8,6 @@ import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 
-import edu.umb.jsAipotu.client.JsAipotu;
 import edu.umb.jsAipotu.client.biochem.FoldingException;
 import edu.umb.jsAipotu.client.genetics.Mutator;
 import edu.umb.jsAipotu.client.preferences.GlobalDefaults;
@@ -71,7 +70,7 @@ public class EvolveCommand implements RepeatingCommand {
 		try {
 			o = thinOrganismFactory.createThinOrganism(DNA1, DNA2);
 		} catch (FoldingException e) {
-			// TO DO - deal with folded in a corner and make a useful thin org
+			o = new ThinOrganism(); // a 'dead' one with no DNA and not-clickable
 		}
 		
 		nextGen[i][j] = o;
@@ -118,12 +117,6 @@ public class EvolveCommand implements RepeatingCommand {
 					}
 				}
 			}
-		}
-		Iterator<String> gpIt = genePool.iterator();
-		int n = 1;
-		while (gpIt.hasNext()) {
-			JsAipotu.consoleLog(String.valueOf(n) + "," + gpIt.next());
-			n++;
 		}
 	}
 }

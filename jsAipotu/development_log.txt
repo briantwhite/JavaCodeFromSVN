@@ -1182,5 +1182,40 @@ need to
 - shouldn't be able to select gray orgs in initalized but not loaded World
 
 
+5/26/21
+things to do:
+1) activate/deactivate add to greenhouse button
+2) get saving to GH to work
+3) use same gray color for dead/blank throughout - check carefully that it's the SAME color (use prefs Dead Color)
+4) shouldn't be able to select dead organisms
+5) shouldn't be able to select gray orgs in initalized but not loaded World
+	- tool tip text 'empty'
+6) deal with folded in a corner
+	- gray organism in GH or World
+		- tool tip text = 'dead'
+		- can't be selected (disable click response if gray)
 
- 
+started
+1) - done
+2) - done
+3) in GlobalDefaults:
+	public static final CssColor DEAD_COLOR = CssColor.make("gray");
+	public static final String DEAD_COLOR_NAME = "Gray";
+in Genetics, it doesn't allow dead ones - it re-runs mutation until it's OK
+in Evolution - deal with it in EvolveCommand.execute()
+4), 5), 6) done but can only test that it doesn't break existing code since it's hard to get a 'dead' organism
+looks OK for now.
+
+delete useless classes
+
+need to clean up layout.
+
+need to make the greenhouse scrollable - it already is a ScrollPanel but the scrollbar doesn't appear
+	try messing with css - you have to give it an explicit height
+	
+biochem hist list doesn't scroll - fixed
+
+trays in hist list don't show their tray number - fixed
+
+probably ready to send out for testing.
+can make main panel not as tall.

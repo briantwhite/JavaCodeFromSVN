@@ -17,8 +17,8 @@ public class GeneticsHistListItem extends AbstractCell<Tray>{
 	}
 
 	interface Templates extends SafeHtmlTemplates {
-		@SafeHtmlTemplates.Template("<table style=\"{0}\"><tr><td>{1}</td></tr></table>")
-		SafeHtml cell(SafeStyles colorStyle, SafeHtml imageHTML);
+		@SafeHtmlTemplates.Template("<table style=\"{0}\"><tr><td>{1}</td></tr><tr><td>{2}</td></tr></table>")
+		SafeHtml cell(SafeStyles colorStyle, SafeHtml imageHTML, SafeHtml safeLabel);
 	}
 	private static Templates templates = GWT.create(Templates.class);
 
@@ -39,7 +39,8 @@ public class GeneticsHistListItem extends AbstractCell<Tray>{
 		b.trustedBackgroundColor("LightGray");
 		SafeStyles colorStyle = b.toSafeStyles();
 		SafeHtml safeImage = SafeHtmlUtils.fromTrustedString("<img src=\"" + tray.getThumbCanvas().toDataUrl() + "\" />");
-		sb.append(templates.cell(colorStyle, safeImage));
+		SafeHtml safeLabel = SafeHtmlUtils.fromTrustedString("<font color=\"black\">Tray " + String.valueOf(tray.getNumber()) + "</font>");
+		sb.append(templates.cell(colorStyle, safeImage, safeLabel));
 
 	}
 

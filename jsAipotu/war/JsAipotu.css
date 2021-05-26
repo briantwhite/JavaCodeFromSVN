@@ -36,7 +36,7 @@
 
 .mainPanel {
 	width: 1100px;
-	height: 1050px;
+	height: 950px;
 	background: lightblue;
 	border: 1px solid black;
 }
@@ -57,9 +57,13 @@
 	margin-left: 50%;
 }
 
-.greenhousePanel {
-	width: 100px;
+.greenhousePanel {	
 	background: white;
+}
+
+.greenhouseScroller {
+	overflow: auto;
+	height: 900px;
 }
 
 .unSelectedOrganismUI {
@@ -102,7 +106,7 @@
 
 .geneticsHistList {
 	width: 180px;
-	height: 800px;
+	height: 500px;
 }
 
 .busyPopup {
@@ -121,7 +125,7 @@
 
 .biochemHistList {
 	width: 180px;
-	height: 800px;
+	height: 500px;
 }
 
 .BiochemButtonPanel .gwt-Button {

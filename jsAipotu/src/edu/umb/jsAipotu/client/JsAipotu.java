@@ -189,7 +189,7 @@ public class JsAipotu implements EntryPoint {
 
 		explorerPane.addSelectionHandler(new SelectionHandler<Integer>() {
 			public void onSelection(SelectionEvent<Integer> event) {
-				mge.clearSelectedOrganisms();
+				mge.clearSelectedOrganismsEverywhere();
 				enableAddToGreenhouseButton(false);
 				if ((explorerPane.getSelectedIndex() == MolGenExp.BIOCHEMISTRY) || (explorerPane.getSelectedIndex() == MolGenExp.MOLECULAR_BIOLOGY)) {
 					compareMenu.setVisible(true);

@@ -186,6 +186,7 @@ public class BruteForceFolder extends Folder {
 		return topologies.toString();
 	}
 
+
 	public String getEnergyHistogram() {
 		StringBuffer buf = new StringBuffer(400);
 		for (int i = 0; i < buckets.length; i++) {
