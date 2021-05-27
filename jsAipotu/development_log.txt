@@ -1218,4 +1218,7 @@ biochem hist list doesn't scroll - fixed
 trays in hist list don't show their tray number - fixed
 
 probably ready to send out for testing.
+
+5/27/21
+sent out for testing
 can make main panel not as tall.
