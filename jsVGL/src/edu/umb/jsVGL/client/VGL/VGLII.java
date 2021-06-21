@@ -186,6 +186,8 @@ public class VGLII {
 
 		if ((geneticModel != null) && geneticModel.isBeginnerMode()) return new SavedProblemStrings("ERROR: Practice Mode", "", "");
 
+		GradeResult grade = AutoGrader.grade(cageCollection, geneticModel, (ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget());
+
 		String problemXML = "";
 
 		if ((cageCollection != null) && (cageCollection.size() > 0)) {
@@ -198,15 +200,14 @@ public class VGLII {
 					Cage c = cui.getCage();
 					al.add(c);
 				}
-				Element xmlDoc = getXMLDoc(al);
+				Element xmlDoc = getXMLDoc(al, grade);
 				changeSinceLastSave = false;
 				problemXML = xmlDoc.toString();
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			GradeResult grade = AutoGrader.grade(cageCollection, geneticModel, (ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget());
-			//			System.out.println("VGLII 204: Length=" + problemXML.length());
+
 			return new SavedProblemStrings(problemXML, grade.gradeXML, grade.gradeHTML);
 		} else {
 			return new SavedProblemStrings("ERROR: No Problem Loaded", "", "");
@@ -215,7 +216,7 @@ public class VGLII {
 
 
 
-	private Element getXMLDoc(ArrayList<Cage> cages) throws Exception {
+	private Element getXMLDoc(ArrayList<Cage> cages, GradeResult grade) throws Exception {
 		Document d = XMLParser.createDocument();
 		// creating the whole tree
 		Element root = d.createElement("VglII"); 
@@ -229,7 +230,10 @@ public class VGLII {
 		root.appendChild(organisms);
 
 		root.appendChild(((ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget()).save());
-
+		
+		Element gr = d.createElement("Grade");
+		gr.setAttribute("XML", grade.gradeXML);
+		root.appendChild(gr);
 		return root;
 	}
 

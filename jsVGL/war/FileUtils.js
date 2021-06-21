@@ -18,7 +18,7 @@ function saveWorkDialog(stateXML) {
 
 function saveWork(stateXML, workFileName) {
 	var x2js = new X2JS();
-	var blob = new Blob([JSON.stringify(x2js.xml_str2json(stateXML))], {type: "text/plain;charset=utf-8"});
+	var blob = new Blob([window.btoa(JSON.stringify(x2js.xml_str2json(stateXML)))], {type: "text/plain;charset=utf-8"});
 	if (workFileName == "") {
 		alert("No file name entered; please try again and enter a file name in the space provided.");
 		return;
@@ -61,13 +61,13 @@ function loadWork(inputFile) {
 }
 
 function fileLoaded(evt) {
-	var contents = evt.target.result;
 	var x2js = new X2JS();
 	try {
+		var contents = window.atob(evt.target.result);
 		var xml = x2js.json2xml_str(JSON.parse(contents));
 	}
 	catch (err) {
-		alert("Sorry, that doesn't seem to be a jsVGL file.\nPlease try a different file.");
+		alert("Sorry, that doesn't seem to be a properly formatted jsVGL file.\nPlease try a different file.");
 		return;
 	}
 	window.setStateXML(xml);

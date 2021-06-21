@@ -646,3 +646,32 @@ use Base64 encoding for the 'encryption' of the correct answer info
 2/23/21
 at request of Laurel Pfeifer-Meister lpfeife1@uoregon.edu, added a problem jsVGLG based on OneGene04.pr
 	XX/XY sex-linked & inc dom.
+
+6/21/21
+need to set this up to be used in 111 instead of VGLII
+1) include grading info in .jsvgl
+2) lightly encrypt the whole thing (Base64? xor with phrase?)
+	- be sure you can read in files
+3) set up VGLII to be able to read .jsvgl for grading
+
+working on (1) 
+the save work button saves the output of jsVGL.getStateXML()
+	this, in turn, get's the problemXML from VGLII.java's saveProblem() method
+	just make it so that the 'problemXML' also contains grade info (and eventually encrypt the whole thing)
+		- don't mess with other parts as they're important for integration into edX.
+
+got it to put grade in attribute "_XML" of element "Grade"
+	tested - it's there and the work file can be loaded OK by jsVGL and the organisms work fine
+
+2) what kind of encryption?
+	it looks like base64 is pretty easy to implement in native javascript
+	ALSO - do ANY encoding in the FileUtils.js - don't mess with the output that edX expects to see
+		only change it when saving to a file.
+		
+encoding in FileUtils.js saveWork():
+	var blob = new Blob([window.btoa(JSON.stringify(x2js.xml_str2json(stateXML)))], {type: "text/plain;charset=utf-8"});
+
+decoding in FileUtils.js fileLoaded()
+	var contents = window.atob(evt.target.result);
+
+tested with several problems - OK!
