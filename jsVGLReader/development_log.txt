@@ -38,3 +38,7 @@ need json-simple from https://code.google.com/archive/p/json-simple/downloads
 
 got it to compile but, although you can see the file .jsvgl in the directory, it does not appear on screen?
 	it is being added to the list but the display is not updating!
+
+maybe it's a thread thing. Don't build the UI until you've selected the files?
+that's a little tricky since you need (I think) to have a little UI up before you can open the file chooser.
+	

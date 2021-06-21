@@ -43,8 +43,8 @@ public class jsVGLReader extends JFrame {
 
 	private File workingDir;
 
-	private JList<String> workFileList;
-	private DefaultListModel<String> workFiles;
+	private JList<String> workFileNameDisplayList;
+	private DefaultListModel<String> workFileNameListModel;
 
 	public JEditorPane correctAnswer;
 	public JScrollPane correctAnswerScroller;
@@ -58,6 +58,8 @@ public class jsVGLReader extends JFrame {
 
 	public jsVGLReader() {
 		filenamesAndModels = new TreeMap<String, ModelSet>();
+		workFileNameListModel = new DefaultListModel<String>();
+		openDirectoryAndLoadFiles();
 		setupUI();
 		pack();
 		setVisible(true);
@@ -70,8 +72,6 @@ public class jsVGLReader extends JFrame {
 	}
 
 	public static void main(String[] args) {		
-		jsVGLReader reader = new jsVGLReader();
-
 		// get password
 		String password = "";
 		JPasswordField pf = new JPasswordField();
@@ -82,9 +82,7 @@ public class jsVGLReader extends JFrame {
 		if (!password.equals("jsVGL2020")) {
 			System.exit(0);
 		}
-		reader.setupUI();
-		reader.pack();
-		reader.setVisible(true);
+		jsVGLReader reader = new jsVGLReader();
 	}
 
 	private void setupUI() {
@@ -117,20 +115,18 @@ public class jsVGLReader extends JFrame {
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.add(Box.createRigidArea(new Dimension(300,1)));
 
-		workFiles = new DefaultListModel<String>();
-		workFileList = new JList<String>(workFiles);
-		workFileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		workFileList.setLayoutOrientation(JList.VERTICAL);
-		workFileList.setVisibleRowCount(-1);
-		JScrollPane listScroller = new JScrollPane(workFileList);
+		workFileNameDisplayList = new JList<String>(workFileNameListModel);
+		workFileNameDisplayList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		workFileNameDisplayList.setLayoutOrientation(JList.VERTICAL);
+		JScrollPane listScroller = new JScrollPane(workFileNameDisplayList);
 		listScroller.setPreferredSize(new Dimension(300,80));
 		leftPanel.add(listScroller);
 
-		workFileList.addMouseListener(new MouseAdapter() {
+		workFileNameDisplayList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				JList<String> list = (JList<String>) evt.getSource();
 				String workFileName =
-					(workFiles.get((list.locationToIndex(evt.getPoint())))).toString();
+					(workFileNameListModel.get((list.locationToIndex(evt.getPoint())))).toString();
 				showWorkByName(workFileName);
 			}
 
@@ -184,12 +180,12 @@ public class jsVGLReader extends JFrame {
 		String[] files = workingDir.list();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].endsWith(".jsvgl")) {
-				workFiles.addElement(files[i]);
+				workFileNameListModel.addElement(files[i]);
 			}
 		}
 
-		for (int i = 0; i < workFiles.getSize(); i++) {
-			String currentWorkFileName = workFiles.get(i);
+		for (int i = 0; i < workFileNameListModel.getSize(); i++) {
+			String currentWorkFileName = workFileNameListModel.get(i);
 			System.out.println(currentWorkFileName);
 //			ModelSet modelSet = getModelsFromFile(workingDir.toString() + System.getProperty("file.separator") + currentWorkFileName);
 //			filenamesAndModels.put(currentWorkFileName, modelSet);
