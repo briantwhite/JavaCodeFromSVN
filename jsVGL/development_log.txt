@@ -678,3 +678,18 @@ tested with several problems - OK!
 
 3) had started to make jsVGL reader app - but it's probably better to just use VGLII and give it the ability to read .jsvgl files?
 	build it into VGLII since it has better security.
+	
+actually, it'll be better to include the html from the genetic model: geneticModel.toString() [correct answer]
+	and the html from the modelbuilder.getAsHtml()
+	in the saved work file
+	
+turn off encryption for now
+
+the "Summary" element now has attributes:
+	"StudentAnswer" - the html from the ModelBuilder
+	"CorrectAnswer" - the html from the Genetic Model
+	"Grade" - the grade XML
+
+data are there.
+
+just use the jsVGL file reader to avoid messing up 

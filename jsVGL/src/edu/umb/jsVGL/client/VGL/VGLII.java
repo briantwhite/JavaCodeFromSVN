@@ -231,9 +231,11 @@ public class VGLII {
 
 		root.appendChild(((ModelBuilderUI)jsVGL.getModelBuilderPanel().getWidget()).save());
 		
-		Element gr = d.createElement("Grade");
-		gr.setAttribute("XML", grade.gradeXML);
-		root.appendChild(gr);
+		Element summary = d.createElement("Summary");
+		summary.setAttribute("Grade", grade.gradeXML);
+		summary.setAttribute("CorrectAnswer", geneticModel.toString());
+		summary.setAttribute("StudentAnswer", modelBuilder.getAsHtml());
+		root.appendChild(summary);
 		return root;
 	}
 

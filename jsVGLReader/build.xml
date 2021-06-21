@@ -1,0 +1,23 @@
+<project name="jsVGL Reader" default="run">
+	
+    <target name="compile" description="Compiles the code">
+    	    <javac srcdir="src/" destdir="bin/"/>
+    </target>
+
+	<target name="jarfile" depends="compile" description="makes jar file">
+	    <jar destfile="bin/jsVGLReader.jar">
+	        <manifest>
+	        	    <attribute name="Main-Class" value="jsVGLReader.jsVGLReader"/>
+	        </manifest>
+    	    <fileset dir="bin/"/>
+	    	<zipfileset src="jdom.jar"/>
+	    	<zipfileset src="json-simple-1.1.1.jar"/>
+ 	    </jar>
+        <move file="bin/jsVGLReader.jar" todir="."/>
+    </target>
+	
+	<target name="run" depends="jarfile" description="run jsVGL Reader">
+		<java jar="jsVGLReader.jar" fork="true"/>
+	</target>
+
+</project>

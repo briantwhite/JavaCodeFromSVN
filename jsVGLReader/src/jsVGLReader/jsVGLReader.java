@@ -43,7 +43,7 @@ public class jsVGLReader extends JFrame {
 
 	private File workingDir;
 
-	private JList<File> workFileList;
+	private JList<String> workFileList;
 	private DefaultListModel<String> workFiles;
 
 	public JEditorPane correctAnswer;
@@ -58,9 +58,9 @@ public class jsVGLReader extends JFrame {
 
 	public jsVGLReader() {
 		filenamesAndModels = new TreeMap<String, ModelSet>();
-//		setupUI();
-//		pack();
-//		setVisible(true);
+		setupUI();
+		pack();
+		setVisible(true);
 	}
 
 	class ApplicationCloser extends WindowAdapter {
@@ -107,16 +107,6 @@ public class jsVGLReader extends JFrame {
 		});
 		fileMenu.add(quitItem);
 		menuBar.add(fileMenu);
-		JMenu helpMenu = new JMenu("Help");
-		menuBar.add(Box.createHorizontalGlue());
-		menuBar.add(helpMenu);
-		JMenuItem helpItem = new JMenuItem("Help");
-		helpMenu.add(helpItem);
-		helpItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				GraderHelp.showhelp();
-			}
-		});
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
@@ -128,7 +118,7 @@ public class jsVGLReader extends JFrame {
 		leftPanel.add(Box.createRigidArea(new Dimension(300,1)));
 
 		workFiles = new DefaultListModel<String>();
-		workFileList = new JList(workFiles);
+		workFileList = new JList<String>(workFiles);
 		workFileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		workFileList.setLayoutOrientation(JList.VERTICAL);
 		workFileList.setVisibleRowCount(-1);
@@ -138,7 +128,7 @@ public class jsVGLReader extends JFrame {
 
 		workFileList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
-				JList list = (JList) evt.getSource();
+				JList<String> list = (JList<String>) evt.getSource();
 				String workFileName =
 					(workFiles.get((list.locationToIndex(evt.getPoint())))).toString();
 				showWorkByName(workFileName);
@@ -200,10 +190,11 @@ public class jsVGLReader extends JFrame {
 
 		for (int i = 0; i < workFiles.getSize(); i++) {
 			String currentWorkFileName = workFiles.get(i);
-			ModelSet modelSet = getModelsFromFile(workingDir.toString() + System.getProperty("file.separator") + currentWorkFileName);
-			filenamesAndModels.put(currentWorkFileName, modelSet);
+			System.out.println(currentWorkFileName);
+//			ModelSet modelSet = getModelsFromFile(workingDir.toString() + System.getProperty("file.separator") + currentWorkFileName);
+//			filenamesAndModels.put(currentWorkFileName, modelSet);
 		}
-		setVisible(true);
+//		setVisible(true);
 	}
 
 	private ModelSet getModelsFromFile(String fileName) {
