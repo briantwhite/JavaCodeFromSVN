@@ -675,3 +675,6 @@ decoding in FileUtils.js fileLoaded()
 	var contents = window.atob(evt.target.result);
 
 tested with several problems - OK!
+
+3) had started to make jsVGL reader app - but it's probably better to just use VGLII and give it the ability to read .jsvgl files?
+	build it into VGLII since it has better security.
