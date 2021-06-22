@@ -41,4 +41,16 @@ got it to compile but, although you can see the file .jsvgl in the directory, it
 
 maybe it's a thread thing. Don't build the UI until you've selected the files?
 that's a little tricky since you need (I think) to have a little UI up before you can open the file chooser.
+
+6/22/21
+probably the best way is to steal code from VGLII and make a thread so the GUI updates.
+
+got it to work without encryption
+
+need to:
+- test with several files - OK!
+- put back encryption and test
+	first, need to get it to read the file to a string and parse it unencrypted - OK
+	working with encryption!
 	
+all set!

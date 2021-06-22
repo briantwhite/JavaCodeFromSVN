@@ -2,6 +2,7 @@ package jsVGLReader;
 
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,10 +20,12 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -30,14 +33,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.Timer;
 import javax.swing.text.Caret;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 
 public class jsVGLReader extends JFrame {
 
@@ -45,6 +49,13 @@ public class jsVGLReader extends JFrame {
 
 	private JList<String> workFileNameDisplayList;
 	private DefaultListModel<String> workFileNameListModel;
+	
+	private Timer fileLoadingTimer;
+	private WorkFileLoader workFileLoader;
+	private JProgressBar fileLoadingProgressBar;
+	private JLabel filenameLabel;
+	private JDialog progressDialog;
+	private boolean loadingFiles;
 
 	public JEditorPane correctAnswer;
 	public JScrollPane correctAnswerScroller;
@@ -54,12 +65,12 @@ public class jsVGLReader extends JFrame {
 	public JScrollPane theirAnswerScroller;
 	public Caret topOfTheirAnswer;
 
-	private TreeMap<String, ModelSet> filenamesAndModels;
+	private TreeMap<String, GradingResult> filenamesAndResults;
 
 	public jsVGLReader() {
-		filenamesAndModels = new TreeMap<String, ModelSet>();
+		filenamesAndResults = new TreeMap<String, GradingResult>();
 		workFileNameListModel = new DefaultListModel<String>();
-		openDirectoryAndLoadFiles();
+		fileLoadingTimer = new Timer(100, new FileLoadingTimerListener());
 		setupUI();
 		pack();
 		setVisible(true);
@@ -183,41 +194,76 @@ public class jsVGLReader extends JFrame {
 				workFileNameListModel.addElement(files[i]);
 			}
 		}
+		
+		workFileLoader = new WorkFileLoader(
+				workingDir, 
+				workFileNameListModel, 
+				filenamesAndResults);
+		Thread t = new Thread(workFileLoader);
+		t.start();
+		fileLoadingTimer.start();
 
-		for (int i = 0; i < workFileNameListModel.getSize(); i++) {
-			String currentWorkFileName = workFileNameListModel.get(i);
-			System.out.println(currentWorkFileName);
-//			ModelSet modelSet = getModelsFromFile(workingDir.toString() + System.getProperty("file.separator") + currentWorkFileName);
-//			filenamesAndModels.put(currentWorkFileName, modelSet);
-		}
-//		setVisible(true);
+		loadingFiles = true;
+
+		progressDialog = new JDialog(this, true);
+		progressDialog.setLocationRelativeTo(null);
+		progressDialog.setTitle("Loading files for Grading...");
+		progressDialog.setPreferredSize(new Dimension(300, 170));
+		JPanel progressPanel = new JPanel();
+		progressPanel.setLayout(new BoxLayout(progressPanel, BoxLayout.Y_AXIS));
+		progressPanel.add(
+				new JLabel("Reading in " + workFileNameListModel.getSize() + " work files."));
+		fileLoadingProgressBar = new JProgressBar(0, workFileNameListModel.getSize());
+		fileLoadingProgressBar.setValue(0);
+		progressPanel.add(fileLoadingProgressBar);
+		filenameLabel = new JLabel("Loading...");
+		progressPanel.add(filenameLabel);
+		JButton cancelButton = new JButton("Cancel");
+		progressPanel.add(cancelButton);
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				progressDialog.dispose();
+			}
+		});
+		
+		JPanel wrapperPanel = new JPanel();
+		wrapperPanel.setLayout(new BoxLayout(wrapperPanel, BoxLayout.X_AXIS));
+		wrapperPanel.add(Box.createRigidArea(new Dimension(25, 0)));
+		wrapperPanel.add(progressPanel);
+		wrapperPanel.add(Box.createRigidArea(new Dimension(25, 0)));
+		
+		JPanel outerPanel = new JPanel();
+		outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
+		outerPanel.add(Box.createRigidArea(new Dimension(0, 25)));
+		outerPanel.add(wrapperPanel);
+		outerPanel.add(Box.createRigidArea(new Dimension(0, 25)));
+
+		progressDialog.add(outerPanel);
+		progressDialog.pack();
+		progressDialog.setVisible(true);
+		loadingFiles = false;
+		
+		setVisible(true);
+	}
+	
+	class FileLoadingTimerListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if(!loadingFiles || 
+					(workFileLoader.getProgress() == workFileLoader.getLengthOfTask())) {
+				workFileLoader.stop();
+				fileLoadingTimer.stop();
+				progressDialog.dispose();
+			} else {
+				fileLoadingProgressBar.setValue(workFileLoader.getProgress());
+				filenameLabel.setText(workFileLoader.getCurrentFileName());
+			}
+		}		
 	}
 
-	private ModelSet getModelsFromFile(String fileName) {
-		JSONParser parser = new JSONParser();
-		try {
-			Object obj = parser.parse(new FileReader(fileName));
-			JSONObject jsonObj = (JSONObject)obj;
-			JSONObject vglJSON = (JSONObject)jsonObj.get("VglII");
-			
-			
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	private void showWorkByName(String fileName) {
 
-		ModelSet result = filenamesAndModels.get(fileName);
+		GradingResult result = filenamesAndResults.get(fileName);
 
 		correctAnswer.setText(result.getCorrectAnswerHTML());
 		correctAnswer.setCaret(null);
