@@ -693,3 +693,28 @@ the "Summary" element now has attributes:
 data are there.
 
 just use the jsVGL file reader to avoid messing up 
+
+6/23/21
+shine up the site with canned problems jsVGL_forLab.html
+
+on-line base64 decoder https://www.base64decode.org/
+
+already have some files in 
+- simple dominance (jsVGLA.html)
+	"Blue & Yellow Wings" Blue is dominant
+	"Five & Six Legs" Five is dominant
+- incomplete dominance (jsVGLB.html)
+	"652 Antennae.jsvgl" Six is the heterozygote
+	"BPY Eyes.jsvgl" Yellow is heterozygote
+- XX/XY sex-linkage (jsVGLC.html)
+	"One & Six Antennae.jsvgl" XX/XY sex-linked; One is dominant
+	"Yellow & Purple Eyes.jsvgl" XX/XY sex-linked; Purple is dominant
+
+need some ZZ/ZW sex-linkage ones:
+BGLegs.jsvgl - blue dominant
+BPBody.jsvgl - pointy dominant
+	(remember these are encrypted unlike the others)
+	but this won't work - it can be opened AOK by jsVGL but
+		if you paste into Base64 converter and then put that in the variable above, there's an error loading file
+		it may be the "\n" in the summary - just delete that part from the string and it's OK
+

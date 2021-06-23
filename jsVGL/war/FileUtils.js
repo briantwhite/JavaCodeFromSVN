@@ -18,8 +18,8 @@ function saveWorkDialog(stateXML) {
 
 function saveWork(stateXML, workFileName) {
 	var x2js = new X2JS();
-//	var blob = new Blob([window.btoa(JSON.stringify(x2js.xml_str2json(stateXML)))], {type: "text/plain;charset=utf-8"});
-	var blob = new Blob([JSON.stringify(x2js.xml_str2json(stateXML))], {type: "text/plain;charset=utf-8"});
+	var blob = new Blob([window.btoa(JSON.stringify(x2js.xml_str2json(stateXML)))], {type: "text/plain;charset=utf-8"});
+	//var blob = new Blob([JSON.stringify(x2js.xml_str2json(stateXML))], {type: "text/plain;charset=utf-8"});  // unencrypted version
 	if (workFileName == "") {
 		alert("No file name entered; please try again and enter a file name in the space provided.");
 		return;
@@ -64,8 +64,8 @@ function loadWork(inputFile) {
 function fileLoaded(evt) {
 	var x2js = new X2JS();
 	try {
-//		var contents = window.atob(evt.target.result);
-		var contents = evt.target.result;
+		var contents = window.atob(evt.target.result);
+//		var contents = evt.target.result;  // unencrypted version
 		var xml = x2js.json2xml_str(JSON.parse(contents));
 	}
 	catch (err) {
