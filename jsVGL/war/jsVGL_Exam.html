@@ -1,0 +1,82 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <link type="text/css" rel="stylesheet" href="JsVGL.css">
+
+    <title>Virtual Genetics Lab for Take Home Exam 5</title>
+    
+    <script type="text/javascript" language="javascript" src="jsvgl/jsvgl.nocache.js"></script>
+    <script type="text/javascript" language="javascript" src="xml2json.js"></script>
+    <script type="text/javascript" language="javascript" src="jsVGL.js"></script>
+    <script type="text/javascript" language="javascript" src="FileSaver.js"></script>
+    <script type="text/javascript" language="javascript" src="FileUtils.js"></script>
+    <script type="text/javascript" language="javascript" src="menuEnabler.js"></script>
+    <script type="text/javascript" language="javascript">
+     	var Params = {
+    		SuperCrossEnabled: "false",
+    		ZZ_ZW: "0.5",
+			Gene1_SexLinked: "0.5",
+			Gene1_IncDom: "0.5"
+    	};
+    </script>
+  </head>
+
+  <body>
+    
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+    
+    <div>
+    	<dialog id="loadFileChooserDialog">
+    		Click "Choose File", select a .jsvgl file to load and click "OK".<br><br>
+    		<input type="file" id="inputFileName" accept=".jsvgl"></input><br><br>
+    		<button type="button" onClick="document.getElementById('loadFileChooserDialog').close()">Cancel</button>
+    		<button type="button" onClick="loadWork(document.getElementById('inputFileName').files[0])">OK</button>
+    	</dialog>
+    </div>
+<h2>jsVGL Problems for Take Home Exam 5</h2>
+    <table align="left">
+      <tr>
+      	<td>
+      		<div class="dropdown">
+  				<button class="dropbtn">File</button>
+  				<div class="dropdown-content">
+    				<button id="saveWorkButton" onClick="saveWorkDialog(window.getStateXML())">Save Work As...</button>
+    				<button id="exportWorkButton" onClick="exportWorkDialog(window.getHTML())">Export Report...</button>
+    				<button id="loadWorkButton" onClick="loadWorkDialog()">Load Saved Work...</button>
+  				</div>
+			</div>
+      	</td>
+      </tr>
+      <tr>
+      	<td>
+      		<table>
+      			<tr>
+      				<td id="newPracticeProblemButtonContainer"></td>
+      				<td id="newGradedProblemButtonContainer"></td>
+      				<td id="clearWorkspaceButtonContainer"></td>
+      			</tr>
+      		</table>
+      	</td>
+         
+      </tr>
+       <tr>
+        <td id="mainPanelContainer"></td>
+       </tr>
+       <tr>
+       	  <td align="left" id="crossButtonContainer"></td>
+	   </tr>
+       <tr>
+        <td id="cagesContainer"></td>
+     </tr>
+    </table>
+   
+</html>

@@ -718,3 +718,6 @@ BPBody.jsvgl - pointy dominant
 		if you paste into Base64 converter and then put that in the variable above, there's an error loading file
 		it may be the "\n" in the summary - just delete that part from the string and it's OK
 
+6/24/21
+need to shine up the jsVGL_forLab.html and make a version for the exam (jsVGL_Exam.html)
+
